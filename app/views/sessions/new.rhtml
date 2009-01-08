@@ -1,0 +1,32 @@
+<% page_title "Login" %>
+
+<p><%= snippet_for :login_openid_text %></p>
+
+<% form_tag(session_path, :id => "session_form", :class => "standard-form") do %>
+  <p>
+    <label for="openid_url" class="rightish">
+      <%= image_tag "openid-icon.gif" %>
+      OpenID
+    </label>
+    <%= text_field_tag "openid_url" %>
+  </p>
+  <p>
+    <span class="rightish">
+      &nbsp;
+    </span>
+    <%= submit_tag 'Log in' %>
+    &nbsp;
+    <%= check_box_tag 'remember_me', 1, true %>
+    <label for="remember_me">Remember me</label>
+    <!-- BEGIN ID SELECTOR -->
+    <script type="text/javascript">
+      <!--
+          // Tell ID Selector which controls to affect
+          var idselector_input_id = "openid_url";
+          var idselector_target_id = "openid_login_wtf";
+        -->
+    </script>
+    <%= javascript_include_tag "idselector" %>
+    <!-- END ID SELECTOR -->
+  </p>
+<% end %>

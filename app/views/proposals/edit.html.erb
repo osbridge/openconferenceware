@@ -1,0 +1,7 @@
+<% page_title "Edit proposal" %>
+
+<% content_for :form_controls do %>
+  <%= link_to "Destroy", @proposal, :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+<% end %>
+
+<%= render :partial => "form" %>

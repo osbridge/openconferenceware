@@ -1,0 +1,20 @@
+syntax: glob
+
+*.diff
+*.rcov
+*.swp
+*.tmp
+.git
+config/*.bak
+config/secrets.yml
+config/theme.txt
+coverage/*
+db/*.sqlite*
+db/schema.rb
+log/*
+nbproject/*
+public/javascripts/cache/*
+public/stylesheets/cache/*
+public/themes/*
+tags
+tmp/*

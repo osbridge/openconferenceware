@@ -1,0 +1,142 @@
+<%#
+# Variables:
+# - @proposal: Proposal record
+# - @comment: Comment record, may be a new_record or one with error
+# - @focus_comment: Focus on comment? E.g., because it has an error
+# - @display_comment: Display the comment?
+%>
+<% page_title h(@proposal.title) %>
+<% focus :comment_message if @focus_comment %>
+
+<% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
+  <div class="standard-form">
+    <table>
+      <tr>
+        <td class="label-cell"><label>Speaker</label ></td>
+        <td class="data-cell"><%=h @proposal.presenter %></td>
+      </tr>
+      <% unless @proposal.affiliation.blank? %>
+        <tr>
+          <td class="label-cell"><label>Affiliation</label ></td>
+          <td class="data-cell"><%=h @proposal.affiliation %></td>
+        </tr>
+      <% end %>
+      <% if can_edit? %>
+        <tr>
+          <td class="label-cell"><label>Email</label ></td>
+          <td class="data-cell"><%=link_to h(@proposal.email), "mailto:"+h(@proposal.email) %></td>
+        </tr>
+      <% end %>
+      <% unless @proposal.url.blank? %>
+        <tr>
+          <td class="label-cell"><label>URL</label ></td>
+          <td class="data-cell"><%= link_to(h(@proposal.url), h(@proposal.url)) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td class="label-cell"><label>Biography</label ></td>
+        <td class="data-cell"><%= preserve_formatting_of @proposal.bio %></td>
+      </tr>
+      <tr>
+        <td class="label-cell"><label>Description</label ></td>
+        <td class="data-cell"><%= preserve_formatting_of @proposal.description %></td>
+      </tr>
+      <% if can_edit? %>
+        <tr>
+          <td class="label-cell"><label>Note to organizers</label ></td>
+          <td class="data-cell">
+            <% if @proposal.note_to_organizers.blank? %>
+              <span class="empty-text">- None -</span>
+            <% else %>
+              <%= preserve_formatting_of @proposal.note_to_organizers %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td class="label-cell">&nbsp;</td>
+        <td class="data-cell">
+          <div class="record-controls">
+            <% if can_edit? %>
+              <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
+              <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
+            <% end %>
+            <%= link_to 'Back', event_proposals_path(@event), :class => "cancelable" %>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<% if admin? %>
+  <div id="proposal-comments">
+    <h4>Comments</h4>
+    <% if @proposal.comments.blank? %>
+      <div class="empty-text">&mdash; No comments &mdash;</div>
+    <% else %>
+      <dl>
+        <% for comment in @proposal.comments %>
+          <dt>
+            <%= h comment.email %>
+            <%= link_to "Destroy", comment_path(comment), :method => :delete, :class => :deletable, :confirm => "Are you sure you want to delete this message?" %>
+          </dt>
+          <dd>
+            <%= preserve_formatting_of comment.message %>
+          </dd>
+        <% end %>
+      </dl>
+    <% end %>
+  </div>
+<% else %>
+  <% if @display_comment %>
+    <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
+      <%= f.hidden_field :proposal_id %>
+      <table class="standard-form">
+        <tr>
+          <td colspan="2">
+            <h4>Leave a private comment to organizers about this proposal</h4>
+          </td>
+        </tr>
+        <% unless error_messages_for(:comment).blank? %>
+          <tr>
+            <td class="label-cell">&nbsp;</td>
+            <td class="data-cell">
+              <%= error_messages_for :comment %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td class="label-cell">
+            <%= f.label :email, "Email address" %>
+          </td>
+          <td class="data-cell">
+            <%= f.text_field :email %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell">
+            <%= f.label :message, "Comment" %>
+          </td>
+          <td class="data-cell">
+            <%= f.text_area :message, :rows => 3 %>
+          </td>
+        </tr>
+        <tr class="quagmire">
+          <td class="label-cell">
+            <%= label :quagmire, "Leave blank" %>
+          </td>
+          <td>
+            <%= text_field_tag :quagmire %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell">&nbsp;</td>
+          <td class="data-cell">
+            <%= f.submit "Create comment" %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  <% end %>
+<% end %>

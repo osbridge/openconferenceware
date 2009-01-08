@@ -1,0 +1,10 @@
+# Organization running event:
+organization: 'Ignite Bend'
+
+# Breadcrumbs that are always visible, each breadcrumb is a name and URI:
+breadcrumbs:
+  - ['Ignite Bend', 'http://www.ignitebend.com/']
+  - ['Proposals', '/proposals/']
+
+# Timezone for dates in this application:
+timezone: 'Pacific Time (US & Canada)'

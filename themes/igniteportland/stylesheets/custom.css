@@ -1,0 +1,20 @@
+#header {
+  background-image: url('/themes/igniteportland/images/ignite-header.jpg');
+  }
+
+#header h1 a, #header .description {
+  color: #000000;
+  }
+
+#sidebar-1, #sidebar-2 {
+  padding-top: 20px;
+}
+
+/* Eliminates space before/after the ".entry-content p" margins */
+div.compressed, .compressed {
+    margin: -13px 0; }
+
+tr.odd td {
+  background: white; }
+tr.even td {
+  background: #ECECEC; }

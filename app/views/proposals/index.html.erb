@@ -1,0 +1,66 @@
+<% page_title "#{@event.title} proposals" %>
+
+<% cache_if(!logged_in?, "proposals_index_#{@event.id}") do %>
+  <div>
+    <% if accepting_proposals? %>
+      <p>
+        <%= simple_format @event.open_text %>
+        <% if admin? %>
+          <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
+        <% end %>
+      </p>
+      <div style="text-align: center">
+        <div id="submit-a-talk" style="display: inline-block">
+          <b class="rnd_top"><b class="rnd_b1"></b><b class="rnd_b2"></b><b class="rnd_b3"></b><b class="rnd_b4"></b></b>
+          <div class="rnd_content">
+            <%= link_to 'Submit a talk!', new_event_proposal_path(@event) %>
+          </div>
+          <b class="rnd_bottom"><b class="rnd_b4"></b><b class="rnd_b3"></b><b class="rnd_b2"></b><b class="rnd_b1"></b></b>
+        </div>
+      </div>
+    <% else %>
+      <p>
+        <%= simple_format @event.closed_text %>
+        <% if admin? %>
+          <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+
+  <table id="proposal-listing">
+    <% if @proposals.blank? %>
+      <tr>
+        <td colspan="2">
+          <p class="empty-text">&mdash; No proposals submitted yet &mdash;</p>
+        </td>
+      </td>
+    <% else %>
+      <thead>
+        <tr>
+          <th width="0">Submitted</th>
+          <th width="100%">Speaker and presentation</th>
+        </tr>
+      </thead>
+      <% date_cache = {} %>
+      <% for proposal in @proposals %>
+        <tr class="<%= cycle("even", "odd") %>">
+          <td width="0" style="white-space: nowrap">
+            <% date = proposal.submitted_at.ergo{localtime.to_s} %>
+            <% if date_cache[date] %>
+              <!--
+              <span class="date-seen"><%= date %></span>
+              -->
+            <% else %>
+              <% date_cache[date] = true %>
+              <span class="date-unseen"><%= date %></span>
+            <% end %>
+          </td>
+          <td width="100%">
+            <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal) %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>

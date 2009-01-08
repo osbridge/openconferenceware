@@ -1,0 +1,42 @@
+Flash Message Conductor
+============
+
+A simple pattern for managing flash messages in your Ruby on Rails application.
+
+
+Example
+=======
+
+# Controller helpers
+
+add_message( 'foo' )
+
+is the equivalent of
+
+flash[:message] = 'foo'
+
+Controller helpers included:
+
+add_message( message ) 
+add_notice( message )
+add_error( message )
+
+# View helpers
+
+<%= render_flash_messages %>
+
+produces:
+
+<div id="flash_messages">
+  <p class="message">You have successfully done XYZ...</p>
+</div>
+
+# or... if you set an error
+
+<div id="flash_messages">
+  <p class="error">Oops! Something went bonkers!</p>
+</div>
+
+
+
+Copyright (c) 2008 Planet Argon, released under the MIT license

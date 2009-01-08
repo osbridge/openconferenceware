@@ -1,0 +1,60 @@
+/*---[ base ]---------------------------------------------------------*/
+
+body {
+  font-family: 'Lucida Grande', Verdana, Helvetica, Arial, sans-serif;
+  color: #444;
+  background: #eee;
+  text-align: center; }
+
+h1 {
+  font-size: 182%; }
+
+h2 {
+  font-size: 172%; }
+
+h3 {
+  font-size: 146%; }
+
+h4 {
+  font-size: 131%; }
+
+h1, h2, h3, h4, h5, h6 {
+  padding: 0.25em 0; }
+
+p, li, td, th {
+  font-size: 116%; }
+
+p {
+  padding: 0.25em 0; }
+
+/* Counteract padding on P */
+div.compressed, .compressed {
+  margin: -0.25em 0; }
+
+/*---[ specific ]-----------------------------------------------------*/
+
+#doc3 {
+  width: 90%;
+  margin: auto;
+  padding: 1em; }
+
+#breadcrumbs {
+  color: #888; }
+
+div.record-controls {
+  margin-top: 1em; }
+  .record-controls .div {
+    display: inline; }
+
+tr.odd td {
+  background: white; }
+tr.even td {
+  background: #dddddd; }
+
+/*---[ sidebar ]------------------------------------------------------*/
+
+#sidebar-1 {}
+  #sidebar-1 p, #sidebar-1 li {
+    font-size: 100%; }
+
+/*===[ fin ]==========================================================*/

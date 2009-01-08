@@ -1,0 +1,21 @@
+<% page_title "Comments" %>
+
+<table class="scaffolded">
+  <% @comments.each do |comment| -%>
+    <% proposal = comment.proposal %>
+    <% next unless proposal %>
+    <% next unless comment.created_at %>
+    <tr class="<%= cycle 'even', 'odd' %>">
+      <td style="padding: 0.5em">
+        <a name="comment_<%= comment.id %>" style="color: inherit" />
+        <b><%= h comment.email %></b>
+        @ <%= h comment.created_at %>
+        <%= link_to "Destroy", comment_path(comment), :method => :delete, :class => :deletable, :confirm => "Are you sure you want to delete this message?" %>
+        <br/>
+        <i>Re: <%= link_to h("#{proposal.title} by #{proposal.presenter}"), proposal_path(proposal) %></i>
+        <br/>
+        <p style="margin: 0 0 0 2em"><%= preserve_formatting_of comment.message %></p>
+      </td>
+    </tr>
+  <% end %>
+</table>

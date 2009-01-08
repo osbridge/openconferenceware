@@ -1,0 +1,49 @@
+<%= error_messages_for :snippet %>
+
+<% form_for([:manage, @snippet], :html => {:class => "snippet_form"}) do |f| %>
+  <%= hidden_field_tag :return_to, @return_to %>
+
+  <p>
+    <b>Slug</b><br />
+    <% if @snippet.new_record? %>
+      <%= f.text_field :slug%>
+    <% else %>
+      <%= h @snippet.slug %>
+    <% end %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_field :description %>
+  </p>
+
+  <p>
+    <b>Content</b>
+    <%= fckeditor_for :snippet_content %>
+    <br />
+    <%= f.text_area :content, :id => :snippet_content %>
+  </p>
+
+  <% if false %>
+  <p>
+    <b>Public</b><br />
+    <%= f.check_box :public %>
+  </p>
+
+  <p>
+    <b>Value</b><br />
+    <%= f.text_field :value %>
+  </p>
+  <% end %>
+
+  <div class="record-controls">
+    <% if @snippet.new_record? %>
+      <%= f.submit "Create" %>
+      <%= link_to "Cancel", manage_snippets_path, :class => :cancelable %>
+    <% else %>
+      <%= f.submit "Update" %>
+      <%= link_to "Destroy", manage_snippet_path(@snippet), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+      <%= link_to "Cancel", manage_snippet_path(@snippet), :class => :cancelable%>
+    <% end %>
+  </div>
+<% end %>

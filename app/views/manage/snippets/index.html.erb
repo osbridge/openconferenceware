@@ -1,0 +1,34 @@
+<% page_title "Snippets" %>
+<% show_manage = false %>
+
+<table class="scaffolded">
+  <tr>
+    <th>Slug</th>
+    <th>Description</th>
+    <% if show_manage %>
+    <th>Manage</th>
+    <% end %>
+  </tr>
+
+<% for snippet in @snippets %>
+  <tr class="<%= cycle("even", "odd") %>">
+    <td>
+      <%= link_to h(snippet.slug), [:manage, snippet] %>
+    </td>
+    <td>
+      <%= link_to h(snippet.description), [:manage, snippet] %>
+    </td>
+    <% if show_manage %>
+    <td nowrap="nowrap">
+      <%= link_to 'Show', [:manage, snippet], :class => :showable %>
+      <%= link_to 'Edit', edit_manage_snippet_path(snippet), :class => :editable %>
+      <%= link_to 'Destroy', [:manage, snippet], :confirm => 'Are you sure?', :method => :delete, :class => :deletable %>
+    </td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New snippet', new_manage_snippet_path, :class => :addable %>

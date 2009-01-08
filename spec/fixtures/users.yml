@@ -1,0 +1,46 @@
+# == Schema Information
+# Schema version: 20081213032512
+#
+# Table name: users
+#
+#  id                        :integer         not null, primary key
+#  login                     :string(255)     
+#  email                     :string(255)     
+#  fullname                  :string(255)     
+#  crypted_password          :string(40)      
+#  salt                      :string(40)      
+#  admin                     :boolean         
+#  created_at                :datetime        
+#  updated_at                :datetime        
+#  remember_token            :string(255)     
+#  remember_token_expires_at :datetime        
+#  using_openid              :boolean         
+#
+
+# A mortal user
+quentin:
+  login: quentin
+  email: quentin@example.com
+  fullname: Quentin Tarantino
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 5.days.ago.to_s :db %>
+
+# Another mortal
+clio:
+  login: clio
+  email: clio@example.com
+  fullname: Vadem Clio
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 5.days.ago.to_s :db %>
+
+# An admin user
+aaron:
+  login: aaron
+  email: aaron@example.com
+  fullname: Aaron Levite
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>
+  admin: true

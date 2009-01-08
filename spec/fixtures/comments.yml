@@ -1,0 +1,23 @@
+# == Schema Information
+# Schema version: 20081213032512
+#
+# Table name: comments
+#
+#  id          :integer         not null, primary key
+#  name        :string(255)     
+#  email       :string(255)     
+#  message     :text            
+#  proposal_id :integer         
+#  created_at  :datetime        
+#  updated_at  :datetime        
+#
+
+clio_chupacabras_fbi:
+  email: big_brother@fbi.gov
+  message: "Pay no attention, everything is under control."
+  proposal: clio_chupacabras
+
+clio_chupacabras_cia:
+  email: the_man@cia.gov
+  message: "Please get in touch. We are here to help."
+  proposal: clio_chupacabras

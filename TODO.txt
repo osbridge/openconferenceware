@@ -1,0 +1,18 @@
+#===[ TODOs ]===========================================================
+
+NOW
+o Why is font on proposals#show for speaker smaller than rest of text?
+o Add public comments
+o Refactor Proposal#url= using validation to avoid silently turning invalid URLs into nils
+
+SOON
+o Submit a talk button is full-width on FF2: "width: 15em" to #submit-a-talk??
+o CSS for error field checkbox isn't visible
+
+LATER
+o Consider extracting Snippets into plugin
+o Consider replacing LookupMixin with cache-money
+o Consider replacing filesystem-based caching with memcache
+o Consider replacing custom slugging with sluggable_finder
+
+#===[ fin ]=============================================================

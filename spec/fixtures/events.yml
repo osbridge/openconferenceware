@@ -1,0 +1,27 @@
+# == Schema Information
+# Schema version: 20081213032512
+#
+# Table name: events
+#
+#  id          :integer         not null, primary key
+#  title       :string(255)     
+#  deadline    :datetime        
+#  open_text   :text            
+#  closed_text :text            
+#  created_at  :datetime        
+#  updated_at  :datetime        
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+closed:
+  title: Ignite Closed
+  deadline: <%= Time.now - 1.year %>
+  open_text: Open
+  closed_text: Closed
+
+open:
+  title: Ignite Open
+  deadline: <%= Time.now + 1.year %>
+  open_text: Open
+  closed_text: Closed

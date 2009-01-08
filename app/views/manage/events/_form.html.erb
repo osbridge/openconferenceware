@@ -1,0 +1,74 @@
+<% form_for([:manage, @event], :html => {:id => "event-form", :class => "standard-form"}) do |f| %>
+  <%= f.error_messages %>
+
+  <%= hidden_field_tag :return_to, @return_to %>
+
+  <% unless @event.new_record? %>
+    <%= f.hidden_field :id %>
+  <% end %>
+
+  <table>
+    <% if @event.new_record? %>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :id %>
+        </td>
+        <td>
+          <%= f.text_field :id %>
+        </td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td class="label-cell">
+        <%= f.label :title %>
+      </td>
+      <td>
+        <%= f.text_field :title %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :deadline %><br />
+      </td>
+      <td>
+        <%= f.datetime_select :deadline %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :open_text %><br />
+      </td>
+      <td>
+        <%= f.text_area :open_text %>
+        <%= fckeditor_for :event_open_text %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :closed_text %><br />
+      </td>
+      <td>
+        <%= f.text_area :closed_text %>
+        <%= fckeditor_for :event_closed_text %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        &nbsp;
+      </td>
+      <td>
+        <div class="record-controls">
+          <% if @event.new_record? %>
+            <%= f.submit "Create" %>
+            <%= link_to "Cancel", manage_events_path, :class => "cancelable" %>
+          <% else %>
+            <%= f.submit "Update" %>
+            <%= link_to "Destroy", manage_event_path(@event), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+            <%= link_to "Back", manage_events_path, :class => "cancelable" %>
+          <% end %>
+        </div>
+      </td>
+    </tr>
+  </table>
+<% end %>

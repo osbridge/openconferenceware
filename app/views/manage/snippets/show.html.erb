@@ -1,0 +1,32 @@
+<% page_title "Snippet: #{@snippet.slug}" %>
+
+<p>
+  <b>Description:</b>
+  <%=h @snippet.description %>
+</p>
+
+<div>
+  <b>Content:</b>
+  <br />
+  <p class="snippet_preview">
+    <%= @snippet.content %>
+  </p>
+</div>
+
+<% if false %>
+<p>
+  <b>Public:</b>
+  <%=h @snippet.public %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%=h @snippet.value %>
+</p>
+<% end %>
+
+<div class="record-controls">
+  <%= link_to 'Edit', edit_manage_snippet_path(@snippet), :class => :editable %>
+  <%= link_to "Destroy", manage_snippet_path(@snippet), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+  <%= link_to 'Back', manage_snippets_path, :class => :cancelable %>
+</div>

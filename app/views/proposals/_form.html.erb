@@ -1,0 +1,116 @@
+<p>
+  <%= @event.open_text %>
+  <% if admin? %>
+    <%= link_to "Edit", edit_manage_event_path(@event), :class => :editable %>
+  <% end %>
+</p>
+
+<div id="proposal-form" class="standard-form">
+  <% form_for([@event, @proposal]) do |f| %>
+    <table>
+      <% unless error_messages_for(:proposal).blank? %>
+        <thead>
+          <tr>
+            <td colspan="2">
+              <%= error_messages_for :proposal %>
+            </td>
+          </tr>
+        </thead>
+      <% end %>
+      <tbody>
+<% if !logged_in? && @proposal.new_record? %>
+        <tr>
+          <td colspan="2">
+            <h4>Login with OpenID</h4>
+            <p><%= snippet_for :proposals_openid_text %></p>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell">
+            <%= image_tag "openid-icon.gif" %>
+            OpenID
+          </td>
+          <td>
+            <%= text_field_tag :openid_url, "" %>
+            <%= submit_tag "Login", :id => "openid_login" %>
+            <!-- BEGIN ID SELECTOR -->
+            <script type="text/javascript">
+              <!--
+                  // Tell ID Selector which controls to affect
+                  var idselector_input_id = "openid_url";
+                  var idselector_target_id = "openid_login_wtf";
+                -->
+            </script>
+            <%= javascript_include_tag "idselector" %>
+            <!-- END ID SELECTOR -->
+          </td>
+        </tr>
+<% end %>
+        <tr>
+          <td colspan="2">
+            <h4>About you</h4>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= required %><%= f.label :presenter, "Name" %></td>
+          <td><%= f.text_field :presenter %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= private_field %><%= required %><%= f.label :email, "Email" %></td>
+          <td><%= f.text_field :email %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= f.label :affiliation, "Affiliation" %></td>
+          <td><%= f.text_field :affiliation %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= f.label :url, "URL" %></td>
+          <td><%= f.text_field :url %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= required %><%= f.label :bio, "Biography" %></td>
+          <td><%= f.text_area :bio, :rows => 5 %></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h4>About your presentation</h4>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= required %><%= f.label :title, "Title" %></td>
+          <td><%= f.text_field :title %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= required %><%= f.label :description, "Description" %></td>
+          <td><%= f.text_area :description, :rows => 9 %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= private_field %><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional)" %></td>
+          <td><%= f.text_area :note_to_organizers, :rows => 3 %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= required %><%= f.label :agreement, "Agreement" %></td>
+          <td><%= f.check_box :agreement, :checked => !@proposal.new_record? %>
+            <%# TODO extract into snippet %>
+            I understand that my talk will be recorded and posted online for the whole world to see. I know that <%= SETTINGS.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and is not welcomed by the audience.
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <div class="record-controls">
+              <%= f.submit(@proposal.new_record? ? "Create" : "Update") %>
+              <%= yield :form_controls %>
+              <%= link_to("Cancel", (@proposal.new_record? ? event_proposals_path(@event) : proposal_path(@proposal)), :class => "cancelable") %>
+            </div>
+            <p style="margin-top: 2em; margin-bottom: 0">
+              <%= required %> Fields marked with a red asterisk required and must be filled.
+              <br />
+              <%= private_field %> Fields marked with a green percent sign are private, visible only to you and the organizers.
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>

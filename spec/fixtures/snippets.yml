@@ -1,0 +1,34 @@
+# == Schema Information
+# Schema version: 20081213032512
+#
+# Table name: snippets
+#
+#  id          :integer         not null, primary key
+#  slug        :string(255)     not null
+#  description :string(255)     not null
+#  content     :text            
+#  value       :integer         
+#  public      :boolean         default(TRUE)
+#  created_at  :datetime        
+#  updated_at  :datetime        
+#
+
+a:
+  slug: proposals_form_text
+  description: "Proposal: form text"
+  content: 'If you had five minutes to talk to Portland what would you say? What if you only got 20 slides and they rotated automatically after 15 seconds? Launch a web site? Teach a hack? Talk about recent learnings, successes, failures? Fill out the form below to submit your talk. We are looking for talks that will inspire and teach, not recruiting or product pitches.'
+
+d:
+  slug: proposals_not_accepted_error
+  description: 'Proposals: error shown when not accepting proposals'
+  content: 'Sorry, we are no longer accepting submissions.'
+
+e:
+  slug: login_openid_text
+  description: "OpenID login: form text"
+  content: "Logging in with an OpenID account (<a href='http://openid.net/what/'>what is OpenID?</a>) will let you create proposals and come back to edit them later. If you need an OpenID account, you can <a href='https://www.openid.net/get/'>get a free account</a> in about a minute."
+
+f:
+  slug: proposals_openid_text
+  description: "Proposals: OpenID text"
+  content: "<b>Optional:</b> To be able to edit your proposal later, please login first with an OpenID account (<a href='http://openid.net/what/'>what is OpenID?</a>). If you need an OpenID account, you can <a href='http://www.openid.net/get/'>get a free account</a> in about a minute."

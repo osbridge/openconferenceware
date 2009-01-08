@@ -1,0 +1,51 @@
+<table class="standard-form">
+  <tr>
+    <td class="label-text">
+      <label>Title</label>
+    </td>
+    <td>
+      <%=h @event.title %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Deadline</label>
+    </td>
+    <td>
+      <%=h @event.deadline %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Open text</label>
+    </td>
+    <td>
+      <div class="snippet_preview">
+        <%= @event.open_text %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Closed text</label>
+    </td>
+    <td>
+      <div class="snippet_preview">
+        <%= @event.closed_text %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      <div class="record-controls">
+        <%= link_to 'Show proposals', event_proposals_path(@event), :class => "showable" %>
+        <%= link_to 'Edit', edit_manage_event_path(@event), :class => :editable %>
+        <%= link_to "Destroy", manage_event_path(@event), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+        <%= link_to 'Back', manage_events_path, :class => :cancelable %>
+      </div>
+    </td>
+  </tr>
+</table>

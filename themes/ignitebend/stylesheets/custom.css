@@ -1,0 +1,25 @@
+/* Imported from inline CSS */
+#header {
+  background-image: url("/themes/ignitebend/images/ignitebendbanner.jpg");
+}
+
+#header h1 a, #header .description {
+  color: #FFFFFF;
+}
+
+/* Specific to Rails app */
+#sidebar-1 h4 {
+  margin-top: 1em; }
+
+#breadcrumbs {
+  float: left;
+  margin-top: 1em; }
+
+/* Eliminates space before/after the ".entry-content p" margins */
+div.compressed, .compressed {
+    margin: -13px 0; }
+
+tr.odd td {
+  background: white; }
+tr.even td {
+  background: #ECECEC; }
