@@ -81,7 +81,7 @@ namespace :deploy do
 
   desc "Clear the application's cache"
   task :clear_cache do
-    run "(cd #{current_path} && rake RAILS_ENV=production tmp:clear theme_remove_cache)"
+    run "(cd #{current_path} && rake RAILS_ENV=production clear)"
   end
 end
 
