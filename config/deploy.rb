@@ -29,7 +29,7 @@
 
 ssh_options[:compression] = false
 
-set :application, "igniteproposals"
+set :application, "openproposals"
 set :use_sudo, false
 
 # Load stages from config/deploy/*
