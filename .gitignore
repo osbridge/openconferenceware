@@ -1,10 +1,11 @@
-*~
 *.diff
 *.rcov
 *.swp
 *.tmp
+*~
 .hg
 .hgtags
+README.html
 config/*.bak
 config/secrets.yml
 config/theme.txt
