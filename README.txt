@@ -5,11 +5,11 @@ OpenProposals
 About
 -----
 
-This program provides a website for collecting presentation proposals
+OpenProposals is a web application for collecting presentation proposals
 for conferences and events. It started out as the Ignite Portland
-proposals site at http://proposals.igniteportland.com/ but the code has
-been expanded to provide a general-purpose platform for collecting
-proposals for other events in other places.
+proposals site at http://proposals.igniteportland.com/ but has since
+been reworked as a general-purpose platform that can be restyled and
+extended for collecting proposals for other events.
 
 
 Why
@@ -39,20 +39,21 @@ Features
 - Developers can customize the site's appearance and behavior
 
 
-Requirements
-------------
+Expertise
+---------
 
 Installing the app requires familiarity with UNIX system administration
 and Ruby on Rails. This application will run best on a UNIX-based
 dedicated server or virtual machine, and may not run at all on cheap
-shared hosting. You will need to install software that this application
-depends on either as root or compile it yourself. You will need to setup
-an application server to run the application, e.g., mod_passenger. If
-you do not have these skills, contact your local Ruby or Linux user
-group and you will likely find someone that can help.
+shared hosting because these often limit memory usage below the minimum
+threshold for this application. You will need to install software that
+this application depends on either as root or compile it yourself. You
+will need to setup an application server to run the application, e.g.,
+mod_passenger. If you do not have these skills, contact your local Ruby
+or Linux user group and you will likely find someone that can help.
 
 
-Installation
+Dependencies
 ------------
 
 1. Install Git:
@@ -73,9 +74,14 @@ Installation
 6. Install other Ruby libraries:
         sudo gem install facets capistrano capistrano-ext sqlite3-ruby
 
-7. Run the application's interactive setup program from within the
-   checkout directory, and follow its instructions:
-        rake setup
+
+Setup
+-----
+
+Run the application's interactive setup program from within the checkout
+directory, and follow its instructions:
+
+    rake setup
 
 
 Security
@@ -116,3 +122,5 @@ License
 
 This program is provided under an MIT open source license, read the
 "LICENSE.txt" file for details. Copyright (c) 2007-2008 Igal Koshevoy
+
+ vim:tw=72:
