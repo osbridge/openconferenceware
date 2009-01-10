@@ -9,7 +9,12 @@ module AuthenticatedSystem
     # Accesses the current user from the session.  Set it to :false if login fails
     # so that future calls do not hit the database.
     def current_user
-      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false)
+      begin
+        @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false)
+      rescue NoMethodError
+        # One of the above calls .env on nil when it's not set during testing, lame.
+        :false
+      end
     end
     
     # Store the given user in the session.
