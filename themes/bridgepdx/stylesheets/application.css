@@ -1,0 +1,366 @@
+/*---[ base ]---------------------------------------------------------*/
+
+body {
+  font-family: 'Lucida Grande', Verdana, Helvetica, Arial, sans-serif;
+  color: #444;
+  background: #eee;
+  text-align: center; }
+
+h1 {
+  font-size: 182%; }
+
+h2 {
+  font-size: 172%; }
+
+h3 {
+  font-size: 146%; }
+
+h4 {
+  font-size: 131%; }
+
+h1, h2, h3, h4, h5, h6 {
+  padding: 0.25em 0; }
+
+p, li, td, th {
+  font-size: 116%; }
+
+p {
+  padding: 0.25em 0; }
+
+/* Counteract padding on P */
+div.compressed, .compressed {
+  margin: -0.25em 0; }
+
+/*---[ specific ]-----------------------------------------------------*/
+
+#doc3 {
+  width: 90%;
+  margin: auto;
+  padding: 1em; }
+
+#breadcrumbs {
+  color: #888; }
+
+div.record-controls {
+  margin-top: 1em; }
+  .record-controls .div {
+    display: inline; }
+
+tr.odd td {
+  background: white; }
+tr.even td {
+  background: #dddddd; }
+
+.empty-text {
+    text-align: center;
+    font-style: italic;
+    white-space: nowrap; }
+
+.inlined {
+  display: inline; }
+  .inlined div {
+    display: inline; }
+
+/*---[ sidebar ]------------------------------------------------------*/
+
+#sidebar-1 {}
+  #sidebar-1 p, #sidebar-1 li {
+    font-size: 100%; }
+
+/*---[ link icons ]---------------------------------------------------*/
+
+.addable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/plus.png') left center no-repeat;
+}
+
+.showable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/document.png') left center no-repeat;
+}
+
+.editable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/edit.png') left center no-repeat;
+}
+
+.cancelable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/arrow-out.png') left center no-repeat;
+}
+
+.deletable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/redx.png') left center no-repeat;
+}
+
+.feedable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/feed.png') left center no-repeat;
+}
+
+.snippet_edit_link {
+  font-size: 0.8em;
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/edit.png') left center no-repeat;
+}
+
+.quagmire {
+  display: none;
+}
+
+/*---[ hoverable elements ]-------------------------------------------*/
+
+.hoverable a {
+	display: block;
+	border-bottom: 1px dotted #ccc;
+  line-height: 1.3em;
+  padding: 0.3em;
+}
+
+.hoverable a:hover {
+	background: #F9F39C;
+	text-decoration: none !important;
+}
+
+.hoverable img {
+  vertical-align: middle;
+}
+
+/*---[ flash notices ]------------------------------------------------*/
+
+.flash {}
+ .flash p {
+  font-style: italic;
+  margin: 0.5em 0 0.5em 0;
+  padding: 0.25em; }
+ .flash .notice {
+  color: #555555;
+  background: #ECF1FF;
+  border: 1px solid #6776FF; }
+ .flash .success {
+  color: #555555;
+  background: #E4FFDA;
+  border: 1px solid #aFFF70; }
+ .flash .error {
+  color: #555555;
+  background: #FFE9E9;
+    border: 1px solid #FF2605; }
+
+/*---[ errors ]-------------------------------------------------------*/
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0; }
+  #errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff; }
+  #errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px; }
+  #errorExplanation li {
+    font-size: 12px;
+    list-style: square; }
+
+.fieldWithErrors {
+  margin: 0;
+  display: inline;
+  background-color: inherit; }
+  .fieldWithErrors label {
+    color: red; }
+  .fieldWithErrors textarea,
+  .fieldWithErrors input[type=text],
+  .fieldWithErrors input[type=checkbox] {
+    border: 3px solid red; }
+  .fieldWithErrors > input[type=checkbox] {
+    border: 3px dotted red;
+    color: green;
+    background-color: blue;
+    padding: 1em;
+    margin: 1em; }
+
+.required-field {
+  padding: 0 0.25em;
+  color: red; }
+
+.private-field {
+  padding: 0 0.25em;
+  color: green; }
+
+/*---[ submit a talk button ]-----------------------------------------*/
+
+/* FIXME how to automatically size width of the box? */
+#submit-a-talk {background: #FFFFFF; margin:1px; width: 13em; font-size: 1.1em; }
+  .rnd_top, .rnd_bottom {display:block; background:#FFFFFF; font-size:1px;}
+  .rnd_b1, .rnd_b2, .rnd_b3, .rnd_b4 {display:block; overflow:hidden;}
+  .rnd_b1, .rnd_b2, .rnd_b3 {height:1px;}
+  .rnd_b2, .rnd_b3, .rnd_b4 {background:#DAF4D4; border-left:1px solid #CCCCCC; border-right:1px solid #CCCCCC;}
+  .rnd_b1 {margin:0 5px; background:#CCCCCC;}
+  .rnd_b2 {margin:0 3px; border-width:0 2px;}
+  .rnd_b3 {margin:0 2px;}
+  .rnd_b4 {height:2px; margin:0 1px;}
+  .rnd_content {
+    display:block;
+    border:0 solid #CCCCCC;
+    border-width:0 1px;
+    padding: 4px;
+    background:#DAF4D4;
+    color:#000000; }
+  div.rnd_content { margin: 0; }
+
+  #submit-a-talk a,
+  #submit-a-talk a:visited,
+  #submit-a-talk a:hover {
+    color: green;
+    margin: 5px;
+    padding: 10px 10px 10px 20px;
+    background: url('/images/plus.png') left center no-repeat;
+  }
+
+/*---[ proposal-listing ]---------------------------------------------*/
+
+#proposal-listing td, th {
+  padding: 0.25em;
+}
+#proposal-listing th {
+  font-weight: bold;
+  font-style: italic;
+}
+
+#proposal-listing .date-unseen {
+  color: inherit;
+}
+#proposal-listing .date-seen {
+  color: #999999;
+}
+
+/*---[ proposals-show ]-----------------------------------------------*/
+
+/* Makes sure there's always space below the list of proposals, an issue when the display is empty and it looks bad because there's no content. */
+div#proposals-for {
+  margin-bottom: 2em; }
+
+#proposal-comments { }
+  #proposal-comments dl {
+    margin-left: 2em; }
+    #proposal-comments dl dt {
+      font-weight: bold;
+      border-top: 1px dotted #ccc; }
+    #proposal-comments dl dt:first-child {
+      border-top: none; }
+    #proposal-comments dl dd {
+      margin-left: 1em; }
+
+/*---[ session form ]-------------------------------------------------*/
+
+#session_form {}
+  #session_form td {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top; }
+  #session_form label {
+    font-style: italic; }
+  #session_form input[type=text], #session_form input[type=password] {
+    width: 24em; }
+  #session_form input {
+    clear: both; }
+  #session_form .rightish {
+    width: 12em;
+    text-align: right;
+    display: block;
+    float: left;
+    text-align: right;
+    padding-right: 1em; }
+
+/*---[ standard-form pages ]------------------------------------------*/
+
+.standard-form {}
+  .standard-form h4,
+  .standard-form label {
+    color: #777777; }
+  .standard-form h4 {
+    padding: 0.5em 0 0.25em 0; }
+  .standard-form td h4 {
+    padding: 0.25em 0 0.1em 0; }
+  .standard-form label {
+    font-style: italic; }
+  .standard-form table {
+    width: 100%; }
+  .standard-form td {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top; }
+  .standard-form .label-cell {
+    padding-left: 2em;
+    text-align: right;
+    white-space: nowrap;
+    width: 0; }
+  .standard-form .data-cell {
+    width: 98%; }
+  .standard-form input[type=checkbox] {
+    padding: 0;
+    margin: 0 0.5em 0 0; }
+  .standard-form input[type=text],
+  .standard-form input[type=password],
+  .standard-form textarea {
+    width: 97%; }
+  .standard-form td div.record-controls {
+    margin: 0em; }
+  .standard-form input[type=submit] {
+    font-size: 100%;
+  }
+/*---[ event form ]---------------------------------------------------*/
+
+#event-form {}
+  #event-form textarea#event_open_text,
+  #event-form textarea#event_closed_text {
+    height: 10em; }
+
+/*---[ scaffolded list and show pages ]-------------------------------*/
+
+.scaffolded dt {
+  font-weight: bold; }
+
+.scaffolded td {
+  /* border: 1px solid LightGray; */
+  padding: 0.2em; }
+
+.scaffolded th {
+  padding: 0.25em;
+  /*
+  background: LightGray;
+  border: 1px solid White;
+  */
+  font-style: italic; }
+
+/*---[ snippet form ]-------------------------------------------------*/
+
+.snippet_preview {
+  margin: 0;
+  padding: 0.5em;
+  border: 2px solid blue; }
+
+.snippet_form input[type=text] {
+  width: 100%; }
+
+.snippet_form textarea {
+  height: 12em;
+  width: 100%; }
+
