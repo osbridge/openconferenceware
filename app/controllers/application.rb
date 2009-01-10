@@ -45,12 +45,28 @@ protected
 
   #---[ Access control ]--------------------------------------------------
 
-  # Can the current user edit the current +proposal+?
-  def can_edit?(proposal=nil)
-    proposal ||= @proposal
-    raise ArgumentError, "No proposal specified" unless proposal
+  # Can the current user edit the current +record+?
+  def can_edit?(record=nil)
+    record ||= @proposal || @user
+    raise ArgumentError, "No record specified" unless record
 
-    return @proposal.can_alter?(current_user) && (current_user.login == "admin" || accepting_proposals?)
+    if current_user == :false
+      false
+    else
+      if current_user.admin?
+        true
+      else
+        # Normal user
+        case record
+        when Proposal
+          accepting_proposals?(record) && record.can_alter?(current_user)
+        when User
+          current_user == record
+        else
+          raise TypeError, "Unknown record type: #{record.class}"
+        end
+      end
+    end
   end
   helper_method :can_edit?
 
@@ -66,12 +82,24 @@ protected
   end
 
   # Is this event accepting proposals?
-  def accepting_proposals?
-    if assign_current_event
-      # An error or redirect was detected, therefore we're not accepting proposals
-      return false
+  def accepting_proposals?(record=nil)
+    event = \
+      case record
+      when Event then record
+      when Proposal then record.event
+      else nil
+      end
+
+    unless event
+      if assign_current_event
+        # An error or redirect was detected, therefore we're not accepting proposals
+        return false
+      else
+        event = @event
+      end
     end
-    return @event.accepting_proposals?
+
+    return event.accepting_proposals?
   end
   helper_method :accepting_proposals?
 
