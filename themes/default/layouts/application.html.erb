@@ -57,7 +57,13 @@
                 <h4>Logged in as</h4>
                 <ul>
                   <li><b><%= current_user.label %></b></li>
+                  <% if SETTINGS.has_profiles %>
+                    <li><%= link_to "Manage my account", user_path(current_user) %></li>
+                  <% end %>
                   <% if admin? %>
+                    <% if SETTINGS.has_profiles %>
+                      <li><%= link_to "Manage users", users_path %></li>
+                    <% end %>
                     <li><%= link_to "Manage events", manage_events_path %></li>
                     <li><%= link_to "Manage snippets", manage_snippets_path %></li>
                     <li><%= link_to "Manage comments", comments_path %></li>
