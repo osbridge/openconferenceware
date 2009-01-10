@@ -8,3 +8,6 @@ breadcrumbs:
 
 # Timezone for dates in this application:
 timezone: 'Pacific Time (US & Canada)'
+
+# Do users have profiles? If true, bio is part of the User; else part of the Proposal.
+has_profiles: true
