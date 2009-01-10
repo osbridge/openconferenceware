@@ -57,4 +57,10 @@ tr.even td {
   #sidebar-1 p, #sidebar-1 li {
     font-size: 100%; }
 
+/*---[ MERGE!? ]------------------------------------------------------*/
+
+.standard-form {}
+  .standard-form .data-cell > p {
+      margin: -0.25em 0; }
+
 /*===[ fin ]==========================================================*/
