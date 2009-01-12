@@ -25,11 +25,11 @@ TO FINISH SETUP
       user.change_password!(password)
       puts %{** Updated "admin" user's password}
     else
-      user = User.create!(
-        :login => "admin",
+      user = User.new(
         :email => "admin",
         :password => password,
         :password_confirmation => password)
+      user.login = "admin"
       user.admin = true
       user.save!
       puts "** Created new 'admin' user"
