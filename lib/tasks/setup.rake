@@ -1,5 +1,5 @@
 namespace :setup do
-  task :default => ["tmp:create", "db:migrate", :admin, :snippets] do
+  task :default => ["tmp:create", "db:migrate", "db:test:prepare", :admin, :snippets] do
     puts <<-HERE
 
 TO FINISH SETUP
