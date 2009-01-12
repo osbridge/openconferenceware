@@ -11,6 +11,7 @@ module DisplayLinkToHelper
       :nofollow => true,
     })
     link_to_opts = opts[:nofollow] ? {:rel => "nofollow"} : {}
-    return link_to(truncate(h(url), opts[:maxlength]), link_to_opts)
+    truncated_url = truncate(h(url), opts[:maxlength])
+    return link_to(truncated_url, h(url), link_to_opts)
   end
 end
