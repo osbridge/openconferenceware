@@ -1,0 +1,26 @@
+<% page_title "Users" %>
+
+<div id="user-index">
+  <table class="scaffolded">
+    <tr>
+      <% if admin? %>
+        <th>Admin?</th>
+      <% end %>
+      <th>UID</th>
+      <th>Name</th>
+    </tr>
+    <% @users.each do |user| -%>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <% if admin? %>
+        <td><%= user.admin? %></td>
+      <% end %>
+      <td>
+        <%= user.id %>
+      </td>
+      <td>
+        <%= link_to(user.label, user_path(user)) %>
+      </td>
+    </tr>
+    <% end -%>
+  </table>
+</div>

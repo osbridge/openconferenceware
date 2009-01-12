@@ -1,0 +1,95 @@
+<% page_title "Edit user: #{h @user.label}" %>
+
+<div class="standard-form">
+  <% form_for(@user) do |f| %>
+  <table cellspacing="0">
+    <% if admin? %>
+      <tr>
+        <td class="label-cell">
+          <label>Admin?</label>
+        </td>
+        <td class="data-cell">
+          <%= f.check_box :admin %>
+        </td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="label-cell">
+        <label>Login</label>
+      </td>
+      <td class="data-cell">
+        <p>
+          <% if admin? %>
+            <%= f.text_field :login %>
+          <% else %>
+            <%= @user.login %>
+          <% end %>
+        </p>
+      </td>
+    </tr>
+    <% if admin? || can_edit? %>
+      <tr>
+        <td class="label-cell">
+          <label>Email (private)</label>
+        </td>
+        <td class="data-cell">
+          <p>
+            <%= f.text_field :email %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="label-cell">
+        <label>Full name</label>
+      </td>
+      <td class="data-cell">
+        <p>
+          <%= f.text_field :fullname %>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <label>Affiliation</label>
+      </td>
+      <td class="data-cell">
+        <p>
+          <%= f.text_field :affiliation %>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <label>Website</label>
+      </td>
+      <td class="data-cell">
+        <p>
+          <%= f.text_field :website %>
+        </p>
+      </td>
+    </tr>
+    <%# TODO add photo %>
+    <tr>
+      <td class="label-cell">
+        <label>Biography</label>
+      </td>
+      <td class="data-cell">
+        <%= f.text_area :biography %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        &nbsp;
+      </td>
+      <td class="data-cell">
+        <%= f.submit "Update" %>
+        <% if admin? %>
+          <%= link_to "Delete...", @user, :method => :delete, :confirm => "Delete user #{h @user.label}?", :class => "deletable" %>
+        <% end %>
+        <%= link_to "Back", @user, :class => "cancelable" %>
+      </td>
+    </tr>
+  </table>
+  <% end %>
+</div>

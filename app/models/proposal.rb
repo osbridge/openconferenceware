@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20081213032512
+# Schema version: 20090110114924
 #
 # Table name: proposals
 #

@@ -1,0 +1,82 @@
+<% page_title @user.label %>
+
+<div id="user-show">
+  <div class="standard-form">
+    <table>
+      <% if admin? %>
+        <tr>
+          <td class="label-cell"><label>Admin?</label></td>
+          <td class="data-cell"><p><%= @user.admin?.inspect %></p></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><label>Login</label></td>
+          <td class="data-cell"><p><%= @user.login %></p></td>
+        </tr>
+      <% end %>
+      <% if admin? || can_edit? %>
+        <tr>
+          <td class="label-cell"><label>Email (private)</label></td>
+          <td class="data-cell"><p><%= @user.email %></p></td>
+        </tr>
+      <% end %>
+      <% if @user.affiliation.blank? && @user.website.blank? && @user.biography.blank? %>
+        <tr>
+          <td class="label-cell">&nbsp;</td>
+          <td class="data-cell"><p class="empty-text" style="text-align: left">&mdash; User has not shared any information &mdash;</p></td>
+        </tr>
+      <% end %>
+      <% unless @user.affiliation.blank? %>
+        <tr>
+          <td class="label-cell"><label>Affiliation</label></td>
+          <td class="data-cell"><p><%= h @user.affiliation %></p></td>
+        </tr>
+      <% end %>
+      <% unless @user.website.blank? %>
+        <tr>
+          <td class="label-cell"><label>Website</label></td>
+          <td class="data-cell">
+            <p>
+              <%= display_link_to(@user.website) %>
+            </p>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @user.biography.blank? %>
+        <tr>
+          <td class="label-cell"><label>Bio</label></td>
+          <td class="data-cell"><%= simple_format @user.biography %></td>
+        </tr>
+      <% end %>
+      <% if can_edit? %>
+        <tr>
+          <td>
+            &nbsp;
+          </td>
+          <td>
+            <%= link_to "Edit", edit_user_path(@user), :class => "editable" %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <% unless @user.proposals.empty?  %>
+    <h3>Proposals</h3>
+    <table cellspacing="0">
+      <tr>
+        <th>Title</th>
+        <th>Excerpt</th>
+      </tr>
+      <% @user.proposals.each do |proposal| %>
+      <tr>
+        <td>
+          <%= h proposal.title %>
+        </td>
+        <td>
+          <%= h proposal.excerpt %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>

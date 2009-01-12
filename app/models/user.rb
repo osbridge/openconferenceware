@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20081213032512
+# Schema version: 20090110114924
 #
 # Table name: users
 #
@@ -15,6 +15,9 @@
 #  remember_token            :string(255)     
 #  remember_token_expires_at :datetime        
 #  using_openid              :boolean         
+#  affiliation               :string(128)     
+#  biography                 :text(2048)      
+#  website                   :string(1024)    
 #
 
 require 'digest/sha1'
@@ -35,9 +38,21 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login,                       :case_sensitive => false
   before_save :encrypt_password
 
-  # prevents a user from submitting a crafted form that bypasses activation
-  # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :password, :password_confirmation
+  # Allow mass assignment of only a few fields via #update_attributes and such.
+  #
+  # Fields deliberately left inaccessible:
+  #   :admin
+  #   :id
+  #   :login
+  attr_accessible *[
+    :affiliation,
+    :biography,
+    :email,
+    :fullname,
+    :password,
+    :password_confirmation,
+    :website,
+  ]
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
@@ -103,11 +118,16 @@ class User < ActiveRecord::Base
     self.find(:first, :conditions => {:login => identity_url, :using_openid => true})
   end
 
+  # Return a label for the user, which can be their name, login, openid or numeric id.
   def label
-    if using_openid?
+    if self.fullname
+      self.fullname
+    elsif login
+      login
+    elsif using_openid?
       URI.parse(login).host
     else
-      login
+      self.id
     end
   end
 
