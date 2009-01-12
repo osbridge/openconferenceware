@@ -4,7 +4,6 @@ organization: 'Open Source Bridge Portland'
 # Breadcrumbs that are always visible, each breadcrumb is a name and URI:
 breadcrumbs:
   - ['BridgePDX', 'http://www.bridgepdx.com/']
-  - ['Proposals', '/proposals/']
 
 # Timezone for dates in this application:
 timezone: 'Pacific Time (US & Canada)'
