@@ -1,7 +1,22 @@
 module AuthenticatedTestHelper
   # Sets the current user in the session from the user fixtures.
   def login_as(user)
-    request.session[:user] = user ? users(user).id : nil
+    identity = \
+      case user
+      when User
+        user.id
+      when String
+        users(user.to_sym).id
+      when Symbol
+        users(user).id
+      when Fixnum
+        user
+      when NilClass
+        nil
+      else
+        raise TypeError, "Can't login as type: #{user.class}"
+      end
+    request.session[:user] = identity
   end
 
   def authorize_as(user)
