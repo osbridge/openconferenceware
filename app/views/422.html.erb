@@ -1,0 +1,13 @@
+<p>
+  Sorry, that action failed because this site's security configuration just changed, or there's something wrong with your browser. Please do the following:
+</p>
+<ol>
+  <li>Logout and login again, if you were logged in</li>
+  <li>Navigate back to the form you were trying to use &mdash; <b>do not</b> just click "Back" and "Reload"</li>
+  <li>Use the form again</li>
+</ol>
+
+<p>
+  If followed the above instructions and got this error message again, please <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "422 Unprocessable Entity on #{Socket.gethostname}:#{File.basename(RAILS_ROOT)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
+</p>
+

@@ -26,12 +26,35 @@ module ExceptionHandlingMixin
 
   module Methods
     # Overrides exception_notification/lib/exception_notifiable.rb
+    def rescue_action_in_public(exception)
+      case exception
+      when ActionController::InvalidAuthenticityToken
+        render_422
+      else
+        super(exception)
+      end
+    end
+
+    # Overrides exception_notification/lib/exception_notifiable.rb
     def render_404
       begin
         page_title "404 Not Found"
         respond_to do |type|
           type.html { render :template => "/404.html.erb", :status => "404 Not Found" }
           type.all  { render :nothing => true, :status => "404 Not Found" }
+        end
+      rescue
+        super
+      end
+    end
+
+    # Overrides exception_notification/lib/exception_notifiable.rb
+    def render_422
+      begin
+        page_title "422 Unprocessable Entity"
+        respond_to do |type|
+          type.html { render :template => "/422.html.erb", :status => "422 Unprocessable Entity" }
+          type.all  { render :nothing => true, :status => "422 Unprocessable Entity" }
         end
       rescue
         super
