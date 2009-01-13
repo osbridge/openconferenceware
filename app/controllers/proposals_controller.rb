@@ -68,6 +68,11 @@ class ProposalsController < ApplicationController
       return redirect_to(:action => :index)
     end
     @event = @proposal.event
+    unless @event
+      # TODO provide generalized way of setting the event
+      flash[:failure] = "No event found for this proposal"
+      return redirect_to(:action => :index)
+    end
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
