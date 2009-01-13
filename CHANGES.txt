@@ -1,0 +1,17 @@
+Changes
+=======
+
+Below are the list of OpenProposals versions by GIT id (latest is at top) and the
+changes made to them:
+
+3a07223c1ed0d59d6f0bdcba83be519c9db4f81b
+- FIXED: ExceptionHandlingMixin now catches InvalidAuthenticityToken errors.
+
+a9e00d9d22dcc16b53d2e8f1a5d167b53b69a9a2
+- FIXED: themes/*/layouts/application.html.erb now doesn't raise exceptions if @events wasn't assigned.
+- FIXED: AuthenticationSystem#current_user now works in specs when no one is logged in.
+- IMPROVED: ExceptionHandlingMixin now sends errors even if error template rending fails.
+- IMPROVED: ApplicationController#can_edit? now works on Proposals and Users.
+
+85dcb7365a455d5b21de80ec04e54c271d47e913
+* Published source code
