@@ -20,14 +20,14 @@ Rails::Initializer.run do |config|
   # To use Rails without a database, you must remove the Active Record framework
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
 
-  # Only load the plugins named here, in the order given. By default, all plugins 
+  # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  config.load_paths += %W[ 
+  config.load_paths += %W[
     #{RAILS_ROOT}/app/observers
     #{RAILS_ROOT}/app/mixins
   ]
@@ -35,17 +35,6 @@ Rails::Initializer.run do |config|
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
-
-  # Your secret key for verifying cookie session data integrity.
-  # If you change this key, all old sessions will become invalid!
-  # Make sure the secret is at least 30 characters and all random, 
-  # no regular words or you'll be exposed to dictionary attacks.
-  #
-  # DEPENDENCY: lib/secrets_loader.rb
-  config.action_controller.session = {
-    :session_key => '_simple_session',
-    :secret => lambda { SECRETS.session_secret },
-  }
 
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information
@@ -74,9 +63,11 @@ Rails::Initializer.run do |config|
   # Load custom libraries before "config/initializers" run.
   $LOAD_PATH.unshift("#{RAILS_ROOT}/lib")
 
+  # Read secrets
   require 'secrets_reader'
   SECRETS = SecretsReader.read
 
+  # Read theme
   require 'theme_reader'
   THEME_NAME = ThemeReader.read
   Kernel.class_eval do
@@ -85,8 +76,16 @@ Rails::Initializer.run do |config|
     end
   end
 
+  # Read settings
   require 'settings_reader'
   SETTINGS = SettingsReader.read(theme_file("settings.yml"))
 
+  # Set timezone
   config.time_zone = SETTINGS.timezone
+
+  # Set cookie session
+  config.action_controller.session = {
+    :session_key => SECRETS.session_name || "openproposals",
+    :secret => SECRETS.session_secret,
+  }
 end
