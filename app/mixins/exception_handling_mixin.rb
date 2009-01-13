@@ -27,19 +27,27 @@ module ExceptionHandlingMixin
   module Methods
     # Overrides exception_notification/lib/exception_notifiable.rb
     def render_404
-      page_title "404 Not Found"
-      respond_to do |type|
-        type.html { render :template => "/404.html.erb", :status => "404 Not Found" }
-        type.all  { render :nothing => true, :status => "404 Not Found" }
+      begin
+        page_title "404 Not Found"
+        respond_to do |type|
+          type.html { render :template => "/404.html.erb", :status => "404 Not Found" }
+          type.all  { render :nothing => true, :status => "404 Not Found" }
+        end
+      rescue
+        super
       end
     end
 
     # Overrides exception_notification/lib/exception_notifiable.rb
     def render_500
-      page_title "500 Server Error"
-      respond_to do |type|
-        type.html { render :template => "/500.html.erb", :status => "500 Error" }
-        type.all  { render :nothing => true, :status => "500 Error" }
+      begin
+        page_title "500 Server Error"
+        respond_to do |type|
+          type.html { render :template => "/500.html.erb", :status => "500 Error" }
+          type.all  { render :nothing => true, :status => "500 Error" }
+        end
+      rescue
+        super
       end
     end
 
