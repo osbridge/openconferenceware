@@ -89,8 +89,12 @@
             <div id="proposals-for" class="hoverable">
               <h4>Proposals for</h4>
               <ul>
-                <% for event in @events %>
-                  <li><%= link_to event.title, event_proposals_path(event) %></li>
+                <% if @events.blank? %>
+                  <li class="empty-text">&mdash; No events &mdash;</li>
+                <% else %>
+                  <% for event in @events %>
+                    <li><%= link_to event.title, event_proposals_path(event) %></li>
+                  <% end %>
                 <% end %>
               </ul>
             </div>
