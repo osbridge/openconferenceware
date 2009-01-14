@@ -4,6 +4,9 @@ Changes
 Below are the list of OpenProposals versions by GIT id (latest is at top) and the
 changes made to them:
 
+6098fe90a3e652a7e57497f31fa38d2df8912dd1
+- IMPROVED: ExceptionHandlingMixin now notifies on InvalidAuthenticityToken exceptions.
+
 3a07223c1ed0d59d6f0bdcba83be519c9db4f81b
 - FIXED: ExceptionHandlingMixin now catches InvalidAuthenticityToken errors.
 
