@@ -30,6 +30,16 @@ module ExceptionHandlingMixin
       case exception
       when ActionController::InvalidAuthenticityToken
         render_422
+
+        deliverer = self.class.exception_data
+        data = case deliverer
+          when nil then {}
+          when Symbol then send(deliverer)
+          when Proc then deliverer.call(self)
+        end
+
+        ExceptionNotifier.deliver_exception_notification(exception, self,
+          request, data)
       else
         super(exception)
       end
