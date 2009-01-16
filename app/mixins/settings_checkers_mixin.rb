@@ -10,9 +10,20 @@ module SettingsCheckersMixin
   end
 
   module Methods
-    # Do users have profiles with things like biography, or are things like biography stored in the proposal?
+    def anonymous_proposals?
+      return SETTINGS.have_anonymous_proposals
+    end
+
+    def tracks?
+      return SETTINGS.have_tracks
+    end
+
+    def user_pictures?
+      return SETTINGS.have_user_pictures
+    end
+
     def user_profiles?
-      SETTINGS.has_user_profiles
+      return SETTINGS.have_user_profiles
     end
   end
 

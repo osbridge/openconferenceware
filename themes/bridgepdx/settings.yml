@@ -8,5 +8,14 @@ breadcrumbs:
 # Timezone for dates in this application:
 timezone: 'Pacific Time (US & Canada)'
 
-# Do users have profiles? If true, bio is part of the User; else part of the Proposal.
-has_user_profiles: true
+# Can people create proposals without logging in?
+have_anonymous_proposals: false
+
+# Are there tracks for proposals?
+have_tracks: true
+
+# Can people upload pictures of themselves?
+have_user_pictures: true
+
+# Is profile information, like biography, stored in the User record? Else stored in Proposal.
+have_user_profiles: true

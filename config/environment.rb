@@ -78,7 +78,16 @@ Rails::Initializer.run do |config|
 
   # Read settings
   require 'settings_reader'
-  SETTINGS = SettingsReader.read(theme_file("settings.yml"))
+  SETTINGS = SettingsReader.read(
+    theme_file("settings.yml"), {
+      'breadcrumbs'              => [],
+      'timezone'                 => 'Pacific Time (US & Canada)',
+      'have_anonymous_proposals' => true,
+      'have_tracks'              => false,
+      'have_user_pictures'       => false,
+      'have_user_profiles'       => false,
+    }
+  )
 
   # Set timezone
   config.time_zone = SETTINGS.timezone
