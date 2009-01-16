@@ -13,30 +13,43 @@
     <table>
       <tr>
         <td class="label-cell"><label>Speaker</label ></td>
-        <td class="data-cell"><%=h @proposal.presenter %></td>
+          <td class="data-cell"><p>
+            <% if user_profiles? %>
+              <%= link_to(h(@proposal.user.fullname), user_path(@proposal.user)) %>
+            <% else %>
+              <%=h @proposal.presenter %>
+            <% end %>
+          </p></td>
       </tr>
       <% unless @proposal.affiliation.blank? %>
         <tr>
           <td class="label-cell"><label>Affiliation</label ></td>
-          <td class="data-cell"><%=h @proposal.affiliation %></td>
+            <td class="data-cell"><p><%=h user_profiles? ? @proposal.user.affiliation : @proposal.affiliation %></p></td>
         </tr>
       <% end %>
       <% if can_edit? %>
         <tr>
           <td class="label-cell"><label>Email</label ></td>
-          <td class="data-cell"><%=link_to h(@proposal.email), "mailto:"+h(@proposal.email) %></td>
+          <% email = user_profiles? ? @proposal.user.email : @proposal.email %>
+          <td class="data-cell"><p><%=link_to h(email), "mailto:"+h(email) %></p></td>
         </tr>
       <% end %>
       <% unless @proposal.url.blank? %>
         <tr>
           <td class="label-cell"><label>URL</label ></td>
-          <td class="data-cell"><%= link_to(h(@proposal.url), h(@proposal.url)) %></td>
+          <td class="data-cell"><p><%= display_link_to @proposal.url %></p></td>
         </tr>
       <% end %>
       <tr>
         <td class="label-cell"><label>Biography</label ></td>
-        <td class="data-cell"><%= preserve_formatting_of @proposal.bio %></td>
+        <td class="data-cell"><%= preserve_formatting_of user_profiles? ? @proposal.user.biography : @proposal.bio %></td>
       </tr>
+<% if proposal_excerpts? %>
+      <tr>
+        <td class="label-cell"><label>Excerpt</label ></td>
+        <td class="data-cell"><%= preserve_formatting_of @proposal.excerpt %></td>
+      </tr>
+<% end %>
       <tr>
         <td class="label-cell"><label>Description</label ></td>
         <td class="data-cell"><%= preserve_formatting_of @proposal.description %></td>

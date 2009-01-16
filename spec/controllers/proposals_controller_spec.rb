@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe ProposalsController, "when displaying events" do
+describe ProposalsController do
   integrate_views
   fixtures :snippets, :events, :proposals, :users, :comments
 
@@ -127,20 +127,19 @@ describe ProposalsController, "when displaying events" do
       describe "with user_profiles?" do
         before(:each) do
           SETTINGS.stub!(:have_user_profiles => true)
-          @user = users(:quentin)
-          login_as(@user.login)
         end
 
         it "should redirect incomplete profiles to user edit form" do
+          user = users(:incognito)
+          login_as(user)
           get :new, :event_id => events(:open).id
 
           flash.should have_key(:failure)
-          response.should redirect_to(edit_user_path(@user))
+          response.should redirect_to(edit_user_path(user))
         end
 
         it "should allow users with complete profiles" do
-          User.should_receive(:find_by_id).and_return(@user)
-          @user.should_receive(:complete_profile?).and_return(true)
+          login_as(:quentin)
           get :new, :event_id => events(:open).id
 
           flash.should_not have_key(:failure)
@@ -298,31 +297,57 @@ describe ProposalsController, "when displaying events" do
       end
     end
 
-    it "should create proposal for anonymous user" do
-      assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
-        response.should be_redirect
-        proposal = assigns(:proposal)
-        proposal.should be_valid
+    describe "with user_profiles?" do
+      before(:each) do
+        SETTINGS.stub!(:have_user_profiles => true)
+      end
+
+      it "should fail to create proposal without a complete user" do
+        user = users(:quentin)
+        user.should_receive(:complete_profile?).any_number_of_times.and_return(false)
+        User.should_receive(:find_by_id).and_return(user)
+        proposal = Proposal.new(@inputs)
+        proposal.user = user
+        Proposal.should_receive(:new).and_return(proposal)
+        assert_create(user, :event_id => @current_event.id, :proposal => @inputs) do
+          response.should be_success
+          proposal = assigns(:proposal)
+          proposal.should_not be_valid
+        end
       end
     end
 
-    it "should create proposal for mortal user" do
-      login_as :quentin
-      assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
-        response.should be_redirect
-        proposal = assigns(:proposal)
-        proposal.should be_valid
+    describe "without user_profiles?" do
+      before(:each) do
+        SETTINGS.stub!(:have_user_profiles => false)
       end
-    end
 
-    it "should fail to create proposal with invalid fields" do
-      login_as :quentin
-      inputs = @inputs.clone
-      inputs['presenter'] = nil
-      assert_create(nil, :event_id => @current_event.id, :proposal => inputs) do
-        response.should be_success
-        proposal = assigns(:proposal)
-        proposal.should_not be_valid
+      it "should create proposal for anonymous user" do
+        assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
+          response.should be_redirect
+          proposal = assigns(:proposal)
+          proposal.should be_valid
+        end
+      end
+
+      it "should create proposal for mortal user" do
+        login_as :quentin
+        assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
+          response.should be_redirect
+          proposal = assigns(:proposal)
+          proposal.should be_valid
+        end
+      end
+
+      it "should fail to create proposal without a presenter" do
+        login_as :quentin
+        inputs = @inputs.clone
+        inputs['presenter'] = nil
+        assert_create(nil, :event_id => @current_event.id, :proposal => inputs) do
+          response.should be_success
+          proposal = assigns(:proposal)
+          proposal.should_not be_valid
+        end
       end
     end
   end
@@ -353,26 +378,38 @@ describe ProposalsController, "when displaying events" do
       end
     end
 
-    it "should allow owner mortal user" do
-      assert_update(:quentin, @inputs) do
-        flash.should have_key(:success)
-        response.should redirect_to(proposal_url(@proposal))
+    describe "with user_profiles?" do
+      before(:each) do
+        SETTINGS.stub!(:have_user_profiles => true)
       end
     end
 
-    it "should allow admin user" do
-      assert_update(:aaron, @inputs) do
-        flash.should have_key(:success)
-        response.should redirect_to(proposal_url(@proposal))
+    describe "without user_profiles?" do
+      before(:each) do
+        SETTINGS.stub!(:have_user_profiles => false)
       end
-    end
 
-    it "should display edit form if fields are invalid" do
-      inputs = @inputs.clone
-      inputs['presenter'] = nil
-      assert_update(:quentin, inputs) do
-        response.should be_success
-        response.should render_template('edit')
+      it "should display edit form if fields are invalid" do
+        inputs = @inputs.clone
+        inputs['presenter'] = nil
+        assert_update(:quentin, inputs) do
+          response.should be_success
+          response.should render_template('edit')
+        end
+      end
+
+      it "should allow owner mortal user" do
+        assert_update(:quentin, @inputs) do
+          flash.should have_key(:success)
+          response.should redirect_to(proposal_url(@proposal))
+        end
+      end
+
+      it "should allow admin user" do
+        assert_update(:aaron, @inputs) do
+          flash.should have_key(:success)
+          response.should redirect_to(proposal_url(@proposal))
+        end
       end
     end
   end

@@ -31,6 +31,7 @@ quentin_widgets:
   url: http://quentinco.co.uk/~quentin/
   bio: Quentin is.
   title: My favorite widgets.
+  excerpt: qw
   description: Widgets rock.
   publish: true
   agreement: true
@@ -44,6 +45,7 @@ aaron_ardvarks:
   url: http://ardvarks.au/
   bio: Aaron has Ardvarks.
   title: My favorite Ardvarks.
+  excerpt: aa
   description: Ardvarks are awesome.
   publish: true
   agreement: true
@@ -54,6 +56,7 @@ clio_chupacabras:
   presenter: Clio
   email: clio@i_want_to_believe.com
   bio: "They walk amongst us."
+  excerpt: cc
   description: "I see it - coming here - hell-wind - titan blur - black wings - Yog-Sothoth save me - the three-lobed burning eye ..."
   publish: true
   agreement: true

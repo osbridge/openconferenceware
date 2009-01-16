@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090110114924
+# Schema version: 20090116114316
 #
 # Table name: users
 #
@@ -18,6 +18,7 @@
 #  affiliation               :string(128)     
 #  biography                 :text(2048)      
 #  website                   :string(1024)    
+#  complete_profile          :boolean         
 #
 
 require 'digest/sha1'
@@ -54,6 +55,10 @@ class User < ActiveRecord::Base
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
   validates_uniqueness_of   :login,                       :case_sensitive => false
+
+  validates_presence_of     :fullname,                    :if => :complete_profile?
+  validates_presence_of     :email,                       :if => :complete_profile?
+  validates_presence_of     :biography,                   :if => :complete_profile?
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
@@ -105,6 +110,7 @@ class User < ActiveRecord::Base
     self.save!
   end
 
+  # Create and return a user from the given OpenID URL and its registration information.
   def self.create_from_openid!(identity_url, registration)
     user = User.new
     user.login = identity_url
@@ -115,21 +121,14 @@ class User < ActiveRecord::Base
     return user
   end
 
+  # Return user matching the given OpenID URL.
   def self.find_by_openid(identity_url)
     self.find(:first, :conditions => {:login => identity_url, :using_openid => true})
   end
 
-  # Return a label for the user, which can be their name, login, openid or numeric id.
+  # Return a label for the user.
   def label
-    if self.fullname
-      self.fullname
-    elsif login
-      login
-    elsif using_openid?
-      URI.parse(login).host
-    else
-      self.id
-    end
+    return "#{(self.fullname.with{blank? ? nil : self}) || (self.using_openid? ? URI.parse(login).host : self.login)} (#{self.id})"
   end
 
 protected
@@ -140,6 +139,7 @@ protected
     self.crypted_password = encrypt(password)
   end
 
+  # Does this user require a password to be defined?
   def password_required?
     #IK# !using_openid? && (crypted_password.blank? || !password.blank?)
     if self.using_openid
@@ -153,6 +153,7 @@ protected
     end
   end
 
+  # Does this user require an email to be defined?
   def email_required?
     if user_profiles?
       if self.complete_profile?

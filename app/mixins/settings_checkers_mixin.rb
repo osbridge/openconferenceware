@@ -7,11 +7,25 @@ module SettingsCheckersMixin
 
   def self.included(mixee)
     mixee.extend(Methods)
+
+    if mixee.ancestors.include?(ActionController::Base)
+      mixee.class_eval do
+        helper_method :anonymous_proposals?
+        helper_method :proposal_excerpts?
+        helper_method :tracks?
+        helper_method :user_pictures?
+        helper_method :user_profiles?
+      end
+    end
   end
 
   module Methods
     def anonymous_proposals?
       return SETTINGS.have_anonymous_proposals
+    end
+
+    def proposal_excerpts?
+      return SETTINGS.have_proposal_excerpts
     end
 
     def tracks?

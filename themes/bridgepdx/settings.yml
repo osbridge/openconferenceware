@@ -11,6 +11,9 @@ timezone: 'Pacific Time (US & Canada)'
 # Can people create proposals without logging in?
 have_anonymous_proposals: false
 
+# Do proposals have excerpts?
+have_proposal_excerpts: true
+
 # Are there tracks for proposals?
 have_tracks: true
 

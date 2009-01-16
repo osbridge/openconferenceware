@@ -46,6 +46,7 @@
           </td>
         </tr>
 <% end %>
+<% unless user_profiles? %>
         <tr>
           <td colspan="2">
             <h4>About you</h4>
@@ -71,6 +72,7 @@
           <td class="label-cell"><%= required_field %><%= f.label :bio, "Biography" %></td>
           <td><%= f.text_area :bio, :rows => 5 %></td>
         </tr>
+<% end %>
         <tr>
           <td colspan="2">
             <h4>About your presentation</h4>
@@ -80,6 +82,12 @@
           <td class="label-cell"><%= required_field %><%= f.label :title, "Title" %></td>
           <td><%= f.text_field :title %></td>
         </tr>
+<% if proposal_excerpts? %>
+          <tr>
+            <td class="label-cell"><%= required %><%= f.label :excerpt, "Excerpt" %></td>
+            <td><%= f.text_area :excerpt, :rows => 2 %></td>
+          </tr>
+<% end %>
         <tr>
           <td class="label-cell"><%= required_field %><%= f.label :description, "Description" %></td>
           <td><%= f.text_area :description, :rows => 9 %></td>

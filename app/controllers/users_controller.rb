@@ -41,8 +41,13 @@ class UsersController < ApplicationController
   def update
     if admin? or can_edit?(@user)
       if admin?
-        @user.login = params[:user][:login]
-        @user.admin = params[:user][:admin]
+        @user.login            = params[:user][:login]
+        @user.admin            = params[:user][:admin]
+        @user.complete_profile = params[:user][:complete_profile]
+      end
+
+      if params[:require_complete_profile]
+        @user.complete_profile = true
       end
 
       if @user.update_attributes(params[:user])

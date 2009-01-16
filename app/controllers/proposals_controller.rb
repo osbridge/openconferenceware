@@ -1,10 +1,11 @@
 class ProposalsController < ApplicationController
 
-  before_filter :login_required,              :only => [:edit, :update, :destroy]
-  before_filter :assign_current_event,        :only => [:new, :create]
-  before_filter :assert_accepting_proposals,  :only => [:new, :create]
-  before_filter :assign_proposal_and_event,   :only => [:show, :edit, :update, :destroy]
-  before_filter :assert_proposal_ownership,   :only => [:edit, :update, :destroy]
+  before_filter :login_required,               :only => [:edit, :update, :destroy]
+  before_filter :assign_current_event,         :only => [:new, :create]
+  before_filter :assert_accepting_proposals,   :only => [:new, :create]
+  before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy]
+  before_filter :assert_proposal_ownership,    :only => [:edit, :update, :destroy]
+  before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
 
   MAX_FEED_ITEMS = 20
@@ -89,12 +90,6 @@ class ProposalsController < ApplicationController
       flash[:failure] = "You must login to create a proposal."
       store_location
       return redirect_to(login_path)
-    end
-
-    if user_profiles? and logged_in? and not current_user.complete_profile?
-      flash[:failure] = "You must complete your profile to create a proposal."
-      store_location
-      return redirect_to(edit_user_path(current_user))
     end
 
     add_breadcrumb @event.title, event_proposals_path(@event)
@@ -227,6 +222,14 @@ protected
     else
       flash[:failure] = "Sorry, that presentation proposal doesn't exist or has been deleted."
       return redirect_to(:action => :index)
+    end
+  end
+
+  def assert_user_complete_profile
+    if user_profiles? and logged_in? and not current_user.complete_profile?
+      flash[:failure] = "You must complete your profile to create a proposal."
+      store_location
+      return redirect_to(edit_user_path(current_user))
     end
   end
 
