@@ -85,6 +85,18 @@ class ProposalsController < ApplicationController
   # GET /proposals/new
   # GET /proposals/new.xml
   def new
+    if not anonymous_proposals? and not logged_in?
+      flash[:failure] = "You must login to create a proposal."
+      store_location
+      return redirect_to(login_path)
+    end
+
+    if user_profiles? and logged_in? and not current_user.complete_profile?
+      flash[:failure] = "You must complete your profile to create a proposal."
+      store_location
+      return redirect_to(edit_user_path(current_user))
+    end
+
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb "Create a proposal", new_event_proposal_path
 

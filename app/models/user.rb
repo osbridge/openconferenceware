@@ -22,37 +22,38 @@
 
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  # Mixins
+  include SettingsCheckersMixin
+
+  # Associations
   has_many :proposals
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  validates_presence_of     :login
-  validates_presence_of     :email,                       :unless => :using_openid?
+  # Triggers
+  before_save :encrypt_password
+
+  # Protected fields
+  attr_protected *[
+    :admin,
+    :id,
+    :login,
+    :complete_profile,
+  ]
+
+  # Validations
+  validates_presence_of     :email,                       :if => :email_required?
+  validates_length_of       :email,    :within => 3..100, :if => :email_required?
+
   validates_presence_of     :password,                    :if => :password_required?
   validates_presence_of     :password_confirmation,       :if => :password_required?
   validates_length_of       :password, :within => 4..40,  :if => :password_required?
   validates_confirmation_of :password,                    :if => :password_required?
-  validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
-  validates_length_of       :email,    :within => 3..100, :unless => :using_openid?
-  validates_uniqueness_of   :login,                       :case_sensitive => false
-  before_save :encrypt_password
 
-  # Allow mass assignment of only a few fields via #update_attributes and such.
-  #
-  # Fields deliberately left inaccessible:
-  #   :admin
-  #   :id
-  #   :login
-  attr_accessible *[
-    :affiliation,
-    :biography,
-    :email,
-    :fullname,
-    :password,
-    :password_confirmation,
-    :website,
-  ]
+  validates_presence_of     :login
+  validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
+  validates_uniqueness_of   :login,                       :case_sensitive => false
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
@@ -149,6 +150,18 @@ protected
       else
         false # Login-based user already has a crypted_password, and doesn't need transient fields checked
       end
+    end
+  end
+
+  def email_required?
+    if user_profiles?
+      if self.complete_profile?
+        not self.email.blank?
+      else
+        true
+      end
+    else
+      not self.using_openid?
     end
   end
 

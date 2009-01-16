@@ -124,37 +124,86 @@ describe ProposalsController, "when displaying events" do
 
   describe "new" do
     describe "for open event" do
-      it "should display form for open events" do
-        get :new, :event_id => events(:open).id
+      describe "with user_profiles?" do
+        before(:each) do
+          SETTINGS.stub!(:have_user_profiles => true)
+          @user = users(:quentin)
+          login_as(@user.login)
+        end
 
-        response.should be_success
-        assigns(:proposal).should be_true
+        it "should redirect incomplete profiles to user edit form" do
+          get :new, :event_id => events(:open).id
+
+          flash.should have_key(:failure)
+          response.should redirect_to(edit_user_path(@user))
+        end
+
+        it "should allow users with complete profiles" do
+          User.should_receive(:find_by_id).and_return(@user)
+          @user.should_receive(:complete_profile?).and_return(true)
+          get :new, :event_id => events(:open).id
+
+          flash.should_not have_key(:failure)
+          response.should be_success
+        end
       end
 
-      it "should not assign presenter if anonymous" do
-        logout
-        get :new, :event_id => events(:open).id
+      describe "without user_profiles?" do
+        before(:each) do
+          SETTINGS.stub!(:have_user_profiles => false)
+        end
 
-        response.should be_success
-        proposal = assigns(:proposal)
-        proposal.presenter.should be_blank
+        describe "with anonymous_proposals" do
+          before(:each) do
+            SETTINGS.stub!(:have_anonymous_proposals => true)
+          end
+
+          it "should display form for open events" do
+            get :new, :event_id => events(:open).id
+
+            response.should be_success
+            assigns(:proposal).should be_true
+          end
+
+          it "should not assign presenter if anonymous" do
+            logout
+            get :new, :event_id => events(:open).id
+
+            response.should be_success
+            proposal = assigns(:proposal)
+            proposal.presenter.should be_blank
+          end
+        end
+
+        describe "without anonymous_proposals" do
+          before(:each) do
+            SETTINGS.stub!(:have_anonymous_proposals => false)
+          end
+
+          it "should redirect anonymous user to login" do
+            get :new, :event_id => events(:open).id
+
+            flash.should have_key(:failure)
+            response.should redirect_to(login_path)
+          end
+        end
+
+        it "should assign presenter if logged in" do
+          user = users(:quentin)
+          login_as(user.login)
+          get :new, :event_id => events(:open).id
+
+          response.should be_success
+          proposal = assigns(:proposal)
+          proposal.presenter.should == user.fullname
+        end
       end
 
-      it "should assign presenter if logged in" do
-        user = users(:quentin)
-        login_as(user.login)
-        get :new, :event_id => events(:open).id
+      it "should not display form for closed events" do
+        get :new, :event_id => events(:closed).id
 
-        response.should be_success
-        proposal = assigns(:proposal)
-        proposal.presenter.should == user.fullname
+        response.should be_redirect
       end
-    end
-
-    it "should not display form for closed events" do
-      get :new, :event_id => events(:closed).id
-
-      response.should be_redirect
     end
   end
 
