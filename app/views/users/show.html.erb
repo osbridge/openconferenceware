@@ -62,21 +62,27 @@
 
   <% unless @user.proposals.empty?  %>
     <h3>Proposals</h3>
-    <table cellspacing="0">
-      <tr>
-        <th>Title</th>
-        <th>Excerpt</th>
-      </tr>
-      <% @user.proposals.each do |proposal| %>
-      <tr>
-        <td>
-          <%= h proposal.title %>
-        </td>
-        <td>
-          <%= h proposal.excerpt %>
-        </td>
-      </tr>
-      <% end %>
-    </table>
+    <div class="top-form">
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Excerpt</th>
+        </tr>
+        <% @user.proposals.each do |proposal| %>
+        <tr>
+          <td>
+            <p>
+              <%= link_to(h(proposal.title), proposal_path(proposal)) %>
+            </p>
+          </td>
+          <td>
+            <p>
+              <%= h proposal.excerpt %>
+            </p>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
   <% end %>
 </div>

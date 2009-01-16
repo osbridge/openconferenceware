@@ -116,6 +116,45 @@
     font-size: 100%;
   }
 
+/*#---[ ------------------------------------------------------------------*/
+
+.top-form {}
+  .top-form h4,
+  .top-form label,
+  .top-form th {
+    color: #777777; }
+  .top-form h4 {
+    padding: 0.5em 0 0.25em 0; }
+  .top-form td h4 {
+    padding: 0.25em 0 0.1em 0; }
+  .top-form label,
+  .top-form th {
+    font-style: italic; }
+  .top-form table {
+    width: 100%; }
+  .top-form td, .top-form th {
+    padding: 0.5em;
+    width: 0%;
+    text-align: left;
+    vertical-align: top; }
+  .top-form th {
+    white-space: nowrap;
+    width: 0; }
+  .top-form td {
+    width: 98%; }
+  .top-form input[type=checkbox] {
+    padding: 0;
+    margin: 0 0.5em 0 0; }
+  .top-form input[type=text],
+  .top-form input[type=password],
+  .top-form textarea {
+    width: 97%; }
+  .top-form td div.record-controls {
+    margin: 0em; }
+  .top-form input[type=submit] {
+    font-size: 100%;
+  }
+
 /*---[ scaffolded list and show pages ]-------------------------------*/
 
 .scaffolded {}
