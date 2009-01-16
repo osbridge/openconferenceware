@@ -103,6 +103,8 @@ protected
   end
   helper_method :accepting_proposals?
 
+  #---[ Assign items ]----------------------------------------------------
+
   # Assign @event if it's not already set. Return true if redirected or failed,
   # false if assigned event for normal processing. WARNING: performs redirects
   # and sets #flash.
