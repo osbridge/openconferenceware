@@ -1,8 +1,11 @@
 class ProposalsController < ApplicationController
 
-  before_filter :login_required, :only => [:edit, :update, :destroy]
-  before_filter :assign_current_event, :only => [:new, :create]
-  before_filter :redirect_unless_accepting_proposals, :only => [:new, :create]
+  before_filter :login_required,              :only => [:edit, :update, :destroy]
+  before_filter :assign_current_event,        :only => [:new, :create]
+  before_filter :assert_accepting_proposals,  :only => [:new, :create]
+  before_filter :assign_proposal_and_event,   :only => [:show, :edit, :update, :destroy]
+  before_filter :assert_proposal_ownership,   :only => [:edit, :update, :destroy]
+  before_filter :assign_proposals_breadcrumb
 
   MAX_FEED_ITEMS = 20
 
@@ -62,17 +65,8 @@ class ProposalsController < ApplicationController
   # GET /proposals/1
   # GET /proposals/1.xml
   def show
-    #IK# unless @proposal = Proposal.find_by_id(params[:id])
-    unless @proposal = Proposal.lookup(params[:id].ergo.to_i)
-      flash[:failure] = "Sorry, that presentation proposal doesn't exist or has been deleted."
-      return redirect_to(:action => :index)
-    end
-    @event = @proposal.event
-    unless @event
-      # TODO provide generalized way of setting the event
-      flash[:failure] = "No event found for this proposal"
-      return redirect_to(:action => :index)
-    end
+    # @proposal and @event set via #assign_proposal_and_event filter
+
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
@@ -109,12 +103,11 @@ class ProposalsController < ApplicationController
 
   # GET /proposals/1/edit
   def edit
-    @proposal = Proposal.find(params[:id])
+    # @proposal set via #assign_proposal filter
+
     @event = @proposal.event
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
-
-    return unless assert_ownership
   end
 
   # POST /proposals
@@ -147,11 +140,10 @@ class ProposalsController < ApplicationController
   # PUT /proposals/1
   # PUT /proposals/1.xml
   def update
-    @proposal = Proposal.find(params[:id])
-    @event = @proposal.event
+    # @proposal and @event set via #assign_proposal_and_event filter
+
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
-    return unless assert_ownership
 
     respond_to do |format|
       if @proposal.update_attributes(params[:proposal])
@@ -170,9 +162,7 @@ class ProposalsController < ApplicationController
   # DELETE /proposals/1
   # DELETE /proposals/1.xml
   def destroy
-    @proposal = Proposal.find(params[:id])
-    @event = @proposal.event
-    return unless assert_ownership
+    # @proposal and @event set via #assign_proposal_and_event filter
 
     @proposal.destroy
     flash[:success] = "Destroyed proposal: #{@proposal.title}"
@@ -186,31 +176,50 @@ class ProposalsController < ApplicationController
 
 protected
 
-  def redirect_unless_accepting_proposals
+  # Is this event accepting proposals? If not, redirect with a warning.
+  def assert_accepting_proposals
     unless accepting_proposals?
       flash[:failure] = Snippet.content_for(:proposals_not_accepted_error)
       redirect_to @event ? event_proposals_path(@event) : proposals_path
     end
   end
 
-  def assert_ownership
+  # Assert that #current_user can edit @proposal.
+  def assert_proposal_ownership
     if admin?
-      return true
+      return false # admin can always edit
     else
       if accepting_proposals?
         if can_edit?
-          return true
+          return false # current_user can edit
         else
           flash[:failure] = "You do not have permission to alter this proposal."
-          redirect_to proposal_path(@proposal)
-          return false
+          return redirect_to(proposal_path(@proposal))
         end
       else
         flash[:failure] = "You cannot edit proposals after the submission deadline."
-        redirect_to @event ? event_proposals_path(@event) : proposals_path
-        return false
+        return redirect_to(@event ? event_proposals_path(@event) : proposals_path)
       end
     end
+  end
+
+  # Assign @proposal from parameters, or redirect to index.
+  def assign_proposal_and_event
+    if @proposal = Proposal.lookup(params[:id].to_i) rescue nil
+      if @event = @proposal.event
+        return false # Successfully found both @event and @proposal
+      else
+        flash[:failure] = "Sorry, no event was associated with proposal ##{@proposal.id}"
+        return redirect_to(:action => :index)
+      end
+    else
+      flash[:failure] = "Sorry, that presentation proposal doesn't exist or has been deleted."
+      return redirect_to(:action => :index)
+    end
+  end
+
+  def assign_proposals_breadcrumb
+    add_breadcrumb "Proposals", proposals_path
   end
 
 end

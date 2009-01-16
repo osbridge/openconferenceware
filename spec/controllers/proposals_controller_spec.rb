@@ -332,7 +332,7 @@ describe ProposalsController, "when displaying events" do
     before do
       @proposal = proposals(:quentin_widgets)
       @owner = @proposal.user
-      Proposal.stub!(:find).and_return(@proposal)
+      Proposal.stub!(:lookup).and_return(@proposal)
     end
 
     def assert_delete(login=nil, &block)
