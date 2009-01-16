@@ -8,7 +8,7 @@ require 'socket'
 # Returns an OpenStruct object representing settings read from an ERB-parsed
 # YAML file.
 class SettingsReader
-  def self.read(filename)
-    return OpenStruct.new(YAML.load(ERB.new(File.read(filename)).result))
+  def self.read(filename, defaults={})
+    return OpenStruct.new(YAML.load(ERB.new(File.read(filename)).result).reverse_merge!(defaults))
   end
 end
