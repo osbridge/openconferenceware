@@ -12,7 +12,7 @@ module SettingsCheckersMixin
       mixee.class_eval do
         helper_method :anonymous_proposals?
         helper_method :proposal_excerpts?
-        helper_method :tracks?
+        helper_method :proposal_tracks?
         helper_method :user_pictures?
         helper_method :user_profiles?
       end
@@ -28,8 +28,8 @@ module SettingsCheckersMixin
       return SETTINGS.have_proposal_excerpts
     end
 
-    def tracks?
-      return SETTINGS.have_tracks
+    def proposal_tracks?
+      return SETTINGS.have_proposal_tracks
     end
 
     def user_pictures?
