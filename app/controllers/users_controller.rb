@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
       if @user.update_attributes(params[:user])
         flash[:success] = "Updated user"
-        return redirect_to(user_path(@user))
+        return redirect_back_or_to(user_path(@user))
       else
         flash[:failure] = "Invalid fields"
         render :action => "edit"
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
     else
       flash[:failure] = "You are not allowed to delete user: #{@user.label}"
     end
-    return redirect_to(users_path)
+    return redirect_back_or_to(users_path)
   end
 
 protected
