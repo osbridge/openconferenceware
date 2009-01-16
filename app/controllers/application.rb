@@ -50,9 +50,7 @@ protected
     record ||= @proposal || @user
     raise ArgumentError, "No record specified" unless record
 
-    if current_user == :false
-      false
-    else
+    if logged_in?
       if current_user.admin?
         true
       else
@@ -66,6 +64,8 @@ protected
           raise TypeError, "Unknown record type: #{record.class}"
         end
       end
+    else
+      false
     end
   end
   helper_method :can_edit?
