@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '56b4f0ad244d35b7e0d30ba0c5e1ae61'
 
+  # Provide methods for checking SETTINGS succinctly
+  include SettingsCheckersMixin
+
   # Provide access to page_title in controllers
   include PageTitleHelper
 

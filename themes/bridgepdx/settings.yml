@@ -9,4 +9,4 @@ breadcrumbs:
 timezone: 'Pacific Time (US & Canada)'
 
 # Do users have profiles? If true, bio is part of the User; else part of the Proposal.
-has_profiles: true
+has_user_profiles: true
