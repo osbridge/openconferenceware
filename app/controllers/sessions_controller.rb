@@ -53,11 +53,11 @@ protected
     begin
       authenticate_with_open_id(identity_url, :optional => [:nickname, :email, :fullname]) do |result, identity_url, registration|
         if result.missing?
-          failed_login "Sorry, the OpenID server couldn't be found"
+          failed_login "Sorry, the OpenID server couldn't be found. Is the URL correct?"
         elsif result.canceled?
-          failed_login "OpenID verification was canceled"
+          failed_login "OpenID verification was canceled. Don't cancel it or try another OpenID provider?"
         elsif result.failed?
-          failed_login "Sorry, the OpenID verification failed"
+          failed_login "Sorry, the OpenID verification failed. Try another OpenID provider?"
         elsif result.successful?
           if self.current_user = User.find_by_openid(identity_url)
             successful_login "Logged in successfully, welcome back"
@@ -71,7 +71,7 @@ protected
         end
       end
     rescue OpenIdAuthentication::InvalidOpenId
-      failed_login "Sorry, that is not a valid OpenID login"
+      failed_login "Sorry, that is not a valid OpenID login. Is the URL correct? Try another OpenID provider?"
     end
   end
 
