@@ -28,7 +28,7 @@
       <%= link_to 'Show', manage_event_path(event), :class => "showable" %>
       <%= link_to 'Proposals', event_proposals_path(event), :class => "showable" %>
       <%= link_to 'Edit', edit_manage_event_path(event), :class => "editable" %>
-      <%= link_to 'Destroy', manage_event_path(event), :confirm => 'Are you sure?', :method => :delete, :class => :deletable %>
+      <%= link_to 'Destroy', manage_event_path(event), :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
     </td>
   </tr>
 <% end %>
