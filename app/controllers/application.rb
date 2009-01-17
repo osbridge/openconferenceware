@@ -29,22 +29,18 @@ class ApplicationController < ActionController::Base
   layout "application"
   theme THEME_NAME # DEPENDENCY: lib/theme_reader.rb
 
-  # Make sure @event is always assigned
+  # Filters
   before_filter :assign_events
 
 protected
 
   #---[ General ]---------------------------------------------------------
 
-  # Assign an @events variable for use by the layout when displaying available events.
-  def assign_events
-    @events = Event.lookup || []
-  end
-
   # Return the current_user's email address
   def current_email
     (current_user != :false ? current_user.email : nil) || session[:email]
   end
+  helper_method :current_email
 
   #---[ Access control ]--------------------------------------------------
 
@@ -107,6 +103,11 @@ protected
   helper_method :accepting_proposals?
 
   #---[ Assign items ]----------------------------------------------------
+
+  # Assign an @events variable for use by the layout when displaying available events.
+  def assign_events
+    @events = Event.lookup || []
+  end
 
   # Assign @event if it's not already set. Return true if redirected or failed,
   # false if assigned event for normal processing. WARNING: performs redirects
