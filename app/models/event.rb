@@ -13,12 +13,15 @@
 #
 
 class Event < ActiveRecord::Base
-  # Provide cached Snippet.lookup(id) method.
+  # Mixins
+  ### Provide cached Snippet.lookup(id) method.
   include CacheLookupsMixin
   cache_lookups_for :id, :order => 'deadline desc'
 
+  # Associations
   has_many :proposals, :order => 'submitted_at desc'
 
+  # Validations
   validates_presence_of \
     :id,
     :title,
