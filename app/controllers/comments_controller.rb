@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(params[:comment])
     unless @comment.proposal_id
       flash[:failure] = "Can't add comment to non-existant proposal"
-      redirect_to(:back) rescue redirect_to(events_url)
+      redirect_to(:back) rescue redirect_to(events_path)
       return
     end
 
