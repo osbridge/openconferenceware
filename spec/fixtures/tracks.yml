@@ -1,0 +1,28 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+cooking:
+  event: open
+  title: Cooking
+  description: |
+    How do you make useful, functional software? What languages and tools do you employ? Tell us your recipes for creating software that gets the job done, from the beginner to the advanced level.
+    Possible topics:
+    * Using C libraries in Ruby/Python/Perl
+    * Getting up and running on Android
+    * Agile methodologies at work
+    * Behavior-driven development
+  color: '#FF9C78'
+
+chemistry:
+  event: open
+  title: Chemistry
+  description: |
+    What's underneath the hood in that database or operating system? How can Ruby run on Java, or Python on .NET? What are the interesting computational puzzles you're exploring? This is where we get down to the real nitty-gritty of how our technology works.
+    Possible topics:
+    * Performance-tuning for PostgreSQL
+    * Why RubySpec?
+    * Open Source Linux Audio / Multimedia Distributions (JAD, Studio64, dyne:bolic)
+    * Multimedia, DRM, "Free as in Freedom", Codecs, etc. (might make more sense under "Culture")
+    * The Math Behind Search Engines
+    * Open Source Tools for Real-Time Audio Performance ("grace", ChucK)
+    * The Many Faces of Open Source Virtualization: VirtualBox, Xen, QEMU/KQemu, KVM, "chroot jails", Open VMware Tools, Open Source VMware Perl Toolkits, etc.
+  color: '#76A8FF'

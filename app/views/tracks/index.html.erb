@@ -1,0 +1,24 @@
+<% page_title "Tracks for #{@event.title}" %>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Manage</th>
+  </tr>
+
+<% for track in @tracks %>
+  <tr>
+    <td>
+      <%= link_to h(track.title), track_path(track) %>
+    </td>
+    <td>
+      <%= link_to 'Edit', edit_track_path(track), :class => "editable" %>
+      <%= link_to 'Destroy', track_path(track), :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New track', new_track_path, :class => "addable" %>
