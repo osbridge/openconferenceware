@@ -6,6 +6,8 @@ describe Track do
   before(:each) do
     @valid_attributes = {
       :title => "value for title",
+      :description => "value for description",
+      :color => "#00CC00",
       :event_id => 1
     }
   end
