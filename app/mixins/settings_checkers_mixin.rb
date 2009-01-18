@@ -12,6 +12,7 @@ module SettingsCheckersMixin
       mixee.class_eval do
         helper_method :anonymous_proposals?
         helper_method :event_tracks?
+        helper_method :multiple_presenters
         helper_method :proposal_excerpts?
         helper_method :user_pictures?
         helper_method :user_profiles?
@@ -26,6 +27,10 @@ module SettingsCheckersMixin
 
     def event_tracks?
       return SETTINGS.have_event_tracks
+    end
+
+    def multiple_presenters?
+      return SETTINGS.have_multiple_presenters
     end
 
     def proposal_excerpts?
