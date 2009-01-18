@@ -8,36 +8,28 @@ module SettingsCheckersMixin
   def self.included(mixee)
     mixee.extend(Methods)
 
+    # Add view helper methods to controllers
     if mixee.ancestors.include?(ActionController::Base)
       mixee.class_eval do
-        helper_method :anonymous_proposals?
-        helper_method :event_tracks?
-        helper_method :proposal_excerpts?
-        helper_method :user_pictures?
-        helper_method :user_profiles?
+        Methods.instance_methods.each do |name|
+          helper_method(name)
+        end
       end
     end
   end
 
   module Methods
-    def anonymous_proposals?
-      return SETTINGS.have_anonymous_proposals
-    end
-
-    def event_tracks?
-      return SETTINGS.have_event_tracks
-    end
-
-    def proposal_excerpts?
-      return SETTINGS.have_proposal_excerpts
-    end
-
-    def user_pictures?
-      return SETTINGS.have_user_pictures
-    end
-
-    def user_profiles?
-      return SETTINGS.have_user_profiles
+    # Create methods like +#event_tracks?+ as wrappers for +SETTINGS.have_event_tracks+.
+    %w[
+      anonymous_proposals
+      event_tracks
+      proposal_excerpts
+      user_pictures
+      user_profiles
+    ].each do |name|
+      define_method("#{name}?") do
+        return SETTINGS.send("have_#{name}")
+      end
     end
   end
 
