@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
 
   def change_password!(password)
     self.password = self.password_confirmation = password
-    save!
+    self.save!
   end
 
   def self.create_from_openid!(identity_url, registration)
@@ -120,7 +120,16 @@ protected
   end
 
   def password_required?
-    !using_openid? && (crypted_password.blank? || !password.blank?)
+    #IK# !using_openid? && (crypted_password.blank? || !password.blank?)
+    if self.using_openid
+      false # OpenID-based users don't need passwords
+    else
+      if self.crypted_password.blank?
+        true # Login-based users without crypted_passwords must have transient fields checked
+      else
+        false # Login-based user already has a crypted_password, and doesn't need transient fields checked
+      end
+    end
   end
 
 end
