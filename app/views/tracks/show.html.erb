@@ -6,7 +6,7 @@
 </p>
 <p>
   <b>Description:</b><br/>
-  <%=h @track.description %>
+  <%= textilize @track.description %>
 </p>
 
 <%= link_to 'Edit', edit_track_path(@track), :class => "editable" %>
