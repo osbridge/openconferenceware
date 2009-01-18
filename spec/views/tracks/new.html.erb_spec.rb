@@ -4,6 +4,10 @@ describe "/tracks/new.html.erb" do
   include TracksHelper
   
   before(:each) do
+    assigns[:event] = stub_model(Event,
+      :id => 1,
+      :title => 'Event 1'
+    )
     assigns[:track] = stub_model(Track,
       :new_record? => true,
       :title => "value for title",
@@ -16,7 +20,7 @@ describe "/tracks/new.html.erb" do
     
     response.should have_tag("form[action=?][method=post]", tracks_path) do
       with_tag("input#track_title[name=?]", "track[title]")
-      with_tag("input#track_event_id[name=?]", "track[event_id]")
+      with_tag('textarea#track_description[name=?]', "track[description]")
     end
   end
 end

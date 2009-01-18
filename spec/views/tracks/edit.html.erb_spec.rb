@@ -16,7 +16,7 @@ describe "/tracks/edit.html.erb" do
     
     response.should have_tag("form[action=#{track_path(@track)}][method=post]") do
       with_tag('input#track_title[name=?]', "track[title]")
-      with_tag('input#track_event_id[name=?]', "track[event_id]")
+      with_tag('textarea#track_description[name=?]', "track[description]")
     end
   end
 end
