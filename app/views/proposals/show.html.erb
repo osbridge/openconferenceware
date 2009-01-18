@@ -44,7 +44,7 @@
         <td class="label-cell"><label>Biography</label ></td>
         <td class="data-cell"><%= preserve_formatting_of user_profiles? ? @proposal.user.biography : @proposal.bio %></td>
       </tr>
-<% if proposal_tracks? && ! @proposal.track.ergo.title.blank? %>
+<% if event_tracks? && ! @proposal.track.ergo.title.blank? %>
       <tr>
         <td class="label-cell"><label>Track</label ></td>
         <td class="data-cell"><p><%= link_to(h(@proposal.track.title), track_path(@proposal.track)) %></p></td>

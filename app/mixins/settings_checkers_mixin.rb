@@ -11,8 +11,8 @@ module SettingsCheckersMixin
     if mixee.ancestors.include?(ActionController::Base)
       mixee.class_eval do
         helper_method :anonymous_proposals?
+        helper_method :event_tracks?
         helper_method :proposal_excerpts?
-        helper_method :proposal_tracks?
         helper_method :user_pictures?
         helper_method :user_profiles?
       end
@@ -24,12 +24,12 @@ module SettingsCheckersMixin
       return SETTINGS.have_anonymous_proposals
     end
 
-    def proposal_excerpts?
-      return SETTINGS.have_proposal_excerpts
+    def event_tracks?
+      return SETTINGS.have_event_tracks
     end
 
-    def proposal_tracks?
-      return SETTINGS.have_proposal_tracks
+    def proposal_excerpts?
+      return SETTINGS.have_proposal_excerpts
     end
 
     def user_pictures?

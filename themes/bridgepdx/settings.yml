@@ -14,8 +14,8 @@ have_anonymous_proposals: false
 # Do proposals have excerpts?
 have_proposal_excerpts: true
 
-# Do proposals have tracks?
-have_proposal_tracks: true
+# Do events have tracks?
+have_event_tracks: true
 
 # Can people upload pictures of themselves?
 have_user_pictures: true
