@@ -3,7 +3,9 @@
 <table>
   <tr>
     <th>Title</th>
-    <th>Manage</th>
+    <% if admin? %>
+      <th>Manage</th>
+    <% end %>
   </tr>
 
 <% for track in @tracks %>
@@ -11,15 +13,17 @@
     <td>
       <%= link_to h(track.title), track_path(track) %>
     </td>
-    <td>
-      <%= link_to 'Edit', edit_track_path(track), :class => "editable" %>
-      <%= link_to 'Destroy', track_path(track), :confirm => %{Destroy track "#{track.title}"?}, :method => :delete, :class => "deletable" %>
-    </td>
+    <% if admin? %>
+      <td>
+        <%= link_to 'Edit', edit_track_path(track), :class => "editable" %>
+        <%= link_to 'Destroy', track_path(track), :confirm => %{Destroy track "#{track.title}"?}, :method => :delete, :class => "deletable" %>
+      </td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New track', new_track_path, :class => "addable" %>
+<%= link_to 'New track', new_track_path, :class => "addable" if admin? %>
 <%= link_to 'Back to proposals', event_proposals_path(@event), :class => "cancelable" %>
