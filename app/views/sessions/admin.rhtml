@@ -1,5 +1,7 @@
 <% page_title "Admin Login" %>
 
+<% focus :login %>
+
 <% form_tag(session_path, :id => "session_form", :class => "standard-form") do -%>
   <%= hidden_field_tag 'login_type', 'admin' %>
   <table>
