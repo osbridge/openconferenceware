@@ -1,4 +1,5 @@
 class TracksController < ApplicationController
+  before_filter :require_admin, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :assign_current_event
   before_filter :add_event_breadcrumb
   before_filter :add_tracks_breadcrumb
