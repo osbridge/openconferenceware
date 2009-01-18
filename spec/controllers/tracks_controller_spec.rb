@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TracksController do
+  include TracksFauxRoutesMixin
 
   def mock_track(stubs={})
     @mock_track ||= mock_model(Track, stubs)
