@@ -2,7 +2,9 @@
 
 <div class="standard-form">
   <% form_for(@user) do |f| %>
+  <%= f.error_messages %>
   <table cellspacing="0">
+    <%= hidden_field_tag :require_complete_profile, true if params[:require_complete_profile] %>
     <% if admin? %>
       <tr>
         <td class="label-cell">
@@ -38,7 +40,7 @@
     <% if admin? || can_edit? %>
       <tr>
         <td class="label-cell">
-          <label>Email (private)</label>
+          <label><%= required_field if @user.complete_profile %><%= private_field if @user.complete_profile %>Email</label>
         </td>
         <td class="data-cell">
           <p>
@@ -49,7 +51,7 @@
     <% end %>
     <tr>
       <td class="label-cell">
-        <label>Full name</label>
+        <label><%= required_field if @user.complete_profile %>Full name</label>
       </td>
       <td class="data-cell">
         <p>
@@ -80,7 +82,7 @@
     <%# TODO add photo %>
     <tr>
       <td class="label-cell">
-        <label>Biography</label>
+        <label><%= required_field if @user.complete_profile %>Biography</label>
       </td>
       <td class="data-cell">
         <%= f.text_area :biography %>
@@ -96,6 +98,12 @@
           <%= link_to "Delete...", @user, :method => :delete, :confirm => "Delete user #{h @user.label}?", :class => "deletable" %>
         <% end %>
         <%= link_to "Back", @user, :class => "cancelable" %>
+
+        <p style="margin-top: 2em; margin-bottom: 0">
+          <%= required_field %> Fields marked with a red asterisk required and must be filled.
+          <br />
+          <%= private_field %> Fields marked with a green percent sign are private, visible only to you and the organizers.
+        </p>
       </td>
     </tr>
   </table>

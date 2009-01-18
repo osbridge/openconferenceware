@@ -84,7 +84,7 @@
         </tr>
 <% if proposal_excerpts? %>
           <tr>
-            <td class="label-cell"><%= required %><%= f.label :excerpt, "Excerpt" %></td>
+            <td class="label-cell"><%= required_field %><%= f.label :excerpt, "Excerpt" %></td>
             <td><%= f.text_area :excerpt, :rows => 2 %></td>
           </tr>
 <% end %>

@@ -36,6 +36,11 @@ class UsersController < ApplicationController
 
   def edit
     # Display edit.html.erb for @user
+
+    if params[:require_complete_profile]
+      @user.complete_profile = true
+      @user.valid? # Populate fields to indicate what needs to be added
+    end
   end
 
   def update

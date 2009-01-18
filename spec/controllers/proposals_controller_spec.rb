@@ -135,7 +135,7 @@ describe ProposalsController do
           get :new, :event_id => events(:open).id
 
           flash.should have_key(:failure)
-          response.should redirect_to(edit_user_path(user))
+          response.should redirect_to(edit_user_path(user, :require_complete_profile => true))
         end
 
         it "should allow users with complete profiles" do

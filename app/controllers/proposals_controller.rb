@@ -229,7 +229,7 @@ protected
     if user_profiles? and logged_in? and not current_user.complete_profile?
       flash[:failure] = "You must complete your profile to create a proposal."
       store_location
-      return redirect_to(edit_user_path(current_user))
+      return redirect_to(edit_user_path(current_user, :require_complete_profile => true))
     end
   end
 
