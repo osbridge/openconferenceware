@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-# TODO how to write specs for nested routes used by actual application?
-=begin
 describe TracksController do
+  it "should test nested routes actually being used" # TODO
+=begin
   describe "route generation" do
     it "should map #index" do
       route_for(:controller => "tracks", :action => "index").should == "/tracks"
@@ -58,5 +58,5 @@ describe TracksController do
       params_from(:delete, "/tracks/1").should == {:controller => "tracks", :action => "destroy", :id => "1"}
     end
   end
-end
 =end
+end
