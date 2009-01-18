@@ -1,3 +1,5 @@
+<% focus :track_title %>
+
 <% form_for(@track) do |f| %>
   <%= f.error_messages %>
 
@@ -18,5 +20,6 @@
     <%= f.submit @track.new_record? ? "Create" : "Update" %>
     <%= link_to 'Cancel', @track, :class => "showable" %> |
     <%= link_to 'Back', tracks_path, :class => "cancelable" %>
+    <%= link_to 'Destroy', track_path(@track), :method => :delete, :confirm => %{Destroy track "#{@track.title}"?}, :class => "deletable" unless @track.new_record? %>
   </p>
 <% end %>
