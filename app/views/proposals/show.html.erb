@@ -21,7 +21,7 @@
             <% end %>
           </p></td>
       </tr>
-      <% unless @proposal.affiliation.blank? %>
+      <% if ! @proposal.affiliation.blank? || ! @proposal.user.affiliation.blank? %>
         <tr>
           <td class="label-cell"><label>Affiliation</label ></td>
             <td class="data-cell"><p><%=h user_profiles? ? @proposal.user.affiliation : @proposal.affiliation %></p></td>
@@ -44,6 +44,12 @@
         <td class="label-cell"><label>Biography</label ></td>
         <td class="data-cell"><%= preserve_formatting_of user_profiles? ? @proposal.user.biography : @proposal.bio %></td>
       </tr>
+<% if proposal_tracks? && ! @proposal.track.ergo.title.blank? %>
+      <tr>
+        <td class="label-cell"><label>Track</label ></td>
+        <td class="data-cell"><p><%= link_to(h(@proposal.track.title), track_path(@proposal.track)) %></p></td>
+      </tr>
+<% end %>
 <% if proposal_excerpts? %>
       <tr>
         <td class="label-cell"><label>Excerpt</label ></td>

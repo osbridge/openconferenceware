@@ -82,6 +82,12 @@
           <td class="label-cell"><%= required_field %><%= f.label :title, "Title" %></td>
           <td><%= f.text_field :title %></td>
         </tr>
+<% if proposal_tracks? %>
+          <tr>
+            <td class="label-cell"><%= f.label :track_id, "Track" %></td>
+            <td><%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :prompt => true, :include_blank => "- None -" %></td>
+          </tr>
+<% end %>
 <% if proposal_excerpts? %>
           <tr>
             <td class="label-cell"><%= required_field %><%= f.label :excerpt, "Excerpt" %></td>
