@@ -1,15 +1,3 @@
 <% page_title "Editing track" %>
 
-<% form_for(@track) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.submit "Update" %>
-    <%= link_to 'Cancel', @track, :class => "showable" %> |
-    <%= link_to 'Back', tracks_path, :class => "cancelable" %>
-  </p>
-<% end %>
+<%= render :partial => "form" %>

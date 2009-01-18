@@ -1,14 +1,3 @@
 <% page_title "New track for #{@event.title}" %>
 
-<% form_for(@track) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.submit "Create" %>
-    <%= link_to 'Cancel', tracks_path, :class => "cancelable" %>
-  </p>
-<% end %>
+<%= render :partial => "form" %>
