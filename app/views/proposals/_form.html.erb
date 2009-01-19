@@ -105,7 +105,7 @@
 <% if event_tracks? %>
           <tr>
             <td class="label-cell"><%= f.label :track_id, "Track" %></td>
-            <td><%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :prompt => true, :include_blank => "- None -" %></td>
+            <td><%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :include_blank => "- None -" %></td>
           </tr>
 <% end %>
 <% if proposal_excerpts? %>
