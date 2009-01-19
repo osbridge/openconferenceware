@@ -60,6 +60,9 @@ class User < ActiveRecord::Base
   validates_presence_of     :email,                       :if => :complete_profile?
   validates_presence_of     :biography,                   :if => :complete_profile?
 
+  # Scopes
+  named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'fullname asc'
+
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     u = find_by_login(login) # need to get the salt
