@@ -145,35 +145,7 @@ class ProposalsController < ApplicationController
     @proposal.event = @event
     @proposal.users << current_user if logged_in?
 
-    # FIXME move this to a filter covering create and update, and then ajaxify
-    # FIXME how to make this survive a round-trip through the form?
-    # TODO make this ajax
-    # TODO add searching ajax to limit content of dropdown
-    @focus_speakers = false
-    speakers = params.select{|k,v| k.match(/^speaker_id_/)}.map(&:last)
-    unless speakers.empty?
-      speakers.each do |speaker|
-        @proposal.add_user(speaker)
-      end
-    end
-    if params[:add_speaker]
-      @focus_speakers = true
-      if params[:speaker][:id].blank?
-        flash[:failure] = "You must select a speaker to add"
-      else
-        user = User.find(params[:speaker][:id])
-        @proposal.add_user(user)
-      end
-    elsif params[:remove_speaker]
-      @focus_speakers = true
-      if @proposal.users.size > 1
-        user = User.find(params[:remove_speaker])
-        @proposal.users.delete(user)
-        flash[:success] = "Removed speaker from proposal: #{user.fullname}"
-      else
-        flash[:failure] = "You cannot delete the last speaker from a proposal"
-      end
-    end
+    manage_speakers
 
     respond_to do |format|
       if params[:commit] && @proposal.save
@@ -197,8 +169,10 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
+    manage_speakers
+
     respond_to do |format|
-      if @proposal.update_attributes(params[:proposal])
+      if params[:commit] && @proposal.update_attributes(params[:proposal])
         flash[:success] = 'Proposal was successfully updated.'
         format.html { redirect_to(@proposal) }
         format.xml  { head :ok }
@@ -286,5 +260,35 @@ protected
     return (User.complete_profiles - @proposal.users).map{|user| [user.fullname_and_affiliation, user.id]}
   end
   helper_method :other_completed_profiles
+
+  def manage_speakers
+    # TODO make this ajax
+    # TODO add searching ajax to limit content of dropdown
+    @focus_speakers = false
+    speakers = params.select{|k,v| k.match(/^speaker_id_/)}.map(&:last)
+    unless speakers.empty?
+      speakers.each do |speaker|
+        @proposal.add_user(speaker)
+      end
+    end
+    if params[:add_speaker]
+      @focus_speakers = true
+      if params[:speaker][:id].blank?
+        flash[:failure] = "You must select a speaker to add"
+      else
+        user = User.find(params[:speaker][:id])
+        @proposal.add_user(user)
+      end
+    elsif params[:remove_speaker]
+      @focus_speakers = true
+      if @proposal.users.size > 1
+        user = User.find(params[:remove_speaker])
+        @proposal.users.delete(user)
+        flash[:success] = "Removed speaker from proposal: #{user.fullname}"
+      else
+        flash[:failure] = "You cannot delete the last speaker from a proposal"
+      end
+    end
+  end
 
 end
