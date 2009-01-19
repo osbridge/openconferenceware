@@ -35,6 +35,8 @@ class ProposalsController < ApplicationController
         @proposals = @proposals[0..MAX_FEED_ITEMS]
       }
       format.csv {
+        # TODO support profile in proposal or user
+        # TODO how to support multiple speakers!?
         buffer = StringIO.new
         CSV::Writer.generate(buffer) do |csv|
           fields = [
@@ -42,8 +44,8 @@ class ProposalsController < ApplicationController
             :submitted_at,
             :presenter,
             :affiliation,
-            :url,
-            :bio,
+            :website,
+            :biography,
             :title,
             :description,
           ]
@@ -71,6 +73,17 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
+    # TODO extract into filter?
+    @profile = \
+      if multiple_presenters?
+        false
+      else
+        if user_profiles?
+          @proposal.user
+        else
+          @proposal
+        end
+      end
     @comment = Comment.new(:proposal => @proposal, :email => current_email)
     @display_comment = ! params[:commented] && ! can_edit? && accepting_proposals?
     @focus_comment = false
@@ -128,7 +141,7 @@ class ProposalsController < ApplicationController
 
     @proposal = Proposal.new(params[:proposal])
     @proposal.event = @event
-    @proposal.user = current_user if logged_in?
+    @proposal.users << current_user if logged_in?
 
     respond_to do |format|
       if @proposal.save

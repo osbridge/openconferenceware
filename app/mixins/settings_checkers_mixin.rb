@@ -13,8 +13,13 @@ module SettingsCheckersMixin
       mixee.class_eval do
         Methods.instance_methods.each do |name|
           helper_method(name)
+        helper_method :multiple_presenters
         end
       end
+    end
+
+    def multiple_presenters?
+      return SETTINGS.have_multiple_presenters
     end
   end
 
@@ -23,6 +28,7 @@ module SettingsCheckersMixin
     %w[
       anonymous_proposals
       event_tracks
+      multiple_presenters
       proposal_excerpts
       user_pictures
       user_profiles

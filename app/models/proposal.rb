@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090116114316
+# Schema version: 20090118172133
 #
 # Table name: proposals
 #
@@ -8,11 +8,10 @@
 #  presenter          :string(255)     
 #  affiliation        :string(255)     
 #  email              :string(255)     
-#  url                :string(255)     
-#  bio                :string(255)     
+#  website            :string(255)     
+#  biography          :string(255)     
 #  title              :string(255)     
 #  description        :string(255)     
-#  publish            :boolean         
 #  agreement          :boolean         default(TRUE)
 #  created_at         :datetime        
 #  updated_at         :datetime        
@@ -20,6 +19,7 @@
 #  submitted_at       :datetime        
 #  note_to_organizers :text            
 #  excerpt            :text(400)       
+#  track_id           :integer         
 #
 
 class Proposal < ActiveRecord::Base
@@ -29,16 +29,16 @@ class Proposal < ActiveRecord::Base
   cache_lookups_for :id, :order => 'submitted_at desc'
 
   # Associations
-  belongs_to :user
   belongs_to :event
   belongs_to :track
   has_many :comments
+  has_and_belongs_to_many :users
 
   # Validations
   validates_presence_of :title, :description, :event_id
   validates_acceptance_of :agreement,                     :accept => true, :message => "must be accepted"
   validates_presence_of :excerpt,                         :if => :proposal_excerpts?
-  validates_presence_of :presenter, :email, :bio,         :unless => :user_profiles?
+  validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
   validate :validate_complete_user_profile,               :if => :user_profiles?
 
   # Protected attributes
@@ -47,21 +47,27 @@ class Proposal < ActiveRecord::Base
   # Triggers
   before_save :populate_submitted_at
 
+  # Return the first User owner. Burst into flames if no user or multiple users listed.
+  def user
+    raise ArgumentError, "Can't lookup user when in multiple presenters mode" if multiple_presenters?
+    return self.users.first
+  end
+
   # Does this +someone+ have privileges to alter this proposal?
   def can_alter?(someone)
-    someone.kind_of?(User) && (someone.admin? || someone == self.user)
+    someone.admin? ? true : self.users.include?(someone)
   end
 
   # Normalize the URL.
-  def url=(value)
+  def website=(value)
     # TODO Should this throw an exception or invalidate object instead?
     begin
-      url = URI.parse(value.strip)
-      url.scheme = 'http' unless ['http','ftp'].include?(url.scheme) || url.scheme.nil?
-      result = URI.parse(url.scheme.nil? ? 'http://'+value.strip : url.to_s).normalize.to_s
-      write_attribute(:url, result)
+      website = URI.parse(value.strip)
+      website.scheme = 'http' unless ['http','ftp'].include?(website.scheme) || website.scheme.nil?
+      result = URI.parse(website.scheme.nil? ? 'http://'+value.strip : website.to_s).normalize.to_s
+      write_attribute(:website, result)
     rescue URI::InvalidURIError => e
-      write_attribute(:url, nil)
+      write_attribute(:website, nil)
     end
   end
 
@@ -91,6 +97,9 @@ class Proposal < ActiveRecord::Base
 
   # Does this profile have a user with a complete profile?
   def user_has_complete_profile?
-    return self.user.ergo.complete_profile?
+    self.users.each do |user|
+      return false if user.blank || user.complete_profile? != true
+    end
+    return true
   end
 end

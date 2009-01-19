@@ -24,40 +24,37 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 quentin_widgets:
-  user: quentin
   presenter: Quentin
   affiliation: QuentinCO
   email: quentin@quentinco.co.uk
-  url: http://quentinco.co.uk/~quentin/
-  bio: Quentin is.
+  website: http://quentinco.co.uk/~quentin/
+  biography: Quentin is.
   title: My favorite widgets.
   excerpt: qw
   description: Widgets rock.
-  publish: true
   agreement: true
   event: open
+  submitted_at: <%= Time.now %>
 
 aaron_ardvarks:
-  user: aaron
   presenter: Aaron
   affiliation: "Aaron's Ardvarks"
   email: aaron@ardvarks.au
-  url: http://ardvarks.au/
-  bio: Aaron has Ardvarks.
+  website: http://ardvarks.au/
+  biography: Aaron has Ardvarks.
   title: My favorite Ardvarks.
   excerpt: aa
   description: Ardvarks are awesome.
-  publish: true
   agreement: true
   event: open
+  submitted_at: <%= Time.now %>
 
 clio_chupacabras:
-  user: clio
   presenter: Clio
   email: clio@i_want_to_believe.com
-  bio: "They walk amongst us."
+  biography: "They walk amongst us."
   excerpt: cc
   description: "I see it - coming here - hell-wind - titan blur - black wings - Yog-Sothoth save me - the three-lobed burning eye ..."
-  publish: true
   agreement: true
   event: closed
+  submitted_at: <%= Time.now - 1.year %>

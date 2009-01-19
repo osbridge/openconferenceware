@@ -84,7 +84,8 @@ Rails::Initializer.run do |config|
       'timezone'                 => 'Pacific Time (US & Canada)',
       'have_anonymous_proposals' => true,
       'have_proposal_excerpts'   => false,
-      'have_event_tracks'     => false,
+      'have_event_tracks'        => false,
+      'have_multiple_presenters' => false,
       'have_user_pictures'       => false,
       'have_user_profiles'       => false,
     }

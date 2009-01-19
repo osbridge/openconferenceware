@@ -17,6 +17,9 @@ have_proposal_excerpts: true
 # Do events have tracks?
 have_event_tracks: true
 
+# Are proposals associated with multiple presenters?
+have_multiple_presenters: true
+
 # Can people upload pictures of themselves?
 have_user_pictures: true
 
