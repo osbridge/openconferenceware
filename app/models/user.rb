@@ -139,6 +139,11 @@ class User < ActiveRecord::Base
     return self.fullname
   end
 
+  # Return the user name and maybe their affiliation
+  def fullname_and_affiliation
+    return [self.fullname, self.affiliation].reject(&:blank?).join(' - ')
+  end
+
 protected
 
   def encrypt_password
