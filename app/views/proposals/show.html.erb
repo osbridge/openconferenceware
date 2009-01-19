@@ -13,6 +13,11 @@
     <table>
 <% unless multiple_presenters? %>
       <tr>
+        <td colspan="2">
+          <h4>Speaker</h4>
+        </td>
+      </tr>
+      <tr>
         <td class="label-cell"><label>Speaker</label ></td>
           <td class="data-cell"><p>
             <% if user_profiles? %>
@@ -46,6 +51,11 @@
         <td class="data-cell"><%= preserve_formatting_of @profile.biography %></td>
       </tr>
 <% end %>
+      <tr>
+        <td colspan="2">
+          <h4>Presentation</h4>
+        </td>
+      </tr>
 <% if event_tracks? && ! @proposal.track.ergo.title.blank? %>
       <tr>
         <td class="label-cell"><label>Track</label ></td>
@@ -76,7 +86,12 @@
 <% end %>
 <% if multiple_presenters? %>
       <tr>
-        <td class="label-cell"><label><%= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></label ></td>
+        <td colspan="2">
+          <h4>Speakers</h4>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-cell"><label><%#= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></label ></td>
         <td class="data-cell">
           <p>
             <% @proposal.users.each do |user| %>
