@@ -1,6 +1,9 @@
 # Organization running event:
 organization: 'Open Source Bridge Portland'
 
+# Top-level tagline or description.
+tagline: 'An open source conference in Portland, Oregon | June 2009'
+
 # Breadcrumbs that are always visible, each breadcrumb is a name and URI:
 breadcrumbs:
   - ['BridgePDX', 'http://www.bridgepdx.com/']
