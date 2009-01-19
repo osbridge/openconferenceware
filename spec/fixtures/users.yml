@@ -27,6 +27,8 @@ quentin:
   created_at: <%= 5.days.ago.to_s :db %>
   biography: "I'm Quentin."
   complete_profile: true
+  website: "http://reservoir.dogs/"
+  affiliation: "Grindhouse, Inc."
 
 # Another mortal
 clio:

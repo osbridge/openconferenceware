@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090116114316
+# Schema version: 20090118172133
 #
 # Table name: users
 #
@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   include SettingsCheckersMixin
 
   # Associations
-  has_many :proposals
+  has_and_belongs_to_many :proposals
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -129,6 +129,11 @@ class User < ActiveRecord::Base
   # Return a label for the user.
   def label
     return "#{(self.fullname.with{blank? ? nil : self}) || (self.using_openid? ? URI.parse(login).host : self.login)} (#{self.id})"
+  end
+
+  # Alias for #fullname for providing common profile methods.
+  def presenter
+    return self.fullname
   end
 
 protected

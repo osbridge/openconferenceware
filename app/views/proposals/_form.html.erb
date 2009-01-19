@@ -18,7 +18,7 @@
         </thead>
       <% end %>
       <tbody>
-<% if !logged_in? && @proposal.new_record? %>
+<% if @proposal.new_record? and not logged_in? %>
         <tr>
           <td colspan="2">
             <h4>Login with OpenID</h4>
@@ -46,7 +46,7 @@
           </td>
         </tr>
 <% end %>
-<% unless user_profiles? %>
+<% if not user_profiles? and not multiple_presenters? %>
         <tr>
           <td colspan="2">
             <h4>About you</h4>
@@ -65,17 +65,37 @@
           <td><%= f.text_field :affiliation %></td>
         </tr>
         <tr>
-          <td class="label-cell"><%= f.label :url, "URL" %></td>
-          <td><%= f.text_field :url %></td>
+          <td class="label-cell"><%= f.label :website, "Website" %></td>
+          <td><%= f.text_field :website %></td>
         </tr>
         <tr>
-          <td class="label-cell"><%= required_field %><%= f.label :bio, "Biography" %></td>
-          <td><%= f.text_area :bio, :rows => 5 %></td>
+          <td class="label-cell"><%= required_field %><%= f.label :biography, "Biography" %></td>
+          <td><%= f.text_area :biography, :rows => 5 %></td>
+        </tr>
+<% else %>
+        <tr>
+          <td colspan="2">
+            <h4>About the speakers</h4>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell">
+          </td>
+          <td>
+            # TODO widgets for adding, deleting and selecting users
+            # TODO mechanism for inviting users
+          </td>
         </tr>
 <% end %>
         <tr>
           <td colspan="2">
-            <h4>About your presentation</h4>
+            <h4>
+<% if multiple_presenters? %>
+              About this presentation
+<% else %>
+              About your presentation
+<% end %>
+            </h4>
           </td>
         </tr>
         <tr>

@@ -11,6 +11,7 @@
 <% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
   <div class="standard-form">
     <table>
+<% unless multiple_presenters? %>
       <tr>
         <td class="label-cell"><label>Speaker</label ></td>
           <td class="data-cell"><p>
@@ -21,29 +22,30 @@
             <% end %>
           </p></td>
       </tr>
-      <% if ! @proposal.affiliation.blank? || ! @proposal.user.affiliation.blank? %>
+      <% unless @profile.affiliation.blank? %>
         <tr>
           <td class="label-cell"><label>Affiliation</label ></td>
-            <td class="data-cell"><p><%=h user_profiles? ? @proposal.user.affiliation : @proposal.affiliation %></p></td>
+          <td class="data-cell"><p><%=h @profile.affiliation %></p></td>
         </tr>
       <% end %>
       <% if can_edit? %>
         <tr>
           <td class="label-cell"><label>Email (private)</label ></td>
-          <% email = user_profiles? ? @proposal.user.email : @proposal.email %>
+          <% email = @profile.email %>
           <td class="data-cell"><p><%=link_to h(email), "mailto:"+h(email) %></p></td>
         </tr>
       <% end %>
-      <% unless @proposal.url.blank? %>
+      <% unless @profile.website.blank? %>
         <tr>
           <td class="label-cell"><label>URL</label ></td>
-          <td class="data-cell"><p><%= display_link_to @proposal.url %></p></td>
+          <td class="data-cell"><p><%= display_link_to @profile.website %></p></td>
         </tr>
       <% end %>
       <tr>
         <td class="label-cell"><label>Biography</label ></td>
-        <td class="data-cell"><%= preserve_formatting_of user_profiles? ? @proposal.user.biography : @proposal.bio %></td>
+        <td class="data-cell"><%= preserve_formatting_of @profile.biography %></td>
       </tr>
+<% end %>
 <% if event_tracks? && ! @proposal.track.ergo.title.blank? %>
       <tr>
         <td class="label-cell"><label>Track</label ></td>
@@ -60,7 +62,7 @@
         <td class="label-cell"><label>Description</label ></td>
         <td class="data-cell"><%= preserve_formatting_of @proposal.description %></td>
       </tr>
-      <% if can_edit? %>
+<% if can_edit? %>
         <tr>
           <td class="label-cell"><label>Note to organizers<br />(private)</label ></td>
           <td class="data-cell">
@@ -71,7 +73,31 @@
             <% end %>
           </td>
         </tr>
-      <% end %>
+<% end %>
+<% if multiple_presenters? %>
+      <tr>
+        <td class="label-cell"><label><%= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></label ></td>
+        <td class="data-cell">
+          <p>
+            <% @proposal.users.each do |user| %>
+              <dl>
+                <dt>
+                  <%= link_to fullname_and_affiliation(user), user_path(user) %>
+                </dt>
+                <dd>
+                  <% unless user.website.blank? %>
+                    <label>Website:</label> <%= display_link_to(user.website) %>
+                    <label>
+                      <%= preserve_formatting_of user.biography %>
+                    </label>
+                  <% end %>
+                </dd>
+              </dl>
+            <% end %>
+          </p>
+        </td>
+      </tr>
+<% end %>
       <tr>
         <td class="label-cell">&nbsp;</td>
         <td class="data-cell">

@@ -38,26 +38,53 @@
     <% else %>
       <thead>
         <tr>
+          <th width="100%">
+            <% if multiple_presenters? %>
+              Title
+            <% else %>
+              Speaker and title
+            <% end %>
+          </th>
           <th width="0">Submitted</th>
-          <th width="100%">Speaker and presentation</th>
         </tr>
       </thead>
       <% date_cache = {} %>
       <% for proposal in @proposals %>
-        <tr class="<%= cycle("even", "odd") %>">
-          <td width="0" style="white-space: nowrap">
-            <% date = proposal.submitted_at.ergo{localtime.to_s} %>
-            <% if date_cache[date] %>
-              <!--
-              <span class="date-seen"><%= date %></span>
-              -->
-            <% else %>
-              <% date_cache[date] = true %>
-              <span class="date-unseen"><%= date %></span>
-            <% end %>
-          </td>
+        <tr class="<%= cycle("even", "odd") %>" valign="top">
           <td width="100%">
-            <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal) %>
+            <p class="proposal">
+              <% styling = proposal_excerpts? ? 'display: inline-block' : '' %>
+              <% if multiple_presenters? %>
+                <%= link_to(h(proposal.title), proposal, :class => "title", :style => styling) %>
+              <% else %>
+                <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal, :class => "title", :style => styling) %>
+              <% end %>
+
+              <span class="excerpt">
+                <%= h proposal.excerpt if proposal_excerpts? %>
+              </span>
+
+              <p class="presenters">
+                <% if multiple_presenters? %>
+                  <% proposal.users.each_with_index do |user, i| %>
+                    <%= link_to fullname_and_affiliation(user), user_path(user), :style => "display: inline-block" %><%= ", " if (i > 1 && i < proposal.users.size) %>
+                  <% end %>
+                <% end %>
+              </p>
+            </p>
+          </td>
+          <td width="0" style="white-space: nowrap">
+            <p>
+              <% date = proposal.submitted_at.ergo{localtime.to_s} %>
+              <% if date_cache[date] %>
+                <!--
+                <span class="date-seen"><%= date %></span>
+                -->
+              <% else %>
+                <% date_cache[date] = true %>
+                <span class="date-unseen"><%= date %></span>
+              <% end %>
+            </p>
           </td>
         </tr>
       <% end %>
