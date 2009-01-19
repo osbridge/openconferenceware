@@ -23,6 +23,7 @@ module SettingsCheckersMixin
     %w[
       anonymous_proposals
       event_tracks
+      events_picker
       multiple_presenters
       proposal_excerpts
       user_pictures

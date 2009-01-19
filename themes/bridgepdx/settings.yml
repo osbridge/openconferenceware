@@ -20,6 +20,9 @@ have_proposal_excerpts: true
 # Do events have tracks?
 have_event_tracks: true
 
+# Display events picker?
+have_events_picker: false
+
 # Are proposals associated with multiple presenters?
 have_multiple_presenters: true
 

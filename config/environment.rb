@@ -85,6 +85,7 @@ Rails::Initializer.run do |config|
       'have_anonymous_proposals' => true,
       'have_proposal_excerpts'   => false,
       'have_event_tracks'        => false,
+      'have_events_picker'       => true,
       'have_multiple_presenters' => false,
       'have_user_pictures'       => false,
       'have_user_profiles'       => false,
