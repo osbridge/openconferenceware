@@ -414,4 +414,17 @@ tr.even td {
   .standard-form .data-cell > p {
       margin: -0.25em 0; }
 
+/*---[ proposals list ]-----------------------------------------------*/  
+
+#proposal-listing {}
+  #proposal-listing a {
+    padding: 0;
+    margin: 0; }
+  #proposal-listing .title {}
+  #proposal-listing .excerpt {}
+  #proposal-listing .speakers {
+    margin-left: 1em;
+    font-size: 85%;
+  }
+
 /*===[ fin ]==========================================================*/

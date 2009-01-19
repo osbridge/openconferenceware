@@ -53,7 +53,7 @@
         <tr class="<%= cycle("even", "odd") %>" valign="top">
           <td width="100%">
             <p class="proposal">
-              <% styling = proposal_excerpts? ? 'display: inline-block' : '' %>
+              <% styling = proposal_excerpts? ? 'display: inline-block' : 'inline' %>
               <% if multiple_presenters? %>
                 <%= link_to(h(proposal.title), proposal, :class => "title", :style => styling) %>
               <% else %>
@@ -64,11 +64,9 @@
                 <%= h proposal.excerpt if proposal_excerpts? %>
               </span>
 
-              <p class="presenters">
+              <p class="speakers">
                 <% if multiple_presenters? %>
-                  <% proposal.users.each_with_index do |user, i| %>
-                    <%= link_to h(user.fullname_and_affiliation), user_path(user), :style => "display: inline-block" %><%= ", " if (i > 1 && i < proposal.users.size) %>
-                  <% end %>
+                  <%= proposal.users.map{|user| link_to(h(user.fullname_and_affiliation), user_path(user), :style => "display: inline")}.join(', ') %>
                 <% end %>
               </p>
             </p>
