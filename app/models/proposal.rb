@@ -102,4 +102,19 @@ class Proposal < ActiveRecord::Base
     end
     return true
   end
+
+  # Add user by record or id if needed. Return user object if added.
+  def add_user(user)
+    case user
+    when Integer, String
+      user = User.find(user)
+    end
+
+    if self.users.include?(user)
+      return nil
+    else
+      self.users << user
+      return user
+    end
+  end
 end
