@@ -1,3 +1,5 @@
+<% focus "add_speaker" if @focus_speakers %>
+
 <p>
   <%= @event.open_text %>
   <% if admin? %>
@@ -82,7 +84,24 @@
           <td class="label-cell">
           </td>
           <td>
-            # TODO widgets for adding, deleting and selecting users
+            <div id="presenters-manager">
+              <% action_target = @proposal.new_record? ? :new : :edit %>
+              <% action_method = @proposal.new_record? ? :post : :put %>
+              <ul id="presenters-manager-list">
+                <% @proposal.users.each_with_index do |user, i|  %>
+                  <li>
+                    <%= hidden_field_tag "speaker_id_#{i}", user.id %>
+                    <%= f.submit(user.id, :src => '/images/redx.png', :type => 'image', :name => 'remove_speaker',
+                        :confirm => user == current_user ? "Abandon ownership of this proposal?" : "Remove \"#{h user.fullname}\' from your proposal?") %>
+                    <%= h user.fullname_and_affiliation %>
+                  </li>
+                <% end %>
+                <li>
+                  <%= f.submit 'add_speaker', :src => '/images/plus.png', :type => 'image', :name => 'add_speaker', :id => 'add_speaker' %>
+                  <%= select :speaker, :id, other_completed_profiles, :prompt => true %>
+                </li>
+              </ul>
+            </div>
             # TODO mechanism for inviting users
           </td>
         </tr>

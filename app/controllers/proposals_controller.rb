@@ -111,8 +111,10 @@ class ProposalsController < ApplicationController
     @proposal = Proposal.new
     if logged_in?
       @proposal.presenter = current_user.fullname
+      @proposal.add_user(current_user)
     end
     @proposal.email = current_email
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -143,8 +145,38 @@ class ProposalsController < ApplicationController
     @proposal.event = @event
     @proposal.users << current_user if logged_in?
 
+    # FIXME move this to a filter covering create and update, and then ajaxify
+    # FIXME how to make this survive a round-trip through the form?
+    # TODO make this ajax
+    # TODO add searching ajax to limit content of dropdown
+    @focus_speakers = false
+    speakers = params.select{|k,v| k.match(/^speaker_id_/)}.map(&:last)
+    unless speakers.empty?
+      speakers.each do |speaker|
+        @proposal.add_user(speaker)
+      end
+    end
+    if params[:add_speaker]
+      @focus_speakers = true
+      if params[:speaker][:id].blank?
+        flash[:failure] = "You must select a speaker to add"
+      else
+        user = User.find(params[:speaker][:id])
+        @proposal.add_user(user)
+      end
+    elsif params[:remove_speaker]
+      @focus_speakers = true
+      if @proposal.users.size > 1
+        user = User.find(params[:remove_speaker])
+        @proposal.users.delete(user)
+        flash[:success] = "Removed speaker from proposal: #{user.fullname}"
+      else
+        flash[:failure] = "You cannot delete the last speaker from a proposal"
+      end
+    end
+
     respond_to do |format|
-      if @proposal.save
+      if params[:commit] && @proposal.save
         flash[:success] = 'Proposal created.'
         format.html { redirect_to(@proposal) }
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
@@ -249,5 +281,10 @@ protected
   def assign_proposals_breadcrumb
     add_breadcrumb "Proposals", proposals_path
   end
+
+  def other_completed_profiles
+    return (User.complete_profiles - @proposal.users).map{|user| [user.fullname_and_affiliation, user.id]}
+  end
+  helper_method :other_completed_profiles
 
 end
