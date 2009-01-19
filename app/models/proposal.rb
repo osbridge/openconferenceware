@@ -98,7 +98,7 @@ class Proposal < ActiveRecord::Base
   # Does this profile have a user with a complete profile?
   def user_has_complete_profile?
     self.users.each do |user|
-      return false if user.blank || user.complete_profile? != true
+      return false if user.blank? || user.complete_profile? != true
     end
     return true
   end
