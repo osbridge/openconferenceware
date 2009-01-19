@@ -29,12 +29,18 @@ quentin_widgets:
   email: quentin@quentinco.co.uk
   website: http://quentinco.co.uk/~quentin/
   biography: Quentin is.
-  title: My favorite widgets.
-  excerpt: qw
-  description: Widgets rock.
   agreement: true
   event: open
   submitted_at: <%= Time.now %>
+  title: My favorite widgets.
+  excerpt: |
+    A widget is a placeholder name for an object or, more specifically, a mechanical or other manufactured device. It is an abstract unit of production.
+  description: |
+    Widgets rock.
+
+    "Widget" is frequently used in texts and speech, especially in the context of economics, to indicate a hypothetical "any-product." Companies in such texts will frequently be given names such as "ABC Widgets" or "Acme Widget Corp." to indicate that the particular business of the hypothetical company is not relevant to the topic of discussion.
+
+    The term appeared in the 1985 Rodney Dangerfield feature film comedy Back to School, in a college economics classroom scene in which the professor uses the term to describe a hypothetical company whose product is irrelevant to the discussion.
 
 aaron_ardvarks:
   presenter: Aaron
@@ -42,19 +48,35 @@ aaron_ardvarks:
   email: aaron@ardvarks.au
   website: http://ardvarks.au/
   biography: Aaron has Ardvarks.
-  title: My favorite Ardvarks.
-  excerpt: aa
-  description: Ardvarks are awesome.
   agreement: true
   event: open
   submitted_at: <%= Time.now %>
+  title: My favorite Ardvarks.
+  excerpt: |
+    The Aardvark (Orycteropus afer) (afer: from Africa) is a medium-sized, burrowing, nocturnal mammal native to Africa.
+  description: |
+    Ardvarks are awesome.
+
+    It is sometimes called "antbear", "anteater", "Cape anteater" (after the Cape of Good Hope), "earth hog" or "earth pig". The name comes from the Afrikaans/Dutch for "earth pig" (aarde earth, varken pig), because early settlers from Europe thought it resembled a domesticated pig. However, the aardvark is not closely related to the pig; rather, it is the sole recent representative of the obscure mammalian order Tubulidentata, in which it is usually considered to form a single variable species of the genus Orycteropus, coextensive with the family Orycteropodidae. Nor is the aardvark closely related to the South American anteater, despite sharing some characteristics and a superficial resemblance.[3] The closest living relatives of the aardvark are the elephant shrews, along with the sirenians, hyraxes, tenrecs, and elephants.
+
+    One of the most distinctive characteristics of the Tubulidentata is (as the name implies) their teeth. Instead of having a pulp cavity, each tooth has a cluster of thin, upright, parallel tubes of vasodentin (a modified form of dentine), with individual pulp canals, held together by cementum. The teeth have no enamel coating and are worn away and regrow continuously. The aardvark is born with conventional incisors and canines at the front of the jaw, which fall out and are not replaced.
+
+    Genetically speaking, the aardvark is a living fossil, as its chromosomes are highly conserved, reflecting much of the early eutherian arrangement before the divergence of the major modern taxa.
 
 clio_chupacabras:
   presenter: Clio
   email: clio@i_want_to_believe.com
   biography: "They walk amongst us."
-  excerpt: cc
-  description: "I see it - coming here - hell-wind - titan blur - black wings - Yog-Sothoth save me - the three-lobed burning eye ..."
   agreement: true
   event: closed
   submitted_at: <%= Time.now - 1.year %>
+  excerpt: |
+    The Chupacabra, also called el Chupacabras (pronunciation: /tʃupa'kabɾas/, from the Spanish words chupar, meaning "to suck", and cabra, meaning "goat"; literally "goat sucker") is a legendary cryptid rumored to inhabit parts of the Americas.
+  description: |
+    "I see it - coming here - hell-wind - titan blur - black wings - Yog-Sothoth save me - the three-lobed burning eye ..."
+
+    It is associated more recently with sightings of an allegedly unknown animal in Puerto Rico (where these sightings were first reported), Mexico, and the United States, especially in the latter's Latin American communities.[1] The name comes from the animal's reported habit of attacking and drinking the blood of livestock, especially goats. Physical descriptions of the creature vary. Eyewitness sightings have been claimed as early as 1990 in Puerto Rico, and have since been reported as far north as Maine, and as far south as Chile. It is supposedly a heavy creature, the size of a small bear, with a row of spines reaching from the neck to the base of the tail. Biologists and wildlife management officials view the Chupacabra as a contemporary legend.
+
+    The first reported attacks occurred in March 1995 in Puerto Rico.[3] In this attack, eight sheep were discovered dead, each with three puncture wounds in the chest area and completely drained of blood.[3] In 1975, similar killings in the small town of Moca, were attributed to El Vampiro de Moca (The Vampire of Moca).[4] Initially it was suspected that the killings were committed by a Satanic cult; later more killings were reported around the island, and many farms reported loss of animal life. Each of the animals had their bodies bled dry through a series of small circular incisions.
+
+    Puerto Rican comedian and entrepreneur Silverio Pérez is credited with coining the term "chupacabras" soon after the first incidents were reported in the press.[5] Shortly after the first reported incidents in Puerto Rico, other animal deaths were reported in other countries, such as the Dominican Republic, Argentina, Bolivia, Chile, Colombia, Honduras, El Salvador, Nicaragua, Panama, Peru, Brazil, the United States, and Mexico.[3]

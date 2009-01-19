@@ -19,44 +19,70 @@
 
 # A mortal user
 quentin:
-  login: quentin
-  email: quentin@example.com
-  fullname: Quentin Tarantino
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
-  created_at: <%= 5.days.ago.to_s :db %>
-  biography: "I'm Quentin."
-  complete_profile: true
-  website: "http://reservoir.dogs/"
+  login: "quentin"
+  email: "quentin@example.com"
+  fullname: "Quentin Tarantino"
   affiliation: "Grindhouse, Inc."
+  website: "http://reservoir.dogs/"
+  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
+  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
+  created_at: <%= 5.days.ago.to_s :db %>
+  complete_profile: true
+  biography: |
+    I'm Quentin.
+
+    Quentin Jerome Tarantino (born March 27, 1963) is an American film director, screenwriter, producer and actor. He rose to fame in the early 1990s as an independent filmmaker whose films used nonlinear storylines and aestheticization of violence. His films include Reservoir Dogs (1992), Pulp Fiction (1994), Jackie Brown (1997), Kill Bill (Vol. 1 2003, Vol. 2 2004) and Death Proof (2007). His films have earned him Academy, BAFTA and Palme d'Or Awards and he has been nominated for Emmy and Grammy Awards. In 2007, Total Film named him the 12th greatest director of all-time.
 
 # Another mortal
 clio:
-  login: clio
-  email: clio@example.com
-  fullname: Vadem Clio
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  login: "clio"
+  email: "clio@example.com"
+  fullname: "Vadem Clio"
+  affiliation: "Vadem Corporation"
+  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
+  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 5.days.ago.to_s :db %>
-  biography: "I'm Clio."
   complete_profile: true
+  biography: |
+    I'm Clio.
+
+    Vadem Clio refers to a Handheld PC that runs Windows CE H/PC Pro 3.0 (WinCE Core OS 2.11). It was released in 1999. Data Evolution Corporation currently owns the rights to the Clio.
+
+    The Clio is a convertible tablet computer, designed by Vadem Corporation, which runs Microsoft’s Windows CE operating system and features the award-winning[citation needed] SwingTop pivoting arm. The 180-degree screen rotation gives users the ability to change configurations as conditions and work functions dictate. Users can choose notebook, tablet or presentation modes with keyboard, touchscreen or handwriting input.
+
+# Yet another mortal
+gustavus:
+  login: "gustavus"
+  email: "gustavus@purvis.edu"
+  fullname: "Gustavus Purvis"
+  affiliation: "House of Vasa"
+  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
+  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
+  created_at: <%= 5.days.ago.to_s :db %>
+  complete_profile: true
+  biography: |
+    Gustav II Adolf, (9 December 1594 – 6 November 1632 (O.S.)[1] or Gustav II Adolphus, widely known in English by the Latinized name Gustavus Adolphus and variously in historical writings sometimes as simply just Gustavus, or Gustavus the Great, or Gustav Adolf the Great, (Swedish: Gustav Adolf den store, from the special distinction passed by the Swedish Parliament in 1634), was founder of the Swedish Empire (or Stormaktstiden – "the era of great power") at the beginning of what is widely regarded as the Golden Age of Sweden.
 
 # An admin user
 aaron:
-  login: aaron
-  email: aaron@example.com
-  fullname: Aaron Levite
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  login: "aaron"
+  email: "aaron@example.com"
+  fullname: "Aaron Levite"
+  affiliation: "House of Israel"
+  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
+  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 1.days.ago.to_s :db %>
   admin: true
-  biography: "I'm Aaron."
   complete_profile: true
+  biography: |
+    I'm Aaron.
+
+    In the Bible, Aaron (אהרן), or Aaron the Levite (אהרן הלוי), was the brother of Moses. He was the great-grandson of Levi (Exodus 6:16-20)[1] and represented the priestly functions of his tribe, becoming the first High Priest of the Hebrews. While Moses was receiving his education at the Egyptian royal court and during his exile among the Midianites, Aaron and his sister remained with their kinsmen in the eastern border-land of Egypt (Goshen). He there gained a name for eloquent and persuasive speech; so that when the time came for the demand upon the Pharaoh to release Israel from captivity, Aaron became his brother’s "nabi", or spokesman, to his own people (Exodus 4:16)[2] and, after their unwillingness to hear, to the Pharaoh himself (Exodus 7:9).[3] He is said to have flourished about 1200 BC (traditionally 1597 BC).
 
 # An incomplete user
 incognito:
-  login: incognito
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  login: "incognito"
+  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
+  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 1.days.ago.to_s :db %>
   complete_profile: false
