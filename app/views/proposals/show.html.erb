@@ -82,15 +82,16 @@
             <% @proposal.users.each do |user| %>
               <dl>
                 <dt>
-                  <%= link_to fullname_and_affiliation(user), user_path(user) %>
+                  <%= link_to h(user.fullname_and_affiliation), user_path(user) %>
+                  <% unless user.website.blank? %>
+                    <label>
+                      Website:
+                    </label>
+                       <%= display_link_to(user.website) %>
+                  <% end %>
                 </dt>
                 <dd>
-                  <% unless user.website.blank? %>
-                    <label>Website:</label> <%= display_link_to(user.website) %>
-                    <label>
-                      <%= preserve_formatting_of user.biography %>
-                    </label>
-                  <% end %>
+                  <%= preserve_formatting_of user.biography %>
                 </dd>
               </dl>
             <% end %>

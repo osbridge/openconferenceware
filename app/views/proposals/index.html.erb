@@ -67,7 +67,7 @@
               <p class="presenters">
                 <% if multiple_presenters? %>
                   <% proposal.users.each_with_index do |user, i| %>
-                    <%= link_to fullname_and_affiliation(user), user_path(user), :style => "display: inline-block" %><%= ", " if (i > 1 && i < proposal.users.size) %>
+                    <%= link_to h(user.fullname_and_affiliation), user_path(user), :style => "display: inline-block" %><%= ", " if (i > 1 && i < proposal.users.size) %>
                   <% end %>
                 <% end %>
               </p>
