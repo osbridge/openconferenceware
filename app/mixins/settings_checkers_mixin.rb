@@ -13,13 +13,8 @@ module SettingsCheckersMixin
       mixee.class_eval do
         Methods.instance_methods.each do |name|
           helper_method(name)
-        helper_method :multiple_presenters
         end
       end
-    end
-
-    def multiple_presenters?
-      return SETTINGS.have_multiple_presenters
     end
   end
 
