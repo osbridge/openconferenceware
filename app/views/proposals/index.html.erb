@@ -45,6 +45,11 @@
               Speaker and title
             <% end %>
           </th>
+<% if event_tracks? %>
+          <th>
+            Track
+          </th>
+<% end %>
           <th width="0">Submitted</th>
         </tr>
       </thead>
@@ -71,7 +76,14 @@
               </p>
             </p>
           </td>
-          <td width="0" style="white-space: nowrap">
+<% if event_tracks? %>
+          <td>
+            <p>
+              <%= proposal.track.ergo.title || "- N/A -" %>
+            </p>
+          </td>
+<% end %>
+          <td width="0" class="unbreakable">
             <p>
               <% date = proposal.submitted_at.ergo{localtime.to_s} %>
               <% if date_cache[date] %>
