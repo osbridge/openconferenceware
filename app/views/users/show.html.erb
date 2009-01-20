@@ -84,27 +84,6 @@
 
   <% unless @user.proposals.empty?  %>
     <h3>Proposals</h3>
-    <div class="top-table">
-      <table>
-        <tr>
-          <th>Title</th>
-          <th>Excerpt</th>
-        </tr>
-        <% @user.proposals.each do |proposal| %>
-        <tr>
-          <td>
-            <div>
-              <%= link_to(h(proposal.title), proposal_path(proposal)) %>
-            </div>
-          </td>
-          <td>
-            <div>
-              <%= h proposal.excerpt %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </table>
-    </div>
+    <%= render :partial => 'proposals/list', :locals => {:proposals => @user.proposals} %>
   <% end %>
 </div>
