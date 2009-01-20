@@ -39,7 +39,6 @@ class UsersController < ApplicationController
 
     if params[:require_complete_profile]
       @user.complete_profile = true
-      @user.valid? # Populate fields to indicate what needs to be added
     end
   end
 
@@ -56,14 +55,14 @@ class UsersController < ApplicationController
       end
 
       if @user.update_attributes(params[:user])
-        flash[:success] = "Updated user"
+        flash[:success] = "Updated user."
         return redirect_back_or_to(user_path(@user))
       else
-        flash[:failure] = "Invalid fields"
+        flash[:failure] = "Please complete your profile."
         render :action => "edit"
       end
     else
-      flash[:failure] = "You are not allowed to delete user: #{@user.label}"
+      flash[:failure] = "Sorry, you don't have permission to edit this user: #{@user.label}"
       return redirect_to(users_path)
     end
   end
@@ -73,7 +72,7 @@ class UsersController < ApplicationController
       @user.destroy
       flash[:success] = "Deleted user: #{@user.label}"
     else
-      flash[:failure] = "You are not allowed to delete user: #{@user.label}"
+      flash[:failure] = "Sorry, you don't have permission to delete this user: #{@user.label}"
     end
     return redirect_back_or_to(users_path)
   end

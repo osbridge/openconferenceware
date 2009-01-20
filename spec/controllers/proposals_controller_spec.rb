@@ -134,7 +134,7 @@ describe ProposalsController do
           login_as(user)
           get :new, :event_id => events(:open).id
 
-          flash.should have_key(:failure)
+          flash.should have_key(:notice)
           response.should redirect_to(edit_user_path(user, :require_complete_profile => true))
         end
 
@@ -182,7 +182,7 @@ describe ProposalsController do
           it "should redirect anonymous user to login" do
             get :new, :event_id => events(:open).id
 
-            flash.should have_key(:failure)
+            flash.should have_key(:notice)
             response.should redirect_to(login_path)
           end
         end

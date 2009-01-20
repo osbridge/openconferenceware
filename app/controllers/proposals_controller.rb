@@ -144,7 +144,7 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if params[:commit] && @proposal.save
-        flash[:success] = 'Proposal created.'
+        flash[:success] = 'Created proposal.'
         format.html { redirect_to(@proposal) }
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
         format.json { render :json => @proposal, :status => :created, :location => @proposal }
@@ -168,7 +168,7 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if params[:commit] && @proposal.update_attributes(params[:proposal])
-        flash[:success] = 'Proposal was successfully updated.'
+        flash[:success] = 'Updated proposal.'
         format.html { redirect_to(@proposal) }
         format.xml  { head :ok }
         format.json { head :ok }
@@ -214,10 +214,11 @@ protected
         if can_edit?
           return false # current_user can edit
         else
-          flash[:failure] = "You do not have permission to alter this proposal."
+          flash[:failure] = "Sorry, you can't alter proposals that aren't yours."
           return redirect_to(proposal_path(@proposal))
         end
       else
+        # TODO allow people to edit proposals after deadline IF there's a process that marks them as approved/rejected/etc.
         flash[:failure] = "You cannot edit proposals after the submission deadline."
         return redirect_to(@event ? event_proposals_path(@event) : proposals_path)
       end
@@ -232,7 +233,7 @@ protected
       if anonymous_proposals?
         return false # Anonymous proposals are allowed
       else
-        flash[:failure] = "You must login to create and manage proposals."
+        flash[:notice] = "Please login so you can create and manage proposals."
         store_location
         return redirect_to(login_path)
       end
@@ -256,7 +257,7 @@ protected
 
   def assert_user_complete_profile
     if user_profiles? and logged_in? and not current_user.complete_profile?
-      flash[:failure] = "You must complete your profile to create a proposal."
+      flash[:notice] = "Please complete your profile before creating a proposal."
       store_location
       return redirect_to(edit_user_path(current_user, :require_complete_profile => true))
     end
@@ -285,7 +286,7 @@ protected
     if params[:add_speaker]
       @focus_speakers = true
       if params[:speaker][:id].blank?
-        flash[:failure] = "You must select a speaker to add"
+        flash[:failure] = "Please select a speaker to add."
       else
         user = User.find(params[:speaker][:id])
         flash[:success] = "Added speaker to proposal: #{user.fullname}"
