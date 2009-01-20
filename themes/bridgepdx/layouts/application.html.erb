@@ -12,6 +12,17 @@
 
   <%= stylesheet_link_tag "common" %>
   <%= theme_stylesheet_link_tag "custom" %>
+  
+  <% if event_tracks? %>
+     <style type="text/css" media="screen">
+         <% for track in Track.find(:all) %>
+         /* <%= track.title %> */
+         .track-<%= track.id %> { color: <%= track.color %>; }
+         .track-<%= track.id %>.block { background: <%= track.color %>; color: #fff; }
+         <% end %>
+     </style>
+  <% end %>
+  
 </head>
 <body>
   <div id="wrapper">

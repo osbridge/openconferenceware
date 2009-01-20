@@ -484,7 +484,7 @@ ul.proposals .speakers {
 	font-size: .9em;
 }
 
-ul.proposals .track {
+.track {
 	background: #666;
 	color: #fff;
 }
