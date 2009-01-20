@@ -11,24 +11,24 @@ atom_feed do |feed|
         unless multiple_presenters?
           xm.dl {
             xm.dt { xm.b "Speaker:" }
-            xm.dd << h(proposal.presenter)
+            xm.dd proposal.presenter
           }
           xm.dl {
             xm.dt { xm.b "Biography:" }
-            xm.dd << simple_format(h(proposal.biography))
+            xm.dd << simple_format(escape_once proposal.biography)
           }
         end
 
         unless proposal.excerpt.blank?
           xm.dl {
             xm.dt { xm.b "Excerpt:" }
-            xm.dd h(proposal.excerpt)
+            xm.dd proposal.excerpt
           }
         end
 
         xm.dl {
           xm.dt { xm.b "Description:" }
-          xm.dd << simple_format(h(proposal.description))
+          xm.dd << simple_format(escape_once proposal.description)
         }
 
         profiles = user_profiles? ? proposal.users : [proposal]
@@ -40,9 +40,9 @@ atom_feed do |feed|
               profiles.each do |profile|
                 xm.li {
                   xm.p {
-                    xm.b h(profile.presenter)
+                    xm.b profile.presenter
                   }
-                  xm << simple_format(h(profile.biography))
+                  xm << simple_format(escape_once profile.biography)
                 }
               end
             }
