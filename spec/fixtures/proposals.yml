@@ -67,6 +67,7 @@ clio_chupacabras:
   presenter: Clio
   email: clio@i_want_to_believe.com
   biography: "They walk amongst us."
+  title: "Chupacabras and you"
   agreement: true
   event: closed
   submitted_at: <%= Time.now - 1.year %>
