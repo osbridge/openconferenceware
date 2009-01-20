@@ -92,8 +92,11 @@
                   <li>
                     <%= hidden_field_tag "speaker_id_#{i}", user.id %>
                     <%= f.submit(user.id, :src => '/images/redx.png', :type => 'image', :name => 'remove_speaker',
-                        :confirm => user == current_user ? "Abandon ownership of this proposal?" : "Remove \"#{h user.fullname}\' from your proposal?") %>
-                    <%= h user.fullname_and_affiliation %>
+                      :confirm => user == current_user ? 
+                        "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?" : 
+                        "#{h user.fullname} will no longer be able to edit this proposal. Are you sure you want to remove them?") %>
+                    <%= "{You}" if user == current_user %>
+                    <%= h user.fullname %>
                   </li>
                 <% end %>
                 <li>
