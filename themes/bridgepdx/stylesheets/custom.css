@@ -428,3 +428,63 @@ tr.even td {
   }
 
 /*===[ fin ]==========================================================*/
+
+ul.proposals {
+	list-style: none;
+	margin: 1em 0;
+	padding: 0;
+}
+
+ul.proposals li {
+	border-top: 1px solid #aaa;
+	position: relative;
+	padding: 0 0 1em;
+}
+
+ul.proposals h3 {
+	margin: .3em 0 .5em;
+}
+
+ul.proposals .metadata {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 15em;
+	font-size: .9em;
+}
+
+ul.proposals .date, ul.proposals .track {
+	float: right;
+	width: 49%;
+	text-align: center;
+	line-height: 2em;
+}
+
+ul.proposals .date {
+	background: #ddd;
+}
+
+ul.proposals .track {
+	text-transform: uppercase;
+}
+
+ul.proposals .excerpt {
+	width: 30em;
+}
+
+ul.proposals h3 {
+	width: 25em;
+}
+
+ul.proposals .speakers {
+	position: absolute;
+	right: 0;
+	top: 2.5em;
+	width: 14.5em;
+	font-size: .9em;
+}
+
+ul.proposals .track {
+	background: #666;
+	color: #fff;
+}
