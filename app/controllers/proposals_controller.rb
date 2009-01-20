@@ -267,7 +267,7 @@ protected
   end
 
   def other_completed_profiles
-    return (User.complete_profiles - @proposal.users).map{|user| [user.fullname_and_affiliation, user.id]}
+    return (User.complete_profiles - @proposal.users).map{|user| [user.label, user.id]}
   end
   helper_method :other_completed_profiles
 
