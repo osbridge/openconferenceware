@@ -44,8 +44,8 @@ class User < ActiveRecord::Base
   ]
 
   # Validations
-  validates_presence_of     :email,                       :if => :email_required?
-  validates_length_of       :email,    :within => 3..100, :if => :email_required?
+  validates_presence_of     :email,                       :if => :complete_profile?
+  validates_length_of       :email,    :within => 3..100, :if => :complete_profile?
 
   validates_presence_of     :password,                    :if => :password_required?
   validates_presence_of     :password_confirmation,       :if => :password_required?
