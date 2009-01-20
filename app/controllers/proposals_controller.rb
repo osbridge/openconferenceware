@@ -2,6 +2,7 @@ class ProposalsController < ApplicationController
 
   before_filter :login_required,               :only => [:edit, :update, :destroy]
   before_filter :assign_current_event,         :only => [:new, :create]
+  before_filter :assert_anonymous_proposals,   :only => [:new, :create]
   before_filter :assert_accepting_proposals,   :only => [:new, :create]
   before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy]
   before_filter :assert_proposal_ownership,    :only => [:edit, :update, :destroy]
@@ -99,12 +100,6 @@ class ProposalsController < ApplicationController
   # GET /proposals/new
   # GET /proposals/new.xml
   def new
-    if not anonymous_proposals? and not logged_in?
-      flash[:failure] = "You must login to create a proposal."
-      store_location
-      return redirect_to(login_path)
-    end
-
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb "Create a proposal", new_event_proposal_path
 
@@ -225,6 +220,21 @@ protected
       else
         flash[:failure] = "You cannot edit proposals after the submission deadline."
         return redirect_to(@event ? event_proposals_path(@event) : proposals_path)
+      end
+    end
+  end
+
+  # Ensure that anonymous users are allowed to add proposals
+  def assert_anonymous_proposals
+    if logged_in?
+      return false # Logged in users can always create
+    else
+      if anonymous_proposals?
+        return false # Anonymous proposals are allowed
+      else
+        flash[:failure] = "You must login to create and manage proposals."
+        store_location
+        return redirect_to(login_path)
       end
     end
   end

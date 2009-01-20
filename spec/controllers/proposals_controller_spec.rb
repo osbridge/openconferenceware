@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ProposalsController do
   integrate_views
-  fixtures :snippets, :events, :proposals, :users, :comments
+  fixtures :snippets, :events, :proposals, :users, :comments, :proposals_users
 
   before(:all) do
     @current_event = Event.current
@@ -277,14 +277,25 @@ describe ProposalsController do
   end
 
   describe "create" do
+    # Try to create a proposal.
+    #
+    # Arguments:
+    # * login: User to login as, can be nil for none, symbol or user object.
+    # * inputs: Hash of properties to create a proposal from.
     def assert_create(login=nil, inputs={}, &block)
       login ? login_as(login) : logout
-      post :create, inputs
+      # TODO extract :commit into separate argument
+      post :create, inputs.reverse_merge(:commit => 'really')
       @record = assigns(:proposal)
       block.call
     end
 
     before do
+      # TODO test other settings combinations
+      SETTINGS.stub!(:have_proposal_excerpts => false)
+      SETTINGS.stub!(:have_multiple_presenters => false)
+      SETTINGS.stub!(:have_user_profiles => false)
+
       @inputs = proposals(:quentin_widgets).attributes.clone
       @inputs['user_id'] = nil
       @record = nil
@@ -307,7 +318,7 @@ describe ProposalsController do
         user.should_receive(:complete_profile?).any_number_of_times.and_return(false)
         User.should_receive(:find_by_id).and_return(user)
         proposal = Proposal.new(@inputs)
-        proposal.user = user
+        proposal.users << user
         Proposal.should_receive(:new).and_return(proposal)
         assert_create(user, :event_id => @current_event.id, :proposal => @inputs) do
           response.should be_success
@@ -322,17 +333,34 @@ describe ProposalsController do
         SETTINGS.stub!(:have_user_profiles => false)
       end
 
-      it "should create proposal for anonymous user" do
-        assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
-          response.should be_redirect
-          proposal = assigns(:proposal)
-          proposal.should be_valid
+      describe "with anonymous proposals" do
+        before(:each) do
+          SETTINGS.stub!(:have_anonymous_proposals => true)
+        end
+
+        it "should create proposal for anonymous user" do
+          assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
+            response.should be_redirect
+            proposal = assigns(:proposal)
+            proposal.should be_valid
+          end
+        end
+      end
+
+      describe "without anonymous proposals" do
+        before(:each) do
+          SETTINGS.stub!(:have_anonymous_proposals => false)
+        end
+
+        it "should not create proposal for anonymous user" do
+          assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
+            response.should redirect_to(login_path)
+          end
         end
       end
 
       it "should create proposal for mortal user" do
-        login_as :quentin
-        assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
+        assert_create(:quentin, :event_id => @current_event.id, :proposal => @inputs) do
           response.should be_redirect
           proposal = assigns(:proposal)
           proposal.should be_valid
@@ -340,10 +368,9 @@ describe ProposalsController do
       end
 
       it "should fail to create proposal without a presenter" do
-        login_as :quentin
         inputs = @inputs.clone
         inputs['presenter'] = nil
-        assert_create(nil, :event_id => @current_event.id, :proposal => inputs) do
+        assert_create(:quentin, :event_id => @current_event.id, :proposal => inputs) do
           response.should be_success
           proposal = assigns(:proposal)
           proposal.should_not be_valid
@@ -355,7 +382,8 @@ describe ProposalsController do
   describe "update" do
     def assert_update(login=nil, inputs={}, &block)
       login ? login_as(login) : logout
-      put :update, :id => inputs['id'] || inputs[:id], :proposal => inputs
+      # TODO extract :commit?
+      put :update, :id => inputs['id'] || inputs[:id], :proposal => inputs, :commit => 'really'
       block.call
     end
 
@@ -382,6 +410,8 @@ describe ProposalsController do
       before(:each) do
         SETTINGS.stub!(:have_user_profiles => true)
       end
+
+      it "should specify update behavior"
     end
 
     describe "without user_profiles?" do
@@ -417,7 +447,6 @@ describe ProposalsController do
   describe "delete" do
     before do
       @proposal = proposals(:quentin_widgets)
-      @owner = @proposal.user
       Proposal.stub!(:lookup).and_return(@proposal)
     end
 
