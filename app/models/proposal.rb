@@ -53,9 +53,21 @@ class Proposal < ActiveRecord::Base
     return self.users.first
   end
 
-  # Does this +someone+ have privileges to alter this proposal?
-  def can_alter?(someone)
-    someone.admin? ? true : self.users.include?(someone)
+  # Is this +user+ allowed to alter this proposal?
+  def can_alter?(user)
+    case user
+    when User
+      if user.admin?
+        return true
+      else
+        # Check this proposal's owners
+        return self.users.include?(user)
+      end
+    when NilClass, Symbol, Integer
+      return false
+    else
+      raise TypeError, "Unknown argument type: #{user}"
+    end
   end
 
   # Normalize the URL.
