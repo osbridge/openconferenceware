@@ -1,0 +1,46 @@
+<% if proposals.blank? %>
+  <h4>&mdash; No proposals submitted yet &mdash;</h4>
+<% else %>
+  <div>
+    Sort by:
+    <%= link_to "Title", event_proposals_path(@event, :sort => 'title') %>,
+    <%= link_to "Track", event_proposals_path(@event, :sort => 'track') if event_tracks? %>,
+    <%= link_to "Submission Date", event_proposals_path(@event, :sort => 'date') %>
+  </div>
+  <ul class='proposals'>
+    <% for proposal in proposals %>
+    <li>
+      <h3>
+        <% if multiple_presenters? %>
+          <%= link_to(h(proposal.title), proposal_path(proposal), :class => "title") %>
+        <% else %>
+          <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal_path(proposal), :class => "title") %>
+        <% end %>
+      </h3>
+      
+      <div class="excerpt">
+        <%= h proposal.excerpt if proposal_excerpts? %>
+      </div>
+      
+      <div class="speakers">
+        <% if multiple_presenters? %>
+          <%= proposal.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+        <% end %>
+      </div>
+      
+      <div class='metadata'>
+        <div class='date'>
+          <%= proposal.submitted_at.ergo{localtime.to_s} %>
+        </div>
+      
+        <% if event_tracks? %>
+        <div class='track block<%= " track-#{proposal.track.id}" if proposal.track %>'>
+          <%= proposal.track.ergo.title || "- N/A -" %>
+        </div>
+        <% end %>              
+      </div>
+      
+    </li>
+    <% end %>
+  </ul>
+<% end %>
