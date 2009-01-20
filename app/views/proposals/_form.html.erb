@@ -123,8 +123,13 @@
         </tr>
 <% if event_tracks? %>
           <tr>
-            <td class="label-cell"><%= f.label :track_id, "Track" %></td>
-            <td><%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :include_blank => "- None -" %></td>
+            <td class="label-cell">
+              <%= required_field %><%= f.label :track_id, "Track" %>
+            </td>
+            <td>
+              <%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :include_blank => "- None -" %>
+              <%= link_to "What are this event's tracks?", tracks_path, :popup => true %>
+            </td>
           </tr>
 <% end %>
 <% if proposal_excerpts? %>
