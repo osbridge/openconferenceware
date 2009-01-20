@@ -23,4 +23,8 @@ class Track < ActiveRecord::Base
     :description,
     :event_id,
     :title
+    
+  def <=>(against)
+    self.title <=> against.title
+  end
 end
