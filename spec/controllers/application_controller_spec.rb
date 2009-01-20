@@ -39,7 +39,7 @@ describe ApplicationController do
 
       it "should not allow user to edit other's when accepting proposals" do
         login_as :quentin
-        can_edit?(proposals(:aaron_ardvarks)).should be_false
+        can_edit?(proposals(:aaron_aardvarks)).should be_false
       end
 
       it "should allow admin to edit other's when not accepting proposals" do

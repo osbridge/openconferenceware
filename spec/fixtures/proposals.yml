@@ -42,20 +42,20 @@ quentin_widgets:
 
     The term appeared in the 1985 Rodney Dangerfield feature film comedy Back to School, in a college economics classroom scene in which the professor uses the term to describe a hypothetical company whose product is irrelevant to the discussion.
 
-aaron_ardvarks:
+aaron_aardvarks:
   presenter: Aaron
-  affiliation: "Aaron's Ardvarks"
-  email: aaron@ardvarks.au
-  website: http://ardvarks.au/
-  biography: Aaron has Ardvarks.
+  affiliation: "Aaron's Aardvarks"
+  email: aaron@aardvarks.au
+  website: http://aardvarks.au/
+  biography: Aaron has Aardvarks.
   agreement: true
   event: open
   submitted_at: <%= Time.now %>
-  title: My favorite Ardvarks.
+  title: My favorite Aardvarks.
   excerpt: |
     The Aardvark (Orycteropus afer) (afer: from Africa) is a medium-sized, burrowing, nocturnal mammal native to Africa.
   description: |
-    Ardvarks are awesome.
+    Aardvarks are awesome.
 
     It is sometimes called "antbear", "anteater", "Cape anteater" (after the Cape of Good Hope), "earth hog" or "earth pig". The name comes from the Afrikaans/Dutch for "earth pig" (aarde earth, varken pig), because early settlers from Europe thought it resembled a domesticated pig. However, the aardvark is not closely related to the pig; rather, it is the sole recent representative of the obscure mammalian order Tubulidentata, in which it is usually considered to form a single variable species of the genus Orycteropus, coextensive with the family Orycteropodidae. Nor is the aardvark closely related to the South American anteater, despite sharing some characteristics and a superficial resemblance.[3] The closest living relatives of the aardvark are the elephant shrews, along with the sirenians, hyraxes, tenrecs, and elephants.
 
