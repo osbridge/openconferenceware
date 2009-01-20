@@ -72,7 +72,7 @@
         <td class="label-cell"><label>Description</label ></td>
         <td class="data-cell"><%= preserve_formatting_of @proposal.description %></td>
       </tr>
-<% if can_edit? %>
+<% if can_edit? && ! @proposal.note_to_organizers.blank?%>
         <tr>
           <td class="label-cell"><label>Note to organizers<br />(private)</label ></td>
           <td class="data-cell">
@@ -87,11 +87,11 @@
 <% if multiple_presenters? %>
       <tr>
         <td colspan="2">
-          <h4>Speakers</h4>
+          <h4><%= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></h4>
         </td>
       </tr>
       <tr>
-        <td class="label-cell"><label><%#= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></label ></td>
+        <td class="label-cell"><label></label ></td>
         <td class="data-cell">
           <p>
             <% @proposal.users.each do |user| %>
