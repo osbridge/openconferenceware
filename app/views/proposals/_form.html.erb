@@ -98,7 +98,7 @@
                 <% end %>
                 <li>
                   <%= f.submit 'add_speaker', :src => '/images/plus.png', :type => 'image', :name => 'add_speaker', :id => 'add_speaker' %>
-                  <%= select :speaker, :id, other_completed_profiles, :prompt => true %>
+                  <%= select :speaker, :id, other_completed_profiles, :prompt => '- Add another -' %>
                 </li>
               </ul>
             </div>
