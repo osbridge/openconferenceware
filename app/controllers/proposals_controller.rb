@@ -276,8 +276,8 @@ protected
     # TODO add searching ajax to limit content of dropdown
     # TODO add invite mechanism somewhere
     @focus_speakers = false
-    speakers = params.select{|k,v| k.match(/^speaker_id_/)}.map(&:last)
-    unless speakers.empty?
+    speakers = params[:speaker_ids].ergo.map(&:first)
+    unless speakers.blank?
       speakers.each do |speaker|
         @proposal.add_user(speaker)
       end

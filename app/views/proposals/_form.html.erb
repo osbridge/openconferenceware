@@ -88,9 +88,9 @@
               <% action_target = @proposal.new_record? ? :new : :edit %>
               <% action_method = @proposal.new_record? ? :post : :put %>
               <ul id="presenters-manager-list">
-                <% @proposal.users.each_with_index do |user, i|  %>
+                <% @proposal.users.each do |user| %>
                   <li>
-                    <%= hidden_field_tag "speaker_id_#{i}", user.id %>
+                    <%= hidden_field_tag "speaker_ids[#{user.id}]", user.id %>
                     <%= f.submit(user.id, :src => '/images/redx.png', :type => 'image', :name => 'remove_speaker',
                       :confirm => user == current_user ? 
                         "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?" : 
