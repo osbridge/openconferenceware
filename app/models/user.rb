@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
   ]
 
   # Validations
+  validates_presence_of     :login
+  validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
+  validates_uniqueness_of   :login,                       :case_sensitive => false
+
   validates_presence_of     :email,                       :if => :complete_profile?
   validates_length_of       :email,    :within => 3..100, :if => :complete_profile?
 
@@ -51,10 +55,6 @@ class User < ActiveRecord::Base
   validates_presence_of     :password_confirmation,       :if => :password_required?
   validates_length_of       :password, :within => 4..40,  :if => :password_required?
   validates_confirmation_of :password,                    :if => :password_required?
-
-  validates_presence_of     :login
-  validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
-  validates_uniqueness_of   :login,                       :case_sensitive => false
 
   validates_presence_of     :fullname,                    :if => :complete_profile?
   validates_presence_of     :email,                       :if => :complete_profile?
