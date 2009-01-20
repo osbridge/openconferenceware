@@ -81,14 +81,17 @@
                 <li><%= link_to "Manage users", users_path %></li>
               <% end %>
               <li><%= link_to "Manage events", manage_events_path %></li>
-              <% if event_tracks? && @event %>
-                <li><%= link_to "Manage tracks", tracks_path %></li>
+              <% if @event %>
+                <li><%= link_to "Manage this event", manage_event_path(@event) %></li>
+                <ul>
+                <% if event_tracks? %>
+                  <li><%= link_to "Manage its tracks", tracks_path %></li>
+                <% end %>
+                <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
+                </ul>
               <% end %>
               <li><%= link_to "Manage snippets", manage_snippets_path %></li>
               <li><%= link_to "Manage comments", comments_path %></li>
-              <% if @event %>
-                <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
-              <% end %>
             <% end %>
             <li><%= link_to "Logout", logout_path, :method => :delete %></li>
           </ul>
