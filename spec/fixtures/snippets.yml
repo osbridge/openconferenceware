@@ -26,7 +26,7 @@ d:
 e:
   slug: login_openid_text
   description: "OpenID login: form text"
-  content: "Logging in with an OpenID account (<a href='http://openid.net/what/'>what is OpenID?</a>) will let you create proposals and come back to edit them later. If you need an OpenID account, you can <a href='https://www.openid.net/get/'>get a free account</a> in about a minute."
+  content: "Logging in with an OpenID account (<a onclick='window.open(this.href);return false;' href='http://openid.net/what/'>what is OpenID?</a>) will let you create proposals and come back to edit them later. If you need an OpenID account, you can <a onclick='window.open(this.href);return false;' href='https://openid.net/get/'>get a free account</a> in about a minute."
 
 f:
   slug: proposals_openid_text
