@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Proposal do
-  fixtures :proposals, :events, :users
+  fixtures :proposals, :events, :users, :proposals_users
 
   context "when checking authorization for altering" do
     before(:each) do
@@ -27,22 +27,22 @@ describe Proposal do
 
   context "when normalizing URLs" do
     it "should accept http" do
-      url = "http://foo.bar/"
-      Proposal.new(:url => url).url.should == url
+      website = "http://foo.bar/"
+      Proposal.new(:website => website).website.should == website
     end
 
     it "should accept ftp" do
-      url = "ftp://foo.bar/"
-      Proposal.new(:url => url).url.should == url
+      website = "ftp://foo.bar/"
+      Proposal.new(:website => website).website.should == website
     end
 
     it "should prepend http" do
-      Proposal.new(:url => "foo.com").url.should == "http://foo.com/"
+      Proposal.new(:website => "foo.com").website.should == "http://foo.com/"
     end
 
-    it "should clear invalid URLs" do
+    it "should clear invalid websites" do
       # TODO Should this throw an exception or invalidate object instead?
-      Proposal.new(:url => "qwerqew...qwerq.ewr///qwer").url.should be_nil
+      Proposal.new(:website => "qwerqew...qwerq.ewr///qwer").website.should be_nil
     end
   end
 
