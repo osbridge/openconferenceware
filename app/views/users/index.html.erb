@@ -6,7 +6,8 @@
       <% if admin? %>
         <th>Admin?</th>
       <% end %>
-      <th>Name and UID</th>
+      <th>Name</th>
+      <th>User ID</th>
     </tr>
     <% @users.each do |user| -%>
     <tr class="<%= cycle('odd', 'even') %>">
@@ -15,6 +16,9 @@
       <% end %>
       <td>
         <%= link_to(user.label, user_path(user)) %>
+      </td>
+      <td>
+        <%= user.id %>
       </td>
     </tr>
     <% end -%>
