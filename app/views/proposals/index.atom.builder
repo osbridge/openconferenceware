@@ -5,26 +5,53 @@ atom_feed do |feed|
   @proposals.each do |proposal|
     feed.entry(proposal, :url => proposal_url(proposal)) do |entry|
       entry.title(h proposal.title)
-      # FIXME add multiple presenters
-      # TODO add excerpt if needed
-      profile = user_profiles? ? proposal.user : proposal
-      body = <<-HERE
-<p>
-<b>Presenter:</b> #{h profile.presenter}
-</p>
 
-<p>
-<b>Biography:</b> #{preserve_formatting_of profile.biography}
-</p>
+      xm = ::Builder::XmlMarkup.new
+      xm.div {
+        unless multiple_presenters?
+          xm.dl {
+            xm.dt { xm.b "Speaker:" }
+            xm.dd << h(proposal.presenter)
+          }
+          xm.dl {
+            xm.dt { xm.b "Biography:" }
+            xm.dd << simple_format(h(proposal.biography))
+          }
+        end
 
-<p>
-<b>Description:</b> #{preserve_formatting_of proposal.description}
-</p>
-      HERE
+        unless proposal.excerpt.blank?
+          xm.dl {
+            xm.dt { xm.b "Excerpt:" }
+            xm.dd h(proposal.excerpt)
+          }
+        end
 
-      entry.content(body, :type => 'html')
+        xm.dl {
+          xm.dt { xm.b "Description:" }
+          xm.dd << simple_format(h(proposal.description))
+        }
 
-      # TODO add multiple presenters
+        profiles = user_profiles? ? proposal.users : [proposal]
+
+        if multiple_presenters?
+          xm.div {
+            xm.p { xm.b "Speaker(s):" }
+            xm.ul {
+              profiles.each do |profile|
+                xm.li {
+                  xm.p {
+                    xm.b h(profile.presenter)
+                  }
+                  xm << simple_format(h(profile.biography))
+                }
+              end
+            }
+          }
+        end
+      }
+
+      entry.content(xm.to_s, :type => 'html')
+
       entry.author do |author|
         author.name(proposal.presenter)
       end
