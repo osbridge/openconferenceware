@@ -1,12 +1,6 @@
 <% if proposals.blank? %>
   <h4>&mdash; No proposals submitted yet &mdash;</h4>
 <% else %>
-  <div>
-    Sort by:
-    <%= link_to "Title", event_proposals_path(@event, :sort => 'title') %>,
-    <%= link_to "Track", event_proposals_path(@event, :sort => 'track') if event_tracks? %>,
-    <%= link_to "Submission Date", event_proposals_path(@event, :sort => 'date') %>
-  </div>
   <ul class='proposals'>
     <% for proposal in proposals %>
     <li>
