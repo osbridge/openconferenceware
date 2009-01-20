@@ -17,17 +17,17 @@
           <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal_path(proposal), :class => "title") %>
         <% end %>
       </h3>
-      
+
       <div class="excerpt">
         <%= h proposal.excerpt if proposal_excerpts? %>
       </div>
-      
+
       <div class="speakers">
         <% if multiple_presenters? %>
           <%= proposal.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
         <% end %>
       </div>
-      
+
       <div class='metadata'>
         <div class='date'>
           <%= proposal.submitted_at.ergo{localtime.to_s} %>
@@ -37,9 +37,9 @@
         <div class='track block<%= " track-#{proposal.track.id}" if proposal.track %>'>
           <%= proposal.track.ergo.title || "- N/A -" %>
         </div>
-        <% end %>              
+        <% end %>
       </div>
-      
+
     </li>
     <% end %>
   </ul>
