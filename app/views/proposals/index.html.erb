@@ -35,18 +35,18 @@
       <% else %>
         <div>
           Sort by:
-          <%= link_to "Title", :sort => 'title' %>,
-          <%= link_to "Track", :sort => 'track' if event_tracks? %>,
-          <%= link_to "Submission Date", :sort => 'date' %>
+          <%= link_to "Title", event_proposals_path(@event, :sort => 'title') %>,
+          <%= link_to "Track", event_proposals_path(@event, :sort => 'track') if event_tracks? %>,
+          <%= link_to "Submission Date", event_proposals_path(@event, :sort => 'date') %>
         </div>
         <ul class='proposals'>
           <% for proposal in @proposals %>
           <li>
             <h3>
               <% if multiple_presenters? %>
-                <%= link_to(h(proposal.title), proposal, :class => "title") %>
+                <%= link_to(h(proposal.title), proposal_path(proposal), :class => "title") %>
               <% else %>
-                <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal, :class => "title") %>
+                <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal_path(proposal), :class => "title") %>
               <% end %>
             </h3>
             

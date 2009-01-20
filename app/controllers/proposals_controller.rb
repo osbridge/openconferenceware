@@ -21,6 +21,11 @@ class ProposalsController < ApplicationController
       return if assign_current_event
     end
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
+    
+    if %w(title track).include?(params[:sort])
+      @proposals = @proposals.sort_by{|proposal| proposal.send(params[:sort])}
+    end
+      
 
     respond_to do |format|
       format.html {
