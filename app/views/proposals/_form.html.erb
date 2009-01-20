@@ -146,13 +146,15 @@
           <td class="label-cell"><%= private_field %><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional)" %></td>
           <td><%= f.text_area :note_to_organizers, :rows => 3 %></td>
         </tr>
-        <tr>
-          <td class="label-cell"><%= required_field %><%= f.label :agreement, "Agreement" %></td>
-          <td><%= f.check_box :agreement, :checked => !@proposal.new_record? %>
-            <%# TODO extract into snippet %>
-            I understand that my talk will be recorded and posted online for the whole world to see. I know that <%= SETTINGS.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and is not welcomed by the audience.
-          </td>
-        </tr>
+        <% if @proposal.new_record? %>
+          <tr>
+            <td class="label-cell"><%= required_field %><%= f.label :agreement, "Agreement" %></td>
+            <td><%= f.check_box :agreement %>
+              <%# TODO extract into snippet %>
+              I understand that my talk will be recorded and posted online for the whole world to see. I know that <%= SETTINGS.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and is not welcomed by the audience.
+            </td>
+          </tr>
+        <% end %>
         <tr>
           <td>&nbsp;</td>
           <td>
