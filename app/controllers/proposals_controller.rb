@@ -274,6 +274,7 @@ protected
   def manage_speakers
     # TODO make this ajax
     # TODO add searching ajax to limit content of dropdown
+    # TODO add invite mechanism somewhere
     @focus_speakers = false
     speakers = params.select{|k,v| k.match(/^speaker_id_/)}.map(&:last)
     unless speakers.empty?
@@ -287,6 +288,7 @@ protected
         flash[:failure] = "You must select a speaker to add"
       else
         user = User.find(params[:speaker][:id])
+        flash[:success] = "Added speaker to proposal: #{user.fullname}"
         @proposal.add_user(user)
       end
     elsif params[:remove_speaker]
