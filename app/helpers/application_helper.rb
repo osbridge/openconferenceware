@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def preserve_formatting_of(text)
-    content_tag("div", simple_format(h(text)), :class => :compressed)
+    content_tag("div", simple_format(escape_once(text)), :class => :compressed)
   end
 
   def inline_button_to(*args)
