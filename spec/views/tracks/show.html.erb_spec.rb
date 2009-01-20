@@ -9,14 +9,15 @@ describe "/tracks/show.html.erb" do
     )
     assigns[:track] = @track = stub_model(Track,
       :title => "value for title",
-      :event_id => 1
+      :event_id => 1,
+      :description => "value for description"
     )
   end
 
   it "should render attributes in <p>" do
     render "/tracks/show.html.erb"
     response.should have_text(/value\ for\ title/)
-    response.should have_text(/1/)
+    response.should have_text(/value\ for\ description/)
   end
 end
 

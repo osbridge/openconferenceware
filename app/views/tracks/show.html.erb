@@ -1,13 +1,15 @@
-<% page_title "#{@track.title} in #{@event.title}" %>
+<% page_title "#{@track.title} at #{@event.title}" %>
 
-<p>
-  <b>Title:</b>
-  <%=h @track.title %>
-</p>
-<p>
-  <b>Description:</b><br/>
-  <%= textilize @track.description %>
-</p>
+<div id="track-show">
+  <p>
+    <b>Title:</b>
+    <span class="title"><%=h @track.title %></span>
+  </p>
+  <p>
+    <b>Description:</b><br/>
+    <span class="description"><%= textilize @track.description %></span>
+  </p>
 
-<%= link_to 'Edit', edit_track_path(@track), :class => "editable" if admin? %>
-<%= link_to 'Back', tracks_path, :class => "cancelable" %>
+  <%= link_to 'Edit', edit_track_path(@track), :class => "editable" if admin? %>
+  <%= link_to 'Back', tracks_path, :class => "cancelable" %>
+</div>
