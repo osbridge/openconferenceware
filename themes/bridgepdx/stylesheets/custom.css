@@ -470,6 +470,7 @@ ul.proposals .track {
 
 ul.proposals .excerpt {
 	width: 30em;
+	font-size: .9em;
 }
 
 ul.proposals h3 {
@@ -487,4 +488,8 @@ ul.proposals .speakers {
 .track {
 	background: #666;
 	color: #fff;
+}
+
+#submit-a-talk {
+	margin-bottom: 1em;
 }
