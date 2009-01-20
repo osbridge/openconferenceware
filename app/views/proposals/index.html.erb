@@ -71,7 +71,7 @@
 
               <p class="speakers">
                 <% if multiple_presenters? %>
-                  <%= proposal.users.map{|user| link_to(h(user.fullname_and_affiliation), user_path(user), :style => "display: inline")}.join(', ') %>
+                  <%= proposal.users.map{|user| link_to(h(user.fullname), user_path(user), :style => "display: inline")}.join(', ') %>
                 <% end %>
               </p>
             </p>
