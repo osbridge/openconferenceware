@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Proposal do
-  fixtures :proposals, :events, :users, :proposals_users
+  fixtures :all
 
   context "when checking authorization for altering" do
     before(:each) do

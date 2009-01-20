@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Track do
-  fixtures :events
+  fixtures :all
 
   before(:each) do
     @valid_attributes = {

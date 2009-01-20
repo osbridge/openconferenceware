@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Event do
-  fixtures :events
+  fixtures :all
 
   context "when accepting proposals" do
     it "should accept proposals for future" do

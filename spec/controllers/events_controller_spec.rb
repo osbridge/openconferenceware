@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe EventsController, "when displaying events" do
   integrate_views
-  fixtures :events, :proposals, :users, :comments
+  fixtures :all
 
   context "index" do
     it "should display error if there's no current event" do

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ProposalsController do
   integrate_views
-  fixtures :snippets, :events, :proposals, :users, :comments, :proposals_users
+  fixtures :all
 
   before(:all) do
     @current_event = Event.current

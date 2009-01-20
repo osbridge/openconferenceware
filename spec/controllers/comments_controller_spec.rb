@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe CommentsController do
   integrate_views
-  fixtures :events, :proposals, :users, :comments
+  fixtures :all
 
   before do
     @event = events(:open)

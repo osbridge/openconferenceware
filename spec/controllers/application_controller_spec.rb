@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ApplicationController do
-  fixtures :snippets, :events, :proposals, :users, :comments, :proposals_users
+  fixtures :all
 
   def can_edit?(*args)
     return @controller.send(:can_edit?, *args)
