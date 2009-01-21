@@ -446,6 +446,7 @@ table.proposals .date, table.proposals .track {
 	text-align: center;
 	line-height: 2em;
 	padding: .5em 1em;
+  height: 2em;
 }
 
 table.proposals .date {
