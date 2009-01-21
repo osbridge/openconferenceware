@@ -135,6 +135,17 @@
             </td>
           </tr>
 <% end %>
+<% if event_session_types? %>
+          <tr>
+            <td class="label-cell">
+              <%= required_field %><%= f.label :session_type_id, "Session Type" %>
+            </td>
+            <td>
+              <%= f.collection_select :session_type_id, @event.session_types.find(:all), :id, :title, :include_blank => "- None -" %>
+              <%= link_to "What are this event's session types?", session_types_path, :popup => true %>
+            </td>
+          </tr>
+<% end %>
 <% if proposal_excerpts? %>
           <tr>
             <td class="label-cell"><%= required_field %><%= f.label :excerpt, "Excerpt" %></td>

@@ -451,7 +451,7 @@ table.proposals .date, table.proposals .track {
 }
 
 table.proposals .date {
-	background: #ddd;
+	background: #eee;
 }
 
 table.proposals .excerpt {
@@ -529,4 +529,13 @@ strong.admin {
 .proposal-meta {
   text-align:center;
   border: 1px solid #666;
+}
+
+.proposal-meta a.session_type {
+  display: block;
+  background: #999;
+  color: #fff;
+  text-decoration: none;
+  font-size: .8em;
+  padding: .3em 0;
 }
