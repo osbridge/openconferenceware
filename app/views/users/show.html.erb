@@ -9,6 +9,8 @@
   </div>
 <% end %>
 
+<%= image_tag @user.photo.url(:profile), :class => 'user-photo' if @user.photo.file? %>
+
 <% unless @user.affiliation.blank? %>
   <h3>Affiliation</h3>
   <div class='org affiliation'>
