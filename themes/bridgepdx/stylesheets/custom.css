@@ -429,60 +429,47 @@ tr.even td {
 
 /*===[ fin ]==========================================================*/
 
-ul.proposals {
-	list-style: none;
-	margin: 1em 0;
-	padding: 0;
+table.proposals {
+  margin: 1em 0;
 }
 
-ul.proposals li {
+table.proposals td {
 	border-top: 1px solid #aaa;
-	position: relative;
-	padding: 0 0 1em;
 }
 
-ul.proposals h3 {
+table.proposals h3 {
 	margin: .3em 0 .5em;
 }
 
-ul.proposals .metadata {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 15em;
-	font-size: .9em;
-}
-
-ul.proposals .date, ul.proposals .track {
-	float: right;
-	width: 49%;
+table.proposals .date, table.proposals .track {
+  font-size: .9em;
 	text-align: center;
 	line-height: 2em;
+	padding: .5em 1em;
+  height: 2em;
 }
 
-ul.proposals .date {
+table.proposals .date {
 	background: #ddd;
 }
 
-ul.proposals .track {
+table.proposals .track {
 	text-transform: uppercase;
 }
 
-ul.proposals .excerpt {
-	width: 30em;
+table.proposals .excerpt {
 	font-size: .9em;
 }
 
-ul.proposals h3 {
-	width: 25em;
+table.proposals .speakers {
+	font-size: .9em;
+	border-top: none;
+	padding: .5em 0 1em 0;
+	vertical-align: top;
 }
 
-ul.proposals .speakers {
-	position: absolute;
-	right: 0;
-	top: 2.5em;
-	width: 14.5em;
-	font-size: .9em;
+table.proposals .description {
+  padding: 0 1em 1em 0;
 }
 
 .track {
