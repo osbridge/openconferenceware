@@ -54,6 +54,11 @@ class Proposal < ActiveRecord::Base
     return self.users.first
   end
 
+  # generates a unique slug for the proposal
+  def slug
+    "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
+  end
+
   # Is this +user+ allowed to alter this proposal?
   def can_alter?(user)
     case user

@@ -505,21 +505,27 @@ ul.speakers .note {
   padding: 0 2em;
 }
 
-.show-proposal .track.block {
-	float: right;
-	margin: 0 0 1em 1em;
-}
-
 .record-controls {
   margin-bottom: 1em;
 }
 
-.user-meta {
+.user-meta, .proposal-meta {
 	float: right;
-	padding: 1em 0 1em 1em;
+  margin: 0 0 1em 1em;
 }
 
 strong.admin {
 	color: red;
 	font-weight: normal;
+}
+
+.proposal-slug {
+  font-weight: bold;
+  font-size: .8em;
+  padding: .5em;
+}
+
+.proposal-meta {
+  text-align:center;
+  border: 1px solid #666;
 }

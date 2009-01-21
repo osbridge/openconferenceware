@@ -1,6 +1,9 @@
 # Organization running event:
 organization: 'Open Source Bridge Portland'
 
+# Abbreviated name for use in URLs and proposal slugs.
+organization_slug: 'osb'
+
 # Top-level tagline or description.
 tagline: 'An open source conference in Portland, Oregon | June 2009'
 
