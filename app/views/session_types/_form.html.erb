@@ -1,0 +1,24 @@
+<% focus :session_type_title %>
+
+<% form_for(@session_type) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %> (<%= link_to "Textile", "http://hobix.com/textile/" %>)<br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :duration, "Duration (minutes)" %><br />
+    <%= f.text_field :duration %>
+  </p>
+  <p>
+    <%= f.submit @session_type.new_record? ? "Create" : "Update" %>
+    <%= link_to 'Cancel', @session_type, :class => "showable" %>
+    <%= link_to 'Back', session_types_path, :class => "cancelable" %>
+    <%= link_to 'Destroy', session_type_path(@session_type), :method => :delete, :confirm => %{Destroy session type "#{@session_type.title}"?}, :class => "deletable" unless @session_type.new_record? %>
+  </p>
+<% end %>
