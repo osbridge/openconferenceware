@@ -1,20 +1,13 @@
-<% page_title "#{@track.title} at #{@event.title}" %>
+<% page_title "#{@track.title} track" %>
 
 <div id="track-show">
-  <p>
-    <b>Title:</b>
-    <span class="title"><%=h @track.title %></span>
-  </p>
-  <p>
-    <b>Description:</b><br/>
-    <span class="description"><%= textilize @track.description %></span>
-  </p>
+  <span class="description"><%= textilize @track.description %></span>
 
-  <%= link_to 'Edit', edit_track_path(@track), :class => "editable" if admin? %>
-  <%= link_to 'Back', tracks_path, :class => "cancelable" %>
+  <%= link_to 'Edit this track', edit_track_path(@track), :class => "editable" if admin? %>
+  <%= link_to 'Tracks for this event', tracks_path, :class => "cancelable" %>
 
   <% unless @track.proposals.empty?  %>
-    <h3>Proposals</h3>
+    <h3>Proposals for this track</h3>
     <%= render :partial => 'proposals/list', :locals => {:proposals => @track.proposals} %>
   <% end %>
 </div>
