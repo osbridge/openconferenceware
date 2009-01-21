@@ -20,7 +20,7 @@
       
       <% if event_tracks? %>
       <td class='track block<%= " track-#{proposal.track.id}" if proposal.track %>'>
-        <%= link_to(h(proposal.track.ergo.title), track_path(proposal.track)) || "- N/A -" %>
+        <%= link_to(h(proposal.track.ergo.title), event_track_path(proposal.event, proposal.track)) || "- N/A -" %>
       </td>
       <% end %>
       
