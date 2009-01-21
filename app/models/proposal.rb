@@ -31,6 +31,7 @@ class Proposal < ActiveRecord::Base
   # Associations
   belongs_to :event
   belongs_to :track
+  belongs_to :session_type
   has_many :comments
   has_and_belongs_to_many :users
 
