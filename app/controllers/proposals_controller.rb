@@ -23,7 +23,15 @@ class ProposalsController < ApplicationController
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
     
     if %w(title track).include?(params[:sort])
-      @proposals = @proposals.sort_by{|proposal| proposal.send(params[:sort])}
+      @proposals = \
+        case params[:sort].to_sym
+        when :track
+          without_tracks = @proposals.reject(&:track)
+          with_tracks = @proposals.select(&:track).sort_by{|proposal| proposal.track}
+          with_tracks + without_tracks
+        else
+          @proposals.sort_by{|proposal| proposal.send(params[:sort]) rescue nil}
+        end
     end
       
 
