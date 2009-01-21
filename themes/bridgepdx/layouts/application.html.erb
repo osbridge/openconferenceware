@@ -21,8 +21,8 @@
      <style type="text/css" media="screen">
          <% for track in Track.find(:all) %>
          /* <%= track.title %> */
-         .track-<%= track.id %> { color: <%= track.color %>; }
-         .track-<%= track.id %>.block { background: <%= track.color %>; color: #fff; }
+         .<%= track_css_class(track) %> { color: <%= track.color %>; }
+         .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
          <% end %>
      </style>
   <% end %>

@@ -91,7 +91,7 @@ class ProposalsController < ApplicationController
         end
       end
     @comment = Comment.new(:proposal => @proposal, :email => current_email)
-    @display_comment = ! params[:commented] && ! can_edit? && accepting_proposals?
+    @display_comment = (! params[:commented] && ! can_edit? && accepting_proposals?) || admin?
     @focus_comment = false
 
     # TODO do not include private fields in the json/xml exports
