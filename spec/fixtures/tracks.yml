@@ -1,7 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 cooking:
-  event: open
+  #IK# event: open
+  event_id: 2009
   title: Cooking
   description: |
     How do you make useful, functional software? What languages and tools do you employ? Tell us your recipes for creating software that gets the job done, from the beginner to the advanced level.
@@ -13,7 +14,8 @@ cooking:
   color: '#FF9C78'
 
 chemistry:
-  event: open
+  #IK# event: open
+  event_id: 2009
   title: Chemistry
   description: |
     What's underneath the hood in that database or operating system? How can Ruby run on Java, or Python on .NET? What are the interesting computational puzzles you're exploring? This is where we get down to the real nitty-gritty of how our technology works.

@@ -15,6 +15,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 closed:
+  id: 1975
   title: "Old Event"
   deadline: <%= Time.now - 2.year %>
   open_text: |
@@ -23,6 +24,7 @@ closed:
     Old Event is the premier event for all things antiquated. We're no-longer accepting proposals, better luck next time.
 
 open:
+  id: 2009
   title: Current Event
   deadline: <%= Time.now + 1.year %>
   open_text: |

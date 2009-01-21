@@ -1,11 +1,14 @@
 widgets_with_quentin:
   user: quentin
-  proposal: quentin_widgets
+  #IK# proposal: quentin_widgets
+  proposal_id: 1
 
 aardvarks_with_aaron:
   user: aaron
-  proposal: aaron_aardvarks
+  #IK# proposal: aaron_aardvarks
+  proposal_id: 2
 
 chupacabras_with_clio:
   user: clio
-  proposal: clio_chupacabras
+  #IK# proposal: clio_chupacabras
+  proposal_id: 3

@@ -24,13 +24,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 quentin_widgets:
+  id: 1
   presenter: Quentin
   affiliation: QuentinCO
   email: quentin@quentinco.co.uk
   website: http://quentinco.co.uk/~quentin/
   biography: Quentin is.
   agreement: true
-  event: open
+  #IK# event: open
+  event_id: 2009
   track: chemistry
   submitted_at: <%= Time.now %>
   title: My favorite widgets.
@@ -44,13 +46,15 @@ quentin_widgets:
     The term appeared in the 1985 Rodney Dangerfield feature film comedy Back to School, in a college economics classroom scene in which the professor uses the term to describe a hypothetical company whose product is irrelevant to the discussion.
 
 aaron_aardvarks:
+  id: 2
   presenter: Aaron
   affiliation: "Aaron's Aardvarks"
   email: aaron@aardvarks.au
   website: http://aardvarks.au/
   biography: Aaron has Aardvarks.
   agreement: true
-  event: open
+  #IK# event: open
+  event_id: 2009
   track: cooking
   submitted_at: <%= Time.now %>
   title: My favorite Aardvarks.
@@ -66,12 +70,14 @@ aaron_aardvarks:
     Genetically speaking, the aardvark is a living fossil, as its chromosomes are highly conserved, reflecting much of the early eutherian arrangement before the divergence of the major modern taxa.
 
 clio_chupacabras:
+  id: 3
   presenter: Clio
   email: clio@i_want_to_believe.com
   biography: "They walk amongst us."
   title: "Chupacabras and you"
   agreement: true
-  event: closed
+  #IK# event: closed
+  event_id: 1975
   track: cooking
   submitted_at: <%= Time.now - 1.year %>
   excerpt: |
