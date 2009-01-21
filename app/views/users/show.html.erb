@@ -1,89 +1,54 @@
 <% page_title @user.label %>
 
-<div id="user-show">
-  <div class="left-table">
-    <table>
-      <% if admin? %>
-        <tr>
-          <th><label>Admin?</label></th>
-          <td>
-            <div>
-              <%= @user.admin?.inspect %>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th><label>Login</label></th>
-          <td>
-            <div>
-              <%= @user.login %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      <% if admin? || can_edit? %>
-        <tr>
-          <th><label>Email (private)</label></th>
-          <td>
-            <div>
-              <%= @user.email %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      <% if @user.affiliation.blank? && @user.website.blank? && @user.biography.blank? %>
-        <tr>
-          <th><label>&nbsp;</label></th>
-          <td>
-            <div>
-              <p class="empty-text" style="text-align: left">&mdash; User has not shared any information &mdash;</p>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      <% unless @user.affiliation.blank? %>
-        <tr>
-          <th><label>Affiliation</label></th>
-          <td>
-            <div>
-              <%= h @user.affiliation %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      <% unless @user.website.blank? %>
-        <tr>
-          <th><label>Website</label></th>
-          <td>
-            <div>
-              <%= display_link_to(@user.website) %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      <% unless @user.biography.blank? %>
-        <tr>
-          <th><label>Biography</label></th>
-          <td>
-            <div>
-              <%= simple_format @user.biography %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-      <% if can_edit? %>
-        <tr>
-          <th><label>&nbsp;</label></td>
-          <td>
-            <%= link_to "Edit", edit_user_path(@user), :class => "editable" %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
+<% if admin? %>
+  <div class='user-meta'>
+    <em><%= @user.login %></em>
+    <% if @user.admin? %>
+      <strong class='admin'>(admin)</strong>
+    <% end %>
   </div>
+<% end %>
 
-  <% unless @user.proposals.empty?  %>
-    <h3>Proposals</h3>
-    <%= render :partial => 'proposals/list', :locals => {:proposals => @user.proposals} %>
-  <% end %>
-</div>
+<% unless @user.affiliation.blank? %>
+  <h3>Affiliation</h3>
+  <div class='org affiliation'>
+    <%= h @user.affiliation %>
+  </div>
+<% end %>
+
+<% if admin? || can_edit? %>
+  <h3>Email<span class='head-note'> (private)</span></h3>
+    <td>
+      <div>
+        <%= display_link_to(@user.email, :mailto => true) %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+
+<% if @user.affiliation.blank? && @user.website.blank? && @user.biography.blank? %>
+  <p class="empty-text" style="text-align: left">&mdash; User has not shared any information &mdash;</p>
+<% end %>
+
+<% unless @user.website.blank? %>
+  <h3>Website</h3>
+  <div><%= display_link_to(@user.website) %></div>
+<% end %>
+
+<% unless @user.biography.blank? %>
+  <h3>Biography</h3>
+  <div>
+    <%= simple_format @user.biography %>
+  </div>
+<% end %>
+
+<% if can_edit? %>
+  <div class='record-controls'>
+    <%= link_to "Edit", edit_user_path(@user), :class => "editable" %>
+  </div>
+<% end %>
+
+<% unless @user.proposals.empty?  %>
+  <h3>Proposals</h3>
+  <%= render :partial => 'proposals/list', :locals => {:proposals => @user.proposals} %>
+<% end %>

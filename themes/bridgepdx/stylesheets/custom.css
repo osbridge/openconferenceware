@@ -46,6 +46,7 @@ h1, h2, h3 {
 
 h3 {
 	color: #116db6;
+	margin-bottom: 0;
 }
 
 h4, h5 {
@@ -511,4 +512,14 @@ ul.speakers .note {
 
 .record-controls {
   margin-bottom: 1em;
+}
+
+.user-meta {
+	float: right;
+	padding: 1em 0 1em 1em;
+}
+
+strong.admin {
+	color: red;
+	font-weight: normal;
 }
