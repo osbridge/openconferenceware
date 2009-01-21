@@ -25,6 +25,6 @@ class Track < ActiveRecord::Base
     :title
     
   def <=>(against)
-    self.title <=> against.title
+    self.title <=> (against.nil? ? '' : against.title)
   end
 end
