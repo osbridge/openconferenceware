@@ -9,130 +9,110 @@
 <% focus :comment_message if @focus_comment %>
 
 <% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
-  <div class="standard-form">
-    <table>
-<% unless multiple_presenters? %>
-      <tr>
-        <td colspan="2">
-          <h4>Speaker</h4>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-cell"><label>Speaker</label ></td>
-          <td class="data-cell"><p>
-            <% if user_profiles? %>
-              <%= link_to(h(@proposal.user.fullname), user_path(@proposal.user)) %>
-            <% else %>
-              <%=h @proposal.presenter %>
-            <% end %>
-          </p></td>
-      </tr>
-      <% unless @profile.affiliation.blank? %>
+
+  <% unless multiple_presenters? %>
+    <div class="standard-form">
+      <table>
         <tr>
-          <td class="label-cell"><label>Affiliation</label ></td>
-          <td class="data-cell"><p><%=h @profile.affiliation %></p></td>
-        </tr>
-      <% end %>
-      <% if can_edit? %>
-        <tr>
-          <td class="label-cell"><label>Email (private)</label ></td>
-          <% email = @profile.email %>
-          <td class="data-cell"><p><%=link_to h(email), "mailto:"+h(email) %></p></td>
-        </tr>
-      <% end %>
-      <% unless @profile.website.blank? %>
-        <tr>
-          <td class="label-cell"><label>URL</label ></td>
-          <td class="data-cell"><p><%= display_link_to @profile.website %></p></td>
-        </tr>
-      <% end %>
-      <tr>
-        <td class="label-cell"><label>Biography</label ></td>
-        <td class="data-cell"><%= preserve_formatting_of @profile.biography %></td>
-      </tr>
-<% end %>
-      <tr>
-        <td colspan="2">
-          <h4>Presentation</h4>
-        </td>
-      </tr>
-<% if event_tracks? && ! @proposal.track.ergo.title.blank? %>
-      <tr>
-        <td class="label-cell"><label>Track</label ></td>
-        <td class="data-cell"><p><%= link_to(h(@proposal.track.title), track_path(@proposal.track)) %></p></td>
-      </tr>
-<% end %>
-<% if proposal_excerpts? %>
-      <tr>
-        <td class="label-cell"><label>Excerpt</label ></td>
-        <td class="data-cell"><%= preserve_formatting_of @proposal.excerpt %></td>
-      </tr>
-<% end %>
-      <tr>
-        <td class="label-cell"><label>Description</label ></td>
-        <td class="data-cell"><%= preserve_formatting_of @proposal.description %></td>
-      </tr>
-<% if can_edit? && ! @proposal.note_to_organizers.blank?%>
-        <tr>
-          <td class="label-cell"><label>Note to organizers<br />(private)</label ></td>
-          <td class="data-cell">
-            <% if @proposal.note_to_organizers.blank? %>
-              <span class="empty-text">- None -</span>
-            <% else %>
-              <%= preserve_formatting_of @proposal.note_to_organizers %>
-            <% end %>
+          <td colspan="2">
+            <h4>Speaker</h4>
           </td>
         </tr>
-<% end %>
-<% if multiple_presenters? %>
-      <tr>
-        <td colspan="2">
-          <h4><%= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></h4>
-        </td>
-      </tr>
-      <tr>
-        <td class="label-cell"><label></label ></td>
-        <td class="data-cell">
-          <p>
-            <% @proposal.users.each do |user| %>
-              <dl>
-                <dt>
-                  <%= link_to h(user.fullname_and_affiliation), user_path(user) %>
-                  <% unless user.website.blank? %>
-                    <label>
-                      Website:
-                    </label>
-                       <%= display_link_to(user.website) %>
-                  <% end %>
-                </dt>
-                <dd>
-                  <%= preserve_formatting_of user.biography %>
-                </dd>
-              </dl>
-            <% end %>
-          </p>
-        </td>
-      </tr>
-<% end %>
-      <tr>
-        <td class="label-cell">&nbsp;</td>
-        <td class="data-cell">
-          <div class="record-controls">
-            <% if can_edit? %>
-              <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
-              <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
-            <% end %>
-            <%= link_to 'Back', event_proposals_path(@event), :class => "cancelable" %>
-          </div>
-        </td>
-      </tr>
-    </table>
+        <tr>
+          <td class="label-cell"><label>Speaker</label ></td>
+            <td class="data-cell"><p>
+              <% if user_profiles? %>
+                <%= link_to(h(@proposal.user.fullname), user_path(@proposal.user)) %>
+              <% else %>
+                <%=h @proposal.presenter %>
+              <% end %>
+            </p></td>
+        </tr>
+        <% unless @profile.affiliation.blank? %>
+          <tr>
+            <td class="label-cell"><label>Affiliation</label ></td>
+            <td class="data-cell"><p><%=h @profile.affiliation %></p></td>
+          </tr>
+        <% end %>
+        <% if can_edit? %>
+          <tr>
+            <td class="label-cell"><label>Email (private)</label ></td>
+            <% email = @profile.email %>
+            <td class="data-cell"><p><%=link_to h(email), "mailto:"+h(email) %></p></td>
+          </tr>
+        <% end %>
+        <% unless @profile.website.blank? %>
+          <tr>
+            <td class="label-cell"><label>URL</label ></td>
+            <td class="data-cell"><p><%= display_link_to @profile.website %></p></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td class="label-cell"><label>Biography</label ></td>
+          <td class="data-cell"><%= preserve_formatting_of @profile.biography %></td>
+        </tr>
+      </table>
+    </div>
+  <% end %>
+
+  <div class='show-proposal'>
+
+  <% if event_tracks? %>
+    <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
+      <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
+    </div>
+  <% end %>
+
+  <% if proposal_excerpts? %>
+    <h3>Excerpt</h3>
+    <%= preserve_formatting_of @proposal.excerpt %>
+  <% end %>
+  
+    <h3>Description</h3>
+    <%= preserve_formatting_of @proposal.description %>
+
+  <% if can_edit? && ! @proposal.note_to_organizers.blank?%>
+    <h3>Private Note to Organizers</h3>
+    <%= preserve_formatting_of @proposal.note_to_organizers %>
+  <% end %>
+
+  <% if multiple_presenters? %>
+    <h3><%= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></h3>
+
+    <ul class='speakers'>
+    <% @proposal.users.each do |user| %>
+      <li class='vcard'>
+        <%= link_to "<span class='n fn'>#{user.fullname}</span>", user_path(user) %>
+        <%= "- <span class='org'>#{user.affiliation}</span>" unless user.affiliation.blank?%>
+        <% unless user.website.blank? %>
+          (<%= display_link_to(user.website, :class => 'url') %>)
+        <% end %>        
+        <div class='note'>
+          <%= preserve_formatting_of user.biography %>
+        </div>
+      </li>
+    <% end %>
+    </ul>
+    
+  <% end %>
+
+  <div class="record-controls">
+    <% if can_edit? %>
+      <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
+      <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
+    <% end %>
+      <%= link_to 'Back', event_proposals_path(@event), :class => "cancelable" %>
   </div>
+
 <% end %>
+
+<% if admin? || @display_comment %>
+<h3>Comments</h3>
+<% end %>
+
 
 <% if admin? %>
   <div id="proposal-comments">
-    <h4>Comments</h4>
     <% if @proposal.comments.blank? %>
       <div class="empty-text">&mdash; No comments &mdash;</div>
     <% else %>
@@ -149,55 +129,57 @@
       </dl>
     <% end %>
   </div>
-<% else %>
-  <% if @display_comment %>
-    <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
-      <%= f.hidden_field :proposal_id %>
-      <table class="standard-form">
-        <tr>
-          <td colspan="2">
-            <h4>Leave a private comment to organizers about this proposal</h4>
-          </td>
-        </tr>
-        <% unless error_messages_for(:comment).blank? %>
-          <tr>
-            <td class="label-cell">&nbsp;</td>
-            <td class="data-cell">
-              <%= error_messages_for :comment %>
-            </td>
-          </tr>
-        <% end %>
-        <tr>
-          <td class="label-cell">
-            <%= f.label :email, "Email address" %>
-          </td>
-          <td class="data-cell">
-            <%= f.text_field :email %>
-          </td>
-        </tr>
-        <tr>
-          <td class="label-cell">
-            <%= f.label :message, "Comment" %>
-          </td>
-          <td class="data-cell">
-            <%= f.text_area :message, :rows => 3 %>
-          </td>
-        </tr>
-        <tr class="quagmire">
-          <td class="label-cell">
-            <%= label :quagmire, "Leave blank" %>
-          </td>
-          <td>
-            <%= text_field_tag :quagmire %>
-          </td>
-        </tr>
+<% end %>
+
+<% if @display_comment %>
+  <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
+    <%= f.hidden_field :proposal_id %>
+    <table class="standard-form">
+      <tr>
+        <td colspan="2">
+          <h4>Leave a private comment to organizers about this proposal</h4>
+        </td>
+      </tr>
+      <% unless error_messages_for(:comment).blank? %>
         <tr>
           <td class="label-cell">&nbsp;</td>
           <td class="data-cell">
-            <%= f.submit "Create comment" %>
+            <%= error_messages_for :comment %>
           </td>
         </tr>
-      </table>
-    <% end %>
+      <% end %>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :email, "Email address" %>
+        </td>
+        <td class="data-cell">
+          <%= f.text_field :email %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :message, "Comment" %>
+        </td>
+        <td class="data-cell">
+          <%= f.text_area :message, :rows => 3 %>
+        </td>
+      </tr>
+      <tr class="quagmire">
+        <td class="label-cell">
+          <%= label :quagmire, "Leave blank" %>
+        </td>
+        <td>
+          <%= text_field_tag :quagmire %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-cell">&nbsp;</td>
+        <td class="data-cell">
+          <%= f.submit "Create comment" %>
+        </td>
+      </tr>
+    </table>
   <% end %>
 <% end %>
+
+</div>

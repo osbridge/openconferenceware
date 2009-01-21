@@ -453,10 +453,6 @@ table.proposals .date {
 	background: #ddd;
 }
 
-table.proposals .track {
-	text-transform: uppercase;
-}
-
 table.proposals .excerpt {
 	font-size: .9em;
 }
@@ -481,8 +477,33 @@ table.proposals .description {
 .track.block a {
   color: inherit;
   text-decoration: inherit;
+  text-transform: uppercase;
+  padding: .5em;
+  line-height: 2em;
+  height: 2em;
 }
 
 #submit-a-talk {
 	margin-bottom: 1em;
+}
+
+ul.speakers {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+ul.speakers li {
+  border-bottom: 1px solid #aaa;
+  padding: 1em 0;
+}
+
+ul.speakers .note {
+  font-size: .9em;
+  padding: 0 2em;
+}
+
+.show-proposal .track.block {
+	float: right;
+	margin: 0 0 1em 1em;
 }
