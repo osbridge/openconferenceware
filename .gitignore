@@ -18,5 +18,6 @@ nbproject/*
 public/javascripts/cache/*
 public/stylesheets/cache/*
 public/themes/*
+public/system/*
 tags
 tmp/*
