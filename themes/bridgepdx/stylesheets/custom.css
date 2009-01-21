@@ -490,6 +490,12 @@ ul.proposals .speakers {
 	color: #fff;
 }
 
+.track.block, 
+.track.block a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 #submit-a-talk {
 	margin-bottom: 1em;
 }
