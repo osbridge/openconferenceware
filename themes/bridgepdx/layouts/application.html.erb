@@ -32,12 +32,15 @@
   <%= yield :scripts %>
   <% # TODO Add script and stylesheet yield blocks to other themes %>
 </head>
+
+<% remote_base = SETTINGS.breadcrumbs.first.last %>
+
 <body>
   <div id="wrapper">
      <div id="header">
   		<h1 id="blog-title">
   		   <span>
-  		      <a href="<%= SETTINGS.breadcrumbs.first[1] %>" title="<%= SETTINGS.organization %>" rel="home">
+  		      <a href="<%= remote_base %>" title="<%= SETTINGS.organization %>" rel="home">
      		      <%= SETTINGS.organization %>
   		      </a>
 	      </span>
@@ -51,7 +54,6 @@
       </div>
       <div id="menu">
         <ul>
-          <% remote_base = SETTINGS.breadcrumbs.first.last %>
           <li><a href="<%= remote_base %>">Blog</a>
           <li class="page_item page-item-10"><a href="<%= remote_base %>about/" title="About">About</a></li>
           <li class="page_item page-item-22"><a href="<%= remote_base %>contact-us/" title="Contact Us">Contact Us</a></li>
