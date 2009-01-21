@@ -1,7 +1,7 @@
 <% page_title "Edit user: #{h @user.label}" %>
 
 <div class="standard-form">
-  <% form_for(@user) do |f| %>
+  <% form_for(@user, :html => {:multipart => true}) do |f| %>
   <%= f.error_messages %>
   <table cellspacing="0">
     <%= hidden_field_tag :require_complete_profile, true if params[:require_complete_profile] %>
@@ -79,7 +79,15 @@
         </p>
       </td>
     </tr>
-    <%# TODO add photo %>
+    <tr>
+      <td class="label-cell">
+        <label>Photo</label>
+      </td>
+      <td class="data-cell">
+        <%= image_tag @user.photo.url(:avatar) if @user.photo.file? %>
+        <%= f.file_field :photo %>
+      </td>
+    </tr>
     <tr>
       <td class="label-cell">
         <label><%= required_field if @user.complete_profile %>Biography</label>

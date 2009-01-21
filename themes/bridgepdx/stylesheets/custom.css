@@ -509,9 +509,10 @@ ul.speakers .note {
   margin-bottom: 1em;
 }
 
-.user-meta, .proposal-meta {
+.user-meta, .user-photo, .proposal-meta {
 	float: right;
   margin: 0 0 1em 1em;
+  clear: right;
 }
 
 strong.admin {
