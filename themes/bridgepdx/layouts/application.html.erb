@@ -14,6 +14,7 @@
   <!-- Stylesheets -->
   <%= stylesheet_link_tag "common" %>
   <%= theme_stylesheet_link_tag "custom" %>
+  <%= yield :stylesheets %>  
 
   <!-- Dynamic styles -->
   <% if event_tracks? %>
@@ -28,6 +29,8 @@
 
   <!-- Scripts -->
   <%= javascript_include_tag "jquery-1.2.6.min.js" %>
+  <%= yield :scripts %>
+  <% # TODO Add script and stylesheet yield blocks to other themes %>
 </head>
 <body>
   <div id="wrapper">
