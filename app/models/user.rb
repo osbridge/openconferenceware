@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090118172133
+# Schema version: 20090121212823
 #
 # Table name: users
 #
@@ -19,6 +19,9 @@
 #  biography                 :text(2048)      
 #  website                   :string(1024)    
 #  complete_profile          :boolean         
+#  photo_file_name           :string(255)     
+#  photo_content_type        :string(255)     
+#  photo_file_size           :integer         
 #
 
 require 'digest/sha1'
