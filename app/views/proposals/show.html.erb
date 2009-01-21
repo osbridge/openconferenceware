@@ -106,7 +106,8 @@
 
 <% end %>
 
-<% if admin? || @display_comment %>
+<%# FIXME rename @display_comment to @display_comment_form %>
+<% if admin? %>
 <h3>Comments</h3>
 <% end %>
 
@@ -134,12 +135,8 @@
 <% if @display_comment %>
   <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
     <%= f.hidden_field :proposal_id %>
+    <h4>Leave a private comment to organizers about this proposal</h4>
     <table class="standard-form">
-      <tr>
-        <td colspan="2">
-          <h4>Leave a private comment to organizers about this proposal</h4>
-        </td>
-      </tr>
       <% unless error_messages_for(:comment).blank? %>
         <tr>
           <td class="label-cell">&nbsp;</td>

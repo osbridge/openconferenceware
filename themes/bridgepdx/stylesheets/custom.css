@@ -495,7 +495,8 @@ ul.speakers {
 
 ul.speakers li {
   border-bottom: 1px solid #aaa;
-  padding: 1em 0;
+  margin-top: 1em;
+  padding-bottom: 1em;
 }
 
 ul.speakers .note {
@@ -506,4 +507,8 @@ ul.speakers .note {
 .show-proposal .track.block {
 	float: right;
 	margin: 0 0 1em 1em;
+}
+
+.record-controls {
+  margin-bottom: 1em;
 }
