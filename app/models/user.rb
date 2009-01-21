@@ -63,6 +63,13 @@ class User < ActiveRecord::Base
   # Scopes
   named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'fullname asc'
 
+  # Photo Attachments
+  has_attached_file :photo,
+    :styles => {
+      :profile => "200x400>",
+      :avatar => "48x48!"
+    }
+
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     u = find_by_login(login) # need to get the salt
