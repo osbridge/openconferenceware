@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   # See how all your routes lay out with "rake routes"
 
   map.resources :proposals do |proposals|
@@ -12,6 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :events do |events|
     events.resources :proposals, :controller => 'proposals'
     events.resources :tracks, :controller => 'tracks'
+    events.resources :session_types
   end
 
   map.resource :manage, :controller => 'manage' do |manage|

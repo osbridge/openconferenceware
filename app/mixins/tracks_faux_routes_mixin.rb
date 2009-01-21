@@ -1,7 +1,7 @@
-# = TracksFauxRoutesMixin
+# = FauxRoutesMixin
 #
-# The TracksFauxRoutesMixin generates a bunch of route helpers for the
-# TracksController nested resource.
+# The FauxRoutesMixin generates a bunch of route helpers for the
+# TracksController and SessionTypesController nested resources.
 #
 # == Examples
 #
@@ -10,8 +10,10 @@
 #
 # Faux route helper for expressing the same thing and getting Event from @event:
 #   track_path(@track)
+#
 module TracksFauxRoutesMixin
   # FIXME this implementation is 10x more complex than it should be, but I don't know how to make it simpler
+  # FIXME this should be renamed / generalized since it now handles sesion types in addition to tracks.
 
   def self.included(mixee)
     mixee.extend(Methods)
@@ -48,6 +50,11 @@ module TracksFauxRoutesMixin
     generate[:noun => "track", :verb => "new"]
     generate[:noun => "track", :item => true]
     generate[:noun => "track", :verb => "edit", :item => true]
+    
+    generate[:noun => "session_types"]
+    generate[:noun => "session_type", :verb => "new"]
+    generate[:noun => "session_type", :item => true]
+    generate[:noun => "session_type", :verb => "edit", :item => true]
   end
 
   include Methods
