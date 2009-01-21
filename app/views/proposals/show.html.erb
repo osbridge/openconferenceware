@@ -57,11 +57,18 @@
 
   <div class='show-proposal'>
 
+
+  <div class='proposal-meta'>
   <% if event_tracks? %>
-    <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
-      <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
-    </div>
+      <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
+        <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
+      </div>
   <% end %>
+    <div class='proposal-slug'>
+      <%= @proposal.slug %>
+    </div>
+  </div>
+
 
   <% if proposal_excerpts? %>
     <h3>Excerpt</h3>
