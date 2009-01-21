@@ -1,3 +1,15 @@
+<% content_for :scripts do %>
+  <%= javascript_include_tag "farbtastic" %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#colorpicker').farbtastic('#track_color');
+    });
+  </script>
+<% end %>
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "farbtastic" %>
+<% end %>
+
 <% focus :track_title %>
 
 <% form_for(@track) do |f| %>
@@ -13,8 +25,8 @@
   </p>
   <p>
     <%= f.label :color %><br />
-    <%= f.text_field :color %> (E.g., "#000000" is black)
-    <%# TODO add a jQuery color picker and swatch %>
+    <%= f.text_field :color %>
+    <div id="colorpicker"></div>
   </p>
   <p>
     <%= f.submit @track.new_record? ? "Create" : "Update" %>
