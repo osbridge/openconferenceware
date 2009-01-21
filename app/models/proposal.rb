@@ -34,6 +34,12 @@ class Proposal < ActiveRecord::Base
   has_many :comments
   has_and_belongs_to_many :users
 
+  begin
+    acts_as_taggable_on :tags
+  rescue NameError
+    puts "!! WARNING: Couldn't find #acts_as_taggable_on -- run 'rake gems:install' now!"
+  end
+
   # Validations
   validates_presence_of :title, :description, :event_id
   validates_acceptance_of :agreement,                     :accept => true, :message => "must be accepted"

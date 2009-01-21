@@ -78,6 +78,11 @@
     <h3>Description</h3>
     <%= preserve_formatting_of @proposal.description %>
 
+  <% unless @proposal.tags.empty? %>
+    <h3>Tags</h3>
+    <div><%= @proposal.tag_list %></div>
+  <% end %>
+
   <% if can_edit? && ! @proposal.note_to_organizers.blank?%>
     <h3>Private Note to Organizers</h3>
     <%= preserve_formatting_of @proposal.note_to_organizers %>
