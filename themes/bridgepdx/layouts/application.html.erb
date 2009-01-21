@@ -65,7 +65,7 @@
 		<div id="content">
          <div id="breadcrumbs">
             <% if @breadcrumbs %>
-               <% @breadcrumbs.each_with_index do |breadcrumb, i| %>
+               <% @breadcrumbs[0..-2].each_with_index do |breadcrumb, i| %>
                   <% txt, path = breadcrumb %>
                   <% if i > 0 %>
                      &#187;
