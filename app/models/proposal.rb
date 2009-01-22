@@ -45,6 +45,7 @@ class Proposal < ActiveRecord::Base
   validates_acceptance_of :agreement,                     :accept => true, :message => "must be accepted"
   validates_presence_of :excerpt,                         :if => :proposal_excerpts?
   validates_presence_of :track,                           :if => :event_tracks?
+  validates_presence_of :session_type,                    :if => :event_session_types?
   validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
   validate :validate_complete_user_profile,               :if => :user_profiles?
 
