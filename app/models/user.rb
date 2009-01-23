@@ -6,7 +6,6 @@
 #  id                        :integer         not null, primary key
 #  login                     :string(255)     
 #  email                     :string(255)     
-#  fullname                  :string(255)     
 #  crypted_password          :string(40)      
 #  salt                      :string(40)      
 #  admin                     :boolean         
@@ -22,6 +21,8 @@
 #  photo_file_name           :string(255)     
 #  photo_content_type        :string(255)     
 #  photo_file_size           :integer         
+#  first_name                :string(255)     
+#  last_name                 :string(255)     
 #
 
 require 'digest/sha1'
