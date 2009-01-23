@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090118172133
+# Schema version: 20090121212823
 #
 # Table name: proposals
 #
@@ -20,6 +20,7 @@
 #  note_to_organizers :text            
 #  excerpt            :text(400)       
 #  track_id           :integer         
+#  session_type_id    :integer         
 #
 
 class Proposal < ActiveRecord::Base
@@ -31,6 +32,7 @@ class Proposal < ActiveRecord::Base
   # Associations
   belongs_to :event
   belongs_to :track
+  belongs_to :session_type
   has_many :comments
   has_and_belongs_to_many :users
 

@@ -108,6 +108,9 @@
                 <% if event_tracks? %>
                   <li><%= link_to "Manage its tracks", tracks_path %></li>
                 <% end %>
+                <% if event_session_types? %>
+                   <li><%= link_to "Manage its session types", session_types_path %></li>
+                  <% end %>
                 <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
                 </ul>
               <% end %>

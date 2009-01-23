@@ -23,6 +23,9 @@ have_proposal_excerpts: true
 # Do events have tracks?
 have_event_tracks: true
 
+# Do events have session types?
+have_event_session_types: true
+
 # Display events picker?
 have_events_picker: false
 

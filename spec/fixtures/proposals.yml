@@ -34,6 +34,7 @@ quentin_widgets:
   #IK# event: open
   event_id: 2009
   track: chemistry
+  session_type: workshop
   submitted_at: <%= Time.now %>
   title: My favorite widgets.
   excerpt: |
@@ -56,6 +57,7 @@ aaron_aardvarks:
   #IK# event: open
   event_id: 2009
   track: cooking
+  session_type: panel
   submitted_at: <%= Time.now %>
   title: My favorite Aardvarks.
   excerpt: |
@@ -79,6 +81,7 @@ clio_chupacabras:
   #IK# event: closed
   event_id: 1975
   track: cooking
+  session_type: presentation
   submitted_at: <%= Time.now - 1.year %>
   excerpt: |
     The Chupacabra, also called el Chupacabras (pronunciation: /tʃupa'kabɾas/, from the Spanish words chupar, meaning "to suck", and cabra, meaning "goat"; literally "goat sucker") is a legendary cryptid rumored to inhabit parts of the Americas.

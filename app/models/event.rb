@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090118172133
+# Schema version: 20090121212823
 #
 # Table name: events
 #
@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
   # Associations
   has_many :proposals, :order => 'submitted_at desc'
   has_many :tracks, :order => 'title asc'
+  has_many :session_types
 
   # Validations
   validates_presence_of \

@@ -22,7 +22,7 @@ class ProposalsController < ApplicationController
     end
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
     
-    if %w(title track).include?(params[:sort])
+    if %w(title track submitted_at session_type).include?(params[:sort])
       @proposals = \
         case params[:sort].to_sym
         when :track
@@ -32,6 +32,7 @@ class ProposalsController < ApplicationController
         else
           @proposals.sort_by{|proposal| proposal.send(params[:sort]) rescue nil}
         end
+        @proposals = @proposals.reverse if params[:dir] == 'desc'
     end
       
 
