@@ -30,7 +30,18 @@ module ApplicationHelper
       /*<![CDATA[*/
       $(function()
       {
-          $('textarea.rich').wysiwyg();
+          $('textarea.rich').wysiwyg({
+            controls: {
+              separator00: { visible: true },
+              justifyLeft: { visible: true },
+              justifyCenter: { visible: true },
+              justifyRight: { visible: true },
+              separator04: { visible: true },
+              insertOrderedList: { visible: true },
+              insertUnorderedList: { visible: true },
+              html: { visible: true }
+            }
+          });
       });
       /*]]>*/
     </script>
