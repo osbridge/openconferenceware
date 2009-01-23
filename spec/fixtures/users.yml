@@ -6,7 +6,8 @@
 #  id                        :integer         not null, primary key
 #  login                     :string(255)     
 #  email                     :string(255)     
-#  fullname                  :string(255)     
+#  first_name                :string(255)     
+#  last_name                 :string(255)     
 #  crypted_password          :string(40)      
 #  salt                      :string(40)      
 #  admin                     :boolean         
@@ -21,7 +22,8 @@
 quentin:
   login: "quentin"
   email: "quentin@example.com"
-  fullname: "Quentin Tarantino"
+  first_name: "Quentin"
+  last_name: "Tarantino"
   affiliation: "Grindhouse, Inc."
   website: "http://reservoir.dogs/"
   salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
@@ -37,7 +39,8 @@ quentin:
 clio:
   login: "clio"
   email: "clio@example.com"
-  fullname: "Vadem Clio"
+  first_name: "Vadem"
+  last_name: "Clio"
   affiliation: "Vadem Corporation"
   salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
   crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
@@ -54,7 +57,8 @@ clio:
 gustavus:
   login: "gustavus"
   email: "gustavus@purvis.edu"
-  fullname: "Gustavus Purvis"
+  first_name: "Gustavus"
+  last_name: "Purvis"
   affiliation: "House of Vasa"
   salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
   crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
@@ -67,7 +71,8 @@ gustavus:
 aaron:
   login: "aaron"
   email: "aaron@example.com"
-  fullname: "Aaron Levite"
+  first_name: "Aaron"
+  last_name: "Levite"
   affiliation: "House of Israel"
   salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
   crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test

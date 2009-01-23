@@ -59,12 +59,13 @@ class User < ActiveRecord::Base
   validates_presence_of     :email,                       :if => :complete_profile?
   validates_length_of       :email,    :within => 3..100, :if => :complete_profile?
 
-  validates_presence_of     :fullname,                    :if => :complete_profile?
+  validates_presence_of     :first_name,                  :if => :complete_profile?
+  validates_presence_of     :last_name,                   :if => :complete_profile?
   validates_presence_of     :email,                       :if => :complete_profile?
   validates_presence_of     :biography,                   :if => :complete_profile?
 
   # Scopes
-  named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'fullname asc'
+  named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'last_name asc'
 
   # Photo Attachments
   has_attached_file :photo,
@@ -147,6 +148,15 @@ class User < ActiveRecord::Base
   # Return a label for the user with their user ID.
   def label_with_id
     return "#{self.label} (#{self.id})"
+  end
+
+  def fullname
+    return "#{self.first_name} #{self.last_name}"
+  end
+
+  def fullname=(value)
+    self.first_name = value.ergo.split(" ")[0..-2].join(' ')
+    self.last_name = value.ergo.split(" ").last
   end
 
   # Alias for #fullname for providing common profile methods.
