@@ -22,25 +22,20 @@ module ApplicationHelper
     html
   end
 
-  def include_fckeditor
-    return if defined?(@fckeditor_included) and @fckeditor_included
-    content_for(:javascript, <<-HERE)
-</script>
-
-<script type="text/javascript" src="/fckeditor/fckeditor.js">
-</script>
-
-<script type="text/javascript">
-  function fckeditor(field_name) {
-    var oFCKeditor = new FCKeditor(field_name, '100%', '300') ;
-    oFCKeditor.Config["CustomConfigurationsPath"] = "/fckeditor_myconfig.js";
-    oFCKeditor.ReplaceTextarea() ;
-  }
+  def include_jwysiwyg
+    return if defined?(@jwysiwyg_included) && @jwysiwyg_included
+    content_for(:stylesheets, stylesheet_link_tag("jquery.wysiwyg.css"))
+    content_for(:scripts,javascript_include_tag("jquery.wysiwyg.pack.js") + <<-HERE
+    <script type="text/javascript">
+      /*<![CDATA[*/
+      $(function()
+      {
+          $('textarea.rich').wysiwyg();
+      });
+      /*]]>*/
+    </script>
     HERE
-  end
-
-  def fckeditor_for(field_name)
-    include_fckeditor
-    link_to_function("WYSIWYG editor", "fckeditor('#{field_name}')", :class => :editable)
+    )
+    @jwysiwyg_included = true
   end
 end

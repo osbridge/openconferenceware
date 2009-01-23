@@ -1,3 +1,5 @@
+<% include_jwysiwyg %>
+
 <% form_for([:manage, @event], :html => {:id => "event-form", :class => "standard-form"}) do |f| %>
   <%= f.error_messages %>
 
@@ -40,8 +42,7 @@
         <%= f.label :open_text %><br />
       </td>
       <td>
-        <%= f.text_area :open_text %>
-        <%= fckeditor_for :event_open_text %>
+        <%= f.text_area :open_text, :class=>'rich' %>
       </td>
     </tr>
     <tr>
@@ -49,8 +50,7 @@
         <%= f.label :closed_text %><br />
       </td>
       <td>
-        <%= f.text_area :closed_text %>
-        <%= fckeditor_for :event_closed_text %>
+        <%= f.text_area :closed_text, :class=>'rich' %>
       </td>
     </tr>
     <tr>
