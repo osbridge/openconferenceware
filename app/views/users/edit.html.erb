@@ -51,11 +51,21 @@
     <% end %>
     <tr>
       <td class="label-cell">
-        <label><%= required_field if @user.complete_profile %>Full name</label>
+        <label><%= required_field if @user.complete_profile %>First Name</label>
       </td>
       <td class="data-cell">
         <p>
-          <%= f.text_field :fullname %>
+          <%= f.text_field :first_name %>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <label><%= required_field if @user.complete_profile %>Last Name</label>
+      </td>
+      <td class="data-cell">
+        <p>
+          <%= f.text_field :last_name %>
         </p>
       </td>
     </tr>
