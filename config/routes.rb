@@ -7,9 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
 
-  #map.connect '/proposals/manage_speakers', :controller => 'proposals', :action => 'manage_speakers'
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
-  #map.connect '/proposals/other_speakers', :controller => 'proposals', :action => 'other_speakers'
   map.other_proposal_speakers '/proposals/other_speakers/:id', :controller => 'proposals', :action => 'other_speakers'
 
   map.resources :comments

@@ -203,6 +203,19 @@
       event.preventDefault();
       target = $(event.target);
       speaker_id = target.attr('speaker_id');
+      current_user_id = $('#current_user_id').attr('value');
+
+      message = null;
+      if (current_user_id == speaker_id) {
+        message = "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?";
+      } else {
+        message = target.attr('speaker_fullname') + " will no longer be able to edit this proposal. Are you sure you want to remove them?";
+      }
+
+      if (! confirm(message)) {
+        return false;
+      }
+
       target.removeClass('deletable');
       target.addClass('spinning');
       $.get(
