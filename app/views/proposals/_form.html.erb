@@ -130,7 +130,7 @@
               <%= required_field %><%= f.label :track_id, "Track" %>
             </td>
             <td>
-              <%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :include_blank => "- None -" %>
+              <%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :prompt => "- Please select -" %>
               <%= link_to "What are this event's tracks?", tracks_path, :popup => true %>
             </td>
           </tr>
@@ -141,7 +141,7 @@
               <%= required_field %><%= f.label :session_type_id, "Session Type" %>
             </td>
             <td>
-              <%= f.collection_select :session_type_id, @event.session_types.find(:all), :id, :title, :include_blank => "- None -" %>
+              <%= f.collection_select :session_type_id, @event.session_types.find(:all), :id, :title, :prompt => "- Please select -" %>
               <%= link_to "What are this event's session types?", session_types_path, :popup => true %>
             </td>
           </tr>
