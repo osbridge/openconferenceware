@@ -29,6 +29,19 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   # Mixins
   include SettingsCheckersMixin
+  include PublicAttributesMixin
+  set_public_attributes \
+    :id,
+    :login,
+    :fullname,
+    :created_at,
+    :updated_at,
+    :affiliation,
+    :biography,
+    :website,
+    :complete_profile,
+    :label,
+    :label_with_id
 
   # Associations
   has_and_belongs_to_many :proposals

@@ -4,7 +4,7 @@ class ProposalsController < ApplicationController
   before_filter :assign_current_event,         :only => [:new, :create]
   before_filter :assert_anonymous_proposals,   :only => [:new, :create]
   before_filter :assert_accepting_proposals,   :only => [:new, :create]
-  before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy]
+  before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy, :speakers, :manage_speakers, :other_speakers]
   before_filter :assert_proposal_ownership,    :only => [:edit, :update, :destroy]
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
@@ -154,7 +154,7 @@ class ProposalsController < ApplicationController
     @proposal.event = @event
     @proposal.users << current_user if logged_in?
 
-    manage_speakers
+    manage_speakers_on_submit
 
     respond_to do |format|
       if params[:commit] && @proposal.save
@@ -178,7 +178,7 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
-    manage_speakers
+    manage_speakers_on_submit
 
     respond_to do |format|
       if params[:commit] && @proposal.update_attributes(params[:proposal])
@@ -206,6 +206,31 @@ class ProposalsController < ApplicationController
       format.html { redirect_to(event_proposals_path(@proposal.event)) }
       format.xml  { head :ok }
       format.json { head :ok }
+    end
+  end
+
+  def manage_speakers
+    if params[:add]
+      user = User.find(params[:add])
+      @proposal.add_user(user)
+    elsif params[:remove]
+      user = User.find(params[:remove])
+      @proposal.users.delete(user)
+    end
+
+    respond_to do |format|
+      format.json { render :partial => "manage_speakers.html.erb", :layout => false }
+    end
+  end
+
+  def other_speakers
+    matcher = Regexp.new(params[:q], Regexp::IGNORECASE)
+    users = (User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users)
+
+    respond_to do |format|
+      format.json do
+        render :text => users.map{|u| "#{u.label_with_id}|#{u.id}"}.join("\n")
+      end
     end
   end
 
@@ -281,12 +306,7 @@ protected
     add_breadcrumb "Proposals", proposals_path
   end
 
-  def other_completed_profiles
-    return (User.complete_profiles - @proposal.users).map{|user| [user.label_with_id, user.id]}
-  end
-  helper_method :other_completed_profiles
-
-  def manage_speakers
+  def manage_speakers_on_submit
     # TODO make this ajax
     # TODO add searching ajax to limit content of dropdown
     # TODO add invite mechanism somewhere
@@ -299,12 +319,16 @@ protected
     end
     if params[:add_speaker]
       @focus_speakers = true
-      if params[:speaker][:id].blank?
-        flash[:failure] = "Please select a speaker to add."
+      if params[:speaker] && params[:speaker][:id]
+        if params[:speaker][:id].blank?
+          flash[:failure] = "Please select a speaker to add."
+        else
+          user = User.find(params[:speaker][:id])
+          flash[:success] = "Added speaker to proposal: #{user.fullname}"
+          @proposal.add_user(user)
+        end
       else
-        user = User.find(params[:speaker][:id])
-        flash[:success] = "Added speaker to proposal: #{user.fullname}"
-        @proposal.add_user(user)
+        # TODO Nothing added, :add_speaker was merely linked because it was the first submit?
       end
     elsif params[:remove_speaker]
       @focus_speakers = true

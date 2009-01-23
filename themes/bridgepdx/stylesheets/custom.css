@@ -539,3 +539,7 @@ strong.admin {
   font-size: .8em;
   padding: .3em 0;
 }
+
+#manage-speakers td {
+  padding: 0.1em;
+}

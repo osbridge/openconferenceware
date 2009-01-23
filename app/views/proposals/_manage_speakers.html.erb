@@ -1,0 +1,36 @@
+<table>
+  <tr>
+    <td colspan="2">
+      <p class="instructions">
+        <b>Add speakers</b> by entering their name into the text box below. If a speaker isn't listed, please ask them to register an account and complete their profile.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span id="add_speaker_spinner" class="spinning" style="display: none"></span>
+    </td>
+    <td>
+      <%= text_field_tag :add_speaker_selector, "", :class => "autocomplete" %>
+      <%= hidden_field_tag :add_speaker, :id => "add_speaker" %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <p class="instructions">
+        <b>Remove speakers</b> by clicking the red X next to the name of the speaker you want to remove.
+      </p>
+    </td>
+  </tr>
+  <% @proposal.users.each do |user| %>
+    <tr>
+      <td class="remove-speaker-cell">
+        <%= link_to "", "#", :class => "remove-speaker deletable", :speaker_id => user.id, :speaker_fullname => user.fullname %>
+      </td>
+      <td width="100%">
+        <%= h user.fullname %>
+        <%= hidden_field_tag "speaker_ids[#{user.id}]", user.id %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -77,35 +77,16 @@
 <% else %>
         <tr>
           <td colspan="2">
-            <h4>About the speakers</h4>
+            <h4>Speakers for this presentation</h4>
           </td>
         </tr>
         <tr>
           <td class="label-cell">
           </td>
           <td>
-            <div id="presenters-manager">
-              <% action_target = @proposal.new_record? ? :new : :edit %>
-              <% action_method = @proposal.new_record? ? :post : :put %>
-              <ul id="presenters-manager-list">
-                <% @proposal.users.each do |user| %>
-                  <li>
-                    <%= hidden_field_tag "speaker_ids[#{user.id}]", user.id %>
-                    <%= f.submit(user.id, :src => '/images/redx.png', :type => 'image', :name => 'remove_speaker',
-                      :confirm => user == current_user ? 
-                        "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?" : 
-                        "#{h user.fullname} will no longer be able to edit this proposal. Are you sure you want to remove them?") %>
-                    <%= "{You}" if user == current_user %>
-                    <%= h user.fullname %>
-                  </li>
-                <% end %>
-                <li>
-                  <%= f.submit 'add_speaker', :src => '/images/plus.png', :type => 'image', :name => 'add_speaker', :id => 'add_speaker' %>
-                  <%= select :speaker, :id, other_completed_profiles, :prompt => '- Add another -' %>
-                </li>
-              </ul>
+            <div id="manage-speakers">
+              <%= render :partial => "proposals/manage_speakers" %>
             </div>
-            # TODO mechanism for inviting users
           </td>
         </tr>
 <% end %>
@@ -192,3 +173,61 @@
     </table>
   <% end %>
 </div>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'jquery.autocomplete.css' %>
+<% end %>
+
+<% content_for :scripts do %>
+  <%= javascript_include_tag \
+    'jquery.bgiframe.min.js',
+    'jquery.dimensions.min.js',
+    'jquery.autocomplete.min.js' %>
+<% end %>
+
+<% content_for :javascript do %>
+  bind_manage_speakers_controls = function () {
+    // Remove speakers
+    $('#manage-speakers a.remove-speaker').click(function (event) {
+      $e = event; // Save event as global for debugging
+      event.preventDefault();
+      target = $(event.target);
+      speaker_id = target.attr('speaker_id');
+      target.removeClass('deletable');
+      target.addClass('spinning');
+      $.get(
+        '<%= manage_proposal_speakers_path(@proposal) %>',
+        {
+          'remove': speaker_id
+        },
+        function(data) {
+          $('#manage-speakers').html(data);
+          bind_manage_speakers_controls();
+          $("#add_speaker_selector").focus();
+        }
+      );
+    });
+
+    // Add speakers
+    $("#add_speaker_selector").autocomplete("<%= other_proposal_speakers_path(@proposal) %>", {
+      delay: 200
+    }).result(function (event, item) {
+      // Item selected
+      $.get(
+        '<%= manage_proposal_speakers_path(@proposal) %>',
+        {
+          'add': item[1]
+        },
+        function(data) {
+          $('#manage-speakers').html(data);
+          bind_manage_speakers_controls();
+          $("#add_speaker_selector").focus();
+        }
+      );
+    });
+  }
+
+  $(document).ready(function() {
+    bind_manage_speakers_controls();
+  });
+<% end %>
