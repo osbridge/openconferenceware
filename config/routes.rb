@@ -6,8 +6,11 @@ ActionController::Routing::Routes.draw do |map|
     proposals.resources :comments, :controller => 'comments'
   end
   map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
-  map.manage_proposal_speakers '/proposals/:id/manage_speakers', :controller => 'proposals', :action => 'manage_speakers'
-  map.other_proposal_speakers '/proposals/:id/other_speakers', :controller => 'proposals', :action => 'other_speakers'
+
+  #map.connect '/proposals/manage_speakers', :controller => 'proposals', :action => 'manage_speakers'
+  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
+  #map.connect '/proposals/other_speakers', :controller => 'proposals', :action => 'other_speakers'
+  map.other_proposal_speakers '/proposals/other_speakers/:id', :controller => 'proposals', :action => 'other_speakers'
 
   map.resources :comments
   map.comments_feed '/comments.atom', :controller => 'comments', :action => 'index'

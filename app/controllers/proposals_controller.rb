@@ -4,7 +4,7 @@ class ProposalsController < ApplicationController
   before_filter :assign_current_event,         :only => [:new, :create]
   before_filter :assert_anonymous_proposals,   :only => [:new, :create]
   before_filter :assert_accepting_proposals,   :only => [:new, :create]
-  before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy, :speakers, :manage_speakers, :other_speakers]
+  before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy]
   before_filter :assert_proposal_ownership,    :only => [:edit, :update, :destroy]
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
@@ -21,7 +21,7 @@ class ProposalsController < ApplicationController
       return if assign_current_event
     end
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
-    
+
     if %w(title track submitted_at session_type).include?(params[:sort])
       @proposals = \
         case params[:sort].to_sym
@@ -34,7 +34,6 @@ class ProposalsController < ApplicationController
         end
         @proposals = @proposals.reverse if params[:dir] == 'desc'
     end
-      
 
     respond_to do |format|
       format.html {
@@ -209,7 +208,20 @@ class ProposalsController < ApplicationController
     end
   end
 
+  def assign_proposal_for_speaker_manager
+    if params[:id].blank? || params[:id] == "new_record"
+      @proposal = Proposal.new
+      params[:speakers].split(',').each do |speaker|
+        @proposal.add_user(speaker)
+      end
+    else
+      @proposal = Proposal.find(params[:id])
+    end
+  end
+
   def manage_speakers
+    assign_proposal_for_speaker_manager
+
     if params[:add]
       user = User.find(params[:add])
       @proposal.add_user(user)
@@ -224,8 +236,10 @@ class ProposalsController < ApplicationController
   end
 
   def other_speakers
+    assign_proposal_for_speaker_manager
+
     matcher = Regexp.new(params[:q], Regexp::IGNORECASE)
-    users = (User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users)
+    users = User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users
 
     respond_to do |format|
       format.json do
@@ -307,37 +321,10 @@ protected
   end
 
   def manage_speakers_on_submit
-    # TODO make this ajax
-    # TODO add searching ajax to limit content of dropdown
-    # TODO add invite mechanism somewhere
-    @focus_speakers = false
     speakers = params[:speaker_ids].ergo.map(&:first)
     unless speakers.blank?
       speakers.each do |speaker|
         @proposal.add_user(speaker)
-      end
-    end
-    if params[:add_speaker]
-      @focus_speakers = true
-      if params[:speaker] && params[:speaker][:id]
-        if params[:speaker][:id].blank?
-          flash[:failure] = "Please select a speaker to add."
-        else
-          user = User.find(params[:speaker][:id])
-          flash[:success] = "Added speaker to proposal: #{user.fullname}"
-          @proposal.add_user(user)
-        end
-      else
-        # TODO Nothing added, :add_speaker was merely linked because it was the first submit?
-      end
-    elsif params[:remove_speaker]
-      @focus_speakers = true
-      if @proposal.users.size > 1
-        user = User.find(params[:remove_speaker])
-        @proposal.users.delete(user)
-        flash[:success] = "Removed speaker from proposal: #{user.fullname}"
-      else
-        flash[:failure] = "You cannot delete the last speaker from a proposal"
       end
     end
   end

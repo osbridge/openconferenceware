@@ -25,11 +25,18 @@
   <% @proposal.users.each do |user| %>
     <tr>
       <td class="remove-speaker-cell">
-        <%= link_to "", "#", :class => "remove-speaker deletable", :speaker_id => user.id, :speaker_fullname => user.fullname %>
+        <% message = user == current_user ?
+          "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?" :
+          "#{h user.fullname} will no longer be able to edit this proposal. Are you sure you want to remove them?" %>
+        <%= link_to "", "#", :class => "remove-speaker deletable", :speaker_id => user.id, :speaker_fullname => user.fullname %> 
+        <% if false %>
+        <%= link_to "", "#", :class => "remove-speaker deletable", :speaker_id => user.id, :speaker_fullname => user.fullname, :onclick => 
+          "if (confirm('#{message}')) { return true; } else { $(this).unbind(); bind_manage_speakers_controls(); return false; };" %>
+        <% end %>
       </td>
       <td width="100%">
         <%= h user.fullname %>
-        <%= hidden_field_tag "speaker_ids[#{user.id}]", user.id %>
+        <%= hidden_field_tag "speaker_ids[#{user.id}]", user.id, :class => "speaker_id" %>
       </td>
     </tr>
   <% end %>

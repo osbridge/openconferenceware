@@ -1,5 +1,3 @@
-<% focus "add_speaker" if @focus_speakers %>
-
 <p>
   <%= @event.open_text %>
   <% if admin? %>
@@ -186,21 +184,31 @@
 <% end %>
 
 <% content_for :javascript do %>
+  <% path_record = @proposal.new_record? ? "new_record" : @proposal %>
   bind_manage_speakers_controls = function () {
+    // Speaker extractor
+    function extract_speaker_ids() {
+      speaker_ids = [];
+      $('.speaker_id').each(function (i, node) {
+        speaker_ids.push(node['value'])
+      });
+      return speaker_ids;
+    }
+    function extract_speaker_frags() {
+      return extract_speaker_ids().join(",")
+    }
+
     // Remove speakers
     $('#manage-speakers a.remove-speaker').click(function (event) {
-      $e = event; // Save event as global for debugging
       event.preventDefault();
       target = $(event.target);
       speaker_id = target.attr('speaker_id');
       target.removeClass('deletable');
       target.addClass('spinning');
       $.get(
-        '<%= manage_proposal_speakers_path(@proposal) %>',
-        {
+        '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
           'remove': speaker_id
-        },
-        function(data) {
+        }, function(data) {
           $('#manage-speakers').html(data);
           bind_manage_speakers_controls();
           $("#add_speaker_selector").focus();
@@ -209,16 +217,14 @@
     });
 
     // Add speakers
-    $("#add_speaker_selector").autocomplete("<%= other_proposal_speakers_path(@proposal) %>", {
+    $("#add_speaker_selector").autocomplete("<%= other_proposal_speakers_path(path_record) %>?speakers="+extract_speaker_frags(), {
       delay: 200
     }).result(function (event, item) {
       // Item selected
       $.get(
-        '<%= manage_proposal_speakers_path(@proposal) %>',
-        {
+        '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
           'add': item[1]
-        },
-        function(data) {
+        }, function(data) {
           $('#manage-speakers').html(data);
           bind_manage_speakers_controls();
           $("#add_speaker_selector").focus();
