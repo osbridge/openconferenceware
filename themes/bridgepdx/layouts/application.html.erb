@@ -158,6 +158,8 @@
    
   </div><!--wrapper -->
 
+  <%= hidden_field_tag(:current_user_id, current_user.id) if logged_in? %>
+
   <!-- arbitrary javascript from views -->
   <script type="text/javascript">
     <%= yield :javascript %>

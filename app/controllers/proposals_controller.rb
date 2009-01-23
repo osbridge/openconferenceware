@@ -21,7 +21,7 @@ class ProposalsController < ApplicationController
       return if assign_current_event
     end
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
-    
+
     if %w(title track submitted_at session_type).include?(params[:sort])
       @proposals = \
         case params[:sort].to_sym
@@ -34,7 +34,6 @@ class ProposalsController < ApplicationController
         end
         @proposals = @proposals.reverse if params[:dir] == 'desc'
     end
-      
 
     respond_to do |format|
       format.html {
@@ -154,7 +153,7 @@ class ProposalsController < ApplicationController
     @proposal.event = @event
     @proposal.users << current_user if logged_in?
 
-    manage_speakers
+    manage_speakers_on_submit
 
     respond_to do |format|
       if params[:commit] && @proposal.save
@@ -178,7 +177,7 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
-    manage_speakers
+    manage_speakers_on_submit
 
     respond_to do |format|
       if params[:commit] && @proposal.update_attributes(params[:proposal])
@@ -206,6 +205,46 @@ class ProposalsController < ApplicationController
       format.html { redirect_to(event_proposals_path(@proposal.event)) }
       format.xml  { head :ok }
       format.json { head :ok }
+    end
+  end
+
+  def assign_proposal_for_speaker_manager
+    if params[:id].blank? || params[:id] == "new_record"
+      @proposal = Proposal.new
+      params[:speakers].split(',').each do |speaker|
+        @proposal.add_user(speaker)
+      end
+    else
+      @proposal = Proposal.find(params[:id])
+    end
+  end
+
+  def manage_speakers
+    assign_proposal_for_speaker_manager
+
+    if params[:add]
+      user = User.find(params[:add])
+      @proposal.add_user(user)
+    elsif params[:remove]
+      user = User.find(params[:remove])
+      @proposal.users.delete(user)
+    end
+
+    respond_to do |format|
+      format.json { render :partial => "manage_speakers.html.erb", :layout => false }
+    end
+  end
+
+  def other_speakers
+    assign_proposal_for_speaker_manager
+
+    matcher = Regexp.new(params[:q], Regexp::IGNORECASE)
+    users = User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users
+
+    respond_to do |format|
+      format.json do
+        render :text => users.map{|u| "#{u.label_with_id}|#{u.id}"}.join("\n")
+      end
     end
   end
 
@@ -281,39 +320,11 @@ protected
     add_breadcrumb "Proposals", proposals_path
   end
 
-  def other_completed_profiles
-    return (User.complete_profiles - @proposal.users).map{|user| [user.label_with_id, user.id]}
-  end
-  helper_method :other_completed_profiles
-
-  def manage_speakers
-    # TODO make this ajax
-    # TODO add searching ajax to limit content of dropdown
-    # TODO add invite mechanism somewhere
-    @focus_speakers = false
+  def manage_speakers_on_submit
     speakers = params[:speaker_ids].ergo.map(&:first)
     unless speakers.blank?
       speakers.each do |speaker|
         @proposal.add_user(speaker)
-      end
-    end
-    if params[:add_speaker]
-      @focus_speakers = true
-      if params[:speaker][:id].blank?
-        flash[:failure] = "Please select a speaker to add."
-      else
-        user = User.find(params[:speaker][:id])
-        flash[:success] = "Added speaker to proposal: #{user.fullname}"
-        @proposal.add_user(user)
-      end
-    elsif params[:remove_speaker]
-      @focus_speakers = true
-      if @proposal.users.size > 1
-        user = User.find(params[:remove_speaker])
-        @proposal.users.delete(user)
-        flash[:success] = "Removed speaker from proposal: #{user.fullname}"
-      else
-        flash[:failure] = "You cannot delete the last speaker from a proposal"
       end
     end
   end
