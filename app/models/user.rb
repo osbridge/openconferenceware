@@ -151,10 +151,12 @@ class User < ActiveRecord::Base
     return "#{self.label} (#{self.id})"
   end
 
+  # Return string with the user's full name, or as much of it as possible, or a nil.
   def fullname
-    return "#{self.first_name} #{self.last_name}"
+    return [self.first_name, self.last_name].compact.join(" ") if ! self.first_name.blank? || ! self.last_name.blank?
   end
 
+  # Set the user's first and last name by splitting a single string.
   def fullname=(value)
     self.first_name = value.ergo.split(" ")[0..-2].join(' ')
     self.last_name = value.ergo.split(" ").last
