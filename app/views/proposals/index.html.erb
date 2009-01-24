@@ -1,6 +1,11 @@
 <% page_title "#{@event.title} proposals" %>
 
-<% cache_if(!logged_in?, "proposals_index_#{@event.id}") do %>
+<%
+cache_key = "proposals_index_#{@event.id}"
+cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
+%>
+
+<% cache_if(!logged_in?, cache_key) do %>
   <div>
     <% if accepting_proposals? %>
       <p>
@@ -27,7 +32,7 @@
       </p>
     <% end %>
   </div>
-  
+
   <% if proposal_excerpts? %>
 
       <div>
@@ -113,5 +118,5 @@
       <% end %>
     </table>
   <% end %>
-  
+
 <% end %>
