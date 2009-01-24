@@ -20,6 +20,10 @@
     <%= f.text_field :title %>
   </p>
   <p>
+    <%= f.label :excerpt %> (one line description, used in track selector)<br />
+    <%= f.text_area :excerpt, :rows => 8 %>
+  </p>
+  <p>
     <%= f.label :description %> (<%= link_to "Textile", "http://hobix.com/textile/" %>)<br />
     <%= f.text_area :description %>
   </p>

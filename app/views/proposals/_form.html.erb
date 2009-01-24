@@ -109,8 +109,19 @@
               <%= required_field %><%= f.label :track_id, "Track" %>
             </td>
             <td>
-              <%= f.collection_select :track_id, @event.tracks.find(:all), :id, :title, :prompt => "- Please select -" %>
-              <%= link_to "What are this event's tracks?", tracks_path, :popup => true %>
+              <ul class='track-selector'>
+              <% for track in @event.tracks %>
+                <li>
+                  <%= f.radio_button :track_id, track.id %>
+                  <label for="proposal_track_id_<%= track.id %>">
+                    <strong class="<%= track_css_class(track) %>"><%= track.title %></strong>
+                    <% unless track.excerpt.blank? %>
+                    <p class='excerpt'><%= track.excerpt %> <%= link_to "more&hellip;", track_path(track), :popup => true %></p>
+                    <% end %>
+                  </label>
+                </li>
+              <% end %>
+              </ul>
             </td>
           </tr>
 <% end %>

@@ -2,9 +2,13 @@
 
 <div id="track-show">
   <span class="description"><%= textilize @track.description %></span>
-
-  <%= link_to 'Edit this track', edit_track_path(@track), :class => "editable" if admin? %>
-  <%= link_to 'Tracks for this event', tracks_path, :class => "cancelable" %>
+  
+  <% if admin? %>
+    <h3>Excerpt</h3>
+    <p class="excerpt"><%= @track.description %></p>
+    <%= link_to 'Edit this track', edit_track_path(@track), :class => "editable" if admin? %>
+  <% end %>
+  <%= link_to 'All tracks for this event', tracks_path, :class => "cancelable" %>
 
   <% unless @track.proposals.empty?  %>
     <h3>Proposals for this track</h3>
