@@ -27,7 +27,7 @@ class Proposal < ActiveRecord::Base
   # Mixins
   include SettingsCheckersMixin
   include CacheLookupsMixin
-  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:tracks, :users]
+  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
 
   # Associations
   belongs_to :event
