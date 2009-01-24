@@ -132,7 +132,7 @@
             </td>
             <td>
               <ul class='radio-set'>
-              <% for session_type in @event.session_types %>
+              <% for session_type in @event.session_types.sort_by{|e| e.duration} %>
                 <li>
                   <%= f.radio_button :session_type_id, session_type.id %>
                   <label for="proposal_session_type_id_<%= session_type.id %>">

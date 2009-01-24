@@ -2,12 +2,12 @@
 
 short-form:
   event_id: 2009
-  title: Short-Form
+  title: Short-Form - 45 minutes
   duration: 45
   description: A set of lightning talks, a one-or-more person presentation, a panel, or something else covering specific, concise material.
 
 long-form:
   event_id: 2009
-  title: Long-Form
+  title: Long-Form - 1 hour, 45 minutes
   duration: 105
   description: "We're especially interested in seeing interactive approaches: tutorials, guided discussions, or other hands-on explorations."
