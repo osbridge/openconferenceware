@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def index
     add_breadcrumb 'Users'
 
-    @users = User.find(:all)
+    @users = User.find(:all, :order => 'last_name asc')
   end
 
   def show
