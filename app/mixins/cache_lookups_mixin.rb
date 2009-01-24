@@ -56,6 +56,7 @@ module CacheLookupsMixin
       dict = nil
       ActiveRecord::Base.benchmark("Lookup: #{silo}#{key.ergo{'#'+to_s}}") do
         dict = RAILS_CACHE.fetch_object(silo){
+          # FIXME Exceptions within this block are silently swallowed by something. This is bad.
           self.find(:all, self.lookup_opts).inject(Dictionary.new){|s,v| s[v.send(self.lookup_key)] = v; s}
         }
       end
