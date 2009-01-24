@@ -109,7 +109,7 @@
               <%= required_field %><%= f.label :track_id, "Track" %>
             </td>
             <td>
-              <ul class='track-selector'>
+              <ul class='radio-set'>
               <% for track in @event.tracks %>
                 <li>
                   <%= f.radio_button :track_id, track.id %>
@@ -131,8 +131,19 @@
               <%= required_field %><%= f.label :session_type_id, "Session Type" %>
             </td>
             <td>
-              <%= f.collection_select :session_type_id, @event.session_types.find(:all), :id, :title, :prompt => "- Please select -" %>
-              <%= link_to "What are this event's session types?", session_types_path, :popup => true %>
+              <ul class='radio-set'>
+              <% for session_type in @event.session_types %>
+                <li>
+                  <%= f.radio_button :session_type_id, session_type.id %>
+                  <label for="proposal_session_type_id_<%= session_type.id %>">
+                    <strong><%= session_type.title %></strong>
+                    <% unless session_type.description.blank? %>
+                    <p class='excerpt'><%= session_type.description %></p>
+                    <% end %>
+                  </label>
+                </li>
+              <% end %>
+              </ul>
             </td>
           </tr>
 <% end %>
