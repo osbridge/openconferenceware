@@ -577,3 +577,62 @@ ul.radio-set p.excerpt {
 	font-size: .8em;
 	margin: 0;
 }
+
+.standard-form {}
+  .standard-form h4 {}
+  .standard-form label {
+    color: #666;
+    }
+  .standard-form h4 {
+    padding: 0.5em 0 0.25em 0; }
+  .standard-form td h4 {
+    padding: 0.25em 0 0.1em 0; }
+  .standard-form label {
+    font-style: normal; }
+  .standard-form table {
+    width: 100%; }
+  .standard-form td {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top; }
+  .standard-form .label-cell {
+    padding-left: 0;
+    text-align: right;
+    white-space: nowrap;
+    width: auto; 
+  }
+  .standard-form .label-cell label {
+    font-size: 1.1em;
+  }
+  .standard-form .data-cell {
+    width: 98%; }
+  .standard-form input[type=checkbox] {
+    padding: 0;
+    margin: 0 0.5em 0 0; }
+  .standard-form input[type=text],
+  .standard-form input[type=password],
+  .standard-form textarea {
+    width: 97%;
+    padding: .3em;
+  }
+  .standard-form td div.record-controls {
+    margin: 0em; }
+  .standard-form input[type=submit] {
+    font-size: 100%;
+  }
+
+input, textarea {
+  font-style: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+input.radio, input.checkbox, input[type=radio], input[type=checkbox] {
+  font-size: 11px;
+}
+
+form .help {
+  margin: 0 0 .5em 0;
+  color: #999;
+  font-size: .8em;
+}
