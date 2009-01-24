@@ -30,7 +30,7 @@ class ProposalsController < ApplicationController
           with_tracks = @proposals.select(&:track).sort_by{|proposal| proposal.track}
           with_tracks + without_tracks
         else
-          @proposals.sort_by{|proposal| proposal.send(params[:sort]) rescue nil}
+          @proposals.sort_by{|proposal| proposal.send(params[:sort]).to_s.downcase rescue nil}
         end
         @proposals = @proposals.reverse if params[:dir] == 'desc'
     end
