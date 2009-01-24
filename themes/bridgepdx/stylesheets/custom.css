@@ -548,32 +548,32 @@ strong.admin {
   padding: 0.1em;
 }
 
-ul.track-selector {
+ul.radio-set {
   list-style: none;
   padding: 0;
   margin: 0 0 1em;
   border-top: 1px solid #aaa;
 }
 
-ul.track-selector li {
+ul.radio-set li {
 	background: #eee;
 	padding: .5em .5em .5em 35px;
 	border-bottom: 1px solid #aaa;
 	position: relative;
 }
 
-ul.track-selector input {
+ul.radio-set input {
 	position: absolute;
 	left: 10px;
 	top: .9em;
 }
 
-ul.track-selector label {
+ul.radio-set label {
 	font-style: normal;
 	display: block;
 }
 
-ul.track-selector p.excerpt {
+ul.radio-set p.excerpt {
 	font-size: .8em;
 	margin: 0;
 }
