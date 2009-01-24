@@ -30,7 +30,7 @@ class TracksController < ApplicationController
   # GET /tracks/new
   # GET /tracks/new.xml
   def new
-    @track = Track.new
+    @track = Track.new(:color => '#666666')
 
     respond_to do |format|
       format.html # new.html.erb
