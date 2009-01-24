@@ -21,7 +21,7 @@
 <% if @proposal.new_record? and not logged_in? %>
         <tr>
           <td colspan="2">
-            <h4>Login with OpenID</h4>
+            <h3>Login with OpenID</h3>
             <p><%= snippet_for :proposals_openid_text %></p>
           </td>
         </tr>
@@ -49,7 +49,7 @@
 <% if not user_profiles? and not multiple_presenters? %>
         <tr>
           <td colspan="2">
-            <h4>About you</h4>
+            <h3>About you</h3>
           </td>
         </tr>
         <tr>
@@ -75,7 +75,7 @@
 <% else %>
         <tr>
           <td colspan="2">
-            <h4>Speakers for this presentation</h4>
+            <h3>Speakers for this presentation</h3>
           </td>
         </tr>
         <tr>
@@ -90,13 +90,13 @@
 <% end %>
         <tr>
           <td colspan="2">
-            <h4>
+            <h3>
 <% if multiple_presenters? %>
               About this presentation
 <% else %>
               About your presentation
 <% end %>
-            </h4>
+            </h3>
           </td>
         </tr>
         <tr>
@@ -112,7 +112,7 @@
               <ul class='radio-set'>
               <% for track in @event.tracks %>
                 <li>
-                  <%= f.radio_button :track_id, track.id %>
+                  <%= f.radio_button :track_id, track.id, :class => :radio %>
                   <label for="proposal_track_id_<%= track.id %>">
                     <strong class="<%= track_css_class(track) %>"><%= track.title %></strong>
                     <% unless track.excerpt.blank? %>
@@ -132,9 +132,9 @@
             </td>
             <td>
               <ul class='radio-set'>
-              <% for session_type in @event.session_types %>
+              <% for session_type in @event.session_types.sort_by{|e| e.duration} %>
                 <li>
-                  <%= f.radio_button :session_type_id, session_type.id %>
+                  <%= f.radio_button :session_type_id, session_type.id, :class => :radio %>
                   <label for="proposal_session_type_id_<%= session_type.id %>">
                     <strong><%= session_type.title %></strong>
                     <% unless session_type.description.blank? %>
