@@ -116,7 +116,7 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb "Create a proposal", new_event_proposal_path
 
-    @proposal = Proposal.new
+    @proposal = Proposal.new(:agreement => false)
     if logged_in?
       @proposal.presenter = current_user.fullname
       @proposal.add_user(current_user)
