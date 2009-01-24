@@ -310,9 +310,14 @@ protected
 
   def assert_user_complete_profile
     if user_profiles? and logged_in? and not current_user.complete_profile?
-      flash[:notice] = "Please complete your profile before creating a proposal."
-      store_location
-      return redirect_to(edit_user_path(current_user, :require_complete_profile => true))
+      current_user.complete_profile = true
+      if current_user.valid?
+        current_user.save
+      else
+        flash[:notice] = "Please complete your profile before creating a proposal."
+        store_location
+        return redirect_to(edit_user_path(current_user, :require_complete_profile => true))
+      end
     end
   end
 
