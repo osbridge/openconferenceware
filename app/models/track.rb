@@ -21,6 +21,7 @@ class Track < ActiveRecord::Base
   validates_presence_of \
     :color,
     :description,
+    :excerpt,
     :event_id,
     :title
     
