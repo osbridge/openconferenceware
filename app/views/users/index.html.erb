@@ -3,23 +3,31 @@
 <div id="user-index">
   <table class="scaffolded">
     <tr>
-      <% if admin? %>
-        <th>Admin?</th>
-      <% end %>
       <th>Name</th>
-      <th>User ID</th>
+      <th>Affiliation</th>
+      <th>Website</th>
+      <% if admin? %>
+        <th>Actions</th>
+      <% end %>
     </tr>
     <% @users.each do |user| -%>
     <tr class="<%= cycle('odd', 'even') %>">
-      <% if admin? %>
-        <td><%= user.admin? %></td>
-      <% end %>
       <td>
         <%= link_to(user.label, user_path(user)) %>
+        <%= user.admin? ? "(<strong class='admin'>admin</strong>)" : '' if admin? %>
       </td>
       <td>
-        <%= user.id %>
+        <%= user.affiliation %>
       </td>
+      <td>
+        <%= display_link_to(user.website) %>
+      </td>
+      <% if admin? %>
+      <td>
+        <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
+        <%= link_to "Delete...", user, :method => :delete, :confirm => "Delete user #{h user.label}?", :class => "deletable" %>
+      </td>
+      <% end %>
     </tr>
     <% end -%>
   </table>
