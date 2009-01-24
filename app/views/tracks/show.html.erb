@@ -5,7 +5,7 @@
   
   <% if admin? %>
     <h3>Excerpt</h3>
-    <p class="excerpt"><%= @track.description %></p>
+    <p class="excerpt"><%= @track.excerpt %></p>
     <%= link_to 'Edit this track', edit_track_path(@track), :class => "editable" if admin? %>
   <% end %>
   <%= link_to 'All tracks for this event', tracks_path, :class => "cancelable" %>
