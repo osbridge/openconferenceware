@@ -2,7 +2,9 @@ class Observist < ActiveRecord::Observer
   observe \
     Proposal,
     Snippet,
-    Event
+    Event,
+    Track,
+    User
 
   def self.expire(*args)
     RAILS_DEFAULT_LOGGER.info("Observist: expiring cache")
@@ -11,6 +13,8 @@ class Observist < ActiveRecord::Observer
     RAILS_CACHE.delete_matched(/proposals?_.+/) rescue nil
     RAILS_CACHE.delete_matched(/snippets?_.+/) rescue nil
     RAILS_CACHE.delete_matched(/events?_.+/) rescue nil
+    RAILS_CACHE.delete_matched(/tracks?_.+/) rescue nil
+    RAILS_CACHE.delete_matched(/users?_.+/) rescue nil
   end
 
   def expire(*args)
