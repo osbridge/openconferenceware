@@ -138,6 +138,7 @@ protected
     if @event = Event.current
       flash.keep
       RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event assigned via default and redirecting to: #{@event.id}")
+      # TODO this should be generalized so it can redirect to proposals, tracks, sessions, etc
       return redirect_to(event_proposals_path(@event))
     end
 
