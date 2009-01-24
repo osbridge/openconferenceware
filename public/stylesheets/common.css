@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/stylesheets/common.css?1232745414 */
+
 /*===[ Generic ]======================================================*/
 
 /*---[ flash notices ]------------------------------------------------*/
@@ -23,25 +25,28 @@
 /*---[ errors ]-------------------------------------------------------*/
 
 #errorExplanation {
-  width: 400px;
-  border: 2px solid red;
+  border: 2px solid #c60000;
   padding: 7px;
   padding-bottom: 12px;
   margin-bottom: 20px;
-  background-color: #f0f0f0; }
+  background-color: #; }
   #errorExplanation h2 {
     text-align: left;
     font-weight: bold;
     padding: 5px 5px 5px 15px;
     font-size: 12px;
     margin: -7px;
-    background-color: #c00;
+    background-color: #c60000;
     color: #fff; }
   #errorExplanation p {
     color: #333;
     margin-top: 0.5em;
     margin-bottom: 0;
     padding: 5px; }
+
+#errorExplanation ul {
+	margin: 0;
+}
   #errorExplanation li {
     margin-left: 1em;
     font-size: 12px;
@@ -56,7 +61,7 @@
   .fieldWithErrors textarea,
   .fieldWithErrors input[type=text],
   .fieldWithErrors input[type=checkbox] {
-    border: 3px solid red; }
+    border: 2px solid red; }
   .fieldWithErrors > input[type=checkbox] {
     border: 3px dotted red;
     color: green;
