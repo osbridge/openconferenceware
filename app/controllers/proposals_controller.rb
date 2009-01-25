@@ -70,7 +70,7 @@ class ProposalsController < ApplicationController
           end
           csv << fields.map{|field| field.to_s}
           for proposal in @proposals
-            csv << fields.map{|field| value = proposal[field]; field == :created_at ? value.localtime.to_s(:date_time12) : value }
+            csv << fields.map{|field| value = proposal.send(field); field == :created_at ? value.localtime.to_s(:date_time12) : value }
           end
         end
         buffer.rewind
