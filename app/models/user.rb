@@ -171,8 +171,8 @@ class User < ActiveRecord::Base
 
   # Set the user's first and last name by splitting a single string.
   def fullname=(value)
-    self.first_name = value.ergo.split(" ")[0..-2].join(' ')
-    self.last_name = value.ergo.split(" ").last
+    self.first_name = value.ergo{split(" ")[0..-2].join(' ')}
+    self.last_name = value.ergo{split(" ").last}
   end
 
   # Alias for #fullname for providing common profile methods.
