@@ -1,0 +1,20 @@
+<% if params[:search] %>
+  <% @matches ||= [] %>
+  <ul>
+    <% if @matches.empty?  %>
+      <li>
+        <b><%= params[:search] %></b> was not found.
+      </li>
+    <% else %>
+      <% for user in @matches %>
+        <% unless user.fullname.blank? %>
+        <li>
+          <%= link_to 'Add', '#', :class => 'addable add-speaker', :speaker_id => user.id %>
+          <strong><%= user.fullname %></strong>
+          <p class='affiliation'><%= user.affiliation %></p>
+        </li>
+        <% end %>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>

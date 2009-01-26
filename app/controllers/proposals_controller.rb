@@ -235,16 +235,14 @@ class ProposalsController < ApplicationController
     end
   end
 
-  def other_speakers
+  def search_speakers
     assign_proposal_for_speaker_manager
 
-    matcher = Regexp.new(params[:q], Regexp::IGNORECASE)
-    users = User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users
+    matcher = Regexp.new(params[:search].to_s, Regexp::IGNORECASE)
+    @matches = User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users
 
     respond_to do |format|
-      format.json do
-        render :text => users.map{|u| "#{u.label_with_id}|#{u.id}"}.join("\n")
-      end
+      format.json { render :partial => "search_speakers.html.erb", :layout => false }
     end
   end
 

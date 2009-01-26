@@ -13,26 +13,16 @@
   <div id='speaker-selector'>
     <h3>Speakers for this presentation</h3>
     <div id='add-speakers'>
-      <form action='#' method='get'>
+      <form id='add-speakers-form' action='#' method='get'>
         <label for='speaker-search-field'>Search for a speaker to add:</label>
         <input type="text" name="search" value="" id="speaker-search-field" />
         <input type="submit" name="speaker_submit" value="Search" id="speaker_submit" />
         <div id='speaker-search-results'>
-          <!-- Search Results Go Here and look something like this-->
-          <!-- FIXME do a proper find on just matches -->
-          <% @found_users = User.find(:all) %>
-          <ul>
-          <% for user in @found_users %>
-            <% unless user.fullname.blank? %>
-            <li>
-              <a href='#add' class='addable'>Add</a>
-              <strong><%= user.fullname %></strong>
-              <p class='affiliation'><%= user.affiliation %></p>
-            </li>
-            <% end %>
-          <% end %>
-          </ul>
+          <%= render :partial => 'proposals/search_speakers' %>
         </div>
+        <p class='where-is-everyone'>
+          Can't find the person you're searching for? Ask them to complete a profile so you can add them.
+        </p>
       </form>
     </div>
   <% end %>
@@ -227,7 +217,9 @@
 
 <% content_for :javascript do %>
   <% path_record = @proposal.new_record? ? "new_record" : @proposal %>
-  bind_manage_speakers_controls = function () {
+  $(document).ready(function() {
+    /*---[ Form-level ]---------------------------------------------------*/
+
     // Speaker extractor
     function extract_speaker_ids() {
       speaker_ids = [];
@@ -240,55 +232,79 @@
       return extract_speaker_ids().join(",")
     }
 
-    // Remove speakers
-    $('#manage-speakers a.remove-speaker').click(function (event) {
+    /*---[ Search results ]-----------------------------------------------*/
+
+    $('#add-speakers-form').submit(function (event) {
       event.preventDefault();
-      target = $(event.target);
-      speaker_id = target.attr('speaker_id');
-      current_user_id = $('#current_user_id').attr('value');
-
-      message = null;
-      if (current_user_id == speaker_id) {
-        message = "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?";
-      } else {
-        message = target.attr('speaker_fullname') + " will no longer be able to edit this proposal. Are you sure you want to remove them?";
-      }
-
-      if (! confirm(message)) {
-        return false;
-      }
-
-      target.removeClass('deletable');
-      target.addClass('spinning');
+      query = $('#speaker-search-field').val();
       $.get(
-        '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
-          'remove': speaker_id
+        '<%= search_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
+          'search': query
         }, function(data) {
-          $('#manage-speakers').html(data);
-          bind_manage_speakers_controls();
-          $("#add_speaker_selector").focus();
+          $('#speaker-search-results').html(data);
+          bind_add_speakers();
+          $("#speaker-search-field").focus();
         }
       );
     });
 
-    // Add speakers
-    $("#add_speaker_selector").autocomplete("<%= other_proposal_speakers_path(path_record) %>?speakers="+extract_speaker_frags(), {
-      delay: 200
-    }).result(function (event, item) {
-      // Item selected
-      $.get(
-        '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
-          'add': item[1]
-        }, function(data) {
-          $('#manage-speakers').html(data);
-          bind_manage_speakers_controls();
-          $("#add_speaker_selector").focus();
+    /*---[ Add speaker ]--------------------------------------------------*/
+
+    function bind_add_speakers() {
+      $('a.add-speaker').click(
+        function(event) {
+          $e = $(event); // Export global for debugging.
+          event.preventDefault();
+          target = $(event.target);
+          speaker_id = target.attr('speaker_id');
+          $.get(
+            '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
+              'add': speaker_id
+            }, function(data) {
+              $('#manage-speakers').html(data);
+              bind_remove_speakers();
+              $("#add_speaker_selector").focus();
+            }
+          );
         }
       );
-    });
-  }
+    }
 
-  $(document).ready(function() {
-    bind_manage_speakers_controls();
+    /*---[ Remove speaker ]-----------------------------------------------*/
+
+    function bind_remove_speakers() {
+      $('#manage-speakers a.remove-speaker').click(function (event) {
+        event.preventDefault();
+        target = $(event.target);
+        speaker_id = target.attr('speaker_id');
+        current_user_id = $('#current_user_id').attr('value');
+
+        message = null;
+        if (current_user_id == speaker_id) {
+          message = "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?";
+        } else {
+          message = target.attr('speaker_fullname') + " will no longer be able to edit this proposal. Are you sure you want to remove them?";
+        }
+
+        if (! confirm(message)) {
+          return false;
+        }
+
+        target.removeClass('deletable');
+        target.addClass('spinning');
+        $.get(
+          '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
+            'remove': speaker_id
+          }, function(data) {
+            $('#manage-speakers').html(data);
+            bind_remove_speakers();
+            $("#add_speaker_selector").focus();
+          }
+        );
+      });
+    }
+
+    bind_remove_speakers();
+
   });
 <% end %>

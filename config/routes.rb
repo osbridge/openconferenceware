@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
-  map.other_proposal_speakers '/proposals/other_speakers/:id', :controller => 'proposals', :action => 'other_speakers'
+  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers'
 
   map.resources :comments
   map.comments_feed '/comments.atom', :controller => 'comments', :action => 'index'
