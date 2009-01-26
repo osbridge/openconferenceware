@@ -1,10 +1,9 @@
 set :theme, "bridgepdx"
 
 set :scm, "git"
-set :repository,  "git@github.com:igal/openconferenceware.git"
+set :repository,  "git://github.com/igal/openconferenceware.git"
 set :branch, "master"
 set :deploy_to, "/var/www/bridgepdx_ocwdemo"
-set :user, "igal"
 set :host, "burnside"
 
 set :deploy_via, :remote_cache
