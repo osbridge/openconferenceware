@@ -6,18 +6,51 @@
 </p>
 
 <div id="proposal-form" class="standard-form">
-  <% form_for([@event, @proposal]) do |f| %>
-    <table>
-      <% unless error_messages_for(:proposal).blank? %>
-        <thead>
-          <tr>
-            <td colspan="2">
-              <%= error_messages_for :proposal %>
-            </td>
-          </tr>
-        </thead>
-      <% end %>
+  <%= error_messages_for :proposal unless error_messages_for(:proposal).blank? %>
+  
+  
+  <% if user_profiles? and multiple_presenters? %>
+  <div id='speaker-selector'>
+    <h3>Speakers for this presentation</h3>
+    <div id='add-speakers'>
+      <form action='#' method='get'>
+        <label for='speaker-search-field'>Search for a speaker to add:</label>
+        <input type="text" name="search" value="" id="speaker-search-field" />
+        <input type="submit" name="speaker_submit" value="Search" id="speaker_submit" />
+        <div id='speaker-search-results'>
+          <!-- Search Results Go Here and look something like this-->
+          <!-- FIXME do a proper find on just matches -->
+          <% @found_users = User.find(:all) %>
+          <ul>
+          <% for user in @found_users %>
+            <% unless user.fullname.blank? %>
+            <li>
+              <a href='#add' class='addable'>Add</a>
+              <strong><%= user.fullname %></strong>
+              <p class='affiliation'><%= user.affiliation %></p>
+            </li>
+            <% end %>
+          <% end %>
+          </ul>
+        </div>
+      </form>
+    </div>
+  <% end %>
+  
+  <% form_for([@event, @proposal]) do |f| %>  
+  
+  <% if user_profiles? and multiple_presenters? %>
+    <div id="manage-speakers">
+      <%= render :partial => "proposals/manage_speakers" %>
+    </div>
+  </div>
+  <% end %>
+  
+  
+  
+    <table class='clear'>
       <tbody>
+        
 <% if @proposal.new_record? and not logged_in? %>
         <tr>
           <td colspan="2">
@@ -46,6 +79,7 @@
           </td>
         </tr>
 <% end %>
+
 <% if not user_profiles? and not multiple_presenters? %>
         <tr>
           <td colspan="2">
@@ -72,22 +106,8 @@
           <td class="label-cell"><%= required_field %><%= f.label :biography, "Biography" %></td>
           <td><%= f.text_area :biography, :rows => 5 %></td>
         </tr>
-<% else %>
-        <tr>
-          <td colspan="2">
-            <h3>Speakers for this presentation</h3>
-          </td>
-        </tr>
-        <tr>
-          <td class="label-cell">
-          </td>
-          <td>
-            <div id="manage-speakers">
-              <%= render :partial => "proposals/manage_speakers" %>
-            </div>
-          </td>
-        </tr>
 <% end %>
+
         <tr>
           <td colspan="2">
             <h3>
