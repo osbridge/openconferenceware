@@ -1,5 +1,8 @@
+# Public URL of website:
+public_url: 'http://OpenSourceBridge.org/'
+
 # Organization running event:
-organization: 'Open Source Bridge Portland'
+organization: 'Open Source Bridge'
 
 # Abbreviated name for use in URLs and proposal slugs.
 organization_slug: 'osb'
@@ -8,8 +11,7 @@ organization_slug: 'osb'
 tagline: 'An open source conference in Portland, Oregon | June 2009'
 
 # Breadcrumbs that are always visible, each breadcrumb is a name and URI:
-breadcrumbs:
-  - ['BridgePDX', 'http://bridgepdx.org/']
+breadcrumbs: []
 
 # Timezone for dates in this application:
 timezone: 'Pacific Time (US & Canada)'
