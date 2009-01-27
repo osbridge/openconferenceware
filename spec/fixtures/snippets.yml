@@ -23,12 +23,14 @@ d:
   description: 'Proposals: error shown when not accepting proposals'
   content: 'Sorry, we are no longer accepting submissions.'
 
+<% openid_common_text = %{OpenID account (<a onclick='window.open(this.href);return false;' href='http://openid.net/what/'>what is OpenID?</a>) so you can create proposals and come back later to edit them. If you need an OpenID account, you can <a onclick='window.open(this.href);return false;' href='http://openid.net/get/'>get a free account</a> in about a minute.} %>
+
 e:
   slug: login_openid_text
   description: "OpenID login: form text"
-  content: "Logging in with an OpenID account (<a onclick='window.open(this.href);return false;' href='http://openid.net/what/'>what is OpenID?</a>) will let you create proposals and come back to edit them later. If you need an OpenID account, you can <a onclick='window.open(this.href);return false;' href='https://openid.net/get/'>get a free account</a> in about a minute."
+  content: "Login with your <%= openid_common_text %>"
 
 f:
   slug: proposals_openid_text
   description: "Proposals: OpenID text"
-  content: "<b>Optional:</b> To be able to edit your proposal later, please login first with an OpenID account (<a href='http://openid.net/what/'>what is OpenID?</a>). If you need an OpenID account, you can <a href='http://www.openid.net/get/'>get a free account</a> in about a minute."
+  content: "<b>Optional:</b> To be able to edit your proposal later, please login first with an <%= openid_common_text %>"
