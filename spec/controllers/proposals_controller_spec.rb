@@ -81,28 +81,57 @@ describe ProposalsController do
       end
     end
 
-    describe "when returning XML" do
-      it "should return XML" do
-        get :index, :event_id => @current_event.id, :format => "xml"
+    describe "when exporting", :shared => true do
+      # Expects following to be set by implementor's #before block:
+      # - @proposals
+      # - @records
+      # - @record
 
-        proposals = assigns(:proposals)
-        proposals.size.should >= 0
+      it "should assign multiple items" do
+        @proposals.size.should >= 1
+      end
 
-        struct = XmlSimple.xml_in_string(response.body)
-        struct['proposal'].size.should == proposals.size
+      it "should export same number of items as assigned" do
+        @records.size.should == @proposals.size
+      end
+
+      it "should export presenter" do
+        @record.keys.should include('presenter')
+      end
+
+      it "should not export email" do
+        @record.keys.should_not include('email')
+      end
+
+      it "should not export private notes" do
+        @record.keys.should_not include('note_to_organizers')
       end
     end
 
+    describe "when returning XML" do
+      before(:each) do
+        get :index, :event_id => @current_event.id, :format => "xml"
+
+        @proposals = assigns(:proposals)
+        @struct = XmlSimple.xml_in_string(response.body)
+        @records = @struct['record']
+        @record = @records.first
+      end
+
+      it_should_behave_like "when exporting"
+    end
+
     describe "when returning JSON" do
-      it "should return JSON" do
+      before(:each) do
         get :index, :event_id => @current_event.id, :format => "json"
 
-        proposals = assigns(:proposals)
-        proposals.size.should >= 0
-
-        struct = ActiveSupport::JSON.decode(response.body)
-        struct.size.should == proposals.size
+        @proposals = assigns(:proposals)
+        @struct = ActiveSupport::JSON.decode(response.body)
+        @records = @struct
+        @record = @records.first
       end
+
+      it_should_behave_like "when exporting"
     end
   end
 

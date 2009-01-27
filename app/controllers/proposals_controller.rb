@@ -40,10 +40,10 @@ class ProposalsController < ApplicationController
         add_breadcrumb @event.title, event_proposals_path(@event)
       }
       format.xml  {
-        render :xml => @proposals
+        render :xml => @proposals.map(&:public_attributes)
       }
       format.json {
-        render :json => @proposals
+        render :json => @proposals.map(&:public_attributes)
       }
       format.atom {
         @proposals = @proposals[0..MAX_FEED_ITEMS]
@@ -102,11 +102,10 @@ class ProposalsController < ApplicationController
     @display_comment = (! params[:commented] && ! can_edit? && accepting_proposals?) || admin?
     @focus_comment = false
 
-    # TODO do not include private fields in the json/xml exports
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @proposal }
-      format.json { render :json => @proposal }
+      format.xml  { render :xml => @proposal.public_attributes }
+      format.json { render :json => @proposal.public_attributes }
     end
   end
 
