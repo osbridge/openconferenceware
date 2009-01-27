@@ -22,23 +22,28 @@
 #
 
 class Proposal < ActiveRecord::Base
+  # Associations
   belongs_to :user
   belongs_to :event
   has_many :comments
 
+  # Validations
   # XXX Use better email validator?
   validates_presence_of :presenter, :email, :bio, :title, :description, :event_id
   validates_acceptance_of :agreement, :accept => true, :message => "must be accepted"
 
+  # Protected attributes for assignment
   attr_protected :user_id, :event_id
 
   # Public attributes for export
   include PublicAttributesMixin
   set_public_attributes :id, :user_id, :presenter, :affiliation, :url, :bio, :title, :description, :created_at, :updated_at, :event_id, :submitted_at
 
+  # Caching
   include CacheLookupsMixin
   cache_lookups_for :id, :order => 'submitted_at desc'
 
+  # Triggers
   before_save :populate_submitted_at
 
   # Does this +someone+ have privileges to alter this proposal?
