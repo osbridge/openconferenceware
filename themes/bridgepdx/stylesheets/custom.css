@@ -282,10 +282,10 @@ div.navigation div.nav-next {
 }
 
 div.sidebar h3 {
-	font-size: 1.2em;
+	font-size: 1.1em;
 	font-weight: normal;
 	color: #116db6;
-	margin: 1em 0 .5em 0;
+	margin: .5em 0 .5em 0;
 }
 
 div.sidebar input#s {
@@ -294,7 +294,7 @@ div.sidebar input#s {
 
 div.sidebar li {
 	list-style: none;
-	margin: 0 0 2em;
+	margin: 0 0 1.5em;
 }
 
 div.sidebar li form {
@@ -303,12 +303,11 @@ div.sidebar li form {
 }
 
 div.sidebar ul ul {
-	margin: 0 0 0 1.3em;
+	margin: 0 0 0 .8em;
 	font-size: .8em;
 }
 
 div.sidebar ul ul li {
-	list-style: disc;
 	margin: 0;
 }
 
@@ -679,4 +678,8 @@ form .help {
   text-indent: -999px;
   position: absolute;
   left: 1em;
+}
+
+sidebar .addable {
+	margin-left: 0;
 }
