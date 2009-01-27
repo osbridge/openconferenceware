@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 <head profile="http://gmpg.org/xfn/11">
-	<title><%= SETTINGS.organization %>: <%= page_title %></title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<meta name="description" content="<%= SETTINGS.tagline %>" />
+  <title><%= SETTINGS.organization %>: <%= page_title %></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="<%= SETTINGS.tagline %>" />
 
   <!-- Feeds -->
   <%= auto_discovery_link_tag(:atom, proposals_feed_path, :title => "#{SETTINGS.organization}: Proposals feed") %>
@@ -38,17 +38,17 @@
 <body>
   <div id="wrapper">
      <div id="header">
-		<h1 id="site-title">
-  		   <span>
-  		      <a href="<%= remote_base %>" title="<%= SETTINGS.organization %>" rel="home">
-     		      <%= SETTINGS.organization %>
-  		      </a>
-	      </span>
+      <h1 id="site-title">
+         <span>
+            <a href="<%= remote_base %>" title="<%= SETTINGS.organization %>" rel="home">
+              <%= SETTINGS.organization %>
+            </a>
+        </span>
       </h1>
-		<div id="site-description"><%= SETTINGS.tagline %></div>
-  	</div>
-  	
-  	<div id="access">
+      <div id="site-description"><%= SETTINGS.tagline %></div>
+    </div>
+
+    <div id="access">
       <div class="skip-link">
         <a href="#content" title="Skip to content">Skip to content</a>
       </div>
@@ -61,10 +61,10 @@
           <li class="current_page_item"><a href="<%= proposals_path %>">Proposals</a></li>
         </ul>
       </div>
-	</div>
-	
-	<div id="container">
-		<div id="content">
+  </div>
+
+  <div id="container">
+    <div id="content">
          <div id="breadcrumbs">
             <% if @breadcrumbs %>
                <% @breadcrumbs[0..-2].each_with_index do |breadcrumb, i| %>
