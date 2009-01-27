@@ -54,6 +54,10 @@ class Proposal < ActiveRecord::Base
   # Protected attributes
   attr_protected :user_id, :event_id
 
+  # Public attributes for export
+  include PublicAttributesMixin
+  set_public_attributes :id, :user_id, :presenter, :affiliation, :url, :bio, :title, :description, :created_at, :updated_at, :event_id, :submitted_at
+
   # Triggers
   before_save :populate_submitted_at
 
