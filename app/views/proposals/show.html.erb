@@ -123,28 +123,8 @@
 
 <%# FIXME rename @display_comment to @display_comment_form %>
 <% if admin? %>
-<h3>Comments</h3>
-<% end %>
-
-
-<% if admin? %>
-  <div id="proposal-comments">
-    <% if @proposal.comments.blank? %>
-      <div class="empty-text">&mdash; No comments &mdash;</div>
-    <% else %>
-      <dl>
-        <% for comment in @proposal.comments %>
-          <dt>
-            <%= h comment.email %>
-            <%= link_to "Destroy", comment_path(comment), :method => :delete, :class => :deletable, :confirm => "Are you sure you want to delete this message?" %>
-          </dt>
-          <dd>
-            <%= preserve_formatting_of comment.message %>
-          </dd>
-        <% end %>
-      </dl>
-    <% end %>
-  </div>
+  <h3>Comments</h3>
+  <%= render :partial => 'comments/list', :locals => { :comments => @proposal.comments }%>
 <% end %>
 
 <% if @display_comment %>
