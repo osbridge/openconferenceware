@@ -1,179 +1,171 @@
-/* @override 
-	http://dev.reidab.com/wp-content/themes/bridgepdx/style.css
-	http://localhost:3000/themes/bridgepdx/stylesheets/custom.css
-*/
+/* @override http://localhost:3000/themes/bridgepdx/stylesheets/custom.css */
 
 @import url("common_css/osbp_common.css");
 
-/* Start of existing custom.css */
-
-/*---[ base ]---------------------------------------------------------*/
-
-/* Counteract padding on P */
-div.compressed, .compressed {
-  margin: -0.25em 0; }
-
-/*---[ specific ]-----------------------------------------------------*/
-
-#doc3 {
-  width: 90%;
-  margin: auto;
-  padding: 1em; }
-
 #breadcrumbs {
-  color: #888;
-  font-size: .8em; }
-
-div.record-controls {
-  margin-top: 1em; }
-  .record-controls .div {
-    display: inline; }
-
-tr.odd td {
-  background: white; }
-tr.even td {
-  background: #EBEEF0; }
-
-/*---[ MERGE!? ]------------------------------------------------------*/
-
-.standard-form {}
-  .standard-form .data-cell > p {
-      margin: -0.25em 0; }
-
-/*---[ proposals list ]-----------------------------------------------*/  
-
-#proposal-listing {}
-  #proposal-listing a {
-    padding: 0;
-    margin: 0; }
-  #proposal-listing .title {}
-  #proposal-listing .excerpt {}
-  #proposal-listing .speakers {
-    margin-left: 1em;
-    font-size: 85%;
-  }
-
-/*===[ fin ]==========================================================*/
-
-table.proposals {
-  margin: 1em 0;
+	color: #888;
+	margin-bottom: .5em;
 }
 
-table.proposals td {
-	border-top: 1px solid #aaa;
+/* @group Common Helper Classes */
+
+.inlined, .inlined div, .record-controls div {
+	display: inline;
 }
 
-table.proposals h3 {
-	margin: .3em 0 .5em;
+.quagmire {
+	display: none;
 }
 
-table.proposals .date, table.proposals .track {
-  font-size: .9em;
+.wide {
+	width: 100%;
+}
+
+.narrow {
+	width: 0%;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.hidden {
+	display: none;
+}
+
+.visible {
+	visible: visible;
+}
+
+.empty-text {
 	text-align: center;
-	line-height: 2em;
-	padding: .5em 1em;
-  height: 2em;
+	font-style: italic;
+	white-space: nowrap;
 }
 
-table.proposals .date {
-	background: #eee;
+/* @end */
+
+/* @group Icon Additions */
+
+.addable,
+.showable,
+.editable,
+.cancelable,
+.deletable,
+.feedable,
+.snippet_edit_link,
+.spinning {
+	margin-right: 10px;
+	padding-left: 20px;
+	background-position: left center;
+	background-repeat: no-repeat;
 }
 
-table.proposals .excerpt {
-	font-size: .9em;
+.addable {
+	background-image: url('/images/plus.png');
 }
 
-table.proposals .speakers {
-	font-size: .9em;
-	border-top: none;
-	padding: .5em 0 1em 0;
-	vertical-align: top;
+.showable {
+	background-image: url('/images/document.png');
 }
 
-table.proposals .description {
-  padding: 0 1em 1em 0;
+.editable,
+.snippet_edit_link {
+	background-image: url('/images/edit.png');
 }
 
-.track {
-	background: #666;
-	color: #fff;
+.cancelable {
+	background-image: url('/images/arrow-out.png');
 }
 
-.track.block, 
-.track.block a {
-  color: inherit;
-  text-decoration: inherit;
-  text-transform: uppercase;
-  padding: .5em;
-  line-height: 2em;
-  height: 2em;
+.deletable {
+	background-image: url('/images/redx.png');
 }
 
-#submit-a-talk {
-	margin-bottom: 1em;
+.feedable {
+	background-image: url('/images/feed.png');
 }
 
-ul.speakers {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.spinning {
+	background-image: url('/images/spinner.gif');
 }
 
-ul.speakers li {
-  border-bottom: 1px solid #aaa;
-  margin-top: 1em;
-  padding-bottom: 1em;
+/* @end */
+
+/* @group Forms */
+
+.required-field {
+	padding: 0 0.25em;
+	color: red;
 }
 
-ul.speakers .note {
-  font-size: .9em;
-  padding: 0 2em;
+.private-field {
+	padding: 0 0.25em;
+	color: green;
 }
 
 .record-controls {
-  margin-bottom: 1em;
+	margin: 1em;
 }
 
-.user-meta, .user-photo, .proposal-meta {
-	float: right;
-  margin: 0 0 1em 1em;
-  clear: right;
+.record-controls input {
+	margin-right: 1em;
 }
 
-strong.admin {
-	color: red;
-	font-weight: normal;
+/* @group Standard Form */
+
+.standard-form table {
+	width: 100%;
 }
 
-.proposal-slug {
-  font-weight: bold;
-  font-size: .8em;
-  padding: .5em;
+.standard-form td {
+	padding: 0.5em;
+	text-align: left;
+	vertical-align: top;
 }
 
-.proposal-meta {
-  text-align:center;
-  border: 1px solid #666;
+.standard-form .label-cell {
+	padding-left: 0;
+	text-align: right;
+	white-space: nowrap;
+	width: auto;
 }
 
-.proposal-meta a.session_type {
-  display: block;
-  background: #999;
-  color: #fff;
-  text-decoration: none;
-  font-size: .8em;
-  padding: .3em 0;
+.standard-form .label-cell label {
+	font-size: 1.1em;
 }
 
-#manage-speakers td {
-  padding: 0.1em;
+.standard-form .data-cell {
+	width: 98%;
 }
+
+.standard-form input[type=checkbox] {
+	padding: 0;
+	margin: 0 0.5em 0 0;
+}
+
+.standard-form input[type=text],
+  .standard-form input[type=password],
+  .standard-form textarea {
+	width: 97%;
+	padding: .3em;
+}
+
+.standard-form input[type=submit] {
+	font-size: 100%;
+}
+
+
+
+/* @end */
+
+/* @group Radio Set */
 
 ul.radio-set {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1em;
-  border-top: 1px solid #aaa;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 1em;
+	border-top: 1px solid #aaa;
 }
 
 ul.radio-set li {
@@ -194,114 +186,321 @@ ul.radio-set label {
 	display: block;
 }
 
-ul.radio-set p.excerpt, 
-#speaker-search-results li p {
-	font-size: .8em;
+ul.radio-set p {
+	font-size: .85em;
 	margin: 0;
 }
 
-.standard-form {}
-  .standard-form h4 {}
-  .standard-form label {
-    color: #666;
-    }
-  .standard-form h4 {
-    padding: 0.5em 0 0.25em 0; }
-  .standard-form td h4 {
-    padding: 0.25em 0 0.1em 0; }
-  .standard-form label {
-    font-style: normal; }
-  .standard-form table {
-    width: 100%; }
-  .standard-form td {
-    padding: 0.5em;
-    text-align: left;
-    vertical-align: top; }
-  .standard-form .label-cell {
-    padding-left: 0;
-    text-align: right;
-    white-space: nowrap;
-    width: auto; 
-  }
-  .standard-form .label-cell label {
-    font-size: 1.1em;
-  }
-  .standard-form .data-cell {
-    width: 98%; }
-  .standard-form input[type=checkbox] {
-    padding: 0;
-    margin: 0 0.5em 0 0; }
-  .standard-form input[type=text],
-  .standard-form input[type=password],
-  .standard-form textarea {
-    width: 97%;
-    padding: .3em;
-  }
-  .standard-form td div.record-controls {
-    margin: 0em; }
-  .standard-form input[type=submit] {
-    font-size: 100%;
-  }
+/* @end */
 
-input, textarea {
-  font-style: inherit;
-  font-size: inherit;
-  font-family: inherit;
+/* @end */
+
+/* @group Snippets */
+
+.snippet_preview {
+	margin: 0;
+	padding: 0.5em;
+	border: 1px dotted #116db6;
 }
 
-input.radio, input.checkbox, input[type=radio], input[type=checkbox] {
-  font-size: 11px;
+.snippet_form input[type=text] {
+	width: 100%;
 }
 
-form .help {
-  margin: 0 0 .5em 0;
-  color: #999;
-  font-size: .8em;
+.snippet_form textarea {
+	height: 12em;
+	width: 100%;
 }
 
-#add-speakers {
-  background: #eee;
-  border-left: 1px solid #aaa;
-  padding: 1em 1em 0;
-  width: 40%;
-  float: right;
+/* @end */
+
+/* @group Login Form */
+
+#session_form input[type=text], #session_form input[type=password] {
+	width: 24em;
 }
 
-#add-speakers input {
-  width: auto;
+#session_form input {
+	clear: both;
+}
+
+#session_form .rightish {
+	width: 12em;
+	text-align: right;
+	display: block;
+	float: left;
+	text-align: right;
+	padding-right: 1em;
+}
+
+/* @end */
+
+/* @group Submit a Talk Button */
+
+.rnd_top, .rnd_bottom {
+	display: block;
+	background: #FFFFFF;
+	font-size: 1px;
+}
+
+.rnd_b1, .rnd_b2, .rnd_b3, .rnd_b4 {
+	display: block;
+	overflow: hidden;
+}
+
+.rnd_b1, .rnd_b2, .rnd_b3 {
+	height: 1px;
+}
+
+.rnd_b2, .rnd_b3, .rnd_b4 {
+	background: #DAF4D4;
+	border-left: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+}
+
+.rnd_b1 {
+	margin: 0 5px;
+	background: #CCCCCC;
+}
+
+.rnd_b2 {
+	margin: 0 3px;
+	border-width: 0 2px;
+}
+
+.rnd_b3 {
+	margin: 0 2px;
+}
+
+.rnd_b4 {
+	height: 2px;
+	margin: 0 1px;
+}
+
+.rnd_content {
+	display: block;
+	border: 0 solid #CCCCCC;
+	border-width: 0 1px;
+	padding: 4px;
+	background: #DAF4D4;
+	color: #000000;
+}
+
+div.rnd_content {
+	margin: 0;
+}
+
+/* FIXME how to automatically size width of the box? */
+
+#submit-a-talk {
+	background: #FFFFFF;
+	margin: 1em;
+	width: 13em;
+	font-size: 1.1em;
+}
+
+#submit-a-talk a,
+  #submit-a-talk a:visited,
+  #submit-a-talk a:hover {
+	color: green;
+	margin: 5px;
+	padding: 10px 10px 10px 20px;
+	background: url('/images/plus.png') left center no-repeat;
+}
+
+/* @end */
+
+/* @group Tracks */
+
+.track {
+	background: #666;
+	color: #fff;
+}
+
+.track.block,
+.track.block a {
+	color: inherit;
+	text-transform: uppercase;
+	padding: .5em;
+	line-height: 2em;
+	height: 2em;
+}
+
+/* @end */
+
+/* @group Users */
+
+.user-meta, .user-photo, .proposal-meta {
+	float: right;
+	margin: 0 0 1em 1em;
+	clear: right;
+}
+
+strong.admin {
+	color: red;
+	font-weight: normal;
+}
+
+/* @end */
+
+/* @group Proposals */
+
+/* @group Index */
+
+table.proposals {
+	margin: 1em 0;
+}
+
+table.proposals td {
+	border-top: 1px solid #aaa;
+}
+
+table.proposals h3 {
+	margin: .3em 0 .5em;
+}
+
+table.proposals .date, table.proposals .track {
+	font-size: .9em;
+	text-align: center;
+	line-height: 2em;
+	padding: .5em 1em;
+	height: 2em;
+}
+
+table.proposals .date {
+	background: #eee;
+}
+
+table.proposals .speakers {
+	font-size: .9em;
+	border-top: none;
+	padding: .5em 0 1em 0;
+	vertical-align: top;
+}
+
+table.proposals .description {
+	padding: 0 1em 1em 0;
+}
+
+/* @end */
+
+/* @group Show */
+
+.proposal-slug {
+	font-weight: bold;
+	font-size: .8em;
+	padding: .5em;
+}
+
+.proposal-meta {
+	text-align: center;
+	border: 1px solid #666;
+}
+
+.proposal-meta a.session_type {
+	display: block;
+	background: #999;
+	color: #fff;
+	text-decoration: none;
+	font-size: .8em;
+	padding: .3em 0;
+}
+
+/* @group Comments */
+
+ul.proposal-comments {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul.proposal-comments li {
+	border-bottom: 1px solid #ccc;
+	padding: 1em 0;
+}
+
+ul.proposal-comments div.proposal-title {
+	margin-top: .5em;
+}
+
+ul.proposal-comments blockquote {
+	margin-top: .5em;
+}
+
+/* @end */
+
+/* @group Speaker List */
+
+ul.speakers {
+	margin: 0;
+	list-style: none;
+}
+
+ul.speakers li {
+	border-bottom: 1px solid #aaa;
+	margin-top: 1em;
+}
+
+ul.speakers .note {
+	font-size: .9em;
+	padding: 1em 2em 0;
+}
+
+/* @end */
+
+
+
+/* @end */
+
+/* @group Edit */
+
+#manage-speakers td {
+	padding: 0.1em;
 }
 
 #manage-speakers {
- width: 55%;
+	width: 55%;
 }
 
-.clear {
-  clear: both;
+#add-speakers {
+	background: #eee;
+	border-left: 1px solid #aaa;
+	padding: 1em 1em 0;
+	width: 40%;
+	float: right;
+}
+
+#add-speakers input {
+	width: auto;
+}
+
+#speaker-search-results li p {
+	font-size: .85em;
+	margin: 0;
 }
 
 #speaker-search-results ul {
-  list-style: none;
-  padding: 0;
-  margin: 1em -1em 0;
+	list-style: none;
+	padding: 0;
+	margin: 1em -1em 0;
 }
 
 #speaker-search-results li {
-  padding: .5em 1em .5em 2.5em;
-  position: relative;
-  border-top: 1px solid #aaa;
+	padding: .5em 1em .5em 2.5em;
+	position: relative;
+	border-top: 1px solid #aaa;
 }
 
 #speaker-search-results a.addable {
-  width: 16px;
-  display: block;
-  overflow: hidden;
-  margin-left: 0;
-  padding-left: 0;
-  text-indent: -999px;
-  position: absolute;
-  left: 1em;
+	width: 16px;
+	display: block;
+	overflow: hidden;
+	padding-left: 0;
+	text-indent: -999px;
+	position: absolute;
+	left: 1em;
 }
 
-sidebar .addable {
-	margin-left: 0;
-}
+/* @end */
+
+/* @end */
