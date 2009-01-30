@@ -127,6 +127,6 @@ This program is provided under an MIT open source license, read the
 Copyright
 ---------
 
-Copyright (c) 2007-2008 Igal Koshevoy
+Copyright (c) 2007-2008 Igal Koshevoy, Reid Beels, et al
 
  vim:tw=72:
