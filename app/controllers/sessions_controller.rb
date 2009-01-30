@@ -1,6 +1,10 @@
 # This controller handles the login/logout function of the site.
 class SessionsController < ApplicationController
 
+  def index
+    return redirect_to(login_path)
+  end
+
   # Display mortal login form
   def new
   end
