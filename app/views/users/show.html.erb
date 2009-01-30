@@ -14,7 +14,9 @@
 <% unless @user.affiliation.blank? %>
   <h3>Affiliation</h3>
   <div class='org affiliation'>
-    <%= h @user.affiliation %>
+    <p>
+      <%= h @user.affiliation %>
+    </p>
   </div>
 <% end %>
 
@@ -22,7 +24,9 @@
   <h3>Email<span class='head-note'> (private)</span></h3>
     <td>
       <div>
-        <%= display_link_to(@user.email, :mailto => true) %>
+        <p>
+          <%= display_link_to(@user.email, :mailto => true) %>
+        </p>
       </div>
     </td>
   </tr>
@@ -34,13 +38,19 @@
 
 <% unless @user.website.blank? %>
   <h3>Website</h3>
-  <div><%= display_link_to(@user.website) %></div>
+  <div>
+    <p>
+      <%= display_link_to(@user.website) %>
+    </p>
+  </div>
 <% end %>
 
 <% unless @user.biography.blank? %>
   <h3>Biography</h3>
   <div>
-    <%= display_textile_for @user.biography %>
+    <p>
+      <%= display_textile_for @user.biography %>
+    </p>
   </div>
 <% end %>
 
