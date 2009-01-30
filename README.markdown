@@ -1,15 +1,15 @@
-OpenProposals
-=============
+OpenConferenceWare
+==================
 
 
 About
 -----
 
-*OpenProposals* is a web application for collecting presentation
-proposals for conferences and events. It started out as the [Ignite
-Portland proposals site](http://proposals.igniteportland.com/) but has
-since been reworked as a general-purpose platform that can be restyled
-and extended for collecting proposals for other events.
+*OpenConferenceWare* is a web application that provides a suite of tools
+for conference organizers. It started out as the [Ignite Portland
+proposals site](http://proposals.igniteportland.com/) but has since been
+reworked as a general-purpose platform that can be restyled and extended
+for running other kinds of events.
 
 
 Why
@@ -27,16 +27,25 @@ Features
 - Anyone can list/show proposals for an event
 - Anyone can leave private comments about proposals to organizers
 - Anyone can get be informed of new proposals via ATOM feed
+- Anyone can list/show tracks for an event
+- Anyone can list/show session types for an event
+- Anyone can subscribe to a feed of proposals for the event
 - Users can login via OpenID
 - Users can create proposals until a deadline
 - Users can update/delete their own proposals until a deadline
-- Administrators can login via password
+- Users can assign one or many speakers to a proposal
+- Administrators can login via password or assign rights to OpenID users
 - Administrators can update text snippets throughout the site
-- Administrators can create/update/delete/list/show events
+- Administrators can create/update/delete events
 - Administrators can set deadlines for accepting proposals for events
+- Administrators can create/update/delete tracks
+- Administrators can create/update/delete session types
 - Administrators can update/delete any proposal
-- Administrators can export proposals to CSV
+- Administrators can export proposals and comments to CSV
+- Administration can list/show/destroy private comments for proposals
+- Administration can subscribe to a feed of private comments for proposals
 - Developers can customize the site's appearance and behavior
+- ...and many more features are planned for the future!
 
 
 Expertise
@@ -58,9 +67,9 @@ Dependencies
 
 1. Install Git: <http://git.or.cz/>
 
-2. Checkout the OpenProposals source code:
+2. Checkout the OpenConferenceWare source code:
 
-        git clone git://github.com/igal/openproposals.git
+        git clone git://github.com/igal/openconferenceware.git
 
 3. Install Ruby 1.8.6: [ftp://ftp.ruby-lang.org/pub/ruby/1.8/](ftp://ftp.ruby-lang.org/pub/ruby/1.8/)
 
@@ -114,7 +123,7 @@ Contributing
 ------------
 
 Bug fixes and features are welcomed. Please fork the source code and submit a
-pull request: <http://github.com/igal/openproposals/tree/master>
+pull request: <http://github.com/igal/openconferenceware/tree/master>
 
 
 License
