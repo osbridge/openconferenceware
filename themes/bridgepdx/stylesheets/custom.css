@@ -292,20 +292,9 @@ div.rnd_content {
 
 /* FIXME how to automatically size width of the box? */
 
-#submit-a-talk {
-	background: #FFFFFF;
-	margin: 1em;
-	width: 13em;
-	font-size: 1.1em;
-}
-
-#submit-a-talk a,
-  #submit-a-talk a:visited,
-  #submit-a-talk a:hover {
-	color: green;
-	margin: 5px;
-	padding: 10px 10px 10px 20px;
-	background: url('/images/plus.png') left center no-repeat;
+.submit-a-proposal-wrapper {
+  margin: 1em 0;
+  text-align: center
 }
 
 /* @end */

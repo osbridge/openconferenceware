@@ -14,14 +14,8 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
           <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
         <% end %>
       </p>
-      <div style="text-align: center">
-        <div id="submit-a-talk" style="display: inline-block">
-          <b class="rnd_top"><b class="rnd_b1"></b><b class="rnd_b2"></b><b class="rnd_b3"></b><b class="rnd_b4"></b></b>
-          <div class="rnd_content">
-            <%= link_to 'Submit a proposal!', new_event_proposal_path(@event) %>
-          </div>
-          <b class="rnd_bottom"><b class="rnd_b4"></b><b class="rnd_b3"></b><b class="rnd_b2"></b><b class="rnd_b1"></b></b>
-        </div>
+      <div class="submit-a-proposal-wrapper">
+        <%= link_to 'Submit a proposal!', new_event_proposal_path(@event), :class => "addable submit-a-proposal" %>
       </div>
     <% else %>
       <p>
