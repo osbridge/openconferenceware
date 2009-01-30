@@ -1,0 +1,23 @@
+<% proposal_links ||= false %>
+
+<% if comments.blank? %>
+  <div class="empty-text">&mdash; No comments &mdash;</div>
+<% else %>
+  <ul class='proposal-comments'>
+  <% for comment in comments %>
+    <% proposal = comment.proposal %>
+    <% next unless proposal %>
+    <% next unless comment.created_at %>
+    <li>
+      <%= comment.created_at %> - <cite><%= display_link_to comment.email, :mailto => true %></cite>
+      <%= link_to "Destroy", comment_path(comment), :method => :delete, :class => :deletable, :confirm => "Are you sure you want to delete this message?" %>
+      <% if proposal_links %>
+        <div class='proposal-title'>Re: <em><%= link_to h("#{proposal.title}"), proposal_path(proposal) %></em> by <%= h proposal.presenter %></div>
+      <% end %>
+      <blockquote>
+        <%= preserve_formatting_of comment.message %>
+      </blockquote>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

@@ -1,4 +1,7 @@
-/* @override http://localhost:3000/stylesheets/common.css?1232745414 */
+/* @override
+	http://localhost:3000/stylesheets/common.css?1232745414
+	http://localhost:3000/stylesheets/common.css?1232776873
+*/
 
 /*===[ Generic ]======================================================*/
 
@@ -233,6 +236,23 @@ div#proposals-for {
       border-top: none; }
     #proposal-comments dl dd {
       margin-left: 1em; }
+
+/* new-style proposal comments list */
+
+ul.proposal-comments {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.proposal-comments li {
+	border-bottom: 1px solid #ccc;
+	padding: 1em 0;
+}
+
+ul.proposal-comments div.proposal-title {
+	margin-top: .5em;
+}
 
 /*---[ snippets ]-----------------------------------------------------*/
 
