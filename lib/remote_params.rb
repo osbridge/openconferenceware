@@ -12,7 +12,7 @@ class RemoteParams
               File.join(RAILS_ROOT, "config/remote.yml"))).
           result(binding))
       )
-      result[:user_at_host] = "#{result[:user]}@#{result[:host]}"
+      result[:user_at_host] = "#{result[:user] ? result[:user]+'@' : ''}#{result[:host]}"
       result[:user_at_host_path] = "#{result[:user_at_host]}:#{result[:path]}"
       result
     end
