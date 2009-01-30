@@ -12,6 +12,11 @@
   <% end %>
 
   <!-- Stylesheets -->
+  <% if %w[preview production].include?(RAILS_ENV) %>
+    <%= stylesheet_link_tag '/common/osbp_common.css' %>
+  <% else %>
+    <%= theme_stylesheet_link_tag 'common_css/osbp_common.css' %>
+  <% end %>
   <%= theme_stylesheet_link_tag "custom" %>
   <%= yield :stylesheets %>  
 

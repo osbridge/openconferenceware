@@ -1,7 +1,5 @@
 /* @override http://localhost:3000/themes/bridgepdx/stylesheets/custom.css */
 
-@import url("common_css/osbp_common.css");
-
 #breadcrumbs {
 	color: #888;
 	margin-bottom: .5em;
