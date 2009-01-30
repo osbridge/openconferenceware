@@ -473,7 +473,7 @@ ul.speakers .note {
 }
 
 #speaker-search-results li {
-	padding: .5em 1em .5em 2.5em;
+	padding: .5em 1em .5em 40px;
 	position: relative;
 	border-top: 1px solid #aaa;
 }
