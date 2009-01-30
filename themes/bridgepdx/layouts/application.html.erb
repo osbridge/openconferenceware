@@ -77,12 +77,14 @@
          </div>  
          <h2 class="entry-title"><%= page_title %></h2>
 
+         <!-- Display notices -->
          <%# flash[:success] = "This test is for testing the notifications." %>
          <%# flash[:failure] = "This test is for testing the notifications." %>
          <%# flash[:notice] = "This test is for testing the notifications." %>
          <%= notice %>
-         <%= yield %>
 
+         <!-- Display view's content -->
+         <%= yield %>
      </div><!-- content -->
   </div><!-- container -->
   
