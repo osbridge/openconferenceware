@@ -150,7 +150,7 @@ class ProposalsController < ApplicationController
 
     @proposal = Proposal.new(params[:proposal])
     @proposal.event = @event
-    @proposal.users << current_user if logged_in?
+    @proposal.add_user(current_user) if logged_in?
 
     manage_speakers_on_submit
 
@@ -226,7 +226,7 @@ class ProposalsController < ApplicationController
       @proposal.add_user(user)
     elsif params[:remove]
       user = User.find(params[:remove])
-      @proposal.users.delete(user)
+      @proposal.remove_user(user)
     end
 
     respond_to do |format|

@@ -144,8 +144,25 @@ class Proposal < ActiveRecord::Base
     if self.users.include?(user)
       return nil
     else
+      Observist.expire
       self.users << user
       return user
+    end
+  end
+
+  # Remove user by record or id if needed. Return user object if removed.
+  def remove_user(user)
+    case user
+    when Integer, String
+      user = User.find(user)
+    end
+
+    if self.users.include?(user)
+      Observist.expire
+      self.users.delete(user)
+      return user
+    else
+      return nil
     end
   end
 end

@@ -15,6 +15,7 @@ class Observist < ActiveRecord::Observer
     RAILS_CACHE.delete_matched(/events?_.+/) rescue nil
     RAILS_CACHE.delete_matched(/tracks?_.+/) rescue nil
     RAILS_CACHE.delete_matched(/users?_.+/) rescue nil
+    RAILS_CACHE.delete_matched(/proposals_users?_.+/) rescue nil
   end
 
   def expire(*args)
