@@ -12,7 +12,7 @@
       <%= comment.created_at %> - <cite><%= display_link_to comment.email, :mailto => true %></cite>
       <%= link_to "Destroy", comment_path(comment), :method => :delete, :class => :deletable, :confirm => "Are you sure you want to delete this message?" %>
       <% if proposal_links %>
-        <div class='proposal-title'>Re: <em><%= link_to h("#{proposal.title}"), proposal_path(proposal) %></em> by <%= proposal.presenter %></div>
+        <div class='proposal-title'>Re: <em><%= link_to h("#{proposal.title}"), proposal_path(proposal) %></em> by <%= h proposal.presenter %></div>
       <% end %>
       <blockquote>
         <%= preserve_formatting_of comment.message %>
