@@ -433,6 +433,10 @@ ul.speakers .note {
 	padding: 1em 2em 0;
 }
 
+ul.speakers .note li {
+  border: none;
+}
+
 /* @end */
 
 

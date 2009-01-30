@@ -40,7 +40,7 @@
 <% unless @user.biography.blank? %>
   <h3>Biography</h3>
   <div>
-    <%= simple_format @user.biography %>
+    <%= display_textile_for @user.biography %>
   </div>
 <% end %>
 

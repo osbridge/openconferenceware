@@ -79,7 +79,7 @@
   <% end %>
   
     <h3>Description</h3>
-    <%= preserve_formatting_of @proposal.description %>
+    <%= display_textile_for @proposal.description %>
 
   <% unless @proposal.tags.empty? %>
     <h3>Tags</h3>
@@ -103,7 +103,7 @@
           (<%= display_link_to(user.website, :class => 'url') %>)
         <% end %>        
         <div class='note'>
-          <%= preserve_formatting_of user.biography %>
+          <%= display_textile_for user.biography %>
         </div>
       </li>
     <% end %>

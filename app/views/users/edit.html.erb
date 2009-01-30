@@ -100,7 +100,9 @@
     </tr>
     <tr>
       <td class="label-cell">
-        <label><%= required_field if @user.complete_profile %>Biography</label>
+        <label><%= required_field if @user.complete_profile %>Biography</label> 
+        <br />
+        (<%= display_textile_help_link %>)
       </td>
       <td class="data-cell">
         <%= f.text_area :biography %>
