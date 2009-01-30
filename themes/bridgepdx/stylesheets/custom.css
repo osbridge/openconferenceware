@@ -478,7 +478,8 @@ ul.speakers .note {
 	border-top: 1px solid #aaa;
 }
 
-#speaker-search-results a.addable {
+#speaker-search-results a.addable,
+#speaker-search-results a.spinning {
 	width: 16px;
 	display: block;
 	overflow: hidden;

@@ -256,6 +256,8 @@
           $e = $(event); // Export global for debugging.
           event.preventDefault();
           target = $(event.target);
+          target.removeClass('addable');
+          target.addClass('spinning');
           speaker_id = target.attr('speaker_id');
           $.get(
             '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
@@ -264,6 +266,8 @@
               $('#manage-speakers').html(data);
               bind_remove_speakers();
               $("#add_speaker_selector").focus();
+              target.removeClass('spinning');
+              target.addClass('addable');
             }
           );
         }
