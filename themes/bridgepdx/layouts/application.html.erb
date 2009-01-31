@@ -94,9 +94,9 @@
   </div><!-- container -->
   
   <div id="primary" class="sidebar">
-     <ul class="xoxo">
+    <ul class="xoxo">
+      <% if logged_in? %>
         <li id="login-as">
-        <% if logged_in? %>
           <h3><%= current_user.label %></h3>
           <ul>
             <% if user_profiles? %>
@@ -105,6 +105,7 @@
             <li><%= link_to "Logout", logout_path, :method => :delete %></li>
           </ul>
         </li>
+
         <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
           <li id='my-proposals'>
             <h3>My proposals</h3>
@@ -121,40 +122,41 @@
           </li>
         <% end %>
 
-          <% if admin? %>
+        <% if admin? %>
           <li class='administration'>
-            <h3>Administration</h3>
-             <ul>
-               <% if user_profiles? %>
-                 <li><%= link_to "Users", users_path %></li>
-               <% end %>
-               <li><%= link_to "Events", manage_events_path %></li>
-               <% if @event %>
-                 <li><%= link_to "Manage this event", manage_event_path(@event) %></li>
-                 <ul>
-                 <% if event_tracks? %>
-                   <li><%= link_to "Tracks", tracks_path %></li>
-                 <% end %>
-                 <% if event_session_types? %>
-                    <li><%= link_to "Session types", session_types_path %></li>
-                   <% end %>
-                 <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
-                 </ul>
-               <% end %>
-               <li><%= link_to "Snippets", manage_snippets_path %></li>
-               <li><%= link_to "Comments", comments_path %></li>
+            <h3>Administer</h3>
+            <ul>
+              <% if user_profiles? %>
+                <li><%= link_to "Users", users_path %></li>
+              <% end %>
+              <li><%= link_to "Events", manage_events_path %></li>
+              <% if @event %>
+                <li><%= link_to "Manage this event", manage_event_path(@event) %></li>
+                <ul>
+                <% if event_tracks? %>
+                  <li><%= link_to "Tracks", tracks_path %></li>
+                <% end %>
+                <% if event_session_types? %>
+                 <li><%= link_to "Session types", session_types_path %></li>
+                <% end %>
+                <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
+                </ul>
+              <% end %>
+              <li><%= link_to "Snippets", manage_snippets_path %></li>
+              <li><%= link_to "Comments", comments_path %></li>
             </ul>
           </li>
-          <% end %>
+        <% end %>
 
-        <% else %>
+      <% else %>
+        <li id="login-as">
           <h3>Login as</h3>
           <ul>
             <li><%= link_to "<b>User</b> to manage your proposals", login_path %></li>
             <li><%= link_to "<b>Admin</b> to manage site", admin_path %></li>
           </ul>
         </li>
-        <% end %>
+      <% end %>
 
       <li id="subscribe-to">
         <h3>Subscribe to</h3>
