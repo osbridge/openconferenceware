@@ -113,7 +113,17 @@
                 <li><%= link_to proposal.title, proposal_path(proposal) %></li>
                 <% end %>
               <% end %>
-              <li class='pre-bulletted'><%= link_to "Submit a proposal", new_proposal_path, :class => :addable %></li>
+              <li class='pre-bulletted'>
+                <% if @event %>
+                  <% if @event.accepting_proposals? %>
+                    <%= link_to "Submit a proposal", new_proposal_path, :class => :addable %>
+                  <% elsif current_user.proposals.empty? %>
+                    &mdash; Not accepting proposals &mdash;
+                  <% end %>
+                <% else %>
+                    &mdash; No current event &mdash;
+                <% end %>
+              </li>
             </ul>
           </li>
 
