@@ -7,6 +7,10 @@ describe ApplicationController do
     return @controller.send(:can_edit?, *args)
   end
 
+  def accepting_proposals?(*args)
+    return @controller.send(:accepting_proposals?, *args)
+  end
+
   describe "can_edit?" do
     describe "users" do
       it "should allow user to edit own" do
@@ -26,25 +30,61 @@ describe ApplicationController do
     end
 
     describe "proposals" do
-      it "should allow user to edit own when accepting proposals" do
-        login_as :quentin
-        proposal = proposals(:quentin_widgets)
-        can_edit?(proposal).should be_true
+      describe "accepting_proposals?" do
+        it "should be false without anything defined" do
+          accepting_proposals?.should be_false
+        end
+
+        it "should be true when given open event" do
+          accepting_proposals?(events(:open)).should be_true
+        end
+
+        it "should be false when given closed event" do
+          accepting_proposals?(events(:closed)).should be_false
+        end
+
+        it "should be true when given open proposal" do
+          accepting_proposals?(proposals(:quentin_widgets)).should be_true
+        end
+
+        it "should be false when given closed proposal" do
+          accepting_proposals?(proposals(:clio_chupacabras)).should be_false
+        end
+
+        it "should be true when assigned open event instance" do
+          @controller.instance_variable_set('@event', events(:open))
+          accepting_proposals?.should be_true
+        end
+
+        it "should be false when assigned closed instance" do
+          @controller.instance_variable_set('@event', events(:closed))
+          accepting_proposals?.should be_false
+        end
       end
 
-      it "should not allow user to edit own when not accepting proposals" do
-        login_as :clio
-        can_edit?(proposals(:clio_chupacabras)).should be_false
+      describe "when accepting" do
+        it "should allow user to edit own when accepting proposals" do
+          login_as :quentin
+          proposal = proposals(:quentin_widgets)
+          can_edit?(proposal).should be_true
+        end
+
+        it "should not allow user to edit other's when accepting proposals" do
+          login_as :quentin
+          can_edit?(proposals(:aaron_aardvarks)).should be_false
+        end
       end
 
-      it "should not allow user to edit other's when accepting proposals" do
-        login_as :quentin
-        can_edit?(proposals(:aaron_aardvarks)).should be_false
-      end
+      describe "when not accepting" do
+        it "should not allow user to edit own when not accepting proposals" do
+          login_as :clio
+          can_edit?(proposals(:clio_chupacabras)).should be_false
+        end
 
-      it "should allow admin to edit other's when not accepting proposals" do
-        login_as :aaron
-        can_edit?(proposals(:clio_chupacabras)).should be_true
+        it "should allow admin to edit other's when not accepting proposals" do
+          login_as :aaron
+          can_edit?(proposals(:clio_chupacabras)).should be_true
+        end
       end
     end
 
