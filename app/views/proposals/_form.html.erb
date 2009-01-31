@@ -169,7 +169,10 @@
         </tr>
         <tr>
           <td class="label-cell"><%= f.label :tag_list, "Tags" %></td>
-          <td><%= f.text_field :tag_list %></td>
+          <td>
+            <%= f.text_field :tag_list %>
+            <p class='help'>(comma-separated)</p>
+          </td>
         </tr>
         <tr>
           <td class="label-cell"><%= private_field %><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional)" %></td>
