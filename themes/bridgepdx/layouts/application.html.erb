@@ -113,9 +113,7 @@
                 <li><%= link_to proposal.title, proposal_path(proposal) %></li>
                 <% end %>
               <% end %>
-              <% if @event %>
-                <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %></li>
-              <% end %>
+              <li class='pre-bulletted'><%= link_to "Submit a proposal", new_proposal_path, :class => :addable %></li>
             </ul>
           </li>
 
