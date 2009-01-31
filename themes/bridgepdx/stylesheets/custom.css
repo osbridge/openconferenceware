@@ -306,7 +306,7 @@ div.rnd_content {
 
 .track.block,
 .track.block a {
-	color: inherit;
+	color: #fff;
 	text-transform: uppercase;
 	padding: .5em;
 	line-height: 2em;
