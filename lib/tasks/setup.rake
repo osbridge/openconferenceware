@@ -59,7 +59,7 @@ TO FINISH SETUP
   end
 
   desc "Destroy all data"
-  task :destroy => 'tmp:cache:clear' do
+  task :destroy => ['clear'] do
     FileList['db/development.sqlite3', 'db/test.sqlite3'].each do |path|
       rm path if File.exist?(path)
     end
