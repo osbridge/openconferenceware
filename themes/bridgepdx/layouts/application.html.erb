@@ -150,10 +150,12 @@
 
       <% else %>
         <li id="login-as">
-          <h3>Login as</h3>
+          <h3>Welcome</h3>
           <ul>
-            <li><%= link_to "<b>User</b> to manage your proposals", login_path %></li>
-            <li><%= link_to "<b>Admin</b> to manage site", admin_path %></li>
+            <li><%= link_to "Login", login_path %></li>
+            <% if @event.ergo.accepting_proposals? %>
+              <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
+            <% end %>
           </ul>
         </li>
       <% end %>
@@ -161,7 +163,7 @@
       <li id="subscribe-to">
         <h3>Subscribe to</h3>
         <ul>
-          <li class="pre-bulletted"><%= link_to "Proposals feed", proposals_feed_path, :class => 'feedable' %></li>
+          <li class="pre-bulletted feedable"><%= link_to "Proposals feed", proposals_feed_path %></li>
           <% if admin? %>
             <li class="pre-bulletted"><%= link_to "Comments feed", comments_feed_path(:secret => CommentsController::SECRET), :class => 'feedable' %></li>
           <% end %>
