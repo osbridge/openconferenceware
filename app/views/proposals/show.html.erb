@@ -83,7 +83,7 @@
 
   <% unless @proposal.tags.empty? %>
     <h3>Tags</h3>
-    <div><%= @proposal.tag_list %></div>
+    <p><%= @proposal.tag_list %></p>
   <% end %>
 
   <% if can_edit? && ! @proposal.note_to_organizers.blank?%>
