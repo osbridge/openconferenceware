@@ -152,7 +152,7 @@ protected
     when :invalid_param
       flash[:failure] = "Couldn't find event, redirected to current event."
       flash.keep
-      redirect_to(event_path(@event))
+      return redirect_to(event_path(@event))
     when :empty
       flash[:failure] = "No current event available. Admin needs to create one."
       if admin?
