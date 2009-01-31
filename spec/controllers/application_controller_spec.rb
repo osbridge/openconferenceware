@@ -52,12 +52,12 @@ describe ApplicationController do
         end
 
         it "should be true when assigned open event instance" do
-          @controller.instance_variable_set('@event', events(:open))
+          @controller.instance_variable_set(:@event, events(:open))
           accepting_proposals?.should be_true
         end
 
         it "should be false when assigned closed instance" do
-          @controller.instance_variable_set('@event', events(:closed))
+          @controller.instance_variable_set(:@event, events(:closed))
           accepting_proposals?.should be_false
         end
       end
@@ -102,4 +102,76 @@ describe ApplicationController do
       lambda { can_edit?(42) }.should raise_error(TypeError)
     end
   end
+
+  describe "assign_current_event_without_redirecting" do
+    it "should detected :assigned_already" do
+      @controller.instance_variable_set(:@event, events(:open))
+      @controller.send(:assign_current_event_without_redirecting)
+
+      @controller.instance_variable_get(:@event_assignment).should == :assigned_already
+    end
+  end
+
+  describe "assign_current_event_or_redirect" do
+    describe "when no events" do
+      it "should direct admin users to event manager" do
+        login_as :aaron
+        @controller.instance_variable_set(:@event_assignment, :empty)
+        @controller.should_receive(:manage_events_path)
+        @controller.should_receive(:redirect_to)
+        @controller.send(:assign_current_event_or_redirect)
+
+        flash[:failure].should_not be_blank
+      end
+
+      it "should display a failure for non-admins" do
+        logout
+        @controller.instance_variable_set(:@event_assignment, :empty)
+        @controller.should_receive(:render)
+        @controller.send(:assign_current_event_or_redirect)
+
+        flash[:failure].should_not be_blank
+      end
+    end
+  end
+
+  # These specs are evil. Surely there's a better way to describe the behavior of controller methods that rely on a request without testing them through an action?
+  describe "normalize_event_path_or_redirect" do
+    describe "with HTML" do
+      it "should not redirect canonical requests" do
+        @controller.should_receive(:request).any_number_of_times.and_return(mock(OpenStruct,
+          :path => '/events/123/proposals',
+          :format => 'html'))
+        @controller.send(:normalize_event_path_or_redirect).should be_false
+      end
+
+      it "should redirect incomplete requests" do
+        @controller.should_receive(:request).any_number_of_times.and_return(mock(OpenStruct,
+          :path => '/proposals',
+          :format => 'html',
+          :protocol => 'http',
+          :host_with_port => 'foo:80'))
+        @controller.instance_variable_set(:@event, events(:open))
+        @controller.should_receive(:redirect_to)
+        @controller.send(:normalize_event_path_or_redirect).should_not be_false
+      end
+    end
+
+    describe "with JSON" do
+      it "should not redirect canonical requests" do
+        @controller.should_receive(:request).any_number_of_times.and_return(mock(OpenStruct,
+          :path => '/events/123/proposals',
+          :format => 'json'))
+        @controller.send(:normalize_event_path_or_redirect).should be_false
+      end
+
+      it "should redirect incomplete requests" do
+        @controller.should_receive(:request).any_number_of_times.and_return(mock(OpenStruct,
+          :path => '/proposals',
+          :format => 'json'))
+        @controller.send(:normalize_event_path_or_redirect).should be_false
+      end
+    end
+  end
+
 end
