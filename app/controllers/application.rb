@@ -93,11 +93,7 @@ protected
       else @event
       end
 
-    if event
-      return event.accepting_proposals?
-    else
-      return false
-    end
+    return event.ergo.accepting_proposals?
   end
   helper_method :accepting_proposals?
 

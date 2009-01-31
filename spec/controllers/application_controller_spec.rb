@@ -32,7 +32,7 @@ describe ApplicationController do
     describe "proposals" do
       describe "accepting_proposals?" do
         it "should be false without anything defined" do
-          accepting_proposals?.should be_false
+          accepting_proposals?.should_not be_true
         end
 
         it "should be true when given open event" do
@@ -40,7 +40,7 @@ describe ApplicationController do
         end
 
         it "should be false when given closed event" do
-          accepting_proposals?(events(:closed)).should be_false
+          accepting_proposals?(events(:closed)).should_not be_true
         end
 
         it "should be true when given open proposal" do
@@ -48,7 +48,7 @@ describe ApplicationController do
         end
 
         it "should be false when given closed proposal" do
-          accepting_proposals?(proposals(:clio_chupacabras)).should be_false
+          accepting_proposals?(proposals(:clio_chupacabras)).should_not be_true
         end
 
         it "should be true when assigned open event instance" do
@@ -58,7 +58,7 @@ describe ApplicationController do
 
         it "should be false when assigned closed instance" do
           @controller.instance_variable_set(:@event, events(:closed))
-          accepting_proposals?.should be_false
+          accepting_proposals?.should_not be_true
         end
       end
 
