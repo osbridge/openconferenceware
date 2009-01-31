@@ -1,6 +1,6 @@
 module DisplayTextileForHelper
   def display_textile_for(text)
-    return auto_link(textilize(h(text)), :all, :rel => 'nofollow')
+    return auto_link(textilize(sanitize(text)), :all, :rel => 'nofollow')
   end
 
   def display_textile_help_link
