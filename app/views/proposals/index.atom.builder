@@ -35,7 +35,7 @@ atom_feed do |feed|
 
         if multiple_presenters?
           xm.div {
-            xm.p { xm.b "Speaker(s):" }
+            xm.p { xm.b profiles.size == 1 ? "Speaker:" : "Speakers:" }
             xm.ul {
               profiles.each do |profile|
                 xm.li {
