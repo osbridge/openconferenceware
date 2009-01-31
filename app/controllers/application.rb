@@ -137,9 +137,9 @@ protected
     # Try finding the current event.
     if @event = Event.current
       flash.keep
-      RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event assigned via default and redirecting to: #{@event.id}")
-      # TODO this should be generalized so it can redirect to proposals, tracks, sessions, etc
-      return redirect_to(event_proposals_path(@event))
+      path = "/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+      RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event assigned via default and redirecting to: #{path}")
+      return redirect_to(path)
     end
 
     # Nuts, there must be no events in the database.
