@@ -60,7 +60,7 @@ module CacheLookupsMixin
           self.find(:all, self.lookup_opts).inject(Dictionary.new){|s,v| s[v.send(self.lookup_key)] = v; s}
         }
       end
-      return key ? dict[key.with{kind_of?(Symbol) ? to_s : self}] : dict.values
+      return key ? dict[key.with{kind_of?(Symbol) ? to_s : self}] : (dict.values || [])
     end
 
     def expire_cache
