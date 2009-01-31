@@ -9,6 +9,9 @@ atom_feed() do |feed|
     next unless proposal
     feed.entry(comment, :created => comment.created_at, :updated => comment.created_at, :url => proposal_url(proposal)) do |entry|
       entry.title(h("Re: #{proposal.title} by #{proposal.presenter}"))
+      entry.author do |author|
+        author.name(h comment.email)
+      end
       entry.content(<<-HERE, :type => 'html')
 <div>
   <b>#{h(comment.email)}</b>:
