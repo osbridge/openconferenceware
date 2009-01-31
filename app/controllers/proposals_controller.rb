@@ -1,11 +1,12 @@
 class ProposalsController < ApplicationController
 
-  before_filter :login_required,               :only => [:edit, :update, :destroy]
-  before_filter :assign_current_event,         :only => [:new, :create]
-  before_filter :assert_anonymous_proposals,   :only => [:new, :create]
-  before_filter :assert_accepting_proposals,   :only => [:new, :create]
-  before_filter :assign_proposal_and_event,    :only => [:show, :edit, :update, :destroy]
-  before_filter :assert_proposal_ownership,    :only => [:edit, :update, :destroy]
+  before_filter :login_required, :only => [:edit, :update, :destroy]
+  before_filter :assign_current_event_or_redirect
+  before_filter :normalize_event_path_or_redirect, :only => [:index]
+  before_filter :assert_anonymous_proposals, :only => [:new, :create]
+  before_filter :assert_accepting_proposals, :only => [:new, :create]
+  before_filter :assign_proposal_and_event, :only => [:show, :edit, :update, :destroy]
+  before_filter :assert_proposal_ownership, :only => [:edit, :update, :destroy]
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
 
@@ -14,12 +15,6 @@ class ProposalsController < ApplicationController
   # GET /proposals
   # GET /proposals.xml
   def index
-    case request.format.to_sym
-    when :atom, :json, :xml
-      @event = params[:event_id] ? Event.lookup(params[:event_id].to_i) : nil
-    else
-      return if assign_current_event
-    end
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
 
     if %w(title track submitted_at session_type).include?(params[:sort])
@@ -113,7 +108,7 @@ class ProposalsController < ApplicationController
   # GET /proposals/new.xml
   def new
     add_breadcrumb @event.title, event_proposals_path(@event)
-    add_breadcrumb "Create a proposal", new_event_proposal_path
+    add_breadcrumb "Create a proposal", new_event_proposal_path(@event)
 
     @proposal = Proposal.new(:agreement => false)
     if logged_in?

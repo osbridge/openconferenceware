@@ -12,6 +12,11 @@
 #  updated_at  :datetime        
 #
 
+aaron_aardvarks_suck:
+  email: i@hate.you
+  message: "I find aardvarks morally offensive."
+  proposal: aaron_aardvarks
+
 clio_chupacabras_fbi:
   email: big_brother@fbi.gov
   message: "Pay no attention, everything is under control."

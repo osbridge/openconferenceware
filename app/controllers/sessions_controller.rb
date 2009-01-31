@@ -1,6 +1,8 @@
 # This controller handles the login/logout function of the site.
 class SessionsController < ApplicationController
 
+  before_filter :assign_return_to, :only => [:index, :new, :admin]
+
   def index
     return redirect_to(login_path)
   end
@@ -80,6 +82,12 @@ protected
   end
 
 private
+
+  # Save the URL the user was on when they clicked login so that we can return them to that page once they're logged in.
+  def assign_return_to
+    session[:return_to] ||= request.referer
+    return false
+  end
 
   def successful_login(message="Logged in successfully")
     if params[:remember_me] == "1"

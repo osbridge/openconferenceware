@@ -7,7 +7,7 @@ describe "/users" do
     assigns[:users] = [users(:aaron), users(:quentin)]
     render '/users/index'
 
-    response.should_not have_tag('th', 'Admin?')
+    response.should_not have_tag('.admin', 'admin')
   end
 
   it "should not include admin column by default" do
@@ -15,6 +15,6 @@ describe "/users" do
     assigns[:users] = [users(:aaron), users(:quentin)]
     render '/users/index'
 
-    response.should have_tag('th', 'Admin?')
+    response.should have_tag('.admin', 'admin')
   end
 end

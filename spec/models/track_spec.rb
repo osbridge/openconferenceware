@@ -7,6 +7,7 @@ describe Track do
     @valid_attributes = {
       :title => "value for title",
       :description => "value for description",
+      :excerpt => "value for excerpt",
       :color => "#00CC00",
       :event_id => 1
     }

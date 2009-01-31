@@ -1,5 +1,9 @@
 /* @override http://localhost:3000/themes/bridgepdx/stylesheets/custom.css */
 
+/* Make VIM use tabs in this file
+vim:tw=0:ft=css:noet:
+*/
+
 #breadcrumbs {
 	color: #888;
 	margin-bottom: .5em;
@@ -500,4 +504,7 @@ ul.speakers .note li {
 li.pre-bulletted,
 div.sidebar li.pre-bulletted {
 	list-style: none;
+	position: relative;
+	left: -20px;
+	z-index: 9999;
 }

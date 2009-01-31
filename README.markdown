@@ -25,11 +25,11 @@ Caution
 -------
 
 Do NOT run this software unless you have significant Rails expertise and
-can work through its warts. At this moment, the code is under heavy
-development. The documentation is scant and wrong in spots, the tests
-are failing, and the sample theme is broken. This is an unfortunate
-result of having to get this deployed very quickly. However, these
-issues will be resolved before long.
+are willing to work through some warts. The code is currently under
+heavy development; the documentation is scant; the tests are inadequate;
+and the sample theme is broken. This is an unfortunate result of having
+to get this deployed very quickly. However, the code works, is being
+used in production, and these issues will be resolved before long.
 
 In the meantime, if you need a stable, well-tested system for
 accepting proposals for simpler Ignite-like events, please instead

@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-short-form:
+short_form:
   event_id: 2009
-  title: Short-Form - 45 minutes
+  title: "Short-Form - 45 minutes"
   duration: 45
-  description: A set of lightning talks, a one-or-more person presentation, a panel, or something else covering specific, concise material.
+  description: "A set of lightning talks, a one-or-more person presentation, a panel, or something else covering specific, concise material."
 
-long-form:
+long_form:
   event_id: 2009
-  title: Long-Form - 1 hour, 45 minutes
+  title: "Long-Form - 1 hour, 45 minutes"
   duration: 105
   description: "We're especially interested in seeing interactive approaches: tutorials, guided discussions, or other hands-on explorations."
