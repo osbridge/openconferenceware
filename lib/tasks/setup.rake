@@ -66,7 +66,7 @@ TO FINISH SETUP
   end
 
   desc 'Load sample data, after destroying existing data and cache'
-  task :sample => [:destroy, 'clear', 'db:migrate', 'spec:db:fixtures:load']
+  task :sample => [:destroy, 'clear', 'db:migrate', 'spec:db:fixtures:load', 'setup:admin']
 end
 
 desc %{Setup application's database, "admin" user, and snippets}
