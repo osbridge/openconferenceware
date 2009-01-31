@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
 
   # Filters
   before_filter :assign_events
+  before_filter :assign_current_event_without_redirecting
 
 protected
 
@@ -89,19 +90,14 @@ protected
       case record
       when Event then record
       when Proposal then record.event
-      else nil
+      else @event
       end
 
-    unless event
-      if assign_current_event
-        # An error or redirect was detected, therefore we're not accepting proposals
-        return false
-      else
-        event = @event
-      end
+    if event
+      return event.accepting_proposals?
+    else
+      return false
     end
-
-    return event.accepting_proposals?
   end
   helper_method :accepting_proposals?
 
@@ -109,16 +105,16 @@ protected
 
   # Assign an @events variable for use by the layout when displaying available events.
   def assign_events
-    @events = Event.lookup || []
+    @events = Event.lookup
   end
 
-  # Assign @event if it's not already set. Return true if redirected or failed,
-  # false if assigned event for normal processing. WARNING: performs redirects
-  # and sets #flash.
-  def assign_current_event
+  def assign_current_event_without_redirecting
+    invalid_param = false
+
     # Only assign event if one isn't already assigned.
     if @event
-      RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event already assigned")
+      logit "already assigned"
+      @event_assignment = :assigned_already
       return false
     end
 
@@ -126,33 +122,70 @@ protected
     event_id_key = controller_name == "events" ? :id : :event_id
     if key = params[event_id_key].ergo.to_i
       if @event = Event.lookup(key)
-        RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event assigned via event_id_key to: #{key}")
+        logit "assigned via #{event_id_key} to: #{key}"
+        @event_assignment = :assigned_to_param
         return false
       else
-        RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event specified by event_id_key not found in database: #{key}")
-        flash[:failure] = "Couldn't find event '#{params[event_id_key]}', redirected to current event."
+        logit "error, specified event_id_key '#{key}' was not found in database"
+        invalid_param = params[event_id_key]
       end
     end
 
     # Try finding the current event.
     if @event = Event.current
-      flash.keep
-      path = "/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
-      RAILS_DEFAULT_LOGGER.debug("assign_current_event: @event assigned via default and redirecting to: #{path}")
-      return redirect_to(path)
+      logit "assigned to current event"
+      if invalid_param
+        @event_assignment = :invalid_param
+        return false
+      else
+        @event_assignment = :assigned_to_current
+        return false
+      end
     end
 
-    # Nuts, there must be no events in the database.
-    flash[:failure] = "No current event available. Admin needs to create one."
-    RAILS_DEFAULT_LOGGER.debug("assign_current_event: no current event available")
-    if admin?
-      # Allow admin to create an event.
+    logit "error, no current event found"
+    @event_assignment = :empty
+    return false
+  end
+
+  # Assign @event if it's not already set. Return true if redirected or failed,
+  # false if assigned event for normal processing. WARNING: performs redirects
+  # and sets #flash.
+  def assign_current_event_or_redirect
+    case @event_assignment
+    when :invalid_param
+      flash[:failure] = "Couldn't find event, redirected to current event."
       flash.keep
-      return redirect_to(manage_events_path)
+      redirect_to(event_path(@event))
+    when :empty
+      flash[:failure] = "No current event available. Admin needs to create one."
+      if admin?
+        # Allow admin to create an event.
+        flash.keep
+        return redirect_to(manage_events_path)
+      else
+        # Display a static error page.
+        render :template => 'events/index.html.erb'
+        return true # Cancel further processing
+      end
     else
-      # Display a static error page.
-      render :template => 'events/index.html.erb'
-      return true # Cancel further processing
+      return false
+    end
+  end
+
+  # Redirect the user to the canonical event path if they're visiting a path that doesn't start with '/events'.
+  def normalize_event_path_or_redirect
+    if request.format.to_sym == :html
+      if request.path.match(%r{^/events})
+        return false
+      else
+        path = "/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        flash.keep
+        return redirect_to(path)
+      end
+    else
+      # Non-HTTP requests don't understand redirects, so leave these alone
+      return false
     end
   end
 

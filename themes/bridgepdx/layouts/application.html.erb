@@ -105,27 +105,21 @@
             <li><%= link_to "Logout", logout_path, :method => :delete %></li>
           </ul>
         </li>
-        <li id='my-proposals'>
+        <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
+          <li id='my-proposals'>
             <h3>My proposals</h3>
             <ul>
               <% unless current_user.proposals.empty? %>
                 <% for proposal in current_user.proposals %>
-                <li><%= link_to proposal.title, proposal_path(proposal) %></li>
+                  <li><%= link_to proposal.title, proposal_path(proposal) %></li>
                 <% end %>
               <% end %>
-              <li class='pre-bulletted'>
-                <% if @event %>
-                  <% if @event.accepting_proposals? %>
-                    <%= link_to "Submit a proposal", new_proposal_path, :class => :addable %>
-                  <% elsif current_user.proposals.empty? %>
-                    &mdash; Not accepting proposals &mdash;
-                  <% end %>
-                <% else %>
-                    &mdash; No current event &mdash;
-                <% end %>
-              </li>
+              <% if @event.ergo.accepting_proposals? %>
+                <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
+              <% end %>
             </ul>
           </li>
+        <% end %>
 
           <% if admin? %>
           <li class='administration'>
