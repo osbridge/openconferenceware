@@ -40,7 +40,7 @@
     <% if admin? || can_edit? %>
       <tr>
         <td class="label-cell">
-          <label><%= required_field if @user.complete_profile %><%= private_field if @user.complete_profile %>Email</label>
+          <label><%= required_field if @user.complete_profile %>Email (kept private)</label>
         </td>
         <td class="data-cell">
           <p>
@@ -121,8 +121,6 @@
 
         <p style="margin-top: 2em; margin-bottom: 0">
           <%= required_field %> Fields marked with a red asterisk required and must be filled.
-          <br />
-          <%= private_field %> Fields marked with a green percent sign are private, visible only to you and the organizers.
         </p>
       </td>
     </tr>
