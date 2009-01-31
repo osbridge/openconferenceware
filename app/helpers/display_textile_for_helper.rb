@@ -4,6 +4,6 @@ module DisplayTextileForHelper
   end
 
   def display_textile_help_link
-    return link_to 'Formatting', 'http://hobix.com/textile/quick.html', :popup => true
+    return link_to 'Formatting', 'http://elzr.com/static/textile', :popup => true
   end
 end
