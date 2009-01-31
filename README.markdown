@@ -21,6 +21,22 @@ more events that support free sharing of information, open society, and
 involved citizenry.
 
 
+Caution
+-------
+
+Do NOT run this software unless you have significant Rails expertise and
+can work through its warts. At this moment, the code is under heavy
+development. The documentation is scant and wrong in spots, the tests
+are failing, and the sample theme is broken. This is an unfortunate
+result of having to get this deployed very quickly. However, these
+issues will be resolved before long.
+
+In the meantime, if you need a stable, well-tested system for
+accepting proposals for simpler Ignite-like events, please instead
+consider using the software this was forked from: OpenProposals,
+<http://github.com/igal/openconferenceware/tree/master>
+
+
 Features
 --------
 - Anyone can list events
