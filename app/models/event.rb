@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
 
   # Is this event accepting proposals?
   def accepting_proposals?
-    return Time.now < self.deadline
+    return Time.now < (self.deadline || Time.at(0))
   end
 
   EVENT_CURRENT_ID_SNIPPET = "event_current_id"
