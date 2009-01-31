@@ -1,5 +1,5 @@
 namespace :setup do
-  task :default => ["tmp:create", "db:migrate", "db:test:prepare", :admin, :snippets] do
+  task :default => ["tmp:create", "db:migrate", "clear", :admin, :snippets, "db:test:prepare"] do
     puts <<-HERE
 
 TO FINISH SETUP
@@ -23,6 +23,8 @@ TO FINISH SETUP
 
     if user = User.find_by_login("admin")
       user.change_password!(password)
+      user.admin = true
+      user.save!
       puts %{** Updated "admin" user's password}
     else
       user = User.new(
