@@ -500,11 +500,3 @@ ul.speakers .note li {
 /* @end */
 
 /* @end */
-
-li.pre-bulletted,
-div.sidebar li.pre-bulletted {
-	list-style: none;
-	position: relative;
-	left: -20px;
-	z-index: 9999;
-}
