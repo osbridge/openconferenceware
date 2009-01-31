@@ -18,7 +18,7 @@ describe EventsController, "when displaying events" do
       Event.should_receive(:current).and_return(event)
       get :index
 
-      response.should redirect_to(event_proposals_url(event))
+      response.should redirect_to(event_proposals_path(event))
     end
   end
 
@@ -33,7 +33,7 @@ describe EventsController, "when displaying events" do
       end
 
       it "should redirect to current event" do
-        response.should redirect_to(event_proposals_url(events(:open)))
+        response.should redirect_to(event_path(events(:open)))
       end
     end
 
@@ -44,7 +44,7 @@ describe EventsController, "when displaying events" do
       end
 
       it "should display event" do
-        response.should redirect_to(event_proposals_url(@event))
+        response.should redirect_to(event_proposals_path(@event))
       end
     end
   end

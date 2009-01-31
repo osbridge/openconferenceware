@@ -16,8 +16,7 @@ describe "/tracks/show.html.erb" do
 
   it "should render attributes in <p>" do
     render "/tracks/show.html.erb"
-    response.should have_text(/value\ for\ title/)
-    response.should have_text(/value\ for\ description/)
+    response.should have_text(/value for description/)
   end
 end
 

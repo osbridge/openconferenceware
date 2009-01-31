@@ -22,7 +22,7 @@ describe "/tracks/index.html.erb" do
 
   it "should render list of tracks" do
     render "/tracks/index.html.erb"
-    response.should have_tag("tr>td", "value for title".to_s, 2)
+    response.should have_tag("h3", "value for title".to_s, 2)
   end
 end
 

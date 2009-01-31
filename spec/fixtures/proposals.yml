@@ -24,7 +24,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 quentin_widgets:
-  id: 1
   presenter: Quentin
   affiliation: QuentinCO
   email: quentin@quentinco.co.uk
@@ -34,7 +33,7 @@ quentin_widgets:
   #IK# event: open
   event_id: 2009
   track: chemistry
-  session_type: workshop
+  session_type: long_form
   submitted_at: <%= Time.now %>
   title: My favorite widgets.
   excerpt: |
@@ -47,7 +46,6 @@ quentin_widgets:
     The term appeared in the 1985 Rodney Dangerfield feature film comedy Back to School, in a college economics classroom scene in which the professor uses the term to describe a hypothetical company whose product is irrelevant to the discussion.
 
 aaron_aardvarks:
-  id: 2
   presenter: Aaron
   affiliation: "Aaron's Aardvarks"
   email: aaron@aardvarks.au
@@ -57,7 +55,7 @@ aaron_aardvarks:
   #IK# event: open
   event_id: 2009
   track: cooking
-  session_type: panel
+  session_type: long_form
   submitted_at: <%= Time.now %>
   title: My favorite Aardvarks.
   excerpt: |
@@ -72,7 +70,6 @@ aaron_aardvarks:
     Genetically speaking, the aardvark is a living fossil, as its chromosomes are highly conserved, reflecting much of the early eutherian arrangement before the divergence of the major modern taxa.
 
 clio_chupacabras:
-  id: 3
   presenter: Clio
   email: clio@i_want_to_believe.com
   biography: "They walk amongst us."
@@ -81,7 +78,7 @@ clio_chupacabras:
   #IK# event: closed
   event_id: 1975
   track: cooking
-  session_type: presentation
+  session_type: short_form
   submitted_at: <%= Time.now - 1.year %>
   excerpt: |
     The Chupacabra, also called el Chupacabras (pronunciation: /tʃupa'kabɾas/, from the Spanish words chupar, meaning "to suck", and cabra, meaning "goat"; literally "goat sucker") is a legendary cryptid rumored to inhabit parts of the Americas.
