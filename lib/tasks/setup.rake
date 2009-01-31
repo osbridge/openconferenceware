@@ -29,6 +29,10 @@ TO FINISH SETUP
     else
       user = User.new(
         :email => "admin",
+        :login => "admin",
+        :first_name => "Super",
+        :last_name => "User",
+        :biography => "I am all-powerful.",
         :password => password,
         :password_confirmation => password)
       user.login = "admin"
