@@ -56,7 +56,7 @@ class Proposal < ActiveRecord::Base
 
   # Public attributes for export
   include PublicAttributesMixin
-  set_public_attributes :id, :user_id, :presenter, :affiliation, :url, :bio, :title, :description, :created_at, :updated_at, :event_id, :submitted_at
+  set_public_attributes :id, :user_id, :presenter, :affiliation, :website, :biography, :title, :description, :created_at, :updated_at, :event_id, :submitted_at
 
   # Triggers
   before_save :populate_submitted_at
