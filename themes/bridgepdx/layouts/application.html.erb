@@ -159,9 +159,9 @@
       <li id="subscribe-to">
         <h3>Subscribe to</h3>
         <ul>
-          <li><%= link_to "Proposals feed <span class='feedable' />", proposals_feed_path %></li>
+          <li class="pre-bulletted"><%= link_to "Proposals feed", proposals_feed_path, :class => 'feedable' %></li>
           <% if admin? %>
-            <li><%= link_to "Comments feed <span class='feedable' />", comments_feed_path(:secret => CommentsController::SECRET) %></li>
+            <li class="pre-bulletted"><%= link_to "Comments feed", comments_feed_path(:secret => CommentsController::SECRET), :class => 'feedable' %></li>
           <% end %>
         </ul>
       </li>
