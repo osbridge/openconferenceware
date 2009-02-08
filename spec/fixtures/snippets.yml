@@ -34,3 +34,8 @@ f:
   slug: proposals_openid_text
   description: "Proposals: OpenID text"
   content: "<b>Optional:</b> To be able to edit your proposal later, please login first with an <%= openid_common_text %>"
+
+g:
+  slug: tracks_index_intro
+  description: "An introduction for the tracks index."
+  content: "<p>In order to create a conference that promotes cross-pollination as well as providing space for in-depth discussion, we’ve split the tracks into the following five areas:</p>"

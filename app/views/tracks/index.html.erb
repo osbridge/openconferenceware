@@ -1,5 +1,6 @@
 <% page_title "Tracks" %>
 
+<%= snippet_for :tracks_index_intro %>
 <% for track in @tracks %>
   <h3 class='track block <%= track_css_class(track) %>'><%= link_to h(track.title), track_path(track) %></h3>
   <span class="description"><%= textilize track.description %></span>
