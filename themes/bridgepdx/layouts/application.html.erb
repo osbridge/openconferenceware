@@ -69,6 +69,10 @@
 
   <div id="container">
     <div id="content">
+         <% if false %>
+         <%
+            # RB: temporarily removing breadcrumbs, pending improvement
+         %>
          <div id="breadcrumbs">
             <% if @breadcrumbs %>
                <% @breadcrumbs[0..-2].each_with_index do |breadcrumb, i| %>
@@ -80,6 +84,7 @@
                <% end %>
             <% end %>
          </div>  
+         <% end %>
          <h2 class="entry-title"><%= page_title %></h2>
 
          <!-- Display notices -->
