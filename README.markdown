@@ -142,6 +142,11 @@ Contributing
 Bug fixes and features are welcomed. Please fork the source code and submit a
 pull request: <http://github.com/igal/openconferenceware/tree/master>
 
+Discussion
+----------
+Discussion happens on the osbridgepdx-technology list: http://groups.google.com/group/osbridgepdx-technology
+
+An IRC channel is available on irc.freenode.net #pcow
 
 License
 -------
