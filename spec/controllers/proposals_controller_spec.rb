@@ -330,11 +330,17 @@ describe ProposalsController do
       @record = nil
     end
 
-    it "should redirect on login" do
-      assert_create(nil, :event_id => @current_event.id, :commit => 'Login', :openid_url => 'http://foo.bar') do
-        response.should be_redirect
-        assigns(:proposal).should be_blank
+    describe "when anonymous proposals are enabled" do
+
+      it "should redirect to OpenID login system if user tried to login" do
+        SETTINGS.stub!(:have_anonymous_proposals).and_return(true)
+        assert_create(nil, :event_id => @current_event.id, :commit => 'Login', :openid_url => 'http://foo.bar') do
+          response.should be_redirect
+          response.should redirect_to(session_url(:openid_url => 'http://foo.bar'))
+          assigns(:proposal).should be_blank
+        end
       end
+
     end
 
     describe "with user_profiles?" do

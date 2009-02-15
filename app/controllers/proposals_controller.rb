@@ -129,7 +129,6 @@ class ProposalsController < ApplicationController
   def create
     if params[:commit] == "Login" && params[:openid_url]
       store_location(new_proposal_path)
-      #return render_component(:controller => "sessions", :action => "create", :openid_url => params[:openid_url])
       return redirect_to(url_for(:controller => "sessions", :action => "create", :openid_url => params[:openid_url]))
     end
 
