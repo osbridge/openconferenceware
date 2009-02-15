@@ -97,7 +97,8 @@ Dependencies
 
 6. Install other Ruby libraries:
 
-        sudo gem install facets capistrano capistrano-ext sqlite3-ruby ruby-openid mocha
+        sudo gem install facets capistrano capistrano-ext sqlite3-ruby ruby-openid mocha right_aws
+        sudo gem install mbleigh-acts-as-taggable-on --source http://gems.github.com/
         sudo gem install mbleigh-acts-as-taggable-on --source http://gems.github.com/
         sudo gem install thoughtbot-paperclip --source http://gems.github.com/
 
