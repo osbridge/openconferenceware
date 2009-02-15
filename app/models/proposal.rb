@@ -165,4 +165,15 @@ class Proposal < ActiveRecord::Base
       return nil
     end
   end
+
+  def profile
+    if multiple_presenters?
+      return false
+    elsif user_profiles?
+      return user
+    else
+      return self
+    end
+  end
+
 end

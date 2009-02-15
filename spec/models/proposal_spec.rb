@@ -95,4 +95,28 @@ describe Proposal do
         "bubba@smith.com: Hi\nbilly.sue@smith.com: Yo"
     end
   end
+
+  context "when getting profile" do
+    before(:each) do
+      @proposal = proposals(:quentin_widgets)
+    end
+
+    it "should return false if multiple_presenters is enabled" do
+      SETTINGS.stub!(:have_multiple_presenters).and_return(true)
+      @proposal.profile.should be_false
+    end
+
+    it "should return the user if user_profiles is enabled" do
+      SETTINGS.stub!(:have_multiple_presenters).and_return(false)
+      SETTINGS.stub!(:have_user_profiles).and_return(true)
+      @proposal.profile.should == @proposal.user
+    end
+
+    it "should return itself if multiple_presenters and user_profiles are disabled" do
+      SETTINGS.stub!(:have_multiple_presenters).and_return(false)
+      SETTINGS.stub!(:have_user_profiles).and_return(false)
+      @proposal.profile.should == @proposal
+    end
+
+  end
 end

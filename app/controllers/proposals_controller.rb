@@ -82,17 +82,7 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
-    # TODO extract into filter?
-    @profile = \
-      if multiple_presenters?
-        false
-      else
-        if user_profiles?
-          @proposal.user
-        else
-          @proposal
-        end
-      end
+    @profile = @proposal.profile
     @comment = Comment.new(:proposal => @proposal, :email => current_email)
     @display_comment = (! params[:commented] && ! can_edit? && accepting_proposals?) || admin?
     @focus_comment = false
