@@ -15,7 +15,7 @@ atom_feed do |feed|
           }
           xm.dl {
             xm.dt { xm.b "Biography:" }
-            xm.dd << simple_format(escape_once proposal.biography)
+            xm.dd << display_textile_for(proposal.biography)
           }
         end
 
@@ -28,7 +28,7 @@ atom_feed do |feed|
 
         xm.dl {
           xm.dt { xm.b "Description:" }
-          xm.dd << simple_format(escape_once proposal.description)
+          xm.dd << display_textile_for(proposal.description)
         }
 
         profiles = user_profiles? ? proposal.users : [proposal]
@@ -42,7 +42,7 @@ atom_feed do |feed|
                   xm.p {
                     xm.b profile.presenter
                   }
-                  xm << simple_format(escape_once profile.biography)
+                  xm.div << display_textile_for(profile.biography)
                 }
               end
             }
