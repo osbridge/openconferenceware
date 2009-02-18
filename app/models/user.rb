@@ -28,6 +28,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   # Mixins
+  include NormalizeUrlMixin
   include SettingsCheckersMixin
   include PublicAttributesMixin
   set_public_attributes \
@@ -77,6 +78,8 @@ class User < ActiveRecord::Base
   validates_presence_of     :last_name,                   :if => :complete_profile?
   validates_presence_of     :email,                       :if => :complete_profile?
   validates_presence_of     :biography,                   :if => :complete_profile?
+
+  validate :url_validator
 
   # Scopes
   named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'last_name asc'
@@ -218,6 +221,10 @@ protected
     else
       not self.using_openid?
     end
+  end
+
+  def url_validator
+    validate_url_attribute(:website)
   end
 
 end

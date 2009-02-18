@@ -25,27 +25,6 @@ describe Proposal do
     end
   end
 
-  context "when normalizing URLs" do
-    it "should accept http" do
-      website = "http://foo.bar/"
-      Proposal.new(:website => website).website.should == website
-    end
-
-    it "should accept ftp" do
-      website = "ftp://foo.bar/"
-      Proposal.new(:website => website).website.should == website
-    end
-
-    it "should prepend http" do
-      Proposal.new(:website => "foo.com").website.should == "http://foo.com/"
-    end
-
-    it "should clear invalid websites" do
-      # TODO Should this throw an exception or invalidate object instead?
-      Proposal.new(:website => "qwerqew...qwerq.ewr///qwer").website.should be_nil
-    end
-  end
-
   context "when setting submitted_at date" do
     it "should set value on save" do
       proposal = proposals(:quentin_widgets)

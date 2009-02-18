@@ -25,6 +25,7 @@
 
 class Proposal < ActiveRecord::Base
   # Mixins
+  include NormalizeUrlMixin
   include SettingsCheckersMixin
   include CacheLookupsMixin
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
@@ -50,6 +51,7 @@ class Proposal < ActiveRecord::Base
   validates_presence_of :session_type,                    :if => :event_session_types?
   validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
   validate :validate_complete_user_profile,               :if => :user_profiles?
+  validate :url_validator
 
   # Protected attributes
   attr_protected :user_id, :event_id
@@ -86,19 +88,6 @@ class Proposal < ActiveRecord::Base
       return false
     else
       raise TypeError, "Unknown argument type: #{user}"
-    end
-  end
-
-  # Normalize the URL.
-  def website=(value)
-    # TODO Should this throw an exception or invalidate object instead?
-    begin
-      website = URI.parse(value.strip)
-      website.scheme = 'http' unless ['http','ftp'].include?(website.scheme) || website.scheme.nil?
-      result = URI.parse(website.scheme.nil? ? 'http://'+value.strip : website.to_s).normalize.to_s
-      write_attribute(:website, result)
-    rescue URI::InvalidURIError => e
-      write_attribute(:website, nil)
     end
   end
 
@@ -174,6 +163,10 @@ class Proposal < ActiveRecord::Base
     else
       return self
     end
+  end
+
+  def url_validator
+    validate_url_attribute(:website)
   end
 
 end
