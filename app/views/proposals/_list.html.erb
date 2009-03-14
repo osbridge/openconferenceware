@@ -1,10 +1,10 @@
 <% if proposals.blank? %>
   <h4>&mdash; No proposals submitted yet &mdash;</h4>
 <% else %>
-  <table class='proposals' cellspacing=0>
+  <table class='proposals' cellspacing='0'>
     <% for proposal in proposals %>
     <tr>
-      <td rowspan=2 class='description'>
+      <td rowspan='2' class='description'>
         <h3>
           <% if multiple_presenters? %>
             <%= link_to(h(proposal.title), proposal_path(proposal), :class => "title") %>
