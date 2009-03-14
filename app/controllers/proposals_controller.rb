@@ -140,8 +140,15 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if params[:commit] && @proposal.save
-        flash[:success] = 'Created proposal.'
-        format.html { redirect_to(@proposal) }
+        format.html {
+          if File.exist?(theme_file('views/proposals/create.html.erb'))
+            # Display theme-specific page thanking users for submitting a proposal and telling them what to do next.
+            render
+          else
+            flash[:success] = 'Proposal created. Thank you!'
+            redirect_to(@proposal)
+          end
+        }
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
         format.json { render :json => @proposal, :status => :created, :location => @proposal }
       else

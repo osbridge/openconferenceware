@@ -375,9 +375,9 @@ describe ProposalsController do
 
         it "should create proposal for anonymous user" do
           assert_create(nil, :event_id => @current_event.id, :proposal => @inputs) do
-            response.should be_redirect
             proposal = assigns(:proposal)
             proposal.should be_valid
+            proposal.id.should_not be_nil
           end
         end
       end
@@ -396,9 +396,9 @@ describe ProposalsController do
 
       it "should create proposal for mortal user" do
         assert_create(:quentin, :event_id => @current_event.id, :proposal => @inputs) do
-          response.should be_redirect
           proposal = assigns(:proposal)
           proposal.should be_valid
+          proposal.id.should_not be_nil
         end
       end
 
