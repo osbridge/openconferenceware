@@ -142,6 +142,7 @@ class ProposalsController < ApplicationController
       if params[:commit] && @proposal.save
         format.html {
           if File.exist?(theme_file('views/proposals/create.html.erb'))
+            @_page_title = "Thank You!"
             # Display theme-specific page thanking users for submitting a proposal and telling them what to do next.
             render
           else
