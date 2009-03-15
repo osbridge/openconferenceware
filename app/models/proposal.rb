@@ -78,6 +78,7 @@ class Proposal < ActiveRecord::Base
     puts "!! WARNING: Couldn't find #acts_as_taggable_on -- run 'rake gems:install' now!"
   end
 
+
   # Validations
   validates_presence_of :title, :description, :event_id
   validates_acceptance_of :agreement,                     :accept => true, :message => "must be accepted"
@@ -107,6 +108,12 @@ class Proposal < ActiveRecord::Base
   # generates a unique slug for the proposal
   def slug
     "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
+  end
+
+  # allows an interface to state machine through update_attributes transition key
+  attr_accessor :transition
+  def transition=(t)
+    send "#{t}!" if aasm_events_for_current_state.include?(t.to_sym)
   end
 
   # Is this +user+ allowed to alter this proposal?

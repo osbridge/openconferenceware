@@ -7,8 +7,8 @@
 
 <div id="proposal-form" class="standard-form">
   <%= error_messages_for :proposal unless error_messages_for(:proposal).blank? %>
-  
-  
+
+
   <% if user_profiles? and multiple_presenters? %>
   <div id='speaker-selector'>
     <h3>Speakers for this presentation</h3>
@@ -26,21 +26,21 @@
       </form>
     </div>
   <% end %>
-  
-  <% form_for([@event, @proposal]) do |f| %>  
-  
+
+  <% form_for([@event, @proposal]) do |f| %>
+
   <% if user_profiles? and multiple_presenters? %>
     <div id="manage-speakers">
       <%= render :partial => "proposals/manage_speakers" %>
     </div>
   </div>
   <% end %>
-  
-  
-  
+
+
+
     <table class='clear'>
       <tbody>
-        
+
 <% if @proposal.new_record? and not logged_in? %>
         <tr>
           <td colspan="2">
@@ -178,6 +178,14 @@
           <td class="label-cell"><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional, kept private)" %></td>
           <td><%= f.text_area :note_to_organizers, :rows => 3 %></td>
         </tr>
+        <% if admin? %>
+        <tr>
+          <td class="label-cell" colspan="2">
+            <%= state_change_select %>
+          <td>
+        </tr>
+
+        <% end %>
         <% if @proposal.new_record? %>
           <tr>
             <td class="label-cell"><%= required_field %><%= f.label :agreement, "Agreement" %></td>
