@@ -397,6 +397,14 @@ table.proposals .description {
 	padding: .3em 0;
 }
 
+.proposal-meta .proposal-status {
+	background: #116db6;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: .9em;
+	padding: .5em;
+}
+
 /* @group Comments */
 
 ul.proposal-comments {
