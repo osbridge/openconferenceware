@@ -133,6 +133,54 @@ describe ProposalsController do
 
       it_should_behave_like "when exporting"
     end
+
+    describe "when sorting" do
+      it "should sort proposals by title" do
+        get :index, :sort => "title"
+        proposals = assigns(:proposals)
+
+        proposals.size.should > 0
+
+        titles_returned = proposals.map(&:title)
+        titles_expected = titles_returned.sort_by(&:downcase)
+        titles_returned.should == titles_expected
+      end
+
+      it "should sort proposals by track" do
+        get :index, :sort => "track"
+        proposals = assigns(:proposals)
+
+        proposals.size.should > 0
+
+        tracks_returned = proposals.map{|proposal| proposal.track.title}
+        tracks_expected = tracks_returned.sort_by(&:downcase)
+        tracks_returned.should == tracks_expected
+      end
+
+      it "should sort proposals by title descending" do
+        get :index, :sort => "title", :dir => "desc"
+        proposals = assigns(:proposals)
+
+        proposals.size.should > 0
+
+        titles_returned = proposals.map(&:title)
+        titles_expected = titles_returned.sort_by(&:downcase).reverse
+        titles_returned.should == titles_expected
+      end
+
+      it "should not sort proposals by forbidden field" do
+        proposal = Proposal.new
+        proposal.should_not_receive(:destroy)
+
+        event = Event.current
+        event.should_receive(:lookup_proposals).and_return([proposal])
+        @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+
+        get :index, :sort => "destroy"
+      end
+
+    end
+
   end
 
   describe "show" do
