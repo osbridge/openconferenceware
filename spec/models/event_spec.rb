@@ -12,6 +12,21 @@ describe Event do
       events(:open).accepting_proposals?.should be_true
     end
   end
+  
+  describe "when determining if proposal status is visible" do 
+    before :each do
+      @event = Event.new
+    end
+    
+    it "should not be published by default" do
+      @event.proposal_status_published.should be_false
+    end
+    
+    it "should be possible to publish proposal statuses" do
+      @event.proposal_status_published = true
+      @event.proposal_status_published.should be_true
+    end
+  end
 
   context "when finding current event" do
     it "should use cache" do
