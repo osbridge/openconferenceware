@@ -28,9 +28,10 @@ class Proposal < ActiveRecord::Base
   include NormalizeUrlMixin
   include SettingsCheckersMixin
   include CacheLookupsMixin
-  include AASM
   
   # State Machine
+  include AASM
+  
   aasm_column :status
   
   aasm_initial_state :proposed
@@ -53,6 +54,10 @@ class Proposal < ActiveRecord::Base
   
   aasm_event :confirm do
     transitions :from => :accepted, :to => :confirmed
+  end
+  
+  aasm_event :accept_and_confirm do
+    transitions :from => :proposed, :to => :confirmed
   end
   
   aasm_event :mark_as_junk do

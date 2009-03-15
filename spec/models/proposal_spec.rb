@@ -59,6 +59,11 @@ describe Proposal do
       @proposal.accept!
       @proposal.should be_accepted
     end
+    
+    it "should be possible to confirm a proposed proposal" do
+      @proposal.accept_and_confirm!
+      @proposal.should be_confirmed
+    end
 
     it "should be possible to reject a proposed proposal" do
       @proposal.reject!
