@@ -18,6 +18,7 @@ class ProposalsController < ApplicationController
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
 
     if %w(title track submitted_at session_type).include?(params[:sort]) || (admin? && params[:sort] == 'status')
+      # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
       @proposals = \
         case params[:sort].to_sym
         when :track
