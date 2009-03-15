@@ -126,14 +126,14 @@ describe ApplicationController do
     end
   end
 
-  describe "assign_current_event_or_redirect" do
+  describe "assert_current_event_or_redirect" do
     describe "when no events" do
       it "should direct admin users to event manager" do
         login_as :aaron
         @controller.instance_variable_set(:@event_assignment, :empty)
         @controller.should_receive(:manage_events_path)
         @controller.should_receive(:redirect_to)
-        @controller.send(:assign_current_event_or_redirect)
+        @controller.send(:assert_current_event_or_redirect)
 
         flash[:failure].should_not be_blank
       end
@@ -142,7 +142,7 @@ describe ApplicationController do
         logout
         @controller.instance_variable_set(:@event_assignment, :empty)
         @controller.should_receive(:render)
-        @controller.send(:assign_current_event_or_redirect)
+        @controller.send(:assert_current_event_or_redirect)
 
         flash[:failure].should_not be_blank
       end

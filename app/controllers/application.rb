@@ -152,10 +152,9 @@ protected
     return false
   end
 
-  # Assign @event if it's not already set. Return true if redirected or failed,
-  # false if assigned event for normal processing. WARNING: performs redirects
-  # and sets #flash.
-  def assign_current_event_or_redirect
+  # Ensure that @event is assigned (by #assign_current_event_without_redirecting).
+  # If not, display an error or force the admin to create a new event.
+  def assert_current_event_or_redirect
     case @event_assignment
     when :invalid_param
       flash[:failure] = "Couldn't find event, redirected to current event."

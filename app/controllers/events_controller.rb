@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include BreadcrumbsMixin
   add_breadcrumb "Events", "/events"
 
-  before_filter :assign_current_event_or_redirect
+  before_filter :assert_current_event_or_redirect
   before_filter :normalize_event_path_or_redirect
 
   def index
