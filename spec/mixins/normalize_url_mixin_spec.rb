@@ -57,7 +57,7 @@ describe NormalizeUrlMixin do
     it "should fail invalid" do
       @record.website = '<asdf>'
       @record.should_not be_valid
-      @record.errors.first.first.should == "website"
+      @record.errors.on(:website).should == "is invalid"
     end
   end
 end
