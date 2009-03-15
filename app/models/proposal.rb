@@ -28,6 +28,41 @@ class Proposal < ActiveRecord::Base
   include NormalizeUrlMixin
   include SettingsCheckersMixin
   include CacheLookupsMixin
+  include AASM
+  
+  # State Machine
+  aasm_column :status
+  
+  aasm_initial_state :proposed
+  
+  aasm_state :proposed
+  aasm_state :accepted
+  aasm_state :rejected
+  aasm_state :confirmed
+  aasm_state :junk
+  
+  aasm_event :accept do
+    transitions :from => :proposed, :to => :accepted
+    transitions :from => :rejected, :to => :accepted
+  end
+  
+  aasm_event :reject do
+    transitions :from => :proposed, :to => :rejected
+    transitions :from => :accepted, :to => :rejected
+  end
+  
+  aasm_event :confirm do
+    transitions :from => :accepted, :to => :confirmed
+  end
+  
+  aasm_event :mark_as_junk do
+    transitions :from => :proposed, :to => :junk
+  end
+  
+  aasm_event :reset_status do
+    transitions :from => %w(accepted rejected confirmed junk), :to => :proposed
+  end
+  
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
 
   # Associations
@@ -54,7 +89,7 @@ class Proposal < ActiveRecord::Base
   validate :url_validator
 
   # Protected attributes
-  attr_protected :user_id, :event_id
+  attr_protected :user_id, :event_id, :status
 
   # Public attributes for export
   include PublicAttributesMixin

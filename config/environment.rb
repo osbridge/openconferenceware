@@ -15,6 +15,7 @@ Rails::Initializer.run do |config|
   config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "right_aws", :lib => false # we aren't actually using AWS, but paperclip can, so it requires it.
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
+  config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

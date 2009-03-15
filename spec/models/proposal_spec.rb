@@ -44,6 +44,58 @@ describe Proposal do
       proposal.submitted_at.should == proposal.created_at
     end
   end
+  
+  describe "when setting status" do
+    before(:each) do
+      @proposal = new_proposal
+      @proposal.save!
+    end
+    
+    it "should default to a state of 'proposed'" do
+      @proposal.should be_proposed
+    end
+    
+    it "should be possible to accept a proposed proposal" do
+      @proposal.accept!
+      @proposal.should be_accepted
+    end
+    
+    it "should be possible to reject a proposed proposal" do
+      @proposal.reject!
+      @proposal.should be_rejected
+    end
+    
+    it "should be possible to confirm an accepted proposal" do
+      @proposal.status = 'accepted'
+      @proposal.confirm!
+      @proposal.should be_confirmed
+    end
+    
+    it "should be possible to accept a rejected proposal" do
+      @proposal.status = 'rejected'
+      @proposal.accept!
+      @proposal.should be_accepted
+    end
+    
+    it "should be possible to reject an accepted proposal" do
+      @proposal.status = 'accepted'
+      @proposal.reject!
+      @proposal.should be_rejected
+    end
+    
+    it "should be possible to mark a proposed proposal as junk" do
+      @proposal.mark_as_junk!
+      @proposal.should be_junk
+    end
+    
+    %w(accepted confirmed rejected junk).each do |initial_status|      
+      it "should be posible to reset a #{initial_status} proposal back to proposed" do
+        @proposal.status = initial_status
+        @proposal.reset_status!
+        @proposal.should be_proposed
+      end
+    end
+  end
 
   context "when getting comments" do
     before(:each) do
@@ -97,5 +149,19 @@ describe Proposal do
       @proposal.profile.should == @proposal
     end
 
+  end
+  
+  private
+  
+  def new_proposal(attr = {})
+    valid_attr = {
+      :event => mock_model(Event),
+      :track => mock_model(Track),
+      :session_type => mock_model(SessionType),
+      :title => "New Proposal",
+      :description => "Valid Description",
+      :excerpt => "Valid Excerpt"
+    }
+    Proposal.new(valid_attr.merge(attr))
   end
 end
