@@ -104,31 +104,22 @@ protected
     @events = Event.lookup
   end
 
-  # Assign @event if it's not already set. Also set the
-  # @event_assignment value to describe how the @event was assigned,
-  # which can be one of the following values:
-  # * :assigned_already
+  # Return the event and a status which describes how the event was assigned. The status can be one of the following:
   # * :assigned_to_param
   # * :invalid_param
   # * :assigned_to_current
   # * :empty
-  def assign_current_event_without_redirecting
-    invalid_param = false
-
-    # Only assign event if one isn't already assigned.
-    if @event
-      logit "already assigned"
-      @event_assignment = :assigned_already
-      return false
-    end
+  def get_current_event_and_assignment_status
+    event = nil
+    status = nil
 
     # Try finding event matching the :event_id given in the #params.
     event_id_key = controller_name == "events" ? :id : :event_id
     if key = params[event_id_key].ergo.to_i
-      if @event = Event.lookup(key)
+      if event = Event.lookup(key)
         logit "assigned via #{event_id_key} to: #{key}"
-        @event_assignment = :assigned_to_param
-        return false
+        status = :assigned_to_param
+        return [event, status]
       else
         logit "error, specified event_id_key '#{key}' was not found in database"
         invalid_param = params[event_id_key]
@@ -136,19 +127,38 @@ protected
     end
 
     # Try finding the current event.
-    if @event = Event.current
+    if event = Event.current
       logit "assigned to current event"
       if invalid_param
-        @event_assignment = :invalid_param
-        return false
+        status = :invalid_param
+        return [event, status]
       else
-        @event_assignment = :assigned_to_current
-        return false
+        status = :assigned_to_current
+        return [event, status]
       end
     end
 
     logit "error, no current event found"
-    @event_assignment = :empty
+    status = :empty
+    return [event, status]
+  end
+
+  # Assign @event if it's not already set. Also set the
+  # @event_assignment value to describe how the @event was assigned,
+  # which can be one of the following values:
+  # * :assigned_already
+  # * Or any of the statuses described in
+  #   #get_current_event_and_assignment_status
+  def assign_current_event_without_redirecting
+    invalid_param = false
+
+    # Only assign event if one isn't already assigned.
+    if @event
+      logit "already assigned"
+      @event_assignment = :assigned_already
+    else
+      @event, @event_assignment = get_current_event_and_assignment_status()
+    end
     return false
   end
 
