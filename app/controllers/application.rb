@@ -104,6 +104,14 @@ protected
     @events = Event.lookup
   end
 
+  # Assign @event if it's not already set. Also set the
+  # @event_assignment value to describe how the @event was assigned,
+  # which can be one of the following values:
+  # * :assigned_already
+  # * :assigned_to_param
+  # * :invalid_param
+  # * :assigned_to_current
+  # * :empty
   def assign_current_event_without_redirecting
     invalid_param = false
 
