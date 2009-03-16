@@ -68,6 +68,20 @@ describe ApplicationController do
           proposal = proposals(:quentin_widgets)
           can_edit?(proposal).should be_true
         end
+        
+        it "should allow user to edit own before a status has been set" do
+          login_as :quentin
+          proposal = proposals(:quentin_widgets)
+          proposal.status = 'proposed'
+          can_edit?(proposal).should be_true
+        end
+        
+        it "should not allow user to edit own once a status has been set" do
+          login_as :quentin
+          proposal = proposals(:quentin_widgets)
+          proposal.status = 'accepted'
+          can_edit?(proposal).should be_false
+        end
 
         it "should not allow user to edit other's when accepting proposals" do
           login_as :quentin

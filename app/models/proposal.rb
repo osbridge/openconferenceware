@@ -128,8 +128,8 @@ class Proposal < ActiveRecord::Base
       if user.admin?
         return true
       else
-        # Check this proposal's owners
-        return self.users.include?(user)
+        # Check this proposal's owners and confirm the proposal's status is 'proposed'
+        return self.users.include?(user) && self.proposed?
       end
     when NilClass, Symbol, Integer
       return false
