@@ -136,7 +136,7 @@ class ProposalsController < ApplicationController
     @proposal = Proposal.new(params[:proposal])
     @proposal.event = @event
     @proposal.add_user(current_user) if logged_in?
-    @proposal.transition = params[:transition] if admin?
+    @proposal.transition = transition_from_params if admin?
 
     manage_speakers_on_submit
 
@@ -166,7 +166,6 @@ class ProposalsController < ApplicationController
   # PUT /proposals/1.xml
   def update
     # @proposal and @event set via #assign_proposal_and_event filter
-
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
@@ -174,7 +173,7 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if params[:commit] && @proposal.update_attributes(params[:proposal])
-        @proposal.transition = params[:transition] if admin?
+        @proposal.transition = transition_from_params if admin?
         flash[:success] = 'Updated proposal.'
         format.html { redirect_to(@proposal) }
         format.xml  { head :ok }
@@ -342,6 +341,11 @@ protected
         @proposal.add_user(speaker)
       end
     end
+  end
+
+  # Return the name of a transition (e.g., "accept") from a Proposal's params.
+  def transition_from_params
+    return params[:proposal].ergo[:transition]
   end
 
 end
