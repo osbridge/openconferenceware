@@ -28,6 +28,7 @@ module SettingsCheckersMixin
       event_rooms
       multiple_presenters
       proposal_excerpts
+      proposal_start_times
       user_pictures
       user_profiles
     ].each do |name|

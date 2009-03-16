@@ -192,6 +192,14 @@
               </td>
             </tr>
           <% end %>
+          <% if proposal_start_times? %>
+            <tr>
+              <td class="label-cell"><%= f.label :start_time %></td>
+              <td>
+                <%= f.datetime_select :start_time, {:prompt => true} %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
         <% if @proposal.new_record? %>
           <tr>
