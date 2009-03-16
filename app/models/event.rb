@@ -1,15 +1,16 @@
 # == Schema Information
-# Schema version: 20090121212823
+# Schema version: 20090316010807
 #
 # Table name: events
 #
-#  id          :integer         not null, primary key
-#  title       :string(255)     
-#  deadline    :datetime        
-#  open_text   :text            
-#  closed_text :text            
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  id                        :integer         not null, primary key
+#  title                     :string(255)
+#  deadline                  :datetime
+#  open_text                 :text
+#  closed_text               :text
+#  created_at                :datetime
+#  updated_at                :datetime
+#  proposal_status_published :boolean         not null
 #
 
 class Event < ActiveRecord::Base
@@ -22,6 +23,7 @@ class Event < ActiveRecord::Base
   has_many :proposals, :order => 'submitted_at desc'
   has_many :tracks, :order => 'title asc'
   has_many :session_types
+  has_many :rooms
 
   # Validations
   validates_presence_of \

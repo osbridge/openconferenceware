@@ -179,12 +179,19 @@
           <td><%= f.text_area :note_to_organizers, :rows => 3 %></td>
         </tr>
         <% if admin? %>
-        <tr>
-          <td class="label-cell" colspan="2">
-            <%= state_change_select %>
-          <td>
-        </tr>
-
+          <tr>
+            <td class="label-cell" colspan="2">
+              <%= state_change_select %>
+            <td>
+          </tr>
+          <% if event_rooms? %>
+            <tr>
+              <td class="label-cell"><%= f.label :room_id, "Room" %></td>
+              <td>
+                <%= f.collection_select :room_id, Room.find(:all), :id, :name, :include_blank => true %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
         <% if @proposal.new_record? %>
           <tr>

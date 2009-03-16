@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090121212823
+# Schema version: 20090316010807
 #
 # Table name: tracks
 #
@@ -10,6 +10,7 @@
 #  event_id    :integer         
 #  created_at  :datetime        
 #  updated_at  :datetime        
+#  excerpt     :text
 #
 
 class Track < ActiveRecord::Base

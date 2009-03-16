@@ -147,11 +147,15 @@
               <% if @event %>
                 <li><%= link_to "Manage this event", manage_event_path(@event) %></li>
                 <ul>
+                  <li><%= link_to "Proposals", proposals_path %></li>
                 <% if event_tracks? %>
                   <li><%= link_to "Tracks", tracks_path %></li>
                 <% end %>
                 <% if event_session_types? %>
                  <li><%= link_to "Session types", session_types_path %></li>
+                <% end %>
+                <% if event_rooms? %>
+                 <li><%= link_to "Rooms", rooms_path %></li>
                 <% end %>
                 <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
                 </ul>

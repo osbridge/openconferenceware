@@ -1,0 +1,29 @@
+<% page_title "#{@room.name}" %>
+
+<div id="room-show">
+  <% if @room.capacity %>
+    <div><strong>Capacity:</strong> <%= @room.capacity %></div>
+  <% end %>
+
+  <% unless @room.size.blank? %>
+    <div><strong>Size:</strong> <%= @room.size %></div>
+  <% end %>
+
+  <% unless @room.seating_configuration.blank? %>
+    <div><strong>Seating Configuration:</strong> <%= @room.seating_configuration %></div>
+  <% end %>
+
+  <% unless @room.size.blank? %>
+    <div><strong>Size:</strong> <%= @room.size %></div>
+  <% end %>
+
+  <div class="description"><%= textilize @room.description %></div>
+
+  <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
+  <%= link_to 'Rooms for this event', rooms_path, :class => "cancelable" %>
+
+  <% unless @room.proposals.empty?  %>
+    <h3>Proposals for this room</h3>
+    <%= render :partial => 'proposals/list', :locals => {:proposals => @room.proposals} %>
+  <% end %>
+</div>

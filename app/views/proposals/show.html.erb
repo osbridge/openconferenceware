@@ -91,6 +91,11 @@
     <p><%= @proposal.tag_list %></p>
   <% end %>
 
+  <% if event_rooms? && @proposal.room %>
+    <h3>Room</h3>
+    <p><%= link_to @proposal.room.name, @proposal.room %>
+  <% end %>
+
   <% if can_edit? && ! @proposal.note_to_organizers.blank?%>
     <h3>Private Note to Organizers</h3>
     <%= preserve_formatting_of @proposal.note_to_organizers %>

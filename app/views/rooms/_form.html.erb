@@ -1,0 +1,32 @@
+<% focus :room_title %>
+
+<% form_for(@room) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :capacity, "Capacity (number of people)" %><br />
+    <%= f.text_field :capacity %>
+  </p>
+  <p>
+    <%= f.label :size %><br />
+    <%= f.text_field :size %>
+  </p>
+  <p>
+    <%= f.label :seating_configuration %><br />
+    <%= f.text_field :seating_configuration %>
+  </p>
+  <p>
+    <%= f.label :description %> (<%= display_textile_help_link %>)<br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit @room.new_record? ? "Create" : "Update" %>
+    <%= link_to 'Cancel', @room, :class => "showable" %>
+    <%= link_to 'Back', rooms_path, :class => "cancelable" %>
+    <%= link_to 'Destroy', room_path(@room), :method => :delete, :confirm => %{Destroy room "#{@room.name}"?}, :class => "deletable" unless @room.new_record? %>
+  </p>
+<% end %>

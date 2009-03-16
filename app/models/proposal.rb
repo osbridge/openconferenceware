@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090121212823
+# Schema version: 20090316010807
 #
 # Table name: proposals
 #
@@ -21,6 +21,7 @@
 #  excerpt            :text(400)       
 #  track_id           :integer         
 #  session_type_id    :integer         
+#  status             :string(255)     default("proposed"), not null
 #
 
 class Proposal < ActiveRecord::Base
@@ -74,6 +75,7 @@ class Proposal < ActiveRecord::Base
   belongs_to :event
   belongs_to :track
   belongs_to :session_type
+  belongs_to :room
   has_many :comments
   has_and_belongs_to_many :users
 

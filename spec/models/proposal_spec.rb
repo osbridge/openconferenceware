@@ -166,7 +166,18 @@ describe Proposal do
       SETTINGS.stub!(:have_user_profiles).and_return(false)
       @proposal.profile.should == @proposal
     end
+  end
 
+  describe "with rooms" do
+    before :each do
+      @proposal = Proposal.new
+    end
+
+    it "should be able to assign a room to an proposal" do
+      room = stub_model(Room)
+      @proposal.room = room
+      @proposal.room.should==room
+    end
   end
 
   private

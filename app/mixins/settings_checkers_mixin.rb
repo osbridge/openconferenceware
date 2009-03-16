@@ -25,6 +25,7 @@ module SettingsCheckersMixin
       event_tracks
       event_session_types
       events_picker
+      event_rooms
       multiple_presenters
       proposal_excerpts
       user_pictures

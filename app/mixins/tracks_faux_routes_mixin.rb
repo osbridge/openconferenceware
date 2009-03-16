@@ -55,6 +55,11 @@ module TracksFauxRoutesMixin
     generate[:noun => "session_type", :verb => "new"]
     generate[:noun => "session_type", :item => true]
     generate[:noun => "session_type", :verb => "edit", :item => true]
+
+    generate[:noun => "rooms"]
+    generate[:noun => "room", :verb => "new"]
+    generate[:noun => "room", :item => true]
+    generate[:noun => "room", :verb => "edit", :item => true]
   end
 
   include Methods
