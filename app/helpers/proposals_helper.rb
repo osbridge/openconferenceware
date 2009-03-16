@@ -9,7 +9,7 @@ module ProposalsHelper
     link
   end
 
-  def state_change_select proposal = nil
+  def state_change_select(proposal = nil)
     proposal ||= @proposal
     content_tag(:div,
       (content_tag(

@@ -117,8 +117,8 @@ class Proposal < ActiveRecord::Base
 
   # allows an interface to state machine through update_attributes transition key
   attr_accessor :transition
-  def transition=(t)
-    send "#{t}!" if aasm_events_for_current_state.include?(t.to_sym)
+  def transition=(event)
+    send "#{event}!" if aasm_events_for_current_state.include?(event.to_sym)
   end
 
   # Is this +user+ allowed to alter this proposal?
