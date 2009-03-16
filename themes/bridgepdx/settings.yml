@@ -39,3 +39,6 @@ have_user_pictures: true
 
 # Is profile information, like biography, stored in the User record? Else stored in Proposal.
 have_user_profiles: true
+
+# Do events have rooms?
+have_event_rooms: true
