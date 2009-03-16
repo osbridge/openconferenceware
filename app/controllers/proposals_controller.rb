@@ -285,18 +285,36 @@ protected
     end
   end
 
-  # Assign @proposal from parameters, or redirect to index.
-  def assign_proposal_and_event
-    if @proposal = Proposal.lookup(params[:id].to_i) rescue nil
-      if @event = @proposal.event
-        return false # Successfully found both @event and @proposal
+  # Return the proposal and its assignment status for this request. The status
+  # can be:
+  # * :assigned_via_param
+  # * :invalid_proposal
+  # * :invalid_event
+  def get_proposal_and_assignment_status
+    if proposal = Proposal.lookup(params[:id].to_i) rescue nil
+      if proposal.event
+        return [proposal, :assigned_via_param]
       else
-        flash[:failure] = "Sorry, no event was associated with proposal ##{@proposal.id}"
-        return redirect_to(:action => :index)
+        return [proposal, :invalid_event]
       end
     else
+      return [proposal, :invalid_proposal]
+    end
+  end
+
+  # Assign @proposal and @event from parameters, or redirect with warnings.
+  def assign_proposal_and_event
+    @proposal, @proposal_assignment_status = get_proposal_and_assignment_status()
+    case @proposal_assignment_status
+    when :assigned_via_param
+      @event = @proposal.event
+      return false # Successfully found both @event and @proposal
+    when :invalid_proposal
       flash[:failure] = "Sorry, that presentation proposal doesn't exist or has been deleted."
       return redirect_to(:action => :index)
+    when :invalid_event
+        flash[:failure] = "Sorry, no event was associated with proposal ##{@proposal.id}"
+        return redirect_to(:action => :index)
     end
   end
 
