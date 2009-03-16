@@ -215,18 +215,20 @@
     <%= yield :javascript %>
   </script>
 
-  <script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
-  <script type="text/javascript">
-    var pageTracker = _gat._getTracker("UA-168427-8");
-    pageTracker._initData();
-    pageTracker._trackPageview();
-  </script>
+  <% if RAILS_ENV == "production" %>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("UA-168427-8");
+      pageTracker._initData();
+      pageTracker._trackPageview();
+    </script>
 
-  <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
-  <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
+    <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
+  <% end %>
 
 </body>
 </html>
