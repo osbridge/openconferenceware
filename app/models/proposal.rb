@@ -95,7 +95,7 @@ class Proposal < ActiveRecord::Base
   validate :url_validator
 
   # Protected attributes
-  attr_protected :user_id, :event_id, :status
+  attr_protected :user_id, :event_id, :status, :transition
 
   # Public attributes for export
   include PublicAttributesMixin
@@ -118,7 +118,7 @@ class Proposal < ActiveRecord::Base
   # allows an interface to state machine through update_attributes transition key
   attr_accessor :transition
   def transition=(event)
-    send "#{event}!" if aasm_events_for_current_state.include?(event.to_sym)
+    send "#{event}!" if !event.blank? && aasm_events_for_current_state.include?(event.to_sym)
   end
 
   # Is this +user+ allowed to alter this proposal?

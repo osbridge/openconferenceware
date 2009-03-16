@@ -136,6 +136,7 @@ class ProposalsController < ApplicationController
     @proposal = Proposal.new(params[:proposal])
     @proposal.event = @event
     @proposal.add_user(current_user) if logged_in?
+    @proposal.transition = params[:transition] if admin?
 
     manage_speakers_on_submit
 
@@ -173,6 +174,7 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if params[:commit] && @proposal.update_attributes(params[:proposal])
+        @proposal.transition = params[:transition] if admin?
         flash[:success] = 'Updated proposal.'
         format.html { redirect_to(@proposal) }
         format.xml  { head :ok }
