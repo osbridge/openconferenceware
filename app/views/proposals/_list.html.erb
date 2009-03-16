@@ -11,6 +11,7 @@
           <% else %>
             <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal_path(proposal), :class => "title") %>
           <% end %>
+          <% if admin? %><span class='proposal-status <%= proposal.status %>'>(<%= proposal.status.titleize %>)</span><% end %>
         </h3>
 
         <div class="excerpt">
@@ -27,7 +28,6 @@
       <td class='date'>
         <%= proposal.submitted_at.ergo{localtime.to_s} %>
       </td>
-        
     </tr>
     <tr>    
       <td class="speakers" colspan='<%= event_tracks? ? 2 : 1 %>'>

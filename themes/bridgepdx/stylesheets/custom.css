@@ -350,6 +350,26 @@ table.proposals h3 {
 	margin: .3em 0 .5em;
 }
 
+table.proposals h3 span.proposal-status {
+  font-size: .7em;
+}
+
+table.proposals h3 span.proposal-status.proposed {
+  color: #222;
+}
+
+table.proposals h3 span.proposal-status.confirmed {
+  color: green;
+}
+
+table.proposals h3 span.proposal-status.rejected {
+  color: red;
+}
+
+table.proposals h3 span.proposal-status.junk {
+  color: #aaa;
+}
+
 table.proposals .date, table.proposals .track {
 	font-size: .9em;
 	text-align: center;

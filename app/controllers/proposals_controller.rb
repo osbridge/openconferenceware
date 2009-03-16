@@ -17,7 +17,7 @@ class ProposalsController < ApplicationController
   def index
     @proposals = @event ? @event.lookup_proposals : Proposal.lookup
 
-    if %w(title track submitted_at session_type).include?(params[:sort])
+    if %w(title track submitted_at session_type).include?(params[:sort]) || (admin? && params[:sort] == 'status')
       @proposals = \
         case params[:sort].to_sym
         when :track
