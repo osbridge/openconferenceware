@@ -17,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
     events.resources :proposals, :controller => 'proposals'
     events.resources :tracks, :controller => 'tracks'
     events.resources :session_types
+    events.resources :rooms
   end
 
   map.resource :manage, :controller => 'manage' do |manage|

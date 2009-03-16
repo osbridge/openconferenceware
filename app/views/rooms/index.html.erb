@@ -1,0 +1,13 @@
+<% page_title "Rooms" %>
+
+<ul>
+<% for room in @rooms %>
+  <li><%= link_to h(room.name), room_path(room) %></li>
+  <span class="description"><%= textilize room.description %></span>
+<% end %>
+</ul>
+
+<div>
+<%= link_to 'New room', new_room_path, :class => "addable" if admin? %>
+<%= link_to 'Back to proposals', event_proposals_path(@event), :class => "cancelable" %>
+</div>

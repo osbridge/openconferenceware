@@ -75,6 +75,7 @@ class Proposal < ActiveRecord::Base
   belongs_to :event
   belongs_to :track
   belongs_to :session_type
+  belongs_to :room
   has_many :comments
   has_and_belongs_to_many :users
 
