@@ -489,6 +489,25 @@ describe ProposalsController do
       end
     end
 
+    describe "when settings status" do
+      it "should allow admin to change status" do
+        @inputs[:transition] = 'accept'
+        @controller.should_receive(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
+        @proposal.should_receive(:accept!)
+        assert_update(:aaron, @inputs) do
+          # Everything is done through the should_receive
+        end
+      end
+
+      it "should not allow non-admin to change status" do
+        @inputs[:transition] = 'accept'
+        @controller.should_receive(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
+        @proposal.should_not_receive(:accept!)
+        assert_update(:quentin, @inputs) do
+        end
+      end
+    end
+
     describe "with user_profiles?" do
       before(:each) do
         SETTINGS.stub!(:have_user_profiles => true)
