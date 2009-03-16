@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090121212823
+# Schema version: 20090316010807
 #
 # Table name: proposals
 #
@@ -21,6 +21,7 @@
 #  excerpt            :text(400)       
 #  track_id           :integer         
 #  session_type_id    :integer         
+#  status             :string(255)     default("proposed"), not null
 #
 
 class Proposal < ActiveRecord::Base
