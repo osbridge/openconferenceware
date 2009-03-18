@@ -60,6 +60,7 @@ protected
         # Normal user
         case record
         when Proposal
+          # TODO Add setting to determine if users can alter their proposals after the accepting_proposals deadline passed.
           accepting_proposals?(record) && record.can_alter?(current_user)
         when User
           current_user == record
