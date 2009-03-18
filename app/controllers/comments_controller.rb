@@ -55,7 +55,7 @@ class CommentsController < ApplicationController
         format.xml  { render :xml  => @comment, :status => :created }
         format.json { render :json => @comment, :status => :created }
       else
-        @display_comment = true
+        @display_comment_form = true
         @focus_comment = true
         if @proposal = @comment.proposal
           flash[:failure] = "Invalid comment."

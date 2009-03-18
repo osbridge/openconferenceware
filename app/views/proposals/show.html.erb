@@ -3,13 +3,12 @@
 # - @proposal: Proposal record
 # - @comment: Comment record, may be a new_record or one with error
 # - @focus_comment: Focus on comment? E.g., because it has an error
-# - @display_comment: Display the comment?
+# - @display_comment_form: Display the comment?
 %>
 <% page_title h(@proposal.title) %>
 <% focus :comment_message if @focus_comment %>
 
 <% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
-
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -131,13 +130,12 @@
 
 <% end %>
 
-<%# FIXME rename @display_comment to @display_comment_form %>
 <% if admin? %>
   <h3>Comments</h3>
   <%= render :partial => 'comments/list', :locals => { :comments => @proposal.comments }%>
 <% end %>
 
-<% if @display_comment %>
+<% if @display_comment_form %>
   <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
     <%= f.hidden_field :proposal_id %>
     <h4>Leave a private comment to organizers about this proposal</h4>
