@@ -157,6 +157,21 @@ class User < ActiveRecord::Base
     self.find(:first, :conditions => {:login => identity_url, :using_openid => true})
   end
 
+  # Return a User instance for a value, which can either be a User, 
+  # Symbol or String of the User's login, or an Integer id of the User.
+  def self.get(value)
+    case value
+    when User
+      return value
+    when Symbol, String
+      return User.find_by_login(value.to_s)
+    when Integer
+      return User.find(value)
+    else
+      raise TypeError, "Unknown argument type #{value.class.to_s.inspect} with value #{value.inspect}"
+    end
+  end
+
   # Return a label for the user.
   def label
     return "#{(self.fullname.with{blank? ? nil : self}) || (self.using_openid? ? URI.parse(login).host : self.login)}"
