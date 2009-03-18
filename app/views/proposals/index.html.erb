@@ -27,17 +27,7 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
 
   <% if proposal_excerpts? %>
 
-      <div>
-        Sort by:
-        <%= proposals_sort_link("Title", 'title') %>,
-        <%= proposals_sort_link("Track", 'track') if event_tracks? %>,
-        <%= proposals_sort_link("Submission Date", 'submitted_at') %>
-        <% if admin? %>
-          <%= proposals_sort_link("Status", 'status') %>
-        <% end %>
-      </div>
-
-      <%= render :partial => 'list', :locals => {:proposals => @proposals} %>
+      <%= render :partial => 'proposal_index', :locals => {:proposals => @proposals} %>
 
   <% else %>
     <table id="proposal-listing">
