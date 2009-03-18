@@ -92,7 +92,7 @@
 
   <% if event_rooms? && @proposal.room %>
     <h3>Room</h3>
-    <p><%= link_to @proposal.room.name, @proposal.room %>
+    <p><%= link_to h(@proposal.room.name), @proposal.room %>
   <% end %>
 
   <% if can_edit? && ! @proposal.note_to_organizers.blank?%>
