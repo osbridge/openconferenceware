@@ -11,25 +11,11 @@ class ProposalsController < ApplicationController
   before_filter :assign_proposals_breadcrumb
 
   MAX_FEED_ITEMS = 20
-
+  
   # GET /proposals
   # GET /proposals.xml
   def index
-    @proposals = @event ? @event.lookup_proposals : Proposal.lookup
-
-    if %w(title track submitted_at session_type).include?(params[:sort]) || (admin? && params[:sort] == 'status')
-      # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
-      @proposals = \
-        case params[:sort].to_sym
-        when :track
-          without_tracks = @proposals.reject(&:track)
-          with_tracks = @proposals.select(&:track).sort_by{|proposal| proposal.track}
-          with_tracks + without_tracks
-        else
-          @proposals.sort_by{|proposal| proposal.send(params[:sort]).to_s.downcase rescue nil}
-        end
-        @proposals = @proposals.reverse if params[:dir] == 'desc'
-    end
+    @proposals = sort_proposals( @event ? @event.lookup_proposals : Proposal.lookup )
 
     respond_to do |format|
       format.html {
@@ -71,6 +57,32 @@ class ProposalsController < ApplicationController
         end
         buffer.rewind
         render :text => buffer.read
+      }
+    end
+  end
+    
+  def confirmed
+    unless @event.proposal_status_published?
+      flash[:failure] = "Proposal statusus have not yet been published for this event."
+      return redirect_to(proposals_url)
+    end
+    
+    @proposals = sort_proposals( @event.proposals.confirmed )
+    page_title("Sessions")
+    
+    respond_to do |format|
+      format.html {
+        add_breadcrumb @event.title, event_proposals_path(@event)
+        render :partial => 'proposals/proposal_index', :layout => true
+      }
+      format.xml  {
+        render :xml => @proposals.map(&:public_attributes)
+      }
+      format.json {
+        render :json => @proposals.map(&:public_attributes)
+      }
+      format.atom {
+        @proposals = @proposals[0..MAX_FEED_ITEMS]
       }
     end
   end
@@ -346,6 +358,23 @@ protected
   # Return the name of a transition (e.g., "accept") from a Proposal's params.
   def transition_from_params
     return params[:proposal].ergo[:transition]
+  end
+  
+  def sort_proposals(proposals)
+    if %w(title track submitted_at session_type).include?(params[:sort]) || (admin? && params[:sort] == 'status')
+      # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
+      proposals = \
+        case params[:sort].to_sym
+        when :track
+          without_tracks = proposals.reject(&:track)
+          with_tracks = proposals.select(&:track).sort_by{|proposal| proposal.track}
+          with_tracks + without_tracks
+        else
+          proposals.sort_by{|proposal| proposal.send(params[:sort]).to_s.downcase rescue nil}
+        end
+        proposals = proposals.reverse if params[:dir] == 'desc'
+    end
+    proposals
   end
 
 end

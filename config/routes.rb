@@ -12,12 +12,15 @@ ActionController::Routing::Routes.draw do |map|
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
   map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers'
-
+  
+  map.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
+  
   map.resources :events do |events|
     events.resources :proposals, :controller => 'proposals'
     events.resources :tracks, :controller => 'tracks'
     events.resources :session_types
     events.resources :rooms
+    events.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
   end
 
   map.resource :manage, :controller => 'manage' do |manage|
