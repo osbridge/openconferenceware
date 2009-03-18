@@ -125,18 +125,14 @@ class Proposal < ActiveRecord::Base
 
   # Is this +user+ allowed to alter this proposal?
   def can_alter?(user)
-    case user
-    when User
-      if user.admin?
-        return true
-      else
-        # Check this proposal's owners and confirm the proposal's status is 'proposed'
-        return self.users.include?(user) && self.proposed?
-      end
-    when NilClass, Symbol, Integer
-      return false
+    return false unless user
+
+    user = User.get(user)
+    if user.admin?
+      return true
     else
-      raise TypeError, "Unknown argument type: #{user}"
+      # Check this proposal's owners and confirm the proposal's status is 'proposed'
+      return self.users.include?(user) && self.proposed?
     end
   end
 
@@ -174,10 +170,7 @@ class Proposal < ActiveRecord::Base
 
   # Add user by record or id if needed. Return user object if added.
   def add_user(user)
-    case user
-    when Integer, String
-      user = User.find(user)
-    end
+    user = User.get(user)
 
     if self.users.include?(user)
       return nil
@@ -190,10 +183,7 @@ class Proposal < ActiveRecord::Base
 
   # Remove user by record or id if needed. Return user object if removed.
   def remove_user(user)
-    case user
-    when Integer, String
-      user = User.find(user)
-    end
+    user = User.get(user)
 
     if self.users.include?(user)
       Observist.expire

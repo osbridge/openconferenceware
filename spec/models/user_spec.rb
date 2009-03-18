@@ -10,14 +10,14 @@ describe User do
       User.get(@user).should == @user
     end
 
-    it "should return a user instance for the given logic symbol" do
+    it "should return a user instance for the given login symbol" do
       User.should_receive(:find_by_login).with("mykey").and_return(@user)
       User.get(:mykey).should == @user
     end
 
-    it "should return a user instance for the given logic string" do
-      User.should_receive(:find_by_login).with("mykey").and_return(@user)
-      User.get("mykey").should == @user
+    it "should return a user instance for the given id string" do
+      User.should_receive(:find).with(42).and_return(@user)
+      User.get("42").should == @user
     end
 
     it "should return a user instance for the given id" do

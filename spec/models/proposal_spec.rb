@@ -59,7 +59,7 @@ describe Proposal do
       @proposal.accept!
       @proposal.should be_accepted
     end
-    
+
     it "should be possible to confirm a proposed proposal" do
       @proposal.accept_and_confirm!
       @proposal.should be_confirmed
@@ -168,6 +168,51 @@ describe Proposal do
     end
   end
 
+  describe "when adding or removing user", :shared => true do
+    before(:each) do
+      @user = stub_model(User)
+      @users = mock_model(Array)
+      @proposal = stub_model(Proposal)
+      @proposal.should_receive(:users).any_number_of_times.and_return(@users)
+    end
+  end
+
+  describe "when adding user" do
+    it_should_behave_like "when adding or removing user"
+
+    it "should add a user" do
+      @users.should_receive(:include?).with(@user).and_return(false)
+      @users.should_receive(:<<).with(@user).and_return(@user)
+
+      @proposal.add_user(@user)
+    end
+
+    it "should not re-add an existing user" do
+      @users.should_receive(:include?).with(@user).and_return(true)
+      @users.should_not_receive(:<<)
+
+      @proposal.add_user(@user)
+    end
+  end
+
+  describe "when removing user" do
+    it_should_behave_like "when adding or removing user"
+
+    it "should remove a user" do
+      @users.should_receive(:include?).with(@user).and_return(true)
+      @users.should_receive(:delete).with(@user).and_return(@user)
+
+      @proposal.remove_user(@user)
+    end
+
+    it "should not remove a non-existent user" do
+      @users.should_receive(:include?).with(@user).and_return(false)
+      @users.should_not_receive(:delete)
+
+      @proposal.remove_user(@user)
+    end
+  end
+
   describe "with rooms" do
     before :each do
       @proposal = Proposal.new
@@ -180,7 +225,7 @@ describe Proposal do
     end
   end
 
-  private
+private
 
   def new_proposal(attr = {})
     valid_attr = {

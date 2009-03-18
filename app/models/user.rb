@@ -158,15 +158,15 @@ class User < ActiveRecord::Base
   end
 
   # Return a User instance for a value, which can either be a User, 
-  # Symbol or String of the User's login, or an Integer id of the User.
+  # Symbol of the User's login, or a String or Integer id for the User.
   def self.get(value)
     case value
     when User
       return value
-    when Symbol, String
+    when Symbol
       return User.find_by_login(value.to_s)
-    when Integer
-      return User.find(value)
+    when Integer, String
+      return User.find(value.to_i)
     else
       raise TypeError, "Unknown argument type #{value.class.to_s.inspect} with value #{value.inspect}"
     end
