@@ -1,0 +1,2 @@
+module BrowserSessionsHelper
+end

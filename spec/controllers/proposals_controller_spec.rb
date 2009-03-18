@@ -314,7 +314,7 @@ describe ProposalsController do
       it_should_behave_like "shared edit behaviors"
 
       it "should redirect to login" do
-        response.should redirect_to(new_session_url)
+        response.should redirect_to(login_url)
       end
     end
 
@@ -384,7 +384,7 @@ describe ProposalsController do
         SETTINGS.stub!(:have_anonymous_proposals).and_return(true)
         assert_create(nil, :event_id => @current_event.id, :commit => 'Login', :openid_url => 'http://foo.bar') do
           response.should be_redirect
-          response.should redirect_to(session_url(:openid_url => 'http://foo.bar'))
+          response.should redirect_to(browser_session_url(:openid_url => 'http://foo.bar'))
           assigns(:proposal).should be_blank
         end
       end
@@ -478,7 +478,7 @@ describe ProposalsController do
 
     it "should redirect anonymous user to login" do
       assert_update(nil, @inputs) do
-        response.should redirect_to(new_session_url)
+        response.should redirect_to(login_url)
       end
     end
 
@@ -561,7 +561,7 @@ describe ProposalsController do
     it "should ask anonymous to login" do
       @proposal.should_not_receive(:destroy)
       assert_delete do
-        response.should redirect_to(new_session_url)
+        response.should redirect_to(login_url)
       end
     end
 

@@ -65,7 +65,7 @@ module AuthenticatedSystem
     # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
-    def access_denied(controller='/sessions', action='new')
+    def access_denied(controller=:browser_sessions, action=:new)
       respond_to do |accepts|
         accepts.html do
           store_location

@@ -1,5 +1,5 @@
 # This controller handles the login/logout function of the site.
-class SessionsController < ApplicationController
+class BrowserSessionsController < ApplicationController
 
   before_filter :assign_return_to, :only => [:index, :new, :admin]
 

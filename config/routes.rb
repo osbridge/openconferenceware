@@ -33,11 +33,11 @@ ActionController::Routing::Routes.draw do |map|
 
   # Authentication
   map.resources :users
-  map.resource  :session, :collection => ["admin"]
-  map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
-  map.login            '/login',  :controller => 'sessions', :action => 'new'
-  map.logout           '/logout', :controller => 'sessions', :action => 'destroy'
-  map.admin            '/admin',  :controller => 'sessions', :action => 'admin'
+  map.open_id_complete '/browser_session', :controller => "browser_sessions", :action => "create", :requirements => { :method => :get }
+  map.login            '/login',  :controller => 'browser_sessions', :action => 'new'
+  map.logout           '/logout', :controller => 'browser_sessions', :action => 'destroy'
+  map.admin            '/admin',  :controller => 'browser_sessions', :action => 'admin'
+  map.resource  :browser_session, :collection => ["admin"]
 
   # Install the default routes as the lowest priority.
   map.connect ':controller/:action/:id'
