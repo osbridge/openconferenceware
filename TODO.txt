@@ -1,18 +1,22 @@
 #===[ TODOs ]===========================================================
 
 NOW
-o Why is font on proposals#show for speaker smaller than rest of text?
-o Add public comments
-o Refactor Proposal#url= using validation to avoid silently turning invalid URLs into nils
+o can_edit?, should have setting to determine if allowed to edit after deadline
+o proposal_statuses?, should have setting to determine if these can be set/published
 
 SOON
-o Submit a talk button is full-width on FF2: "width: 15em" to #submit-a-talk??
-o CSS for error field checkbox isn't visible
+o proposals#_form: hide speaker manager behind toggle, replacing search with "Add another speaker..."
+o proposals#_form: "more" links need popup icon
 
 LATER
-o Consider extracting Snippets into plugin
-o Consider replacing LookupMixin with cache-money
-o Consider replacing filesystem-based caching with memcache
-o Consider replacing custom slugging with sluggable_finder
+o Public comments, add
+o record-controls, add them at top in addition to bottom of page
+o autoresize textareas, us it for snippets, events and proposals
+
+MAYBE
+o state_change_select: rework it so that it's "Status|Change this proposal's status from 'Accepted' to [- no change-]". rework it as a partial?
+o Snippets, extract into plugin?
+o cache-money, replace the LookupMixin?
+o sluggable_finder, replace custom slugging?
 
 #===[ fin ]=============================================================
