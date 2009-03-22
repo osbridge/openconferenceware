@@ -11,9 +11,8 @@
 # Faux route helper for expressing the same thing and getting Event from @event:
 #   track_path(@track)
 #
-module TracksFauxRoutesMixin
+module FauxRoutesMixin
   # FIXME this implementation is 10x more complex than it should be, but I don't know how to make it simpler
-  # FIXME this should be renamed / generalized since it now handles sesion types in addition to tracks.
 
   def self.included(mixee)
     mixee.extend(Methods)
@@ -39,7 +38,7 @@ module TracksFauxRoutesMixin
         faux = "#{verb ? verb+'_' : nil}#{noun}_#{kind}"
         #IK# puts "Creating faux route: #{faux} <= #{real}"
         if item
-          define_method(faux, proc{|track, *args| send(real, track.event, track, *args)})
+          define_method(faux, proc{|item, *args| send(real, item.event, item, *args)})
         else
           define_method(faux, proc{|*args| send(real, @event, *args)})
         end

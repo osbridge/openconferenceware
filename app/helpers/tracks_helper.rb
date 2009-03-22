@@ -1,5 +1,5 @@
 module TracksHelper
-  include TracksFauxRoutesMixin
+  include FauxRoutesMixin
   
   def track_css_class(track)
     "track-#{track.title.gsub(/\W/, '_')}"

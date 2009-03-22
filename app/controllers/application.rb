@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
   # Provide methods for checking SETTINGS succinctly
   include SettingsCheckersMixin
 
-  # Setup faux routes to TracksController, e.g., #tracks_path
-  include TracksFauxRoutesMixin
+  # Provide faux routes, e.g., #tracks_path
+  include FauxRoutesMixin
 
   # Provide access to page_title in controllers
   include PageTitleHelper

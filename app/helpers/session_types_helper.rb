@@ -1,3 +1,3 @@
 module SessionTypesHelper
-  include TracksFauxRoutesMixin
+  include FauxRoutesMixin
 end
