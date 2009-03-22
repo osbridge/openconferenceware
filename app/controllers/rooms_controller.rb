@@ -102,7 +102,7 @@ class RoomsController < ApplicationController
         @room = Room.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         flash[:failure] = "Sorry, that room doesn't exist or has been deleted."
-        return redirect_to(:action => :index)
+        return redirect_to(rooms_path)
       end
     end
 end

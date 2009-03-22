@@ -32,7 +32,6 @@ class SessionTypesController < ApplicationController
   # GET /session_types/new.xml
   def new
     @session_type = SessionType.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @session_type }
@@ -102,7 +101,7 @@ class SessionTypesController < ApplicationController
         @session_type = SessionType.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         flash[:failure] = "Sorry, that session type doesn't exist or has been deleted."
-        return redirect_to(:action => :index)
+        return redirect_to(session_types_path)
       end
     end
 

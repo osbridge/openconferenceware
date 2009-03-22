@@ -102,7 +102,7 @@ protected
       @track = Track.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       flash[:failure] = "Sorry, that track doesn't exist or has been deleted."
-      return redirect_to(:action => :index)
+      return redirect_to(tracks_path)
     end
   end
 
