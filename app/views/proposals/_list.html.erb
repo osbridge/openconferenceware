@@ -1,19 +1,22 @@
 <%
 # Variables:
-# * kind => :sessions or :proposals
-# * records => Array of Proposal records
+# * kind => :sessions or :proposals.
+# * records => Array of Proposal records.
+# * sorter => Display the sort toolbar? Defaults to false.
 %>
 
 <% if proposal_excerpts? %>
-  <div>
-    Sort by:
-    <%= sort_link_for("Title", 'title', kind) %>,
-    <%= sort_link_for("Track", 'track', kind) if event_tracks? %>,
-    <%= sort_link_for("Submission date", 'submitted_at', kind) %>
-    <% if admin? %>
-      <%= sort_link_for("Status", 'status', kind) %>
-    <% end %>
-  </div>
+  <% if sorter %>
+    <div>
+      Sort by:
+      <%= sort_link_for("Title", 'title', kind) %>,
+      <%= sort_link_for("Track", 'track', kind) if event_tracks? %>,
+      <%= sort_link_for("Submission date", 'submitted_at', kind) %>
+      <% if admin? %>
+        <%= sort_link_for("Status", 'status', kind) %>
+      <% end %>
+    </div>
+  <% end %>
 
   <% if records.blank? %>
     <h4>&mdash; No <%= kind %> submitted yet &mdash;</h4>

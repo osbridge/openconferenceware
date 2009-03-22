@@ -10,8 +10,5 @@
   <% end %>
   <%= link_to 'All tracks for this event', tracks_path, :class => "cancelable" %>
 
-  <% unless @track.proposals.empty?  %>
-    <h3>Proposals for this track</h3>
-    <%= render :partial => 'proposals/list', :locals => {:kind => :proposals, :records => @track.proposals} %>
-  <% end %>
+  <%= render :partial => "proposals/sub_list", :locals => {:container => @track} %>
 </div>

@@ -36,5 +36,5 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
     </div>
   <% end %>
 
-  <%= render :partial => "list", :locals => {:kind => @kind, :records => @proposals} %>
+  <%= render :partial => "list", :locals => {:kind => @kind, :records => @proposals, :sorter => true} %>
 <% end %>
