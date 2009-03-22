@@ -24,6 +24,6 @@
 
   <% unless @room.proposals.empty?  %>
     <h3>Proposals for this room</h3>
-    <%= render :partial => 'proposals/list', :locals => {:proposals => @room.proposals} %>
+    <%= render :partial => 'proposals/list', :locals => {:kind => :proposals, :records => @room.proposals} %>
   <% end %>
 </div>

@@ -62,5 +62,5 @@
 
 <% unless @user.proposals.empty?  %>
   <h3>Proposals</h3>
-  <%= render :partial => 'proposals/list', :locals => {:proposals => @user.proposals} %>
+  <%= render :partial => 'proposals/list', :locals => {:kind => :proposals, :records => @user.proposals} %>
 <% end %>

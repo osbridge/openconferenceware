@@ -8,6 +8,6 @@
 
   <% unless @session_type.proposals.empty?  %>
     <h3>Proposals for this session type</h3>
-    <%= render :partial => 'proposals/list', :locals => {:proposals => @session_type.proposals} %>
+    <%= render :partial => 'proposals/list', :locals => {:kind => :proposals, :records => @session_type.proposals} %>
   <% end %>
 </div>

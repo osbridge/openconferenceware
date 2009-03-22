@@ -1,107 +1,40 @@
-<% page_title "#{@event.title} proposals" %>
+<%
+# VARIABLES:
+# * @event => Event these proposals are for
+# * @proposals => Array of proposal objects
+# * @kind => Symbol indicating mode, either :proposals or :sessions
+
+# FIXME only display status if #proposal_statuses?
+%>
+
+<% page_title "#{@event.title} #{@kind}" %>
 
 <%
-cache_key = "proposals_index_#{@event.id}"
+cache_key = "#{@kind}_index_#{@event.id}"
 cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
 %>
 
 <% cache_if(!logged_in?, cache_key) do %>
-  <div>
-    <% if accepting_proposals? %>
-      <p>
-        <%= simple_format @event.open_text %>
-        <% if admin? %>
-          <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
-        <% end %>
-      </p>
-      <div class="submit-a-proposal-wrapper">
-        <%= link_to 'Submit a proposal!', new_event_proposal_path(@event), :class => "submit-a-proposal-button" %>
-      </div>
-    <% else %>
-        <%= simple_format @event.closed_text %>
-        <% if admin? %>
-          <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
-        <% end %>
-    <% end %>
-  </div>
-
-  <% if proposal_excerpts? %>
-
-      <%= render :partial => 'proposal_index', :locals => {:proposals => @proposals} %>
-
-  <% else %>
-    <table id="proposal-listing">
-      <% if @proposals.blank? %>
-        <tr>
-          <td colspan="2">
-            <p class="empty-text">&mdash; No proposals submitted yet &mdash;</p>
-          </td>
-        </td>
+  <% if @kind == :proposals %>
+    <div>
+      <% if accepting_proposals? %>
+        <p>
+          <%= simple_format @event.open_text %>
+          <% if admin? %>
+            <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
+          <% end %>
+        </p>
+        <div class="submit-a-proposal-wrapper">
+          <%= link_to 'Submit a proposal!', new_event_proposal_path(@event), :class => "submit-a-proposal-button" %>
+        </div>
       <% else %>
-        <thead>
-          <tr>
-            <th width="100%">
-              <% if multiple_presenters? %>
-                Title
-              <% else %>
-                Speaker and title
-              <% end %>
-            </th>
-  <% if event_tracks? %>
-            <th>
-              Track
-            </th>
-  <% end %>
-            <th width="0">Submitted</th>
-          </tr>
-        </thead>
-        <% date_cache = {} %>
-        <% for proposal in @proposals %>
-          <tr class="<%= cycle("even", "odd") %>" valign="top">
-            <td width="100%">
-              <p class="proposal">
-                <% styling = proposal_excerpts? ? 'display: inline-block' : 'inline' %>
-                <% if multiple_presenters? %>
-                  <%= link_to(h(proposal.title), proposal, :class => "title", :style => styling) %>
-                <% else %>
-                  <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal, :class => "title", :style => styling) %>
-                <% end %>
-
-                <span class="excerpt">
-                  <%= h proposal.excerpt if proposal_excerpts? %>
-                </span>
-
-                <p class="speakers">
-                  <% if multiple_presenters? %>
-                    <%= proposal.users.map{|user| link_to(h(user.fullname), user_path(user), :style => "display: inline")}.join(', ') %>
-                  <% end %>
-                </p>
-              </p>
-            </td>
-  <% if event_tracks? %>
-            <td>
-              <p>
-                <%= proposal.track.ergo.title || "- N/A -" %>
-              </p>
-            </td>
-  <% end %>
-            <td width="0" class="unbreakable">
-              <p>
-                <% date = proposal.submitted_at.ergo{localtime.to_s} %>
-                <% if date_cache[date] %>
-                  <!--
-                  <span class="date-seen"><%= date %></span>
-                  -->
-                <% else %>
-                  <% date_cache[date] = true %>
-                  <span class="date-unseen"><%= date %></span>
-                <% end %>
-              </p>
-            </td>
-          </tr>
-        <% end %>
+          <%= simple_format @event.closed_text %>
+          <% if admin? %>
+            <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
+          <% end %>
       <% end %>
-    </table>
+    </div>
   <% end %>
 
+  <%= render :partial => "list", :locals => {:kind => @kind, :records => @proposals} %>
 <% end %>

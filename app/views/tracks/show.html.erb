@@ -12,6 +12,6 @@
 
   <% unless @track.proposals.empty?  %>
     <h3>Proposals for this track</h3>
-    <%= render :partial => 'proposals/list', :locals => {:proposals => @track.proposals} %>
+    <%= render :partial => 'proposals/list', :locals => {:kind => :proposals, :records => @track.proposals} %>
   <% end %>
 </div>

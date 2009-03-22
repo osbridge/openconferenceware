@@ -15,6 +15,7 @@ class ProposalsController < ApplicationController
   # GET /proposals
   # GET /proposals.xml
   def index
+    @kind = :proposals
     @proposals = sort_proposals( @event ? @event.lookup_proposals : Proposal.lookup )
 
     respond_to do |format|
@@ -67,13 +68,13 @@ class ProposalsController < ApplicationController
       return redirect_to(proposals_url)
     end
     
+    @kind = :sessions
     @proposals = sort_proposals( @event.proposals.confirmed )
-    page_title("Sessions")
     
     respond_to do |format|
       format.html {
         add_breadcrumb @event.title, event_proposals_path(@event)
-        render :partial => 'proposals/proposal_index', :layout => true
+        render :action => "index"
       }
       format.xml  {
         render :xml => @proposals.map(&:public_attributes)
