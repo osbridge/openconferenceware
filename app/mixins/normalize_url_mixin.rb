@@ -12,6 +12,8 @@ module NormalizeUrlMixin
       return URI.parse(uri.scheme.nil? ? 'http://'+url.strip : uri.to_s).normalize.to_s
     end
 
+    # Validate an ActiveRecord instance +attribute+ to ensure that it
+    # contains a valid URL or is blank.
     def validate_url_attribute(attribute)
       value = self.read_attribute(attribute)
       return true if value.blank?
