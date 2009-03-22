@@ -656,4 +656,62 @@ describe ProposalsController do
       lambda { get :br3ak }.should raise_error
     end
   end
+
+  describe "search speakers" do
+    before(:each) do
+      @proposal = stub_model(Proposal)
+
+      @bubba = stub_model(User, :fullname => "Bubba Smith")
+      @billy = stub_model(User, :fullname => "Billy Smith")
+      @john = stub_model(User, :fullname => "John Doe")
+
+      @params = {
+        :search => "smith",
+        :speakers => "IGNORED",
+      }
+
+      User.should_receive(:complete_profiles).and_return([@bubba, @john, @billy])
+    end
+
+    describe "new record" do
+      before(:each) do
+        @params[:id] = "new_record"
+        Proposal.should_receive(:new).and_return(@proposal)
+        @proposal.should_receive(:add_user)
+      end
+
+      it "should match users that aren't in the proposal" do
+        @proposal.should_receive(:users).and_return([])
+        get :search_speakers, @params
+        assigns(:matches).should == [@bubba, @billy]
+      end
+
+      it "should not match users that are in the proposal" do
+        @proposal.should_receive(:users).and_return([@bubba])
+        get :search_speakers, @params
+        assigns(:matches).should == [@billy]
+      end
+    end
+
+    describe "existing record" do
+      before(:each) do
+        @proposal.id = 123
+        @params[:id] = @proposal.id
+        Proposal.should_receive(:find).and_return(@proposal)
+      end
+
+      it "should match users that aren't in the proposal" do
+        @proposal.should_receive(:users).and_return([])
+        get :search_speakers, @params
+        assigns(:matches).should == [@bubba, @billy]
+      end
+
+      it "should not match users that are in the proposal" do
+        @proposal.should_receive(:users).and_return([@bubba])
+        get :search_speakers, @params
+        assigns(:matches).should == [@billy]
+      end
+    end
+  end
+
 end
