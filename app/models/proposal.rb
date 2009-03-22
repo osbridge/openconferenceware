@@ -25,51 +25,57 @@
 #
 
 class Proposal < ActiveRecord::Base
-  # Mixins
+  # Provide ::validate_url_attribute
   include NormalizeUrlMixin
+
+  # Provide ::event_tracks? and other methods for accessing SETTING
   include SettingsCheckersMixin
+
+  # Provide ::lookup
   include CacheLookupsMixin
-  
-  # State Machine
+  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
+
+  # Provide #tags
+  acts_as_taggable_on :tags
+
+  # Acts As State Machine
   include AASM
-  
+
   aasm_column :status
-  
+
   aasm_initial_state :proposed
-  
+
   aasm_state :proposed
   aasm_state :accepted
   aasm_state :rejected
   aasm_state :confirmed
   aasm_state :junk
-  
+
   aasm_event :accept do
     transitions :from => :proposed, :to => :accepted
     transitions :from => :rejected, :to => :accepted
   end
-  
+
   aasm_event :reject do
     transitions :from => :proposed, :to => :rejected
     transitions :from => :accepted, :to => :rejected
   end
-  
+
   aasm_event :confirm do
     transitions :from => :accepted, :to => :confirmed
   end
-  
+
   aasm_event :accept_and_confirm do
     transitions :from => :proposed, :to => :confirmed
   end
-  
+
   aasm_event :mark_as_junk do
     transitions :from => :proposed, :to => :junk
   end
-  
+
   aasm_event :reset_status do
     transitions :from => %w(accepted rejected confirmed junk), :to => :proposed
   end
-  
-  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
 
   # Associations
   belongs_to :event
@@ -81,8 +87,6 @@ class Proposal < ActiveRecord::Base
 
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
-
-  acts_as_taggable_on :tags
 
   # Validations
   validates_presence_of :title, :description, :event_id
@@ -112,13 +116,13 @@ class Proposal < ActiveRecord::Base
 
   # generates a unique slug for the proposal
   def slug
-    "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
+    return "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
   end
 
   # allows an interface to state machine through update_attributes transition key
   attr_accessor :transition
   def transition=(event)
-    send "#{event}!" if !event.blank? && aasm_events_for_current_state.include?(event.to_sym)
+    send("#{event}!") if !event.blank? && aasm_events_for_current_state.include?(event.to_sym)
   end
 
   # Is this +user+ allowed to alter this proposal?
@@ -161,7 +165,9 @@ class Proposal < ActiveRecord::Base
   # Does this profile have a user with a complete profile?
   def user_has_complete_profile?
     self.users.each do |user|
-      return false if user.blank? || user.complete_profile? != true
+      if user.blank? || !user.complete_profile?
+        return false 
+      end
     end
     return true
   end
@@ -192,6 +198,9 @@ class Proposal < ActiveRecord::Base
     end
   end
 
+  # Return the object with profile information (e.g., biography). The
+  # object can be either a Proposal or a User, or false when there isn't
+  # just one presenter per proposal.
   def profile
     if multiple_presenters?
       return false
@@ -202,6 +211,8 @@ class Proposal < ActiveRecord::Base
     end
   end
 
+  # Validate that the record has a blank or valid URL, else add a
+  # validation error.
   def url_validator
     validate_url_attribute(:website)
   end
