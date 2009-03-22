@@ -82,12 +82,7 @@ class Proposal < ActiveRecord::Base
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
 
-  begin
-    acts_as_taggable_on :tags
-  rescue NameError
-    puts "!! WARNING: Couldn't find #acts_as_taggable_on -- run 'rake gems:install' now!"
-  end
-
+  acts_as_taggable_on :tags
 
   # Validations
   validates_presence_of :title, :description, :event_id
