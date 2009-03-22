@@ -37,14 +37,16 @@
         <%= f.datetime_select :deadline %>
       </td>
     </tr>
-    <tr>
-      <td class="label-text">
-        <%= f.label :proposal_status_published, "Are proposal statuses publicly viewable?" %>
-      </td>
-      <td>
-        <%= f.select :proposal_status_published, [['Yes',true],["No",false]] %>
-      </td>
-    </tr>
+    <% if proposal_statuses? %>
+      <tr>
+        <td class="label-text">
+          <%= f.label :proposal_status_published, "Are proposal statuses publicly viewable?" %>
+        </td>
+        <td>
+          <%= f.select :proposal_status_published, [['Yes',true],["No",false]] %>
+        </td>
+      </tr>
+    <% end %>
     <tr>
       <td class="label-cell">
         <%= f.label :open_text %><br />

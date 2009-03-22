@@ -45,3 +45,7 @@ have_event_rooms: true
 
 # Can proposals have start times?
 have_proposal_start_times: true
+
+# Can proposals have statuses?
+have_proposal_statuses: true
+

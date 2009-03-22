@@ -69,7 +69,7 @@
     <div class='proposal-slug'>
       <%= @proposal.slug %>
     </div>
-    <% if @event.proposal_status_published? && @proposal.confirmed? %>
+    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.confirmed? %>
       <div class='proposal-status <%= @proposal.status %>'>
         Accepted
       </div>

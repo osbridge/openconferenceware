@@ -13,7 +13,7 @@
       <%= sort_link_for("Track", 'track', kind) if event_tracks? %>,
       <%= sort_link_for("Submission date", 'submitted_at', kind) %>
       <% if admin? %>
-        <%= sort_link_for("Status", 'status', kind) %>
+        <%= sort_link_for("Status", 'status', kind) if proposal_statuses? %>
       <% end %>
     </div>
   <% end %>
@@ -31,7 +31,9 @@
             <% else %>
               <%= link_to(h(record.presenter)+" &mdash; "+h(record.title), record_path(record, kind), :class => "title") %>
             <% end %>
-            <% if admin? %><span class='proposal-status <%= record.status %>'>(<%= record.status.titleize %>)</span><% end %>
+            <% if proposal_statuses? && (admin? || (@event.proposal_status_published? && record.confirmed?)) %>
+              <span class='proposal-status <%= record.status %>'>(<%= record.status.titleize %>)</span>
+            <% end %>
           </h3>
 
           <div class="excerpt">
