@@ -183,6 +183,42 @@ describe ProposalsController do
 
   end
 
+  describe "sessions" do
+    it "should display session_text" do
+      event = stub_model(Event,
+        :proposal_status_published? => true,
+        :id => 1234,
+        :session_text => "MySessionText",
+        :proposals => mock_model(Array, :confirmed => [])
+      )
+      @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+
+      get :confirmed, :event => 1234
+      response.should have_tag(".event_text", event.session_text)
+      response.should have_tag(".session_text", event.session_text)
+    end
+
+    it "should display a list of sessions" do
+      proposal = stub_model(Proposal, :state => "confirmed", :users => [])
+      confirmed = [proposal]
+      proposals = mock_model(Array, :confirmed => confirmed)
+      event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
+      @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+      get :confirmed, :event => 1234
+
+      records = assigns(:proposals)
+      records.should == confirmed
+    end
+
+    it "should redirect unless the proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
+      @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+      get :confirmed, :event => 1234
+
+      response.should redirect_to(proposals_url)
+    end
+  end
+
   describe "show" do
     it "should display extant proposal" do
       proposal = proposals(:quentin_widgets)
