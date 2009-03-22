@@ -49,6 +49,7 @@ class Proposal < ActiveRecord::Base
   aasm_state :accepted
   aasm_state :rejected
   aasm_state :confirmed
+  aasm_state :declined
   aasm_state :junk
 
   aasm_event :accept do
@@ -64,6 +65,10 @@ class Proposal < ActiveRecord::Base
   aasm_event :confirm do
     transitions :from => :accepted, :to => :confirmed
   end
+  
+  aasm_event :decline do
+    transitions :from => :accepted, :to => :declined
+  end
 
   aasm_event :accept_and_confirm do
     transitions :from => :proposed, :to => :confirmed
@@ -74,7 +79,7 @@ class Proposal < ActiveRecord::Base
   end
 
   aasm_event :reset_status do
-    transitions :from => %w(accepted rejected confirmed junk), :to => :proposed
+    transitions :from => %w(accepted rejected confirmed declined junk), :to => :proposed
   end
 
   # Associations

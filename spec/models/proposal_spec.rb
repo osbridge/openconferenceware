@@ -75,6 +75,12 @@ describe Proposal do
       @proposal.confirm!
       @proposal.should be_confirmed
     end
+    
+    it "should be possible to decline an accepted proposal" do
+      @proposal.status = 'accepted'
+      @proposal.decline!
+      @proposal.should be_declined
+    end
 
     it "should be possible to accept a rejected proposal" do
       @proposal.status = 'rejected'
@@ -93,7 +99,7 @@ describe Proposal do
       @proposal.should be_junk
     end
 
-    %w(accepted confirmed rejected junk).each do |initial_status|
+    %w(accepted confirmed rejected declined junk).each do |initial_status|
       it "should be posible to reset a #{initial_status} proposal back to proposed" do
         @proposal.status = initial_status
         @proposal.reset_status!
