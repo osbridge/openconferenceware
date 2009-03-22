@@ -29,6 +29,7 @@ module SettingsCheckersMixin
       multiple_presenters
       proposal_excerpts
       proposal_start_times
+      proposal_statuses
       user_pictures
       user_profiles
     ].each do |name|
