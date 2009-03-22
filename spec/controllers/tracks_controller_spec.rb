@@ -10,7 +10,7 @@ describe TracksController do
       :event= => true,
       :event => events(:open)
     })
-    @mock_track ||= mock_model(Track, stubs)
+    return @mock_track ||= mock_model(Track, stubs)
   end
   
   before do
@@ -68,32 +68,31 @@ describe TracksController do
     
   end
 
-  describe "responding to GET new" do
-  
-    it "should expose a new track as @track" do
-      login_as(:aaron)
-      Track.should_receive(:new).and_return(mock_track)
-      get :new, :event => events(:open).id
-      assigns[:track].should equal(mock_track)
-    end
-
-  end
-
-  describe "responding to GET edit" do
-  
-    it "should expose the requested track as @track" do
-      login_as(:aaron)
-      Track.should_receive(:find).with("37").and_return(mock_track)
-      get :edit, :id => "37"
-      assigns[:track].should equal(mock_track)
-    end
-
-  end
-  
   describe "as an admin" do
     before(:each) do
       login_as(:aaron)
     end
+
+    describe "responding to GET new" do
+    
+      it "should expose a new track as @track" do
+        Track.should_receive(:new).and_return(mock_track)
+        get :new, :event => events(:open).id
+        assigns[:track].should equal(mock_track)
+      end
+
+    end
+
+    describe "responding to GET edit" do
+    
+      it "should expose the requested track as @track" do
+        Track.should_receive(:find).with("37").and_return(mock_track)
+        get :edit, :id => "37"
+        assigns[:track].should equal(mock_track)
+      end
+
+    end
+  
     describe "responding to POST create" do
 
       describe "with valid params" do
@@ -130,7 +129,7 @@ describe TracksController do
     
     end
 
-    describe "responding to PUT udpate" do
+    describe "responding to PUT update" do
 
       describe "with valid params" do
 

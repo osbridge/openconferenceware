@@ -10,7 +10,7 @@ describe SessionTypesController do
       :event= => true,
       :event => events(:open)
     })
-    @mock_session_type ||= mock_model(SessionType, stubs)
+    return @mock_session_type ||= mock_model(SessionType, stubs)
   end
   
   before do
@@ -68,32 +68,31 @@ describe SessionTypesController do
     
   end
 
-  describe "responding to GET new" do
-  
-    it "should expose a new session_type as @session_type" do
-      login_as(:aaron)
-      SessionType.should_receive(:new).and_return(mock_session_type)
-      get :new, :event => events(:open).id
-      assigns[:session_type].should equal(mock_session_type)
-    end
-
-  end
-
-  describe "responding to GET edit" do
-  
-    it "should expose the requested session_type as @session_type" do
-      login_as(:aaron)
-      SessionType.should_receive(:find).with("37").and_return(mock_session_type)
-      get :edit, :id => "37"
-      assigns[:session_type].should equal(mock_session_type)
-    end
-
-  end
-  
   describe "as an admin" do
     before(:each) do
       login_as(:aaron)
     end
+
+    describe "responding to GET new" do
+    
+      it "should expose a new session_type as @session_type" do
+        SessionType.should_receive(:new).and_return(mock_session_type)
+        get :new, :event => events(:open).id
+        assigns[:session_type].should equal(mock_session_type)
+      end
+
+    end
+
+    describe "responding to GET edit" do
+    
+      it "should expose the requested session_type as @session_type" do
+        SessionType.should_receive(:find).with("37").and_return(mock_session_type)
+        get :edit, :id => "37"
+        assigns[:session_type].should equal(mock_session_type)
+      end
+
+    end
+  
     describe "responding to POST create" do
 
       describe "with valid params" do
@@ -130,7 +129,7 @@ describe SessionTypesController do
     
     end
 
-    describe "responding to PUT udpate" do
+    describe "responding to PUT update" do
 
       describe "with valid params" do
 

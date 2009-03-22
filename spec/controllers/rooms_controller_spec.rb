@@ -10,7 +10,7 @@ describe RoomsController do
       :event= => true,
       :event => events(:open)
     })
-    @mock_room ||= mock_model(Room, stubs)
+    return @mock_room ||= mock_model(Room, stubs)
   end
   
   before do
@@ -67,33 +67,32 @@ describe RoomsController do
     end
     
   end
-
-  describe "responding to GET new" do
-  
-    it "should expose a new room as @room" do
-      login_as(:aaron)
-      Room.should_receive(:new).and_return(mock_room)
-      get :new, :event => events(:open).id
-      assigns[:room].should equal(mock_room)
-    end
-
-  end
-
-  describe "responding to GET edit" do
-  
-    it "should expose the requested room as @room" do
-      login_as(:aaron)
-      Room.should_receive(:find).with("37").and_return(mock_room)
-      get :edit, :id => "37"
-      assigns[:room].should equal(mock_room)
-    end
-
-  end
   
   describe "as an admin" do
     before(:each) do
       login_as(:aaron)
     end
+
+    describe "responding to GET new" do
+    
+      it "should expose a new room as @room" do
+        Room.should_receive(:new).and_return(mock_room)
+        get :new, :event => events(:open).id
+        assigns[:room].should equal(mock_room)
+      end
+
+    end
+
+    describe "responding to GET edit" do
+    
+      it "should expose the requested room as @room" do
+        Room.should_receive(:find).with("37").and_return(mock_room)
+        get :edit, :id => "37"
+        assigns[:room].should equal(mock_room)
+      end
+
+    end
+
     describe "responding to POST create" do
 
       describe "with valid params" do
@@ -130,7 +129,7 @@ describe RoomsController do
     
     end
 
-    describe "responding to PUT udpate" do
+    describe "responding to PUT update" do
 
       describe "with valid params" do
 
