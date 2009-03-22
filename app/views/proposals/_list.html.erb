@@ -1,41 +1,135 @@
-<% if proposals.blank? %>
-  <h4>&mdash; No proposals submitted yet &mdash;</h4>
-<% else %>
-  <table class='proposals' cellspacing='0'>
-    <% for proposal in proposals %>
-    <tr>
-      <td rowspan='2' class='description'>
-        <h3>
-          <% if multiple_presenters? %>
-            <%= link_to(h(proposal.title), proposal_path(proposal), :class => "title") %>
-          <% else %>
-            <%= link_to(h(proposal.presenter)+" &mdash; "+h(proposal.title), proposal_path(proposal), :class => "title") %>
-          <% end %>
-          <% if admin? %><span class='proposal-status <%= proposal.status %>'>(<%= proposal.status.titleize %>)</span><% end %>
-        </h3>
+<%
+# Variables:
+# * kind => :sessions or :proposals.
+# * records => Array of Proposal records.
+# * sorter => Display the sort toolbar? Defaults to false.
+%>
 
-        <div class="excerpt">
-          <%= h proposal.excerpt if proposal_excerpts? %>
-        </div>
-      </td>
-      
-      <% if event_tracks? %>
-      <td class='track block <%= track_css_class(proposal.track) if proposal.track %>'>
-        <%= link_to(h(proposal.track.ergo.title), event_track_path(proposal.event, proposal.track)) || "- N/A -" %>
-      </td>
+<% if proposal_excerpts? %>
+  <% if sorter %>
+    <div>
+      Sort by:
+      <%= sort_link_for("Title", 'title', kind) %>,
+      <%= sort_link_for("Track", 'track', kind) if event_tracks? %>,
+      <%= sort_link_for("Submission date", 'submitted_at', kind) %>
+      <% if admin? %>
+        <%= sort_link_for("Status", 'status', kind) %>
       <% end %>
-      
-      <td class='date'>
-        <%= proposal.submitted_at.ergo{localtime.to_s} %>
-      </td>
-    </tr>
-    <tr>    
-      <td class="speakers" colspan='<%= event_tracks? ? 2 : 1 %>'>
-        <% if multiple_presenters? %>
-          <%= proposal.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+    </div>
+  <% end %>
+
+  <% if records.blank? %>
+    <h4>&mdash; No <%= kind %> submitted yet &mdash;</h4>
+  <% else %>
+    <table class='proposals' cellspacing='0'>
+      <% for record in records %>
+      <tr>
+        <td rowspan='2' class='description'>
+          <h3>
+            <% if multiple_presenters? %>
+              <%= link_to(h(record.title), record_path(record, kind), :class => "title") %>
+            <% else %>
+              <%= link_to(h(record.presenter)+" &mdash; "+h(record.title), record_path(record, kind), :class => "title") %>
+            <% end %>
+            <% if admin? %><span class='proposal-status <%= record.status %>'>(<%= record.status.titleize %>)</span><% end %>
+          </h3>
+
+          <div class="excerpt">
+            <%= h record.excerpt if proposal_excerpts? %>
+          </div>
+        </td>
+
+        <% if event_tracks? %>
+        <td class='track block <%= track_css_class(record.track) if record.track %>'>
+          <%= link_to(h(record.track.ergo.title), event_track_path(record.event, record.track)) || "- N/A -" %>
+        </td>
         <% end %>
+
+        <td class='date'>
+          <%= record.submitted_at.ergo{localtime.to_s} %>
+        </td>
+      </tr>
+      <tr>
+        <td class="speakers" colspan='<%= event_tracks? ? 2 : 1 %>'>
+          <% if multiple_presenters? %>
+            <%= record.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  <% end %>
+<% else %>
+  <table id="proposal-listing">
+    <% if records.blank? %>
+      <tr>
+        <td colspan="2">
+          <p class="empty-text">&mdash; No <%= kind %> submitted yet &mdash;</p>
+        </td>
       </td>
-    </tr>        
+    <% else %>
+      <thead>
+        <tr>
+          <th width="100%">
+            <% if multiple_presenters? %>
+              Title
+            <% else %>
+              Speaker and title
+            <% end %>
+          </th>
+<% if event_tracks? %>
+          <th>
+            Track
+          </th>
+<% end %>
+          <th width="0">Submitted</th>
+        </tr>
+      </thead>
+      <% date_cache = {} %>
+      <% for record in records %>
+        <tr class="<%= cycle("even", "odd") %>" valign="top">
+          <td width="100%">
+            <p class="proposal">
+              <% styling = proposal_excerpts? ? 'display: inline-block' : 'inline' %>
+              <% if multiple_presenters? %>
+                <%= link_to(h(record.title), record, :class => "title", :style => styling) %>
+              <% else %>
+                <%= link_to(h(record.presenter)+" &mdash; "+h(record.title), record, :class => "title", :style => styling) %>
+              <% end %>
+
+              <span class="excerpt">
+                <%= h record.excerpt if proposal_excerpts? %>
+              </span>
+
+              <p class="speakers">
+                <% if multiple_presenters? %>
+                  <%= record.users.map{|user| link_to(h(user.fullname), user_path(user), :style => "display: inline")}.join(', ') %>
+                <% end %>
+              </p>
+            </p>
+          </td>
+<% if event_tracks? %>
+          <td>
+            <p>
+              <%= record.track.ergo.title || "- N/A -" %>
+            </p>
+          </td>
+<% end %>
+          <td width="0" class="unbreakable">
+            <p>
+              <% date = record.submitted_at.ergo{localtime.to_s} %>
+              <% if date_cache[date] %>
+                <!--
+                <span class="date-seen"><%= date %></span>
+                -->
+              <% else %>
+                <% date_cache[date] = true %>
+                <span class="date-unseen"><%= date %></span>
+              <% end %>
+            </p>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </table>
 <% end %>

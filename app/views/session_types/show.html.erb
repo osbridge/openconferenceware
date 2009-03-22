@@ -6,8 +6,5 @@
   <%= link_to 'Edit', edit_session_type_path(@session_type), :class => "editable" if admin? %>
   <%= link_to 'Session types for this event', session_types_path, :class => "cancelable" %>
 
-  <% unless @session_type.proposals.empty?  %>
-    <h3>Proposals for this session type</h3>
-    <%= render :partial => 'proposals/list', :locals => {:proposals => @session_type.proposals} %>
-  <% end %>
+  <%= render :partial => "proposals/sub_list", :locals => {:container => @session_type} %>
 </div>

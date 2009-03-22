@@ -14,6 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers'
   
   map.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
+  map.session '/sessions/:id', :controller => 'proposals', :action => 'show'
   
   map.resources :events do |events|
     events.resources :proposals, :controller => 'proposals'
@@ -21,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     events.resources :session_types
     events.resources :rooms
     events.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
+    events.session '/sessions/:id', :controller => 'proposals', :action => 'show'
   end
 
   map.resource :manage, :controller => 'manage' do |manage|

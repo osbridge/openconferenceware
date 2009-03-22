@@ -79,6 +79,9 @@ class Proposal < ActiveRecord::Base
   has_many :comments
   has_and_belongs_to_many :users
 
+  # Named scopes
+  named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
+
   begin
     acts_as_taggable_on :tags
   rescue NameError

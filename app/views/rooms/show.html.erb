@@ -22,8 +22,5 @@
   <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
   <%= link_to 'Rooms for this event', rooms_path, :class => "cancelable" %>
 
-  <% unless @room.proposals.empty?  %>
-    <h3>Proposals for this room</h3>
-    <%= render :partial => 'proposals/list', :locals => {:proposals => @room.proposals} %>
-  <% end %>
+  <%= render :partial => "proposals/sub_list", :locals => {:container => @room} %>
 </div>

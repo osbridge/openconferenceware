@@ -60,7 +60,4 @@
   </div>
 <% end %>
 
-<% unless @user.proposals.empty?  %>
-  <h3>Proposals</h3>
-  <%= render :partial => 'proposals/list', :locals => {:proposals => @user.proposals} %>
-<% end %>
+<%= render :partial => "proposals/sub_list", :locals => {:container => @user} %>
