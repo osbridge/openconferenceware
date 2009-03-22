@@ -12,6 +12,11 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
 
+  config.gem "capistrano", :lib => false
+  config.gem "capistrano-ext", :lib => false
+  config.gem "sqlite3-ruby", :lib => false
+  config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
+  config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
   config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "right_aws", :lib => false # we aren't actually using AWS, but paperclip can, so it requires it.
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'

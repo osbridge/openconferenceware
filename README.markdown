@@ -95,12 +95,9 @@ Dependencies
 
         sudo gem install rails --version=2.1.2
 
-6. Install other Ruby libraries:
+6. Install other Ruby libraries from within the checkout directory:
 
-        sudo gem install facets capistrano capistrano-ext sqlite3-ruby ruby-openid mocha right_aws
-        sudo gem install mbleigh-acts-as-taggable-on --source http://gems.github.com/
-        sudo gem install mbleigh-acts-as-taggable-on --source http://gems.github.com/
-        sudo gem install thoughtbot-paperclip --source http://gems.github.com/
+        sudo rake gems:install
 
 Setup
 -----
@@ -108,7 +105,7 @@ Setup
 Run the application's interactive setup program from within the checkout
 directory, and follow its instructions:
 
-    rake setup
+        rake setup
 
 
 Security
