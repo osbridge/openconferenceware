@@ -8,13 +8,6 @@ require 'fileutils'
 # Gems
 require 'rubygems'
 
-# Facets
-require 'facets/dictionary'
-require 'facets/enumerable/mash'
-require 'facets/file/write'
-require 'facets/kernel/ergo'
-require 'facets/kernel/with'
-
 # See also config/initializers/libraries
 
 # Monkey patch for Rails 2.1.x so that "rake gems:install" will work by making
