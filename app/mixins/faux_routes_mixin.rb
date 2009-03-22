@@ -20,7 +20,7 @@ module FauxRoutesMixin
     if mixee.ancestors.include?(ActionController::Base)
       mixee.class_eval do
         Methods.instance_methods.each do |name|
-          #IK# puts "Helperized faux route: #{name}"
+          RAILS_DEFAULT_LOGGER.debug("Faux route, helperized: #{name}")
           helper_method(name)
         end
       end
@@ -28,37 +28,37 @@ module FauxRoutesMixin
   end
 
   module Methods
-    generate = proc{|*args|
-      opts = args.extract_options!
+    # Create a single route for the +options+.
+    faux_route_for = lambda do |opts|
       verb = opts[:verb]
       noun = opts[:noun]
       item = opts[:item]
       for kind in %w[path url]
         real = "#{verb ? verb+'_' : nil}event_#{noun}_#{kind}"
         faux = "#{verb ? verb+'_' : nil}#{noun}_#{kind}"
-        #IK# puts "Creating faux route: #{faux} <= #{real}"
         if item
           define_method(faux, proc{|item, *args| send(real, item.event, item, *args)})
         else
           define_method(faux, proc{|*args| send(real, @event, *args)})
         end
+        RAILS_DEFAULT_LOGGER.debug("Faux route, created: #{faux} <= #{real}")
       end
-    }
+    end
 
-    generate[:noun => "tracks"]
-    generate[:noun => "track", :verb => "new"]
-    generate[:noun => "track", :item => true]
-    generate[:noun => "track", :verb => "edit", :item => true]
-    
-    generate[:noun => "session_types"]
-    generate[:noun => "session_type", :verb => "new"]
-    generate[:noun => "session_type", :item => true]
-    generate[:noun => "session_type", :verb => "edit", :item => true]
+    # Create all common routes for this +resource+.
+    faux_routes_for = lambda do |resource|
+      resource = resource.to_s.singularize
+      faux_route_for[:noun => resource]
+      faux_route_for[:noun => resource.pluralize]
+      faux_route_for[:noun => resource, :verb => "new"]
+      faux_route_for[:noun => resource, :item => true]
+      faux_route_for[:noun => resource, :verb => "new", :item => true]
+    end
 
-    generate[:noun => "rooms"]
-    generate[:noun => "room", :verb => "new"]
-    generate[:noun => "room", :item => true]
-    generate[:noun => "room", :verb => "edit", :item => true]
+    # Create faux routes for the following +resources+:
+    faux_routes_for["tracks"]
+    faux_routes_for["session_types"]
+    faux_routes_for["rooms"]
   end
 
   include Methods
