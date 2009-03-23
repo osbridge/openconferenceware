@@ -28,7 +28,23 @@ describe UsersController do
   end
 
   describe "create" do
-    # TODO implement
+    
+    def post_to_create(params = {})
+      params.merge!({
+        :user => {
+          :login => 'user'
+        }
+      })
+      post :create, params
+    end
+    
+    it "should delete the auth token cookie" do
+      cookie_hash = {}
+      cookie_hash.should_receive(:delete).with(:auth_token)
+      @controller.should_receive(:cookies).any_number_of_times.and_return(cookie_hash)
+      post_to_create
+    end
+      
   end
 
   describe "update" do
