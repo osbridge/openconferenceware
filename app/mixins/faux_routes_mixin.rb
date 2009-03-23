@@ -37,11 +37,12 @@ module FauxRoutesMixin
         real = "#{verb ? verb+'_' : nil}event_#{noun}_#{kind}"
         faux = "#{verb ? verb+'_' : nil}#{noun}_#{kind}"
         if item
+          RAILS_DEFAULT_LOGGER.debug("Faux route, created for item: #{faux} <= #{real}")
           define_method(faux, proc{|item, *args| send(real, item.event, item, *args)})
         else
+          RAILS_DEFAULT_LOGGER.debug("Faux route, created: #{faux} <= #{real}")
           define_method(faux, proc{|*args| send(real, @event, *args)})
         end
-        RAILS_DEFAULT_LOGGER.debug("Faux route, created: #{faux} <= #{real}")
       end
     end
 
@@ -52,7 +53,7 @@ module FauxRoutesMixin
       faux_route_for[:noun => resource.pluralize]
       faux_route_for[:noun => resource, :verb => "new"]
       faux_route_for[:noun => resource, :item => true]
-      faux_route_for[:noun => resource, :verb => "new", :item => true]
+      faux_route_for[:noun => resource, :verb => "edit", :item => true]
     end
 
     # Create faux routes for the following +resources+:
