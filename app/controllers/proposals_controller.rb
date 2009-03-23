@@ -156,7 +156,7 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       if params[:commit] && @proposal.save
         format.html {
-          if File.exist?(theme_file('views/proposals/create.html.erb'))
+          if has_theme_specific_create_success_page?
             page_title "Thank You!"
             # Display theme-specific page thanking users for submitting a proposal and telling them what to do next.
             render
@@ -376,6 +376,11 @@ protected
         proposals = proposals.reverse if params[:dir] == 'desc'
     end
     proposals
+  end
+
+  # Does the current theme have a success page that should be displayed when the user creates a new proposal?
+  def has_theme_specific_create_success_page?
+    File.exist?(theme_file('views/proposals/create.html.erb'))
   end
 
 end

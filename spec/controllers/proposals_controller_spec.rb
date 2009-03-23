@@ -183,6 +183,42 @@ describe ProposalsController do
 
   end
 
+  describe "sessions" do
+    it "should display session_text" do
+      event = stub_model(Event,
+        :proposal_status_published? => true,
+        :id => 1234,
+        :session_text => "MySessionText",
+        :proposals => mock_model(Array, :confirmed => [])
+      )
+      @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+
+      get :confirmed, :event => 1234
+      response.should have_tag(".event_text", event.session_text)
+      response.should have_tag(".session_text", event.session_text)
+    end
+
+    it "should display a list of sessions" do
+      proposal = stub_model(Proposal, :state => "confirmed", :users => [])
+      confirmed = [proposal]
+      proposals = mock_model(Array, :confirmed => confirmed)
+      event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
+      @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+      get :confirmed, :event => 1234
+
+      records = assigns(:proposals)
+      records.should == confirmed
+    end
+
+    it "should redirect unless the proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
+      @controller.should_receive(:get_current_event_and_assignment_status).and_return([event, :assigned_to_current])
+      get :confirmed, :event => 1234
+
+      response.should redirect_to(proposals_url)
+    end
+  end
+
   describe "show" do
     it "should display extant proposal" do
       proposal = proposals(:quentin_widgets)
@@ -460,6 +496,31 @@ describe ProposalsController do
         end
       end
     end
+
+    describe "theme-specific success page" do
+      before(:each) do
+        login_as(:quentin)
+        @proposal = stub_model(Proposal, :id => 123)
+        @proposal.should_receive(:save).and_return(true)
+        @proposal.should_receive(:add_user).and_return(true)
+        Proposal.should_receive(:new).and_return(@proposal)
+      end
+
+      it "should display theme-specific success page if it exists" do
+        @controller.should_receive(:has_theme_specific_create_success_page?).and_return(true)
+        @controller.should_receive(:render).and_return("My HTML here")
+
+        post :create, :commit => "Create", :proposal => {}
+      end
+
+      it "should redirect back to proposal if it theme-specific success page doesn't exist" do
+        @controller.should_receive(:has_theme_specific_create_success_page?).and_return(false)
+        post :create, :commit => "Create", :proposal => {}
+
+        response.should redirect_to(proposal_path(@proposal))
+      end
+    end
+
   end
 
   describe "update" do
@@ -595,4 +656,62 @@ describe ProposalsController do
       lambda { get :br3ak }.should raise_error
     end
   end
+
+  describe "search speakers" do
+    before(:each) do
+      @proposal = stub_model(Proposal)
+
+      @bubba = stub_model(User, :fullname => "Bubba Smith")
+      @billy = stub_model(User, :fullname => "Billy Smith")
+      @john = stub_model(User, :fullname => "John Doe")
+
+      @params = {
+        :search => "smith",
+        :speakers => "IGNORED",
+      }
+
+      User.should_receive(:complete_profiles).and_return([@bubba, @john, @billy])
+    end
+
+    describe "new record" do
+      before(:each) do
+        @params[:id] = "new_record"
+        Proposal.should_receive(:new).and_return(@proposal)
+        @proposal.should_receive(:add_user)
+      end
+
+      it "should match users that aren't in the proposal" do
+        @proposal.should_receive(:users).and_return([])
+        get :search_speakers, @params
+        assigns(:matches).should == [@bubba, @billy]
+      end
+
+      it "should not match users that are in the proposal" do
+        @proposal.should_receive(:users).and_return([@bubba])
+        get :search_speakers, @params
+        assigns(:matches).should == [@billy]
+      end
+    end
+
+    describe "existing record" do
+      before(:each) do
+        @proposal.id = 123
+        @params[:id] = @proposal.id
+        Proposal.should_receive(:find).and_return(@proposal)
+      end
+
+      it "should match users that aren't in the proposal" do
+        @proposal.should_receive(:users).and_return([])
+        get :search_speakers, @params
+        assigns(:matches).should == [@bubba, @billy]
+      end
+
+      it "should not match users that are in the proposal" do
+        @proposal.should_receive(:users).and_return([@bubba])
+        get :search_speakers, @params
+        assigns(:matches).should == [@billy]
+      end
+    end
+  end
+
 end

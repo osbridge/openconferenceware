@@ -13,26 +13,37 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
 %>
 
 <% cache_if(!logged_in?, cache_key) do %>
-  <% if @kind == :proposals %>
-    <div>
+  <div>
+    <% if @kind == :proposals %>
       <% if accepting_proposals? %>
-        <p>
+        <div class="event_text open_text">
           <%= simple_format @event.open_text %>
           <% if admin? %>
             <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
           <% end %>
-        </p>
+        </div>
         <div class="submit-a-proposal-wrapper">
           <%= link_to 'Submit a proposal!', new_event_proposal_path(@event), :class => "submit-a-proposal-button" %>
         </div>
       <% else %>
-          <%= simple_format @event.closed_text %>
-          <% if admin? %>
-            <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
-          <% end %>
+      <div class="event_text closed_text">
+        <%= simple_format @event.closed_text %>
+        <% if admin? %>
+        <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
+        <% end %>
+      </div>
       <% end %>
-    </div>
-  <% end %>
+    <% elsif @kind == :sessions %>
+      <div class="event_text session_text">
+        <%= simple_format @event.session_text %>
+        <% if admin? %>
+          <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
+        <% end %>
+      </div>
+    <% else %>
+      <% raise TypeError, "Unknown kind: #{@kind.class.name.inspect}" %>
+    <% end %>
+  </div>
 
   <%= render :partial => "list", :locals => {:kind => @kind, :records => @proposals, :sorter => true} %>
 <% end %>
