@@ -28,9 +28,7 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
       <% else %>
       <div class="event_text closed_text">
         <%= simple_format @event.closed_text %>
-        <% if admin? %>
-        <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
-        <% end %>
+        <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" if admin?%>
       </div>
       <% end %>
     <% elsif @kind == :sessions %>
