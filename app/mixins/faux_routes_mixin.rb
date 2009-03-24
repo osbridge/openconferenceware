@@ -40,8 +40,15 @@ module FauxRoutesMixin
           RAILS_DEFAULT_LOGGER.debug("Faux route, created for item: #{faux} <= #{real}")
           define_method(faux, proc{|item, *args| send(real, item.event, item, *args)})
         else
-          RAILS_DEFAULT_LOGGER.debug("Faux route, created: #{faux} <= #{real}")
-          define_method(faux, proc{|*args| send(real, @event, *args)})
+          RAILS_DEFAULT_LOGGER.debug("Faux route, created for inference: #{faux} <= #{real}")
+          define_method(faux, proc{|*args|
+            event = @event
+            if ! event && self.respond_to?(:get_current_event_and_assignment_status)
+              event = self.get_current_event_and_assignment_status.first
+            end
+            raise ArgumentError, "No event found for faux route" unless event
+            send(real, event, *args)
+          })
         end
       end
     end
