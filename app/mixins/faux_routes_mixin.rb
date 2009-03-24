@@ -13,6 +13,8 @@
 #
 module FauxRoutesMixin
   # FIXME this implementation is 10x more complex than it should be, but I don't know how to make it simpler
+  
+  TRACE = false
 
   def self.included(mixee)
     mixee.extend(Methods)
@@ -20,7 +22,7 @@ module FauxRoutesMixin
     if mixee.ancestors.include?(ActionController::Base)
       mixee.class_eval do
         Methods.instance_methods.each do |name|
-          RAILS_DEFAULT_LOGGER.debug("Faux route, helperized: #{name}")
+          RAILS_DEFAULT_LOGGER.debug("Faux route, helperized: #{name}") if TRACE
           helper_method(name)
         end
       end
@@ -36,11 +38,12 @@ module FauxRoutesMixin
       for kind in %w[path url]
         real = "#{verb ? verb+'_' : nil}event_#{noun}_#{kind}"
         faux = "#{verb ? verb+'_' : nil}#{noun}_#{kind}"
+        msg = nil
         if item
-          RAILS_DEFAULT_LOGGER.debug("Faux route, created for item: #{faux} <= #{real}")
+          msg = "Faux route, created for item: #{faux} <= #{real}"
           define_method(faux, proc{|item, *args| send(real, item.event, item, *args)})
         else
-          RAILS_DEFAULT_LOGGER.debug("Faux route, created for inference: #{faux} <= #{real}")
+          msg = "Faux route, created for inference: #{faux} <= #{real}"
           define_method(faux, proc{|*args|
             event = @event
             if ! event && self.respond_to?(:get_current_event_and_assignment_status)
@@ -50,6 +53,7 @@ module FauxRoutesMixin
             send(real, event, *args)
           })
         end
+        RAILS_DEFAULT_LOGGER.debug(msg) if TRACE
       end
     end
 
