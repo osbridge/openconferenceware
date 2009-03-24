@@ -66,17 +66,17 @@ namespace :deploy do
 
   desc "Generate database.yml"
   task :database_yml do
-    run %{ruby -p -i.bak -e '$_.gsub!(%r{database: db/}, "database: #{shared_path}/db/")' #{current_path}/config/database.yml}
+    run %{ruby -p -i.bak -e '$_.gsub!(%r{database: db/}, "database: #{shared_path}/db/")' #{release_path}/config/database.yml}
   end
 
   desc "Set the application's secrets"
   task :secrets_yml do
-    run "ln -nsf #{shared_path}/config/secrets.yml #{current_path}/config/secrets.yml"
+    run "ln -nsf #{shared_path}/config/secrets.yml #{release_path}/config/secrets.yml"
   end
 
   desc "Set the application's theme"
   task :theme_txt do
-    run "echo #{theme} > #{current_path}/config/theme.txt"
+    run "echo #{theme} > #{release_path}/config/theme.txt"
   end
 
   desc "Clear the application's cache"
@@ -89,8 +89,10 @@ end
 after "deploy:setup", "deploy:prepare_shared"
 after "deploy:setup", "deploy:upload_secrets_yml"
 
+# After finalize_update
+after "deploy:finalize_update", "deploy:database_yml"
+after "deploy:finalize_update", "deploy:secrets_yml"
+after "deploy:finalize_update", "deploy:theme_txt"
+
 # After symlink
-after "deploy:symlink", "deploy:database_yml"
-after "deploy:symlink", "deploy:secrets_yml"
-after "deploy:symlink", "deploy:theme_txt"
 after "deploy:symlink", "deploy:clear_cache"
