@@ -1,3 +1,5 @@
+<% focus "event_#{params[:jump_to]}" if params[:jump_to] %>
+
 <% include_jwysiwyg %>
 
 <% form_for([:manage, @event], :html => {:id => "event-form", :class => "standard-form"}) do |f| %>
