@@ -18,9 +18,7 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
       <% if accepting_proposals? %>
         <div class="event_text open_text">
           <%= simple_format @event.open_text %>
-          <% if admin? %>
-            <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
-          <% end %>
+          <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :open_text), :class => "editable" if admin? %>
         </div>
         <div class="submit-a-proposal-wrapper">
           <%= link_to 'Submit a proposal!', new_event_proposal_path(@event), :class => "submit-a-proposal-button" %>
@@ -28,15 +26,13 @@ cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
       <% else %>
       <div class="event_text closed_text">
         <%= simple_format @event.closed_text %>
-        <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" if admin?%>
+        <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :closed_text), :class => "editable" if admin?%>
       </div>
       <% end %>
     <% elsif @kind == :sessions %>
       <div class="event_text session_text">
         <%= simple_format @event.session_text %>
-        <% if admin? %>
-          <%= link_to "Edit", edit_manage_event_path(@event), :class => "editable" %>
-        <% end %>
+        <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :session_text), :class => "editable" if admin? %>
       </div>
     <% else %>
       <% raise TypeError, "Unknown kind: #{@kind.class.name.inspect}" %>
