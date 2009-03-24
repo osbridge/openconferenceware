@@ -1,3 +1,5 @@
+<% focus "event_#{params[:jump_to]}" if params[:jump_to] %>
+
 <% include_jwysiwyg %>
 
 <% form_for([:manage, @event], :html => {:id => "event-form", :class => "standard-form"}) do |f| %>
@@ -69,6 +71,14 @@
       </td>
       <td>
         <%= f.text_area :session_text, :class=>'rich' %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :tracks_text %><br />
+      </td>
+      <td>
+        <%= f.text_area :tracks_text, :class=>'rich' %>
       </td>
     </tr>
     <tr>
