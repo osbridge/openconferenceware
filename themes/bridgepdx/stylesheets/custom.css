@@ -346,6 +346,14 @@ table.proposals td {
 	border-top: 1px solid #aaa;
 }
 
+table.proposals td.schedule_header {
+	background: #666;
+	color: #fff;
+	font-weight: bold;
+	border-top: 3px solid #4ba8f2;
+	border-bottom: 1em solid #fff;
+}
+
 table.proposals h3 {
 	margin: .3em 0 .5em;
 }

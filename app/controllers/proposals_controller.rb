@@ -362,7 +362,7 @@ protected
   end
   
   def sort_proposals(proposals)
-    if %w(title track submitted_at session_type).include?(params[:sort]) || (admin? && params[:sort] == 'status')
+    if %w(title track submitted_at session_type start_time).include?(params[:sort]) || (admin? && params[:sort] == 'status')
       # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
       proposals = \
         case params[:sort].to_sym
@@ -370,6 +370,8 @@ protected
           without_tracks = proposals.reject(&:track)
           with_tracks = proposals.select(&:track).sort_by{|proposal| proposal.track}
           with_tracks + without_tracks
+        when :start_time
+          proposals.select{|proposal| !proposal.start_time.nil? }.sort_by{|proposal| proposal.start_time.to_i }.concat(proposals.select{|proposal| proposal.start_time.nil?})
         else
           proposals.sort_by{|proposal| proposal.send(params[:sort]).to_s.downcase rescue nil}
         end

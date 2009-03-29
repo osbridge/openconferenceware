@@ -8,13 +8,14 @@
 <% if proposal_excerpts? %>
   <% if sorter %>
     <div>
+      <% sort_links = [sort_link_for("Title", 'title', kind)]
+         sort_links << sort_link_for("Track", 'track', kind) if event_tracks? 
+         sort_links << sort_link_for("Submission date", 'submitted_at', kind)
+         sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_available?
+         sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses?
+      %>
       Sort by:
-      <%= sort_link_for("Title", 'title', kind) %>,
-      <%= sort_link_for("Track", 'track', kind) if event_tracks? %>,
-      <%= sort_link_for("Submission date", 'submitted_at', kind) %>
-      <% if admin? %>
-        <%= sort_link_for("Status", 'status', kind) if proposal_statuses? %>
-      <% end %>
+      <%= sort_links.join(', ') %>
     </div>
   <% end %>
 
@@ -22,7 +23,17 @@
     <h4>&mdash; No <%= kind %> submitted yet &mdash;</h4>
   <% else %>
     <table class='proposals' cellspacing='0'>
+      <% previous_start_time = false %>
       <% for record in records %>
+        <% if schedule_available? && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
+          <tr>
+            <td colspan='3' class='schedule_header'>
+              <%= record.start_time.nil? ? 'Unscheduled' : record.start_time.strftime("%A, %B %d - %I:%M %p") %>
+            </td>
+          </tr>
+        <% end %>
+        <% previous_start_time = record.start_time %>
+      
       <tr>
         <td rowspan='2' class='description'>
           <h3>
