@@ -64,7 +64,7 @@ class ProposalsController < ApplicationController
     
   def confirmed
     unless @event.proposal_status_published?
-      flash[:failure] = "Proposal statusus have not yet been published for this event."
+      flash[:failure] = "Session information has not yet been published for this event."
       return redirect_to(proposals_url)
     end
     
