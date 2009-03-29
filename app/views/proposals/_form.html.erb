@@ -196,7 +196,7 @@
             <tr>
               <td class="label-cell"><%= f.label :start_time %></td>
               <td>
-                <%= f.datetime_select :start_time, :include_blank => true %>
+                <%= f.datetime_select :start_time, :minute_step => 15, :include_blank => true %>
               </td>
             </tr>
           <% end %>
