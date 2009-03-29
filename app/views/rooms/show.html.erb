@@ -13,10 +13,6 @@
     <div><strong>Seating Configuration:</strong> <%= @room.seating_configuration %></div>
   <% end %>
 
-  <% unless @room.size.blank? %>
-    <div><strong>Size:</strong> <%= @room.size %></div>
-  <% end %>
-
   <div class="description"><%= textilize @room.description %></div>
 
   <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
