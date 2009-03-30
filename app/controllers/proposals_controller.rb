@@ -251,6 +251,10 @@ class ProposalsController < ApplicationController
       format.json { render :partial => "search_speakers.html.erb", :layout => false }
     end
   end
+  
+  def stats
+    @proposals = @event.proposals.find(:all, :order => 'created_at')
+  end
 
 protected
 

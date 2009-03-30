@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.session '/sessions/:id', :controller => 'proposals', :action => 'show'
   
   map.resources :events do |events|
-    events.resources :proposals, :controller => 'proposals'
+    events.resources :proposals, :controller => 'proposals', :collection => 'stats'
     events.resources :tracks, :controller => 'tracks'
     events.resources :session_types
     events.resources :rooms

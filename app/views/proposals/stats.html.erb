@@ -1,0 +1,38 @@
+<%
+
+chart = GoogleChart::LineChart.new('650x300',"Proposals over time",false)
+
+data_sets = {
+  'All Proposals' => {
+    :color => "000000",
+    :records => @proposals
+  }
+}
+
+@event.tracks.each do |track|
+  data_sets[track.title] = {
+    :color => track.color,
+    :records => track.proposals.find(:all,:order => 'created_at')
+  }
+end
+
+data_sets.each do |name,set|
+  date_cursor = @proposals.first.created_at.to_date
+  data = [0]
+  previous_date = nil
+  set[:records].each_with_index do |proposal,i|
+    proposal_date = proposal.created_at.to_date
+    if proposal_date != previous_date
+      while date_cursor != proposal_date
+        data << i+1
+        date_cursor += 1
+      end
+    end
+    previous_date = proposal_date
+  end
+  chart.data name, data, set[:color].gsub('#','')
+end
+%>
+
+
+<img src="<%= chart.to_url %>" />
