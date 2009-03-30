@@ -1,6 +1,6 @@
 <%
 
-chart = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
+proposals_over_time = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
 
 data_sets = {
   'All Proposals' => {
@@ -31,9 +31,16 @@ data_sets.keys.sort.each do |key|
     end
     previous_date = proposal_date
   end
-  chart.data key, data, set[:color].gsub('#','')
+  proposals_over_time.data key, data, set[:color].gsub('#','')
 end
+
+track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
+@event.tracks.each do |track|
+  track_distribution.data track.title, track.proposals.count, track.color.gsub('#','')
+end
+
 %>
 
 
-<img src="<%= chart.to_url %>" />
+<p><img src="<%= proposals_over_time.to_url %>" /></p>
+<p><img src="<%= track_distribution.to_url %>" /></p>
