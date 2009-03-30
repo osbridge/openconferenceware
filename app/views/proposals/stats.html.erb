@@ -16,7 +16,8 @@ data_sets = {
   }
 end
 
-data_sets.each do |name,set|
+data_sets.keys.sort.each do |key|
+  set = data_sets[key]
   date_cursor = @proposals.first.created_at.to_date
   data = [0]
   previous_date = nil
@@ -30,7 +31,7 @@ data_sets.each do |name,set|
     end
     previous_date = proposal_date
   end
-  chart.data name, data, set[:color].gsub('#','')
+  chart.data key, data, set[:color].gsub('#','')
 end
 %>
 
