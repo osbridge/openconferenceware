@@ -12,6 +12,7 @@ config/theme.txt
 coverage.*
 coverage/*
 db/*.sqlite*
+db/data.yml
 db/schema.rb
 log/*
 nbproject/*
