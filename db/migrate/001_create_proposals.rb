@@ -6,7 +6,7 @@ class CreateProposals < ActiveRecord::Migration
       t.string :affiliation
       t.string :email
       t.string :url
-      t.string :bio
+      t.text :bio
       t.string :title
       t.string :description
       t.boolean :publish, :default => false
