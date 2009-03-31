@@ -173,7 +173,11 @@ describe ProposalsController do
         proposal.should_not_receive(:destroy)
 
         event = Event.current
-        event.should_receive(:lookup_proposals).and_return([proposal])
+
+        # TODO Why is #find being called more than once?!
+        #IK# event.proposals.should_receive(:find).and_return([proposal])
+        event.proposals.should_receive(:find).twice.and_return([proposal])
+
         stub_current_event!(:event => event)
 
         get :index, :sort => "destroy"
