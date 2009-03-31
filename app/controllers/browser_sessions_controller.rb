@@ -102,8 +102,8 @@ private
       cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
     end
     flash[:notice] = message
-    # XXX why is the message being lost?
-    redirect_back_or_default('/')
+    flash.keep
+    redirect_back_or_default(proposals_path)
   end
 
   def failed_login(message)
