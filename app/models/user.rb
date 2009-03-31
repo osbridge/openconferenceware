@@ -84,6 +84,16 @@ class User < ActiveRecord::Base
   # Scopes
   named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'last_name asc'
 
+  # Return first admin user or a nil
+  def self.find_first_admin
+    self.find(:first, :conditions => {:admin => true})
+  end
+
+  # Return first non-admin user or a nil
+  def self.find_first_non_admin
+    self.find(:first, :conditions => {:admin => false})
+  end
+
   # Photo Attachments
   has_attached_file :photo,
     :styles => {

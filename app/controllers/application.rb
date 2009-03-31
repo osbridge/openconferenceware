@@ -46,6 +46,12 @@ protected
   end
   helper_method :current_email
 
+  # Are we running in a development mode?
+  def development_mode?
+    return %w[development preview].include?(RAILS_ENV)
+  end
+  helper_method :development_mode?
+
   #---[ Access control ]--------------------------------------------------
 
   # Can the current user edit the current +record+?
