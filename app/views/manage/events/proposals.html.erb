@@ -48,9 +48,7 @@
         </td>
         <td>
           <% if user_profiles? %>
-            <% for user in proposal.users %>
-              <%= link_to(user.fullname, user_path(user)) %>
-            <% end %>
+            <%= proposal.users.map{|user| link_to(user.fullname, user_path(user))}.join(", ") %>
           <% else %>
             <%= proposal.presenter %>
           <% end %>
