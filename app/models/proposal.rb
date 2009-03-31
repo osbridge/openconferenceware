@@ -149,7 +149,9 @@ class Proposal < ActiveRecord::Base
       return true
     else
       # Check this proposal's owners and confirm the proposal's status is 'proposed'
-      return self.users.include?(user) && self.proposed?
+      # FIXME decide when we prevent users from modifying their records
+      #IK# return self.users.include?(user) && self.proposed?
+      return self.users.include?(user)
     end
   end
 
