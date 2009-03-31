@@ -253,7 +253,7 @@ class ProposalsController < ApplicationController
   end
   
   def stats
-    @proposals = @event.proposals.find(:all, :order => 'created_at', :include => [:track])
+    @proposals = @event.proposals.find(:all, :order => 'created_at', :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at", :include => [:track])
     @tracks = @event.tracks
   end
 
