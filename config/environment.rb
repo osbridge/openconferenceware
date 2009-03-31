@@ -60,7 +60,7 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-  config.active_record.observers = :observist
+  config.active_record.observers = :observist unless ENV['SAFE']
 
   # Setup caching
   ::CACHE_FILE_STORE_PATH = "#{RAILS_ROOT}/tmp/cache/#{RAILS_ENV}"
