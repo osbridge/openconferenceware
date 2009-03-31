@@ -71,7 +71,6 @@ class Proposal < ActiveRecord::Base
   end
 
   aasm_event :accept_and_confirm do
-    transitions :from => :accepted, :to => :confirmed
     transitions :from => :proposed, :to => :confirmed
   end
 
