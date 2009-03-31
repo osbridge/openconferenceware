@@ -64,9 +64,7 @@
         <% end %>
         <% if event_rooms? %>
           <td>
-            <% form_for proposal do |f| %>
-              <%= f.collection_select :room_id, Room.find(:all), :id, :name, :include_blank => '- None -' %>
-            <% end %>
+            <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal} %>
           </td>
         <% end %>
         <% if false && proposal_start_times? %>
