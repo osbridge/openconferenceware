@@ -43,6 +43,7 @@
     <% for proposal in @proposals %>
       <tr class="<%= cycle('odd', 'even') %>">
         <td>
+          <%= link_to("", edit_proposal_path(proposal), :class => "editable") %>
           <%= link_to(proposal.title, proposal_path(proposal)) %>
         </td>
         <td>
