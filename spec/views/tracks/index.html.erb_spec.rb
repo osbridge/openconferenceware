@@ -4,11 +4,7 @@ describe "/tracks/index.html.erb" do
   include TracksHelper
   
   before(:each) do
-    @event = stub_model(Event,
-      :id => 1,
-      :title => "Event 1"
-    )
-    assigns[:event] = @event
+    @event = stub_current_event!
 
     @tracks = [
       stub_model(Track,
@@ -23,9 +19,6 @@ describe "/tracks/index.html.erb" do
       )
     ]
     assigns[:tracks] = @tracks
-
-    @controller.stub!(:get_current_event_and_assignment_status).and_return([@event, :assigned_to_current])
-
   end
 
   describe "anonymous" do

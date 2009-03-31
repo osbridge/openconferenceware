@@ -14,14 +14,13 @@ describe RoomsController do
   end
   
   before do
-    @current_event = events(:open)
-    @controller.stub!(:get_current_event_and_assignment_status).and_return([@current_event,:assigned_to_current])
+    @event = stub_current_event!(:event => events(:open))
   end
     
   describe "responding to GET index" do
 
     it "should expose all rooms from the current event as @rooms" do
-      @current_event.should_receive(:rooms).and_return([mock_room])
+      @event.should_receive(:rooms).and_return([mock_room])
       get :index
       assigns[:rooms].should == [mock_room]
     end
@@ -29,7 +28,7 @@ describe RoomsController do
     describe "with mime type of xml" do
       it "should render all rooms from the current event as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        @current_event.should_receive(:rooms).and_return(rooms = mock("Array of Rooms"))
+        @event.should_receive(:rooms).and_return(rooms = mock("Array of Rooms"))
         rooms.should_receive(:to_xml).and_return("generated XML")
         get :index
         response.body.should == "generated XML"
