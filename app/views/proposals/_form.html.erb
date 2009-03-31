@@ -179,9 +179,12 @@
         <% if admin? %>
           <% if proposal_statuses? %>
             <tr class="admin-only">
-              <td class="label-cell" colspan="2">
-                <%= render :partial => '/proposals/transition_control' %>
+              <td class="label-cell">
+                Status
+              </td>
               <td>
+                <%= render :partial => '/proposals/transition_control' %>
+              </td>
             </tr>
           <% end %>
           <% if event_rooms? %>
