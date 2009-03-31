@@ -31,20 +31,8 @@
   </p>
 <% end %>
 
-<style>
-  div.developer_controls {
-    background: #F7A4A4;
-    padding: 0.5em;
-  }
-  .developer_controls input[type=submit],
-  .developer_controls form,
-  .developer_controls form div {
-    display: inline;
-  }
-</style>
-
 <% if development_mode? %>
-  <div class="developer_controls">
+  <div class="admin-only">
     Developer:
 
     <% user = User.find_first_admin %>

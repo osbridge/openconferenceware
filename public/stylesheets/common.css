@@ -316,6 +316,17 @@ div.record-controls {
     font-style: italic;
     white-space: nowrap; }
 
+div.admin-only {
+    background: #EFC5C5;
+    padding: 0.5em;
+}
+
+.admin-only input[type=submit],
+.admin-only form,
+.admin-only form div {
+  display: inline;
+}
+
 .inlined {
   display: inline; }
   .inlined div {
