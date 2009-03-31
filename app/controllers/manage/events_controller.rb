@@ -105,6 +105,6 @@ class Manage::EventsController < ApplicationController
   end
 
   def proposals
-    @proposals = @event.proposals(:all, :order => :submitted_at, :include => [:room, :track, :users])
+    @proposals = @event.proposals.populated
   end
 end
