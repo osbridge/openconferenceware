@@ -1,5 +1,6 @@
 <% 
 cache "proposals_stats" do
+  @proposals, @tracks = @callback.call if @callback
   proposals_for_track = @proposals.inject({}){|result, proposal| (result[proposal.track] ||= []) << proposal; result}
 
   proposals_over_time = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
