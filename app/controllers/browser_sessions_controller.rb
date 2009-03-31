@@ -17,10 +17,10 @@ class BrowserSessionsController < ApplicationController
 
   # Process login
   def create
-    if development_mode? && params[:login_as]
+    if (admin? || development_mode?) && params[:login_as]
       if user = User.find_by_login(params[:login_as])
         self.current_user = user
-        successful_login "Logged in using development mode bypass"
+        successful_login "Logged in as #{params[:login_as]}"
       else
         failed_login "Sorry, that login doesn't exist"
       end
