@@ -188,7 +188,7 @@
             <tr>
               <td class="label-cell"><%= f.label :room_id, "Room" %></td>
               <td>
-                <%= f.collection_select :room_id, Room.find(:all), :id, :name, :include_blank => '- None -' %>
+                <%= render :partial => '/proposals/room_control', :locals => {:proposal => @proposal, :form => f} %>
               </td>
             </tr>
           <% end %>
