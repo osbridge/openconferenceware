@@ -1,6 +1,5 @@
 class ProposalsController < ApplicationController
 
-  before_filter :require_admin, :only => [:bulk]
   before_filter :login_required, :only => [:edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
   before_filter :normalize_event_path_or_redirect, :only => [:index]
