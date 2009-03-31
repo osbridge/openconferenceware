@@ -1,51 +1,50 @@
-<%
+<% 
+cache "proposals_stats" do
+  proposals_for_track = @proposals.inject({}){|result, proposal| (result[proposal.track] ||= []) << proposal; result}
 
-proposals_for_track = @proposals.inject({}){|result, proposal| (result[proposal.track] ||= []) << proposal; result}
+  proposals_over_time = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
 
-proposals_over_time = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
-
-data_sets = {
-  'All Proposals' => {
-    :color => "000000",
-    :records => @proposals
+  data_sets = {
+    'All Proposals' => {
+      :color => "000000",
+      :records => @proposals
+    }
   }
-}
 
-@tracks.each do |track|
-  data_sets[track.title] = {
-    :color => track.color,
-    :records => proposals_for_track[track]
-  }
-end
-
-data_sets.keys.sort.each do |key|
-  set = data_sets[key]
-  date_cursor = @proposals.first.created_at.to_date
-  data = [0]
-  previous_date = nil
-  set[:records].each_with_index do |proposal,i|
-    proposal_date = proposal.created_at.to_date
-    if proposal_date != previous_date
-      while date_cursor != proposal_date
-        data << i+1
-        date_cursor += 1
-      end
-    end
-    previous_date = proposal_date
+  @tracks.each do |track|
+    data_sets[track.title] = {
+      :color => track.color,
+      :records => proposals_for_track[track]
+    }
   end
-  proposals_over_time.data key, data, set[:color].gsub('#','')
-end
 
-proposals_over_time.axis :y, :range => [0,@proposals.size]
-proposals_over_time.axis :x, :labels => [@proposals.first.submitted_at.to_date, Date.today]
+  data_sets.keys.sort.each do |key|
+    set = data_sets[key]
+    date_cursor = @proposals.first.created_at.to_date
+    data = [0]
+    previous_date = nil
+    set[:records].each_with_index do |proposal,i|
+      proposal_date = proposal.created_at.to_date
+      if proposal_date != previous_date
+        while date_cursor != proposal_date
+          data << i+1
+          date_cursor += 1
+        end
+      end
+      previous_date = proposal_date
+    end
+    proposals_over_time.data key, data, set[:color].gsub('#','')
+  end
 
-track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
-@tracks.each do |track|
-  track_distribution.data track.title, proposals_for_track[track].size, track.color.gsub('#','')
-end
+  proposals_over_time.axis :y, :range => [0,@proposals.size]
+  proposals_over_time.axis :x, :labels => [@proposals.first.submitted_at.to_date, Date.today]
 
-%>
+  track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
+  @tracks.each do |track|
+    track_distribution.data track.title, proposals_for_track[track].size, track.color.gsub('#','')
+  end
+  %>
 
-
-<p><img src="<%= proposals_over_time.to_url %>" /></p>
-<p><img src="<%= track_distribution.to_url %>" /></p>
+  <p><img src="<%= proposals_over_time.to_url %>" /></p>
+  <p><img src="<%= track_distribution.to_url %>" /></p>
+<% end %><%# cache %>
