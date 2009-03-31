@@ -24,7 +24,7 @@ cache "proposals_stats" do
     date_cursor = @proposals.first.created_at.to_date
     data = [0]
     previous_date = nil
-    set[:records].each_with_index do |proposal,i|
+    set[:records].ergo.each_with_index do |proposal,i|
       proposal_date = proposal.created_at.to_date
       if proposal_date != previous_date
         while date_cursor != proposal_date
@@ -42,7 +42,7 @@ cache "proposals_stats" do
 
   track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
   @tracks.each do |track|
-    track_distribution.data track.title, proposals_for_track[track].size, track.color.gsub('#','')
+    track_distribution.data track.title, proposals_for_track[track].ergo.size || 0, track.color.gsub('#','')
   end
   %>
 
