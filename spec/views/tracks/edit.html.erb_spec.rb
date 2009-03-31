@@ -4,12 +4,8 @@ describe "/tracks/edit.html.erb" do
   include TracksHelper
   
   before(:each) do
-    @event = stub_model(Event,
-      :id => 1,
-      :title => "Event 1"
-    )
+    @event = stub_current_event!
 
-    @controller.stub!(:get_current_event_and_assignment_status).and_return([@event, :assigned_to_current])
     assigns[:track] = @track = stub_model(Track,
       :new_record? => false,
       :title => "value for title",

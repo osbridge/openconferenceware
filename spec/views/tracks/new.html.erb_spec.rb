@@ -4,11 +4,7 @@ describe "/tracks/new.html.erb" do
   include TracksHelper
   
   before(:each) do
-    @event = stub_model(Event,
-      :id => 1,
-      :title => 'Event 1'
-    )
-    assigns[:event] = @event
+    @event = stub_current_event!
 
     @track = stub_model(Track,
       :new_record? => true,
@@ -16,9 +12,6 @@ describe "/tracks/new.html.erb" do
       :event_id => 1
     )
     assigns[:track] = @track
-
-
-    @controller.stub!(:get_current_event_and_assignment_status).and_return([@event, :assigned_to_current])
   end
 
   it "should render new form" do

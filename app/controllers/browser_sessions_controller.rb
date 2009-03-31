@@ -17,7 +17,14 @@ class BrowserSessionsController < ApplicationController
 
   # Process login
   def create
-    if using_open_id?
+    if development_mode? && params[:login_as]
+      if user = User.find_by_login(params[:login_as])
+        self.current_user = user
+        successful_login "Logged in using development mode bypass"
+      else
+        failed_login "Sorry, that login doesn't exist"
+      end
+    elsif using_open_id?
       open_id_authentication
     else
       password_authentication(params[:name], params[:password])
