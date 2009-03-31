@@ -177,16 +177,18 @@
           <td><%= f.text_area :note_to_organizers, :rows => 3 %></td>
         </tr>
         <% if admin? %>
-          <tr class="admin-only">
-            <td class="label-cell" colspan="2">
-              <%= state_change_select %>
-            <td>
-          </tr>
+          <% if proposal_statuses? %>
+            <tr class="admin-only">
+              <td class="label-cell" colspan="2">
+                <%= state_change_select %>
+              <td>
+            </tr>
+          <% end %>
           <% if event_rooms? %>
             <tr class="admin-only">
               <td class="label-cell"><%= f.label :room_id, "Room" %></td>
               <td>
-                <%= render :partial => '/proposals/room_control', :locals => {:proposal => @proposal, :form => f} %>
+                <%= render :partial => '/proposals/room_control', :locals => {:form => f} %>
               </td>
             </tr>
           <% end %>
