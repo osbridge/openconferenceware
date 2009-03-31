@@ -80,14 +80,16 @@
 
 <% content_for :javascript do %>
   function bind_selectors(selectors) {
+    selectors.removeAttr("disabled");
     selectors.change(function(event) {
       $e = event;
 
       event.preventDefault();
-      name = event.target.name;
-      value = event.target.value;
-      url = $(event.target).parents('form')[0].action;
-      selector = $(event.target).parents('.transition_control');
+      target = $(event.target);
+      name = target.attr('name');
+      value = target.attr('value');
+      url = target.parents('form').attr('action');
+      selector = target.parents('.transition_control');
 
       $.ajax({
         'type': 'PUT',
@@ -95,19 +97,16 @@
         'data': 'authenticity_token='+window._token+'&'+name+'='+value,
         'dataType': 'json',
         'beforeSend': function(XMLHttpRequest) {
-          event.target.disabled = true;
-          $(event.target).addClass('spinning');
+          target.attr('disabled', true).addClass('spinning');
         },
         'success': function (data, textStatus) {
           if (data && data['transition_control_html']) {
-            selector.html(data['transition_control_html']);
-            selector.unbind();
+            selector.unbind().html(data['transition_control_html']);
             bind_selectors(selector);
           }
         },
         'complete': function (XMLHttpRequest, textStatus) {
-          $(event.target).removeClass('spinning');
-          event.target.disabled = false;
+          target.removeClass('spinning').removeAttr('disabled');
         }
       });
 
