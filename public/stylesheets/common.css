@@ -317,8 +317,11 @@ div.record-controls {
     white-space: nowrap; }
 
 div.admin-only {
-    background: #EFC5C5;
     padding: 0.5em;
+}
+
+.admin-only {
+    background: #EFC5C5;
 }
 
 .admin-only input[type=submit],

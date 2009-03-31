@@ -103,4 +103,8 @@ class Manage::EventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def proposals
+    @proposals = @event.proposals.populated
+  end
 end

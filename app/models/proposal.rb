@@ -125,6 +125,15 @@ class Proposal < ActiveRecord::Base
     return "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
   end
 
+  # Return array of arrays, the first representing the current state, the rest
+  # representing optional states. Of each pair, the first element is the title,
+  # the second is the status.
+  def titles_and_statuses
+    result = [["(currently '#{self.aasm_current_state.to_s.titleize}')", nil]]
+    result += self.aasm_events_for_current_state.map{|s|[s.to_s.titleize, s.to_s]}
+    return result
+  end
+
   # allows an interface to state machine through update_attributes transition key
   attr_accessor :transition
   def transition=(event)

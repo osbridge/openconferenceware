@@ -1,0 +1,120 @@
+<% page_title "Bulk edit proposals for #{@event.title}" %>
+
+<style>
+  .manage_events_proposals td {
+    vertical-align: top;
+    text-align: left;
+  }
+  .manage_events_proposals select {
+    border: 1px solid gray;
+    margin-left: 10px;
+    padding-left: 20px;
+  }
+</style>
+
+<table cellspacing="0" class="manage_events_proposals scaffolded">
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+      <th>
+        Speakers
+      </th>
+      <% if proposal_statuses? %>
+        <th>
+          Status
+        </th>
+      <% end %>
+      <% if event_rooms? %>
+        <th>
+          Room
+        </th>
+      <% end %>
+      <% if false && proposal_start_times? %>
+        <th>
+          <%# TODO Add schedule widget %>
+          Schedule
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% for proposal in @proposals %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td>
+          <%= link_to("", edit_proposal_path(proposal), :class => "editable") %>
+          <%= link_to(proposal.title, proposal_path(proposal)) %>
+        </td>
+        <td>
+          <% if user_profiles? %>
+            <%= proposal.users.map{|user| link_to(user.fullname, user_path(user))}.join(", ") %>
+          <% else %>
+            <%= proposal.presenter %>
+          <% end %>
+        </td>
+        <% if proposal_statuses? %>
+          <td>
+            <% form_for proposal do |f| %>
+              <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
+            <% end %>
+          </td>
+        <% end %>
+        <% if event_rooms? %>
+          <td>
+            <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal} %>
+          </td>
+        <% end %>
+        <% if false && proposal_start_times? %>
+          <td>
+            <%# TODO Add schedule widget %>
+            Schedule
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+
+<% content_for :javascript do %>
+  function bind_selectors(selectors) {
+    selectors.removeAttr("disabled");
+    selectors.change(function(event) {
+      $e = event;
+
+      event.preventDefault();
+      target = $(event.target);
+      name = target.attr('name');
+      value = target.attr('value');
+      url = target.parents('form').attr('action');
+      selector = target.parents('.transition_control');
+
+      $.ajax({
+        'type': 'PUT',
+        'url': url + '.json',
+        'data': 'authenticity_token='+window._token+'&'+name+'='+value,
+        'dataType': 'json',
+        'beforeSend': function(XMLHttpRequest) {
+          target.attr('disabled', true).addClass('spinning');
+        },
+        'success': function (data, textStatus) {
+          if (data && data['transition_control_html']) {
+            selector.unbind().html(data['transition_control_html']);
+            bind_selectors(selector);
+          }
+        },
+        'complete': function (XMLHttpRequest, textStatus) {
+          target.removeClass('spinning').removeAttr('disabled');
+        }
+      });
+
+      return false;
+    });
+  }
+
+  $(document).ready(function() {
+    bind_selectors($('.edit_proposal select'));
+  });
+<% end %>
