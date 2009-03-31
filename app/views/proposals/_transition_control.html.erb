@@ -5,7 +5,7 @@
 proposal ||= @proposal
 %>
 
-<div class="state_change">
+<div class="transition_control">
   <% if proposal.aasm_events_for_current_state.empty? %>
     No valid transitions available from status <%= proposal.aasm_current_state %>
   <% else %>

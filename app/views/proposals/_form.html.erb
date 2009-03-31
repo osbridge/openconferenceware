@@ -180,7 +180,7 @@
           <% if proposal_statuses? %>
             <tr class="admin-only">
               <td class="label-cell" colspan="2">
-                <%= state_change_select %>
+                <%= render :partial => '/proposals/transition_control' %>
               <td>
             </tr>
           <% end %>

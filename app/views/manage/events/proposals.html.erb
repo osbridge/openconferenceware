@@ -58,7 +58,7 @@
         <% if proposal_statuses? %>
           <td>
             <% form_for proposal do |f| %>
-              <%= render :partial => '/proposals/state_change', :locals => {:proposal => proposal} %>
+              <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
             <% end %>
           </td>
         <% end %>
@@ -89,7 +89,7 @@
       name = event.target.name;
       value = event.target.value;
       url = $(event.target).parents('form')[0].action;
-      selector = $(event.target).parents('.state_change');
+      selector = $(event.target).parents('.transition_control');
 
       $.ajax({
         'type': 'PUT',
@@ -101,8 +101,8 @@
           $(event.target).addClass('spinning');
         },
         'success': function (data, textStatus) {
-          if (data && data['state_change_html']) {
-            selector.html(data['state_change_html']);
+          if (data && data['transition_control_html']) {
+            selector.html(data['transition_control_html']);
             selector.unbind();
             bind_selectors(selector);
           }
