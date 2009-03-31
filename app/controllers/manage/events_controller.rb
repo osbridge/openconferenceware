@@ -103,4 +103,8 @@ class Manage::EventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def proposals
+    @proposals = @event.proposals(:all, :order => :submitted_at, :include => [:room, :track, :users])
+  end
 end

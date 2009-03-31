@@ -1,0 +1,124 @@
+<% page_title "Bulk edit proposals for #{@event.title}" %>
+
+<style>
+  .manage_events_proposals td {
+    vertical-align: top;
+    text-align: left;
+  }
+  .manage_events_proposals select {
+    border: 1px solid gray;
+    margin-left: 10px;
+    padding-left: 20px;
+  }
+</style>
+
+<table cellspacing="0" class="manage_events_proposals scaffolded">
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+      <th>
+        Speakers
+      </th>
+      <% if proposal_statuses? %>
+        <th>
+          Status
+        </th>
+      <% end %>
+      <% if event_rooms? %>
+        <th>
+          Room
+        </th>
+      <% end %>
+      <% if false && proposal_start_times? %>
+        <th>
+          <%# TODO Add schedule widget %>
+          Schedule
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% for proposal in @proposals %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td>
+          <%= link_to(proposal.title, proposal_path(proposal)) %>
+        </td>
+        <td>
+          <% if user_profiles? %>
+            <% for user in proposal.users %>
+              <%= link_to(user.fullname, user_path(user)) %>
+            <% end %>
+          <% else %>
+            <%= proposal.presenter %>
+          <% end %>
+        </td>
+        <% if proposal_statuses? %>
+          <td>
+            <% form_for proposal do |f| %>
+              <%= render :partial => '/proposals/state_change', :locals => {:proposal => proposal} %>
+            <% end %>
+          </td>
+        <% end %>
+        <% if event_rooms? %>
+          <td>
+            <% form_for proposal do |f| %>
+              <%= f.collection_select :room_id, Room.find(:all), :id, :name, :include_blank => '- None -' %>
+            <% end %>
+          </td>
+        <% end %>
+        <% if false && proposal_start_times? %>
+          <td>
+            <%# TODO Add schedule widget %>
+            Schedule
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+
+<% content_for :javascript do %>
+  function bind_selectors(selectors) {
+    selectors.change(function(event) {
+      $e = event;
+
+      event.preventDefault();
+      name = event.target.name;
+      value = event.target.value;
+      url = $(event.target).parents('form')[0].action;
+      selector = $(event.target).parents('.state_change');
+
+      $.ajax({
+        'type': 'PUT',
+        'url': url + '.json',
+        'data': 'authenticity_token='+window._token+'&'+name+'='+value,
+        'dataType': 'json',
+        'beforeSend': function(XMLHttpRequest) {
+          event.target.disabled = true;
+          $(event.target).addClass('spinning');
+        },
+        'success': function (data, textStatus) {
+          if (data && data['state_change_html']) {
+            selector.html(data['state_change_html']);
+            selector.unbind();
+            bind_selectors(selector);
+          }
+        },
+        'complete': function (XMLHttpRequest, textStatus) {
+          $(event.target).removeClass('spinning');
+          event.target.disabled = false;
+        }
+      });
+
+      return false;
+    });
+  }
+
+  $(document).ready(function() {
+    bind_selectors($('.edit_proposal select'));
+  });
+<% end %>
