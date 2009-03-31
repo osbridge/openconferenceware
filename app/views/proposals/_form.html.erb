@@ -1,8 +1,6 @@
 <p>
   <%= @event.open_text %>
-  <% if admin? %>
-    <%= link_to "Edit", edit_manage_event_path(@event), :class => :editable %>
-  <% end %>
+  <%= link_to "Edit", edit_manage_event_path(@event), :class => :editable if admin? %>
 </p>
 
 <div id="proposal-form" class="standard-form">
@@ -179,21 +177,23 @@
           <td><%= f.text_area :note_to_organizers, :rows => 3 %></td>
         </tr>
         <% if admin? %>
-          <tr>
-            <td class="label-cell" colspan="2">
-              <%= state_change_select %>
-            <td>
-          </tr>
+          <% if proposal_statuses? %>
+            <tr class="admin-only">
+              <td class="label-cell" colspan="2">
+                <%= state_change_select %>
+              <td>
+            </tr>
+          <% end %>
           <% if event_rooms? %>
-            <tr>
+            <tr class="admin-only">
               <td class="label-cell"><%= f.label :room_id, "Room" %></td>
               <td>
-                <%= f.collection_select :room_id, Room.find(:all), :id, :name, :include_blank => '- None -' %>
+                <%= render :partial => '/proposals/room_control', :locals => {:form => f} %>
               </td>
             </tr>
           <% end %>
           <% if proposal_start_times? %>
-            <tr>
+            <tr class="admin-only">
               <td class="label-cell"><%= f.label :start_time %></td>
               <td>
                 <%= f.datetime_select :start_time, :minute_step => 15, :include_blank => true %>

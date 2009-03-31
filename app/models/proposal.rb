@@ -93,6 +93,7 @@ class Proposal < ActiveRecord::Base
 
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
+  named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :track, :room, :users]
 
   # Validations
   validates_presence_of :title, :description, :event_id

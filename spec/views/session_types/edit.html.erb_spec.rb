@@ -4,6 +4,7 @@ describe "/session_types/edit.html.erb" do
   include SessionTypesHelper
   
   before(:each) do
+    @event = stub_current_event!
     assigns[:session_type] = @session_type = stub_model(SessionType,
       :new_record? => false
     )

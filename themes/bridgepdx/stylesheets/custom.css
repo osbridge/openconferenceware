@@ -11,6 +11,20 @@ vim:tw=0:ft=css:noet:
 
 /* @group Common Helper Classes */
 
+div.admin-only {
+    padding: 0.5em;
+}
+
+.admin-only {
+    background: #EFC5C5;
+}
+
+.admin-only input[type=submit],
+.admin-only form,
+.admin-only form div {
+  display: inline;
+}
+
 .inlined, .inlined div, .record-controls div {
 	display: inline;
 }
@@ -463,7 +477,7 @@ ul.speakers {
 	list-style: none;
 }
 
-ul.speakers li {
+ul.speakers li.vcard {
 	border-bottom: 1px solid #aaa;
 	margin-top: 1em;
 }

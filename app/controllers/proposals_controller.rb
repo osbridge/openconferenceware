@@ -17,7 +17,7 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
-    @proposals = sort_proposals((@event ? @event.proposals : Proposal).find(:all, :include => [:event, :track, :users]))
+    @proposals = sort_proposals((@event ? @event.proposals : Proposal).populated)
 
     respond_to do |format|
       format.html {
