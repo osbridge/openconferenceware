@@ -4,7 +4,7 @@ atom_feed do |feed|
 
   @proposals.each do |proposal|
     feed.entry(proposal, :url => proposal_url(proposal)) do |entry|
-      entry.title(h proposal.title)
+      entry.title  proposal.title
 
       xm = ::Builder::XmlMarkup.new
       xm.div {
