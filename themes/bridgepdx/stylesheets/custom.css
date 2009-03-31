@@ -477,7 +477,7 @@ ul.speakers {
 	list-style: none;
 }
 
-ul.speakers li {
+ul.speakers li.vcard {
 	border-bottom: 1px solid #aaa;
 	margin-top: 1em;
 }
