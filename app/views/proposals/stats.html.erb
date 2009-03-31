@@ -34,6 +34,9 @@ data_sets.keys.sort.each do |key|
   proposals_over_time.data key, data, set[:color].gsub('#','')
 end
 
+proposals_over_time.axis :y, :range => [0,@proposals.size]
+proposals_over_time.axis :x, :labels => [@proposals.first.submitted_at.to_date, Date.today]
+
 track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
 @event.tracks.each do |track|
   track_distribution.data track.title, track.proposals.count, track.color.gsub('#','')
