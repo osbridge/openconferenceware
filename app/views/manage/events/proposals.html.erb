@@ -1,5 +1,7 @@
 <% page_title "Bulk edit proposals for #{@event.title}" %>
 
+<%= bind_all_proposal_controls_with_javascript %>
+
 <table cellspacing="0" class="manage_events_proposals standard-form">
   <thead>
     <tr>
@@ -63,48 +65,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
-
-<% content_for :javascript do %>
-  function bind_selectors(selectors) {
-    selectors.removeAttr("disabled");
-    selectors.change(function(event) {
-      $e = event;
-
-      event.preventDefault();
-      target = $(event.target);
-      name = target.attr('name');
-      value = target.attr('value');
-      url = target.parents('form').attr('action');
-      selector = target.parents('.transition_control');
-
-      $.ajax({
-        'type': 'PUT',
-        'url': url + '.json',
-        'data': 'authenticity_token='+window._token+'&'+name+'='+value,
-        'dataType': 'json',
-        'beforeSend': function(XMLHttpRequest) {
-          page_spinner_start();
-          // target.attr('disabled', true).addClass('spinning');
-        },
-        'success': function (data, textStatus) {
-          if (data && data['transition_control_html']) {
-            selector.unbind().html(data['transition_control_html']);
-            bind_selectors(selector);
-          }
-        },
-        'complete': function (XMLHttpRequest, textStatus) {
-          page_spinner_stop();
-          // target.removeClass('spinning').removeAttr('disabled');
-        }
-      });
-
-      return false;
-    });
-  }
-
-  $(document).ready(function() {
-    bind_selectors($('.edit_proposal select'));
-  });
-<% end %>

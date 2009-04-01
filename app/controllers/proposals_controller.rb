@@ -192,7 +192,7 @@ class ProposalsController < ApplicationController
           redirect_to(@proposal) 
         }
         format.xml  { head :ok }
-        format.json { render :json => {:transition_control_html => render_to_string(:partial => '/proposals/transition_control.html.erb')}, :status => :ok }
+        format.json { render :json => {:_transition_control_html => render_to_string(:partial => '/proposals/transition_control.html.erb')}, :status => :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }

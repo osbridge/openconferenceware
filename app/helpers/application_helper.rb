@@ -65,4 +65,12 @@ module ApplicationHelper
   def add_javascript(html)
     content_for :scripts, html
   end
+
+  def bind_all_proposal_controls_with_javascript
+    content_for :javascript, <<-HERE
+      $(document).ready(function() {
+        bind_all_proposal_controls();
+      });
+    HERE
+  end
 end
