@@ -149,7 +149,7 @@
                       <li>
                         <%= link_to "Manage this event", manage_event_path(@event) %>
                         <ul>
-                          <li><%= link_to "Proposals", proposals_path %> (<%= link_to "bulk edit", manage_event_proposals_path(@event) %>)</li>
+                          <li><%= link_to "Proposals", event_proposals_path(@event) %> (<%= link_to "bulk edit", manage_event_proposals_path(@event) %>)</li>
                           <% if event_tracks? %>
                             <li><%= link_to "Tracks", tracks_path %></li>
                           <% end %>
