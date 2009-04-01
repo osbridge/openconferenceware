@@ -1,12 +1,16 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
-function onloader() {
-  pulse_flash();
+
+/*===[ onload functions ]=============================================*/
+
+// Highlight the flash notification area briefly.
+// REQUIRES: jquery-ui.highlight
+function pulse_flash() {
+  $('.flash, .flash p').effect('highlight', {}, 3000)
 }
 
-function pulse_flash() {
-  var field = $('flash');
-  if (field) {
-    new Effect.Highlight('flash', {startcolor: '#AFFF70', endcolor: '#FFFFFF', restorecolor: '#FFFFFF'})
-  }
-}
+$(document).ready(function() {
+  pulse_flash();
+})
+
+/*===[ fin ]==========================================================*/
