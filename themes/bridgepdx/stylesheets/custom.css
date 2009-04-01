@@ -59,6 +59,26 @@ div.admin-only {
 	white-space: nowrap;
 }
 
+/* Loading box of width=height=100px with a spinner placed at the center */
+#page_spinner {
+	display: none;
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	color: black;
+	background: url(/images/spinner-big.gif) no-repeat center #F7F1A3;
+	text-align: center;
+	padding: 10px;
+	font: normal 16px Tahoma, Geneva, sans-serif;
+	border: 1px solid #666;
+	margin-left: -50px;
+	margin-top: -50px;
+	z-index: 2;
+	overflow: auto;
+}
+
 /* @end */
 
 /* @group Icon Additions */
