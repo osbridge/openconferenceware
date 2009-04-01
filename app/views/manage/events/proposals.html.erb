@@ -1,8 +1,7 @@
 <% page_title "Bulk edit proposals for #{@event.title}" %>
 
-<% bind_all_proposal_controls_with_javascript %>
-
-<% include_jquery_document_ready "bind_manage_proposals_checkboxes();" %>
+<% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
+<% run_when_jquery_is_ready "bind_manage_proposals_checkboxes();" %>
 
 <%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
 
