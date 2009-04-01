@@ -80,6 +80,7 @@ describe ApplicationController do
           login_as :quentin
           proposal = proposals(:quentin_widgets)
           proposal.status = 'accepted'
+          pending # TODO decide when to stop editing
           can_edit?(proposal).should be_false
         end
 

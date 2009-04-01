@@ -1,0 +1,29 @@
+<%
+# Variables:
+# * proposal or @proposal: Proposal to create UI for.
+
+proposal ||= @proposal
+%>
+
+<% if admin? %>
+  <% bind_all_proposal_controls_with_javascript %>
+
+  <div class="admin-only">
+    <% form_for(proposal) do |f| %>
+      <strong>ADMIN:</strong>
+      <% if proposal_statuses? %>
+        Status
+        <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
+      <% end %>
+      <% if event_rooms? %>
+        Room
+        <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal, :form => f} %>
+      <% end %>
+      <% if false && proposal_start_times? %>
+        <%# TODO provide way to set time %>
+        Start
+        <%= f.datetime_select :start_time, :minute_step => 15, :include_blank => true %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
