@@ -13,4 +13,18 @@ $(document).ready(function() {
   pulse_flash();
 })
 
+/*===[ custom functions ]=============================================*/
+
+/*---[ page_spinner ]-------------------------------------------------*/
+
+// Display a big spinner in the middle of the page.
+function page_spinner_start() {
+  $('#page_spinner').show(100);
+}
+
+// Hide the big spinner displayed in the middle of the page by`page_spinner_start`.
+function page_spinner_stop() {
+  $('#page_spinner').hide(100);
+}
+
 /*===[ fin ]==========================================================*/
