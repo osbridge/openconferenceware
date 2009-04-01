@@ -32,17 +32,22 @@ function page_spinner_stop() {
 
 // Bind all proposal controls, call this once for on a page using these controls.
 function bind_all_proposal_controls() {
-  bind_proposal_generic_control('_room_control_html', $('.proposal_room_control'));
-  bind_proposal_generic_control('_transition_control_html', $('.proposal_transition_control'));
+  bind_proposal_generic_control('room', null);
+  bind_proposal_generic_control('transition', null);
 }
 
-// Bind proposal controls for the given +elements+ (HTML "select" nodes),
-// and replace each control if the server sends new HTML that has data in the
-// +replace_from+ field of the JSON hash response.
-function bind_proposal_generic_control(replace_from, elements) {
-  elements.removeAttr("disabled").change(function(event) {
+// Bind AJAX controls for manipulate a proposal's values.
+//
+// Arguments:
+// * kind: The kind of the controls, e.g., "room" or "transition". Required.
+// * elements: Elements to bind. Optional, if null will bind to all appropriate controls on page.
+function bind_proposal_generic_control(kind, elements) {
+  if (! elements) {
+    elements = $('.proposal_'+kind+'_control');
+  }
+  elements.removeAttr('disabled').change(function(event) {
     target = $(this);
-    $e = event; $t = target;
+    $e = event; $t = target; $k = kind;
 
     event.preventDefault();
     name = target.attr('name');
@@ -50,8 +55,6 @@ function bind_proposal_generic_control(replace_from, elements) {
     proposal_id = target.attr('x_proposal_id');
     format = 'json';
     url = '/proposals/'+proposal_id+'.'+format;
-    container = target.parent().parent();
-    $k = container;
 
     $.ajax({
       'type': 'PUT',
@@ -67,12 +70,14 @@ function bind_proposal_generic_control(replace_from, elements) {
         target.removeAttr('disabled');
       },
       'success': function (data, textStatus) {
-        $f = replace_from;
         $d = data;
-        if (data && data[replace_from]) {
-          target.unbind();
-          container.html(data[replace_from]);
-          bind_proposal_generic_control(replace_from, container.children().children());
+        data_html_field = '_'+kind+'_control_html';
+        if (data && data[data_html_field]) {
+          // Extact the "option" elements from the JSON repsone's HTML and update the "select" element.
+          matcher = new RegExp('(<option[\\s\\S]+</option>)', 'gi').exec(data[data_html_field]);
+          if (matcher) {
+            target.html(matcher[1]);
+          }
         }
       }
     });
@@ -80,5 +85,11 @@ function bind_proposal_generic_control(replace_from, elements) {
     return false;
   });
 }
+/*
+event = $e;
+target = $t;
+kind = $k;
+data = $d;
+*/
 
 /*===[ fin ]==========================================================*/
