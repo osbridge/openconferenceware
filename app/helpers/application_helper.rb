@@ -66,11 +66,15 @@ module ApplicationHelper
     content_for :scripts, html
   end
 
-  def bind_all_proposal_controls_with_javascript
+  def include_jquery_document_ready(javascript, &block)
     content_for :javascript, <<-HERE
-      $(document).ready(function() {
-        bind_all_proposal_controls();
-      });
+$(document).ready(function() {
+  #{javascript};
+});
     HERE
+  end
+
+  def bind_all_proposal_controls_with_javascript
+    include_jquery_document_ready('bind_all_proposal_controls();')
   end
 end
