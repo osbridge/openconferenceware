@@ -65,11 +65,11 @@ module AuthenticatedSystem
     # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
-    def access_denied(controller=:browser_sessions, action=:new)
+    def access_denied(fallback_url=login_path)
       respond_to do |accepts|
         accepts.html do
           store_location
-          redirect_to :controller => controller, :action => action
+          redirect_to(fallback_url)
         end
         accepts.xml do
           headers["Status"]           = "Unauthorized"
