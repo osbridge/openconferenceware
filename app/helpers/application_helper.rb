@@ -53,4 +53,16 @@ module ApplicationHelper
     )
     @jwysiwyg_included = true
   end
+
+  # Add the +html+ to the stylesheets of the layout. Example:
+  #   <%= add_stylesheet(stylesheet_link_tag "custom") %>
+  def add_stylesheet(html)
+    content_for :stylesheets, html
+  end
+
+  # Add the +html+ to the javascripts portion of the layout. Example:
+  #   <%= add_javascripts(javascript_include_tag "application") %>
+  def add_javascript(html)
+    content_for :scripts, html
+  end
 end

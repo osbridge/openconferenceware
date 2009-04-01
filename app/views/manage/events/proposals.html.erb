@@ -1,18 +1,6 @@
 <% page_title "Bulk edit proposals for #{@event.title}" %>
 
-<style>
-  .manage_events_proposals td {
-    vertical-align: top;
-    text-align: left;
-  }
-  .manage_events_proposals select {
-    border: 1px solid gray;
-    margin-left: 10px;
-    padding-left: 20px;
-  }
-</style>
-
-<table cellspacing="0" class="manage_events_proposals scaffolded">
+<table cellspacing="0" class="manage_events_proposals standard-form">
   <thead>
     <tr>
       <th>
@@ -97,7 +85,8 @@
         'data': 'authenticity_token='+window._token+'&'+name+'='+value,
         'dataType': 'json',
         'beforeSend': function(XMLHttpRequest) {
-          target.attr('disabled', true).addClass('spinning');
+          page_spinner_start();
+          // target.attr('disabled', true).addClass('spinning');
         },
         'success': function (data, textStatus) {
           if (data && data['transition_control_html']) {
@@ -106,7 +95,8 @@
           }
         },
         'complete': function (XMLHttpRequest, textStatus) {
-          target.removeClass('spinning').removeAttr('disabled');
+          page_spinner_stop();
+          // target.removeClass('spinning').removeAttr('disabled');
         }
       });
 
