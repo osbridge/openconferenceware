@@ -66,10 +66,11 @@ module ApplicationHelper
     content_for :scripts, html
   end
 
-  def bind_all_proposal_controls_with_javascript
+  # Include a jQuery $(document).ready() function that calls the given +javascript+ code.
+  def run_when_jquery_is_ready(javascript)
     content_for :javascript, <<-HERE
       $(document).ready(function() {
-        bind_all_proposal_controls();
+        #{javascript};
       });
     HERE
   end

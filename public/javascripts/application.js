@@ -15,6 +15,30 @@ $(document).ready(function() {
 
 /*===[ custom functions ]=============================================*/
 
+/*---[ data structure conveniences ]----------------------------------*/
+
+// Return an array of keys in +hash+. Example:
+//  hash_keys({'foo': 'bar', 'baz': 'qux'}); // ['foo', 'baz']
+function hash_keys(hash) {
+  array = new Array();
+  for (key in hash) {
+    if (key) {
+      array.push(key);
+    }
+  }
+  return array;
+}
+
+// Return hash where each key is an element of the +array+. Example:
+//    array_to_hash(['foo', 'bar']); // {'foo': true, 'bar': true}
+function array_to_hash(array) {
+  hash = new Array();
+  for (i in array) {
+    hash[array[i]] = true;
+  }
+  return hash;
+}
+
 /*---[ page_spinner ]-------------------------------------------------*/
 
 // Display a big spinner in the middle of the page.
@@ -91,5 +115,52 @@ target = $t;
 kind = $k;
 data = $d;
 */
+
+/*---[ proposal_mailto ]----------------------------------------------*/
+
+// Return array of email addresses for a given +proposal_id+. Example:
+//    addresses_for_manage_proposal_id(129)
+function addresses_for_manage_proposal_id(proposal_id) {
+  // TODO Why does this next line trigger a "identifier or string for value in attribute selector but found 'X'." where X is the +proposal_id+?
+  row = $('.row-for-proposal[x_proposal_id='+proposal_id+']');
+  addresses = new Array();
+  row.find('.user-email').each(function() {addresses.push(this.value)});
+  return addresses;
+}
+
+// Update the mailto used to contact presenters. The +is_add+ is true if
+// adding, false if removing. The +addresses+ are an array of addresses to
+// add or remove.
+//    update_manage_proposals_mailto(true, ["bubba@smith.com", "billy.sue@smith.com"])
+function update_manage_proposals_mailto(is_add, addresses) {
+  element = $('.send-email-link');
+  href = element.attr('href');
+  prefix = 'mailto:';
+  parser = new RegExp('^'+prefix+'(.+)$');
+  stripper = new RegExp('bcc=', 'gi');
+  matcher = parser.exec(href);
+  addresses_hash = matcher ? array_to_hash(matcher[1].replace(stripper, '').split(',')) : [];
+  $(addresses).each(function(){
+    if (is_add) {
+      addresses_hash[this] = true;
+    } else {
+      delete addresses_hash[this];
+    }
+  });
+  result = prefix+(hash_keys(addresses_hash).map(function(me) {return 'bcc='+me}).join(','));
+  element.attr('href', result);
+  return result;
+}
+
+function bind_manage_proposals_checkboxes() {
+  $('.send-email-checkbox').click(function(event) {
+    target = $(this); $t = target;
+    row = target.parents('.row-for-proposal');
+    proposal_id = row.attr('x_proposal_id');
+    proposal_addresses = addresses_for_manage_proposal_id(proposal_id);
+    update_manage_proposals_mailto(target.attr('checked'), proposal_addresses);
+    return true;
+  });
+}
 
 /*===[ fin ]==========================================================*/

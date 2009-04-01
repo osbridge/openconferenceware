@@ -1,10 +1,16 @@
 <% page_title "Bulk edit proposals for #{@event.title}" %>
 
-<% bind_all_proposal_controls_with_javascript %>
+<% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
+<% run_when_jquery_is_ready "bind_manage_proposals_checkboxes();" %>
+
+<%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
 
 <table cellspacing="0" class="manage_events_proposals standard-form">
   <thead>
     <tr>
+      <th>
+        Mail
+      </th>
       <th>
         Title
       </th>
@@ -31,14 +37,21 @@
   </thead>
   <tbody>
     <% for proposal in @proposals %>
-      <tr class="<%= cycle('odd', 'even') %>">
+      <tr class="<%= cycle('odd', 'even') %> row-for-proposal" x_proposal_id="<%= proposal.id %>">
+        <td>
+          <input type="checkbox" class="send-email-checkbox" />
+        </td>
         <td>
           <%= link_to("", edit_proposal_path(proposal), :class => "editable") %>
           <%= link_to(proposal.title, proposal_path(proposal)) %>
         </td>
         <td>
           <% if user_profiles? %>
-            <%= proposal.users.map{|user| link_to(user.fullname, user_path(user))}.join(", ") %>
+            <% proposal.users.each_with_index do |user, i| %>
+              <%= "&amp;" unless i == 0 %>
+              <%= link_to user.fullname, user_path(user) %>
+              <input type="hidden" class="user-email" value="<%= user.email %>">
+            <% end %>
           <% else %>
             <%= proposal.presenter %>
           <% end %>
