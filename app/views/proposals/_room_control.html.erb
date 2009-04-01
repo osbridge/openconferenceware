@@ -7,13 +7,15 @@
 
 form ||= nil
 proposal ||= @proposal
-args = [:collection_select, :room_id, proposal.event.rooms, :id, :name, {:include_blank => '- None -'}]
+args = proposal.event ? [:collection_select, :room_id, proposal.event.rooms, :id, :name, {:include_blank => '- None -'}] : nil
 %>
 
-<% if form %>
-  <%= form.send(*args) %>
-<% else %>
-  <% form_for proposal do |f| %>
-    <%= f.send(*args) %>
+<% if args %>
+  <% if form %>
+    <%= form.send(*args) %>
+  <% else %>
+    <% form_for proposal do |f| %>
+      <%= f.send(*args) %>
+    <% end %>
   <% end %>
 <% end %>
