@@ -88,7 +88,7 @@ protected
 
   # Ensure user is an admin, or bounce them to the admin prompt.
   def require_admin
-    admin? || access_denied(:browser_sessions, :login)
+    admin? || access_denied
   end
 
   # Is this event accepting proposals?

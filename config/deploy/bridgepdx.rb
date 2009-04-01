@@ -5,6 +5,7 @@ set :repository,  "git://github.com/igal/openconferenceware.git"
 set :branch, "master"
 set :deploy_to, "/var/www/bridgepdx_ocw"
 set :host, "opensourcebridge.org"
+set :user, "bridgepdx"
 
 set :deploy_via, :remote_cache
 role :app, host

@@ -65,11 +65,11 @@ module AuthenticatedSystem
     # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
-    def access_denied(controller=:browser_sessions, action=:new)
+    def access_denied(fallback_url=login_path)
       respond_to do |accepts|
         accepts.html do
           store_location
-          redirect_to :controller => controller, :action => action
+          redirect_to(fallback_url)
         end
         accepts.xml do
           headers["Status"]           = "Unauthorized"
@@ -90,8 +90,8 @@ module AuthenticatedSystem
     # Redirect to the URI stored by the most recent store_location call or
     # to the passed default.
     def redirect_back_or_default(default)
-      redirect_to(session[:return_to] || default)
       session[:return_to] = nil
+      redirect_to(session[:return_to] || default)
     end
 
     alias_method :redirect_back_or_to, :redirect_back_or_default

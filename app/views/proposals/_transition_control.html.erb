@@ -1,0 +1,16 @@
+<%
+# SUMMARY: Display control for transitioning a proposal's status.
+#
+# Variables:
+# * proposal
+
+proposal ||= @proposal
+%>
+
+<div id="proposal_transition_control_container_<%= proposal.id %>" class="proposal_transition_control_container proposal_control_container">
+  <% if proposal.aasm_events_for_current_state.empty? %>
+    No valid transitions available from status <%= proposal.aasm_current_state %>
+  <% else %>
+    <%= select('proposal', 'transition', proposal.titles_and_statuses[1 .. proposal.titles_and_statuses.length], {:include_blank => proposal.titles_and_statuses[0][0]}, {:class => 'proposal_transition_control proposal_control', :x_proposal_id => proposal.id}) %>
+  <% end %>
+</div>

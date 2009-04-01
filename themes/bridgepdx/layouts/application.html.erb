@@ -18,21 +18,24 @@
     <%= theme_stylesheet_link_tag 'common_css/osbp_common_v3.css' %>
   <% end %>
   <%= theme_stylesheet_link_tag "custom" %>
-  <%= yield :stylesheets %>  
+  <%= yield :stylesheets %>
 
   <!-- Dynamic styles -->
   <% if event_tracks? %>
-     <style type="text/css" media="screen">
-         <% for track in Track.find(:all) %>
-         /* <%= track.title %> */
-         .<%= track_css_class(track) %> { color: <%= track.color %>; }
-         .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
-         <% end %>
-     </style>
+    <style type="text/css" media="screen">
+      <% for track in Track.find(:all) %>
+        /* <%= track.title %> */
+        .<%= track_css_class(track) %> { color: <%= track.color %>; }
+        .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
+      <% end %>
+    </style>
   <% end %>
 
   <!-- Scripts -->
-  <%= javascript_include_tag "jquery-1.2.6.min.js" %>
+  <%= javascript_include_tag("jquery.min.js") %>
+  <%= javascript_include_tag("jquery-ui.effects.core") %>
+  <%= javascript_include_tag("jquery-ui.effects.highlight") %>
+  <%= javascript_include_tag("application") %>
   <%= yield :scripts %>
   <%# TODO Add script and stylesheet yield blocks to other themes %>
 </head>
@@ -40,183 +43,182 @@
 <% remote_base = SETTINGS.public_url %>
 
 <body>
+  <div id="page_spinner">Working...</div>
   <div id="wrapper">
      <div id="header">
        <div class='inner_container'>
-      		<h1 id="site-title"><span><a href="<%= remote_base %>" title="<%= SETTINGS.organization %>" rel="home"><%= SETTINGS.organization %></a></span></h1>
-      		<div id="site-description">
-      		   <h2>The conference for open source citizens</h2>
-      		   <p id='conference-date-location'>June 17&ndash;19, 2009 <span class='separator'>|</span> Portland, Oregon</p>
-   		   </div>
-   		   <a href='/attend' title='Early bird discount ends March 31st. Register today!' id="header-reg-now">Register now and save!</a>
-   		</div>
-    </div>
-
-    <div id="access">
-      <div class="skip-link">
-        <a href="#content" title="Skip to content">Skip to content</a>
+          <h1 id="site-title"><span><a href="<%= remote_base %>" title="<%= SETTINGS.organization %>" rel="home"><%= SETTINGS.organization %></a></span></h1>
+          <div id="site-description">
+             <h2>The conference for open source citizens</h2>
+             <p id='conference-date-location'>June 17&ndash;19, 2009 <span class='separator'>|</span> Portland, Oregon</p>
+          </div>
+          <a href='/attend' title='Early bird discount ends April 10th. Register today!' id="header-reg-now">Register now and save!</a>
+        </div>
       </div>
 
-      <div id="menu">
-  			<ul>
-  			  <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
-  				<li><a href='/attend/' title='Attend' class=''>Attend</a></li>
-  				<li class="current_page_item"><a href='/proposals/' title='Proposals' class=''>Proposals</a></li>
-  				<li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
-  				<li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
-  				<li><a href="/blog">Blog</a></li>
-  			</ul>
-  		</div>
-  		
-  		<div id="subnav" class='navbar'>
-  		  <div class='inner_container'>
-  		    <h2>Proposals</h2>
-		    </div>
-  		</div>
-  </div>
+      <div id="access">
+        <div class="skip-link">
+          <a href="#content" title="Skip to content">Skip to content</a>
+        </div>
 
-  <div id="container">
-    <div id="content">
-         <% if false %>
-         <%
-            # RB: temporarily removing breadcrumbs, pending improvement
-         %>
-         <div id="breadcrumbs">
-            <% if @breadcrumbs %>
-               <% @breadcrumbs[0..-2].each_with_index do |breadcrumb, i| %>
-                  <% txt, path = breadcrumb %>
-                  <% if i > 0 %>
-                     &#187;
-                  <% end %>
-                  <%= link_to(h(txt), path) %>
-               <% end %>
-            <% end %>
-         </div>  
-         <% end %>
-         
-         <h2><%= page_title %></h2>
-         
-         <!-- Display notices -->
-         <%# flash[:success] = "This test is for testing the notifications." %>
-         <%# flash[:failure] = "This test is for testing the notifications." %>
-         <%# flash[:notice] = "This test is for testing the notifications." %>
-         <%= notice %>
-
-         <!-- Display view's content -->
-         <%= yield %>
-     </div><!-- content -->
-  
-  <div id="primary" class="sidebar">
-    <div class='register-callout'>
-       Registration is only <strong>$175</strong> until <strong>March 31</strong>.
-       <a href='/attend' class='register-button'>Register Today</a>
-    </div>
-    <ul class="xoxo">
-      <% if logged_in? %>
-        <li id="login-as">
-          <h3><%= current_user.label %></h3>
+        <div id="menu">
           <ul>
-            <% if user_profiles? %>
-              <li><%= link_to "My profile", user_path(current_user) %> (<%= link_to "edit", edit_user_path(current_user) %>)</li>
-            <% end %>
-            <li><%= link_to "Logout", logout_path, :method => :delete %></li>
+            <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
+            <li><a href='/attend/' title='Attend' class=''>Attend</a></li>
+            <li class="current_page_item"><a href='/proposals/' title='Proposals' class=''>Proposals</a></li>
+            <li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
+            <li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
+            <li><a href="/blog">Blog</a></li>
           </ul>
-        </li>
+        </div>
 
-        <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
-          <li id='my-proposals'>
-            <h3>My proposals</h3>
-            <ul>
-              <% unless current_user.proposals.empty? %>
-                <% for proposal in current_user.proposals %>
-                  <li><%= link_to proposal.title, proposal_path(proposal) %></li>
+        <div id="subnav" class='navbar'>
+          <div class='inner_container'>
+            <h2>Proposals</h2>
+          </div>
+        </div>
+      </div>
+
+      <div id="container">
+        <div id="content">
+          <% if false %>
+            <%# RB: temporarily removing breadcrumbs, pending improvement %>
+            <div id="breadcrumbs">
+              <% if @breadcrumbs %>
+                <% @breadcrumbs[0..-2].each_with_index do |breadcrumb, i| %>
+                   <% txt, path = breadcrumb %>
+                   <% if i > 0 %>
+                      &#187;
+                   <% end %>
+                   <%= link_to(h(txt), path) %>
                 <% end %>
               <% end %>
-              <% if @event.ergo.accepting_proposals? %>
-                <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
-              <% end %>
-            </ul>
-          </li>
-        <% end %>
+            </div>
+          <% end %>
 
-        <% if admin? %>
-          <li class='administration'>
-            <h3>Administer</h3>
-            <ul>
-              <% if user_profiles? %>
-                <li><%= link_to "Users", users_path %></li>
-              <% end %>
-              <li><%= link_to "Events", manage_events_path %></li>
-              <% if @event %>
-                <li>
-                  <%= link_to "Manage this event", manage_event_path(@event) %>
+          <h2><%= page_title %></h2>
+
+          <!-- Display notices -->
+          <%# flash[:success] = "This test is for testing the notifications." %>
+          <%# flash[:failure] = "This test is for testing the notifications." %>
+          <%# flash[:notice] = "This test is for testing the notifications." %>
+          <%= notice %>
+
+          <!-- Display view's content -->
+          <%= yield %>
+        </div><!-- content -->
+
+        <div id="primary" class="sidebar">
+          <div class='register-callout'>
+             Registration is only <strong>$175</strong> until <strong>April 10th</strong>.
+             <a href='/attend' class='register-button'>Register Today</a>
+          </div>
+          <ul class="xoxo">
+            <% if logged_in? %>
+              <li id="login-as">
+                <h3><%= current_user.label %></h3>
+                <ul>
+                  <% if user_profiles? %>
+                    <li><%= link_to "My profile", user_path(current_user) %> (<%= link_to "edit", edit_user_path(current_user) %>)</li>
+                  <% end %>
+                  <li><%= link_to "Logout", logout_path, :method => :delete %></li>
+                </ul>
+              </li>
+
+              <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
+                <li id='my-proposals'>
+                  <h3>My proposals</h3>
                   <ul>
-                    <li><%= link_to "Proposals", proposals_path %></li>
-                  <% if event_tracks? %>
-                    <li><%= link_to "Tracks", tracks_path %></li>
-                  <% end %>
-                  <% if event_session_types? %>
-                   <li><%= link_to "Session types", session_types_path %></li>
-                  <% end %>
-                  <% if event_rooms? %>
-                   <li><%= link_to "Rooms", rooms_path %></li>
-                  <% end %>
-                  <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
+                    <% unless current_user.proposals.empty? %>
+                      <% for proposal in current_user.proposals %>
+                        <li><%= link_to proposal.title, proposal_path(proposal) %></li>
+                      <% end %>
+                    <% end %>
+                    <% if @event.ergo.accepting_proposals? %>
+                      <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
+                    <% end %>
                   </ul>
                 </li>
               <% end %>
-              <li><%= link_to "Snippets", manage_snippets_path %></li>
-              <li><%= link_to "Comments", comments_path %></li>
-            </ul>
-          </li>
-        <% end %>
 
-      <% else %>
-        <li id="login-as">
-          <h3>Welcome</h3>
-          <ul>
-            <li><%= link_to "Login", login_path %></li>
-            <% if @event.ergo.accepting_proposals? %>
-              <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
+              <% if admin? %>
+                <li class='administration'>
+                  <h3>Administer</h3>
+                  <ul>
+                    <% if user_profiles? %>
+                      <li><%= link_to "Users", users_path %></li>
+                    <% end %>
+                    <li><%= link_to "Events", manage_events_path %></li>
+                    <% if @event %>
+                      <li>
+                        <%= link_to "Manage this event", manage_event_path(@event) %>
+                        <ul>
+                          <li><%= link_to "Proposals", event_proposals_path(@event) %> (<%= link_to "bulk edit", manage_event_proposals_path(@event) %>)</li>
+                          <% if event_tracks? %>
+                            <li><%= link_to "Tracks", tracks_path %></li>
+                          <% end %>
+                          <% if event_session_types? %>
+                            <li><%= link_to "Session types", session_types_path %></li>
+                          <% end %>
+                          <% if event_rooms? %>
+                            <li><%= link_to "Rooms", rooms_path %></li>
+                          <% end %>
+                          <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
+                        </ul>
+                      </li>
+                    <% end %>
+                    <li><%= link_to "Snippets", manage_snippets_path %></li>
+                    <li><%= link_to "Comments", comments_path %></li>
+                  </ul>
+                </li>
+              <% end %>
+
+            <% else %>
+              <li id="login-as">
+                <h3>Welcome</h3>
+                <ul>
+                  <li><%= link_to "Login", login_path %></li>
+                  <% if @event.ergo.accepting_proposals? %>
+                    <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+
+            <li id="subscribe-to">
+              <h3>Subscribe to</h3>
+              <ul>
+                <li class="pre-bulletted"><%= link_to "Proposals feed", proposals_feed_path, :class => :feedable %></li>
+                <% if admin? %>
+                  <li class="pre-bulletted"><%= link_to "Comments feed", comments_feed_path(:secret => CommentsController::SECRET), :class => 'feedable' %></li>
+                <% end %>
+              </ul>
+            </li>
+
+            <% if events_picker? %>
+              <li id="proposals-for">
+                <h3>Proposals for</h3>
+                <ul>
+                  <% for event in @events %>
+                    <li><%= link_to event.title, event_proposals_path(event) %></li>
+                  <% end %>
+                </ul>
+              </li>
             <% end %>
           </ul>
-        </li>
-      <% end %>
+        </div><!-- #sidebar-1 -->
+      </div><!-- container -->
 
-      <li id="subscribe-to">
-        <h3>Subscribe to</h3>
-        <ul>
-          <li class="pre-bulletted"><%= link_to "Proposals feed", proposals_feed_path, :class => :feedable %></li>
-          <% if admin? %>
-            <li class="pre-bulletted"><%= link_to "Comments feed", comments_feed_path(:secret => CommentsController::SECRET), :class => 'feedable' %></li>
-          <% end %>
-        </ul>
-      </li>
+    <div id="footer">
+      &copy; 2008&ndash;2009 Open Source Bridge Foundation | <a href='/contact-us'>Contact Us</a>
+    </div>
 
-<% if events_picker? %>
-      <li id="proposals-for">
-        <h3>Proposals for</h3>
-        <ul>
-          <% for event in @events %>
-            <li><%= link_to event.title, event_proposals_path(event) %></li>
-          <% end %>
-        </ul>
-      </li>
-<% end %>
-    </ul>
-    </div><!-- #sidebar-1 -->
-    </div><!-- container -->
-
-
-   <div id="footer">
-     &copy; 2008&ndash;2009 Open Source Bridge Foundation | <a href='/contact-us'>Contact Us</a>
-   </div>
-   
   </div><!--wrapper -->
 
   <%= hidden_field_tag(:current_user_id, current_user.id) if logged_in? %>
 
   <!-- arbitrary javascript from views -->
+  <%= javascript_tag "window._token = '#{form_authenticity_token}'" if protect_against_forgery? %>
   <script type="text/javascript">
     <%= yield :javascript %>
   </script>
@@ -235,6 +237,5 @@
     <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
   <% end %>
-
 </body>
 </html>

@@ -8,6 +8,8 @@
 <% page_title h(@proposal.title) %>
 <% focus :comment_message if @focus_comment %>
 
+<%= render :partial => "/proposals/admin_controls" %>
+
 <% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">

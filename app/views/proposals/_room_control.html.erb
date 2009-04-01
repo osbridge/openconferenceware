@@ -1,0 +1,21 @@
+<%
+# SUMMARY: Displays a control for assigning a room to a proposal.
+#
+# Variables:
+# * proposal: Proposal object to create a room selector for, required.
+# * form: Form to include this selector in, optional.
+
+form ||= nil
+proposal ||= @proposal
+args = [:collection_select, :room_id, (proposal.event.ergo{|event| event.rooms.sort_by(&:name)} || []), :id, :name, {:include_blank => '- None -'}, {:class => 'proposal_room_control proposal_control', :x_proposal_id => proposal.id}]
+%>
+
+<div id="proposal_room_control_container_<%= proposal.id %>" class="proposal_room_control_container proposal_control_container">
+  <% if form %>
+    <%= form.send(*args) %>
+  <% else %>
+    <% form_for proposal do |f| %>
+      <%= f.send(*args) %>
+    <% end %>
+  <% end %>
+</div>

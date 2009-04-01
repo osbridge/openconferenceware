@@ -113,7 +113,8 @@
         &nbsp;
       </td>
       <td class="data-cell">
-        <%= f.submit "Update" %>
+        <%= f.submit("Save my profile") %>
+        <%= f.submit("Complete my speaker profile...", :name => :require_complete_profile) unless @user.complete_profile? %>
         <% if admin? %>
           <%= link_to "Delete...", @user, :method => :delete, :confirm => "Delete user #{h @user.label}?", :class => "deletable" %>
         <% end %>

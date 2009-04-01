@@ -29,6 +29,7 @@ ActionController::Routing::Routes.draw do |map|
     manage.resources :events, :controller => 'manage/events'
     manage.resources :snippets, :controller => 'manage/snippets'
   end
+  map.manage_event_proposals '/manage/events/:id/proposals', :controller => 'manage/events', :action => 'proposals'
 
   map.root :controller => "proposals"
 

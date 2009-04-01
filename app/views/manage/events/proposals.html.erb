@@ -1,0 +1,80 @@
+<% page_title "Bulk edit proposals for #{@event.title}" %>
+
+<% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
+<% run_when_jquery_is_ready "bind_manage_proposals_checkboxes();" %>
+
+<%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
+
+<table cellspacing="0" class="manage_events_proposals standard-form">
+  <thead>
+    <tr>
+      <th>
+        Mail
+      </th>
+      <th>
+        Title
+      </th>
+      <th>
+        Speakers
+      </th>
+      <% if proposal_statuses? %>
+        <th>
+          Status
+        </th>
+      <% end %>
+      <% if event_rooms? %>
+        <th>
+          Room
+        </th>
+      <% end %>
+      <% if false && proposal_start_times? %>
+        <th>
+          <%# TODO Add schedule widget %>
+          Schedule
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% for proposal in @proposals %>
+      <tr class="<%= cycle('odd', 'even') %> row-for-proposal" x_proposal_id="<%= proposal.id %>">
+        <td>
+          <input type="checkbox" class="send-email-checkbox" />
+        </td>
+        <td>
+          <%= link_to("", edit_proposal_path(proposal), :class => "editable") %>
+          <%= link_to(proposal.title, proposal_path(proposal)) %>
+        </td>
+        <td>
+          <% if user_profiles? %>
+            <% proposal.users.each_with_index do |user, i| %>
+              <%= "&amp;" unless i == 0 %>
+              <%= link_to user.fullname, user_path(user) %>
+              <input type="hidden" class="user-email" value="<%= user.email %>">
+            <% end %>
+          <% else %>
+            <%= proposal.presenter %>
+          <% end %>
+        </td>
+        <% if proposal_statuses? %>
+          <td>
+            <% form_for proposal do |f| %>
+              <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
+            <% end %>
+          </td>
+        <% end %>
+        <% if event_rooms? %>
+          <td>
+            <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal} %>
+          </td>
+        <% end %>
+        <% if false && proposal_start_times? %>
+          <td>
+            <%# TODO Add schedule widget %>
+            Schedule
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

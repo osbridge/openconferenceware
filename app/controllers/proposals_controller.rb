@@ -16,7 +16,7 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
-    @proposals = sort_proposals((@event ? @event.proposals : Proposal).find(:all, :include => [:event, :track, :users]))
+    @proposals = sort_proposals((@event ? @event.proposals : Proposal).populated)
 
     respond_to do |format|
       format.html {
@@ -61,7 +61,7 @@ class ProposalsController < ApplicationController
       }
     end
   end
-    
+
   def confirmed
     unless @event.proposal_status_published?
       flash[:failure] = "Session information has not yet been published for this event."
@@ -154,7 +154,7 @@ class ProposalsController < ApplicationController
     manage_speakers_on_submit
 
     respond_to do |format|
-      if params[:commit] && @proposal.save
+      if params[:speaker_submit].blank? && @proposal.save
         format.html {
           if has_theme_specific_create_success_page?
             page_title "Thank You!"
@@ -185,12 +185,14 @@ class ProposalsController < ApplicationController
     manage_speakers_on_submit
 
     respond_to do |format|
-      if params[:commit] && @proposal.update_attributes(params[:proposal])
+      if params[:speaker_submit].blank? && @proposal.update_attributes(params[:proposal])
         @proposal.transition = transition_from_params if admin?
-        flash[:success] = 'Updated proposal.'
-        format.html { redirect_to(@proposal) }
+        format.html { 
+          flash[:success] = 'Updated proposal.'
+          redirect_to(@proposal) 
+        }
         format.xml  { head :ok }
-        format.json { head :ok }
+        format.json { render :json => {:_transition_control_html => render_to_string(:partial => '/proposals/transition_control.html.erb')}, :status => :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }

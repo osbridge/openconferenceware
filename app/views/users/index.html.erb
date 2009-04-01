@@ -4,8 +4,6 @@
   <table class="scaffolded">
     <tr>
       <th>Name</th>
-      <th>Affiliation</th>
-      <th>Website</th>
       <% if admin? %>
         <th>Actions</th>
       <% end %>
@@ -13,20 +11,15 @@
     <% @users.each do |user| -%>
     <tr class="<%= cycle('odd', 'even') %>">
       <td>
-        <%= link_to(user.label, user_path(user)) %>
         <%= user.admin? ? "(<strong class='admin'>admin</strong>)" : '' if admin? %>
-      </td>
-      <td>
-        <%= user.affiliation %>
-      </td>
-      <td>
-        <%= display_link_to(user.website) %>
+        <%= link_to(user.label, user_path(user)) %><%= (", " + user.affiliation) unless user.affiliation.blank? %> 
       </td>
       <% if admin? %>
-      <td>
-        <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
-        <%= link_to "Delete...", user, :method => :delete, :confirm => "Delete user #{h user.label}?", :class => "deletable" %>
-      </td>
+        <td nowrap="nowrap">
+          <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
+          <%= link_to "Delete...", user, :method => :delete, :confirm => "Delete user #{h user.label}?", :class => "deletable" %>
+          <%= link_to "Login", browser_session_path(:login_as => user.login), :method => :post, :class => "cancelable" %>
+        </td>
       <% end %>
     </tr>
     <% end -%>
