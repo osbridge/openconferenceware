@@ -43,12 +43,12 @@ function array_to_hash(array) {
 
 // Display a big spinner in the middle of the page.
 function page_spinner_start() {
-  $('#page_spinner').show(100);
+  $(document.createElement("div")).attr('id','page_spinner').text('Working...').prependTo('body').show(100);
 }
 
 // Hide the big spinner displayed in the middle of the page by`page_spinner_start`.
 function page_spinner_stop() {
-  $('#page_spinner').hide(100);
+  $('#page_spinner').hide(100).remove();
 }
 
 /*---[ proposal_controls ]--------------------------------------------*/
