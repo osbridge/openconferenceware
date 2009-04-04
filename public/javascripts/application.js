@@ -48,7 +48,7 @@ function page_spinner_start() {
 
 // Hide the big spinner displayed in the middle of the page by`page_spinner_start`.
 function page_spinner_stop() {
-  $('#page_spinner').hide(100).remove();
+  $('#page_spinner').hide(100, function(){ $(this).remove() });
 }
 
 /*---[ proposal_controls ]--------------------------------------------*/
