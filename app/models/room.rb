@@ -1,16 +1,17 @@
 # == Schema Information
-# Schema version: 20090316010807
+# Schema version: 20090324002914
 #
 # Table name: rooms
 #
 #  id                    :integer         not null, primary key
 #  name                  :string(255)     not null
-#  capacity              :integer
-#  size                  :string(255)
-#  seating_configuration :string(255)
-#  description           :text
-#  created_at            :datetime
-#  updated_at            :datetime
+#  capacity              :integer         
+#  size                  :string(255)     
+#  seating_configuration :string(255)     
+#  description           :text            
+#  event_id              :integer         
+#  created_at            :datetime        
+#  updated_at            :datetime        
 #
 
 class Room < ActiveRecord::Base
