@@ -43,8 +43,8 @@ describe CommentsController do
 
           response.should be_success
           comments = assigns(:comments)
-          records = ActiveResource::Formats::XmlFormat.decode(response.body)['entry']
-          records.size.should == comments.size
+          struct = Hash.from_xml(response.body)
+          struct['feed']['entry'].size.should == comments.size
         end
       end
     end
