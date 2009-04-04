@@ -7,13 +7,15 @@
 
 form ||= nil
 proposal ||= @proposal
-args = [:collection_select, :room_id, proposal.event.rooms, :id, :name, {:include_blank => '- None -'}]
+args = [:collection_select, :room_id, (proposal.event.ergo{|event| event.rooms.sort_by(&:name)} || []), :id, :name, {:include_blank => '- None -'}, {:class => 'proposal_room_control proposal_control', :x_proposal_id => proposal.id}]
 %>
 
-<% if form %>
-  <%= form.send(*args) %>
-<% else %>
-  <% form_for proposal do |f| %>
-    <%= f.send(*args) %>
+<div id="proposal_room_control_container_<%= proposal.id %>" class="proposal_room_control_container proposal_control_container">
+  <% if form %>
+    <%= form.send(*args) %>
+  <% else %>
+    <% form_for proposal do |f| %>
+      <%= f.send(*args) %>
+    <% end %>
   <% end %>
-<% end %>
+</div>
