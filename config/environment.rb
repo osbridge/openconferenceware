@@ -23,6 +23,7 @@ Rails::Initializer.run do |config|
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
   config.gem "gchartrb", :lib => "google_chart"
   config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
+  config.gem "sdague-icalendar", :lib => 'icalendar', :source => "http://gems.github.com"
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
