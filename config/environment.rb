@@ -12,8 +12,6 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
 
-  config.gem "capistrano", :lib => false
-  config.gem "capistrano-ext", :lib => false
   config.gem "sqlite3-ruby", :lib => false
   config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
   config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
