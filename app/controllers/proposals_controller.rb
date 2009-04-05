@@ -228,7 +228,7 @@ class ProposalsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render :partial => "manage_speakers.html.erb", :layout => false }
+      format.html { render :partial => "manage_speakers.html.erb", :layout => false }
     end
   end
 
