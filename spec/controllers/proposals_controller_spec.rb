@@ -1094,4 +1094,18 @@ describe ProposalsController do
       end
     end
   end
+
+  describe "get_proposal_and_assignment_status" do
+    it "should return a status of :invalid_proposal when no proposal id is given" do
+      @controller.stub!(:params).and_return({ :id => nil })
+      @controller.send(:get_proposal_and_assignment_status).should == [@proposal, :invalid_proposal]
+    end
+
+    it "should return a status of :invalid_event when a proposal doesn't have a valid event" do
+      @proposal = stub_model(Proposal, :state => "confirmed", :event => nil)
+      Proposal.stub!(:lookup).and_return(@proposal)
+      @controller.stub!(:params).and_return({ :id => 1000 })
+      @controller.send(:get_proposal_and_assignment_status).should == [@proposal, :invalid_event]
+    end
+  end
 end
