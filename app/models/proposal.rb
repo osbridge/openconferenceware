@@ -128,6 +128,11 @@ class Proposal < ActiveRecord::Base
   def slug
     return "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
   end
+  
+  # returns a proposal's duration based on its session type
+  def duration
+    self.session_type.ergo.duration
+  end
 
   # Return array of arrays, the first representing the current state, the rest
   # representing optional states. Of each pair, the first element is the title,
