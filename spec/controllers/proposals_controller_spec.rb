@@ -316,9 +316,11 @@ describe ProposalsController do
       end
 
       it "should not display form for closed events" do
-        get :new, :event_id => events(:closed).id
+        login_as(users(:quentin))
+        event = events(:closed)
+        get :new, :event_id => event.id
 
-        response.should be_redirect
+        response.should redirect_to(event_proposals_path(event))
       end
     end
   end
