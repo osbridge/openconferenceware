@@ -28,7 +28,7 @@ have_event_tracks: true
 # Do events have session types?
 have_event_session_types: true
 
-# Display events picker?
+# Display events picker so user can pick between multiple events?
 have_events_picker: false
 
 # Are proposals associated with multiple presenters?
@@ -48,4 +48,3 @@ have_proposal_start_times: true
 
 # Can proposals have statuses?
 have_proposal_statuses: true
-

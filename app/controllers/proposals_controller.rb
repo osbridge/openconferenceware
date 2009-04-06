@@ -225,19 +225,8 @@ class ProposalsController < ApplicationController
     end
   end
 
-  def assign_proposal_for_speaker_manager
-    if params[:id].blank? || params[:id] == "new_record"
-      @proposal = Proposal.new
-      params[:speakers].split(',').each do |speaker|
-        @proposal.add_user(speaker)
-      end
-    else
-      @proposal = Proposal.find(params[:id])
-    end
-  end
-
   def manage_speakers
-    assign_proposal_for_speaker_manager
+    @proposal = get_proposal_for_speaker_manager(params[:id], params[:speakers])
 
     if params[:add]
       user = User.find(params[:add])
@@ -248,12 +237,12 @@ class ProposalsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render :partial => "manage_speakers.html.erb", :layout => false }
+      format.html { render :partial => "manage_speakers.html.erb", :layout => false }
     end
   end
 
   def search_speakers
-    assign_proposal_for_speaker_manager
+    @proposal = get_proposal_for_speaker_manager(params[:id], params[:speakers])
 
     matcher = Regexp.new(params[:search].to_s, Regexp::IGNORECASE)
     @matches = User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users
@@ -335,6 +324,18 @@ protected
     else
       return [proposal, :invalid_proposal]
     end
+  end
+
+  def get_proposal_for_speaker_manager(proposal_id, speaker_ids_string)
+    if proposal_id.blank? || proposal_id == "new_record"
+      proposal = Proposal.new
+      speaker_ids_string.split(',').each do |speaker|
+        proposal.add_user(speaker)
+      end
+    else
+      proposal = Proposal.find(proposal_id)
+    end
+    return proposal
   end
 
   # Assign @proposal and @event from parameters, or redirect with warnings.

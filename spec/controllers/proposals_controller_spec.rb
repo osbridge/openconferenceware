@@ -316,9 +316,11 @@ describe ProposalsController do
       end
 
       it "should not display form for closed events" do
-        get :new, :event_id => events(:closed).id
+        login_as(users(:quentin))
+        event = events(:closed)
+        get :new, :event_id => event.id
 
-        response.should be_redirect
+        response.should redirect_to(event_proposals_path(event))
       end
     end
   end
@@ -658,6 +660,41 @@ describe ProposalsController do
   describe "br3ak" do
     it "should fail" do
       lambda { get :br3ak }.should raise_error
+    end
+  end
+
+  describe "manage speakers" do
+    before(:each) do
+      SETTINGS.stub!(:have_user_profiles => true)
+      @bubba = stub_model(User, :fullname => "Bubba Smith")
+      @billy = stub_model(User, :fullname => "Billy Jack")
+      @sue = stub_model(User, :fullname => "Sue Smith")
+      @proposal = stub_model(Proposal, :users => [@bubba, @billy])
+      @event = stub_current_event!
+      controller.stub!(:assign_get_proposal_for_speaker_manager)
+      controller.stub!(:get_proposal_for_speaker_manager).and_return(@proposal)
+    end
+
+    it "should list" do
+      get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}"}
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+    end
+
+    it "should add user" do
+      User.should_receive(:find).and_return(@sue)
+      get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :add => @sue.id}
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+    end
+
+    it "should remove user" do
+      User.should_receive(:find).and_return(@billy)
+      get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :remove => @billy.id}
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
     end
   end
 
