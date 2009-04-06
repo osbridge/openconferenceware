@@ -39,6 +39,17 @@ class Event < ActiveRecord::Base
   def accepting_proposals?
     return Time.now < (self.deadline || Time.at(0))
   end
+  
+  # Returns an array of the dates when this event is happening.
+  def dates
+    raise ArgumentError "Both start and end dates must be set." if self.start_date.nil? || self.end_date.nil?
+    return (self.start_date.to_date .. self.end_date.to_date).to_a
+  end
+  
+  # Formats this event's dates for use in a select form control.
+  def dates_for_select
+    return [['','']] + self.dates.map{|date| [date.strftime("%B %d, %Y"), date.strftime("%Y-%m-%d")]}
+  end
 
   EVENT_CURRENT_ID_SNIPPET = "event_current_id"
   EVENT_CURRENT_CACHE_KEY = "event_current"
