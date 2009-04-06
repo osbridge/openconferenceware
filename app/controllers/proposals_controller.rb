@@ -179,6 +179,15 @@ class ProposalsController < ApplicationController
   # PUT /proposals/1.xml
   def update
     # @proposal and @event set via #assign_proposal_and_event filter
+    
+    if params[:start_time]
+      if params[:start_time][:date].blank? || params[:start_time][:hour].blank? || params[:start_time][:minute].blank?
+        @proposal.start_time = nil
+      else
+        @proposal.start_time = "#{params[:start_time][:date]} #{params[:start_time][:hour]}:#{params[:start_time][:minute]}"
+      end
+    end
+    
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
