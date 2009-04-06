@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090316010807
+# Schema version: 20090324002914
 #
 # Table name: proposals
 #
@@ -22,6 +22,8 @@
 #  track_id           :integer         
 #  session_type_id    :integer         
 #  status             :string(255)     default("proposed"), not null
+#  room_id            :integer         
+#  start_time         :datetime        
 #
 
 class Proposal < ActiveRecord::Base
@@ -93,6 +95,8 @@ class Proposal < ActiveRecord::Base
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
   named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :track, :room, :users]
+  named_scope :scheduled, :conditions => "start_time IS NOT NULL"
+  named_scope :located, :conditions => "room_id IS NOT NULL"
 
   # Validations
   validates_presence_of :title, :description, :event_id

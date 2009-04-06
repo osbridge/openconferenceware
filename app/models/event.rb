@@ -1,16 +1,18 @@
 # == Schema Information
-# Schema version: 20090316010807
+# Schema version: 20090324002914
 #
 # Table name: events
 #
 #  id                        :integer         not null, primary key
-#  title                     :string(255)
-#  deadline                  :datetime
-#  open_text                 :text
-#  closed_text               :text
-#  created_at                :datetime
-#  updated_at                :datetime
+#  title                     :string(255)     
+#  deadline                  :datetime        
+#  open_text                 :text            
+#  closed_text               :text            
+#  created_at                :datetime        
+#  updated_at                :datetime        
 #  proposal_status_published :boolean         not null
+#  session_text              :text            
+#  tracks_text               :text            
 #
 
 class Event < ActiveRecord::Base
@@ -36,6 +38,17 @@ class Event < ActiveRecord::Base
   # Is this event accepting proposals?
   def accepting_proposals?
     return Time.now < (self.deadline || Time.at(0))
+  end
+  
+  # Returns an array of the dates when this event is happening.
+  def dates
+    raise ArgumentError "Both start and end dates must be set." if self.start_date.nil? || self.end_date.nil?
+    return (self.start_date.to_date .. self.end_date.to_date).to_a
+  end
+  
+  # Formats this event's dates for use in a select form control.
+  def dates_for_select
+    return [['','']] + self.dates.map{|date| [date.strftime("%B %d, %Y"), date.strftime("%Y-%m-%d")]}
   end
 
   EVENT_CURRENT_ID_SNIPPET = "event_current_id"

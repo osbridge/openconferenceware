@@ -43,12 +43,12 @@ function array_to_hash(array) {
 
 // Display a big spinner in the middle of the page.
 function page_spinner_start() {
-  $('#page_spinner').show(100);
+  $(document.createElement("div")).attr('id','page_spinner').text('Working...').prependTo('body').show(100);
 }
 
 // Hide the big spinner displayed in the middle of the page by`page_spinner_start`.
 function page_spinner_stop() {
-  $('#page_spinner').hide(100);
+  $('#page_spinner').hide(100, function(){ $(this).remove() });
 }
 
 /*---[ proposal_controls ]--------------------------------------------*/
@@ -58,6 +58,7 @@ function page_spinner_stop() {
 function bind_all_proposal_controls() {
   bind_proposal_generic_control('room', null);
   bind_proposal_generic_control('transition', null);
+  bind_proposal_schedule_controls();
 }
 
 // Bind AJAX controls for manipulate a proposal's values.
@@ -115,6 +116,60 @@ target = $t;
 kind = $k;
 data = $d;
 */
+
+function bind_proposal_schedule_controls() {
+  $('.proposal_schedule_control_container select').change(function(event) {
+    // Clears all time select elements if any are set to blank.
+    target = $(this);
+
+    if(target.attr('selectedIndex')==0) {
+      target.parent().find('select').attr('selectedIndex',0);
+    }
+  }).change(function(event) {
+    // Submits the schedule form on change if all three select element have values.
+    if(target.parent().find('option:selected[value]').get().length == 3) {
+      target = $(this);
+
+      data = {
+        'authenticity_token': window._token,
+        'start_time[date]': target.parent().find('select.date').attr('value'),
+        'start_time[hour]': target.parent().find('select.hour').attr('value'),
+        'start_time[minute]': target.parent().find('select.minute').attr('value')
+      };
+      proposal_id = target.parent().attr('id').split('_').pop();
+      format = 'json';
+      url = '/proposals/'+proposal_id+'.'+format;
+
+      $.ajax({
+        'type': 'PUT',
+        'url': url,
+        'data': data,
+        'dataType': format,
+        'beforeSend': function(request) {
+          target.parent().find('select').attr('disabled', true);
+          page_spinner_start();
+        },
+        'complete': function (XMLHttpRequest, textStatus) {
+          page_spinner_stop();
+          target.parent().find('select').removeAttr('disabled');
+        }
+      });
+
+      return false;
+    }
+  });
+  
+  $('.proposal_schedule_control_container select.hour').change(function(event){
+    // If no minute value is set, set minutes to 00 when hour is changed to a non-blank value.
+    target = $(this);
+    if(target.attr('selectedIndex') != 0) {
+      minute_select = target.parent().find('select.minute');
+      if(minute_select.attr('selectedIndex') == 0) {
+        minute_select.attr('selectedIndex',1).trigger('change');
+      }
+    }
+  });
+}
 
 /*---[ proposal_mailto ]----------------------------------------------*/
 

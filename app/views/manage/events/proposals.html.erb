@@ -5,6 +5,11 @@
 
 <%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
 
+<%
+control_rowspan = proposal_start_times? ? 'rowspan="2"' : ''
+control_colspan = 0
+%>
+
 <table cellspacing="0" class="manage_events_proposals standard-form">
   <thead>
     <tr>
@@ -38,14 +43,14 @@
   <tbody>
     <% for proposal in @proposals %>
       <tr class="<%= cycle('odd', 'even') %> row-for-proposal" x_proposal_id="<%= proposal.id %>">
-        <td>
+        <td <%= control_rowspan %>>
           <input type="checkbox" class="send-email-checkbox" />
         </td>
-        <td>
+        <td <%= control_rowspan %>>
           <%= link_to("", edit_proposal_path(proposal), :class => "editable") %>
           <%= link_to(proposal.title, proposal_path(proposal)) %>
         </td>
-        <td>
+        <td <%= control_rowspan %>>
           <% if user_profiles? %>
             <% proposal.users.each_with_index do |user, i| %>
               <%= "&amp;" unless i == 0 %>
@@ -57,6 +62,7 @@
           <% end %>
         </td>
         <% if proposal_statuses? %>
+          <% control_colspan += 1 %>
           <td>
             <% form_for proposal do |f| %>
               <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
@@ -64,17 +70,19 @@
           </td>
         <% end %>
         <% if event_rooms? %>
+          <% control_colspan += 1 %>
           <td>
             <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal} %>
           </td>
         <% end %>
-        <% if false && proposal_start_times? %>
-          <td>
-            <%# TODO Add schedule widget %>
-            Schedule
+        </tr>
+        <% if proposal_start_times? %>
+        <tr>
+          <td <%= control_colspan > 0 ? "colspan='#{control_colspan}'" : '' %>>
+            <%= render :partial => '/proposals/schedule_control', :locals => {:proposal => proposal} %>
           </td>
+        </tr>
         <% end %>
-      </tr>
     <% end %>
   </tbody>
 </table>

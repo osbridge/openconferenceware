@@ -33,7 +33,23 @@
     </tr>
     <tr>
       <td class="label-cell">
-        <%= f.label :deadline %><br />
+        <%= f.label :start_date %><br />
+      </td>
+      <td>
+        <%= f.date_select :start_date, :include_blank => true %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :end_date %><br />
+      </td>
+      <td>
+        <%= f.date_select :end_date, :include_blank => true %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :deadline, "Proposal Deadline" %><br />
       </td>
       <td>
         <%= f.datetime_select :deadline %>

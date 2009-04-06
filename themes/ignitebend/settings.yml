@@ -1,3 +1,5 @@
+<% raise NotImplementedError, "Sorry, the 'ignitebend' theme is broken, please try using 'bridgepdx'. See README.txt to set the current theme." %>
+
 # Organization running event:
 organization: 'Ignite Bend'
 

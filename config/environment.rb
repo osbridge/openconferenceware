@@ -12,8 +12,6 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
 
-  config.gem "capistrano", :lib => false
-  config.gem "capistrano-ext", :lib => false
   config.gem "sqlite3-ruby", :lib => false
   config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
   config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
@@ -23,6 +21,7 @@ Rails::Initializer.run do |config|
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
   config.gem "gchartrb", :lib => "google_chart"
   config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
+  config.gem "RedCloth"
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
