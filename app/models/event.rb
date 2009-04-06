@@ -42,8 +42,11 @@ class Event < ActiveRecord::Base
   
   # Returns an array of the dates when this event is happening.
   def dates
-    raise ArgumentError "Both start and end dates must be set." if self.start_date.nil? || self.end_date.nil?
-    return (self.start_date.to_date .. self.end_date.to_date).to_a
+    if self.start_date.nil? || self.end_date.nil?
+      return []
+    else
+      return (self.start_date.to_date .. self.end_date.to_date).to_a
+    end
   end
   
   # Formats this event's dates for use in a select form control.
