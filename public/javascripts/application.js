@@ -165,7 +165,7 @@ function bind_proposal_schedule_controls() {
     if(target.attr('selectedIndex') != 0) {
       minute_select = target.parent().find('select.minute');
       if(minute_select.attr('selectedIndex') == 0) {
-        minute_select.attr('selectedIndex',1);
+        minute_select.attr('selectedIndex',1).trigger('change');
       }
     }
   });
