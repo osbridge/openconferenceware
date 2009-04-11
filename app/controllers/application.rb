@@ -195,11 +195,13 @@ protected
 
   # Redirect the user to the canonical event path if they're visiting a path that doesn't start with '/events'.
   def normalize_event_path_or_redirect
+    # When running under a prefix (e.g., "thin --prefix /omg start"), this value will be set to "/omg", else "".
     if request.format.to_sym == :html
       if request.path.match(%r{^/events})
         return false
       else
-        path = "/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        prefix = ActionController::AbstractRequest.relative_url_root
+        path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
         flash.keep
         return redirect_to(path)
       end

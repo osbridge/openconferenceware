@@ -57,11 +57,21 @@
     </tr>
     <% if proposal_statuses? %>
       <tr>
-        <td class="label-text">
+        <td class="label-cell">
           <%= f.label :proposal_status_published, "Are proposal statuses publicly viewable?" %>
         </td>
         <td>
           <%= f.select :proposal_status_published, [['Yes',true],["No",false]] %>
+        </td>
+      </tr>
+    <% end %>
+    <% if event_proposal_comments_after_deadline? %>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :accept_proposal_comments_after_deadline, "Accept proposal comments after deadline?" %>
+        </td>
+        <td>
+          <%= f.select :accept_proposal_comments_after_deadline, [['Yes',true],["No",false]] %>
         </td>
       </tr>
     <% end %>

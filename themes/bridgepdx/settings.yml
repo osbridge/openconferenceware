@@ -48,3 +48,6 @@ have_proposal_start_times: true
 
 # Can proposals have statuses?
 have_proposal_statuses: true
+
+# Can users add comments until a toggle is flipped on the event?
+have_event_proposal_comments_after_deadline: true

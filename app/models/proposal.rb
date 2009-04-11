@@ -238,4 +238,15 @@ class Proposal < ActiveRecord::Base
     validate_url_attribute(:website)
   end
 
+  # Return string with a "mailto:" link for contacting the proposal's speakers.
+  def mailto_link
+    link = "mailto:"
+    if multiple_presenters?
+      link << self.users.map(&:email).join(",")
+    else
+      link << self.profile.email
+    end
+    return link
+  end
+
 end

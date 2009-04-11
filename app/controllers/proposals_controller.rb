@@ -98,7 +98,20 @@ class ProposalsController < ApplicationController
 
     @profile = @proposal.profile
     @comment = Comment.new(:proposal => @proposal, :email => current_email)
-    @display_comment_form = (! params[:commented] && ! can_edit? && accepting_proposals?) || admin?
+    @display_comment_form = \
+      # Admin can always leave comments
+      admin? || (
+       # Don't display comment form if user has just commented
+       ! params[:commented] &&
+       # Don't display comment form for the proposal owner
+       ! can_edit? && 
+       (
+        # Display comment form if the event is accepting proposals
+        accepting_proposals? || 
+        # or if the settings provide a toggle and the event is accepting comments
+        (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
+       )
+      )
     @focus_comment = false
 
     respond_to do |format|
@@ -243,9 +256,7 @@ class ProposalsController < ApplicationController
 
   def search_speakers
     @proposal = get_proposal_for_speaker_manager(params[:id], params[:speakers])
-
-    matcher = Regexp.new(params[:search].to_s, Regexp::IGNORECASE)
-    @matches = User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users
+    @matches = get_speaker_matches(params[:search])
 
     respond_to do |format|
       format.json { render :partial => "search_speakers.html.erb", :layout => false }
@@ -407,6 +418,22 @@ protected
   # Does the current theme have a success page that should be displayed when the user creates a new proposal?
   def has_theme_specific_create_success_page?
     File.exist?(theme_file('views/proposals/create.html.erb'))
+  end
+
+  # Return a sanitized Regexp for matching a speaker by name from the +query+ string.
+  def get_speaker_matcher(query)
+    string = query.gsub(/[[:punct:]]/, ' ').gsub(/\s{2,}/, ' ').strip
+    return Regexp.new(Regexp.escape(string), Regexp::IGNORECASE)
+  end
+
+  # Return an array of speakers (User records) matching the +query+ string.
+  def get_speaker_matches(query)
+    if query.blank? || ! query.match(/\w+/)
+      return []
+    else
+      matcher = get_speaker_matcher(query)
+      return(User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users)
+    end
   end
 
 end
