@@ -81,10 +81,14 @@ function bind_proposal_generic_control(kind, elements) {
     format = 'json';
     url = '/proposals/'+proposal_id+'.'+format;
 
+    data = { 'authenticity_token': window._token };
+    data[name] = value;
+    $d = data;
+
     $.ajax({
       'type': 'PUT',
       'url': url,
-      'data': 'authenticity_token='+window._token+'&'+name+'='+value,
+      'data': data,
       'dataType': format,
       'beforeSend': function(request) {
         target.attr('disabled', true);
@@ -94,12 +98,12 @@ function bind_proposal_generic_control(kind, elements) {
         page_spinner_stop();
         target.removeAttr('disabled');
       },
-      'success': function (data, textStatus) {
-        $d = data;
-        data_html_field = '_'+kind+'_control_html';
-        if (data && data[data_html_field]) {
+      'success': function (response, textStatus) {
+        $r = response;
+        html_field = '_'+kind+'_control_html';
+        if (response && response[html_field]) {
           // Extact the "option" elements from the JSON repsone's HTML and update the "select" element.
-          matcher = new RegExp('(<option[\\s\\S]+</option>)', 'gi').exec(data[data_html_field]);
+          matcher = new RegExp('(<option[\\s\\S]+</option>)', 'gi').exec(response[html_field]);
           if (matcher) {
             target.html(matcher[1]);
           }
@@ -110,12 +114,6 @@ function bind_proposal_generic_control(kind, elements) {
     return false;
   });
 }
-/*
-event = $e;
-target = $t;
-kind = $k;
-data = $d;
-*/
 
 function bind_proposal_schedule_controls() {
   $('.proposal_schedule_control_container select').change(function(event) {
