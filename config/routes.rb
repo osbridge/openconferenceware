@@ -10,8 +10,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
 
-  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
-  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers'
+  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
+  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
   
   map.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
   map.session '/sessions/:id', :controller => 'proposals', :action => 'show'
