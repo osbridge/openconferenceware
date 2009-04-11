@@ -98,7 +98,7 @@ class ProposalsController < ApplicationController
 
     @profile = @proposal.profile
     @comment = Comment.new(:proposal => @proposal, :email => current_email)
-    @display_comment_form = (! params[:commented] && ! can_edit? && accepting_proposals?) || admin?
+    @display_comment_form = (! params[:commented] && ! can_edit? && (accepting_proposals? || always_accept_proposal_comments?)) || admin?
     @focus_comment = false
 
     respond_to do |format|
