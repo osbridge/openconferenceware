@@ -41,6 +41,16 @@
       </td>
     </tr>
   <% end %>
+  <% if event_proposal_comments_toggle? %>
+    <tr>
+      <td class="label-text">
+        <label>Accepting proposal comments?</label>
+      </td>
+      <td>
+        <%= @event.accepting_proposal_comments? ? "Yes" : "No" %>
+      </td>
+    </tr>
+  <% end %>
   <tr>
     <td class="label-text">
       <label>Open text</label>
