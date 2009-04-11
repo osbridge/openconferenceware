@@ -22,7 +22,7 @@ module SettingsCheckersMixin
     # Create methods like +#event_tracks?+ as wrappers for +SETTINGS.have_event_tracks+.
     %w[
       anonymous_proposals
-      event_proposal_comments_toggle
+      event_proposal_comments_after_deadline
       event_tracks
       event_session_types
       events_picker

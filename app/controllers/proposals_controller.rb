@@ -109,7 +109,7 @@ class ProposalsController < ApplicationController
         # Display comment form if the event is accepting proposals
         accepting_proposals? || 
         # or if the settings provide a toggle and the event is accepting comments
-        (event_proposal_comments_toggle? && @event.accepting_proposal_comments?)
+        (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
        )
       )
     @focus_comment = false

@@ -65,13 +65,13 @@
         </td>
       </tr>
     <% end %>
-    <% if event_proposal_comments_toggle? %>
+    <% if event_proposal_comments_after_deadline? %>
       <tr>
         <td class="label-cell">
-          <%= f.label :accepting_proposal_comments, "Accept proposal comments?" %>
+          <%= f.label :accept_proposal_comments_after_deadline, "Accept proposal comments after deadline?" %>
         </td>
         <td>
-          <%= f.select :accepting_proposal_comments, [['Yes',true],["No",false]] %>
+          <%= f.select :accept_proposal_comments_after_deadline, [['Yes',true],["No",false]] %>
         </td>
       </tr>
     <% end %>
