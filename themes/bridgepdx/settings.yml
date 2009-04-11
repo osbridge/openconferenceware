@@ -48,3 +48,6 @@ have_proposal_start_times: true
 
 # Can proposals have statuses?
 have_proposal_statuses: true
+
+# Can users leave comments forever and ever?
+have_always_accept_proposal_comments: true
