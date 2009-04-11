@@ -235,11 +235,13 @@
     $('#add-speakers-form').submit(function (event) {
       event.preventDefault();
       query = $('#speaker-search-field').val();
-      $.get(
-        '<%= search_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
+      $.post(
+        '<%= search_proposal_speakers_path(path_record) %>', {
+          'authenticity_token': window._token,
+          'speakers': extract_speaker_frags(),
           'search': query
-        }, function(data) {
-          $('#speaker-search-results').html(data);
+        }, function(response) {
+          $('#speaker-search-results').html(response);
           bind_add_speakers();
           $("#speaker-search-field").focus();
         }
@@ -257,11 +259,13 @@
           target.removeClass('addable');
           target.addClass('spinning');
           speaker_id = target.attr('speaker_id');
-          $.get(
-            '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
+          $.post(
+            '<%= manage_proposal_speakers_path(path_record) %>', {
+              'authenticity_token': window._token,
+              'speakers': extract_speaker_frags(),
               'add': speaker_id
-            }, function(data) {
-              $('#manage-speakers').html(data);
+            }, function(response) {
+              $('#manage-speakers').html(response);
               bind_remove_speakers();
               $("#add_speaker_selector").focus();
               target.removeClass('spinning');
@@ -294,11 +298,13 @@
 
         target.removeClass('deletable');
         target.addClass('spinning');
-        $.get(
-          '<%= manage_proposal_speakers_path(path_record) %>?speakers='+extract_speaker_frags(), {
+        $.post(
+          '<%= manage_proposal_speakers_path(path_record) %>', {
+            'authenticity_token': window._token,
+            'speakers': extract_speaker_frags(),
             'remove': speaker_id
-          }, function(data) {
-            $('#manage-speakers').html(data);
+          }, function(response) {
+            $('#manage-speakers').html(response);
             bind_remove_speakers();
             $("#add_speaker_selector").focus();
           }
