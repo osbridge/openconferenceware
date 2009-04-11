@@ -20,7 +20,7 @@ proposal ||= @proposal
         <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal, :form => f} %>
       <% end %>
       <br />
-      <% if proposal_start_times? %>
+      <% if proposal_start_times? && proposal.event %>
         Start
         <%= render :partial => '/proposals/schedule_control', :locals => {:proposal => proposal, :form => f} %>
       <% end %>
