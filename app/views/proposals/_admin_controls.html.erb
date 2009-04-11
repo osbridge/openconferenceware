@@ -24,6 +24,7 @@ proposal ||= @proposal
         Start
         <%= render :partial => '/proposals/schedule_control', :locals => {:proposal => proposal, :form => f} %>
       <% end %>
+      <%= link_to("Email speaker(s)...", proposal.mailto_link) %>
     <% end %>
   </div>
 <% end %>
