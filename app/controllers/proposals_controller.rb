@@ -98,7 +98,20 @@ class ProposalsController < ApplicationController
 
     @profile = @proposal.profile
     @comment = Comment.new(:proposal => @proposal, :email => current_email)
-    @display_comment_form = (! params[:commented] && ! can_edit? && (accepting_proposals? || always_accept_proposal_comments?)) || admin?
+    @display_comment_form = \
+      # Admin can always leave comments
+      admin? || (
+       # Don't display comment form if user has just commented
+       ! params[:commented] &&
+       # Don't display comment form for the proposal owner
+       ! can_edit? && 
+       (
+        # Display comment form if the event is accepting proposals
+        accepting_proposals? || 
+        # or if the settings provide a toggle and the event is accepting comments
+        (event_proposal_comments_toggle? && @event.accepting_proposal_comments?)
+       )
+      )
     @focus_comment = false
 
     respond_to do |format|

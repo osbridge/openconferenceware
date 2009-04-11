@@ -109,7 +109,7 @@ Rails::Initializer.run do |config|
       'have_event_rooms' => false,
       'have_proposal_start_times' => false,
       'have_proposal_statuses' => false,
-      'have_always_accept_proposal_comments' => false,
+      'have_event_proposal_comments_toggle' => false,
     }
   )
 
