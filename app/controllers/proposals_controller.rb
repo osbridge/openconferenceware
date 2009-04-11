@@ -268,7 +268,7 @@ protected
 
   # Is this event accepting proposals? If not, redirect with a warning.
   def assert_accepting_proposals
-    unless accepting_proposals?
+    unless accepting_proposals? || admin?
       flash[:failure] = Snippet.content_for(:proposals_not_accepted_error)
       redirect_to @event ? event_proposals_path(@event) : proposals_path
     end
