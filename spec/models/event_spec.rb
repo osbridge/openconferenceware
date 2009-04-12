@@ -32,28 +32,14 @@ describe Event do
     it "should use cache" do
       event = events(:open)
       RAILS_CACHE.should_receive(:fetch_object).with("event_current").and_return(event)
-      Event.should_not_receive(:current_by_snippet)
       Event.should_not_receive(:current_by_deadline)
 
       Event.current.should == event
     end
 
-    it "should use snippet if not in cache" do
-      event = events(:open)
-      snippet_key = 42
-      snippet = mock(Snippet, :value => snippet_key)
-      RAILS_CACHE.delete_matched(//) # Everything
-      Snippet.should_receive(:lookup).with(Event::EVENT_CURRENT_ID_SNIPPET).and_return(snippet)
-      Event.should_receive(:lookup).with(snippet_key).and_return(event)
-      Event.should_not_receive(:current_by_deadline)
-
-      Event.current.should == event
-    end
-
-    it "should use find if not in cache or snippet" do
+    it "should use find if not in cache" do
       event = events(:open)
       RAILS_CACHE.delete_matched(//) # Everything
-      Event.should_receive(:current_by_snippet).and_return(nil)
       Event.should_receive(:current_by_deadline).and_return(event)
 
       Event.current.should == event

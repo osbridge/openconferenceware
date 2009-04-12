@@ -57,30 +57,21 @@ class Event < ActiveRecord::Base
     return [['','']] + self.dates.map{|date| [date.strftime("%B %d, %Y"), date.strftime("%Y-%m-%d")]}
   end
 
-  EVENT_CURRENT_ID_SNIPPET = "event_current_id"
   EVENT_CURRENT_CACHE_KEY = "event_current"
 
   # Return the current Event. Determines which event to return by checking to
   # see if a snippet says which is current, else tries to return the event
   # with the latest deadline, else returns a nil.
   def self.current
+    self.revive_association_classes
     return RAILS_CACHE.fetch_object(EVENT_CURRENT_CACHE_KEY) do
-      self.current_by_snippet() || self.current_by_deadline()
-    end
-  end
-
-  # Return current event by looking it up in a snippet.
-  def self.current_by_snippet
-    if snippet = Snippet.lookup(EVENT_CURRENT_ID_SNIPPET)
-      return self.lookup(snippet.value)
-    else
-      return nil
+      self.lookup(self.current_by_deadline.id)
     end
   end
 
   # Return current event by finding it by deadline.
   def self.current_by_deadline
-    return self.find(:first, :order => 'deadline desc')
+    return Event.find(:first, :order => 'deadline desc')
   end
 
   # Delete the current cached event if it's present
