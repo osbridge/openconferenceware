@@ -68,6 +68,7 @@ module AuthenticatedSystem
     def access_denied(fallback_url=login_path)
       respond_to do |accepts|
         accepts.html do
+          flash[:failure] = "Access denied, you login with enough privileges to complete that operation"
           store_location
           redirect_to(fallback_url)
         end

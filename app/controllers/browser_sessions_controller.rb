@@ -17,7 +17,7 @@ class BrowserSessionsController < ApplicationController
 
   # Process login
   def create
-    if (admin? || development_mode?) && params[:login_as]
+    if (admin? || allow_arbitrary_logins?) && params[:login_as]
       if user = User.find_by_login(params[:login_as])
         self.current_user = user
         successful_login "Logged in as #{params[:login_as]}"
@@ -44,6 +44,11 @@ class BrowserSessionsController < ApplicationController
   end
 
 protected
+
+  # Allow logins without specifying a password or nounce? Used only in development and testing.
+  def allow_arbitrary_logins?
+    return %w[development preview test].include?(RAILS_ENV)
+  end
 
   # The parameter name of "openid_url" is used rather than the Rails convention "open_id_url"
   # because that's what the specification dictates in order to get browser auto-complete working across sites

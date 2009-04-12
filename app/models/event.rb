@@ -1,18 +1,21 @@
 # == Schema Information
-# Schema version: 20090324002914
+# Schema version: 20090411093859
 #
 # Table name: events
 #
-#  id                        :integer         not null, primary key
-#  title                     :string(255)     
-#  deadline                  :datetime        
-#  open_text                 :text            
-#  closed_text               :text            
-#  created_at                :datetime        
-#  updated_at                :datetime        
-#  proposal_status_published :boolean         not null
-#  session_text              :text            
-#  tracks_text               :text            
+#  id                                      :integer         not null, primary key
+#  title                                   :string(255)     
+#  deadline                                :datetime        
+#  open_text                               :text            
+#  closed_text                             :text            
+#  created_at                              :datetime        
+#  updated_at                              :datetime        
+#  proposal_status_published               :boolean         not null
+#  session_text                            :text            
+#  tracks_text                             :text            
+#  start_date                              :datetime        
+#  end_date                                :datetime        
+#  accept_proposal_comments_after_deadline :boolean         
 #
 
 class Event < ActiveRecord::Base
