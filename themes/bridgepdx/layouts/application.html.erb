@@ -21,9 +21,9 @@
   <%= yield :stylesheets %>
 
   <!-- Dynamic styles -->
-  <% if event_tracks? %>
+  <% if @event && event_tracks? %>
     <style type="text/css" media="screen">
-      <% for track in Track.find(:all) %>
+      <% for track in @event.tracks %>
         /* <%= track.title %> */
         .<%= track_css_class(track) %> { color: <%= track.color %>; }
         .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
