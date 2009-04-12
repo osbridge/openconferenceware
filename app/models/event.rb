@@ -97,4 +97,14 @@ class Event < ActiveRecord::Base
       self.proposals
     end
   end
+
+  # Return an array of this Event's Proposals with their Tracks for use by proposals#stats.
+  def proposals_for_stats
+    return self.proposals.find(
+      :all, 
+      :order => "created_at", 
+      :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at", 
+      :include => [:track])
+  end
+
 end
