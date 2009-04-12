@@ -11,7 +11,3 @@ When /^I destroy a comment$/ do
   @comment = @proposal.comments.first
   delete comment_path(@comment)
 end
-
-Then /^I should get a "([^\"]*)" notification$/ do |kind|
-  flash[kind.to_sym].should_not be_blank
-end

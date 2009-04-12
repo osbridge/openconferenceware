@@ -9,6 +9,10 @@ module NavigationHelpers
       @proposal = Proposal.find(Fixtures.identify(:clio_chupacabras))
       proposal_path(@proposal)
 
+    when /a proposal accepting comments/
+      @proposal = Proposal.find(Fixtures.identify(:aaron_aardvarks))
+      proposal_path(@proposal)
+
     # Add more page name => path mappings here
 
     else
