@@ -31,7 +31,7 @@ describe Event do
   context "when finding current event" do
     it "should use cache" do
       event = events(:open)
-      RAILS_CACHE.should_receive(:fetch_object).with("event_current").and_return(event)
+      Event.should_receive(:fetch_object).with("event_current").and_return(event)
       Event.should_not_receive(:current_by_deadline)
 
       Event.current.should == event
