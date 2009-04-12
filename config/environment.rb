@@ -12,6 +12,10 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
   # Gems that are needed for development
+  config.gem "rspec", :lib => false, :version => ">=1.2.2"
+  config.gem "rspec-rails", :lib => false, :version => ">=1.2.2"
+  config.gem "webrat", :lib => false, :version => ">=0.4.3"
+  config.gem "cucumber", :lib => false, :version => ">=0.2.2"
   config.gem "sqlite3-ruby", :lib => false
   config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
   config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
