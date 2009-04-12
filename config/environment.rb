@@ -11,16 +11,18 @@ RAILS_GEM_VERSION = '~> 2.1.0' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-
+  # Gems that are needed for development
   config.gem "sqlite3-ruby", :lib => false
   config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
   config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
-  config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "right_aws", :lib => false # we aren't actually using AWS, but paperclip can, so it requires it.
+
+  # Gems to load into the environment
+  config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
+  config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
   config.gem "gchartrb", :lib => "google_chart"
-  config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
   config.gem "RedCloth"
 
   # Settings in config/environments/* take precedence over those specified here.
