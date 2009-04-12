@@ -200,7 +200,7 @@ protected
       if request.path.match(%r{^/events})
         return false
       else
-        prefix = ActionController::AbstractRequest.relative_url_root
+        prefix = request.relative_url_root
         path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
         flash.keep
         return redirect_to(path)
