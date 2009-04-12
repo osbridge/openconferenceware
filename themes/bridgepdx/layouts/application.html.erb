@@ -12,7 +12,7 @@
   <% end %>
 
   <!-- Stylesheets -->
-  <% if %w[preview production].include?(RAILS_ENV) %>
+  <% if %w[preview production].include?(RAILS_ENV) && ENV['LOCALCSS'].blank? %>
     <%= stylesheet_link_tag '/common/osbp_common_v3.css' %>
   <% else %>
     <%= theme_stylesheet_link_tag 'common_css/osbp_common_v3.css' %>
