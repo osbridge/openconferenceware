@@ -24,3 +24,13 @@ Before do
   Fixtures.create_fixtures(fixtures_folder, fixtures)
 end
 
+# Return the boolean for the given string, e.g., "y" is true.
+def boolean_for(truth)
+  case truth
+  when true, /^y/i, /^t/i
+    true
+  else
+    false
+  end
+end
+
