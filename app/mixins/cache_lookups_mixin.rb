@@ -55,7 +55,7 @@ module CacheLookupsMixin
       silo = self.lookup_silo_name
       dict = nil
       ActiveRecord::Base.benchmark("Lookup: #{silo}#{key.ergo{'#'+to_s}}") do
-        dict = RAILS_CACHE.fetch_object(silo){
+        dict = self.fetch_object(silo){
           # FIXME Exceptions within this block are silently swallowed by something. This is bad.
           self.find(:all, self.lookup_opts).inject(Dictionary.new){|s,v| s[v.send(self.lookup_key)] = v; s}
         }
@@ -64,8 +64,25 @@ module CacheLookupsMixin
     end
 
     def expire_cache
-      RAILS_DEFAULT_LOGGER.info("#{self.to_s}: expiring cache")
-      RAILS_CACHE.delete_matched(/#{lookup_silo_name}_.+/)
+      Rails.logger.info("Lookup, expiring: #{self.name}")
+      Observist.expire(/#{lookup_silo_name}_.+/)
+    end
+
+    def fetch_object(silo, &block)
+      self.revive_associations_for(self)
+      method = Rails.cache.respond_to?(:fetch_object) ? :fetch_object : :fetch
+      return Rails.cache.send(method, silo, &block)
+    end
+
+    def revive_associations_for(object)
+      if object.kind_of?(ActiveRecord::Base) || object.ancestors.include?(ActiveRecord::Base)
+        object.reflect_on_all_associations.each do |association|
+          name = association.class_name
+          unless object.constants.include?(name)
+            name.constantize # This line forces Rails to load this class
+          end
+        end
+      end
     end
   end
 
