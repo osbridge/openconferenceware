@@ -8,14 +8,8 @@ class Observist < ActiveRecord::Observer
 
   def self.expire(*args)
     RAILS_DEFAULT_LOGGER.info("Observist: expiring cache")
-    # XXX move expiration into models and call their methods if they respond?
     # FIXME Why does the tmp/cache/RAILS_ENV directory vanish periodically, and the delete_matched methods care about this?
-    RAILS_CACHE.delete_matched(/proposals?_.+/) rescue nil
-    RAILS_CACHE.delete_matched(/snippets?_.+/) rescue nil
-    RAILS_CACHE.delete_matched(/events?_.+/) rescue nil
-    RAILS_CACHE.delete_matched(/tracks?_.+/) rescue nil
-    RAILS_CACHE.delete_matched(/users?_.+/) rescue nil
-    RAILS_CACHE.delete_matched(/proposals_users?_.+/) rescue nil
+    RAILS_CACHE.delete_matched(//)
   end
 
   def expire(*args)
