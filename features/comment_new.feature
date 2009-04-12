@@ -1,5 +1,5 @@
-Feature: Comments form
-  In order to use the comments form
+Feature: Comment new
+  In order to display the new comment form
   As someone
   I want to see the comments form at appropriate times
 
