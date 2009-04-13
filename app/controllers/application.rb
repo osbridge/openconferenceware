@@ -46,6 +46,18 @@ protected
   end
   helper_method :current_email
 
+  # Return a cache key for the currently authenticated or anonymous user.
+  def current_user_cache_key
+    return logged_in? ? current_user.id : 0
+  end
+  helper_method :current_user_cache_key
+
+  # Return a cache key for the current event.
+  def current_event_cache_key
+    return @event ? @event.id : -1
+  end
+  helper_method :current_event_cache_key
+
   # Are we running in a development mode?
   def development_mode?
     return %w[development preview].include?(RAILS_ENV)
@@ -195,11 +207,13 @@ protected
 
   # Redirect the user to the canonical event path if they're visiting a path that doesn't start with '/events'.
   def normalize_event_path_or_redirect
+    # When running under a prefix (e.g., "thin --prefix /omg start"), this value will be set to "/omg", else "".
     if request.format.to_sym == :html
       if request.path.match(%r{^/events})
         return false
       else
-        path = "/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        prefix = request.relative_url_root
+        path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
         flash.keep
         return redirect_to(path)
       end

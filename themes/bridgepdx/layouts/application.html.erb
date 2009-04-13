@@ -12,7 +12,7 @@
   <% end %>
 
   <!-- Stylesheets -->
-  <% if %w[preview production].include?(RAILS_ENV) %>
+  <% if %w[preview production].include?(RAILS_ENV) && ENV['LOCALCSS'].blank? %>
     <%= stylesheet_link_tag '/common/osbp_common_v3.css' %>
   <% else %>
     <%= theme_stylesheet_link_tag 'common_css/osbp_common_v3.css' %>
@@ -21,14 +21,16 @@
   <%= yield :stylesheets %>
 
   <!-- Dynamic styles -->
-  <% if event_tracks? %>
+  <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
+  <% if @event && event_tracks? %>
     <style type="text/css" media="screen">
-      <% for track in Track.find(:all) %>
+      <% for track in @event.tracks %>
         /* <%= track.title %> */
         .<%= track_css_class(track) %> { color: <%= track.color %>; }
         .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
       <% end %>
     </style>
+  <% end %>
   <% end %>
 
   <!-- Scripts -->
@@ -51,7 +53,7 @@
              <h2>The conference for open source citizens</h2>
              <p id='conference-date-location'>June 17&ndash;19, 2009 <span class='separator'>|</span> Portland, Oregon</p>
           </div>
-          <a href='/attend' title='Early bird discount ends April 10th. Register today!' id="header-reg-now">Register now and save!</a>
+          <a href='/attend' title='Register today!' id="header-reg-now">Register today!</a>
         </div>
       </div>
 
@@ -109,7 +111,7 @@
 
         <div id="primary" class="sidebar">
           <div class='register-callout'>
-             Registration is only <strong>$175</strong> until <strong>April 10th</strong>.
+             Registration is only <strong>$250</strong> for three days.
              <a href='/attend' class='register-button'>Register Today</a>
           </div>
           <ul class="xoxo">
@@ -124,6 +126,7 @@
                 </ul>
               </li>
 
+              <% cache "layout,my_proposals,user_#{current_user.id},event_#{current_event_cache_key}" do %>
               <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
                 <li id='my-proposals'>
                   <h3>My proposals</h3>
@@ -138,6 +141,7 @@
                     <% end %>
                   </ul>
                 </li>
+              <% end %>
               <% end %>
 
               <% if admin? %>

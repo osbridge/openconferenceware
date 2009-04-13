@@ -5,7 +5,7 @@
 proposal ||= @proposal
 %>
 
-<% if admin? %>
+<% if admin? && ! proposal.new_record? %>
   <% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
 
   <div class="admin-only">
@@ -20,10 +20,11 @@ proposal ||= @proposal
         <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal, :form => f} %>
       <% end %>
       <br />
-      <% if proposal_start_times? %>
+      <% if proposal_start_times? && proposal.event %>
         Start
         <%= render :partial => '/proposals/schedule_control', :locals => {:proposal => proposal, :form => f} %>
       <% end %>
+      <%= link_to("Email speaker(s)...", proposal.mailto_link) %>
     <% end %>
   </div>
 <% end %>

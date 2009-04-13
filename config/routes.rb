@@ -10,8 +10,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
 
-  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
-  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers'
+  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
+  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
   
   map.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
   map.session '/sessions/:id', :controller => 'proposals', :action => 'show'
@@ -46,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :browser_session, :collection => ["admin"]
 
   # Install the default routes as the lowest priority.
+  # TODO Disable default routes, they're dangerous.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
 

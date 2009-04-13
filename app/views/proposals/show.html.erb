@@ -10,7 +10,7 @@
 
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
+<% cache "proposal_#{@proposal.id},edit_#{can_edit?}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -133,12 +133,14 @@
 <% end %>
 
 <% if admin? %>
+  <% cache "proposal_#{@proposal.id},comments_list" do %>
   <h3>Comments</h3>
   <%= render :partial => 'comments/list', :locals => { :comments => @proposal.comments }%>
+  <% end %>
 <% end %>
 
 <% if @display_comment_form %>
-  <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
+  <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:id => "comment-form", :class => "standard-form"}) do |f| %>
     <%= f.hidden_field :proposal_id %>
     <h4>Leave a private comment to organizers about this proposal</h4>
     <table class="standard-form">

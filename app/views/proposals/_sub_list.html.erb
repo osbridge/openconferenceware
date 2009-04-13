@@ -1,11 +1,11 @@
 <%
 # Variables:
-# * container => ActiveRecord instance that has #proposals, e.g., a User.
-# * title => Title of the container, e.g., "user", or leave blank to guess based on container's class.
-# * sorter => Display the sort toolbar? Defaults to false.
-
-title  = local_assigns[:title]
-sorter = local_assigns[:title]
+## ActiveRecord instance that has #proposals, e.g., a User. REQUIRED.
+container = local_assigns[:container]
+## Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
+title     = local_assigns[:title]
+## Display the sort toolbar? Optional, defaults to false.
+sorter    = local_assigns[:sorter]
 %>
 
 <%= render :partial => "proposals/sub_list_for_kind", :locals => {:kind => :sessions, :container => container, :title => title, :sorter => sorter} %>

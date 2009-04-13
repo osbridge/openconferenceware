@@ -87,7 +87,7 @@ Dependencies
 
         git clone git://github.com/igal/openconferenceware.git
 
-3. Install Ruby 1.8.6: [ftp://ftp.ruby-lang.org/pub/ruby/1.8/](ftp://ftp.ruby-lang.org/pub/ruby/1.8/)
+3. Install Ruby 1.8.6 or 1.8.7: [ftp://ftp.ruby-lang.org/pub/ruby/1.8/](ftp://ftp.ruby-lang.org/pub/ruby/1.8/)
 
 4. Install RubyGems 1.3.x: <http://rubyforge.org/forum/forum.php?forum_id=28071>
 

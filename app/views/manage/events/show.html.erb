@@ -41,6 +41,16 @@
       </td>
     </tr>
   <% end %>
+  <% if event_proposal_comments_after_deadline? %>
+    <tr>
+      <td class="label-text">
+        <label>Accept proposal comments after deadline?</label>
+      </td>
+      <td>
+        <%= @event.accept_proposal_comments_after_deadline? ? "Yes" : "No" %>
+      </td>
+    </tr>
+  <% end %>
   <tr>
     <td class="label-text">
       <label>Open text</label>
