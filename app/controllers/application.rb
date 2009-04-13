@@ -52,6 +52,12 @@ protected
   end
   helper_method :current_user_cache_key
 
+  # Return a cache key for the current event.
+  def current_event_cache_key
+    return @event ? @event.id : -1
+  end
+  helper_method :current_event_cache_key
+
   # Are we running in a development mode?
   def development_mode?
     return %w[development preview].include?(RAILS_ENV)
