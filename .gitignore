@@ -7,6 +7,7 @@
 .hgtags
 README.html
 config/*.bak
+config/database~custom.yml
 config/secrets.yml
 config/theme.txt
 coverage.*
