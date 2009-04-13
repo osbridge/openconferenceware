@@ -124,6 +124,7 @@
                 </ul>
               </li>
 
+              <% cache "layout,my_proposals,user_#{current_user.id},event_#{current_event_cache_key}" do %>
               <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
                 <li id='my-proposals'>
                   <h3>My proposals</h3>
@@ -138,6 +139,7 @@
                     <% end %>
                   </ul>
                 </li>
+              <% end %>
               <% end %>
 
               <% if admin? %>
