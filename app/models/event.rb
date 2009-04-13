@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   # Mixins
   ### Provide cached Snippet.lookup(id) method.
   include CacheLookupsMixin
-  cache_lookups_for :id, :order => 'deadline desc'
+  cache_lookups_for :id, :order => 'deadline desc', :include => [:tracks, :rooms]
 
   # Associations
   has_many :proposals, :order => 'submitted_at desc'
@@ -57,30 +57,20 @@ class Event < ActiveRecord::Base
     return [['','']] + self.dates.map{|date| [date.strftime("%B %d, %Y"), date.strftime("%Y-%m-%d")]}
   end
 
-  EVENT_CURRENT_ID_SNIPPET = "event_current_id"
   EVENT_CURRENT_CACHE_KEY = "event_current"
 
   # Return the current Event. Determines which event to return by checking to
   # see if a snippet says which is current, else tries to return the event
   # with the latest deadline, else returns a nil.
   def self.current
-    return RAILS_CACHE.fetch_object(EVENT_CURRENT_CACHE_KEY) do
-      self.current_by_snippet() || self.current_by_deadline()
-    end
-  end
-
-  # Return current event by looking it up in a snippet.
-  def self.current_by_snippet
-    if snippet = Snippet.lookup(EVENT_CURRENT_ID_SNIPPET)
-      return self.lookup(snippet.value)
-    else
-      return nil
+    return self.fetch_object(EVENT_CURRENT_CACHE_KEY) do
+      self.lookup(self.current_by_deadline.id)
     end
   end
 
   # Return current event by finding it by deadline.
   def self.current_by_deadline
-    return self.find(:first, :order => 'deadline desc')
+    return Event.find(:first, :order => 'deadline desc')
   end
 
   # Delete the current cached event if it's present
@@ -96,7 +86,7 @@ class Event < ActiveRecord::Base
 
   # Returns cached array of proposals for this event.
   def lookup_proposals
-    return RAILS_CACHE.fetch_object("proposals_for_event_#{self.id}") do
+    self.fetch_object("proposals_for_event_#{self.id}") do
       self.proposals
     end
   end

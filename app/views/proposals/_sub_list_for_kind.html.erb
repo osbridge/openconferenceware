@@ -1,23 +1,27 @@
 <%
 # Variables:
-# * container => ActiveRecord instance that has #proposals, e.g., a User.
-# * title => Title of the container, e.g., "user", or leave blank to guess based on container's class.
-# * sorter => Display the sort toolbar? Defaults to false.
-# * kind => :sessions or :proposals
-
-title  = local_assigns[:title]
-sorter = local_assigns[:title]
-
-records = \
-  case kind
-  when :proposals then container.proposals.unconfirmed
-  when :sessions then container.proposals.confirmed
-  else raise TypeError, "Unknown kind: #{kind}"
-  end
+## Kind of records to list, e.g, :sessions or :proposals. REQUIRED.
+kind      = local_assigns[:kind]
+## ActiveRecord instance that has #proposals, e.g., a User. REQUIRED.
+container = local_assigns[:container]
+## Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
+title     = local_assigns[:title]
+## Display the sort toolbar? Optional, defaults to false.
+sorter    = local_assigns[:sorter]
 %>
 
-<% unless records.blank? %>
-  <h3><%= kind.to_s.titleize %> for this <%= title || container.class.name.singularize.humanize.downcase %></h3>
-  <%= render :partial => "proposals/list", :locals => {:kind => kind, :records => records, :sorter => sorter} %>
-<% end %>
+<% cache "proposals,sub_list_for_kind,kind_#{kind},container_#{container.class.name}_#{container.id},title_#{title.hash},sorter_#{sorter.hash},admin_#{admin?}" do %>
+  <%
+    records = \
+      case kind
+      when :proposals then container.proposals.unconfirmed
+      when :sessions then container.proposals.confirmed
+      else raise TypeError, "Unknown kind: #{kind}"
+      end
+  %>
 
+  <% unless records.blank? %>
+    <h3><%= kind.to_s.titleize %> for this <%= title || container.class.name.singularize.humanize.downcase %></h3>
+    <%= render :partial => "proposals/list", :locals => {:kind => kind, :records => records, :sorter => sorter} %>
+  <% end %>
+<% end %>

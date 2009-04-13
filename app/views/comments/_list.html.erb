@@ -1,4 +1,12 @@
-<% proposal_links ||= false %>
+<%
+# SUMMARY: Displays a list of comments
+#
+# Variables
+## Comments to display. REQUIRED.
+comments = local_assigns[:comments]
+## Display links to comments proposals'? Optional, defaults to false.
+proposal_links = local_assigns[:proposal_links]
+%>
 
 <% if comments.blank? %>
   <div class="empty-text">&mdash; No comments &mdash;</div>
