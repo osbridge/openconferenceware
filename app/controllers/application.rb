@@ -46,6 +46,12 @@ protected
   end
   helper_method :current_email
 
+  # Return a cache key for the currently authenticated or anonymous user.
+  def current_user_cache_key
+    return logged_in? ? current_user.id : 0
+  end
+  helper_method :current_user_cache_key
+
   # Are we running in a development mode?
   def development_mode?
     return %w[development preview].include?(RAILS_ENV)
