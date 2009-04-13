@@ -1,32 +1,37 @@
-# = Capistrano deployment for Ignite Proposals application
+# = Capistrano deployment for OpenConferenceWare instances
 #
 # To deploy the application using Capistrano, you must:
 #
-#  1. Create a "config/secrets.yml" file from the "config/secrets.yml.sample"
-#     file. This will be will be uploaded to the servers by the "deploy:setup"
-#     step. Do not simply run using the default because it uses publicly-known
-#     keys that will let others compromise your application, and you will also
-#     not be notified of exceptions. That would be bad.
+#  1. Install Capistrano and the multistage extension on your local machine:
+#       sudo gem install capistrano capistrano-ext
 #
-#  2. Install the Capistrano multistage extension on the machine running the
-#     `cap` command:
-#       sudo gem install capistrano-ext
+#  2. Create or use a stage file as defined in the "config/deploy/" directory.
+#     Read the other files in that directory for ideas. You will need to use
+#     the name of your configuration in all remote calls. E.g., if you created
+#     a "config/deploy/mysite.rb" (thus "mysite"), you will run commands like
+#     "cap mysite deploy" to deploy using your "mysite" configuration.
 #
-#  3. Create or use a stage file as defined in the "config/deploy/" directory.
-#     Read the other files in that directory for ideas.
+#  3. Setup your server if this is the first time you're deploying, e.g.,:
+#       cap mysite deploy:setup
 #
-#  4. Specify the stage in all your deploy calls, e.g.,:
-#       cap igniteportland deploy
+#  4. Create the "shared/config/secrets.yml" on your server to store secret
+#     information. See the "config/secrets.yml.sample" file for details. If you
+#     try deploying to a server without this file, you'll get instructions with
+#     the exact path to put this file on the server.
 #
-#  5. Setup your servers if this is the first time you're deploying, e.g.,:
-#       cap igniteportland deploy:setup
+#  5. Create the "shared/config/database.yml" on your server with the database
+#     configuration. This file must contain absolute paths if you're using
+#     SQLite. If you try deploying to a server without this file, you'll get
+#     instructions with the exact path to put this file on the server.
 #
 #  6. Push your revision control changes and then deploy, e.g.,:
-#       cap igniteproposals deploy
+#       cap mysite deploy
 #
 #  7. If you have migrations that need to be applied, deploy with them, e.g.,:
-#       cap igniteproposals deploy:migrations
-
+#       cap mysite deploy:migrations
+#
+#  8. If you deployed a broken revision, you can rollback to the previous, e.g.,:
+#       cap mysite deploy:rollback
 ssh_options[:compression] = false
 
 set :application, "openproposals"
@@ -59,19 +64,40 @@ namespace :deploy do
     run "mkdir -p #{shared_path}/db"
   end
 
-  desc "Upload config/secrets.yml to server's shared directory"
-  task :upload_secrets_yml do
-    put File.read("config/secrets.yml"), "#{shared_path}/config/secrets.yml", :mode => 0664
+  desc "Set the application's secrets"
+  task :secrets_yml do
+    source = "#{shared_path}/config/secrets.yml"
+    target = "#{release_path}/config/secrets.yml"
+    begin
+      run %{if test ! -f #{source}; then exit 1; fi}
+      run %{ln -nsf #{source} #{target}}
+    rescue Exception => e
+      puts <<-HERE
+ERROR!  You must have a file on your server to store secret information.
+        See the "config/secrets.yml.sample" file for details on this.
+        You will need to upload your completed file to your server at:
+            #{source}
+      HERE
+      raise e
+    end
   end
 
   desc "Generate database.yml"
   task :database_yml do
-    run %{ruby -p -i.bak -e '$_.gsub!(%r{database: db/}, "database: #{shared_path}/db/")' #{release_path}/config/database.yml}
-  end
-
-  desc "Set the application's secrets"
-  task :secrets_yml do
-    run "ln -nsf #{shared_path}/config/secrets.yml #{release_path}/config/secrets.yml"
+    source = "#{shared_path}/config/database.yml"
+    target = "#{release_path}/config/database.yml"
+    begin
+      run %{if test ! -f #{source}; then exit 1; fi}
+      run %{ln -nsf #{source} #{target}}
+    rescue Exception => e
+      puts <<-HERE
+ERROR!  You must have a file on your server with the database configuration.
+        This file must contain absolute paths if you're using SQLite.
+        You will need to upload your completed file to your server at:
+            #{source}
+      HERE
+      raise e
+    end
   end
 
   desc "Set the application's theme"
@@ -87,7 +113,6 @@ end
 
 # After setup
 after "deploy:setup", "deploy:prepare_shared"
-after "deploy:setup", "deploy:upload_secrets_yml"
 
 # After finalize_update
 after "deploy:finalize_update", "deploy:database_yml"
