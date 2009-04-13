@@ -1,8 +1,12 @@
 class Observist < ActiveRecord::Observer
   observe \
-    Proposal,
-    Snippet,
+    Comment,
     Event,
+    Proposal,
+    ProposalsUser,
+    Room,
+    SessionType,
+    Snippet,
     Track,
     User
 
