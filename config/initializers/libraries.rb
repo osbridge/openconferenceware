@@ -8,4 +8,5 @@ require 'facets/kernel/with'
 # Local libraries
 require 'lib/ext/active_support_cache_object'
 require 'lib/ext/object_logit'
+require 'lib/ext/active_record_quoting_fix'
 
