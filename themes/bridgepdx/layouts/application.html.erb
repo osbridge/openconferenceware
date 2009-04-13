@@ -21,6 +21,7 @@
   <%= yield :stylesheets %>
 
   <!-- Dynamic styles -->
+  <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
   <% if @event && event_tracks? %>
     <style type="text/css" media="screen">
       <% for track in @event.tracks %>
@@ -29,6 +30,7 @@
         .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
       <% end %>
     </style>
+  <% end %>
   <% end %>
 
   <!-- Scripts -->
