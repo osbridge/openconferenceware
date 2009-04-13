@@ -8,11 +8,11 @@
 <% page_title "#{@event.title} #{@kind}" %>
 
 <%
-cache_key = "#{@kind}_index_#{@event.id}"
-cache_key << "_#{params[:sort]}_#{params[:dir]}" if params[:sort]
+cache_key = "#{@kind}_index,event_#{@event.id},admin_#{admin?}"
+cache_key << ",params_#{params[:sort]}_#{params[:dir]}" if params[:sort]
 %>
 
-<% cache_if(!logged_in?, cache_key) do %>
+<% cache cache_key do %>
   <div>
     <% if @kind == :proposals %>
       <% if accepting_proposals? %>
