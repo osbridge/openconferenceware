@@ -1,5 +1,6 @@
 <% page_title "#{@track.title} track" %>
 
+<% cache "track_#{@track.id},admin_#{admin?}" do %>
 <div id="track-show">
   <span class="description"><%= textilize @track.description %></span>
   
@@ -12,3 +13,4 @@
 
   <%= render :partial => "proposals/sub_list", :locals => {:container => @track} %>
 </div>
+<% end %>
