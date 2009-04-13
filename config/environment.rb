@@ -72,11 +72,6 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
   config.active_record.observers = :observist unless ENV['SAFE']
 
-  # Setup caching
-  ::CACHE_FILE_STORE_PATH = "#{RAILS_ROOT}/tmp/cache/#{RAILS_ENV}"
-  FileUtils.mkdir_p CACHE_FILE_STORE_PATH
-  config.cache_store = :file_store, CACHE_FILE_STORE_PATH
-
   # Make Active Record use UTC-base instead of local time
   config.active_record.default_timezone = :utc
 
@@ -131,4 +126,8 @@ Rails::Initializer.run do |config|
     :session_key => SECRETS.session_name || "openproposals",
     :secret => SECRETS.session_secret,
   }
+
+  # Setup cache
+  require 'rails_cache_configurator'
+  RailsCacheConfigurator.apply(config)
 end

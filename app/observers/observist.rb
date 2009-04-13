@@ -11,8 +11,16 @@ class Observist < ActiveRecord::Observer
     User
 
   def self.expire(*args)
-    RAILS_DEFAULT_LOGGER.info("Observist: expiring cache")
-    RAILS_CACHE.delete_matched(//)
+    pattern = args.first || //
+    Rails.logger.info("Observist: expiring cache")
+    case Rails.cache
+    when ActiveSupport::Cache::MemCacheStore
+      Rails.cache.instance_variable_get(:@data).flush_all
+    when ActiveSupport::Cache::FileStore
+      Rails.cache.delete_matched(pattern)
+    else
+      raise NotImplementedError, "Don't know how to expire cache: #{Rails.cache.class.name}"
+    end
   end
 
   def expire(*args)
