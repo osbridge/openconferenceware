@@ -35,7 +35,7 @@ class Proposal < ActiveRecord::Base
 
   # Provide ::lookup
   include CacheLookupsMixin
-  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
+  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags
   acts_as_taggable_on :tags
