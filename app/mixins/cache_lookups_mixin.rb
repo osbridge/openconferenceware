@@ -45,8 +45,9 @@ module CacheLookupsMixin
       self.lookup_opts = opts
     end
 
+    # Return silo that this class's values will be stored in.
     def lookup_silo_name
-      return "#{self.name.tableize}_dict"
+      return "#{self.name.gsub('::', '__')}_dict"
     end
 
     # Return instance from cache matching +key+. If +key+ is undefined, returns
