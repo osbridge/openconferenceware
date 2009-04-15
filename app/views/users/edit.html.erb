@@ -23,20 +23,18 @@
         </td>
       </tr>
     <% end %>
-    <tr>
-      <td class="label-cell">
-        <label>Login</label>
-      </td>
-      <td class="data-cell">
-        <p>
-          <% if admin? %>
+    <% if admin? %>
+      <tr>
+        <td class="label-cell">
+          <label>Login</label>
+        </td>
+        <td class="data-cell">
+          <p>
             <%= f.text_field :login %>
-          <% else %>
-            <%= @user.login %>
-          <% end %>
-        </p>
-      </td>
-    </tr>
+          </p>
+        </td>
+      </tr>
+    <% end %>
     <% if admin? || can_edit? %>
       <tr>
         <td class="label-cell">
