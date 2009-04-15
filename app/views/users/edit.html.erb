@@ -23,29 +23,23 @@
         </td>
       </tr>
     <% end %>
-    <tr>
-      <td class="label-cell">
-        <label>Login</label>
-      </td>
-      <td class="data-cell">
-        <p>
-          <% if admin? %>
-            <%= f.text_field :login %>
-          <% else %>
-            <%= @user.login %>
-          <% end %>
-        </p>
-      </td>
-    </tr>
+    <% if admin? %>
+      <tr>
+        <td class="label-cell">
+          <label>Login</label>
+        </td>
+        <td class="data-cell">
+          <%= f.text_field :login %>
+        </td>
+      </tr>
+    <% end %>
     <% if admin? || can_edit? %>
       <tr>
         <td class="label-cell">
           <label><%= required_field if @user.complete_profile %>Email (kept private)</label>
         </td>
         <td class="data-cell">
-          <p>
-            <%= f.text_field :email %>
-          </p>
+          <%= f.text_field :email %>
         </td>
       </tr>
     <% end %>
@@ -54,9 +48,7 @@
         <label><%= required_field if @user.complete_profile %>First Name</label>
       </td>
       <td class="data-cell">
-        <p>
-          <%= f.text_field :first_name %>
-        </p>
+        <%= f.text_field :first_name %>
       </td>
     </tr>
     <tr>
@@ -64,9 +56,7 @@
         <label><%= required_field if @user.complete_profile %>Last Name</label>
       </td>
       <td class="data-cell">
-        <p>
-          <%= f.text_field :last_name %>
-        </p>
+        <%= f.text_field :last_name %>
       </td>
     </tr>
     <tr>
@@ -74,9 +64,7 @@
         <label>Affiliation</label>
       </td>
       <td class="data-cell">
-        <p>
-          <%= f.text_field :affiliation %>
-        </p>
+        <%= f.text_field :affiliation %>
       </td>
     </tr>
     <tr>
@@ -84,9 +72,7 @@
         <label>Website</label>
       </td>
       <td class="data-cell">
-        <p>
-          <%= f.text_field :website %>
-        </p>
+        <%= f.text_field :website %>
       </td>
     </tr>
     <tr>
