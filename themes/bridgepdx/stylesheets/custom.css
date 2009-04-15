@@ -568,6 +568,10 @@ ul.speakers .note li {
 	left: 1em;
 }
 
+#speaker-selector #complete_profile_user_url {
+	width: 100%;
+}
+
 /* @end */
 
 /* @end */

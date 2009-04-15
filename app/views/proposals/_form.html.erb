@@ -12,6 +12,9 @@
     <div id='speaker-selector'>
       <h3>Speakers for this presentation</h3>
       <div id='add-speakers'>
+        <p id='add-speakers-tip' class="hidden">
+          <a href="#">Add another speaker to your proposal...</a>
+        </p>
         <form id='add-speakers-form' action='#' method='get'>
           <label for='speaker-search-field'>Search for a speaker to add:</label>
           <input type="text" name="search" value="" id="speaker-search-field" />
@@ -20,7 +23,8 @@
             <%= render :partial => 'proposals/search_speakers' %>
           </div>
           <p class='where-is-everyone'>
-            Can't find the person you're searching for? Ask them to complete a profile so you can add them.
+            Can't find the person you want to add? Ask them to complete a speaker profile. Click the link in the box below to select it, copy it to your clipboard, ask them to visit this link to complete their speaker profile, and then add them:
+            <%= text_field_tag(:complete_profile_user_url, complete_profile_user_url("me"), :readonly => true) %>
           </p>
         </form>
       </div>
@@ -216,6 +220,22 @@
 <% content_for :javascript do %>
   <% path_record = @proposal.new_record? ? "new_record" : @proposal %>
   $(document).ready(function() {
+    /*---[ Styling ]------------------------------------------------------*/
+
+    // Hide the speaker form and display a short tip instead.
+    $('#add-speakers-tip').removeClass('hidden').click(function (event) {
+      $(this).addClass('hidden');
+      $('#add-speakers-form').removeClass('hidden');
+      return false;
+    });
+    $('#add-speakers-form').addClass('hidden');
+
+    // Make URL clickable
+    $('#complete_profile_user_url').click(function (event) {
+      $(this).select();
+      return false;
+    });
+
     /*---[ Form-level ]---------------------------------------------------*/
 
     // Speaker extractor
