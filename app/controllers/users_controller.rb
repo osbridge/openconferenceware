@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin unless user_profiles?
 
-  before_filter :require_user, :only => [:show, :edit, :update, :destroy]
+  before_filter :require_user, :only => [:show, :edit, :update, :destroy, :complete_profile]
 
   def index
     add_breadcrumb 'Users'
@@ -55,10 +55,10 @@ class UsersController < ApplicationController
       end
 
       if @user.update_attributes(params[:user])
-        flash[:success] = "Updated user."
+        flash[:success] = "Updated user profile."
         return redirect_back_or_to(user_path(@user))
       else
-        flash[:failure] = "Please complete your profile."
+        flash[:failure] = "Please complete user profile."
         render :action => "edit"
       end
     else
@@ -75,6 +75,16 @@ class UsersController < ApplicationController
       flash[:failure] = "Sorry, you don't have permission to delete this user: #{@user.label}"
     end
     return redirect_back_or_to(users_path)
+  end
+
+  def complete_profile
+    if current_user.complete_profile
+      flash[:notice] = "Thank you, you have a complete user profile."
+      redirect_to(user_path(current_user))
+    else
+      flash[:notice] = "Please complete your user profile."
+      redirect_to(edit_user_path(current_user, :require_complete_profile => true))
+    end
   end
 
 protected

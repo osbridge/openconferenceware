@@ -38,7 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   map.m1ss  '/m1ss',  :controller => 'proposals', :action => 'm1ss'
 
   # Authentication
-  map.resources :users, :requirements => { :id => /\w+/ }
+  map.resources :users, :member => { :complete_profile => :get }, :requirements => { :id => /\w+/ }
   map.open_id_complete '/browser_session', :controller => "browser_sessions", :action => "create", :requirements => { :method => :get }
   map.login            '/login',  :controller => 'browser_sessions', :action => 'new'
   map.logout           '/logout', :controller => 'browser_sessions', :action => 'destroy'
