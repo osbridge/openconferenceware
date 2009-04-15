@@ -81,11 +81,19 @@ protected
 
   # Sets @user based on params[:id] and adds related breadcrumbs.
   def require_user
-    begin
-      @user = User.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      flash[:failure] = "User not found or deleted"
-      return redirect_to(users_path)
+    if params[:id] == "me"
+      if logged_in?
+        @user = current_user
+      else
+        return access_denied(:message => "Please login to access your user profile.")
+      end
+    else
+      begin
+        @user = User.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        flash[:failure] = "User not found or deleted"
+        return redirect_to(users_path)
+      end
     end
 
     add_breadcrumb "Users", users_path
