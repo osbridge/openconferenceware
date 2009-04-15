@@ -381,6 +381,7 @@ describe ProposalsController do
         login_as :clio
         get :edit, :id => proposal.id
 
+        pending "FIXME when should people not be able to edit proposals?"
         response.should redirect_to(event_proposals_url(proposal.event))
       end
 

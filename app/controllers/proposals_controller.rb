@@ -282,18 +282,25 @@ protected
     if admin?
       return false # admin can always edit
     else
-      if accepting_proposals?
-        if can_edit?
-          return false # current_user can edit
-        else
-          flash[:failure] = "Sorry, you can't alter proposals that aren't yours."
-          return redirect_to(proposal_path(@proposal))
-        end
+      # FIXME when should people be able to edit proposals?!
+      if can_edit?
+        return false # current_user can edit
       else
-        # TODO allow people to edit proposals after deadline IF there's a process that marks them as approved/rejected/etc.
-        flash[:failure] = "You cannot edit proposals after the submission deadline."
-        return redirect_to(@event ? event_proposals_path(@event) : proposals_path)
+        flash[:failure] = "Sorry, you can't alter proposals that aren't yours."
+        return redirect_to(proposal_path(@proposal))
       end
+#      if accepting_proposals?
+#        if can_edit?
+#          return false # current_user can edit
+#        else
+#          flash[:failure] = "Sorry, you can't alter proposals that aren't yours."
+#          return redirect_to(proposal_path(@proposal))
+#        end
+#      else
+#        # TODO allow people to edit proposals after deadline IF there's a process that marks them as approved/rejected/etc.
+#        flash[:failure] = "You cannot edit proposals after the submission deadline."
+#        return redirect_to(@event ? event_proposals_path(@event) : proposals_path)
+#      end
     end
   end
 
