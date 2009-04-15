@@ -100,7 +100,7 @@ protected
 
   # Ensure user is an admin, or bounce them to the admin prompt.
   def require_admin
-    admin? || access_denied
+    admin? || access_denied(:message => "You must have administrator privileges to access the requested page.")
   end
 
   # Is this event accepting proposals?
