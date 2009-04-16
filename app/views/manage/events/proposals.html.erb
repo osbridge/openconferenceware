@@ -3,6 +3,29 @@
 <% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
 <% run_when_jquery_is_ready "bind_manage_proposals_checkboxes();" %>
 
+<% if proposal_statuses? %>
+  <table cellspacing="0" id="proposal-status-counts">
+    <tr>
+      <th>Proposed</th>
+      <th>Accepted</th>
+      <th>Confirmed</th>
+      <th>Accepted + Confirmed</th>
+      <th>Declined</th>
+      <th>Rejected</th>
+      <th>Junk</th>
+    </tr>
+    <tr>
+      <td><%= @event.proposals.proposed.count %></td>
+      <td><%= @event.proposals.accepted.count %></td>
+      <td><%= @event.proposals.confirmed.count %></td>
+      <td><%= @event.proposals.accepted.count + @event.proposals.confirmed.count %></td>
+      <td><%= @event.proposals.declined.count %></td>
+      <td><%= @event.proposals.rejected.count %></td>
+      <td><%= @event.proposals.junk.count %></td>
+    </tr>
+  </table>
+<% end %>
+
 <%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
 
 <%
