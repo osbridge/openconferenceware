@@ -25,7 +25,8 @@ Releases
 The stable releases this software are tagged with release numbers,
 such as "r20090416T1034", that represent the date/time they were made.
 There is also a "stable" branch that points to the current stable
-release.
+release. The [CHANGES.txt](CHANGES.txt) file describes a summary of
+significant changes made between stable releases.
 
 The code works well and is being used in production on multiple sites.
 However, it is under heavy development, documentation is scant, tests
