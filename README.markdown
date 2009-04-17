@@ -153,6 +153,14 @@ This program is provided under an MIT open source license, read the
 [LICENSE.txt](LICENSE.txt) file for details.
 
 
+Contributors
+------------
+
+This free, open source software was made possible by a group of
+volunteers that put many hours of hard work into it. See the
+[CONTRIBUTORS.markdown](CONTRIBUTORS.markdown) file for details.
+
+
 Copyright
 ---------
 
