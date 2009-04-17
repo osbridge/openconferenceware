@@ -5,11 +5,9 @@ OpenConferenceWare
 About
 -----
 
-*OpenConferenceWare* is a web application that provides a suite of tools
-for conference organizers. It started out as the [Ignite Portland
-proposals site](http://proposals.igniteportland.com/) but has since been
-reworked as a general-purpose platform that can be restyled and extended
-for running other kinds of events.
+*OpenConferenceWare* is an open source web application for events and
+conferences. It provides a customizable, general-purpose platform that
+provides proposals, sessions, schedules, tracks and more.
 
 
 Why
@@ -21,31 +19,39 @@ more events that support free sharing of information, open society, and
 involved citizenry.
 
 
-Caution
--------
+Releases
+--------
 
-Do NOT run this software unless you have significant Rails expertise and
-are willing to work through some warts. The code is currently under
-heavy development; the documentation is scant; the tests are inadequate;
-and the sample theme is broken. This is an unfortunate result of having
-to get this deployed very quickly. However, the code works, is being
-used in production, and these issues will be resolved before long.
+The stable releases this software are tagged with release numbers,
+such as "r20090416T1034", that represent the date/time they were made.
+There is also a "stable" branch that points to the current stable
+release.
 
-In the meantime, if you need a stable, well-tested system for
-accepting proposals for simpler Ignite-like events, please instead
-consider using the software this was forked from: OpenProposals,
+The code works well and is being used in production on multiple sites.
+However, it is under heavy development, documentation is scant, tests
+are incomplete, and the sample theme is broken. These issues are being
+resolved, but the main focus is currently adding features to support the
+needs of Open Source Bridge and Linux Plumbers Conference. It is
+strongly recommended that you have access to an experienced Ruby on
+Rails developer if you intend to use this software.
+
+If you need a simpler system for accepting proposals for Ignite-like
+events, please consider the stable and well-tested software this code
+was forked from: OpenProposals,
 <http://github.com/igal/openconferenceware/tree/master>
 
 
 Features
 --------
 - Anyone can list events
+- Anyone can list/show sessions for an event
 - Anyone can list/show proposals for an event
 - Anyone can leave private comments about proposals to organizers
 - Anyone can get be informed of new proposals via ATOM feed
 - Anyone can list/show tracks for an event
 - Anyone can list/show session types for an event
 - Anyone can subscribe to a feed of proposals for the event
+- Anyone can list/show rooms for an event
 - Users can login via OpenID
 - Users can create proposals until a deadline
 - Users can update/delete their own proposals until a deadline
@@ -54,12 +60,14 @@ Features
 - Administrators can update text snippets throughout the site
 - Administrators can create/update/delete events
 - Administrators can set deadlines for accepting proposals for events
+- Administrators can export proposals and comments to CSV
+- Administrators can update/delete any proposal
+- Administrators can set status of any proposal (e.g., accept, reject)
 - Administrators can create/update/delete tracks
 - Administrators can create/update/delete session types
-- Administrators can update/delete any proposal
-- Administrators can export proposals and comments to CSV
-- Administration can list/show/destroy private comments for proposals
-- Administration can subscribe to a feed of private comments for proposals
+- Administrators can create/update/delete rooms
+- Administrators can list/show/destroy private comments for proposals
+- Administrators can subscribe to a feed of private comments for proposals
 - Developers can customize the site's appearance and behavior
 - ...and many more features are planned for the future!
 
@@ -111,12 +119,12 @@ directory, and follow its instructions:
 Security
 --------
 
-This application runs with insecure settings by default to make it easy to
-get started. These default settings include publicly-known cryptography
-keys that can allow attackers to gain admin privileges to your
-application. You should create a `config/secrets.yml` file with your
-secret settings if you intend to run this application on a server that
-can be accessed by untrusted users, read the
+This application runs with insecure settings by default to make it easy
+to get started. These default settings include publicly-known
+cryptography keys that can allow attackers to gain admin privileges to
+your application. You should create a `config/secrets.yml` file with
+your secret settings if you intend to run this application on a server
+that can be accessed by untrusted users, read the
 [config/secrets.yml.sample](config/secrets.yml.sample) file for details.
 
 
@@ -140,11 +148,12 @@ Contributing
 Bug fixes and features are welcomed. Please fork the source code and submit a
 pull request: <http://github.com/igal/openconferenceware/tree/master>
 
-Discussion
-----------
-Discussion happens on the osbridgepdx-technology list: http://groups.google.com/group/osbridgepdx-technology
 
-An IRC channel is available on irc.freenode.net #pcow
+Mailing list
+------------
+
+Discussion about development and use of happens on the
+openconferenceware list: <http://groups.google.com/OpenConferenceWare>
 
 License
 -------
