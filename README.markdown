@@ -6,8 +6,8 @@ About
 -----
 
 *OpenConferenceWare* is an open source web application for events and
-conferences. It provides a customizable, general-purpose platform that
-provides proposals, sessions, schedules, tracks and more.
+conferences. This customizable, general-purpose platform provides
+proposals, sessions, schedules, tracks and more.
 
 
 Why
@@ -143,18 +143,28 @@ If you wish to deploy your application using Capistrano, read the
 [config/deploy.rb](config/deploy.rb) file.
 
 
-Contributing
-------------
-
-Bug fixes and features are welcomed. Please fork the source code and submit a
-pull request: <http://github.com/igal/openconferenceware/tree/master>
-
-
 Mailing list
 ------------
 
-Discussion about development and use of happens on the
-openconferenceware list: <http://groups.google.com/OpenConferenceWare>
+Please join the mailing list if you're interested in using or developing
+the software: <http://groups.google.com/OpenConferenceWare>
+
+
+Issue tracker
+-------------
+
+Found a bug? I'd like to fix it. Please report it, along with what you
+tried to do, what you expected, and what actually happened:
+<http://github.com/igal/openconferenceware/issues>
+
+
+Contributing
+------------
+
+Contributions of fixes and features are welcomed. Please fork the source
+code and submit a pull request:
+<http://github.com/igal/openconferenceware/tree/master>
+
 
 License
 -------
