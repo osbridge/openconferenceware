@@ -1098,14 +1098,41 @@ describe ProposalsController do
   describe "get_proposal_and_assignment_status" do
     it "should return a status of :invalid_proposal when no proposal id is given" do
       @controller.stub!(:params).and_return({ :id => nil })
-      @controller.send(:get_proposal_and_assignment_status).should == [@proposal, :invalid_proposal]
+      @controller.send(:get_proposal_and_assignment_status).should == [nil, :invalid_proposal]
     end
 
     it "should return a status of :invalid_event when a proposal doesn't have a valid event" do
-      @proposal = stub_model(Proposal, :state => "confirmed", :event => nil)
-      Proposal.stub!(:lookup).and_return(@proposal)
+      proposal = stub_model(Proposal, :state => "confirmed", :event => nil)
+      Proposal.stub!(:lookup).and_return(proposal)
       @controller.stub!(:params).and_return({ :id => 1000 })
-      @controller.send(:get_proposal_and_assignment_status).should == [@proposal, :invalid_event]
+      @controller.send(:get_proposal_and_assignment_status).should == [proposal, :invalid_event]
     end
   end
+
+  describe "assign_proposal_and_event" do
+
+    it "should return false and not redirect when proposal and its event are successfully found" do
+      proposal = stub_model(Proposal, :state => "confirmed", :event => @event)
+      @controller.should_receive(:get_proposal_and_assignment_status).and_return([proposal, :assigned_via_param])
+      @controller.send(:assign_proposal_and_event).should == false
+      flash[:failure].should be_nil
+    end
+
+    it "should redirect when proposal assignment status is :invalid_proposal" do
+      proposal = stub_model(Proposal, :event => @event)
+      @controller.should_receive(:get_proposal_and_assignment_status).and_return([proposal, :invalid_proposal])
+      @controller.should_receive(:redirect_to)
+      @controller.send(:assign_proposal_and_event)
+      flash[:failure].should == "Sorry, that presentation proposal doesn't exist or has been deleted."
+    end
+
+    it "should redirect when proposal assignment status is :invalid_event" do
+      proposal = stub_model(Proposal, :state => "confirmed", :event => nil, :id => 1)
+      @controller.should_receive(:get_proposal_and_assignment_status).and_return([proposal, :invalid_event])
+      @controller.should_receive(:redirect_to)
+      @controller.send(:assign_proposal_and_event)
+      flash[:failure].should == "Sorry, no event was associated with proposal #1"
+    end
+  end
+
 end

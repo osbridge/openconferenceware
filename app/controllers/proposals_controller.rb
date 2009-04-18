@@ -387,8 +387,8 @@ protected
       flash[:failure] = "Sorry, that presentation proposal doesn't exist or has been deleted."
       return redirect_to(:action => :index)
     when :invalid_event
-        flash[:failure] = "Sorry, no event was associated with proposal ##{@proposal.id}"
-        return redirect_to(:action => :index)
+      flash[:failure] = "Sorry, no event was associated with proposal ##{@proposal.id}"
+      return redirect_to(:action => :index)
     end
   end
 
