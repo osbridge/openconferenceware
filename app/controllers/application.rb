@@ -224,4 +224,21 @@ protected
     end
   end
 
+  # Ensure that the proposal status is defined, else redirect back to proposals
+  def assert_proposal_status_published
+    display = false
+    if @event.proposal_status_published?
+      display = true
+    else
+      if admin?
+        display = true
+        flash[:notice] = "Session information has not yet been published, only admins can see this page."
+      end
+    end
+    unless display
+      flash[:failure] = "Session information has not yet been published for this event."
+      return redirect_to(proposals_path)
+    end
+  end
+
 end
