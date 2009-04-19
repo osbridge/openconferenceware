@@ -2,6 +2,7 @@ class ProposalsController < ApplicationController
 
   before_filter :login_required, :only => [:edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
+  before_filter :assert_proposal_status_published, :only => [:confirmed]
   before_filter :normalize_event_path_or_redirect, :only => [:index]
   before_filter :assert_anonymous_proposals, :only => [:new, :create]
   before_filter :assert_accepting_proposals, :only => [:new, :create]
@@ -63,11 +64,7 @@ class ProposalsController < ApplicationController
   end
 
   def confirmed
-    unless @event.proposal_status_published?
-      flash[:failure] = "Session information has not yet been published for this event."
-      return redirect_to(proposals_url)
-    end
-    
+    # TODO rename to sessions_index
     @kind = :sessions
     @proposals = sort_proposals( @event.proposals.confirmed )
     
