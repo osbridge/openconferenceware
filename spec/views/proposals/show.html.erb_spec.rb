@@ -17,6 +17,7 @@ describe "/proposals/show.html.erb" do
       
       assigns[:event]  = @event
       assigns[:proposal] = @proposal
+      assigns[:kind] = :proposal
     
       render "/proposals/show.html.erb"
       response.should_not have_tag("div.proposal-status")
@@ -29,6 +30,7 @@ describe "/proposals/show.html.erb" do
     
     assigns[:event]  = @event
     assigns[:proposal] = @proposal
+    assigns[:kind] = :proposal
     
     render "/proposals/show.html.erb"
     response.should have_tag("div.proposal-status")
@@ -41,6 +43,7 @@ describe "/proposals/show.html.erb" do
       
       assigns[:event]  = @event
       assigns[:proposal] = @proposal
+      assigns[:kind] = :proposal
     
       render "/proposals/show.html.erb"
       response.should_not have_tag("div.proposal-status")

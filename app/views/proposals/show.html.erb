@@ -1,12 +1,15 @@
-<%#
+<%
 # Variables:
 # - @proposal: Proposal record
 # - @comment: Comment record, may be a new_record or one with error
 # - @focus_comment: Focus on comment? E.g., because it has an error
 # - @display_comment_form: Display the comment?
+# - @kind: :session or :proposal, optional.
+
+@kind ||= :proposal
+page_title h(@proposal.title)
+focus :comment_message if @focus_comment
 %>
-<% page_title h(@proposal.title) %>
-<% focus :comment_message if @focus_comment %>
 
 <%= render :partial => "/proposals/admin_controls" %>
 
@@ -64,7 +67,7 @@
       <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
         <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
       </div>
-  <% end %>  
+  <% end %>
   <% if event_session_types? && ! @proposal.session_type.ergo.title.blank? %>
       <%= link_to(h(@proposal.session_type.ergo.title), event_session_type_path(@proposal.event, @proposal.session_type), :class=>'session_type') || "- N/A -" %>
   <% end %>
@@ -83,7 +86,7 @@
     <h3>Excerpt</h3>
     <%= preserve_formatting_of @proposal.excerpt %>
   <% end %>
-  
+
     <h3>Description</h3>
     <%= display_textile_for @proposal.description %>
 
@@ -112,14 +115,14 @@
         <%= "- <span class='org'>#{user.affiliation}</span>" unless user.affiliation.blank?%>
         <% unless user.website.blank? %>
           (<%= display_link_to(user.website, :class => 'url') %>)
-        <% end %>        
+        <% end %>
         <div class='note'>
           <%= display_textile_for user.biography %>
         </div>
       </li>
     <% end %>
     </ul>
-    
+
   <% end %>
 
   <div class="record-controls">
