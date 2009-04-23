@@ -66,7 +66,7 @@
           <ul>
             <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
             <li><a href='/attend/' title='Attend' class=''>Attend</a></li>
-            <li class="current_page_item"><a href='/proposals/' title='Proposals' class=''>Proposals</a></li>
+            <li class="<%= nav_current_page_item? ? 'current_page_item' : '' %>"><a href='<%= nav_path %>' title='<%= nav_title %>' class=''><%= nav_title %></a></li>
             <li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
             <li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -75,7 +75,7 @@
 
         <div id="subnav" class='navbar'>
           <div class='inner_container'>
-            <h2>Proposals</h2>
+            <h2><%= subnav_title %></h2>
           </div>
         </div>
       </div>
