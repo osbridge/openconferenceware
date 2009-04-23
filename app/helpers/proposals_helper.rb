@@ -21,4 +21,12 @@ module ProposalsHelper
     kind = (kind || @kind).to_s.singularize
     return self.send("#{kind}_path", object)
   end
+
+  # Return a link path for the collection. The optional +kind+ (e.g.,
+  # :sessions or :proposals) determines what kind of links to make, if one
+  # isn't specified, then the @kind instance variable will be used.
+  def records_path(kind=nil)
+    kind = (kind || @kind).to_s.pluralize
+    return self.send("event_#{kind}_path", @event)
+  end
 end
