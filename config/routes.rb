@@ -13,16 +13,16 @@ ActionController::Routing::Routes.draw do |map|
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
   map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
   
-  map.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
-  map.session '/sessions/:id', :controller => 'proposals', :action => 'show'
+  map.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
+  map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   
   map.resources :events do |events|
     events.resources :proposals, :controller => 'proposals', :collection => 'stats'
     events.resources :tracks, :controller => 'tracks'
     events.resources :session_types
     events.resources :rooms
-    events.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
-    events.session '/sessions/:id', :controller => 'proposals', :action => 'show'
+    events.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
+    events.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   end
 
   map.resource :manage, :controller => 'manage' do |manage|

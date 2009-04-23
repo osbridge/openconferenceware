@@ -197,7 +197,7 @@ describe ProposalsController do
       )
       stub_current_event!(:event => event)
 
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
       response.should have_tag(".event_text", event.session_text)
       response.should have_tag(".session_text", event.session_text)
     end
@@ -208,7 +208,7 @@ describe ProposalsController do
       proposals = mock_model(Array, :confirmed => confirmed)
       event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
       stub_current_event!(:event => event)
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
       records.should == confirmed
@@ -217,7 +217,7 @@ describe ProposalsController do
     it "should redirect unless the proposal status is published" do
       event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
       stub_current_event!(:event => event)
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
 
       response.should redirect_to(proposals_url)
     end
@@ -247,11 +247,11 @@ describe ProposalsController do
       def assert_show(opts={}, &block)
         @key = 123
         @event.stub!(:proposal_status_published?).and_return(opts[:published])
+        stub_current_event!(:event => @event)
         @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => [])
         @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
         controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
-        controller.stub!(:session_path?).and_return(opts[:session])
-        get :show, :id => @key
+        get opts[:session] ? :session_show : :show, :id => @key
         case opts[:redirect]
         when :proposal
           response.should redirect_to(proposal_path(@key))

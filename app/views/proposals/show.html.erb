@@ -127,7 +127,7 @@
       <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
       <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
     <% end %>
-      <%= link_to 'Back', event_proposals_path(@event), :class => "cancelable" %>
+      <%= link_to 'Back', records_path, :class => "cancelable" %>
   </div>
 
 <% end %>
