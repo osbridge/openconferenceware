@@ -216,6 +216,20 @@ class User < ActiveRecord::Base
     return [self.fullname, self.affiliation].reject(&:blank?).join(' - ')
   end
 
+  # Return the user's twitter profile.
+  def twitter_url
+    if self.twitter
+      return "http://twitter.com/#{self.twitter}"
+    end
+  end
+
+  # Return the user's identica profile.
+  def identica_url
+    if self.identica
+      return "http://identi.ca/#{self.identica}"
+    end
+  end
+
 protected
 
   def encrypt_password
@@ -255,5 +269,4 @@ protected
   def url_validator
     return validate_url_attribute(:website, :blog_url) 
   end
-
 end
