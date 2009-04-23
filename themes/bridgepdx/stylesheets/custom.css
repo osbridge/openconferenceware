@@ -449,6 +449,7 @@ table.proposals .description {
 .proposal-meta {
 	text-align: center;
 	border: 1px solid #666;
+	width: 10em;
 }
 
 .proposal-meta a.session_type {
@@ -466,6 +467,11 @@ table.proposals .description {
 	text-transform: uppercase;
 	font-size: .9em;
 	padding: .5em;
+	border-bottom: 1px solid black;
+}
+
+.proposal-meta .proposal-status.confirmed {
+	background-color: #08b9a6;
 }
 
 /* @group Comments */

@@ -63,6 +63,15 @@ focus :comment_message if @focus_comment
 
 
   <div class='proposal-meta'>
+    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.confirmed? %>
+      <div class='proposal-status <%= @proposal.status %>'>
+        Accepted Session
+      </div>
+    <% elsif proposal_statuses? @event.proposal_status_published? %>
+      <div class='proposal-status proposed'>
+        Proposal
+      </div>
+    <% end %>
   <% if event_tracks? %>
       <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
         <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
@@ -74,11 +83,6 @@ focus :comment_message if @focus_comment
     <div class='proposal-slug'>
       <%= @proposal.slug %>
     </div>
-    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.confirmed? %>
-      <div class='proposal-status <%= @proposal.status %>'>
-        Accepted
-      </div>
-    <% end %>
   </div>
 
 
