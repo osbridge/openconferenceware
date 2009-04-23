@@ -41,6 +41,9 @@ class User < ActiveRecord::Base
     :biography,
     :website,
     :complete_profile,
+    :twitter,
+    :identica,
+    :blog_url,
     :label,
     :label_with_id
 
@@ -248,8 +251,9 @@ protected
     end
   end
 
+  # Ensure URLs are valid, else add validation errors.
   def url_validator
-    validate_url_attribute(:website)
+    return validate_url_attribute(:website, :blog_url) 
   end
 
 end
