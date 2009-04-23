@@ -33,7 +33,7 @@ class ProposalsController < ApplicationController
         render :json => @proposals.map(&:public_attributes)
       }
       format.atom {
-        @proposals = @proposals[0..MAX_FEED_ITEMS]
+        # index.atom.builder
       }
       format.csv {
         # TODO support profile in proposal or user
