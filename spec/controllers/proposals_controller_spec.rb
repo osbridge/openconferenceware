@@ -247,11 +247,11 @@ describe ProposalsController do
       def assert_show(opts={}, &block)
         @key = 123
         @event.stub!(:proposal_status_published?).and_return(opts[:published])
+        stub_current_event!(:event => @event)
         @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => [])
         @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
         controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
-        controller.stub!(:session_path?).and_return(opts[:session])
-        get :show, :id => @key
+        get opts[:session] ? :session_show : :show, :id => @key
         case opts[:redirect]
         when :proposal
           response.should redirect_to(proposal_path(@key))

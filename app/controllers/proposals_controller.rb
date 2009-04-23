@@ -2,11 +2,11 @@ class ProposalsController < ApplicationController
 
   before_filter :login_required, :only => [:edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
-  before_filter :assert_proposal_status_published, :only => [:sessions_index]
+  before_filter :assert_proposal_status_published, :only => [:sessions_index, :session_show]
   before_filter :normalize_event_path_or_redirect, :only => [:index]
   before_filter :assert_anonymous_proposals, :only => [:new, :create]
   before_filter :assert_accepting_proposals, :only => [:new, :create]
-  before_filter :assign_proposal_and_event, :only => [:show, :edit, :update, :destroy]
+  before_filter :assign_proposal_and_event, :only => [:show, :session_show, :edit, :update, :destroy]
   before_filter :assert_proposal_ownership, :only => [:edit, :update, :destroy]
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
@@ -84,56 +84,26 @@ class ProposalsController < ApplicationController
     end
   end
 
+  def session_show
+    # @proposal and @event set via #assign_proposal_and_event filter
+    @kind = :session
+    unless @proposal.confirmed?
+      flash[:failure] = "This proposal is not a session."
+      return redirect_to proposal_path(@proposal)
+    end
+    return base_show
+  end
+
   # GET /proposals/1
   # GET /proposals/1.xml
   def show
     # @proposal and @event set via #assign_proposal_and_event filter
-
-    if @event.proposal_status_published?
-      if session_path? and not @proposal.confirmed?
-        flash[:failure] = "This proposal is not a session."
-        return redirect_to proposal_path(@proposal)
-      elsif not session_path? and @proposal.confirmed?
-        flash[:notice] = "This proposal has been accepted as a session."
-        return redirect_to session_path(@proposal)
-      end
-    else
-      if session_path?
-        if admin?
-          flash[:notice] = "Only admin can see unpublished sessions."
-        else
-          flash[:failure] = "Sessions have not been published yet."
-          return redirect_to proposal_path(@proposal)
-        end
-      end
+    @kind = :proposal
+    if @event.proposal_status_published? && @proposal.confirmed?
+      flash[:notice] = "This proposal has been accepted as a session."
+      return redirect_to session_path(@proposal)
     end
-
-    add_breadcrumb @event.title, event_proposals_path(@event)
-    add_breadcrumb @proposal.title, proposal_path(@proposal)
-
-    @profile = @proposal.profile
-    @comment = Comment.new(:proposal => @proposal, :email => current_email)
-    @display_comment_form = \
-      # Admin can always leave comments
-      admin? || (
-       # Don't display comment form if user has just commented
-       ! params[:commented] &&
-       # Don't display comment form for the proposal owner
-       ! can_edit? &&
-       (
-        # Display comment form if the event is accepting proposals
-        accepting_proposals? ||
-        # or if the settings provide a toggle and the event is accepting comments
-        (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
-       )
-      )
-    @focus_comment = false
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @proposal.public_attributes }
-      format.json { render :json => @proposal.public_attributes }
-    end
+    return base_show
   end
 
   # GET /proposals/new
@@ -450,9 +420,33 @@ protected
     end
   end
 
-  # Is this a session path?
-  def session_path?
-    return request.path.match(%r{/session/})
+  # Base method used for #show and #session_show
+  def base_show
+    add_breadcrumb @event.title, event_proposals_path(@event)
+    add_breadcrumb @proposal.title, proposal_path(@proposal)
+
+    @profile = @proposal.profile
+    @comment = Comment.new(:proposal => @proposal, :email => current_email)
+    @display_comment_form = \
+      # Admin can always leave comments
+      admin? || (
+       # Don't display comment form if user has just commented
+       ! params[:commented] &&
+       # Don't display comment form for the proposal owner
+       ! can_edit? &&
+       (
+        # Display comment form if the event is accepting proposals
+        accepting_proposals? ||
+        # or if the settings provide a toggle and the event is accepting comments
+        (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
+       )
+      )
+    @focus_comment = false
+
+    respond_to do |format|
+      format.html { render :template => "/proposals/show" }
+      format.xml  { render :xml => @proposal.public_attributes }
+      format.json { render :json => @proposal.public_attributes }
+    end
   end
-  helper_method :session_path?
 end
