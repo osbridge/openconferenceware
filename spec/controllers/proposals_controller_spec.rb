@@ -197,7 +197,7 @@ describe ProposalsController do
       )
       stub_current_event!(:event => event)
 
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
       response.should have_tag(".event_text", event.session_text)
       response.should have_tag(".session_text", event.session_text)
     end
@@ -208,7 +208,7 @@ describe ProposalsController do
       proposals = mock_model(Array, :confirmed => confirmed)
       event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
       stub_current_event!(:event => event)
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
       records.should == confirmed
@@ -217,7 +217,7 @@ describe ProposalsController do
     it "should redirect unless the proposal status is published" do
       event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
       stub_current_event!(:event => event)
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
 
       response.should redirect_to(proposals_url)
     end
