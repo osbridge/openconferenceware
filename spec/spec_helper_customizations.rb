@@ -11,6 +11,10 @@ end
 
 # Stub the +controller+ to provide the current event. If the +event+ or
 # +status+ aren't provided, reasonable defaults will be used.
+#
+# Options:
+# * :event => Event object to use, else a mock will be generated.
+# * :status => Assignment status to use, else :assigned_to_current will be used.
 def stub_current_event!(opts={})
   controller = opts[:controller] || @controller
   event = opts[:event] || stub_model(Event, :id => 1, :title => "Event 1")
