@@ -237,6 +237,74 @@ describe ProposalsController do
 
       response.should redirect_to(proposals_url)
     end
+
+    describe "redirect" do
+      # Options:
+      # * :published => Are proposal statuses published for this event?
+      # * :confirmed => Is this proposal confirmed?
+      # * :session => Is this proposal being accessed via a sessions#show route?
+      # * :redirect => Redirect to where? (:proposal, :session, nil)
+      def assert_show(opts={}, &block)
+        @key = 123
+        @event.stub!(:proposal_status_published?).and_return(opts[:published])
+        @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => [])
+        @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
+        controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
+        controller.stub!(:session_path?).and_return(opts[:session])
+        get :show, :id => @key
+        case opts[:redirect]
+        when :proposal
+          response.should redirect_to(proposal_path(@key))
+        when :session
+          response.should redirect_to(session_path(@key))
+        when nil, false
+          response.should be_success
+        else
+        end
+      end
+
+      describe "when status published" do
+        it "should redirect confirmed proposal to session" do
+          assert_show :published => true, :confirmed => true, :session => false, :redirect => :session
+        end
+
+        it "should redirect non-session to proposal" do
+          assert_show :published => true, :confirmed => false, :session => true, :redirect => :proposal
+        end
+
+        it "should display session" do
+          assert_show :published => true, :confirmed => true, :session => true, :redirect => false
+        end
+
+        it "should display proposal" do
+          assert_show :published => true, :confirmed => false, :session => false, :redirect => false
+        end
+      end
+
+      describe "when status not published" do
+        it "should allow admin to view sessions" do
+          login_as :aaron
+          assert_show :published => false, :confirmed => true, :session => true, :redirect => false
+        end
+
+        it "should redirect confirmed proposal to proposals" do
+          assert_show :published => false, :confirmed => true, :session => true, :redirect => :proposal
+        end
+
+        it "should redirect non-session to proposal" do
+          assert_show :published => false, :confirmed => false, :session => true, :redirect => :proposal
+        end
+
+        it "should display confirmed proposal" do
+          assert_show :published => false, :confirmed => true, :session => false, :redirect => false
+        end
+
+        it "should display session as proposal" do
+          assert_show :published => false, :confirmed => false, :session => false, :redirect => false
+        end
+      end
+
+    end
   end
 
   describe "new" do

@@ -12,7 +12,7 @@ class ProposalsController < ApplicationController
   before_filter :assign_proposals_breadcrumb
 
   MAX_FEED_ITEMS = 20
-  
+
   # GET /proposals
   # GET /proposals.xml
   def index
@@ -67,7 +67,7 @@ class ProposalsController < ApplicationController
     # TODO rename to sessions_index
     @kind = :sessions
     @proposals = sort_proposals( @event.proposals.confirmed )
-    
+
     respond_to do |format|
       format.html {
         add_breadcrumb @event.title, event_proposals_path(@event)
@@ -90,6 +90,25 @@ class ProposalsController < ApplicationController
   def show
     # @proposal and @event set via #assign_proposal_and_event filter
 
+    if @event.proposal_status_published?
+      if session_path? and not @proposal.confirmed?
+        flash[:failure] = "This proposal is not a session."
+        return redirect_to proposal_path(@proposal)
+      elsif not session_path? and @proposal.confirmed?
+        flash[:notice] = "This proposal has been accepted as a session."
+        return redirect_to session_path(@proposal)
+      end
+    else
+      if session_path?
+        if admin?
+          flash[:notice] = "Only admin can see unpublished sessions."
+        else
+          flash[:failure] = "Sessions have not been published yet."
+          return redirect_to proposal_path(@proposal)
+        end
+      end
+    end
+
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
@@ -101,10 +120,10 @@ class ProposalsController < ApplicationController
        # Don't display comment form if user has just commented
        ! params[:commented] &&
        # Don't display comment form for the proposal owner
-       ! can_edit? && 
+       ! can_edit? &&
        (
         # Display comment form if the event is accepting proposals
-        accepting_proposals? || 
+        accepting_proposals? ||
         # or if the settings provide a toggle and the event is accepting comments
         (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
        )
@@ -189,7 +208,7 @@ class ProposalsController < ApplicationController
   # PUT /proposals/1.xml
   def update
     # @proposal and @event set via #assign_proposal_and_event filter
-    
+
     if params[:start_time]
       if params[:start_time][:date].blank? || params[:start_time][:hour].blank? || params[:start_time][:minute].blank?
         @proposal.start_time = nil
@@ -197,7 +216,7 @@ class ProposalsController < ApplicationController
         @proposal.start_time = "#{params[:start_time][:date]} #{params[:start_time][:hour]}:#{params[:start_time][:minute]}"
       end
     end
-    
+
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
@@ -206,9 +225,9 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       if params[:speaker_submit].blank? && @proposal.update_attributes(params[:proposal])
         @proposal.transition = transition_from_params if admin?
-        format.html { 
+        format.html {
           flash[:success] = 'Updated proposal.'
-          redirect_to(@proposal) 
+          redirect_to(@proposal)
         }
         format.xml  { head :ok }
         format.json { render :json => {:_transition_control_html => render_to_string(:partial => '/proposals/transition_control.html.erb')}, :status => :ok }
@@ -259,7 +278,7 @@ class ProposalsController < ApplicationController
       format.json { render :partial => "search_speakers.html.erb", :layout => false }
     end
   end
-  
+
   def stats
     # Uses @event
   end
@@ -391,7 +410,7 @@ protected
   def transition_from_params
     return params[:proposal].ergo[:transition]
   end
-  
+
   def sort_proposals(proposals)
     if %w[title track submitted_at session_type start_time].include?(params[:sort]) || (admin? && params[:sort] == 'status')
       # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
@@ -432,4 +451,9 @@ protected
     end
   end
 
+  # Is this a session path?
+  def session_path?
+    return request.path.match(%r{/session/})
+  end
+  helper_method :session_path?
 end
