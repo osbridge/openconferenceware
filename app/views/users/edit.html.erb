@@ -69,10 +69,34 @@
     </tr>
     <tr>
       <td class="label-cell">
-        <label>Website</label>
+        <label>Website URL</label>
       </td>
       <td class="data-cell">
         <%= f.text_field :website %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <label>Blog URL</label>
+      </td>
+      <td class="data-cell">
+        <%= f.text_field :blog_url %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <label>Twitter handle</label>
+      </td>
+      <td class="data-cell">
+        <%= f.text_field :twitter %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-cell">
+        <label>Identi.ca handle</label>
+      </td>
+      <td class="data-cell">
+        <%= f.text_field :identica %>
       </td>
     </tr>
     <tr>
@@ -86,7 +110,7 @@
     </tr>
     <tr>
       <td class="label-cell">
-        <label><%= required_field if @user.complete_profile %>Biography</label> 
+        <label><%= required_field if @user.complete_profile %>Biography</label>
         <br />
         (<%= display_textile_help_link %>)
       </td>

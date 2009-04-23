@@ -36,12 +36,24 @@
   <p class="empty-text" style="text-align: left">&mdash; User has not shared any information &mdash;</p>
 <% end %>
 
-<% unless @user.website.blank? %>
-  <h3>Website</h3>
+<% links = [@user.website, @user.blog_url, @user.twitter, @user.identica].reject(&:blank?) %>
+<% if links.size > 0 %>
+  <h3><%= links.size > 1 ? "Links" : "Link" %></h3>
   <div>
-    <p>
-      <%= display_link_to(@user.website) %>
-    </p>
+    <ul>
+      <% unless @user.website.blank? %>
+        <li>Website: <%= display_link_to(@user.website, :nofollow => true, :popup => true) %></li>
+      <% end %>
+      <% unless @user.blog_url.blank? %>
+        <li>Blog: <%= display_link_to(@user.blog_url, :nofollow => true, :popup => true) %></li>
+      <% end %>
+      <% unless @user.twitter.blank? %>
+        <li>Twitter: <%= display_link_to(@user.twitter_url, :title => @user.twitter, :nofollow => true, :popup => true) %></li>
+      <% end %>
+      <% unless @user.identica.blank? %>
+        <li>Identi.ca: <%= display_link_to(@user.identica_url, :title => @user.identica, :nofollow => true, :popup => true) %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
 
