@@ -13,7 +13,7 @@ focus :comment_message if @focus_comment
 
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache "proposal_#{@proposal.id},edit_#{can_edit?}" do %>
+<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
