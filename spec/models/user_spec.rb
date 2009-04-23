@@ -29,4 +29,42 @@ describe User do
       lambda { User.get(nil) }.should raise_error(TypeError)
     end
   end
+
+  describe "blog links" do
+    fixtures :users
+
+    before(:each) do
+      @user = users(:quentin)
+    end
+
+    it "should validate blog_url" do
+      @user.blog_url = "http://foo.bar/"
+      @user.should be_valid
+    end
+
+    it "should invalidate bad blog_url" do
+      @user.blog_url = "omg://"
+      @user.should_not be_valid
+    end
+
+    it "should return twitter url" do
+      @user.twitter = "bubba"
+      @user.twitter_url.should == "http://twitter.com/bubba"
+    end
+
+    it "should return nil if no twitter" do
+      @user.twitter = nil
+      @user.twitter_url.should be_blank
+    end
+
+    it "should return identica url" do
+      @user.identica = "bubba"
+      @user.identica_url.should == "http://identi.ca/bubba"
+    end
+
+    it "should return nil if no identica" do
+      @user.identica = nil
+      @user.identica_url.should be_blank
+    end
+  end
 end
