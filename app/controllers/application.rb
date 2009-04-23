@@ -214,7 +214,11 @@ protected
         return false
       else
         prefix = request.relative_url_root
-        path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        if controller_name == "proposals" && action_name == "sessions_index"
+          path = "#{prefix}/events/#{@event.id}/sessions"
+        else
+          path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        end
         flash.keep
         return redirect_to(path)
       end

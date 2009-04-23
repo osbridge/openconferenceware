@@ -214,12 +214,28 @@ describe ProposalsController do
       records.should == confirmed
     end
 
-    it "should redirect unless the proposal status is published" do
+    it "should redirect to proposals unless the proposal status is published" do
       event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
       stub_current_event!(:event => event)
       get :sessions_index, :event => 1234
 
       response.should redirect_to(proposals_url)
+    end
+
+    it "should redirect /sessions to proposals unless proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
+      stub_current_event!(:event => event, :status => :assigned_to_current)
+      get :sessions_index, :format => :html
+
+      response.should redirect_to(proposals_url)
+    end
+
+    it "should normalize /sessions if proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => true, :id => 1234)
+      stub_current_event!(:event => event, :status => :assigned_to_current)
+      get :sessions_index, :format => :html
+
+      response.should redirect_to(event_sessions_path(event))
     end
   end
 

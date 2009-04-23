@@ -42,7 +42,7 @@
             <% else %>
               <%= link_to(h(record.presenter)+" &mdash; "+h(record.title), record_path(record, kind), :class => "title") %>
             <% end %>
-            <% if proposal_statuses? && (admin? || (@event.proposal_status_published? && record.confirmed?)) %>
+            <% if kind == :proposals && proposal_statuses? && (admin? || (@event.proposal_status_published? && record.confirmed?)) %>
               <span class='proposal-status <%= record.status %>'>(<%= record.status.titleize %>)</span>
             <% end %>
           </h3>
