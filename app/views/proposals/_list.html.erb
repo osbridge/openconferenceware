@@ -10,8 +10,8 @@
     <div>
       <% sort_links = [sort_link_for("Title", 'title', kind)]
          sort_links << sort_link_for("Track", 'track', kind) if event_tracks? 
-         sort_links << sort_link_for("Submission date", 'submitted_at', kind)
-         sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_available?
+         sort_links << sort_link_for("Submission date", 'submitted_at', kind) if kind == :proposals
+         sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_available? && kind == :sessions
          sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses?
       %>
       Sort by:
@@ -25,7 +25,7 @@
     <table class='proposals' cellspacing='0'>
       <% previous_start_time = false %>
       <% for record in records %>
-        <% if schedule_available? && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
+        <% if schedule_available? && kind == :sessions && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
           <tr>
             <td colspan='3' class='schedule_header'>
               <%= record.start_time.nil? ? 'Unscheduled' : record.start_time.strftime("%A, %B %d - %I:%M %p") %>
@@ -58,9 +58,11 @@
         </td>
         <% end %>
 
-        <td class='date'>
-          <%= record.submitted_at.ergo{localtime.to_s} %>
-        </td>
+        <% if kind == :proposals %>
+          <td class='date'>
+            <%= record.submitted_at.ergo{localtime.to_s} %>
+          </td>
+        <% end %>
       </tr>
       <tr>
         <td class="speakers" colspan='<%= event_tracks? ? 2 : 1 %>'>
@@ -95,7 +97,9 @@
             Track
           </th>
 <% end %>
+<% if kind == :proposals %>
           <th width="0">Submitted</th>
+<% end %>
         </tr>
       </thead>
       <% date_cache = {} %>
