@@ -1,8 +1,11 @@
+cache "proposals_atom" do
 atom_feed do |feed|
   feed.title("#{SETTINGS.organization}: Presentation Proposals")
   feed.updated((@proposals.blank? ? Time.at(0) : @proposals.first.submitted_at))
 
-  @proposals.each do |proposal|
+  @proposals.each_with_index do |proposal, i|
+    break if i >= ProposalsController::MAX_FEED_ITEMS
+
     feed.entry(proposal, :url => proposal_url(proposal)) do |entry|
       entry.title  proposal.title
 
@@ -57,4 +60,5 @@ atom_feed do |feed|
       end
     end
   end
+end
 end

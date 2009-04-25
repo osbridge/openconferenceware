@@ -17,7 +17,10 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
-    @proposals = sort_proposals((@event ? @event.proposals : Proposal).populated)
+    @proposals = \
+      Proposal.fetch_object("proposals_index,event_#{@event.ergo.id},sort_#{params[:sort].hash},dir_#{params[:dir].hash}") do
+        sort_proposals((@event ? @event.proposals : Proposal).populated)
+      end
 
     respond_to do |format|
       format.html {
@@ -30,7 +33,7 @@ class ProposalsController < ApplicationController
         render :json => @proposals.map(&:public_attributes)
       }
       format.atom {
-        @proposals = @proposals[0..MAX_FEED_ITEMS]
+        # index.atom.builder
       }
       format.csv {
         # TODO support profile in proposal or user
@@ -66,7 +69,10 @@ class ProposalsController < ApplicationController
   def sessions_index
     @kind = :sessions
     params[:sort] ||= "track"
-    @proposals = sort_proposals( @event.proposals.confirmed )
+    @proposals = \
+      Proposal.fetch_object("sessions_index,event_#{@event.ergo.id},sort_#{params[:sort].hash},dir_#{params[:dir].hash}") do
+        sort_proposals((@event ? @event.proposals : Proposal).populated.confirmed)
+      end
 
     respond_to do |format|
       format.html {
