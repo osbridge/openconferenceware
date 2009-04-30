@@ -100,4 +100,14 @@ class Event < ActiveRecord::Base
       :include => [:track])
   end
 
+  # Return an array of populated sessions for this event.
+  def populated_sessions
+    return self.proposals.populated.confirmed
+  end
+
+  # Return an array of populated proposals for this event.
+  def populated_proposals
+    return self.proposals.populated
+  end
+
 end
