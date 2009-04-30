@@ -17,10 +17,7 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
-    @proposals = \
-      Proposal.fetch_object("proposals_index,event_#{@event.ergo.id},sort_#{params[:sort].hash},dir_#{params[:dir].hash}") do
-        sort_proposals((@event ? @event.proposals : Proposal).populated)
-      end
+    @proposals = fetch_sorted_proposals_for(@event, @kind, params[:sort], params[:dir])
 
     respond_to do |format|
       format.html {
@@ -69,10 +66,7 @@ class ProposalsController < ApplicationController
   def sessions_index
     @kind = :sessions
     params[:sort] ||= "track"
-    @proposals = \
-      Proposal.fetch_object("sessions_index,event_#{@event.ergo.id},sort_#{params[:sort].hash},dir_#{params[:dir].hash}") do
-        sort_proposals((@event ? @event.proposals : Proposal).populated.confirmed)
-      end
+    @proposals = fetch_sorted_proposals_for(@event, @kind, params[:sort], params[:dir])
 
     respond_to do |format|
       format.html {
@@ -456,4 +450,17 @@ protected
       format.json { render :json => @proposal.public_attributes }
     end
   end
+
+  def fetch_sorted_proposals_for(event, kind, sort, direction)
+    Proposal.fetch_object("#{kind}_index,event_#{event.id},sort_#{sort.hash},dir_#{direction.hash}") do
+      proposals = \
+        case kind
+        when :proposals then event.populated_proposals
+        when :sessions  then event.populated_sessions
+        else raise ArgumentError, "Unknown kind: #{kind}"
+        end
+      sort_proposals(proposals)
+    end
+  end
+
 end

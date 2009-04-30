@@ -175,10 +175,14 @@ describe ProposalsController do
         event = Event.current
 
         # TODO Why is #find being called more than once?!
-        #IK# event.proposals.should_receive(:find).and_return([proposal])
         event.proposals.should_receive(:find).twice.and_return([proposal])
 
         stub_current_event!(:event => event)
+
+        # Bypass #fetch_object because it can't cache our singleton mocks.
+        Proposal.stub!(:fetch_object).and_return do |slug, callback|
+          callback.call
+        end
 
         get :index, :sort => "destroy"
       end
@@ -193,7 +197,7 @@ describe ProposalsController do
         :proposal_status_published? => true,
         :id => 1234,
         :session_text => "MySessionText",
-        :proposals => mock_model(Array, :confirmed => [])
+        :populated_sessions => []
       )
       stub_current_event!(:event => event)
 
@@ -204,14 +208,24 @@ describe ProposalsController do
 
     it "should display a list of sessions" do
       proposal = stub_model(Proposal, :state => "confirmed", :users => [])
-      confirmed = [proposal]
-      proposals = mock_model(Array, :confirmed => confirmed)
-      event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
+      proposals = [proposal]
+      event = stub_model(Event,
+        :proposal_status_published? => true,
+        :id => 1234,
+        :populated_sessions => proposals
+      )
+
       stub_current_event!(:event => event)
+
+      # Bypass #fetch_object because it can't cache our singleton mocks.
+      Proposal.stub!(:fetch_object).and_return do |slug, callback|
+        callback.call
+      end
+
       get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
-      records.should == confirmed
+      records.should == proposals
     end
 
     it "should redirect to proposals unless the proposal status is published" do
