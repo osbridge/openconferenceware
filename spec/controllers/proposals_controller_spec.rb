@@ -193,7 +193,7 @@ describe ProposalsController do
         :proposal_status_published? => true,
         :id => 1234,
         :session_text => "MySessionText",
-        :proposals => mock_model(Array, :confirmed => [])
+        :populated_sessions => []
       )
       stub_current_event!(:event => event)
 
@@ -204,14 +204,17 @@ describe ProposalsController do
 
     it "should display a list of sessions" do
       proposal = stub_model(Proposal, :state => "confirmed", :users => [])
-      confirmed = [proposal]
-      proposals = mock_model(Array, :confirmed => confirmed)
-      event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
+      proposals = [proposal]
+      event = stub_model(Event,
+        :proposal_status_published? => true,
+        :id => 1234,
+        :populated_sessions => proposals
+      )
       stub_current_event!(:event => event)
       get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
-      records.should == confirmed
+      records.should == proposals
     end
 
     it "should redirect to proposals unless the proposal status is published" do
