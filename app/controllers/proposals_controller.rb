@@ -459,7 +459,7 @@ protected
         when :sessions  then event.populated_sessions
         else raise ArgumentError, "Unknown kind: #{kind}"
         end
-      return sort_proposals(proposals)
+      sort_proposals(proposals)
     end
   end
 

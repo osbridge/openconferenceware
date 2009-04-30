@@ -175,10 +175,14 @@ describe ProposalsController do
         event = Event.current
 
         # TODO Why is #find being called more than once?!
-        #IK# event.proposals.should_receive(:find).and_return([proposal])
         event.proposals.should_receive(:find).twice.and_return([proposal])
 
         stub_current_event!(:event => event)
+
+        # Bypass #fetch_object because it can't cache our singleton mocks.
+        Proposal.stub!(:fetch_object).and_return do |slug, callback|
+          callback.call
+        end
 
         get :index, :sort => "destroy"
       end
@@ -210,7 +214,14 @@ describe ProposalsController do
         :id => 1234,
         :populated_sessions => proposals
       )
+
       stub_current_event!(:event => event)
+
+      # Bypass #fetch_object because it can't cache our singleton mocks.
+      Proposal.stub!(:fetch_object).and_return do |slug, callback|
+        callback.call
+      end
+
       get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
