@@ -22,8 +22,8 @@ involved citizenry.
 Releases
 --------
 
-The stable releases this software are tagged with release numbers,
-such as "r20090416T1034", that represent the date/time they were made.
+The stable releases this software are tagged with version numbers,
+such as "v0.20090416", that represent the date they were made.
 There is also a "stable" branch that points to the current stable
 release. The [CHANGES.txt](CHANGES.txt) file describes a summary of
 significant changes made between stable releases.

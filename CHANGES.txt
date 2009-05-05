@@ -4,7 +4,7 @@ Changes
 Below are tags for OpenConferenceWare stable releases, with the latest at top,
 and the changes made to them:
 
-* r20090416T1034
+* v0.20090416
 - FIXED login to work with current versions of ruby_openid and Passenger.
 - FIXED schema, made it compatible with other databases. SQLite was too lax.
 - HACKED proposal#edit, allowing owners to edit forever. This will be revised.
@@ -23,7 +23,7 @@ and the changes made to them:
 - Improved caching, added many caches and eliminated many queries.
 - Added "rake clear:cache" task which empties memcache or filesystem caches.
 
-* r20090412T0926
+* v0.20090412
 - Improved logit, made it more efficient by avoiding calls based on log level.
 - Added cucumber specifications for comments.
 - Added cucumber (rake features).
