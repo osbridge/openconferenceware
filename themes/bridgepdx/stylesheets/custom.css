@@ -449,6 +449,7 @@ table.proposals .description {
 .proposal-meta {
 	text-align: center;
 	border: 1px solid #666;
+	width: 10em;
 }
 
 .proposal-meta a.session_type {
@@ -466,6 +467,11 @@ table.proposals .description {
 	text-transform: uppercase;
 	font-size: .9em;
 	padding: .5em;
+	border-bottom: 1px solid black;
+}
+
+.proposal-meta .proposal-status.confirmed {
+	background-color: #08b9a6;
 }
 
 /* @group Comments */
@@ -566,6 +572,24 @@ ul.speakers .note li {
 	text-indent: -999px;
 	position: absolute;
 	left: 1em;
+}
+
+#speaker-selector #complete_profile_user_url {
+	width: 100%;
+}
+
+table#proposal-status-counts {
+	collapse: collapse;
+}
+
+#proposal-status-counts th {
+	background-color: #DEDEDE;
+}
+
+#proposal-status-counts th,
+#proposal-status-counts td {
+	text-align: center;
+	border: 1px solid #DEDEDE;
 }
 
 /* @end */

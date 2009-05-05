@@ -10,21 +10,21 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
 
-  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers'
-  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers'
+  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
+  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
   
-  map.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
+  map.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
   map.schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
-  map.session '/sessions/:id', :controller => 'proposals', :action => 'show'
+  map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   
   map.resources :events do |events|
     events.resources :proposals, :controller => 'proposals', :collection => 'stats'
     events.resources :tracks, :controller => 'tracks'
     events.resources :session_types
     events.resources :rooms
-    events.sessions '/sessions', :controller => 'proposals', :action => 'confirmed'
+    events.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
     events.schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
-    events.session '/sessions/:id', :controller => 'proposals', :action => 'show'
+    events.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   end
 
   map.resource :manage, :controller => 'manage' do |manage|
@@ -40,7 +40,7 @@ ActionController::Routing::Routes.draw do |map|
   map.m1ss  '/m1ss',  :controller => 'proposals', :action => 'm1ss'
 
   # Authentication
-  map.resources :users
+  map.resources :users, :member => { :complete_profile => :get }, :requirements => { :id => /\w+/ }
   map.open_id_complete '/browser_session', :controller => "browser_sessions", :action => "create", :requirements => { :method => :get }
   map.login            '/login',  :controller => 'browser_sessions', :action => 'new'
   map.logout           '/logout', :controller => 'browser_sessions', :action => 'destroy'
@@ -48,6 +48,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :browser_session, :collection => ["admin"]
 
   # Install the default routes as the lowest priority.
+  # TODO Disable default routes, they're dangerous.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
 

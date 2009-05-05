@@ -10,16 +10,17 @@ describe "/proposals/show.html.erb" do
     @event = stub_model(Event, :id => 1, :title => "Event 1", :proposal_status_published => false);
   end
   
-  %w(proposed accepted confirmed rejected junk).each do |status|
-    it "should should not show the status for #{status} proposals if statuses are not published" do
+  %w[accepted confirmed rejected junk].each do |status|
+    it "should not show the status for #{status} proposals if statuses are not published" do
       @event.proposal_status_published = false
       @proposal.status = status
       
       assigns[:event]  = @event
       assigns[:proposal] = @proposal
+      assigns[:kind] = :proposal
     
       render "/proposals/show.html.erb"
-      response.should_not have_tag("div.proposal-status")
+      response.should_not have_tag("div.proposal-status #{status}")
     end
   end
   
@@ -29,21 +30,23 @@ describe "/proposals/show.html.erb" do
     
     assigns[:event]  = @event
     assigns[:proposal] = @proposal
+    assigns[:kind] = :proposal
     
     render "/proposals/show.html.erb"
     response.should have_tag("div.proposal-status")
   end
   
-  %w(proposed accepted rejected junk).each do |status|
+  %w[accepted rejected junk].each do |status|
     it "should should not show the status for #{status} proposals even if statuses are published" do
       @event.proposal_status_published = true
       @proposal.status = status
       
       assigns[:event]  = @event
       assigns[:proposal] = @proposal
+      assigns[:kind] = :proposal
     
       render "/proposals/show.html.erb"
-      response.should_not have_tag("div.proposal-status")
+      response.should_not have_tag("div.proposal-status #{status}")
     end
   end
 end

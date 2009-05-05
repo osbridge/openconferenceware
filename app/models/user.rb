@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090324002914
+# Schema version: 20090411093859
 #
 # Table name: users
 #
@@ -41,6 +41,9 @@ class User < ActiveRecord::Base
     :biography,
     :website,
     :complete_profile,
+    :twitter,
+    :identica,
+    :blog_url,
     :label,
     :label_with_id
 
@@ -213,6 +216,20 @@ class User < ActiveRecord::Base
     return [self.fullname, self.affiliation].reject(&:blank?).join(' - ')
   end
 
+  # Return the user's twitter profile.
+  def twitter_url
+    if self.twitter
+      return "http://twitter.com/#{self.twitter}"
+    end
+  end
+
+  # Return the user's identica profile.
+  def identica_url
+    if self.identica
+      return "http://identi.ca/#{self.identica}"
+    end
+  end
+
 protected
 
   def encrypt_password
@@ -248,8 +265,8 @@ protected
     end
   end
 
+  # Ensure URLs are valid, else add validation errors.
   def url_validator
-    validate_url_attribute(:website)
+    return validate_url_attribute(:website, :blog_url) 
   end
-
 end

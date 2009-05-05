@@ -11,6 +11,7 @@ module ExceptionHandlingMixin
   # Notify on exceptions if Rails environment is either 'preview' or
   # 'production', or if 'NOTIFY_ON_EXCEPTIONS' environmental variable is set.
   NOTIFY_ON_EXCEPTIONS = ['preview', 'production'].include?(RAILS_ENV) || ENV['NOTIFY_ON_EXCEPTIONS']
+  NOTIFY_ON_AUTHENTICY_EXCEPTIONS = ENV['NOTIFY_ON_AUTHENTICY_EXCEPTIONS']
 
   # Setup ExceptionNotifier plugin
   def self.included(mixee)
@@ -20,6 +21,7 @@ module ExceptionHandlingMixin
       mixee.send(:include, ExceptionNotifiable)
       mixee.local_addresses.clear
 
+      mixee.send(:extend, Methods)
       mixee.send(:include, Methods)
     end
   end
@@ -31,15 +33,18 @@ module ExceptionHandlingMixin
       when ActionController::InvalidAuthenticityToken
         render_422
 
-        deliverer = self.class.exception_data
-        data = case deliverer
-          when nil then {}
-          when Symbol then send(deliverer)
-          when Proc then deliverer.call(self)
-        end
+        # Send emails when encountering InvalidAuthenticityToken errors?
+        if NOTIFY_ON_AUTHENTICY_EXCEPTIONS
+          deliverer = self.class.exception_data
+          data = case deliverer
+            when nil then {}
+            when Symbol then send(deliverer)
+            when Proc then deliverer.call(self)
+          end
 
-        ExceptionNotifier.deliver_exception_notification(exception, self,
-          request, data)
+          ExceptionNotifier.deliver_exception_notification(exception, self,
+            request, data)
+        end
       else
         super(exception)
       end

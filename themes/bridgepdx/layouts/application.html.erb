@@ -12,7 +12,7 @@
   <% end %>
 
   <!-- Stylesheets -->
-  <% if %w[preview production].include?(RAILS_ENV) %>
+  <% if %w[preview production].include?(RAILS_ENV) && ENV['LOCALCSS'].blank? %>
     <%= stylesheet_link_tag '/common/osbp_common_v3.css' %>
   <% else %>
     <%= theme_stylesheet_link_tag 'common_css/osbp_common_v3.css' %>
@@ -21,14 +21,16 @@
   <%= yield :stylesheets %>
 
   <!-- Dynamic styles -->
-  <% if event_tracks? %>
+  <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
+  <% if @event && event_tracks? %>
     <style type="text/css" media="screen">
-      <% for track in Track.find(:all) %>
+      <% for track in @event.tracks %>
         /* <%= track.title %> */
         .<%= track_css_class(track) %> { color: <%= track.color %>; }
         .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
       <% end %>
     </style>
+  <% end %>
   <% end %>
 
   <!-- Scripts -->
@@ -51,7 +53,7 @@
              <h2>The conference for open source citizens</h2>
              <p id='conference-date-location'>June 17&ndash;19, 2009 <span class='separator'>|</span> Portland, Oregon</p>
           </div>
-          <a href='/attend' title='Early bird discount ends April 10th. Register today!' id="header-reg-now">Register now and save!</a>
+          <a href='/attend' title='Register today!' id="header-reg-now">Register today!</a>
         </div>
       </div>
 
@@ -64,7 +66,7 @@
           <ul>
             <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
             <li><a href='/attend/' title='Attend' class=''>Attend</a></li>
-            <li class="current_page_item"><a href='/proposals/' title='Proposals' class=''>Proposals</a></li>
+            <li class="<%= nav_current_page_item? ? 'current_page_item' : '' %>"><a href='<%= nav_path %>' title='<%= nav_title %>' class=''><%= nav_title %></a></li>
             <li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
             <li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -73,7 +75,7 @@
 
         <div id="subnav" class='navbar'>
           <div class='inner_container'>
-            <h2>Proposals</h2>
+            <h2><%= subnav_title %></h2>
           </div>
         </div>
       </div>
@@ -109,8 +111,12 @@
 
         <div id="primary" class="sidebar">
           <div class='register-callout'>
-             Registration is only <strong>$175</strong> until <strong>April 10th</strong>.
+             Registration is only <strong>$250</strong> for three days.
              <a href='/attend' class='register-button'>Register Today</a>
+          </div>
+          <div class='hotel-callout'>
+             Rooms start at just <strong>$139</strong>/night.
+             <a href='/attend' class='book-room-button'>Book Your Room</a>
           </div>
           <ul class="xoxo">
             <% if logged_in? %>
@@ -124,6 +130,7 @@
                 </ul>
               </li>
 
+              <% cache "layout,my_proposals,user_#{current_user.id},event_#{current_event_cache_key}" do %>
               <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
                 <li id='my-proposals'>
                   <h3>My proposals</h3>
@@ -139,6 +146,7 @@
                   </ul>
                 </li>
               <% end %>
+              <% end %>
 
               <% if admin? %>
                 <li class='administration'>
@@ -152,7 +160,13 @@
                       <li>
                         <%= link_to "Manage this event", manage_event_path(@event) %>
                         <ul>
-                          <li><%= link_to "Proposals", event_proposals_path(@event) %> (<%= link_to "bulk edit", manage_event_proposals_path(@event) %>)</li>
+                          <li><%= link_to "Sessions", event_sessions_path(@event) %> 
+                          <li><%= link_to "Proposals", event_proposals_path(@event) %> 
+                            (<%= link_to "bulk edit", manage_event_proposals_path(@event) %>)
+                            <% unless @event.accepting_proposals? %>
+                              (<%= link_to "add", new_event_proposal_path(@event) %>)
+                            <% end %>
+                          </li>
                           <% if event_tracks? %>
                             <li><%= link_to "Tracks", tracks_path %></li>
                           <% end %>
@@ -235,6 +249,16 @@
 
     <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
+    
+    <script type="text/javascript">
+    var pkBaseURL = (("https:" == document.location.protocol) ? "https://opensourcebridge.org/stats/piwik/" : "http://opensourcebridge.org/stats/piwik/");
+    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script><script type="text/javascript">
+    piwik_action_name = '';
+    piwik_idsite = 1;
+    piwik_url = pkBaseURL + "piwik.php";
+    piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
   <% end %>
 </body>
 </html>

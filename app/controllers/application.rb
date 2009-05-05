@@ -46,6 +46,18 @@ protected
   end
   helper_method :current_email
 
+  # Return a cache key for the currently authenticated or anonymous user.
+  def current_user_cache_key
+    return logged_in? ? current_user.id : 0
+  end
+  helper_method :current_user_cache_key
+
+  # Return a cache key for the current event.
+  def current_event_cache_key
+    return @event ? @event.id : -1
+  end
+  helper_method :current_event_cache_key
+
   # Are we running in a development mode?
   def development_mode?
     return %w[development preview].include?(RAILS_ENV)
@@ -66,8 +78,9 @@ protected
         # Normal user
         case record
         when Proposal
-          # TODO Add setting to determine if users can alter their proposals after the accepting_proposals deadline passed.
-          accepting_proposals?(record) && record.can_alter?(current_user)
+          # FIXME Add setting to determine if users can alter their proposals after the accepting_proposals deadline passed.
+          ### accepting_proposals?(record) && record.can_alter?(current_user)
+          record.can_alter?(current_user)
         when User
           current_user == record
         else
@@ -88,7 +101,7 @@ protected
 
   # Ensure user is an admin, or bounce them to the admin prompt.
   def require_admin
-    admin? || access_denied
+    admin? || access_denied(:message => "You must have administrator privileges to access the requested page.")
   end
 
   # Is this event accepting proposals?
@@ -195,17 +208,40 @@ protected
 
   # Redirect the user to the canonical event path if they're visiting a path that doesn't start with '/events'.
   def normalize_event_path_or_redirect
+    # When running under a prefix (e.g., "thin --prefix /omg start"), this value will be set to "/omg", else "".
     if request.format.to_sym == :html
       if request.path.match(%r{^/events})
         return false
       else
-        path = "/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        prefix = request.relative_url_root
+        if controller_name == "proposals" && action_name == "sessions_index"
+          path = "#{prefix}/events/#{@event.id}/sessions"
+        else
+          path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+        end
         flash.keep
         return redirect_to(path)
       end
     else
       # Non-HTTP requests don't understand redirects, so leave these alone
       return false
+    end
+  end
+
+  # Ensure that the proposal status is defined, else redirect back to proposals
+  def assert_proposal_status_published
+    display = false
+    if @event.proposal_status_published?
+      display = true
+    else
+      if admin?
+        display = true
+        flash[:notice] = "Session information has not yet been published, only admins can see this page."
+      end
+    end
+    unless display
+      flash[:failure] = "Session information has not yet been published for this event."
+      return redirect_to(params[:id] ? proposal_path(params[:id]) : proposals_path)
     end
   end
 

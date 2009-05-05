@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090324002914
+# Schema version: 20090411093859
 #
 # Table name: proposals
 #
@@ -35,7 +35,7 @@ class Proposal < ActiveRecord::Base
 
   # Provide ::lookup
   include CacheLookupsMixin
-  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:track, :users]
+  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags
   acts_as_taggable_on :tags
@@ -241,6 +241,17 @@ class Proposal < ActiveRecord::Base
   # validation error.
   def url_validator
     validate_url_attribute(:website)
+  end
+
+  # Return string with a "mailto:" link for contacting the proposal's speakers.
+  def mailto_link
+    link = "mailto:"
+    if multiple_presenters?
+      link << self.users.map(&:email).join(",")
+    else
+      link << self.profile.email
+    end
+    return link
   end
 
 end

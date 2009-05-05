@@ -1,16 +1,19 @@
-<%#
+<%
 # Variables:
 # - @proposal: Proposal record
 # - @comment: Comment record, may be a new_record or one with error
 # - @focus_comment: Focus on comment? E.g., because it has an error
 # - @display_comment_form: Display the comment?
+# - @kind: :session or :proposal, optional.
+
+@kind ||= :proposal
+page_title h(@proposal.title)
+focus :comment_message if @focus_comment
 %>
-<% page_title h(@proposal.title) %>
-<% focus :comment_message if @focus_comment %>
 
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache_if(!logged_in?, "proposals_#{@proposal.id}") do %>
+<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -60,22 +63,26 @@
 
 
   <div class='proposal-meta'>
+    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.confirmed? %>
+      <div class='proposal-status <%= @proposal.status %>'>
+        Accepted Session
+      </div>
+    <% elsif proposal_statuses? @event.proposal_status_published? %>
+      <div class='proposal-status proposed'>
+        Proposal
+      </div>
+    <% end %>
   <% if event_tracks? %>
       <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
         <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
       </div>
-  <% end %>  
+  <% end %>
   <% if event_session_types? && ! @proposal.session_type.ergo.title.blank? %>
       <%= link_to(h(@proposal.session_type.ergo.title), event_session_type_path(@proposal.event, @proposal.session_type), :class=>'session_type') || "- N/A -" %>
   <% end %>
     <div class='proposal-slug'>
       <%= @proposal.slug %>
     </div>
-    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.confirmed? %>
-      <div class='proposal-status <%= @proposal.status %>'>
-        Accepted
-      </div>
-    <% end %>
   </div>
 
 
@@ -83,7 +90,7 @@
     <h3>Excerpt</h3>
     <%= preserve_formatting_of @proposal.excerpt %>
   <% end %>
-  
+
     <h3>Description</h3>
     <%= display_textile_for @proposal.description %>
 
@@ -112,14 +119,14 @@
         <%= "- <span class='org'>#{user.affiliation}</span>" unless user.affiliation.blank?%>
         <% unless user.website.blank? %>
           (<%= display_link_to(user.website, :class => 'url') %>)
-        <% end %>        
+        <% end %>
         <div class='note'>
           <%= display_textile_for user.biography %>
         </div>
       </li>
     <% end %>
     </ul>
-    
+
   <% end %>
 
   <div class="record-controls">
@@ -127,18 +134,20 @@
       <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
       <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
     <% end %>
-      <%= link_to 'Back', event_proposals_path(@event), :class => "cancelable" %>
+      <%= link_to 'Back', records_path, :class => "cancelable" %>
   </div>
 
 <% end %>
 
 <% if admin? %>
+  <% cache "proposal_#{@proposal.id},comments_list" do %>
   <h3>Comments</h3>
   <%= render :partial => 'comments/list', :locals => { :comments => @proposal.comments }%>
+  <% end %>
 <% end %>
 
 <% if @display_comment_form %>
-  <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:class => "standard-form"}) do |f| %>
+  <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:id => "comment-form", :class => "standard-form"}) do |f| %>
     <%= f.hidden_field :proposal_id %>
     <h4>Leave a private comment to organizers about this proposal</h4>
     <table class="standard-form">

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin unless user_profiles?
 
-  before_filter :require_user, :only => [:show, :edit, :update, :destroy]
+  before_filter :require_user, :only => [:show, :edit, :update, :destroy, :complete_profile]
 
   def index
     add_breadcrumb 'Users'
@@ -55,10 +55,10 @@ class UsersController < ApplicationController
       end
 
       if @user.update_attributes(params[:user])
-        flash[:success] = "Updated user."
+        flash[:success] = "Updated user profile."
         return redirect_back_or_to(user_path(@user))
       else
-        flash[:failure] = "Please complete your profile."
+        flash[:failure] = "Please complete user profile."
         render :action => "edit"
       end
     else
@@ -77,15 +77,33 @@ class UsersController < ApplicationController
     return redirect_back_or_to(users_path)
   end
 
+  def complete_profile
+    if current_user.complete_profile
+      flash[:notice] = "Thank you, you have a complete user profile."
+      redirect_to(user_path(current_user))
+    else
+      flash[:notice] = "Please complete your user profile."
+      redirect_to(edit_user_path(current_user, :require_complete_profile => true))
+    end
+  end
+
 protected
 
   # Sets @user based on params[:id] and adds related breadcrumbs.
   def require_user
-    begin
-      @user = User.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      flash[:failure] = "User not found or deleted"
-      return redirect_to(users_path)
+    if params[:id] == "me"
+      if logged_in?
+        @user = current_user
+      else
+        return access_denied(:message => "Please login to access your user profile.")
+      end
+    else
+      begin
+        @user = User.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        flash[:failure] = "User not found or deleted"
+        return redirect_to(users_path)
+      end
     end
 
     add_breadcrumb "Users", users_path

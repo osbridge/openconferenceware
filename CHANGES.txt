@@ -1,6 +1,48 @@
 Changes
 =======
 
+OpenConferenceWare stable releases and changes made to them (latest at top):
+
+* v0.20090425
+- Added support for displaying sessions differently than proposals.
+- Added heavy caching to proposals and sessions indexes.
+- Added helpers to display main and sub navigation based on proposal
+  status and portion of the site being used.
+- Improved user profiles, added Twitter and Identi.ca handles, and Blog URL.
+- Improved proposals, sessions and schedule, if non-admin visits these
+  paths before status is published, they'll be redirected away.
+- Improved NormalizeUrlMixin to validate multiple URLs at once.
+- Improved boot, added check that ensures migrations have been applied.
+- Improved documentation.
+
+* v0.20090416
+- FIXED login to work with current versions of ruby_openid and Passenger.
+- FIXED schema, made it compatible with other databases. SQLite was too lax.
+- HACKED proposal#edit, allowing owners to edit forever. This will be revised.
+- Improved manage/events#proposals, added display of proposal counts by
+- status to bulk editor.
+- Improved proposal#edit, added instructions for asking other speakers to
+  complete their profile so they can be added.
+- Improved users#show, added a "me" route for accessing current user's profile
+  via </users/me>.
+- Added users#complete_profile, which provides a way to complete a person's
+  profile, typically offered as link to </users/me/complete_profile>.
+- Improved database support, added MySQL. See
+  "config/database~mysql.sample.yml" for sample.
+- Improved caching support, added memcache. See
+  "lib/rails_cache_configurator.rb" for details.
+- Improved caching, added many caches and eliminated many queries.
+- Added "rake clear:cache" task which empties memcache or filesystem caches.
+
+* v0.20090412
+- Improved logit, made it more efficient by avoiding calls based on log level.
+- Added cucumber specifications for comments.
+- Added cucumber (rake features).
+- Upgraded rspec, switched to gem-based dependency.
+
+Changes
+=======
+
 Below are the list of OpenProposals versions by GIT id (latest is at top) and the
 changes made to them:
 
@@ -18,3 +60,5 @@ a9e00d9d22dcc16b53d2e8f1a5d167b53b69a9a2
 
 85dcb7365a455d5b21de80ec04e54c271d47e913
 * Published source code
+
+# vim:tw=72:

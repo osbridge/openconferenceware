@@ -175,10 +175,14 @@ describe ProposalsController do
         event = Event.current
 
         # TODO Why is #find being called more than once?!
-        #IK# event.proposals.should_receive(:find).and_return([proposal])
         event.proposals.should_receive(:find).twice.and_return([proposal])
 
         stub_current_event!(:event => event)
+
+        # Bypass #fetch_object because it can't cache our singleton mocks.
+        Proposal.stub!(:fetch_object).and_return do |slug, callback|
+          callback.call
+        end
 
         get :index, :sort => "destroy"
       end
@@ -193,33 +197,59 @@ describe ProposalsController do
         :proposal_status_published? => true,
         :id => 1234,
         :session_text => "MySessionText",
-        :proposals => mock_model(Array, :confirmed => [])
+        :populated_sessions => []
       )
       stub_current_event!(:event => event)
 
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
       response.should have_tag(".event_text", event.session_text)
       response.should have_tag(".session_text", event.session_text)
     end
 
     it "should display a list of sessions" do
       proposal = stub_model(Proposal, :state => "confirmed", :users => [])
-      confirmed = [proposal]
-      proposals = mock_model(Array, :confirmed => confirmed)
-      event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :proposals => proposals)
+      proposals = [proposal]
+      event = stub_model(Event,
+        :proposal_status_published? => true,
+        :id => 1234,
+        :populated_sessions => proposals
+      )
+
       stub_current_event!(:event => event)
-      get :confirmed, :event => 1234
+
+      # Bypass #fetch_object because it can't cache our singleton mocks.
+      Proposal.stub!(:fetch_object).and_return do |slug, callback|
+        callback.call
+      end
+
+      get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
-      records.should == confirmed
+      records.should == proposals
     end
 
-    it "should redirect unless the proposal status is published" do
+    it "should redirect to proposals unless the proposal status is published" do
       event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
       stub_current_event!(:event => event)
-      get :confirmed, :event => 1234
+      get :sessions_index, :event => 1234
 
       response.should redirect_to(proposals_url)
+    end
+
+    it "should redirect /sessions to proposals unless proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
+      stub_current_event!(:event => event, :status => :assigned_to_current)
+      get :sessions_index, :format => :html
+
+      response.should redirect_to(proposals_url)
+    end
+
+    it "should normalize /sessions if proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => true, :id => 1234)
+      stub_current_event!(:event => event, :status => :assigned_to_current)
+      get :sessions_index, :format => :html
+
+      response.should redirect_to(event_sessions_path(event))
     end
   end
 
@@ -236,6 +266,74 @@ describe ProposalsController do
       get :show, :id => -1
 
       response.should redirect_to(proposals_url)
+    end
+
+    describe "redirect" do
+      # Options:
+      # * :published => Are proposal statuses published for this event?
+      # * :confirmed => Is this proposal confirmed?
+      # * :session => Is this proposal being accessed via a sessions#show route?
+      # * :redirect => Redirect to where? (:proposal, :session, nil)
+      def assert_show(opts={}, &block)
+        @key = 123
+        @event.stub!(:proposal_status_published?).and_return(opts[:published])
+        stub_current_event!(:event => @event)
+        @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => [])
+        @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
+        controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
+        get opts[:session] ? :session_show : :show, :id => @key
+        case opts[:redirect]
+        when :proposal
+          response.should redirect_to(proposal_path(@key))
+        when :session
+          response.should redirect_to(session_path(@key))
+        when nil, false
+          response.should be_success
+        else
+        end
+      end
+
+      describe "when status published" do
+        it "should redirect confirmed proposal to session" do
+          assert_show :published => true, :confirmed => true, :session => false, :redirect => :session
+        end
+
+        it "should redirect non-session to proposal" do
+          assert_show :published => true, :confirmed => false, :session => true, :redirect => :proposal
+        end
+
+        it "should display session" do
+          assert_show :published => true, :confirmed => true, :session => true, :redirect => false
+        end
+
+        it "should display proposal" do
+          assert_show :published => true, :confirmed => false, :session => false, :redirect => false
+        end
+      end
+
+      describe "when status not published" do
+        it "should allow admin to view sessions" do
+          login_as :aaron
+          assert_show :published => false, :confirmed => true, :session => true, :redirect => false
+        end
+
+        it "should redirect confirmed proposal to proposals" do
+          assert_show :published => false, :confirmed => true, :session => true, :redirect => :proposal
+        end
+
+        it "should redirect non-session to proposal" do
+          assert_show :published => false, :confirmed => false, :session => true, :redirect => :proposal
+        end
+
+        it "should display confirmed proposal" do
+          assert_show :published => false, :confirmed => true, :session => false, :redirect => false
+        end
+
+        it "should display session as proposal" do
+          assert_show :published => false, :confirmed => false, :session => false, :redirect => false
+        end
+      end
+
     end
   end
 
@@ -316,9 +414,11 @@ describe ProposalsController do
       end
 
       it "should not display form for closed events" do
-        get :new, :event_id => events(:closed).id
+        login_as(users(:quentin))
+        event = events(:closed)
+        get :new, :event_id => event.id
 
-        response.should be_redirect
+        response.should redirect_to(event_proposals_path(event))
       end
     end
   end
@@ -379,6 +479,7 @@ describe ProposalsController do
         login_as :clio
         get :edit, :id => proposal.id
 
+        pending "FIXME when should people not be able to edit proposals?"
         response.should redirect_to(event_proposals_url(proposal.event))
       end
 
@@ -658,6 +759,41 @@ describe ProposalsController do
   describe "br3ak" do
     it "should fail" do
       lambda { get :br3ak }.should raise_error
+    end
+  end
+
+  describe "manage speakers" do
+    before(:each) do
+      SETTINGS.stub!(:have_user_profiles => true)
+      @bubba = stub_model(User, :fullname => "Bubba Smith")
+      @billy = stub_model(User, :fullname => "Billy Jack")
+      @sue = stub_model(User, :fullname => "Sue Smith")
+      @proposal = stub_model(Proposal, :users => [@bubba, @billy])
+      @event = stub_current_event!
+      controller.stub!(:assign_get_proposal_for_speaker_manager)
+      controller.stub!(:get_proposal_for_speaker_manager).and_return(@proposal)
+    end
+
+    it "should list" do
+      get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}"}
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+    end
+
+    it "should add user" do
+      User.should_receive(:find).and_return(@sue)
+      get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :add => @sue.id}
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+    end
+
+    it "should remove user" do
+      User.should_receive(:find).and_return(@billy)
+      get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :remove => @billy.id}
+      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
     end
   end
 

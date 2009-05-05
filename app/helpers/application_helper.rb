@@ -14,7 +14,7 @@ module ApplicationHelper
   def preserve_formatting_of(text)
     content_tag("div", simple_format(escape_once(text)), :class => :compressed)
   end
-  
+
   def schedule_available?
     (@event.proposal_status_published? || admin?) && proposal_start_times? && proposal_statuses? && event_rooms?
   end
@@ -73,5 +73,62 @@ module ApplicationHelper
         #{javascript};
       });
     HERE
+  end
+
+  # Is the navigation item the currently viewed page? E.g., if the navigation is :sessions, is the :subnav also :sessions.
+  def nav_current_page_item?
+    return(nav_kind == subnav_kind)
+  end
+
+  # Is the current action related to proposals?
+  def proposal_related_action?
+    return controller.kind_of?(ProposalsController) && ! ["sessions_index", "session_show"].include?(action_name)
+  end
+
+  # Is the current action related to sessions?
+  def session_related_action?
+    return controller.kind_of?(ProposalsController) && ["sessions_index", "session_show"].include?(action_name)
+  end
+
+  # Main navigation to display.
+  def nav_kind
+    if @event && @event.proposal_status_published?
+      return :sessions
+    else
+      return :proposals
+    end
+  end
+
+  # Main navigation path to use.
+  def nav_path
+    return self.send("#{nav_kind}_path")
+  end
+
+  # Main navigation title.
+  def nav_title
+    return self.nav_kind.to_s.titleize
+  end
+
+  # Subnavigation to display.
+  def subnav_kind
+    if @event
+      if @event.proposal_status_published?
+        proposal_related_action? ? :proposals : :sessions
+      else
+        session_related_action? ? :sessions : :proposals
+      end
+    else
+      :proposals
+    end
+  end
+
+  # Subnavigation path.
+  def subnav_path
+    return self.send("#{subnav_kind}_path")
+  end
+
+  # Subnavigation title.
+  def subnav_title
+    return self.subnav_kind.to_s.titleize
   end
 end

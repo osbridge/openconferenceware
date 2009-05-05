@@ -58,6 +58,7 @@ function page_spinner_stop() {
 function bind_all_proposal_controls() {
   bind_proposal_generic_control('room', null);
   bind_proposal_generic_control('transition', null);
+  bind_proposal_schedule_controls();
 }
 
 // Bind AJAX controls for manipulate a proposal's values.
@@ -80,10 +81,14 @@ function bind_proposal_generic_control(kind, elements) {
     format = 'json';
     url = '/proposals/'+proposal_id+'.'+format;
 
+    data = { 'authenticity_token': window._token };
+    data[name] = value;
+    $d = data;
+
     $.ajax({
       'type': 'PUT',
       'url': url,
-      'data': 'authenticity_token='+window._token+'&'+name+'='+value,
+      'data': data,
       'dataType': format,
       'beforeSend': function(request) {
         target.attr('disabled', true);
@@ -93,12 +98,12 @@ function bind_proposal_generic_control(kind, elements) {
         page_spinner_stop();
         target.removeAttr('disabled');
       },
-      'success': function (data, textStatus) {
-        $d = data;
-        data_html_field = '_'+kind+'_control_html';
-        if (data && data[data_html_field]) {
+      'success': function (response, textStatus) {
+        $r = response;
+        html_field = '_'+kind+'_control_html';
+        if (response && response[html_field]) {
           // Extact the "option" elements from the JSON repsone's HTML and update the "select" element.
-          matcher = new RegExp('(<option[\\s\\S]+</option>)', 'gi').exec(data[data_html_field]);
+          matcher = new RegExp('(<option[\\s\\S]+</option>)', 'gi').exec(response[html_field]);
           if (matcher) {
             target.html(matcher[1]);
           }
@@ -109,12 +114,60 @@ function bind_proposal_generic_control(kind, elements) {
     return false;
   });
 }
-/*
-event = $e;
-target = $t;
-kind = $k;
-data = $d;
-*/
+
+function bind_proposal_schedule_controls() {
+  $('.proposal_schedule_control_container select').change(function(event) {
+    // Clears all time select elements if any are set to blank.
+    target = $(this);
+
+    if(target.attr('selectedIndex')==0) {
+      target.parent().find('select').attr('selectedIndex',0);
+    }
+  }).change(function(event) {
+    // Submits the schedule form on change if all three select element have values.
+    if(target.parent().find('option:selected[value]').get().length == 3) {
+      target = $(this);
+
+      data = {
+        'authenticity_token': window._token,
+        'start_time[date]': target.parent().find('select.date').attr('value'),
+        'start_time[hour]': target.parent().find('select.hour').attr('value'),
+        'start_time[minute]': target.parent().find('select.minute').attr('value')
+      };
+      proposal_id = target.parent().attr('id').split('_').pop();
+      format = 'json';
+      url = '/proposals/'+proposal_id+'.'+format;
+
+      $.ajax({
+        'type': 'PUT',
+        'url': url,
+        'data': data,
+        'dataType': format,
+        'beforeSend': function(request) {
+          target.parent().find('select').attr('disabled', true);
+          page_spinner_start();
+        },
+        'complete': function (XMLHttpRequest, textStatus) {
+          page_spinner_stop();
+          target.parent().find('select').removeAttr('disabled');
+        }
+      });
+
+      return false;
+    }
+  });
+  
+  $('.proposal_schedule_control_container select.hour').change(function(event){
+    // If no minute value is set, set minutes to 00 when hour is changed to a non-blank value.
+    target = $(this);
+    if(target.attr('selectedIndex') != 0) {
+      minute_select = target.parent().find('select.minute');
+      if(minute_select.attr('selectedIndex') == 0) {
+        minute_select.attr('selectedIndex',1).trigger('change');
+      }
+    }
+  });
+}
 
 /*---[ proposal_mailto ]----------------------------------------------*/
 

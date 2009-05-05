@@ -11,19 +11,28 @@ RAILS_GEM_VERSION = '~> 2.1.0' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-
-  config.gem "capistrano", :lib => false
-  config.gem "capistrano-ext", :lib => false
+  # Gems that are selectively loaded
   config.gem "sqlite3-ruby", :lib => false
   config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
   config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
-  config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "right_aws", :lib => false # we aren't actually using AWS, but paperclip can, so it requires it.
+
+  # Gems only used for development and test
+  if %w[development test].include?(RAILS_ENV) then
+    config.gem "rspec", :lib => false, :version => ">=1.2.2"
+    config.gem "rspec-rails", :lib => false, :version => ">=1.2.2"
+    config.gem "webrat", :lib => false, :version => ">=0.4.3"
+    config.gem "cucumber", :lib => false, :version => ">=0.2.2"
+  end
+
+  # Gems to load into the environment
+  config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
+  config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
   config.gem "gchartrb", :lib => "google_chart"
-  config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
   config.gem "sdague-icalendar", :lib => 'icalendar', :source => "http://gems.github.com"
+  config.gem "RedCloth"
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -64,11 +73,6 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
   config.active_record.observers = :observist unless ENV['SAFE']
 
-  # Setup caching
-  ::CACHE_FILE_STORE_PATH = "#{RAILS_ROOT}/tmp/cache/#{RAILS_ENV}"
-  FileUtils.mkdir_p CACHE_FILE_STORE_PATH
-  config.cache_store = :file_store, CACHE_FILE_STORE_PATH
-
   # Make Active Record use UTC-base instead of local time
   config.active_record.default_timezone = :utc
 
@@ -94,15 +98,24 @@ Rails::Initializer.run do |config|
   require 'settings_reader'
   SETTINGS = SettingsReader.read(
     theme_file("settings.yml"), {
-      'breadcrumbs'              => [],
-      'timezone'                 => 'Pacific Time (US & Canada)',
+      'public_url' => 'http://change_your/settings.yml/',
+      'organization' => 'Default Organization Name',
+      'Organization_slug' => 'defaultslug',
+      'tagline' => 'Default Tagline',
+      'breadcrumbs' => [],
+      'timezone' => 'Pacific Time (US & Canada)',
       'have_anonymous_proposals' => true,
-      'have_proposal_excerpts'   => false,
-      'have_event_tracks'        => false,
-      'have_events_picker'       => true,
+      'have_proposal_excerpts' => false,
+      'have_event_tracks' => false,
+      'have_event_session_types' => false,
+      'have_events_picker' => true,
       'have_multiple_presenters' => false,
-      'have_user_pictures'       => false,
-      'have_user_profiles'       => false,
+      'have_user_pictures' => false,
+      'have_user_profiles' => false,
+      'have_event_rooms' => false,
+      'have_proposal_start_times' => false,
+      'have_proposal_statuses' => false,
+      'have_event_proposal_comments_after_deadline' => true,
     }
   )
 
@@ -114,4 +127,13 @@ Rails::Initializer.run do |config|
     :session_key => SECRETS.session_name || "openproposals",
     :secret => SECRETS.session_secret,
   }
+
+  # Setup cache
+  require 'rails_cache_configurator'
+  RailsCacheConfigurator.apply(config)
 end
+
+
+# Workaround to make ruby-openid work with Passenger, because these two don't always cooperate.
+# http://groups.google.com/group/phusion-passenger/browse_thread/thread/30b8996f8a1b11f0/ba4cc76a5a08c37d?                   @@@ hl=en&lnk=gst&q=openid#ba4cc76a5a08c37d
+OpenID::Util.logger = RAILS_DEFAULT_LOGGER

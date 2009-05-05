@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090324002914
+# Schema version: 20090411093859
 #
 # Table name: proposals_users
 #
