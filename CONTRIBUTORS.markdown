@@ -10,3 +10,4 @@ Contributors
 * Brandon Philips: http://ifup.org/
 * Scott Becker: http://synthesis.sbecker.net/
 * Don Park: http://donpark.org/
+* Sam Goldstein: http://twitter.com/sam_goldstein
