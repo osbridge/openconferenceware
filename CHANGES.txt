@@ -1,8 +1,19 @@
 Changes
 =======
 
-Below are tags for OpenConferenceWare stable releases, with the latest at top,
-and the changes made to them:
+OpenConferenceWare stable releases and changes made to them (latest at top):
+
+* v0.20090425
+- Added support for displaying sessions differently than proposals.
+- Added heavy caching to proposals and sessions indexes.
+- Added helpers to display main and sub navigation based on proposal
+  status and portion of the site being used.
+- Improved user profiles, added Twitter and Identi.ca handles, and Blog URL.
+- Improved proposals, sessions and schedule, if non-admin visits these
+  paths before status is published, they'll be redirected away.
+- Improved NormalizeUrlMixin to validate multiple URLs at once.
+- Improved boot, added check that ensures migrations have been applied.
+- Improved documentation.
 
 * v0.20090416
 - FIXED login to work with current versions of ruby_openid and Passenger.
