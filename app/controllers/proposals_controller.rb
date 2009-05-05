@@ -84,6 +84,28 @@ class ProposalsController < ApplicationController
       }
     end
   end
+  
+  def schedule
+    @proposals = @event.proposals.scheduled.located
+    respond_to do |format|
+      format.ics {
+        c = Vpim::Icalendar.create2
+        @proposals.each do |session|
+          c.add_event do |event|
+            event.dtstart     session.start_time
+            event.dtend       session.start_time + session.duration.minutes
+            event.summary     session.title
+            event.created     session.created_at if session.created_at
+            event.lastmod     session.updated_at if session.updated_at
+            event.description session.excerpt
+            event.url         url_for session
+            event.set_text 'LOCATION', session.room.name
+          end
+        end
+        render :text => c.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
+      }
+    end
+  end
 
   def session_show
     # @proposal and @event set via #assign_proposal_and_event filter

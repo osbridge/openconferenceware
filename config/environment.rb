@@ -31,6 +31,7 @@ Rails::Initializer.run do |config|
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
   config.gem "gchartrb", :lib => "google_chart"
+  config.gem "vpim", :lib => 'vpim/icalendar'
   config.gem "RedCloth"
 
   # Settings in config/environments/* take precedence over those specified here.
