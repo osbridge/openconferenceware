@@ -24,7 +24,7 @@ describe Schedule do
   it "should initialize from an Event"
 
   it "should initialize from an array of proposals" do
-    @schedule.items.should == @sessions
+    @schedule.items.sort_by(&:title).should == @sessions.sort_by(&:title)
   end
 
   describe "is a container for days and" do
@@ -72,8 +72,8 @@ describe Schedule do
             end
 
             it "thus, they should have items" do
-              @sections.should_not be_blank
-              @sections.first.should (be_a_kind_of(ScheduleItem) || be_a_kind_of(Proposal))
+              @items.should_not be_blank
+              @items.first.should respond_to(:start_time)
             end
           end
         end
@@ -95,13 +95,11 @@ describe Schedule do
         @rakudo_block = @blocks.select{|block| block.items.include?(@rakudo_session)}.first
         @cloud_block = @blocks.select{|block| block.items.include?(@cloud_session)}.first
 
-        @postgresql_slice = @slices.select{|slice| slice.blocks.include?(@postgresql_block)}
-        @drizzle_slice = @slices.select{|slice| slice.blocks.include?(@drizzle_block)}
+        @postgresql_slice = @slices.select{|slice| slice.blocks.include?(@postgresql_block)}.first
+        @drizzle_slice = @slices.select{|slice| slice.blocks.include?(@drizzle_block)}.first
 
-        @rakudo_section = @sections.select{|section| section.blocks.include?(@rakudo_block)}
-        @postgresql_section = @sections.select{|section| section.blocks.include?(@postgresql_block)}
-
-
+        @rakudo_section = @sections.select{|section| section.blocks.include?(@rakudo_block)}.first
+        @postgresql_section = @sections.select{|section| section.blocks.include?(@postgresql_block)}.first
       end
 
       it "should create a day for each day represented in the input set" do
@@ -110,11 +108,11 @@ describe Schedule do
 
       it "each item should be contained in one and only one block" do
         @sessions.each do |session|
-          @blocks.select{|block| block.items.include?(session)}.should == 1
+          @blocks.select{|block| block.items.include?(session)}.size.should == 1
         end
       end
 
-      it "should set the time boundries for each block equal to those of its items"
+      it "should set the time boundries for each block equal to those of its items" do
         @blocks.each do |block|
           block.items.each do |item|
             block.start_time.should == item.start_time
@@ -128,24 +126,24 @@ describe Schedule do
           @drizzle_block.items.should == [@drizzle_session]
         end
 
-        it "The cloud session should be in the same block as the business session"
+        it "The cloud session should be in the same block as the business session" do
           @cloud_block.items.size.should == 2
           @cloud_block.items.should include(@business_session)
         end
       end
 
       describe "should group overlapping blocks into sections:" do
-        it "The rakudo block should be alone in its section"
+        it "The rakudo block should be alone in its section" do
           @rakudo_section.blocks.should == [@rakudo_block]
         end
 
-        it "The postgresql block should be in the same block as the drizzle block"
+        it "The postgresql block should be in the same block as the drizzle block" do
           @postgresql_section.blocks.size.should == 2
           @postgresql_section.blocks.should include(@drizzle_block)
         end
       end
 
-      describe "should break sections into slices to avoid overlaps:"
+      describe "should break sections into slices to avoid overlaps:" do
         it "The section containing postgresql should contain a slice for postgresql and a slice for drizzle" do
           @postgresql_section.slices.size.should == 2
           @postgresql_section.slices.should include(@postgresql_slice)
@@ -156,66 +154,13 @@ describe Schedule do
           @rakudo_section.slices.size.should == 1
         end
       end
-
     end
-
   end
 
   describe "(given an invalid set of items to process)" do
     it "should raise an error when given an item that is not scheduleable"
   end
 end
-
-
-
-
-
-=begin
-
-
-    describe "days" do
-
-
-      describe "sections" do
-        before(:each) do
-          @sections = @schedule.sections
-
-          start_time = proposals(:drizzle_session).start_time
-          end_time   = proposals(:postgresql_session).end_time
-          duration   = proposals(:postgresql_session).duration
-          @drizzle_and_postgres_section = sections.select {|t| t.start_time == start_time && t.end_time == end_time && t.duration == duration }.first
-
-          start_time = proposals(:rakudo_session).start_time
-          end_time   = proposals(:rakudo_session).end_time
-          duration   = proposals(:rakudo_session).duration
-          @rakudo_section = sections.select {|t| t.start_time == start_time && t.end_time == end_time && t.duration == duration }.first
-        end
-
-        it "should provide an Array of sections" do
-          @sections.should be_a_kind_of(Array)
-          @sections.first.should be_a_kind_of(ScheduleSection)
-        end
-
-        it "should provide the expected sections based on fixture data" do
-          @sections.size.should >= 2
-          @drizzle_and_postgres_section.should_not be_nil
-          @rakudo_session.should_not be_nil
-        end
-
-        describe "slices" do
-          it "should "
-
-          describe "blocks" do
-            describe "items" do
-              # TODO
-            end
-          end
-        end
-
-      end
-=end
-
-
 
 class SchedulableThingy
   include Schedulable

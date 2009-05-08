@@ -80,6 +80,14 @@ class ScheduleDay
   def sections
     @sections ||= ScheduleSection.new_array_from(self.items)
   end
+
+  def slices
+    @slices ||= self.sections.map(&:slices).flatten
+  end
+
+  def blocks
+    @blocks ||= self.slices.map(&:blocks).flatten
+  end
 end
 
 class ScheduleSection
@@ -108,6 +116,10 @@ class ScheduleSection
 
   def slices
     @slices ||= ScheduleSlice.new_array_from(self.items)
+  end
+
+  def blocks
+    @blocks ||= self.slices.map(&:blocks).flatten
   end
 end
 
