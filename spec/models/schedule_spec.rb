@@ -169,9 +169,9 @@ end
 describe SchedulableThingy do
   before(:each) do
     @thingy = SchedulableThingy.new
-    @duration = 1.hour
+    @duration = 45
     @time1 = Time.now
-    @time2 = @time1 + @duration
+    @time2 = @time1 + @duration.minutes
   end
 
   describe "when start_time is set" do

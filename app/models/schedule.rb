@@ -43,7 +43,7 @@ module Schedulable
         raise ArgumentError, "End time cannot be set without a start time" unless @start_time
         raise ArgumentError, "End time cannot be before start time" if value < @start_time
         @end_time = value
-        @duration = @end_time - @start_time
+        @duration = (@end_time - @start_time) / 1.minutes
       end
 
       def duration=(value)
