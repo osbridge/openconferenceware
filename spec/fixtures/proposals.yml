@@ -115,6 +115,30 @@ drizzle_session:
   session_type: short_form
   room: burnside
 
+mysql_session:
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am').to_s(:db) %>
+  title: "MySQL Session"
+  excerpt: "Let's talk about MySQL"
+  description: "Details about MySQL session"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+sqlite_session:
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am').to_s(:db) %>
+  title: "SQLite Session"
+  excerpt: "Let's talk about SQLite"
+  description: "Details about SQLite session"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
 rakudo_session:
   event_id: 2009
   track: cooking

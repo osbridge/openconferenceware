@@ -17,3 +17,11 @@ postgresql_session_with_qentin:
 drizzle_session_with_aaron:
   user: aaron
   proposal: drizzle_session
+
+sqlite_session_with_clio:
+  user: clio
+  proposal: sqlite_session
+
+mysql_session_with_gustuvus:
+  user: gustavus
+  proposal: mysql_session
