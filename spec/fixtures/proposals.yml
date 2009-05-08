@@ -90,3 +90,39 @@ clio_chupacabras:
     The first reported attacks occurred in March 1995 in Puerto Rico.[3] In this attack, eight sheep were discovered dead, each with three puncture wounds in the chest area and completely drained of blood.[3] In 1975, similar killings in the small town of Moca, were attributed to El Vampiro de Moca (The Vampire of Moca).[4] Initially it was suspected that the killings were committed by a Satanic cult; later more killings were reported around the island, and many farms reported loss of animal life. Each of the animals had their bodies bled dry through a series of small circular incisions.
 
     Puerto Rican comedian and entrepreneur Silverio Pérez is credited with coining the term "chupacabras" soon after the first incidents were reported in the press.[5] Shortly after the first reported incidents in Puerto Rico, other animal deaths were reported in other countries, such as the Dominican Republic, Argentina, Bolivia, Chile, Colombia, Honduras, El Salvador, Nicaragua, Panama, Peru, Brazil, the United States, and Mexico.[3]
+
+postgresql_session:
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am').to_s(:db) %>
+  title: "PostgreSQL Session"
+  excerpt: "Let's talk about PostgreSQL"
+  description: "Details about PostgreSQL session"
+  status: confirmed
+  session_type: long_form
+  room: morrison
+
+drizzle_session:
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am').to_s(:db) %>
+  title: "Drizzle Session"
+  excerpt: "Let's talk about Drizzle"
+  description: "Details about Drizzle session"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+rakudo_session:
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 12:00am').to_s(:db) %>
+  title: "Rakudo Session"
+  excerpt: "PERL 6 IS COMING SOON!!!1!"
+  description: "ROLES! GIMME A PONY OPERATOR! WORLD DOMINATION! LOL!"
+  status: confirmed
+  session_type: short_form
+  room: burnside

@@ -9,3 +9,11 @@ aardvarks_with_aaron:
 chupacabras_with_clio:
   user: clio
   proposal: clio_chupacabras
+
+postgresql_session_with_qentin:
+  user: quentin
+  proposal: postgresql_session
+
+drizzle_session_with_aaron:
+  user: aaron
+  proposal: drizzle_session
