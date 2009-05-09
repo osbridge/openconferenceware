@@ -35,6 +35,10 @@ class Proposal < ActiveRecord::Base
 
   # Provide ::lookup
   include CacheLookupsMixin
+
+  # Provide ::overlaps?
+  include ScheduleOverlapsMixin
+
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags

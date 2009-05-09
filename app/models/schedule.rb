@@ -39,6 +39,8 @@ module Schedulable
       attr_accessor :end_time
       attr_accessor :duration
 
+      include ScheduleOverlapsMixin
+
       def end_time=(value)
         raise ArgumentError, "End time cannot be set without a start time" unless @start_time
         raise ArgumentError, "End time cannot be before start time" if value < @start_time
@@ -51,10 +53,6 @@ module Schedulable
         raise ArgumentError, "Duration cannot be negative" if value < 0
         @duration = value
         @end_time = @start_time + value.minutes
-      end
-
-      def overlaps?(object)
-        (self.start_time..self.end_time).overlaps?(object.start_time..object.end_time)
       end
     end
   end
@@ -180,7 +178,7 @@ class ScheduleBlock
   end
 end
 
-class ScheduleItem
-  include Schedulable
-  # FIXME implement
-end
+# class ScheduleItem
+#   include Schedulable
+#   # FIXME implement
+# end

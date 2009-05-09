@@ -13,8 +13,8 @@ describe Schedule do
     # ------------------------------------------------------------------/
 
     # Same time, same duration -----------------------------------------\
-      @sessions << @cloud_session      = proposals(:cloud_session)       #
-      @sessions << @business_session   = proposals(:business_session)    #
+      @sessions << @cloud_session      = proposals(:cloud_session)      #
+      @sessions << @business_session   = proposals(:business_session)   #
     # ------------------------------------------------------------------/
 
     @sessions.should_not be_empty
