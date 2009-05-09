@@ -600,16 +600,35 @@ table#proposal-status-counts {
 
 table.schedule {
 	width: 100%;
+	border-collapse: separate;
+	border-spacing: 1em;
+}
+table.schedule h4 {
+	background: #116db6;
+	color: #fff;
+	padding: .2em;
+}
+table.schedule ul {
+	margin: 0;
+}
+table.schedule li {
+	list-style: none;
+	margin: 0 .5em .5em;
+	padding: .2em .5em;
+
+	border: 1px solid;
 }
 
 table.schedule td {
 	vertical-align: top;
 	position: relative;
+	padding: 0;
 }
 
 table.schedule .schedule_block {
-	background: #ddd;
-	border: 4px solid #fff;
+	border-left: 4px solid #116db6;
+	border-bottom: 1px solid #9cbdd6;
+	border-right: 1px solid #9cbdd6;
 }
 
 table.schedule .slice table {
