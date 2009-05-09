@@ -3,16 +3,26 @@
 
   <table class='schedule'>
     <% day.sections.each do |section| %>
-      <tr class='section'>
-      <% slice_colspan = day.lcm_colspan / section.slices.size %>
-      <% section.slices.each do |slice| %>
-        <td colspan='<%= slice_colspan %>' class='slice'>
-          <% slice.blocks.each do |block| %>
-            <%= render :partial => 'schedule_block', :locals => {:block => block} %>
-          <% end -%>
-        </td>
+      <% colspan = day.lcm_colspan / section.slices.size %>
+
+      <%
+        rows = section.lcm_rowspan
+        (0..rows-1).each do |row|
+          row_content = ''
+
+          section.slices.sort_by{|slice| slice.blocks.size}.reverse.each do |slice|
+            block_height = (rows / slice.blocks.size)
+            relevant_rows = (0..slice.blocks.size-1).map{ |n| n * block_height }
+            if relevant_rows.include?(row)
+              row_content << "<td class='schedule_block' rowspan='#{block_height}' colspan='#{colspan}'>"
+              row_content << render(:partial => 'schedule_block',
+                              :locals => { :block => slice.blocks[row / block_height] })
+              row_content << "</td>"
+            end
+          end
+          %>
+          <tr><%= row_content %></tr>
       <% end -%>
-      </tr>
     <% end -%>
   </table>
 <% end -%>

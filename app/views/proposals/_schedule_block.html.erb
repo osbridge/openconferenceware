@@ -1,8 +1,6 @@
-<div class='schedule_block'>
   <h4><%= block.start_time.strftime("%l:%M")%> &ndash; <%= block.end_time.strftime("%l:%M")%></h4>
   <ul>
   <% block.items.each do |item| %>
     <li><%= item.title %></li>
   <% end %>
   </ul>
-</div>

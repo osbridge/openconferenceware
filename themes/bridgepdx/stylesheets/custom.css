@@ -608,9 +608,8 @@ table.schedule td {
 }
 
 table.schedule .schedule_block {
-	background: #ccc;
-	height: 100%;
-	margin-bottom: 1em;
+	background: #ddd;
+	border: 4px solid #fff;
 }
 
 table.schedule .slice table {
