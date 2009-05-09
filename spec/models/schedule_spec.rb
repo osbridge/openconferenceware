@@ -21,7 +21,18 @@ describe Schedule do
     @schedule = Schedule.new(@sessions)
   end
 
-  it "should initialize from an Event"
+  it "should not initialize from unknown types" do
+    lambda { Schedule.new(:omg) }.should raise_error(TypeError)
+  end
+
+  it "should initialize from an Event" do
+    schedule = Schedule.new(events(:open))
+    schedule.days.should_not be_empty
+    schedule.sections.should_not be_empty
+    schedule.slices.should_not be_empty
+    schedule.blocks.should_not be_empty
+    schedule.items.should_not be_empty
+  end
 
   it "should initialize from an array of proposals" do
     @schedule.items.sort_by(&:title).should == @sessions.sort_by(&:title)
@@ -36,6 +47,7 @@ describe Schedule do
       @days.should_not be_blank
       @days.first.should be_a_kind_of(ScheduleDay)
     end
+
     describe "days are containers for sections and" do
       before do
         @sections = @days.first.sections
@@ -77,6 +89,14 @@ describe Schedule do
             end
           end
         end
+      end
+
+      it "thus, they should have access to their children's slices" do
+        @days.first.slices.first.should be_a_kind_of(ScheduleSlice)
+      end
+
+      it "thus, they should have access to their children's blocks" do
+        @days.first.blocks.first.should be_a_kind_of(ScheduleBlock)
       end
     end
   end
