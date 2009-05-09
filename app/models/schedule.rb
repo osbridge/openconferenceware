@@ -30,6 +30,25 @@ class Schedule
   def blocks
     @blocks ||= self.slices.map(&:blocks).flatten
   end
+
+  def room_conflicts
+    @conflicts ||= returning [] do |conflicts|
+      self.items.group_by(&:room).each do |room_group|
+        room = room_group[0]
+        items = room_group[1]
+
+        items.each do |item|
+          if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
+            conflicts << {
+              :room => room,
+              :item => item,
+              :conflicts_with => conflicts_with
+            }
+          end
+        end
+      end
+    end
+  end
 end
 
 module Schedulable

@@ -1,3 +1,14 @@
+<% if admin? && !(conflicts = @schedule.room_conflicts).empty? %>
+  <h3>( ! ) Room Conflicts Detected</h3>
+  <%= content_tag(:ul,
+        @schedule.room_conflicts.map{ |conflict|
+          content_tag(:li,
+            "<em>#{conflict[:item].title}</em> vs. <em>#{conflict[:conflicts_with].title}</em> in #{conflict[:room].name}"
+          )
+        }.join("\n")
+      ) %>
+<% end -%>
+
 <% @schedule.days.each do |day| %>
   <h3><%= day.date.strftime("%B %e, %Y") %></h3>
 
