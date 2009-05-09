@@ -11,3 +11,9 @@ long_form:
   title: "Long-Form - 1 hour, 45 minutes"
   duration: 105
   description: "We're especially interested in seeing interactive approaches: tutorials, guided discussions, or other hands-on explorations."
+
+shorter_form:
+  event_id: 2009
+  title: "Shorter-Form - 15 minutes"
+  duration: 15
+  description: "It's short. Really short."
