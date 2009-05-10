@@ -170,7 +170,7 @@ describe ApplicationController do
           :host_with_port => 'foo:80',
           :relative_url_root => ''))
         @controller.instance_variable_set(:@event, event)
-        @controller.should_receive(:redirect_to).with("/events/#{event.id}/application/")
+        @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")
         @controller.send(:normalize_event_path_or_redirect).should_not be_false
       end
     end
