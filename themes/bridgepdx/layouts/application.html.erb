@@ -176,6 +176,7 @@
                           <% if event_rooms? %>
                             <li><%= link_to "Rooms", rooms_path %></li>
                           <% end %>
+                          <li><%= link_to "Schedule Items", event_schedule_items_path(@event) %></li>
                           <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
                         </ul>
                       </li>
