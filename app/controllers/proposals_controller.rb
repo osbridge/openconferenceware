@@ -98,7 +98,7 @@ class ProposalsController < ApplicationController
             event.created     session.created_at if session.created_at
             event.lastmod     session.updated_at if session.updated_at
             event.description session.excerpt
-            event.url         url_for session
+            event.url         url_for(session)
             event.set_text 'LOCATION', session.room.name
           end
         end
@@ -112,7 +112,7 @@ class ProposalsController < ApplicationController
     @kind = :session
     unless @proposal.confirmed?
       flash[:failure] = "This proposal is not a session."
-      return redirect_to proposal_path(@proposal)
+      return redirect_to( proposal_path(@proposal) )
     end
     return base_show
   end
@@ -124,7 +124,7 @@ class ProposalsController < ApplicationController
     @kind = :proposal
     if @event.proposal_status_published? && @proposal.confirmed?
       flash[:notice] = "This proposal has been accepted as a session."
-      return redirect_to session_path(@proposal)
+      return redirect_to( session_path(@proposal) )
     end
     return base_show
   end
