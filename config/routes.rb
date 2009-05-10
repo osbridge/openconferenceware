@@ -23,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     events.resources :tracks, :controller => 'tracks'
     events.resources :session_types
     events.resources :rooms
+    events.resources :schedule_items
     events.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
     events.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
     events.schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'

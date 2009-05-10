@@ -1,0 +1,18 @@
+<h1>Listing schedule_items</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for schedule_item in @schedule_items %>
+  <tr>
+    <td><%= link_to 'Show', schedule_item %></td>
+    <td><%= link_to 'Edit', edit_schedule_item_path(schedule_item) %></td>
+    <td><%= link_to 'Destroy', schedule_item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New schedule_item', new_schedule_item_path %>

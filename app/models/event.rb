@@ -29,6 +29,7 @@ class Event < ActiveRecord::Base
   has_many :tracks, :order => 'title asc'
   has_many :session_types
   has_many :rooms
+  has_many :schedule_items
 
   # Validations
   validates_presence_of \
