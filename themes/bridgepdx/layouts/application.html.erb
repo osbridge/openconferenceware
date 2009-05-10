@@ -180,7 +180,7 @@
                             <li><%= link_to "Rooms", rooms_path %></li>
                           <% end %>
                           <li><%= link_to "Schedule Items", event_schedule_items_path(@event) %></li>
-                          <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
+                          <li><%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %></li>
                         </ul>
                       </li>
                     <% end %>

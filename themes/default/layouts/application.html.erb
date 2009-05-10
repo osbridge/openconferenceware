@@ -69,7 +69,7 @@
                     <li><%= link_to "Manage snippets", manage_snippets_path %></li>
                     <li><%= link_to "Manage comments", comments_path %></li>
                     <% if @event %>
-                      <li><%= link_to "Export CSV", "/events/#{@event.id}/proposals.csv" %></li>
+                      <li><%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %></li>
                     <% end %>
                   <% end %>
                   <li><%= link_to "Logout", logout_path, :method => :delete %></li>
