@@ -102,7 +102,7 @@ class ProposalsController < ApplicationController
             e.lastmod     item.updated_at if item.updated_at
             e.description item.excerpt
             e.url         url_for item
-            e.set_text    'LOCATION', item.room.name
+            e.set_text    'LOCATION', item.room.name if item.room
           end
         end
         render :text => calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
