@@ -26,8 +26,9 @@
     <style type="text/css" media="screen">
       <% for track in @event.tracks %>
         /* <%= track.title %> */
-        .<%= track_css_class(track) %> { color: <%= track.color %>; }
-        .<%= track_css_class(track) %>.block { background: <%= track.color %>; color: #fff; }
+        .<%= track_css_class(track) %> { color: <%= track.color.html %>; }
+        .<%= track_css_class(track) %>.block { background: <%= track.color.html %>; color: #fff; }
+        .<%= track_css_class(track) %>.light { background: <%= track.color.adjust_brightness(60).adjust_saturation(-20).html %>; }
       <% end %>
     </style>
   <% end %>

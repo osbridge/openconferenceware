@@ -15,7 +15,7 @@ cache "proposals_stats" do
 
   @tracks.each do |track|
     data_sets[track.title] = {
-      :color => track.color,
+      :color => track.color.html,
       :records => proposals_for_track[track]
     }
   end
@@ -43,7 +43,7 @@ cache "proposals_stats" do
 
   track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
   @tracks.each do |track|
-    track_distribution.data track.title, proposals_for_track[track].ergo.size || 0, track.color.gsub('#','')
+    track_distribution.data track.title, proposals_for_track[track].ergo.size || 0, track.color.html.gsub('#','')
   end
   %>
 

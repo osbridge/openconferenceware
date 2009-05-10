@@ -33,6 +33,7 @@ Rails::Initializer.run do |config|
   config.gem "gchartrb", :lib => "google_chart"
   config.gem "vpim", :lib => 'vpim/icalendar'
   config.gem "RedCloth"
+  config.gem 'color'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

@@ -29,4 +29,20 @@ class Track < ActiveRecord::Base
   def <=>(against)
     self.title <=> (against.nil? ? '' : against.title)
   end
+
+  def color
+    (stored_color = read_attribute(:color)).nil? ? nil : Color::RGB.from_html(stored_color)
+  end
+
+  def color=(value)
+    case value
+    when Color::RGB
+      new_color = value
+    when String
+      new_color = Color::RGB.from_html(value)
+    else
+      raise TypeError
+    end
+    write_attribute(:color,new_color.html)
+  end
 end
