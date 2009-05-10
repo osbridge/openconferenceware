@@ -76,7 +76,7 @@ describe TracksController do
     
       it "should expose a new track as @track" do
         Track.should_receive(:new).and_return(mock_track)
-        get :new, :event => events(:open).id
+        get :new, :event => events(:open).slug
         assigns[:track].should equal(mock_track)
       end
 

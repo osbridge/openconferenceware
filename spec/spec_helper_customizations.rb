@@ -17,7 +17,7 @@ end
 # * :status => Assignment status to use, else :assigned_to_current will be used.
 def stub_current_event!(opts={})
   controller = opts[:controller] || @controller
-  event = opts[:event] || stub_model(Event, :id => 1, :title => "Event 1")
+  event = opts[:event] || stub_model(Event, :id => 1, :title => "Current Event", :slug => 'current')
   status = opts[:status] || :assigned_to_current
   controller.stub!(:get_current_event_and_assignment_status).and_return([event, status])
   assigns[:event] = event

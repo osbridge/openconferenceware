@@ -40,7 +40,7 @@ describe EventsController, "when displaying events" do
     context "extant event" do
       before do
         @event = events(:closed)
-        get :show, :id => @event.id
+        get :show, :id => @event.slug
       end
 
       it "should display event" do

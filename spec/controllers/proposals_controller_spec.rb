@@ -11,7 +11,7 @@ describe ProposalsController do
   describe "index" do
     describe "when returning HTML" do
       before do
-        get :index, :event_id => @event.id
+        get :index, :event_id => @event.slug
       end
 
       it "should be successful" do
@@ -30,7 +30,7 @@ describe ProposalsController do
     describe "when returning CVS" do
       describe "shared CSV behaviors", :shared => true do
         before do
-          get :index, :event_id => @event.id, :format => "csv"
+          get :index, :event_id => @event.slug, :format => "csv"
           @rows = CSV::Reader.parse(response.body).inject([]){|result,row| result << row; result}
           @header = @rows.first
         end
@@ -110,7 +110,7 @@ describe ProposalsController do
 
     describe "when returning XML" do
       before(:each) do
-        get :index, :event_id => @event.id, :format => "xml"
+        get :index, :event_id => @event.slug, :format => "xml"
 
         @proposals = assigns(:proposals)
         @struct = XmlSimple.xml_in_string(response.body)
@@ -123,7 +123,7 @@ describe ProposalsController do
 
     describe "when returning JSON" do
       before(:each) do
-        get :index, :event_id => @event.id, :format => "json"
+        get :index, :event_id => @event.slug, :format => "json"
 
         @proposals = assigns(:proposals)
         @struct = ActiveSupport::JSON.decode(response.body)
@@ -196,6 +196,7 @@ describe ProposalsController do
       event = stub_model(Event,
         :proposal_status_published? => true,
         :id => 1234,
+        :slug => 'event_slug',
         :session_text => "MySessionText",
         :populated_sessions => []
       )
@@ -212,6 +213,7 @@ describe ProposalsController do
       event = stub_model(Event,
         :proposal_status_published? => true,
         :id => 1234,
+        :slug => 'event_slug',
         :populated_sessions => proposals
       )
 
@@ -229,7 +231,7 @@ describe ProposalsController do
     end
 
     it "should redirect to proposals unless the proposal status is published" do
-      event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
+      event = stub_model(Event, :proposal_status_published? => false, :id => 1234, :slug => 'event_slug')
       stub_current_event!(:event => event)
       get :sessions_index, :event => 1234
 
@@ -237,7 +239,7 @@ describe ProposalsController do
     end
 
     it "should redirect /sessions to proposals unless proposal status is published" do
-      event = stub_model(Event, :proposal_status_published? => false, :id => 1234)
+      event = stub_model(Event, :proposal_status_published? => false, :id => 1234, :slug => 'event_slug')
       stub_current_event!(:event => event, :status => :assigned_to_current)
       get :sessions_index, :format => :html
 
@@ -245,7 +247,7 @@ describe ProposalsController do
     end
 
     it "should normalize /sessions if proposal status is published" do
-      event = stub_model(Event, :proposal_status_published? => true, :id => 1234)
+      event = stub_model(Event, :proposal_status_published? => true, :id => 1234, :slug => 'event_slug')
       stub_current_event!(:event => event, :status => :assigned_to_current)
       get :sessions_index, :format => :html
 
@@ -347,7 +349,7 @@ describe ProposalsController do
         it "should redirect incomplete profiles to user edit form" do
           user = users(:incognito)
           login_as(user)
-          get :new, :event_id => events(:open).id
+          get :new, :event_id => events(:open).slug
 
           flash.should have_key(:notice)
           response.should redirect_to(edit_user_path(user, :require_complete_profile => true))
@@ -355,7 +357,7 @@ describe ProposalsController do
 
         it "should allow users with complete profiles" do
           login_as(:quentin)
-          get :new, :event_id => events(:open).id
+          get :new, :event_id => events(:open).slug
 
           flash.should_not have_key(:failure)
           response.should be_success
@@ -373,7 +375,7 @@ describe ProposalsController do
           end
 
           it "should display form for open events" do
-            get :new, :event_id => events(:open).id
+            get :new, :event_id => events(:open).slug
 
             response.should be_success
             assigns(:proposal).should be_true
@@ -381,7 +383,7 @@ describe ProposalsController do
 
           it "should not assign presenter if anonymous" do
             logout
-            get :new, :event_id => events(:open).id
+            get :new, :event_id => events(:open).slug
 
             response.should be_success
             proposal = assigns(:proposal)
@@ -395,7 +397,7 @@ describe ProposalsController do
           end
 
           it "should redirect anonymous user to login" do
-            get :new, :event_id => events(:open).id
+            get :new, :event_id => events(:open).slug
 
             flash.should have_key(:notice)
             response.should redirect_to(login_path)
@@ -405,7 +407,7 @@ describe ProposalsController do
         it "should assign presenter if logged in" do
           user = users(:quentin)
           login_as(user.login)
-          get :new, :event_id => events(:open).id
+          get :new, :event_id => events(:open).slug
 
           response.should be_success
           proposal = assigns(:proposal)
@@ -416,7 +418,7 @@ describe ProposalsController do
       it "should not display form for closed events" do
         login_as(users(:quentin))
         event = events(:closed)
-        get :new, :event_id => event.id
+        get :new, :event_id => event.slug
 
         response.should redirect_to(event_proposals_path(event))
       end
@@ -523,7 +525,7 @@ describe ProposalsController do
 
       it "should redirect to OpenID login system if user tried to login" do
         SETTINGS.stub!(:have_anonymous_proposals).and_return(true)
-        assert_create(nil, :event_id => @event.id, :commit => 'Login', :openid_url => 'http://foo.bar') do
+        assert_create(nil, :event_id => @event.slug, :commit => 'Login', :openid_url => 'http://foo.bar') do
           response.should be_redirect
           response.should redirect_to(browser_session_url(:openid_url => 'http://foo.bar'))
           assigns(:proposal).should be_blank
@@ -544,7 +546,7 @@ describe ProposalsController do
         proposal = Proposal.new(@inputs)
         proposal.users << user
         Proposal.should_receive(:new).and_return(proposal)
-        assert_create(user, :event_id => @event.id, :proposal => @inputs) do
+        assert_create(user, :event_id => @event.slug, :proposal => @inputs) do
           response.should be_success
           proposal = assigns(:proposal)
           proposal.should_not be_valid
@@ -563,7 +565,7 @@ describe ProposalsController do
         end
 
         it "should create proposal for anonymous user" do
-          assert_create(nil, :event_id => @event.id, :proposal => @inputs) do
+          assert_create(nil, :event_id => @event.slug, :proposal => @inputs) do
             proposal = assigns(:proposal)
             proposal.should be_valid
             proposal.id.should_not be_nil
@@ -577,14 +579,14 @@ describe ProposalsController do
         end
 
         it "should not create proposal for anonymous user" do
-          assert_create(nil, :event_id => @event.id, :proposal => @inputs) do
+          assert_create(nil, :event_id => @event.slug, :proposal => @inputs) do
             response.should redirect_to(login_path)
           end
         end
       end
 
       it "should create proposal for mortal user" do
-        assert_create(:quentin, :event_id => @event.id, :proposal => @inputs) do
+        assert_create(:quentin, :event_id => @event.slug, :proposal => @inputs) do
           proposal = assigns(:proposal)
           proposal.should be_valid
           proposal.id.should_not be_nil
@@ -594,7 +596,7 @@ describe ProposalsController do
       it "should fail to create proposal without a presenter" do
         inputs = @inputs.clone
         inputs['presenter'] = nil
-        assert_create(:quentin, :event_id => @event.id, :proposal => inputs) do
+        assert_create(:quentin, :event_id => @event.slug, :proposal => inputs) do
           response.should be_success
           proposal = assigns(:proposal)
           proposal.should_not be_valid
