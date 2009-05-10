@@ -7,21 +7,15 @@
 
   <%= hidden_field_tag :return_to, @return_to %>
 
-  <% unless @event.new_record? %>
-    <%= f.hidden_field :id %>
-  <% end %>
-
   <table>
-    <% if @event.new_record? %>
-      <tr>
-        <td class="label-cell">
-          <%= f.label :id %>
-        </td>
-        <td>
-          <%= f.text_field :id %>
-        </td>
-      </tr>
-    <% end %>
+    <tr>
+      <td class="label-cell">
+        <%= f.label :slug %>
+      </td>
+      <td>
+        <%= f.text_field :slug %>
+      </td>
+    </tr>
 
     <tr>
       <td class="label-cell">
