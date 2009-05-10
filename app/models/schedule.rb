@@ -6,7 +6,7 @@ class Schedule
 
     case event_or_items
     when Event
-      self.items = event_or_items.proposals.scheduled.located.all
+      self.items = event_or_items.proposals.scheduled.located.all + event_or_items.schedule_items
     when Array
       self.items = event_or_items
     else
