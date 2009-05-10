@@ -1,5 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
   # See how all your routes lay out with "rake routes"
 
   map.resources :comments, :path_prefix => 'proposals'
@@ -30,11 +29,12 @@ ActionController::Routing::Routes.draw do |map|
     events.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   end
 
-  map.resource :manage, :controller => 'manage' do |manage|
-    manage.resources :events, :controller => 'manage/events'
-    manage.resources :snippets, :controller => 'manage/snippets'
+  map.namespace :manage do |manage|
+    manage.root :controller => 'events', :action => 'index'
+    manage.resources :events
+    manage.resources :snippets
+    manage.event_proposals '/events/:id/proposals', :controller => 'events', :action => 'proposals'
   end
-  map.manage_event_proposals '/manage/events/:id/proposals', :controller => 'manage/events', :action => 'proposals'
 
   map.root :controller => "proposals"
 
