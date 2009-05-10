@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20090510024259
+#
+# Table name: schedule_items
+#
+#  id          :integer         not null, primary key
+#  title       :string(255)
+#  excerpt     :string(255)
+#  description :string(255)
+#  start_time  :datetime
+#  duration    :integer
+#  event_id    :integer
+#  room_id     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class ScheduleItem < ActiveRecord::Base
   belongs_to :event
   belongs_to :room
