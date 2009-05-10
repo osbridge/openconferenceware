@@ -1,4 +1,5 @@
 <% if admin? && !(conflicts = @schedule.room_conflicts).empty? %>
+<div class='admin-only'>
   <h3>( ! ) Room Conflicts Detected</h3>
   <%= content_tag(:ul,
         @schedule.room_conflicts.map{ |conflict|
@@ -7,6 +8,20 @@
           )
         }.join("\n")
       ) %>
+</div>
+<% end -%>
+
+<% if admin? && !(conflicts = @schedule.user_conflicts).empty? %>
+<div class='admin-only'>
+  <h3>( ! ) Speaker Conflicts Detected</h3>
+  <%= content_tag(:ul,
+        @schedule.user_conflicts.map{ |conflict|
+          content_tag(:li,
+            "<strong>#{conflict[:user].fullname}</strong><em>#{conflict[:item].title}</em> vs. <em>#{conflict[:conflicts_with].title}</em> in #{conflict[:room].name}"
+          )
+        }.join("\n")
+      ) %>
+</div>
 <% end -%>
 
 <% @schedule.days.each do |day| %>

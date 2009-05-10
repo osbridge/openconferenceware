@@ -32,7 +32,7 @@ class Schedule
   end
 
   def room_conflicts
-    @conflicts ||= returning [] do |conflicts|
+    @room_conflicts ||= returning [] do |conflicts|
       self.items.group_by(&:room).each do |room_group|
         room = room_group[0]
         items = room_group[1]
@@ -43,6 +43,23 @@ class Schedule
               :room => room,
               :item => item,
               :conflicts_with => conflicts_with
+            }
+          end
+        end
+      end
+    end
+  end
+
+  def user_conflicts
+    @user_conflicts ||= returning [] do |conflicts|
+      Proposal.scheduled.map(&:users).flatten.uniq.each do |user|
+        user.proposals.scheduled.each do |proposal|
+          if (conflicts_with = user.proposals.scheduled.all.find{ |o| o.overlaps?(proposal) }) && conflicts_with != proposal
+            conflicts << {
+              :room => room,
+              :item => proposal,
+              :conflicts_with => conflicts_with,
+              :user => user
             }
           end
         end
