@@ -22,6 +22,7 @@ closed:
     Old Event is the premier event for all things antiquated. We're now accepting proposals, submit yours today!
   closed_text: |
     Old Event is the premier event for all things antiquated. We're no-longer accepting proposals, better luck next time.
+  slug: closed
 
 open:
   id: 2009
@@ -31,3 +32,4 @@ open:
     Current Event is the premier event for all things shiny. We're now accepting proposals, submit yours today!
   closed_text: |
     Current Event is the premier event for all things shiny. We're no-longer accepting proposals, better luck next time.
+  slug: open
