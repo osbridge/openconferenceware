@@ -1,4 +1,11 @@
 class ScheduleItemsController < ApplicationController
+  before_filter :require_admin, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :assert_current_event_or_redirect
+  before_filter :normalize_event_path_or_redirect, :only => [:index]
+  before_filter :add_event_breadcrumb
+  before_filter :add_schedule_items_breadcrumb
+  before_filter :assign_schedule_item, :only => [:show, :edit, :update, :destroy]
+
   # GET /schedule_items
   # GET /schedule_items.xml
   def index
@@ -13,7 +20,7 @@ class ScheduleItemsController < ApplicationController
   # GET /schedule_items/1
   # GET /schedule_items/1.xml
   def show
-    @schedule_item = ScheduleItem.find(params[:id])
+    add_breadcrumb @schedule_item.title
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,13 +41,13 @@ class ScheduleItemsController < ApplicationController
 
   # GET /schedule_items/1/edit
   def edit
-    @schedule_item = ScheduleItem.find(params[:id])
   end
 
   # POST /schedule_items
   # POST /schedule_items.xml
   def create
     @schedule_item = ScheduleItem.new(params[:schedule_item])
+    @schedule_item.event = @event
 
     respond_to do |format|
       if @schedule_item.save
@@ -57,8 +64,6 @@ class ScheduleItemsController < ApplicationController
   # PUT /schedule_items/1
   # PUT /schedule_items/1.xml
   def update
-    @schedule_item = ScheduleItem.find(params[:id])
-
     respond_to do |format|
       if @schedule_item.update_attributes(params[:schedule_item])
         flash[:notice] = 'ScheduleItem was successfully updated.'
@@ -74,7 +79,6 @@ class ScheduleItemsController < ApplicationController
   # DELETE /schedule_items/1
   # DELETE /schedule_items/1.xml
   def destroy
-    @schedule_item = ScheduleItem.find(params[:id])
     @schedule_item.destroy
 
     respond_to do |format|
@@ -82,4 +86,23 @@ class ScheduleItemsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  protected
+
+    def add_event_breadcrumb
+      add_breadcrumb @event.title, @event
+    end
+
+    def add_schedule_items_breadcrumb
+      add_breadcrumb "Schedule Items", schedule_items_path
+    end
+
+    def assign_schedule_item
+      begin
+        @schedule_item = ScheduleItem.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        flash[:failure] = "Sorry, that schedule item doesn't exist or has been deleted."
+        return redirect_to(schedule_items_path)
+      end
+    end
 end

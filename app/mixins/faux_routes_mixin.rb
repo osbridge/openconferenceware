@@ -71,6 +71,7 @@ module FauxRoutesMixin
     faux_routes_for["tracks"]
     faux_routes_for["session_types"]
     faux_routes_for["rooms"]
+    faux_routes_for["schedule_items"]
   end
 
   include Methods
