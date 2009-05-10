@@ -1,0 +1,36 @@
+<% focus :schedule_item_title %>
+
+<% form_for(@schedule_item) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :excerpt %> (<%= display_textile_help_link %>)<br />
+    <%= f.text_area :excerpt %>
+  </p>
+  <p>
+    <%= f.label :description %> (<%= display_textile_help_link %>)<br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :start_time %><br />
+    <%= f.datetime_select :start_time %>
+  </p>
+  <p>
+    <%= f.label :duration, "Duration (minutes)" %><br />
+    <%= f.text_field :duration %>
+  </p>
+  <p>
+    <%= f.label :room_id, "Room" %><br />
+    <%= f.collection_select :room_id, Room.find(:all), :id, :name, {:include_blank => true} %>
+  </p>
+  <p>
+    <%= f.submit @schedule_item.new_record? ? "Create" : "Update" %>
+    <%= link_to 'Cancel', @schedule_item, :class => "showable" %>
+    <%= link_to 'Back', schedule_items_path, :class => "cancelable" %>
+    <%= link_to 'Destroy', schedule_item_path(@schedule_item), :method => :delete, :confirm => %{Destroy schedule item "#{@schedule_item.title}"?}, :class => "deletable" unless @schedule_item.new_record? %>
+  </p>
+<% end %>

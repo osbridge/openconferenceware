@@ -1,18 +1,31 @@
-<h1>Listing schedule_items</h1>
+<% page_title "Schedule Items" %>
 
 <table>
-  <tr>
-  </tr>
-
+  <thead>
+    <th>Title</th>
+    <th>Start Time</th>
+    <th>Duration</th>
+    <% if admin? %><th>Controls</th><% end -%>
+  </thead>
+  <tbody>
 <% for schedule_item in @schedule_items %>
   <tr>
-    <td><%= link_to 'Show', schedule_item %></td>
-    <td><%= link_to 'Edit', edit_schedule_item_path(schedule_item) %></td>
-    <td><%= link_to 'Destroy', schedule_item, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to h(schedule_item.title), schedule_item_path(schedule_item) %></td>
+    <td><%= schedule_item.start_time %></td>
+    <td><%= schedule_item.duration %></td>
+
+  <% if admin? %>
+    <td class='record-controls'>
+    <%= link_to 'Edit', edit_schedule_item_path(schedule_item), :class => "editable" %>
+    <%= link_to 'Destroy', schedule_item_path(schedule_item), :confirm => %{Destroy schedule item "#{schedule_item.title}"?}, :method => :delete, :class => "deletable" %>
+    </td>
+  <% end %>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New schedule_item', new_schedule_item_path %>
+<div>
+<%= link_to 'New schedule item', new_schedule_item_path, :class => "addable" if admin? %>
+<%= link_to 'Back to proposals', event_proposals_path(@event), :class => "cancelable" %>
+</div>

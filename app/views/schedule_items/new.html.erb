@@ -1,11 +1,3 @@
-<h1>New schedule_item</h1>
+<% page_title "New Schedule Item" %>
 
-<% form_for(@schedule_item) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.submit "Create" %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', schedule_items_path %>
+<%= render :partial => "form" %>
