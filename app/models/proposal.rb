@@ -134,6 +134,11 @@ class Proposal < ActiveRecord::Base
     self.session_type.ergo.duration
   end
 
+  # Return the time this session ends.
+  def end_time
+    self.start_time + (self.duration || 0).minutes
+  end
+
   # Return array of arrays, the first representing the current state, the rest
   # representing optional states. Of each pair, the first element is the title,
   # the second is the status.
