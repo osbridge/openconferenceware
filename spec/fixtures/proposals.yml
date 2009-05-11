@@ -119,10 +119,34 @@ rakudo_session:
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.parse('2009-06-17 12:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 12:00pm').to_s(:db) %>
   title: "Rakudo Session"
   excerpt: "PERL 6 IS COMING SOON!!!1!"
   description: "ROLES! GIMME A PONY OPERATOR! WORLD DOMINATION! LOL!"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+cloud_session:
+  event_id: 2009
+  track: hacks
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-18 12:00pm').to_s(:db) %>
+  title: "The Cloud is Falling!"
+  excerpt: "They told me to put all of my data in the cloud, now it's falling on me."
+  description: "None of the other animals believe me."
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+business_session:
+  event_id: 2009
+  track: hacks
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-18 12:00pm').to_s(:db) %>
+  title: "Give us money."
+  excerpt: "$ pls."
+  description: "3. Profit"
   status: confirmed
   session_type: short_form
   room: burnside
