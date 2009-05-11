@@ -595,3 +595,27 @@ table#proposal-status-counts {
 /* @end */
 
 /* @end */
+
+/* @group Schedule */
+
+table.schedule {
+	width: 100%;
+}
+
+table.schedule td {
+	vertical-align: top;
+	position: relative;
+}
+
+table.schedule .schedule_block {
+	background: #ccc;
+	height: 100%;
+	margin-bottom: 1em;
+}
+
+table.schedule .slice table {
+	width: 100%;
+	margin: 0;
+}
+
+/* @end */

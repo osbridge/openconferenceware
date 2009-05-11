@@ -1,0 +1,18 @@
+<% @schedule.days.each do |day| %>
+  <h3><%= day.date.strftime("%B %e, %Y") %></h3>
+
+  <table class='schedule'>
+    <% day.sections.each do |section| %>
+      <tr class='section'>
+      <% slice_colspan = day.lcm_colspan / section.slices.size %>
+      <% section.slices.each do |slice| %>
+        <td colspan='<%= slice_colspan %>' class='slice'>
+          <% slice.blocks.each do |block| %>
+            <%= render :partial => 'schedule_block', :locals => {:block => block} %>
+          <% end -%>
+        </td>
+      <% end -%>
+      </tr>
+    <% end -%>
+  </table>
+<% end -%>

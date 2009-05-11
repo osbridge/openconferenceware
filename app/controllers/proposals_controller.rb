@@ -86,23 +86,26 @@ class ProposalsController < ApplicationController
   end
   
   def schedule
-    @proposals = @event.proposals.scheduled.located
+    page_title 'Schedule'
+    @schedule = Schedule.new(@event)
+
     respond_to do |format|
+      format.html
       format.ics {
-        c = Vpim::Icalendar.create2
-        @proposals.each do |session|
-          c.add_event do |event|
-            event.dtstart     session.start_time
-            event.dtend       session.start_time + session.duration.minutes
-            event.summary     session.title
-            event.created     session.created_at if session.created_at
-            event.lastmod     session.updated_at if session.updated_at
-            event.description session.excerpt
-            event.url         url_for(session)
-            event.set_text 'LOCATION', session.room.name
+        calendar = Vpim::Icalendar.create2
+        @schedule.items.each do |item|
+          calendar.add_event do |e|
+            e.dtstart     item.start_time
+            e.dtend       item.start_time + item.duration.minutes
+            e.summary     item.title
+            e.created     item.created_at if item.created_at
+            e.lastmod     item.updated_at if item.updated_at
+            e.description item.excerpt
+            e.url         url_for item
+            e.set_text    'LOCATION', item.room.name
           end
         end
-        render :text => c.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
+        render :text => calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
       }
     end
   end

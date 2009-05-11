@@ -88,6 +88,11 @@ class ScheduleDay
   def blocks
     @blocks ||= self.slices.map(&:blocks).flatten
   end
+
+  def lcm_colspan
+    first, *rest = sections.map{ |section| section.slices.size }
+    rest.inject(first) { |l, n| l.lcm(n) }
+  end
 end
 
 class ScheduleSection
@@ -120,6 +125,11 @@ class ScheduleSection
 
   def blocks
     @blocks ||= self.slices.map(&:blocks).flatten
+  end
+
+  def lcm_rowspan
+    first, *rest = slices.map{ |slice| slice.blocks.size }
+    rest.inject(first) { |l, n| l.lcm(n) }
   end
 end
 
