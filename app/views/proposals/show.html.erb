@@ -110,7 +110,7 @@ focus :comment_message if @focus_comment
   <% end %>
 
   <% if multiple_presenters? %>
-    <h3><%= @proposal.users.count == 1 ? "Speaker" : "Speakers" %></h3>
+    <h3><%= @proposal.users.size == 1 ? "Speaker" : "Speakers" %></h3>
 
     <ul class='speakers'>
     <% @proposal.users.each do |user| %>
