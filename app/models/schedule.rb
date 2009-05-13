@@ -32,11 +32,8 @@ class Schedule
   end
 
   def room_conflicts
-    @room_conflicts ||= returning [] do |conflicts|
-      self.items.group_by(&:room).each do |room_group|
-        room = room_group[0]
-        items = room_group[1]
-
+    @room_conflicts ||= returning([]) do |conflicts|
+      self.items.group_by(&:room).each do |room, items|
         items.each do |item|
           if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
             conflicts << {
@@ -51,7 +48,7 @@ class Schedule
   end
 
   def user_conflicts
-    @user_conflicts ||= returning [] do |conflicts|
+    @user_conflicts ||= returning([]) do |conflicts|
       Proposal.scheduled.map(&:users).flatten.uniq.each do |user|
         user.proposals.scheduled.each do |proposal|
           if (conflicts_with = user.proposals.scheduled.all.find{ |o| o.overlaps?(proposal) }) && conflicts_with != proposal
@@ -213,8 +210,3 @@ class ScheduleBlock
     end.sort_by{|block| [block.start_time, block.end_time, block.items.first.title]}
   end
 end
-
-# class ScheduleItem
-#   include Schedulable
-#   # FIXME implement
-# end
