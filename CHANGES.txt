@@ -3,6 +3,14 @@ Changes
 
 OpenConferenceWare stable releases and changes made to them (latest at top):
 
+* v0.20090505
+- FIXED bug introduced by new ruby-openid and passengerl libraries that broke logins.
+- FIXED bug introduced by new RubyGems library that broke Time::today.
+- Refactored sorting and caching code used by proposals#index and
+  proposals#sessions_index. Added specs.
+- Added "rake tags" task that automatically uses ctags or rtags.
+- Added initial support for publishing schedule as iCalendar.
+
 * v0.20090425
 - Added support for displaying sessions differently than proposals.
 - Added heavy caching to proposals and sessions indexes.
