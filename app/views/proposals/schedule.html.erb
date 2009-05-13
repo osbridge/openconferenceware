@@ -1,4 +1,4 @@
-<% if admin? && !(conflicts = @schedule.room_conflicts).empty? %>
+<% if admin? && !@schedule.room_conflicts.empty? %>
 <div class='admin-only'>
   <h3>( ! ) Room Conflicts Detected</h3>
   <%= content_tag(:ul,
@@ -11,7 +11,7 @@
 </div>
 <% end -%>
 
-<% if admin? && !(conflicts = @schedule.user_conflicts).empty? %>
+<% if admin? && !@schedule.user_conflicts.empty? %>
 <div class='admin-only'>
   <h3>( ! ) Speaker Conflicts Detected</h3>
   <%= content_tag(:ul,
