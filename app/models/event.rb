@@ -64,7 +64,11 @@ class Event < ActiveRecord::Base
   # with the latest deadline, else returns a nil.
   def self.current
     return self.fetch_object(EVENT_CURRENT_CACHE_KEY) do
-      self.lookup(self.current_by_deadline.id)
+      if record = self.current_by_deadline
+        self.lookup(record.id)
+      else
+        nil
+      end
     end
   end
 

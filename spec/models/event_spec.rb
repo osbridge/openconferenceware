@@ -44,6 +44,11 @@ describe Event do
 
       Event.current.should == event
     end
+
+    it "should return nil if no current event is available" do
+      Event.destroy_all
+      Event.current.should be_nil
+    end
   end
 
   context "when expiring cache" do
