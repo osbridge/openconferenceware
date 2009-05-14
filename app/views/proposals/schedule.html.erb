@@ -1,3 +1,4 @@
+<% cache @view_cache_key do %>
 <% if admin? && !@schedule.room_conflicts.empty? %>
 <div class='admin-only'>
   <h3>( ! ) Room Conflicts Detected</h3>
@@ -52,3 +53,4 @@
     <% end -%>
   </table>
 <% end -%>
+<% end %>

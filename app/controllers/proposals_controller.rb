@@ -84,28 +84,37 @@ class ProposalsController < ApplicationController
       }
     end
   end
-  
+
   def schedule
     page_title 'Schedule'
-    @schedule = Schedule.new(@event)
+
+    @schedule_callback = lambda { Schedule.new(@event) }
 
     respond_to do |format|
-      format.html
+      format.html {
+        @view_cache_key = "schedule,event_#{@event.id},admin_#{admin?}"
+        @schedule = @schedule_callback.call unless fragment_exist?(@view_cache_key)
+      }
+
       format.ics {
-        calendar = Vpim::Icalendar.create2
-        @schedule.items.each do |item|
-          calendar.add_event do |e|
-            e.dtstart     item.start_time
-            e.dtend       item.start_time + item.duration.minutes
-            e.summary     item.title
-            e.created     item.created_at if item.created_at
-            e.lastmod     item.updated_at if item.updated_at
-            e.description item.excerpt
-            e.url         url_for item
-            e.set_text    'LOCATION', item.room.name if item.room
+        view_cache_key = "schedule,event_#{@event.id}.ics"
+        data = Rails.cache.fetch_object(view_cache_key) {
+          calendar = Vpim::Icalendar.create2
+          @schedule_callback.call.items.each do |item|
+            calendar.add_event do |e|
+              e.dtstart     item.start_time
+              e.dtend       item.start_time + item.duration.minutes
+              e.summary     item.title
+              e.created     item.created_at if item.created_at
+              e.lastmod     item.updated_at if item.updated_at
+              e.description item.excerpt
+              e.url         url_for item
+              e.set_text    'LOCATION', item.room.name if item.room
+            end
           end
-        end
-        render :text => calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
+          calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
+        }
+        render :text => data
       }
     end
   end
