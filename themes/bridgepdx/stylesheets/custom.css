@@ -5,19 +5,19 @@ vim:tw=0:ft=css:noet:
 */
 
 #breadcrumbs {
-	color: #888;
-	margin-bottom: .5em;
+  color: #888;
+  margin-bottom: .5em;
 }
 
 /* @group Common Helper Classes */
 
 div.admin-only {
-	padding: 0.5em;
-	margin: 0.5em 0 0.5em 0;
+  padding: 0.5em;
+  margin: 0.5em 0 0.5em 0;
 }
 
 .admin-only {
-	background: #EFC5C5;
+  background: #EFC5C5;
 }
 
 .admin-only input[type=submit],
@@ -27,57 +27,57 @@ div.admin-only {
 }
 
 .inlined, .inlined div, .record-controls div {
-	display: inline;
+  display: inline;
 }
 
 .quagmire {
-	display: none;
+  display: none;
 }
 
 .wide {
-	width: 100%;
+  width: 100%;
 }
 
 .narrow {
-	width: 0%;
+  width: 0%;
 }
 
 .nowrap {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 .visible {
-	visible: visible;
+  visible: visible;
 }
 
 .empty-text {
-	text-align: center;
-	font-style: italic;
-	white-space: nowrap;
+  text-align: center;
+  font-style: italic;
+  white-space: nowrap;
 }
 
 /* Loading box of width=height=100px with a spinner placed at the center */
 #page_spinner {
-	display: none;
-	width: 100px;
-	height: 100px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	color: black;
-	background: url(/images/spinner-big.gif) no-repeat center #F7F1A3;
-	text-align: center;
-	padding: 10px;
-	font: normal 16px Tahoma, Geneva, sans-serif;
-	border: 1px solid #666;
-	margin-left: -50px;
-	margin-top: -50px;
-	z-index: 2;
-	overflow: auto;
+  display: none;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  color: black;
+  background: url(/images/spinner-big.gif) no-repeat center #F7F1A3;
+  text-align: center;
+  padding: 10px;
+  font: normal 16px Tahoma, Geneva, sans-serif;
+  border: 1px solid #666;
+  margin-left: -50px;
+  margin-top: -50px;
+  z-index: 2;
+  overflow: auto;
 }
 
 /* @end */
@@ -92,39 +92,39 @@ div.admin-only {
 .feedable,
 .snippet_edit_link,
 .spinning {
-	margin-right: 10px;
-	padding-left: 20px;
-	background-position: left center;
-	background-repeat: no-repeat;
+  margin-right: 10px;
+  padding-left: 20px;
+  background-position: left center;
+  background-repeat: no-repeat;
 }
 
 .addable {
-	background-image: url('/images/plus.png');
+  background-image: url('/images/plus.png');
 }
 
 .showable {
-	background-image: url('/images/document.png');
+  background-image: url('/images/document.png');
 }
 
 .editable,
 .snippet_edit_link {
-	background-image: url('/images/edit.png');
+  background-image: url('/images/edit.png');
 }
 
 .cancelable {
-	background-image: url('/images/arrow-out.png');
+  background-image: url('/images/arrow-out.png');
 }
 
 .deletable {
-	background-image: url('/images/redx.png');
+  background-image: url('/images/redx.png');
 }
 
 .feedable {
-	background-image: url('/images/feed.png');
+  background-image: url('/images/feed.png');
 }
 
 .spinning {
-	background-image: url('/images/spinner.gif');
+  background-image: url('/images/spinner.gif');
 }
 
 /* @end */
@@ -132,64 +132,64 @@ div.admin-only {
 /* @group Forms */
 
 .required-field {
-	padding: 0 0.25em;
-	color: red;
+  padding: 0 0.25em;
+  color: red;
 }
 
 .private-field {
-	padding: 0 0.25em;
-	color: green;
+  padding: 0 0.25em;
+  color: green;
 }
 
 .record-controls {
-	margin: 1em;
+  margin: 1em;
 }
 
 .record-controls input {
-	margin-right: 1em;
+  margin-right: 1em;
 }
 
 /* @group Standard Form */
 
 .standard-form table {
-	width: 100%;
+  width: 100%;
 }
 
 .standard-form td {
-	padding: 0.5em;
-	text-align: left;
-	vertical-align: top;
+  padding: 0.5em;
+  text-align: left;
+  vertical-align: top;
 }
 
 .standard-form .label-cell {
-	padding-left: 0;
-	text-align: right;
-	white-space: nowrap;
-	width: auto;
+  padding-left: 0;
+  text-align: right;
+  white-space: nowrap;
+  width: auto;
 }
 
 .standard-form .label-cell label {
-	font-size: 1.1em;
+  font-size: 1.1em;
 }
 
 .standard-form .data-cell {
-	width: 98%;
+  width: 98%;
 }
 
 .standard-form input[type=checkbox] {
-	padding: 0;
-	margin: 0 0.5em 0 0;
+  padding: 0;
+  margin: 0 0.5em 0 0;
 }
 
 .standard-form input[type=text],
   .standard-form input[type=password],
   .standard-form textarea {
-	width: 97%;
-	padding: .3em;
+  width: 97%;
+  padding: .3em;
 }
 
 .standard-form input[type=submit] {
-	font-size: 100%;
+  font-size: 100%;
 }
 
 
@@ -199,33 +199,33 @@ div.admin-only {
 /* @group Radio Set */
 
 ul.radio-set {
-	list-style: none;
-	padding: 0;
-	margin: 0 0 1em;
-	border-top: 1px solid #aaa;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1em;
+  border-top: 1px solid #aaa;
 }
 
 ul.radio-set li {
-	background: #eee;
-	padding: .5em .5em .5em 35px;
-	border-bottom: 1px solid #aaa;
-	position: relative;
+  background: #eee;
+  padding: .5em .5em .5em 35px;
+  border-bottom: 1px solid #aaa;
+  position: relative;
 }
 
 ul.radio-set input {
-	position: absolute;
-	left: 10px;
-	top: .9em;
+  position: absolute;
+  left: 10px;
+  top: .9em;
 }
 
 ul.radio-set label {
-	font-style: normal;
-	display: block;
+  font-style: normal;
+  display: block;
 }
 
 ul.radio-set p {
-	font-size: .85em;
-	margin: 0;
+  font-size: .85em;
+  margin: 0;
 }
 
 /* @end */
@@ -235,18 +235,18 @@ ul.radio-set p {
 /* @group Snippets */
 
 .snippet_preview {
-	margin: 0;
-	padding: 0.5em;
-	border: 1px dotted #116db6;
+  margin: 0;
+  padding: 0.5em;
+  border: 1px dotted #116db6;
 }
 
 .snippet_form input[type=text] {
-	width: 100%;
+  width: 100%;
 }
 
 .snippet_form textarea {
-	height: 12em;
-	width: 100%;
+  height: 12em;
+  width: 100%;
 }
 
 /* @end */
@@ -254,20 +254,20 @@ ul.radio-set p {
 /* @group Login Form */
 
 #session_form input[type=text], #session_form input[type=password] {
-	width: 24em;
+  width: 24em;
 }
 
 #session_form input {
-	clear: both;
+  clear: both;
 }
 
 #session_form .rightish {
-	width: 12em;
-	text-align: right;
-	display: block;
-	float: left;
-	text-align: right;
-	padding-right: 1em;
+  width: 12em;
+  text-align: right;
+  display: block;
+  float: left;
+  text-align: right;
+  padding-right: 1em;
 }
 
 /* @end */
@@ -275,56 +275,56 @@ ul.radio-set p {
 /* @group Submit a Talk Button */
 
 .rnd_top, .rnd_bottom {
-	display: block;
-	background: #FFFFFF;
-	font-size: 1px;
+  display: block;
+  background: #FFFFFF;
+  font-size: 1px;
 }
 
 .rnd_b1, .rnd_b2, .rnd_b3, .rnd_b4 {
-	display: block;
-	overflow: hidden;
+  display: block;
+  overflow: hidden;
 }
 
 .rnd_b1, .rnd_b2, .rnd_b3 {
-	height: 1px;
+  height: 1px;
 }
 
 .rnd_b2, .rnd_b3, .rnd_b4 {
-	background: #DAF4D4;
-	border-left: 1px solid #CCCCCC;
-	border-right: 1px solid #CCCCCC;
+  background: #DAF4D4;
+  border-left: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
 }
 
 .rnd_b1 {
-	margin: 0 5px;
-	background: #CCCCCC;
+  margin: 0 5px;
+  background: #CCCCCC;
 }
 
 .rnd_b2 {
-	margin: 0 3px;
-	border-width: 0 2px;
+  margin: 0 3px;
+  border-width: 0 2px;
 }
 
 .rnd_b3 {
-	margin: 0 2px;
+  margin: 0 2px;
 }
 
 .rnd_b4 {
-	height: 2px;
-	margin: 0 1px;
+  height: 2px;
+  margin: 0 1px;
 }
 
 .rnd_content {
-	display: block;
-	border: 0 solid #CCCCCC;
-	border-width: 0 1px;
-	padding: 4px;
-	background: #DAF4D4;
-	color: #000000;
+  display: block;
+  border: 0 solid #CCCCCC;
+  border-width: 0 1px;
+  padding: 4px;
+  background: #DAF4D4;
+  color: #000000;
 }
 
 div.rnd_content {
-	margin: 0;
+  margin: 0;
 }
 
 /* FIXME how to automatically size width of the box? */
@@ -339,17 +339,17 @@ div.rnd_content {
 /* @group Tracks */
 
 .track {
-	background: #666;
-	color: #fff;
+  background: #666;
+  color: #fff;
 }
 
 .track.block,
 .track.block a {
-	color: #fff;
-	text-transform: uppercase;
-	padding: .5em;
-	line-height: 2em;
-	height: 2em;
+  color: #fff;
+  text-transform: uppercase;
+  padding: .5em;
+  line-height: 2em;
+  height: 2em;
 }
 
 /* @end */
@@ -357,14 +357,14 @@ div.rnd_content {
 /* @group Users */
 
 .user-meta, .user-photo, .proposal-meta {
-	float: right;
-	margin: 0 0 1em 1em;
-	clear: right;
+  float: right;
+  margin: 0 0 1em 1em;
+  clear: right;
 }
 
 strong.admin {
-	color: red;
-	font-weight: normal;
+  color: red;
+  font-weight: normal;
 }
 
 /* @end */
@@ -374,23 +374,23 @@ strong.admin {
 /* @group Index */
 
 table.proposals {
-	margin: 1em 0;
+  margin: 1em 0;
 }
 
 table.proposals td {
-	border-top: 1px solid #aaa;
+  border-top: 1px solid #aaa;
 }
 
 table.proposals td.schedule_header {
-	background: #666;
-	color: #fff;
-	font-weight: bold;
-	border-top: 3px solid #4ba8f2;
-	border-bottom: 1em solid #fff;
+  background: #666;
+  color: #fff;
+  font-weight: bold;
+  border-top: 3px solid #4ba8f2;
+  border-bottom: 1em solid #fff;
 }
 
 table.proposals h3 {
-	margin: .3em 0 .5em;
+  margin: .3em 0 .5em;
 }
 
 table.proposals h3 span.proposal-status {
@@ -414,26 +414,26 @@ table.proposals h3 span.proposal-status.junk {
 }
 
 table.proposals .date, table.proposals .track {
-	font-size: .9em;
-	text-align: center;
-	line-height: 2em;
-	padding: .5em 1em;
-	height: 2em;
+  font-size: .9em;
+  text-align: center;
+  line-height: 2em;
+  padding: .5em 1em;
+  height: 2em;
 }
 
 table.proposals .date {
-	background: #eee;
+  background: #eee;
 }
 
 table.proposals .speakers {
-	font-size: .9em;
-	border-top: none;
-	padding: .5em 0 1em 0;
-	vertical-align: top;
+  font-size: .9em;
+  border-top: none;
+  padding: .5em 0 1em 0;
+  vertical-align: top;
 }
 
 table.proposals .description {
-	padding: 0 1em 1em 0;
+  padding: 0 1em 1em 0;
 }
 
 /* @end */
@@ -441,58 +441,58 @@ table.proposals .description {
 /* @group Show */
 
 .proposal-slug {
-	font-weight: bold;
-	font-size: .8em;
-	padding: .5em;
+  font-weight: bold;
+  font-size: .8em;
+  padding: .5em;
 }
 
 .proposal-meta {
-	text-align: center;
-	border: 1px solid #666;
-	width: 10em;
+  text-align: center;
+  border: 1px solid #666;
+  width: 10em;
 }
 
 .proposal-meta a.session_type {
-	display: block;
-	background: #999;
-	color: #fff;
-	text-decoration: none;
-	font-size: .8em;
-	padding: .3em 0;
+  display: block;
+  background: #999;
+  color: #fff;
+  text-decoration: none;
+  font-size: .8em;
+  padding: .3em 0;
 }
 
 .proposal-meta .proposal-status {
-	background: #116db6;
-	color: #fff;
-	text-transform: uppercase;
-	font-size: .9em;
-	padding: .5em;
-	border-bottom: 1px solid black;
+  background: #116db6;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: .9em;
+  padding: .5em;
+  border-bottom: 1px solid black;
 }
 
 .proposal-meta .proposal-status.confirmed {
-	background-color: #08b9a6;
+  background-color: #08b9a6;
 }
 
 /* @group Comments */
 
 ul.proposal-comments {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 ul.proposal-comments li {
-	border-bottom: 1px solid #ccc;
-	padding: 1em 0;
+  border-bottom: 1px solid #ccc;
+  padding: 1em 0;
 }
 
 ul.proposal-comments div.proposal-title {
-	margin-top: .5em;
+  margin-top: .5em;
 }
 
 ul.proposal-comments blockquote {
-	margin-top: .5em;
+  margin-top: .5em;
 }
 
 /* @end */
@@ -500,18 +500,18 @@ ul.proposal-comments blockquote {
 /* @group Speaker List */
 
 ul.speakers {
-	margin: 0;
-	list-style: none;
+  margin: 0;
+  list-style: none;
 }
 
 ul.speakers li.vcard {
-	border-bottom: 1px solid #aaa;
-	margin-top: 1em;
+  border-bottom: 1px solid #aaa;
+  margin-top: 1em;
 }
 
 ul.speakers .note {
-	font-size: .9em;
-	padding: 1em 2em 0;
+  font-size: .9em;
+  padding: 1em 2em 0;
 }
 
 ul.speakers .note li {
@@ -527,69 +527,69 @@ ul.speakers .note li {
 /* @group Edit */
 
 #manage-speakers td {
-	padding: 0.1em;
+  padding: 0.1em;
 }
 
 #manage-speakers {
-	width: 55%;
+  width: 55%;
 }
 
 #add-speakers {
-	background: #eee;
-	border-left: 1px solid #aaa;
-	padding: 1em 1em 0;
-	width: 40%;
-	float: right;
+  background: #eee;
+  border-left: 1px solid #aaa;
+  padding: 1em 1em 0;
+  width: 40%;
+  float: right;
 }
 
 #add-speakers input {
-	width: auto;
+  width: auto;
 }
 
 #speaker-search-results li p {
-	font-size: .85em;
-	margin: 0;
+  font-size: .85em;
+  margin: 0;
 }
 
 #speaker-search-results ul {
-	list-style: none;
-	padding: 0;
-	margin: 1em -1em 0;
+  list-style: none;
+  padding: 0;
+  margin: 1em -1em 0;
 }
 
 #speaker-search-results li {
-	padding: .5em 1em .5em 40px;
-	position: relative;
-	border-top: 1px solid #aaa;
+  padding: .5em 1em .5em 40px;
+  position: relative;
+  border-top: 1px solid #aaa;
 }
 
 #speaker-search-results a.addable,
 #speaker-search-results a.spinning {
-	width: 16px;
-	display: block;
-	overflow: hidden;
-	padding-left: 0;
-	text-indent: -999px;
-	position: absolute;
-	left: 1em;
+  width: 16px;
+  display: block;
+  overflow: hidden;
+  padding-left: 0;
+  text-indent: -999px;
+  position: absolute;
+  left: 1em;
 }
 
 #speaker-selector #complete_profile_user_url {
-	width: 100%;
+  width: 100%;
 }
 
 table#proposal-status-counts {
-	collapse: collapse;
+  collapse: collapse;
 }
 
 #proposal-status-counts th {
-	background-color: #DEDEDE;
+  background-color: #DEDEDE;
 }
 
 #proposal-status-counts th,
 #proposal-status-counts td {
-	text-align: center;
-	border: 1px solid #DEDEDE;
+  text-align: center;
+  border: 1px solid #DEDEDE;
 }
 
 /* @end */
@@ -599,41 +599,46 @@ table#proposal-status-counts {
 /* @group Schedule */
 
 table.schedule {
-	width: 100%;
-	border-collapse: separate;
-	border-spacing: 1em;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 1em;
 }
 table.schedule h4 {
-	background: #116db6;
-	color: #fff;
-	padding: .2em;
+  background: #116db6;
+  color: #fff;
+  padding: .2em;
 }
 table.schedule ul {
-	margin: 0;
+  margin: 0;
 }
 table.schedule li {
-	list-style: none;
-	margin: 0 .5em .5em;
-	padding: .2em .5em;
-
-	border: 1px solid;
+  list-style: none;
+  margin: 0 .5em .5em;
+  padding: .2em .5em;
+  display: block;
+  border: 1px solid;
 }
 
 table.schedule td {
-	vertical-align: top;
-	position: relative;
-	padding: 0;
+  vertical-align: top;
+  position: relative;
+  padding: 0;
 }
 
 table.schedule .schedule_block {
-	border-left: 4px solid #116db6;
-	border-bottom: 1px solid #9cbdd6;
-	border-right: 1px solid #9cbdd6;
+  border-left: 4px solid #116db6;
+  border-bottom: 1px solid #9cbdd6;
+  border-right: 1px solid #9cbdd6;
 }
 
 table.schedule .slice table {
-	width: 100%;
-	margin: 0;
+  width: 100%;
+  margin: 0;
+}
+
+table.schedule strong.title,
+table.schedule span.room {
+  color: #222;
 }
 
 /* @end */

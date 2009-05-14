@@ -1,6 +1,9 @@
   <h4><%= block.start_time.strftime("%l:%M")%> &ndash; <%= block.end_time.strftime("%l:%M")%></h4>
   <ul>
   <% block.items.each do |item| %>
-    <li class='<%= track_css_class(item.track) if item.respond_to?(:track) && item.track %>'><%= item.title %></li>
+    <li class='<%= track_css_class(item.track) if item.respond_to?(:track) && item.track %> light'>
+      <strong class='title'><%= item.title %></strong>
+      <span class='room'><%= item.room.ergo.name %></span>
+    </li>
   <% end %>
   </ul>
