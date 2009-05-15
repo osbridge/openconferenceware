@@ -468,15 +468,15 @@ protected
     end
   end
 
-  def fetch_sorted_proposals_for(event, kind, sort, direction)
-    Proposal.fetch_object("#{kind}_index,event_#{event.id},sort_#{sort.hash},dir_#{direction.hash}") do
+  def fetch_sorted_proposals_for(event, kind, order, direction="asc")
+    Proposal.fetch_object("#{kind}_index,event_#{event.id},sort_#{order.hash},dir_#{direction.hash}") do
       proposals = \
         case kind
         when :proposals then event.populated_proposals
         when :sessions  then event.populated_sessions
         else raise ArgumentError, "Unknown kind: #{kind}"
         end
-      sort_proposals(proposals)
+      sort_proposals(proposals, order, direction)
     end
   end
 
