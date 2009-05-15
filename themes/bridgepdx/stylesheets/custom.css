@@ -698,4 +698,29 @@ table#proposal-status-counts {
 	right: 2em;
 }
 
+.schedule_color_key {
+	margin-bottom: 2em;
+	margin-left: 1em;
+}
+
+.schedule_color_key .definition {
+	color: #222;
+  font-weight: bold;
+	padding: 0.25em;
+}
+
+.schedule_color_key a {
+	color: #222;
+	text-decoration: none;
+}
+
+.schedule_color_key a:hover {
+	text-decoration: underline;
+}
+
+.schedule_color_key .definition.generic_item {
+	border: 1px solid #116db6;
+	background: #fff;
+}
+
 /* @end */

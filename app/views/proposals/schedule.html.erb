@@ -30,6 +30,18 @@
 </div>
 <% end -%>
 
+<div class="schedule_color_key">
+  <strong>Color key:</strong> 
+  <% for track in @event.tracks.sort_by(&:title) %>
+    <span class="definition light <%= track_css_class(track) %>">
+      <%= link_to h(track.title), track_path(track) %>
+    </span>
+  <% end %>
+  <span class="definition light generic_item %>">
+    Other
+  </span>
+</div>
+
 <% @schedule.days.each do |day| %>
   <h3><%= day.date.strftime("%B %e, %Y") %></h3>
 
