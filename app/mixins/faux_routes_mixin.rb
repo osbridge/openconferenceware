@@ -41,7 +41,7 @@ module FauxRoutesMixin
         msg = nil
         if item
           msg = "Faux route, created for item: #{faux} <= #{real}"
-          define_method(faux, proc{|item, *args| send(real, item.event, item, *args)})
+          define_method(faux, proc{|item, *args| send(real, (item.respond_to?(:event_id) ? item.event_id : item.event), item, *args)})
         else
           msg = "Faux route, created for inference: #{faux} <= #{real}"
           define_method(faux, proc{|*args|
