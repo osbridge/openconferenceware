@@ -1,0 +1,7 @@
+<% for track in tracks %>
+  /* <%= track.title %> */
+  .<%= track_css_class(track) %> { color: <%= track.color.html %>; }
+  .<%= track_css_class(track) %>.block { background: <%= track.color.html %>; color: #fff; }
+  .<%= track_css_class(track) %>.light { background: <%= track.color.adjust_brightness(60).html %>; }
+  .<%= track_css_class(track) %>.light:hover { background: <%= track.color.adjust_brightness(40).html %>; }
+<% end %>

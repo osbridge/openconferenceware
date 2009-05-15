@@ -6,7 +6,7 @@
     item_class << ' light ' << track_css_class(item.track) if item.respond_to?(:track) && item.track
     item_class << ' generic_item' if item.is_a?(ScheduleItem)
     %>
-    <li class='<%= item_class %>'>
+    <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
       <div class='concise'>
         <% if item.is_a?(ScheduleItem) %>
           <span class='summary'><%= item.title %></span>

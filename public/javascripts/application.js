@@ -225,9 +225,16 @@ $(document).ready(function() {
   $('table.schedule li.vevent').hover(
     function() {
       $(this).addClass('hover');
-    },
+      box = $(this).children('.session_info');
+      bottom = top + $(window).height();
+      box_bottom = box.offset().top + box.outerHeight();
+
+      if ( box_bottom > bottom ) box.css('top',-(box_bottom - bottom + 10));
+      if( !$(this).hasClass('generic_item')) box.css('border-color',$(this).css('background-color'));
+      },
     function() {
       $(this).removeClass('hover');
+      $(this).children('.session_info').css('top',0);
     }
   )
 })
