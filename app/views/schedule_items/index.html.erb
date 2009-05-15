@@ -11,7 +11,7 @@
 <% for schedule_item in @schedule_items %>
   <tr>
     <td><%= link_to h(schedule_item.title), schedule_item_path(schedule_item) %></td>
-    <td><%= schedule_item.start_time %></td>
+    <td><%= schedule_item.start_time.to_s(:db) %></td>
     <td><%= schedule_item.duration %></td>
 
   <% if admin? %>
