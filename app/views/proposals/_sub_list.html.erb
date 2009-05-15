@@ -6,7 +6,24 @@ container = local_assigns[:container]
 title     = local_assigns[:title]
 ## Display the sort toolbar? Optional, defaults to false.
 sorter    = local_assigns[:sorter]
+
+presenter = lambda {|kind| render :partial => "proposals/sub_list_for_kind", :locals => {:kind => kind, :container => container, :title => title, :sorter => sorter} }
 %>
 
-<%= render :partial => "proposals/sub_list_for_kind", :locals => {:kind => :sessions, :container => container, :title => title, :sorter => sorter} %>
-<%= render :partial => "proposals/sub_list_for_kind", :locals => {:kind => :proposals, :container => container, :title => title, :sorter => sorter} %>
+<%= presenter.call(:sessions) %>
+
+<% unless container.kind_of?(Room) %>
+  <% name = "proposals-sub_list-kind_#{container.class.name}" %>
+  <div id="<%= name %>">
+    <div class="sub_list_toggle" style="display: none">
+      <a href="#" onclick="$(this).hide(); $('#<%= name %> .sub_list_listing').show(); return false;">Display proposals...</a>
+    </div>
+    <div class="sub_list_listing">
+      <%= presenter.call(:proposals) %>
+    </div>
+  </div>
+
+  <% if schedule_available? %>
+    <% run_when_jquery_is_ready "$('##{name} .sub_list_listing').hide(); $('##{name} .sub_list_toggle').show()"%>
+  <% end %>
+<% end %>
