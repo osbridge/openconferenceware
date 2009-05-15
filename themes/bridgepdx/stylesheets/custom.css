@@ -382,10 +382,8 @@ table.proposals td {
 }
 
 table.proposals td.schedule_header {
-  background: #666;
+  background: #116db6;
   color: #fff;
-  font-weight: bold;
-  border-top: 3px solid #4ba8f2;
   border-bottom: 1em solid #fff;
 }
 
