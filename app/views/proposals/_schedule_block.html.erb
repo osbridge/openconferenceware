@@ -9,38 +9,42 @@
     <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
       <div class='concise'>
         <% if item.is_a?(ScheduleItem) %>
-          <span class='summary'><%= item.title %></span>
+          <span class='summary'><%= h item.title %></span>
         <% else %>
-          <%= link_to item.title, session_path(item), :class => 'url summary' %>
+          <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
         <% end -%>
-        <span class='room'><%= item.room.ergo.name %></span>
+        <span class='room'><%= h item.room.ergo.name %></span>
       </div>
       <ul class='session_info'>
         <li>
           <strong>Title:</strong>
-          <%= link_to item.title, session_path(item) %>
+          <% if item.is_a?(ScheduleItem) %>
+            <%= h item.title %>
+          <% else %>
+            <%= link_to h(item.title), session_path(item) %>
+          <% end %>
         </li>
         <% if item.respond_to?(:track) && item.track %>
           <li>
             <strong>Track:</strong>
-            <%= link_to item.track.title, track_path(item.track), :class => track_css_class(item.track) %>
+            <%= link_to h(item.track.title), track_path(item.track), :class => track_css_class(item.track) %>
           </li>
         <% end %>
         <% if item.respond_to?(:room) && item.room %>
           <li class='location'>
             <strong>Room:</strong>
-            <%= link_to item.room.name, room_path(item.room) %>
+            <%= link_to h(item.room.name), room_path(item.room) %>
           </li>
         <% end %>
         <li class='time'>
           <strong>Time:</strong>
           <%= normalize_time(item, :context => item.start_time.to_date )%>
         </li>
-        <% if item.excerpt %>
+        <% unless item.excerpt.blank? %>
           <li>
             <div class='description'>
               <strong>Excerpt:</strong>
-              <%= item.excerpt %>
+              <%= h item.excerpt %>
             </div>
           </li>
         <% end %>
