@@ -3,6 +3,11 @@
 # * kind => :sessions or :proposals.
 # * records => Array of Proposal records.
 # * sorter => Display the sort toolbar? Defaults to false.
+
+# FIXME do not mess with the params[:sort] here! :( it's used by sort_proposals below
+params[:sort] = "start_time" if params[:sort].blank? && kind == :sessions && schedule_available?
+# FIXME eliminate need for sort_proposals, come up with saner way to do this
+records = sort_proposals(records)
 %>
 
 <% if proposal_excerpts? %>
