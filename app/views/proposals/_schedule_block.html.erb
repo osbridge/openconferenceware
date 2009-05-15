@@ -8,10 +8,10 @@
       </div>
       <ul class='session_info'>
         <% if item.respond_to?(:track) && item.track %>
-          <li><strong>Track:</strong> <%= link_to item.track.title, event_track_path(@event, item.track), :class => track_css_class(item.track) %>
+          <li><strong>Track:</strong> <%= link_to item.track.title, track_path(item.track), :class => track_css_class(item.track) %>
         <% end %>
         <% if item.respond_to?(:room) && item.room %>
-          <li class='location'><strong>Room:</strong> <%= link_to item.room.name, event_room_path(@event, item.room) %></li>
+          <li class='location'><strong>Room:</strong> <%= link_to item.room.name, room_path(item.room) %></li>
         <% end %>
         <li class='time'><strong>Time:</strong> <%= normalize_time(item, :context => item.start_time.to_date )%></li>
         <li>
