@@ -16,33 +16,39 @@
         <span class='room'><%= item.room.ergo.name %></span>
       </div>
       <ul class='session_info'>
+        <li>
+          <strong>Title:</strong>
+          <%= link_to item.title, session_path(item) %>
+        </li>
         <% if item.respond_to?(:track) && item.track %>
           <li>
-            <strong>Track:</strong> 
+            <strong>Track:</strong>
             <%= link_to item.track.title, track_path(item.track), :class => track_css_class(item.track) %>
           </li>
         <% end %>
         <% if item.respond_to?(:room) && item.room %>
           <li class='location'>
-            <strong>Room:</strong> 
+            <strong>Room:</strong>
             <%= link_to item.room.name, room_path(item.room) %>
           </li>
         <% end %>
         <li class='time'>
-          <strong>Time:</strong> 
+          <strong>Time:</strong>
           <%= normalize_time(item, :context => item.start_time.to_date )%>
         </li>
-        <li>
-          <strong>Excerpt:</strong>
-          <div class='description'>
-            <%= preserve_formatting_of item.excerpt %>
-          </div>
-        </li>
+        <% if item.excerpt %>
+          <li>
+            <div class='description'>
+              <strong>Excerpt:</strong>
+              <%= item.excerpt %>
+            </div>
+          </li>
+        <% end %>
         <% if multiple_presenters? && item.respond_to?(:users) && !item.users.ergo.empty? %>
-        <li>
-          <strong>Speakers:</strong>
-          <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
-        </li>
+          <li>
+            <strong>Speakers:</strong>
+            <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+          </li>
         <% end -%>
       </ul>
     </li>
