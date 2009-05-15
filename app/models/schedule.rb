@@ -33,7 +33,7 @@ class Schedule
 
   def room_conflicts
     @room_conflicts ||= returning([]) do |conflicts|
-      self.items.group_by(&:room).each do |room, items|
+      self.items.select(&:room).group_by(&:room).each do |room, items|
         items.each do |item|
           if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
             conflicts << {
