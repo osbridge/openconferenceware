@@ -15,10 +15,6 @@ module ApplicationHelper
     content_tag("div", simple_format(escape_once(text)), :class => :compressed)
   end
 
-  def schedule_available?
-    (@event.proposal_status_published? || admin?) && proposal_start_times? && proposal_statuses? && event_rooms?
-  end
-
   def inline_button_to(*args)
     html = button_to(*args)
     html.gsub!(/<div>(.*)/, '<div class="inlined">\1')

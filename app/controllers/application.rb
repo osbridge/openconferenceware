@@ -245,4 +245,9 @@ protected
     end
   end
 
+  # FIXME this doesn't belong here
+  def schedule_available?
+    (@event.proposal_status_published? || admin?) && proposal_start_times? && proposal_statuses? && event_rooms?
+  end
+  helper_method :schedule_available?
 end
