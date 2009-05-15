@@ -226,6 +226,8 @@ $(document).ready(function() {
     function() {
       $(this).addClass('hover');
       box = $(this).children('.session_info');
+
+      top = $(document).scrollTop();
       bottom = top + $(window).height();
       box_bottom = box.offset().top + box.outerHeight();
 
