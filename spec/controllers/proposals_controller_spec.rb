@@ -756,6 +756,18 @@ describe ProposalsController do
     end
   end
 
+  describe "schedule" do
+    it "should not fail like a whale" do
+      @controller.stub!(:schedule_visible?).and_return(true)
+      item = proposals(:postgresql_session)
+
+      get :schedule, :event_id => @event.id
+
+      response.should be_success
+      response.should have_tag(".summary", :text => /#{item.title}/)
+    end
+  end
+
   describe "br3ak" do
     it "should fail" do
       lambda { get :br3ak }.should raise_error
