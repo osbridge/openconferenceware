@@ -78,12 +78,12 @@ module ApplicationHelper
 
   # Is the current action related to proposals?
   def proposal_related_action?
-    return controller.kind_of?(ProposalsController) && ! ["sessions_index", "session_show"].include?(action_name)
+    return controller.kind_of?(ProposalsController) && ! ["sessions_index", "session_show", "schedule"].include?(action_name)
   end
 
   # Is the current action related to sessions?
   def session_related_action?
-    return controller.kind_of?(ProposalsController) && ["sessions_index", "session_show"].include?(action_name)
+    return controller.kind_of?(ProposalsController) && ["sessions_index", "session_show", "schedule"].include?(action_name)
   end
 
   # Main navigation to display.
