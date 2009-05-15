@@ -77,7 +77,7 @@
         <div id="subnav" class='navbar'>
           <div class='inner_container'>
             <h2><%= subnav_title %></h2>
-            <% if session_related_action? %>
+            <% if session_related_action? && schedule_visible? %>
             <ul>
                <li<%= (action_name == 'sessions_index' ? ' class="selected"' : nil) %>><%= link_to "Session List", event_sessions_path(@event) %></li>
                <li<%= (action_name == 'schedule' ? ' class="selected"' : nil) %>><%= link_to "Schedule", event_schedule_path(@event) %></li>

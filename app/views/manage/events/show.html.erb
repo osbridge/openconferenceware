@@ -41,6 +41,16 @@
       </td>
     </tr>
   <% end %>
+  <% if event_schedule? %>
+    <tr>
+      <td class="label-text">
+        <label>Is the schedule publicly viewable?</label>
+      </td>
+      <td>
+        <%= @event.schedule_published ? "Yes" : "No" %>
+      </td>
+    </tr>
+  <% end %>
   <% if event_proposal_comments_after_deadline? %>
     <tr>
       <td class="label-text">

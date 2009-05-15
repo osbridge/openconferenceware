@@ -5,7 +5,7 @@
 # * sorter => Display the sort toolbar? Defaults to false.
 
 # FIXME do not mess with the params[:sort] here! :( it's used by sort_proposals below
-params[:sort] = "start_time" if params[:sort].blank? && kind == :sessions && schedule_available?
+params[:sort] = "start_time" if params[:sort].blank? && kind == :sessions && schedule_visible?
 # FIXME eliminate need for sort_proposals, come up with saner way to do this
 records = sort_proposals(records)
 %>
@@ -14,9 +14,9 @@ records = sort_proposals(records)
   <% if sorter %>
     <div>
       <% sort_links = [sort_link_for("Title", 'title', kind)]
-         sort_links << sort_link_for("Track", 'track', kind) if event_tracks? 
+         sort_links << sort_link_for("Track", 'track', kind) if event_tracks?
          sort_links << sort_link_for("Submission date", 'submitted_at', kind) if kind == :proposals
-         sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_available? && kind == :sessions
+         sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_visible? && kind == :sessions
          sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses?
       %>
       Sort by:
@@ -30,7 +30,7 @@ records = sort_proposals(records)
     <table class='proposals' cellspacing='0'>
       <% previous_start_time = false %>
       <% for record in records %>
-        <% if schedule_available? && kind == :sessions && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
+        <% if schedule_visible? && kind == :sessions && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
           <tr>
             <td colspan='3' class='schedule_header'>
               <%= record.start_time.nil? ? 'Unscheduled' : record.start_time.strftime("%A, %B %d - %I:%M %p") %>
@@ -38,7 +38,7 @@ records = sort_proposals(records)
           </tr>
         <% end %>
         <% previous_start_time = record.start_time %>
-      
+
       <tr>
         <td rowspan='2' class='description'>
           <h3>

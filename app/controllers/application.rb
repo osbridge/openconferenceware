@@ -64,6 +64,16 @@ protected
   end
   helper_method :development_mode?
 
+  def event_schedule?
+    proposal_start_times? && proposal_statuses? && event_rooms?
+  end
+  helper_method :event_schedule?
+
+  def schedule_visible?
+    (@event.schedule_published? || admin?) && event_schedule?
+  end
+  helper_method :schedule_visible?
+
   #---[ Access control ]--------------------------------------------------
 
   # Can the current user edit the current +record+?
@@ -245,6 +255,18 @@ protected
     end
   end
 
+  # Ensure that the schedule is published
+  def assert_schedule_published
+    display = false
+    display = true if schedule_visible?
+    flash[:notice] = "The schedule has not yet been published, only admins can see this page." if admin? && !schedule_visible?
+
+    unless display
+      flash[:failure] = "The schedule has not yet been published for this event."
+      return redirect_to(@event.proposal_status_published? ? sessions_path : proposals_path)
+    end
+  end
+
   # FIXME this method and everything that depends on it must be refactored with extreme prejudice
   def sort_proposals(proposals)
     if %w[title track submitted_at session_type start_time].include?(params[:sort]) || (admin? && params[:sort] == 'status')
@@ -266,9 +288,4 @@ protected
   end
   helper_method :sort_proposals
 
-  # FIXME this doesn't belong here
-  def schedule_available?
-    (@event.proposal_status_published? || admin?) && proposal_start_times? && proposal_statuses? && event_rooms?
-  end
-  helper_method :schedule_available?
 end

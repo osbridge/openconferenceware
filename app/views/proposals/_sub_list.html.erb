@@ -23,7 +23,7 @@ presenter = lambda {|kind| render :partial => "proposals/sub_list_for_kind", :lo
     </div>
   </div>
 
-  <% if schedule_available? %>
+  <% if schedule_visible? %>
     <% run_when_jquery_is_ready "$('##{name} .sub_list_listing').hide(); $('##{name} .sub_list_toggle').show()"%>
   <% end %>
 <% end %>
