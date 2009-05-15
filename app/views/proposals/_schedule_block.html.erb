@@ -1,9 +1,32 @@
-  <h4><%= block.start_time.strftime("%l:%M")%> &ndash; <%= block.end_time.strftime("%l:%M")%></h4>
+  <h4><%= normalize_time(block, :context => block.start_time.to_date) %></h4>
   <ul>
   <% block.items.each do |item| %>
-    <li class='<%= track_css_class(item.track) if item.respond_to?(:track) && item.track %> light'>
-      <strong class='title'><%= item.title %></strong>
-      <span class='room'><%= item.room.ergo.name %></span>
+    <li class='vevent <%= track_css_class(item.track) if item.respond_to?(:track) && item.track %> light'>
+      <div class='concise'>
+        <%= link_to item.title, item, :class => 'url summary' %>
+        <span class='room'><%= item.room.ergo.name %></span>
+      </div>
+      <ul class='session_info'>
+        <% if item.respond_to?(:track) && item.track %>
+          <li><strong>Track:</strong> <%= link_to item.track.title, item.track, :class => track_css_class(item.track) %>
+        <% end -%>
+        <% if item.respond_to?(:room) && item.room %>
+          <li class='location'><strong>Room:</strong> <%= link_to item.room.name, item.room %></li>
+        <% end %>
+        <li class='time'><strong>Time:</strong> <%= normalize_time(item, :context => item.start_time.to_date )%></li>
+        <li>
+          <strong>Excerpt:</strong>
+          <div class='description'>
+            <%= preserve_formatting_of item.excerpt %>
+          </div>
+        </li>
+        <% if multiple_presenters? && item.respond_to?(:users) && !item.users.ergo.empty? %>
+        <li>
+          <strong>Speakers:</strong>
+          <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+        </li>
+        <% end -%>
+      </ul>
     </li>
   <% end %>
   </ul>

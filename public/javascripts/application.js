@@ -156,7 +156,7 @@ function bind_proposal_schedule_controls() {
       return false;
     }
   });
-  
+
   $('.proposal_schedule_control_container select.hour').change(function(event){
     // If no minute value is set, set minutes to 00 when hour is changed to a non-blank value.
     target = $(this);
@@ -217,3 +217,17 @@ function bind_manage_proposals_checkboxes() {
 }
 
 /*===[ fin ]==========================================================*/
+
+
+/*---[ schedule hover ]----------------------------------------------*/
+
+$(document).ready(function() {
+  $('table.schedule li.vevent').hover(
+    function() {
+      $(this).addClass('hover');
+    },
+    function() {
+      $(this).removeClass('hover');
+    }
+  )
+})

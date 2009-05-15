@@ -598,47 +598,94 @@ table#proposal-status-counts {
 
 /* @group Schedule */
 
-table.schedule {
+.schedule {
   width: 100%;
   border-collapse: separate;
   border-spacing: 1em;
 }
-table.schedule h4 {
-  background: #116db6;
-  color: #fff;
-  padding: .2em;
-}
-table.schedule ul {
-  margin: 0;
-}
-table.schedule li {
-  list-style: none;
-  margin: 0 .5em .5em;
-  padding: .2em .5em;
-  display: block;
-  border: 1px solid;
-}
 
-table.schedule td {
+.schedule td {
   vertical-align: top;
-  position: relative;
   padding: 0;
 }
 
-table.schedule .schedule_block {
-  border-left: 4px solid #116db6;
+.schedule h4 {
+  background: #116db6;
+  padding: .3em .4em;
   border-bottom: 1px solid #9cbdd6;
-  border-right: 1px solid #9cbdd6;
+  color: #fff;
 }
 
-table.schedule .slice table {
-  width: 100%;
+.schedule h4 abbr,
+.schedule .time abbr {
+	border: none;
+}
+
+.schedule .schedule_block {
+  border-left: 4px solid #116db6;
+  border-bottom: 1px solid #b8cbd8;
+  border-right: 1px solid #b8cbd8;
+  background: #ddebff;
+}
+
+.schedule ul {
   margin: 0;
 }
 
-table.schedule strong.title,
-table.schedule span.room {
-  color: #222;
+.schedule .concise a {
+	color: #222;
+	text-decoration: none;
 }
+
+.schedule .concise a:hover {
+	text-decoration: underline;
+}
+
+.schedule a.summary {
+	font-weight: bold;
+}
+
+.schedule li {
+	list-style: none;
+}
+
+
+.schedule li.vevent {
+	position: relative;
+	margin: 0 .5em .5em;
+    padding: .2em 7em .2em .5em;
+    display: block;
+    color: #222;
+}
+
+.schedule .vevent .room {
+	position: absolute;
+	top: 0;
+	right: .2em;
+	border-left: 1px dotted #fff;
+	border-bottom: 1px dotted #fff;
+	padding: .2em .5em;
+	width: 5.5em;
+}
+
+.schedule .session_info {
+	background: white;
+	border: 2px solid #999;
+	position: absolute;
+	padding: .5em;
+	width: 20em;
+	font-size: .9em;
+	z-index: 9;
+	display: none;
+
+	right: -21em;
+	top: 0;
+}
+
+.schedule li:hover .session_info,
+.schedule li.hover .session_info {
+	display: block;
+}
+
 
 /* @end */
