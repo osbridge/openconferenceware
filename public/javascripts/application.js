@@ -227,8 +227,7 @@ $(document).ready(function() {
       $(this).addClass('hover');
       box = $(this).children('.session_info');
 
-      top = $(document).scrollTop();
-      bottom = top + $(window).height();
+      bottom = $(document).scrollTop() + $(window).height();
       box_bottom = box.offset().top + box.outerHeight();
 
       if ( box_bottom > bottom ) box.css('top',-(box_bottom - bottom + 10));
