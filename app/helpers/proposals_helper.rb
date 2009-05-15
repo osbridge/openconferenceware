@@ -18,7 +18,9 @@ module ProposalsHelper
   # :sessions or :proposals) determines what kind of links to make, if one
   # isn't specified, then the @kind instance variable will be used.
   def record_path(object, kind=nil)
-    kind = (kind || @kind).to_s.singularize
+    kind ||= @kind
+    raise ArgumentError, "No kind or @kind specified" unless kind
+    kind = kind.to_s.singularize
     return self.send("#{kind}_path", object)
   end
 
