@@ -49,14 +49,14 @@ class Schedule
 
   def user_conflicts
     @user_conflicts ||= returning([]) do |conflicts|
-      Proposal.scheduled.map(&:users).flatten.uniq.each do |user|
-        user.proposals.scheduled.each do |proposal|
-          if (conflicts_with = user.proposals.scheduled.all.find{ |o| o.overlaps?(proposal) }) && conflicts_with != proposal
+      self.items.select{|item| item.respond_to?(:users)}.inject({}){|u2i, item| item.users.each{|user| u2i[user] ||= Set.new; u2i[user] << item}; u2i}.each do |user, items|
+        items.each do |item|
+          if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
             conflicts << {
-              :room => room,
-              :item => proposal,
-              :conflicts_with => conflicts_with,
-              :user => user
+              :user => user,
+              :room => item.room,
+              :item => item,
+              :conflicts_with => conflicts_with
             }
           end
         end
