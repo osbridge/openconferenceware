@@ -415,25 +415,6 @@ protected
     return params[:proposal].ergo[:transition]
   end
 
-  def sort_proposals(proposals)
-    if %w[title track submitted_at session_type start_time].include?(params[:sort]) || (admin? && params[:sort] == 'status')
-      # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
-      proposals = \
-        case params[:sort].to_sym
-        when :track
-          without_tracks = proposals.reject(&:track)
-          with_tracks = proposals.select(&:track).sort_by{|proposal| [proposal.track, proposal.title]}
-          with_tracks + without_tracks
-        when :start_time
-          proposals.select{|proposal| !proposal.start_time.nil? }.sort_by{|proposal| proposal.start_time.to_i }.concat(proposals.select{|proposal| proposal.start_time.nil?})
-        else
-          proposals.sort_by{|proposal| proposal.send(params[:sort]).to_s.downcase rescue nil}
-        end
-      proposals = proposals.reverse if params[:dir] == 'desc'
-    end
-    return proposals
-  end
-
   # Does the current theme have a success page that should be displayed when the user creates a new proposal?
   def has_theme_specific_create_success_page?
     File.exist?(theme_file('views/proposals/create.html.erb'))
