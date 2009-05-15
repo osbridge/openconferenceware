@@ -226,6 +226,8 @@ protected
         prefix = request.relative_url_root
         if controller_name == "proposals" && action_name == "sessions_index"
           path = "#{prefix}/events/#{@event.id}/sessions"
+        elsif controller_name == "proposals" && action_name == "schedule"
+          path = "#{prefix}#{event_schedule_path(@event)}"
         else
           path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
         end
