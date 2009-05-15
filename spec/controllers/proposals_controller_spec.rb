@@ -781,7 +781,7 @@ describe ProposalsController do
       component.dtend.should        == item.end_time
       component.summary.should      == item.title
       component.description.should  == item.excerpt
-      component.url                 == proposal_url(item)
+      component.url                 == session_url(item)
     end
   end
 

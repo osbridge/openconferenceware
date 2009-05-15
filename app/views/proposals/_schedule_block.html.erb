@@ -11,7 +11,7 @@
         <% if item.is_a?(ScheduleItem) %>
           <span class='summary'><%= item.title %></span>
         <% else %>
-          <%= link_to item.title, item, :class => 'url summary' %>
+          <%= link_to item.title, session_path(item), :class => 'url summary' %>
         <% end -%>
         <span class='room'><%= item.room.ergo.name %></span>
       </div>

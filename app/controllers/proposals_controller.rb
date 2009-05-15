@@ -110,7 +110,7 @@ class ProposalsController < ApplicationController
               e.created     item.created_at if item.created_at
               e.lastmod     item.updated_at if item.updated_at
               e.description item.excerpt
-              e.url         url_for item
+              e.url         session_url(item)
               e.set_text    'LOCATION', item.room.name if item.room
             end
           end
