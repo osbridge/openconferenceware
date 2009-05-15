@@ -12,6 +12,7 @@ class ProposalsController < ApplicationController
   before_filter :assign_proposals_breadcrumb
 
   MAX_FEED_ITEMS = 20
+  SESSION_RELATED_ACTIONS = ['sessions_index', 'session_show', 'schedule']
 
   # GET /proposals
   # GET /proposals.xml
