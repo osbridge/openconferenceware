@@ -5,6 +5,7 @@ class Observist < ActiveRecord::Observer
     Proposal,
     ProposalsUser,
     Room,
+    ScheduleItem,
     SessionType,
     Snippet,
     Track,
