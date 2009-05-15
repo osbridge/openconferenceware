@@ -1,9 +1,18 @@
   <h4><%= normalize_time(block, :context => block.start_time.to_date) %></h4>
   <ul>
-  <% block.items.each do |item| %>
-    <li class='vevent <%= track_css_class(item.track) if item.respond_to?(:track) && item.track %> light'>
+  <% block.items.each do |item|
+
+    item_class = 'vevent'
+    item_class << ' light ' << track_css_class(item.track) if item.respond_to?(:track) && item.track
+    item_class << ' generic_item' if item.is_a?(ScheduleItem)
+    %>
+    <li class='<%= item_class %>'>
       <div class='concise'>
-        <%= link_to item.title, item, :class => 'url summary' %>
+        <% if item.is_a?(ScheduleItem) %>
+          <span class='summary'><%= item.title %></span>
+        <% else %>
+          <%= link_to item.title, item, :class => 'url summary' %>
+        <% end -%>
         <span class='room'><%= item.room.ergo.name %></span>
       </div>
       <ul class='session_info'>

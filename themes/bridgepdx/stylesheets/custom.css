@@ -639,7 +639,7 @@ table#proposal-status-counts {
 	text-decoration: underline;
 }
 
-.schedule a.summary {
+.schedule .summary {
 	font-weight: bold;
 }
 
@@ -653,7 +653,12 @@ table#proposal-status-counts {
 	margin: 0 .5em .5em;
     padding: .2em 7em .2em .5em;
     display: block;
-    color: #222;
+    color: #222; 
+}
+
+.schedule .vevent.generic_item {
+	border: 1px solid #116db6;
+	background: #fff;
 }
 
 .schedule .vevent .room {

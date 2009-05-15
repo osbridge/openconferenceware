@@ -168,8 +168,8 @@ protected
     #   (with no other time fields)
     details = date_details(t)
     if t.min == 0
-      return details.merge(:hour => "midnight") if t.hour == 0
-      return details.merge(:hour => "noon") if t.hour == 12
+      return details.merge(:hour => "Midnight") if t.hour == 0
+      return details.merge(:hour => "Noon") if t.hour == 12
     end
     if t.hour >= 12
       suffix = "pm"
