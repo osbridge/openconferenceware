@@ -766,6 +766,23 @@ describe ProposalsController do
       response.should be_success
       response.should have_tag(".summary", :text => /#{item.title}/)
     end
+
+    it "should not fail like a whale with iCalendar" do
+      @controller.stub!(:schedule_visible?).and_return(true)
+      item = proposals(:postgresql_session)
+
+      get :schedule, :event_id => @event.id, :format => "ics"
+
+      response.should be_success
+      calendar = Vpim::Icalendar.decode(response.body).first
+      component = calendar.find{|t| t.summary == item.title}
+      component.should_not be_nil
+      component.dtstart.should      == item.start_time
+      component.dtend.should        == item.end_time
+      component.summary.should      == item.title
+      component.description.should  == item.excerpt
+      component.url                 == proposal_url(item)
+    end
   end
 
   describe "br3ak" do
