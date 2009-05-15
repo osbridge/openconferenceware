@@ -616,7 +616,7 @@ table#proposal-status-counts {
 
 .schedule h4 abbr,
 .schedule .time abbr {
-	border: none;
+  border: none;
 }
 
 .schedule .schedule_block {
@@ -631,96 +631,96 @@ table#proposal-status-counts {
 }
 
 .schedule .concise a {
-	color: #222;
-	text-decoration: none;
+  color: #222;
+  text-decoration: none;
 }
 
 .schedule .concise a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .schedule .summary {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .schedule li {
-	list-style: none;
+  list-style: none;
 }
 
 
 .schedule li.vevent {
-	position: relative;
-	margin: 0 .5em .5em;
+  position: relative;
+  margin: 0 .5em .5em;
     padding: .2em 7em .2em .5em;
     display: block;
-    color: #222; 
+    color: #222;
 }
 
 .schedule .vevent.generic_item {
-	border: 1px solid #116db6;
-	background: #fff;
+  border: 1px solid #116db6;
+  background: #fff;
 }
 
 .schedule .vevent .room {
-	position: absolute;
-	top: 0;
-	right: .2em;
-	border-left: 1px dotted #fff;
-	border-bottom: 1px dotted #fff;
-	padding: .2em .5em;
-	width: 5.5em;
+  position: absolute;
+  top: 0;
+  right: .2em;
+  border-left: 1px dotted #fff;
+  border-bottom: 1px dotted #fff;
+  padding: .2em .5em;
+  width: 5.5em;
 }
 
 .schedule .session_info {
-	background: white;
-	border: 2px solid #999;
-	position: absolute;
-	padding: .5em;
-	width: 20em;
-	font-size: .9em;
-	z-index: 9;
-	display: none;
-	right: -21em;
-	top: 0;
+  background: white;
+  border: 2px solid #999;
+  position: absolute;
+  padding: .5em;
+  width: 20em;
+  font-size: .9em;
+  z-index: 9;
+  display: none;
+  right: -21em;
+  top: 0;
 }
 
 .schedule li:hover .session_info,
 .schedule li.hover .session_info {
-	display: block;
+  display: block;
 }
 
 .calendar_download {
-	 background: url(common_css/i/calendar.png) no-repeat;
-	padding: 3px 0 0 50px;
-	min-height: 26px;
-	position: absolute;
-	top: 1.5em;
-	right: 2em;
+   background: url(/common/i/calendar.png) no-repeat;
+  padding: 3px 0 0 50px;
+  min-height: 26px;
+  position: absolute;
+  top: 1.5em;
+  right: 2em;
 }
 
 .schedule_color_key {
-	margin-bottom: 2em;
-	margin-left: 1em;
+  margin-bottom: 2em;
+  margin-left: 1em;
 }
 
 .schedule_color_key .definition {
-	color: #222;
+  color: #222;
   font-weight: bold;
-	padding: 0.25em;
+  padding: 0.25em;
 }
 
 .schedule_color_key a {
-	color: #222;
-	text-decoration: none;
+  color: #222;
+  text-decoration: none;
 }
 
 .schedule_color_key a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .schedule_color_key .definition.generic_item {
-	border: 1px solid #116db6;
-	background: #fff;
+  border: 1px solid #116db6;
+  background: #fff;
 }
 
 /* @end */
