@@ -257,8 +257,7 @@ protected
 
   # Ensure that the schedule is published
   def assert_schedule_published
-    display = false
-    display = true if schedule_visible?
+    display = admin? || schedule_visible?
     flash[:notice] = "The schedule has not yet been published, only admins can see this page." if admin? && !schedule_visible?
 
     unless display

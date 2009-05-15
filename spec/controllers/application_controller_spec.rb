@@ -192,4 +192,57 @@ describe ApplicationController do
     end
   end
 
+  describe "assert_schedule_published" do
+    before(:each) do
+      @event = stub_current_event!
+      @controller.instance_variable_set(:@event, @event)
+    end
+
+    describe "as admin" do
+      before(:each) do
+        login_as :aaron
+      end
+
+      it "should be able to view schedule when it's published" do
+        @controller.stub!(:schedule_visible?).and_return(true)
+        @controller.should_not_receive(:redirect_to)
+
+        result = @controller.send(:assert_schedule_published)
+        flash[:failure].should be_blank
+      end
+
+      it "should be able to view schedule before it's published" do
+        @controller.stub!(:schedule_visible?).and_return(false)
+        @controller.should_not_receive(:redirect_to)
+
+        result = @controller.send(:assert_schedule_published)
+        flash[:failure].should be_blank
+        flash[:notice].should_not be_blank
+      end
+    end
+
+    describe "as non-admin" do
+      before(:each) do
+        logout
+      end
+
+      it "should be able to view schedule when it's published" do
+        @controller.stub!(:schedule_visible?).and_return(true)
+        @controller.should_not_receive(:redirect_to)
+
+        result = @controller.send(:assert_schedule_published)
+        flash[:failure].should be_blank
+      end
+
+      it "should not be able to view schedule before it's published" do
+        @controller.stub!(:schedule_visible?).and_return(false)
+        @controller.should_receive(:redirect_to)
+
+        @controller.send(:assert_schedule_published)
+        flash[:failure].should_not be_blank
+      end
+    end
+
+  end
+
 end
