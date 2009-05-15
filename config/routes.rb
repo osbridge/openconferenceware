@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
   map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
-  map.connect '/schedule.:format', :controller => 'proposals', :action => 'schedule'
+  map.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
   map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
 
   map.resources :events do |event|
@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
     event.resources :schedule_items
     event.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
     event.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
-    event.connect '/schedule.:format', :controller => 'proposals', :action => 'schedule'
+    event.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
     event.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   end
 
