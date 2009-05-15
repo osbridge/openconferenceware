@@ -110,16 +110,16 @@ describe Schedule do
         @slices = @schedule.slices
         @blocks = @schedule.blocks
 
-        @postgresql_block = @blocks.select{|block| block.items.include?(@postgresql_session)}.first
-        @drizzle_block = @blocks.select{|block| block.items.include?(@drizzle_session)}.first
-        @rakudo_block = @blocks.select{|block| block.items.include?(@rakudo_session)}.first
-        @cloud_block = @blocks.select{|block| block.items.include?(@cloud_session)}.first
+        @postgresql_block = @blocks.find{|block| block.items.include?(@postgresql_session)}
+        @drizzle_block = @blocks.find{|block| block.items.include?(@drizzle_session)}
+        @rakudo_block = @blocks.find{|block| block.items.include?(@rakudo_session)}
+        @cloud_block = @blocks.find{|block| block.items.include?(@cloud_session)}
 
-        @postgresql_slice = @slices.select{|slice| slice.blocks.include?(@postgresql_block)}.first
-        @drizzle_slice = @slices.select{|slice| slice.blocks.include?(@drizzle_block)}.first
+        @postgresql_slice = @slices.find{|slice| slice.blocks.include?(@postgresql_block)}
+        @drizzle_slice = @slices.find{|slice| slice.blocks.include?(@drizzle_block)}
 
-        @rakudo_section = @sections.select{|section| section.blocks.include?(@rakudo_block)}.first
-        @postgresql_section = @sections.select{|section| section.blocks.include?(@postgresql_block)}.first
+        @rakudo_section = @sections.find{|section| section.blocks.include?(@rakudo_block)}
+        @postgresql_section = @sections.find{|section| section.blocks.include?(@postgresql_block)}
       end
 
       it "should create a day for each day represented in the input set" do
@@ -180,6 +180,85 @@ describe Schedule do
   describe "(given an invalid set of items to process)" do
     it "should raise an error when given an item that is not scheduleable"
   end
+
+  describe "with conflicts" do
+    before(:each) do
+      @time1 = Time.zone.parse("2009-05-13 18:00")
+      @time2 = Time.zone.parse("2009-05-13 20:45")
+      @time3 = Time.zone.parse("2009-05-13 21:00")
+      @time4 = Time.zone.parse("2009-05-13 21:30")
+
+      @room1 = stub_model(Room)
+      @room2 = stub_model(Room)
+
+      @user1 = stub_model(User)
+      @user2 = stub_model(User)
+
+      # Same time and room
+      @item1 = stub_model(Proposal, :room => @room1, :start_time => @time1, :end_time => @time2)
+      @item2 = stub_model(Proposal, :room => @room1, :start_time => @time1, :end_time => @time2)
+
+      # Same time, different room
+      @item3 = stub_model(Proposal, :room => @room2, :start_time => @time1, :end_time => @time2)
+
+      # Different time, same room
+      @item4 = stub_model(Proposal, :room => @room1, :start_time => @time3, :end_time => @time4)
+
+      # Same time and speaker
+      @item5 = stub_model(Proposal, :room => @room1, :start_time => @time1, :end_time => @time2, :users => [@user1])
+      @item6 = stub_model(Proposal, :room => @room2, :start_time => @time1, :end_time => @time2, :users => [@user1])
+
+      # Same time, different speaker
+      @item7 = stub_model(Proposal, :room => @room2, :start_time => @time1, :end_time => @time2, :users => [@user2])
+
+      # Different time and speaker
+      @item8 = stub_model(Proposal, :room => @room2, :start_time => @time3, :end_time => @time4, :users => [@user2])
+
+      # User associations
+      @user1.stub!(:proposals).and_return(mock(Array, :scheduled => mock(Array, :all => [@item5, @item6])))
+      @user2.stub!(:proposals).and_return(mock(Array, :scheduled => mock(Array, :all => [@item7, @item8])))
+    end
+
+    describe "for users" do
+      it "should identify conflicting items" do
+        items = [@item5, @item6]
+        schedule = Schedule.new(items)
+        conflicts = schedule.user_conflicts
+        conflicts.size.should == 1
+      end
+
+      it "should not misidentify nonconflicting items" do
+        items = [@item5, @item7]
+        schedule = Schedule.new(items)
+        conflicts = schedule.user_conflicts
+        conflicts.size.should == 0
+      end
+    end
+
+    describe "for rooms" do
+      it "should identify items happening at same time and room" do
+        schedule = Schedule.new([@item1, @item2])
+        conflicts = schedule.room_conflicts
+        conflicts.size.should == 1
+        [
+          {:room => @room1, :item => @item1, :conflicts_with => @item2},
+          {:room => @room1, :item => @item2, :conflicts_with => @item1}
+        ].should include(conflicts.first)
+      end
+
+      it "should not identify items happening at same time in separate rooms" do
+        schedule = Schedule.new([@item1, @item3])
+        conflicts = schedule.room_conflicts
+        conflicts.size.should == 0
+      end
+
+      it "should not identify items happening at different times in same room" do
+        schedule = Schedule.new([@item1, @item4])
+        conflicts = schedule.room_conflicts
+        conflicts.size.should == 0
+      end
+    end
+  end
 end
 
 class SchedulableThingy
@@ -230,5 +309,23 @@ describe SchedulableThingy do
     it "should fail to set duration if start_time isn't set" do
       lambda { @thingy.duration = -42 }.should raise_error(ArgumentError)
     end
+  end
+end
+
+describe ScheduleDay do
+  it "should compute lowest-common multiplier for day's section slices" do
+    values = [5, 6, 15]
+    day = ScheduleDay.new([])
+    day.stub!(:sections).and_return(mock(Array, :map => values))
+    day.lcm_colspan.should == 30
+  end
+end
+
+describe ScheduleSection do
+  it "should compute least-common multiplier for section's slice blocks" do
+    values = [3, 4, 6]
+    section = ScheduleSection.new([])
+    section.stub!(:slices).and_return(mock(Array, :map => values))
+    section.lcm_rowspan.should == 12
   end
 end

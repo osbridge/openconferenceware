@@ -132,8 +132,8 @@ class ScheduleSection
 
   def initialize(items=[], start_time=nil, end_time=nil)
     self.items = items
-    self.start_time = start_time
-    self.end_time = end_time
+    self.start_time = start_time if start_time
+    self.end_time = end_time if end_time
   end
 
   def self.new_array_from(items)

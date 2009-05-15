@@ -233,6 +233,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def proposals_scheduled
+    self.proposals.scheduled.all
+  end
+
 protected
 
   def encrypt_password
