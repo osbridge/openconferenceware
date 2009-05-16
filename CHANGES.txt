@@ -3,6 +3,13 @@ Changes
 
 OpenConferenceWare stable releases and changes made to them (latest at top):
 
+* v0.20090514
+
+- FIXED lookup of current event when no events where in the database.
+- FIXED compatibility with Ruby 1.8.6p111, which doesn't have Enumerable#count.
+- Added association from rooms to events.
+- Added "rake export:speakers" task.
+
 * v0.20090505
 - FIXED bug introduced by new ruby-openid and passengerl libraries that broke logins.
 - FIXED bug introduced by new RubyGems library that broke Time::today.
