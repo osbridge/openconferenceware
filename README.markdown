@@ -184,6 +184,6 @@ volunteers that put many hours of hard work into it. See the
 Copyright
 ---------
 
-Copyright (c) 2007-2008 Igal Koshevoy, Reid Beels, et al
+Copyright (c) 2007-2009 Igal Koshevoy, Reid Beels, et al
 
  vim:tw=72:

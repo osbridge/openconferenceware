@@ -1,7 +1,21 @@
 Changes
 =======
 
-OpenConferenceWare stable releases and changes made to them (latest at top):
+OpenConferenceWare stable releases and changes included, with latest at top:
+
+* v0.20090516
+
+- Added schedule. It can be displayed as HTML or imported as iCalendar
+  and hCalendar data. New admin interfaces provide ways to create and
+  manage ScheduleItems, non-session scheduled items such as a lunch
+  break, and toggle whether the schedule is available to the public. A
+  new "schedule:import:google_spreadheet" rake task is provided for
+  importing schedule data from Google Spreadsheets as an alternative to
+  using the per-item and bulk edit interfaces for setting the schedule.
+- Improved the ProposalsController#sort_proposals method to use
+  arguments rather than params, making it much easier to use and extend.
+- Improved Track color handling with Color objects to make fancy color
+  transformations easy.
 
 * v0.20090514
 
