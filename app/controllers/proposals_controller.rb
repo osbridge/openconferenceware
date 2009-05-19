@@ -90,19 +90,18 @@ class ProposalsController < ApplicationController
   def schedule
     page_title 'Schedule'
 
-    @schedule_callback = lambda { Schedule.new(@event) }
+    @schedule = Defer { Schedule.new(@event) }
 
     respond_to do |format|
       format.html {
         @view_cache_key = "schedule,event_#{@event.id},admin_#{admin?}"
-        @schedule = @schedule_callback.call unless fragment_exist?(@view_cache_key)
       }
 
       format.ics {
         view_cache_key = "schedule,event_#{@event.id}.ics"
         data = Rails.cache.fetch_object(view_cache_key) {
           calendar = Vpim::Icalendar.create2
-          @schedule_callback.call.items.each do |item|
+          @schedule.items.each do |item|
             calendar.add_event do |e|
               e.dtstart     item.start_time
               e.dtend       item.start_time + item.duration.minutes
