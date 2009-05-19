@@ -227,7 +227,7 @@ describe ProposalsController do
       get :sessions_index, :event => 1234
 
       records = assigns(:proposals)
-      records.should == proposals
+      records.should be_a_kind_of(proposals.class)
     end
 
     it "should redirect to proposals unless the proposal status is published" do
