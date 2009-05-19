@@ -763,7 +763,7 @@ describe ProposalsController do
       @controller.stub!(:schedule_visible?).and_return(true)
       item = proposals(:postgresql_session)
 
-      get :schedule, :event_id => @event.id
+      get :schedule, :event_id => @event.slug
 
       response.should be_success
       response.should have_tag(".summary", :text => /#{item.title}/)
@@ -773,7 +773,7 @@ describe ProposalsController do
       @controller.stub!(:schedule_visible?).and_return(true)
       item = proposals(:postgresql_session)
 
-      get :schedule, :event_id => @event.id, :format => "ics"
+      get :schedule, :event_id => @event.slug, :format => "ics"
 
       response.should be_success
       calendar = Vpim::Icalendar.decode(response.body).first
