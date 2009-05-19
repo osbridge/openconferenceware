@@ -61,17 +61,31 @@ class DeferProxy
   attr_accessor :__value
 
   def initialize(&block)
-    @__callback = block
+    self.__callback = block
+  end
+
+  def __materialize(method=nil, *args, &block)
+    unless self.__called
+      self.__value = self.__callback.call
+      self.__called = true
+      Rails.logger.debug("DeferProxy materialized by: #{self.__value.class.name}##{method}") if defined?(Rails)
+    end
   end
 
   def method_missing(method, *args, &block)
-    unless @__called
-      @__value = @__callback.call
-      @__called = true
-      Rails.logger.debug("DeferProxy materialized by: #{@__value.class.name}##{method}") if defined?(Rails)
-    end
-    return @__value.send(method, *args, &block)
+    self.__materialize(method)
+    return self.__value.send(method, *args, &block)
   end
+
+  alias_method :kind_of_old?, :kind_of?
+  def kind_of_with_trickery?(klass)
+    self.__materialize('kind_of?')
+    # TODO Figure out why this causes a endless loop: self.kind_of_without_trickery?(DeferProxy)
+    #return self.__value.kind_of?(klass) || self.kind_of_without_trickery?(klass)
+    #return self.class == klass || self.kind_of_without_trickery?(klass) || self.__value.kind_of?(klass)
+    return self.class == klass || self.__value.kind_of?(klass)
+  end
+  alias_method_chain :kind_of?, :trickery
 end
 
 # Return a DeferProxy instance for the given +block+.
@@ -85,3 +99,5 @@ __END__
 load 'lib/defer_proxy.rb'
 x = Defer { [1,2,3] }
 x.each{|v| p v}
+x.kind_of? Array
+x.kind_of? DeferProxy
