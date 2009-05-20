@@ -30,6 +30,7 @@ Rails::Initializer.run do |config|
   config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
+  config.gem "comma"
   config.gem "gchartrb", :lib => "google_chart"
   config.gem "vpim", :lib => 'vpim/icalendar'
   config.gem "RedCloth"
