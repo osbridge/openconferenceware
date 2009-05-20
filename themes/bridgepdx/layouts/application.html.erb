@@ -159,7 +159,7 @@
                       <li><%= link_to "Users", users_path %></li>
                     <% end %>
                     <li><%= link_to "Events", manage_events_path %></li>
-                    <% if @event %>
+                    <% if @event && ! @event.new_record? %>
                       <li>
                         <%= link_to "Manage this event", manage_event_path(@event) %>
                         <ul>
