@@ -94,11 +94,7 @@ class Proposal < ActiveRecord::Base
   belongs_to :session_type
   belongs_to :room
   has_many :comments
-  has_and_belongs_to_many :users do
-    def names
-      self.map(&:fullname).join(', ')
-    end
-  end
+  has_and_belongs_to_many :users
 
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
@@ -125,55 +121,6 @@ class Proposal < ActiveRecord::Base
 
   # Triggers
   before_save :populate_submitted_at
-
-  # CSV Export
-
-  base_comma_attributes = lambda {
-    id
-    submitted_at
-    title
-    description
-    excerpt if proposal_excerpts?
-    track :title if event_tracks?
-
-    if event_session_types?
-      session_type :title => "Session Type"
-      session_type :duration => "Duration"
-    end
-
-    # TODO how to better support multiple speakers!?
-    if multiple_presenters?
-      users :names
-    else
-      presenter
-      affiliation
-      website
-      biography
-    end
-  }
-
-  schedule_comma_attributes = lambda {
-    room :name
-    start_time :xmlschema
-  }
-
-  comma do
-    instance_eval &base_comma_attributes
-  end
-
-  comma :schedule do
-    instance_eval &base_comma_attributes
-    instance_eval &schedule_comma_attributes
-  end
-
-  comma :admin do
-    instance_eval &base_comma_attributes
-    instance_eval &schedule_comma_attributes
-
-    email
-    note_to_organizers
-    comments_text
-  end
 
   # Return the first User owner. Burst into flames if no user or multiple users listed.
   def user
