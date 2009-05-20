@@ -1,5 +1,6 @@
 class Manage::EventsController < ApplicationController
   before_filter :require_admin
+  before_filter :assert_current_event_or_redirect, :only => [:show, :edit, :update, :destroy]
 
   include BreadcrumbsMixin
   add_breadcrumb "Manage", "/manage"
@@ -19,11 +20,6 @@ class Manage::EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
-    unless @event = Event.find(params[:id])
-      flash[:failure] = "Couldn't find event: #{params[:id]}"
-      return redirect_to(manage_events_path)
-    end
-
     add_breadcrumb @event.title, manage_event_path(@event)
 
     respond_to do |format|
@@ -45,7 +41,6 @@ class Manage::EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
     @return_to = params[:return_to] || request.env["HTTP_REFERER"]
   end
 
@@ -69,9 +64,6 @@ class Manage::EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
-    @event = Event.find(params[:id])
-    @event.id = params[:event][:id]
-
     @return_to = params[:return_to]
 
     respond_to do |format|
@@ -89,11 +81,6 @@ class Manage::EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
-    unless @event = Event.find(params[:id])
-      flash[:failure] = "Couldn't find event: #{params[:id]}"
-      return redirect_to(manage_events_path)
-    end
-
     @event.destroy
     flash[:success] = "Destroyed event: #{@event.title}"
 
@@ -104,6 +91,7 @@ class Manage::EventsController < ApplicationController
   end
 
   def proposals
+    # NOTE: This is the bulk editor for the admin.
     @proposals = @event.proposals.populated
   end
 end
