@@ -76,7 +76,7 @@ describe RoomsController do
     
       it "should expose a new room as @room" do
         Room.should_receive(:new).and_return(mock_room)
-        get :new, :event => events(:open).id
+        get :new, :event => events(:open).slug
         assigns[:room].should equal(mock_room)
       end
 

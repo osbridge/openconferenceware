@@ -22,7 +22,9 @@ class Event < ActiveRecord::Base
   # Mixins
   ### Provide cached Snippet.lookup(id) method.
   include CacheLookupsMixin
-  cache_lookups_for :id, :order => 'deadline desc', :include => [:tracks, :rooms]
+  include SimpleSlugMixin
+
+  cache_lookups_for :slug, :order => 'deadline desc', :include => [:tracks, :rooms]
 
   # Associations
   has_many :proposals, :order => 'submitted_at desc'
@@ -33,7 +35,7 @@ class Event < ActiveRecord::Base
 
   # Validations
   validates_presence_of \
-    :id,
+    :slug,
     :title,
     :deadline,
     :open_text,
@@ -66,7 +68,7 @@ class Event < ActiveRecord::Base
   def self.current
     return self.fetch_object(EVENT_CURRENT_CACHE_KEY) do
       if record = self.current_by_deadline
-        self.lookup(record.id)
+        self.lookup(record.slug)
       else
         nil
       end

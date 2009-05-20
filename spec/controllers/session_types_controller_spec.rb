@@ -76,7 +76,7 @@ describe SessionTypesController do
     
       it "should expose a new session_type as @session_type" do
         SessionType.should_receive(:new).and_return(mock_session_type)
-        get :new, :event => events(:open).id
+        get :new, :event => events(:open).slug
         assigns[:session_type].should equal(mock_session_type)
       end
 

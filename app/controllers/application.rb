@@ -54,7 +54,7 @@ protected
 
   # Return a cache key for the current event.
   def current_event_cache_key
-    return @event ? @event.id : -1
+    return @event ? @event.slug : -1
   end
   helper_method :current_event_cache_key
 
@@ -145,7 +145,7 @@ protected
 
     # Try finding event matching the :event_id given in the #params.
     event_id_key = controller_name == "events" ? :id : :event_id
-    if key = params[event_id_key].ergo.to_i
+    if key = params[event_id_key]
       if event = Event.lookup(key)
         logit "assigned via #{event_id_key} to: #{key}"
         status = :assigned_to_param
@@ -225,11 +225,11 @@ protected
       else
         prefix = request.relative_url_root
         if controller_name == "proposals" && action_name == "sessions_index"
-          path = "#{prefix}/events/#{@event.id}/sessions"
+          path = "#{prefix}#{event_sessions_path(@event)}"
         elsif controller_name == "proposals" && action_name == "schedule"
           path = "#{prefix}#{event_schedule_path(@event)}"
         else
-          path = "#{prefix}/events/#{@event.id}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
+          path = "#{prefix}/events/#{@event.to_param}/#{controller_name}/#{action_name == 'index' ? '' : action_name}"
         end
         flash.keep
         return redirect_to(path)

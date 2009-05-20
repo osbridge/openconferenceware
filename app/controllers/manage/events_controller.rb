@@ -53,7 +53,6 @@ class Manage::EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new(params[:event])
-    @event.id = params[:event][:id]
 
     respond_to do |format|
       if @event.save

@@ -2,7 +2,7 @@
 
 <table class="scaffolded">
   <tr>
-    <th>Id</th>
+    <th>Slug</th>
     <th>Title</th>
     <th>Accepting?</th>
     <th>Deadline</th>
@@ -18,7 +18,7 @@
 <% end %>
 <% for event in @events %>
   <tr class="<%= cycle("even", "odd") %>">
-    <td><%=h event.id %></td>
+    <td><%=h event.slug %></td>
     <td>
       <%= link_to h(event.title), [:manage, event] %>
     </td>
