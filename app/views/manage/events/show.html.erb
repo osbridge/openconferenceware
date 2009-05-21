@@ -24,8 +24,7 @@
         <%= link_to(h(@event.parent.title), manage_event_path(@event.parent)) %>
       </td>
     </tr>
-  <% end %>
-  <% if not @event.children.empty? %>
+  <% else %>
     <tr>
       <td class="label-text">
         <label>Children</label>
@@ -40,23 +39,23 @@
         </ul>
       </td>
     </tr>
+    <tr>
+      <td class="label-text">
+        <label>Start Date</label>
+      </td>
+      <td>
+        <%=h @event.start_date %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-text">
+        <label>End Date</label>
+      </td>
+      <td>
+        <%=h @event.end_date %>
+      </td>
+    </tr>
   <% end %>
-  <tr>
-    <td class="label-text">
-      <label>Start Date</label>
-    </td>
-    <td>
-      <%=h @event.start_date %>
-    </td>
-  </tr>
-  <tr>
-    <td class="label-text">
-      <label>End Date</label>
-    </td>
-    <td>
-      <%=h @event.end_date %>
-    </td>
-  </tr>
   <tr>
     <td class="label-text">
       <label>Proposal Deadline</label>

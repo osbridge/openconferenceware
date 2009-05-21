@@ -24,7 +24,7 @@
         <%= f.text_field :title %>
       </td>
     </tr>
-    <% if @event.children.empty? %>
+    <% if @event.parent %>
       <tr>
         <td class="label-cell">
           <%= f.label :parent_id, "Child of" %>
@@ -46,28 +46,28 @@
               </li>
             <% end %>
             <li>
-              <%= link_to "Add...", new_manage_event_path(:parent_id => @event.id) %>
+              <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id) %>
             </li>
           </ul>
         </td>
       </tr>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :start_date %><br />
+        </td>
+        <td>
+          <%= f.date_select :start_date, :include_blank => true %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :end_date %><br />
+        </td>
+        <td>
+          <%= f.date_select :end_date, :include_blank => true %>
+        </td>
+      </tr>
     <% end %>
-    <tr>
-      <td class="label-cell">
-        <%= f.label :start_date %><br />
-      </td>
-      <td>
-        <%= f.date_select :start_date, :include_blank => true %>
-      </td>
-    </tr>
-    <tr>
-      <td class="label-cell">
-        <%= f.label :end_date %><br />
-      </td>
-      <td>
-        <%= f.date_select :end_date, :include_blank => true %>
-      </td>
-    </tr>
     <tr>
       <td class="label-cell">
         <%= f.label :deadline, "Proposal Deadline" %><br />
