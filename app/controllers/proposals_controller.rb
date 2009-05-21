@@ -35,13 +35,14 @@ class ProposalsController < ApplicationController
         # index.atom.builder
       }
       format.csv {
+        @proposals = @proposals.find(:all, :include => [:comments, :session_type])
         if admin?
-          render :csv => @proposals.all, :style => :admin
+          render :csv => @proposals, :style => :admin
         else
           if schedule_visible?
-            render :csv => @proposals.all, :style => :schedule
+            render :csv => @proposals, :style => :schedule
           else
-            render :csv => @proposals.all
+            render :csv => @proposals
           end
         end
       }
