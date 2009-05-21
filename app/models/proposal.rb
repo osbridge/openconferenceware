@@ -133,16 +133,16 @@ class Proposal < ActiveRecord::Base
     submitted_at
     title
     description
-    excerpt if proposal_excerpts?
-    track :title if event_tracks?
+    excerpt if SETTINGS.have_proposal_excerpts
+    track :title => "Track" if SETTINGS.have_event_tracks
 
-    if event_session_types?
+    if SETTINGS.have_event_session_types
       session_type :title => "Session Type"
       session_type :duration => "Duration"
     end
 
     # TODO how to better support multiple speakers!?
-    if multiple_presenters?
+    if SETTINGS.have_multiple_presenters
       users :names
     else
       presenter
