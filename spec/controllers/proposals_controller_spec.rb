@@ -30,7 +30,11 @@ describe ProposalsController do
     describe "when returning CSV" do
       describe "shared CSV behaviors", :shared => true do
         before do
+          SETTINGS.stub!(:have_user_profiles => true)
+          SETTINGS.stub!(:have_multiple_presenters => true)
+
           get :index, :event_id => @event.slug, :format => "csv"
+
           @rows = CSV::Reader.parse(response.body).inject([]){|result,row| result << row; result}
           @header = @rows.first
         end
@@ -52,7 +56,7 @@ describe ProposalsController do
         it_should_behave_like "shared CSV behaviors"
 
         it "should not see private fields" do
-          @header.should_not include("Email")
+          @header.should_not include("Emails")
         end
       end
 
@@ -64,7 +68,7 @@ describe ProposalsController do
         it_should_behave_like "shared CSV behaviors"
 
         it "should not see private fields" do
-          @header.should_not include("email")
+          @header.should_not include("Emails")
         end
       end
 
@@ -76,7 +80,7 @@ describe ProposalsController do
         it_should_behave_like "shared CSV behaviors"
 
         it "should see private fields" do
-          @header.should include("Email")
+          @header.should include("Emails")
         end
       end
     end

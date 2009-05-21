@@ -95,8 +95,12 @@ class Proposal < ActiveRecord::Base
   belongs_to :room
   has_many :comments
   has_and_belongs_to_many :users do
-    def names
+    def fullnames
       self.map(&:fullname).join(', ')
+    end
+
+    def emails
+      self.map(&:email).join(', ')
     end
   end
 
@@ -131,10 +135,10 @@ class Proposal < ActiveRecord::Base
   base_comma_attributes = lambda {
     id
     submitted_at
-    title
-    description
-    excerpt if SETTINGS.have_proposal_excerpts
     track :title => "Track" if SETTINGS.have_event_tracks
+    title
+    excerpt if SETTINGS.have_proposal_excerpts
+    description
 
     if SETTINGS.have_event_session_types
       session_type :title => "Session Type"
@@ -143,7 +147,7 @@ class Proposal < ActiveRecord::Base
 
     # TODO how to better support multiple speakers!?
     if SETTINGS.have_multiple_presenters
-      users :names
+      users :fullnames => "Speakers"
     else
       presenter
       affiliation
@@ -153,8 +157,8 @@ class Proposal < ActiveRecord::Base
   }
 
   schedule_comma_attributes = lambda {
-    room :name
-    start_time :xmlschema
+    room :name => "Room Name"
+    start_time :xmlschema => "Start Time"
   }
 
   comma do
@@ -170,7 +174,11 @@ class Proposal < ActiveRecord::Base
     instance_eval &base_comma_attributes
     instance_eval &schedule_comma_attributes
 
-    email
+    if SETTINGS.have_multiple_presenters
+      users :emails
+    else
+      email
+    end
     note_to_organizers
     comments_text
   end
