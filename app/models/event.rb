@@ -128,7 +128,8 @@ class Event < ActiveRecord::Base
     return \
       self.proposals.scheduled.located.find(:all, \
         :include => [:users, :room, :session_type, {:track => :event}]) + \
-      self.schedule_items.find(:all, :include => [:room])
+      self.schedule_items.find(:all, :include => [:room]) + \
+      self.children.map(&:calendar_items).flatten
   end
 
 end
