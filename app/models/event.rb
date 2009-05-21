@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090510024259
+# Schema version: 20090521012427
 #
 # Table name: events
 #
@@ -16,6 +16,9 @@
 #  start_date                              :datetime        
 #  end_date                                :datetime        
 #  accept_proposal_comments_after_deadline :boolean         
+#  schedule_published                      :boolean
+#  slug                                    :string(255)
+#  parent_id                               :integer
 #
 
 class Event < ActiveRecord::Base

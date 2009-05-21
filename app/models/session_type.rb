@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090510024259
+# Schema version: 20090521012427
 #
 # Table name: session_types
 #
