@@ -109,6 +109,7 @@ class Proposal < ActiveRecord::Base
   named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :session_type, :track, :room, :users]
   named_scope :scheduled, :conditions => "start_time IS NOT NULL"
   named_scope :located, :conditions => "room_id IS NOT NULL"
+  named_scope :for_event, lambda { |event| { :conditions => { :event_id => event } } }
 
   # Validations
   validates_presence_of :title, :description, :event_id
