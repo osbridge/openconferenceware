@@ -35,6 +35,8 @@ class Event < ActiveRecord::Base
   has_many :session_types
   has_many :rooms
   has_many :schedule_items
+  has_many :children, :class_name => 'Event', :foreign_key => 'parent_id'
+  belongs_to :parent, :class_name => 'Event', :foreign_key => 'parent_id'
 
   # Validations
   validates_presence_of \
