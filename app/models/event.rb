@@ -132,9 +132,18 @@ class Event < ActiveRecord::Base
       self.children.map(&:calendar_items).flatten
   end
 
-  # Return other Event objects
+  # Return other Event objects.
   def other_events
     return self.class.find(:all, :order => "title asc", :select => "id, title").reject{|event| event == self}
   end
 
+  # Return start_time for either self or parent Event.
+  def start_date
+    return self.parent_id ? self.parent.start_date : self.read_attribute(:start_date)
+  end
+
+  # Return end_time for either self or parent Event.
+  def end_date
+    return self.parent_id ? self.parent.end_date : self.read_attribute(:end_date)
+  end
 end
