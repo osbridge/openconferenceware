@@ -94,7 +94,15 @@ class Proposal < ActiveRecord::Base
   belongs_to :session_type
   belongs_to :room
   has_many :comments
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :users do
+    def fullnames
+      self.map(&:fullname).join(', ')
+    end
+
+    def emails
+      self.map(&:email).join(', ')
+    end
+  end
 
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
@@ -121,6 +129,59 @@ class Proposal < ActiveRecord::Base
 
   # Triggers
   before_save :populate_submitted_at
+
+  # CSV Export
+
+  base_comma_attributes = lambda {
+    id
+    submitted_at
+    track :title => "Track" if SETTINGS.have_event_tracks
+    title
+    excerpt if SETTINGS.have_proposal_excerpts
+    description
+
+    if SETTINGS.have_event_session_types
+      session_type :title => "Session Type"
+      session_type :duration => "Duration"
+    end
+
+    # TODO how to better support multiple speakers!?
+    if SETTINGS.have_multiple_presenters
+      users :fullnames => "Speakers"
+    else
+      presenter
+      affiliation
+      website
+      biography
+    end
+  }
+
+  schedule_comma_attributes = lambda {
+    room :name => "Room Name"
+    start_time :xmlschema => "Start Time"
+  }
+
+  comma do
+    instance_eval &base_comma_attributes
+  end
+
+  comma :schedule do
+    instance_eval &base_comma_attributes
+    instance_eval &schedule_comma_attributes
+  end
+
+  comma :admin do
+    instance_eval &base_comma_attributes
+    instance_eval &schedule_comma_attributes
+
+    if SETTINGS.have_multiple_presenters
+      users :emails
+    else
+      email
+    end
+    note_to_organizers
+    comments_text
+  end
 
   # Return the first User owner. Burst into flames if no user or multiple users listed.
   def user

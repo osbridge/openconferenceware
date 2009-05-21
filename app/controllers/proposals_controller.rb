@@ -35,32 +35,16 @@ class ProposalsController < ApplicationController
         # index.atom.builder
       }
       format.csv {
-        # TODO support profile in proposal or user
-        # TODO how to support multiple speakers!?
-        buffer = StringIO.new
-        CSV::Writer.generate(buffer) do |csv|
-          fields = [
-            :id,
-            :submitted_at,
-            :presenter,
-            :affiliation,
-            :website,
-            :biography,
-            :title,
-            :description,
-          ]
-          if admin?
-            fields << :email
-            fields << :note_to_organizers
-            fields << :comments_text
-          end
-          csv << fields.map{|field| field.to_s}
-          for proposal in @proposals
-            csv << fields.map{|field| value = proposal.send(field); field == :created_at ? value.localtime.to_s(:date_time12) : value }
+        @proposals = @proposals.find(:all, :include => [:comments, :session_type])
+        if admin?
+          render :csv => @proposals, :style => :admin
+        else
+          if schedule_visible?
+            render :csv => @proposals, :style => :schedule
+          else
+            render :csv => @proposals
           end
         end
-        buffer.rewind
-        render :text => buffer.read
       }
     end
   end
