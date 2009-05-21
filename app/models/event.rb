@@ -120,4 +120,13 @@ class Event < ActiveRecord::Base
     return self.proposals.populated
   end
 
+  # Return an array of the Event's ScheduleItems and Proposal sessions that
+  # have been scheduled and given a room location.
+  def calendar_items
+    return \
+      self.proposals.scheduled.located.find(:all, \
+        :include => [:users, :room, :session_type, {:track => :event}]) + \
+      self.schedule_items.find(:all, :include => [:room])
+  end
+
 end
