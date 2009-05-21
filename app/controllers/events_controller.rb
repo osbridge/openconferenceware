@@ -6,8 +6,7 @@ class EventsController < ApplicationController
   before_filter :normalize_event_path_or_redirect
 
   def index
-    flash.keep
-    redirect_to event_proposals_path(@event) if @event
+    @events = Event.find(:all, :order => "deadline asc")
   end
 
   def show
