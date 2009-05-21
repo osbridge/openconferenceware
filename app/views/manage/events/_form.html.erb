@@ -16,7 +16,6 @@
         <%= f.text_field :slug %>
       </td>
     </tr>
-
     <tr>
       <td class="label-cell">
         <%= f.label :title %>
@@ -25,6 +24,34 @@
         <%= f.text_field :title %>
       </td>
     </tr>
+    <% if @event.children.empty? %>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :parent_id, "Child of" %>
+        </td>
+        <td>
+          <%= f.collection_select :parent_id, @event.other_events, :id, :title, :include_blank => "- None -" %>
+        </td>
+      </tr>
+    <% else %>
+      <tr>
+        <td class="label-cell">
+          <%= f.label :parent_id, "Children" %>
+        </td>
+        <td>
+          <ul>
+            <% for child in @event.children %>
+              <li>
+                <%= link_to h(child.title), manage_event_path(child) %>
+              </li>
+            <% end %>
+            <li>
+              <%= link_to "Add...", new_manage_event_path(:parent_id => @event.id) %>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
     <tr>
       <td class="label-cell">
         <%= f.label :start_date %><br />

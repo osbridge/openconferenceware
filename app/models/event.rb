@@ -132,4 +132,9 @@ class Event < ActiveRecord::Base
       self.children.map(&:calendar_items).flatten
   end
 
+  # Return other Event objects
+  def other_events
+    return self.class.find(:all, :order => "title asc", :select => "id, title").reject{|event| event == self}
+  end
+
 end

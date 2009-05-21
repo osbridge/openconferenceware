@@ -32,6 +32,9 @@ class Manage::EventsController < ApplicationController
   # GET /events/new.xml
   def new
     @event = Event.new
+    if params[:parent_id]
+      @event.parent_id = params[:parent_id]
+    end
 
     respond_to do |format|
       format.html # new.html.erb
