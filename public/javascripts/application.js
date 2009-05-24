@@ -83,8 +83,9 @@ function bind_proposal_generic_control(kind, elements) {
     proposal_id = target.attr('x_proposal_id');
     format = 'json';
     url = '/proposals/'+proposal_id+'.'+format;
+    // FIXME Don't hardcode paths.
 
-    data = { 'authenticity_token': window._token };
+    data = { 'authenticity_token': app.authenticity_token };
     data[name] = value;
     $d = data;
 
@@ -135,12 +136,12 @@ function bind_proposal_schedule_controls() {
       target.parent().find('select').attr('selectedIndex',0);
     }
   }).change(function(event) {
+    target = $(this);
     // Submits the schedule form on change if all three select element have values.
     if(target.parent().find('option:selected[value]').get().length == 3) {
-      target = $(this);
 
       data = {
-        'authenticity_token': window._token,
+        'authenticity_token': app.authenticity_token,
         'start_time[date]': target.parent().find('select.date').attr('value'),
         'start_time[hour]': target.parent().find('select.hour').attr('value'),
         'start_time[minute]': target.parent().find('select.minute').attr('value')

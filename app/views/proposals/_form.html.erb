@@ -259,7 +259,7 @@
       query = $('#speaker-search-field').val();
       $.post(
         '<%= search_proposal_speakers_path(path_record) %>', {
-          'authenticity_token': window._token,
+          'authenticity_token': app.authenticity_token,
           'speakers': extract_speaker_frags(),
           'search': query
         }, function(response) {
@@ -283,7 +283,7 @@
           speaker_id = target.attr('speaker_id');
           $.post(
             '<%= manage_proposal_speakers_path(path_record) %>', {
-              'authenticity_token': window._token,
+              'authenticity_token': app.authenticity_token,
               'speakers': extract_speaker_frags(),
               'add': speaker_id
             }, function(response) {
@@ -322,7 +322,7 @@
         target.addClass('spinning');
         $.post(
           '<%= manage_proposal_speakers_path(path_record) %>', {
-            'authenticity_token': window._token,
+            'authenticity_token': app.authenticity_token,
             'speakers': extract_speaker_frags(),
             'remove': speaker_id
           }, function(response) {
