@@ -6,7 +6,7 @@ proposal ||= @proposal
 %>
 
 <% if admin? && ! proposal.new_record? %>
-  <% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
+  <% run_when_dom_is_ready "bind_all_proposal_controls();" %>
 
   <div class="admin-only">
     <% form_for(proposal) do |f| %>

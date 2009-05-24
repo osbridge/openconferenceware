@@ -62,8 +62,8 @@ module ApplicationHelper
     content_for :scripts, html
   end
 
-  # Include a jQuery $(document).ready() function that calls the given +javascript+ code.
-  def run_when_jquery_is_ready(javascript)
+  # Enqueues the given javascript code to run once the DOM is ready.
+  def run_when_dom_is_ready(javascript)
     content_for :javascript_on_ready, javascript + "\n"
   end
 
