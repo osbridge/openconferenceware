@@ -126,7 +126,7 @@ class Event < ActiveRecord::Base
   # have been scheduled and given a room location.
   def calendar_items
     return \
-      self.proposals.scheduled.located.find(:all, \
+      self.proposals.confirmed.scheduled.located.find(:all, \
         :include => [:users, :room, :session_type, {:track => :event}]) + \
       self.schedule_items.find(:all, :include => [:room]) + \
       self.children.map(&:calendar_items).flatten
