@@ -18,6 +18,10 @@ $(document).ready(function() {
 
 /*===[ custom functions ]=============================================*/
 
+function logged_in() {
+  return !app.current_user == false;
+}
+
 /*---[ data structure conveniences ]----------------------------------*/
 
 // Return an array of keys in +hash+. Example:

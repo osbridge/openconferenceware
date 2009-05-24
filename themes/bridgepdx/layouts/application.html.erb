@@ -37,6 +37,7 @@
   <%# TODO Add script and stylesheet yield blocks to other themes -%>
   <%= yield :scripts -%>
 
+  <% expose_to_js( :current_user, current_user == :false ? false : current_user.id ) -%>
   <% expose_to_js( :authenticity_token, form_authenticity_token ) if protect_against_forgery? -%>
 
   <script type="text/javascript" charset="utf-8">
