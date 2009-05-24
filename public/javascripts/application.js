@@ -1,6 +1,9 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+// app object used to expose rails variables to javascript
+var app = new Object;
+
 /*===[ onload functions ]=============================================*/
 
 // Highlight the flash notification area briefly.

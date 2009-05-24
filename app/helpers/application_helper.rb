@@ -62,6 +62,24 @@ module ApplicationHelper
     content_for :scripts, html
   end
 
+  # Indents a block of code to a specified minimum indent level.
+  def indent_block(string, level=0)
+    lines = string.to_a
+    common_space = lines.map{|line| line.length - line.lstrip.length}.min
+    string.to_a.map{ |line| ('  ' * level) + line[common_space..-1] }.join
+  end
+
+  # Exposes a value as a property of the JavaScript 'app' object.
+  #   Example:
+  #     <% expose_to_js :current_user_id, current_user.id %>
+  #     <script> alert(app.current_user_id); </script>
+  #
+  def expose_to_js(key, value)
+    raise(ArgumentError, "key must be a symbol") unless key.is_a?(Symbol)
+    value = "'#{value}'" unless value.is_a?(Integer) || value.bool?
+    content_for :javascript_expose_values, "app.#{key.to_s} = #{value};\n"
+  end
+
   # Enqueues the given javascript code to run once the DOM is ready.
   def run_when_dom_is_ready(javascript)
     content_for :javascript_on_ready, javascript + "\n"

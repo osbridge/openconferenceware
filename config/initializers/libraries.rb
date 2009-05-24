@@ -4,6 +4,7 @@ require 'facets/enumerable/mash'
 require 'facets/file/write'
 require 'facets/kernel/ergo'
 require 'facets/kernel/with'
+require 'facets/boolean'
 
 # Local libraries
 require 'lib/defer_proxy'

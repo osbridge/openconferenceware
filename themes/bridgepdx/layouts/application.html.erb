@@ -39,11 +39,10 @@
 
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
-      <%= "window._token = '#{form_authenticity_token}';" if protect_against_forgery? %>
-<%=       indent_block( yield(:javascript_on_ready), 3) %>
+<%=       indent_block( yield(:javascript_expose_values), 3) -%>
+<%=       indent_block( yield(:javascript_on_ready), 3) -%>
     });
   </script>
-
 </head>
 
 <% remote_base = SETTINGS.public_url %>
