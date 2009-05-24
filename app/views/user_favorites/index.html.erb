@@ -1,0 +1,18 @@
+<h1>Listing user_favorites</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% for user_favorite in @user_favorites %>
+  <tr>
+    <td><%= link_to 'Show', user_favorite %></td>
+    <td><%= link_to 'Edit', edit_user_favorite_path(user_favorite) %></td>
+    <td><%= link_to 'Destroy', user_favorite, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_favorite', new_user_favorite_path %>
