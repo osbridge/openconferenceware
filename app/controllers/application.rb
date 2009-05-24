@@ -84,8 +84,7 @@ protected
   #---[ Access control ]--------------------------------------------------
 
   # Can the current user edit the current +record+?
-  def can_edit?(record=nil)
-    record ||= @proposal || @user
+  def can_edit?(record)
     raise ArgumentError, "No record specified" unless record
 
     if logged_in?
@@ -304,5 +303,30 @@ protected
     add_breadcrumb "Users", users_path
     add_breadcrumb @user.label, user_path(@user)
     add_breadcrumb "Edit" if ["edit", "update"].include?(action_name)
+  end
+
+  # Assert that #current_user can edit record.
+  def assert_record_ownership
+    case self
+    when ProposalsController
+      record = @proposal
+    when UsersController, UserFavoritesController
+      record = @user
+      failure_message = "Sorry, you can't edit other users."
+    else
+      raise TypeError
+    end
+
+    if admin?
+      return false # admin can always edit
+    else
+      # FIXME when should people be able to edit proposals?!
+      if can_edit?(record)
+        return false # current_user can edit
+      else
+        flash[:failure] = failure_message ||= "Sorry, you can't edit #{record.class.name.pluralize.downcase} that aren't yours."
+        return redirect_to(record)
+      end
+    end
   end
 end

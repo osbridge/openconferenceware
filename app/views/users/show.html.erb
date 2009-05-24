@@ -20,7 +20,7 @@
   </div>
 <% end %>
 
-<% if admin? || can_edit? %>
+<% if admin? || can_edit?(@user) %>
   <h3>Email<span class='head-note'> (private)</span></h3>
     <td>
       <div>
@@ -66,7 +66,7 @@
   </div>
 <% end %>
 
-<% if can_edit? %>
+<% if can_edit?(@user) %>
   <div class='record-controls'>
     <%= link_to "Edit", edit_user_path(@user), :class => "editable" %>
     <% if admin? %>

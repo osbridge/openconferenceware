@@ -33,7 +33,7 @@
         </td>
       </tr>
     <% end %>
-    <% if admin? || can_edit? %>
+    <% if admin? || can_edit?(@user) %>
       <tr>
         <td class="label-cell">
           <label><%= required_field if @user.complete_profile %>Email (kept private)</label>

@@ -13,7 +13,7 @@ focus :comment_message if @focus_comment
 
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?}" do %>
+<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -38,7 +38,7 @@ focus :comment_message if @focus_comment
             <td class="data-cell"><p><%=h @profile.affiliation %></p></td>
           </tr>
         <% end %>
-        <% if can_edit? %>
+        <% if can_edit?(@proposal) %>
           <tr>
             <td class="label-cell"><label>Email (private)</label ></td>
             <% email = @profile.email %>
@@ -104,7 +104,7 @@ focus :comment_message if @focus_comment
     <p><%= link_to h(@proposal.room.name), @proposal.room %>
   <% end %>
 
-  <% if can_edit? && ! @proposal.note_to_organizers.blank?%>
+  <% if can_edit?(@proposal) && ! @proposal.note_to_organizers.blank?%>
     <h3>Private Note to Organizers</h3>
     <%= preserve_formatting_of @proposal.note_to_organizers %>
   <% end %>
@@ -130,7 +130,7 @@ focus :comment_message if @focus_comment
   <% end %>
 
   <div class="record-controls">
-    <% if can_edit? %>
+    <% if can_edit?(@proposal) %>
       <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
       <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
     <% end %>
