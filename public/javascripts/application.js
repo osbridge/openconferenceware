@@ -82,8 +82,7 @@ function bind_proposal_generic_control(kind, elements) {
     value = target.attr('value');
     proposal_id = target.attr('x_proposal_id');
     format = 'json';
-    url = '/proposals/'+proposal_id+'.'+format;
-    // FIXME Don't hardcode paths.
+    url = app.proposals_path + '/' + proposal_id + '.' + format;
 
     data = { 'authenticity_token': app.authenticity_token };
     data[name] = value;
@@ -148,7 +147,7 @@ function bind_proposal_schedule_controls() {
       };
       proposal_id = target.parent().attr('id').split('_').pop();
       format = 'json';
-      url = '/proposals/'+proposal_id+'.'+format;
+      url = app.proposals_path + '/' + proposal_id + '.' + format;
 
       $.ajax({
         'type': 'PUT',

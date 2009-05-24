@@ -1,5 +1,6 @@
 <% page_title "Bulk edit proposals for #{@event.title}" %>
 
+<% expose_to_js :proposals_path, proposals_path %>
 <% run_when_dom_is_ready "bind_all_proposal_controls();" %>
 <% run_when_dom_is_ready "bind_manage_proposals_checkboxes();" %>
 
