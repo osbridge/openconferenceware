@@ -54,7 +54,11 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :proposals
 
   has_many :user_favorites
-  has_many :favorites, :through => :user_favorites, :source => :proposal
+  has_many :favorites, :through => :user_favorites, :source => :proposal do
+    def proposals
+      self
+    end
+  end
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -242,6 +246,10 @@ class User < ActiveRecord::Base
   # Return string with the user's full name, or as much of it as possible, or a nil.
   def fullname
     return [self.first_name, self.last_name].compact.join(" ") if ! self.first_name.blank? || ! self.last_name.blank?
+  end
+
+  def possessive_label(html=true)
+    label + (html ? '&apos;' : "'") + (%w(s S).include?(fullname[-1].chr) ? '' : 's')
   end
 
   # Set the user's first and last name by splitting a single string.

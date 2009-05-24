@@ -824,4 +824,12 @@ table#proposal-status-counts {
   background-position: left -18px;
 }
 
+body.proposals.session_show #content .favorite {
+  position: absolute;
+  top: 2em;
+}
+
+body.proposals.session_show #content h2.page_title {
+  text-indent: 25px;
+}
 /* @end */

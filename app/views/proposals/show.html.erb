@@ -12,8 +12,8 @@ include_user_favorites_javascript
 focus :comment_message if @focus_comment
 %>
 
-<%= render :partial => "/proposals/admin_controls" %>
 <%= render :partial => '/user_favorites/control', :locals => { :proposal => @proposal }%>
+<%= render :partial => "/proposals/admin_controls" %>
 
 <% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)}" do %>
   <% unless multiple_presenters? %>

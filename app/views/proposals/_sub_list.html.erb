@@ -6,12 +6,14 @@ include_user_favorites_javascript
 container = local_assigns[:container]
 ## Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
 title     = local_assigns[:title]
+## Prefix to add to the sub-list headers.
+head_prefix = local_assigns[:head_prefix]
 ## Display the sort toolbar? Optional, defaults to false.
 sorter    = local_assigns[:sorter]
 
 displayer = lambda do |kind, archive|
   render :partial => "proposals/sub_list_for_kind", :locals => {
-    :kind => kind, :container => container, :title => title, :sorter => sorter, :archive => archive}
+    :kind => kind, :container => container, :title => title, :head_prefix => head_prefix, :sorter => sorter, :archive => archive}
 end
 %>
 
