@@ -1,18 +1,28 @@
 namespace :export do
-  task :speakers => :environment do
-    speakers = Proposal.confirmed.populated.map(&:users).flatten.sort_by(&:last_name).uniq
+  def write_file(name, data)
+    File.open(name,'w') {|f| f.write( data )}
+  end
 
-    CSV::Writer.generate(File.open('speakers.csv','w')) do |csv|
-      fields = [
-        :first_name,
-        :last_name,
-        :affiliation,
-        :email
-      ]
-      csv << fields.map{|field| field.to_s}
-      for speaker in speakers
-        csv << fields.map{|field| value = speaker.send(field) }
-      end
+  # -[ Speakers ]---------------
+
+  namespace :speakers do
+    def speakers
+      Proposal.confirmed.populated.map(&:users).flatten.sort_by(&:last_name).uniq
+    end
+
+    desc "Exports basic speaker badge information to speakers.csv"
+    task :brief => :environment do
+      write_file( 'speakers.csv', speakers.to_comma(:brief) )
+      puts "Basic speaker information written to speakers.csv"
+    end
+
+    desc "Exports full speaker information to speakers.csv"
+    task :full => :get_speakers do
+      write_file( 'speakers.csv', speakers.to_comma(:full) )
+      puts "Full speaker information written to speakers.csv"
     end
   end
+
+  desc "See: export:speakers:brief"
+  task :speakers => 'speakers:brief'
 end
