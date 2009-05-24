@@ -64,11 +64,7 @@ module ApplicationHelper
 
   # Include a jQuery $(document).ready() function that calls the given +javascript+ code.
   def run_when_jquery_is_ready(javascript)
-    content_for :javascript, <<-HERE
-      $(document).ready(function() {
-        #{javascript};
-      });
-    HERE
+    content_for :javascript_on_ready, javascript + "\n"
   end
 
   # Is the navigation item the currently viewed page? E.g., if the navigation is :sessions, is the :subnav also :sessions.
