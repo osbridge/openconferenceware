@@ -725,6 +725,8 @@ table#proposal-status-counts {
 
 /* @end */
 
+/* @group Speaker List */
+
 #speaker_list {
 	margin: 0;
 }
@@ -794,3 +796,32 @@ table#proposal-status-counts {
 	color: #116db6;
 	margin-bottom: .4em;
 }
+
+/* @end */
+
+/* @group Favorites */
+
+.favorite {
+  background-image: url('/images/favorite.png');
+  background-position: left -36px;
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -999px;
+}
+
+.favorite.checked {
+  background-position: left 0;
+}
+
+.favorite.disabled {
+  background-position: left -54px;
+}
+
+.favorite.working {
+  background-position: left -18px;
+}
+
+/* @end */

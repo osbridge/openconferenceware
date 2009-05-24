@@ -39,6 +39,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
       <tr class='proposal_row' id='proposal_row_<%= record.id %>'>
         <td rowspan='2' class='description'>
           <h3>
+            <%= render :partial => 'user_favorites/control', :locals => { :proposal => record } %>
             <% if multiple_presenters? %>
               <%= link_to(h(record.title), record_path(record, kind), :class => "title") %>
             <% else %>

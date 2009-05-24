@@ -254,3 +254,64 @@ $(document).ready(function() {
     }
   )
 })
+
+/*---[ user favorites ]----------------------------------------------*/
+
+function bind_user_favorite_controls() {
+  $('.favorite').each(function() {
+      if( !logged_in() ) {
+        $(this).addClass('disabled');
+      }
+    }).click(function(event) {
+    target = $(this);
+
+    if( !logged_in() ) {
+      alert("You must be logged in to add items to your favorites.");
+    } else {
+      target.addClass('working');
+
+      mode = target.hasClass('checked') ? 'remove' : 'add';
+
+      $.ajax({
+        'type': 'PUT',
+        'url': app.favorites_path + '/modify.json',
+        'dataType': 'json',
+        'data': {
+          'authenticity_token': app.authenticity_token,
+          'proposal_id': target.attr('id').split('_').pop(),
+          'mode': mode
+        },
+        'complete': function(request,status){
+          target.removeClass('working');
+        },
+        'success': function(data, status) {
+          switch(mode) {
+          case 'add':
+            target.addClass('checked');
+            break;
+          case 'remove':
+            target.removeClass('checked');
+            break;
+          }
+        },
+        'error': function(request, status, error) {
+          alert('There was an error.' + status + error);
+          // TODO Specify what error has occurred.
+        }
+      });
+    }
+    return false;
+  });
+}
+
+function populate_user_favorites() {
+  if( logged_in() ) {
+    $.getJSON( app.favorites_path + '.json?join=1',
+      function(data) {
+        jQuery.each( data, function(i, fav) {
+          $( '#favorite_' + fav.proposal_id ).addClass('checked');
+        });
+      }
+    )
+  }
+}
