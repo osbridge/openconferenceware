@@ -275,4 +275,34 @@ protected
     end
   end
 
+  # Sets @user based on params[:id] and adds related breadcrumbs.
+  def assert_user
+    case self
+    when UsersController
+      user_id = params[:id]
+    when UserFavoritesController
+      user_id = params[:user_id]
+    else
+      raise TypeError
+    end
+
+    if user_id == "me"
+      if logged_in?
+        @user = current_user
+      else
+        return access_denied(:message => "Please login to access your user profile.")
+      end
+    else
+      begin
+        @user = User.find(user_id)
+      rescue ActiveRecord::RecordNotFound
+        flash[:failure] = "User not found or deleted"
+        return redirect_to(users_path)
+      end
+    end
+
+    add_breadcrumb "Users", users_path
+    add_breadcrumb @user.label, user_path(@user)
+    add_breadcrumb "Edit" if ["edit", "update"].include?(action_name)
+  end
 end
