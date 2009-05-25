@@ -125,5 +125,13 @@ class Event < ActiveRecord::Base
         :include => [:users, :room, :session_type, {:track => :event}]) + \
       self.schedule_items.find(:all, :include => [:room])
   end
+  
+  def users
+    User.submitted_to self
+  end
+  
+  def speakers
+    User.speaking_at self
+  end
 
 end
