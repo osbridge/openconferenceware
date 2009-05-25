@@ -90,6 +90,32 @@ class User < ActiveRecord::Base
   # Scopes
   named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'last_name asc'
 
+  # CSV Export
+
+  comma :brief do
+    first_name
+    last_name
+    affiliation
+    email
+  end
+
+  comma :full do
+    id
+    login
+    first_name
+    last_name
+    affiliation
+    email
+    biography
+    photo :url => "Photo"
+    website
+    twitter
+    identica
+    blog_url
+    created_at :xmlschema => "Created"
+    updated_at :xmlschema => "Updated"
+  end
+
   # Return first admin user or a nil
   def self.find_first_admin
     self.find(:first, :conditions => {:admin => true})

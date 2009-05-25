@@ -37,13 +37,10 @@ control_colspan = 0
   <thead>
     <tr>
       <th>
-        Mail
+        Email?
       </th>
       <th>
-        Title
-      </th>
-      <th>
-        Speakers
+        Proposal title and speakers
       </th>
       <% if proposal_statuses? %>
         <th>
@@ -70,11 +67,11 @@ control_colspan = 0
           <input type="checkbox" class="send-email-checkbox" />
         </td>
         <td <%= control_rowspan %>>
-          <%= link_to("", edit_proposal_path(proposal), :class => "editable") %>
+          <%= link_to("", edit_proposal_path(proposal)) %>
           <%= link_to(proposal.title, proposal_path(proposal)) %>
-        </td>
-        <td <%= control_rowspan %>>
           <% if user_profiles? %>
+            <br />
+            by 
             <% proposal.users.each_with_index do |user, i| %>
               <%= "&amp;" unless i == 0 %>
               <%= link_to user.fullname, user_path(user) %>
