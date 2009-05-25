@@ -6,7 +6,7 @@ class Schedule
 
     case event_or_items
     when Event
-      self.items = event_or_items.proposals.scheduled.located.find(:all, :include => [:users, :room, :session_type, {:track => :event}]) + event_or_items.schedule_items.find(:all, :include => [:room])
+      self.items = event_or_items.calendar_items
     when Array
       self.items = event_or_items
     else
