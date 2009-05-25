@@ -24,7 +24,7 @@
         <%= f.text_field :title %>
       </td>
     </tr>
-    <% if @event.parent %>
+    <% if @event.parent or @event.children.empty? %>
       <tr>
         <td class="label-cell">
           <%= f.label :parent_id, "Child of" %>
@@ -33,7 +33,8 @@
           <%= f.collection_select :parent_id, @event.other_events, :id, :title, :include_blank => "- None -" %>
         </td>
       </tr>
-    <% else %>
+    <% end %>
+    <% if @event.parent.blank? or not @event.children.empty? %>
       <tr>
         <td class="label-cell">
           <%= f.label :parent_id, "Children" %>
