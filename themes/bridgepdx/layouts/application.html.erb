@@ -22,11 +22,11 @@
 
   <!-- Dynamic styles -->
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
-  <% if @event && event_tracks? %>
-    <style type="text/css" media="screen">
-      <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks } %>
-    </style>
-  <% end %>
+    <% if @event && event_tracks? %>
+      <style type="text/css" media="screen">
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks_descend} %>
+      </style>
+    <% end %>
   <% end %>
 
   <!-- Scripts -->
