@@ -146,12 +146,14 @@ class Event < ActiveRecord::Base
       self.children.map(&:calendar_items).flatten
   end
   
+  # Return list of people that submitted to this event.
   def users
-    User.submitted_to self
+    return User.submitted_to(self)
   end
   
+  # Return list of speakers for this event.
   def speakers
-    User.speaking_at self
+    return User.speaking_at(self)
   end
 
   # Return other Event objects.
