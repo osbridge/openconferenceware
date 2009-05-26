@@ -18,7 +18,7 @@ class Observist < ActiveRecord::Observer
     when ActiveSupport::Cache::MemCacheStore
       Rails.cache.instance_variable_get(:@data).flush_all
     when ActiveSupport::Cache::FileStore
-      Rails.cache.delete_matched(pattern)
+      Rails.cache.delete_matched(pattern) rescue nil
     else
       raise NotImplementedError, "Don't know how to expire cache: #{Rails.cache.class.name}"
     end
