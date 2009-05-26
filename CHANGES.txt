@@ -3,6 +3,22 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* v0.20090524
+
+- FIXED layout, it no longer raises an exception if there's no event.
+- FIXED cache expiration, it no longer raises an exception if called
+  when there's no cache directory.
+- FIXED events#index and events#show, they now keep flash notifications,
+  these were previously getting discarded.
+- FIXED schedule, it now only displays proposals that are confirmed and
+  scheduled, previously it displayed proposals that were just scheduled.
+- Added event slugs. These provide unique string identifiers for events
+  (e.g., "2009bof"), rather the old integer identifiers (e.g., 2009).
+- Improved proposal's admin UI, the room and schedule controls are only
+  shown if the proposal is in a confirmed state.
+- Added new CSV export system that provides more flexible exporting.
+- Added DeferProxy, a clearer way to defer expensive queries.
+
 * v0.20090516
 
 - Added schedule. It can be displayed as HTML or imported as iCalendar
