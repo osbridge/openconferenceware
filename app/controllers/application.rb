@@ -49,13 +49,13 @@ protected
   # Return the current_user's email address, from either the currently-logged
   # in user or the cookie, else nil.
   def current_email
-    (current_user != :false ? current_user.email : nil) || session[:email]
+    return(current_user_or_nil.ergo.email || session[:email])
   end
   helper_method :current_email
 
   # Return a cache key for the currently authenticated or anonymous user.
   def current_user_cache_key
-    return logged_in? ? current_user.id : -1
+    return current_user_or_nil.ergo.id || -1
   end
   helper_method :current_user_cache_key
 
