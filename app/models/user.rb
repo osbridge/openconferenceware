@@ -90,12 +90,16 @@ class User < ActiveRecord::Base
   # Scopes
   named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'last_name asc'
   
-  named_scope :submitted_to, lambda {|event| { 
-    :joins => :proposals, :conditions => ['proposals.event_id = ?', event.id] } 
+  named_scope :submitted_to, lambda {|event| {
+    :select => 'DISTINCT users.id, users.*', 
+    :joins => :proposals, 
+    :conditions => ['proposals.event_id = ?', event.id] } 
   }
   
   named_scope :speaking_at, lambda {|event| { 
-    :joins => :proposals, :conditions => ['proposals.status = "confirmed" AND proposals.event_id = ?', event.id] } 
+    :select => 'DISTINCT users.id, users.*',
+    :joins => :proposals, 
+    :conditions => ['proposals.status = "confirmed" AND proposals.event_id = ?', event.id] } 
   }
 
   # CSV Export
