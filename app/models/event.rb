@@ -140,12 +140,14 @@ class Event < ActiveRecord::Base
       self.schedule_items.find(:all, :include => [:room])
   end
   
+  # Return list of people that submitted to this event.
   def users
-    User.submitted_to self
+    return User.submitted_to(self)
   end
   
+  # Return list of speakers for this event.
   def speakers
-    User.speaking_at self
+    return User.speaking_at(self)
   end
 
 end
