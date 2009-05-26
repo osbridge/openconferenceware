@@ -31,6 +31,8 @@
   <% end %>
 
   <% form_for([@event, @proposal]) do |f| %>
+    <%= f.hidden_field :track_id if event_tracks? && @event.tracks.size == 1 %>
+    <%= f.hidden_field :session_type_id if event_session_types? && @event.session_types.size == 1 %>
 
   <% if user_profiles? and multiple_presenters? %>
     <div id="manage-speakers">
@@ -114,7 +116,7 @@
           <td class="label-cell"><%= required_field %><%= f.label :title, "Title" %></td>
           <td><%= f.text_field :title %></td>
         </tr>
-          <% if event_tracks? %>
+          <% if event_tracks? and @event.tracks.size > 1 %>
             <tr>
               <td class="label-cell">
                 <%= required_field %><%= f.label :track_id, "Track" %>
@@ -136,7 +138,7 @@
               </td>
             </tr>
           <% end %>
-          <% if event_session_types? %>
+          <% if event_session_types? and @event.session_types.size > 1 %>
             <tr>
               <td class="label-cell">
                 <%= required_field %><%= f.label :session_type_id, "Session Type" %>
