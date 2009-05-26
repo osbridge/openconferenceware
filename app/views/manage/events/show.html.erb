@@ -34,7 +34,7 @@
   <% if proposal_statuses? %>
     <tr>
       <td class="label-text">
-        <label>Are proposal statuses publicly viewable?</label>
+        <label>Publish proposal status?</label>
       </td>
       <td>
         <%= @event.proposal_status_published ? "Yes" : "No" %>
@@ -44,7 +44,7 @@
   <% if event_schedule? %>
     <tr>
       <td class="label-text">
-        <label>Is the schedule publicly viewable?</label>
+        <label>Publish schedule?</label>
       </td>
       <td>
         <%= @event.schedule_published ? "Yes" : "No" %>
@@ -109,8 +109,8 @@
       <div class="record-controls">
         <%= link_to 'Show proposals', event_proposals_path(@event), :class => "showable" %>
         <%= link_to 'Edit', edit_manage_event_path(@event), :class => :editable %>
-        <%= link_to "Destroy", manage_event_path(@event), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
-        <%= link_to 'Back', manage_events_path, :class => :cancelable %>
+        <%= link_to 'Destroy', manage_event_path(@event), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+        <%= link_to 'Back to events', manage_events_path, :class => :cancelable %>
       </div>
     </td>
   </tr>

@@ -52,7 +52,7 @@
     <% if proposal_statuses? %>
       <tr>
         <td class="label-cell">
-          <%= f.label :proposal_status_published, "Are proposal statuses publicly viewable?" %>
+          <%= f.label :proposal_status_published, "Publish proposal statuses?" %>
         </td>
         <td>
           <%= f.select :proposal_status_published, [['Yes',true],["No",false]] %>
@@ -63,7 +63,7 @@
     <% if event_schedule? %>
       <tr>
         <td class="label-cell">
-          <%= f.label :schedule_published, "Is the schedule publicly viewable?" %>
+          <%= f.label :schedule_published, "Publish schedule?" %>
         </td>
         <td>
           <%= f.select :schedule_published, [['Yes',true],["No",false]] %>
@@ -125,7 +125,7 @@
           <% else %>
             <%= f.submit "Update" %>
             <%= link_to "Destroy", manage_event_path(@event), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
-            <%= link_to "Back", manage_events_path, :class => "cancelable" %>
+            <%= link_to "Cancel", manage_events_path, :class => "cancelable" %>
           <% end %>
         </div>
       </td>
