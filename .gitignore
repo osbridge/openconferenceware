@@ -21,6 +21,7 @@ public/javascripts/cache/*
 public/stylesheets/cache/*
 public/themes/*
 public/system/*
+system/*
 tags
 tmp/*
 themes/bridgepdx/stylesheets/common_css/*
