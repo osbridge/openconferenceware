@@ -36,6 +36,9 @@
               <%= link_to(h(child.title), manage_event_path(child)) %>
             </li>
           <% end %>
+          <li>
+            <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id) %>
+          </li>
         </ul>
       </td>
     </tr>
