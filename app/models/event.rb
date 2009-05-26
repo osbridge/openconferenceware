@@ -163,8 +163,13 @@ class Event < ActiveRecord::Base
   end
 
   # Return array of Rooms for this event or its parent event.
-  def rooms_overlay
+  def rooms_inherit
     return (self.parent.ergo.rooms || [] + self.rooms).sort_by(&:name)
+  end
+
+  # Return array of Tracks for this event and its children.
+  def tracks_descend
+    return (self.tracks + self.children.map(&:tracks)).flatten.sort_by(&:title)
   end
 
   # Return start_time for either self or parent Event.
