@@ -2,12 +2,10 @@ ActionController::Routing::Routes.draw do |map|
   # See how all your routes lay out with "rake routes"
 
   map.resources :comments, :path_prefix => 'proposals'
-  map.comments_feed '/proposals/comments.atom', :controller => 'comments', :action => 'index'
 
   map.resources :proposals do |proposals|
     proposals.resources :comments, :controller => 'comments'
   end
-  map.proposals_feed '/proposals.atom', :controller => 'proposals', :action => 'index'
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
   map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
@@ -17,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
   map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
 
-  map.resources :events do |event|
+  map.resources :events, :member => { :speakers => :get } do |event|
     event.resources :proposals, :controller => 'proposals', :collection => 'stats'
     event.resources :tracks, :controller => 'tracks'
     event.resources :session_types

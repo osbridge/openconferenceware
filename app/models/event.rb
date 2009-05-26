@@ -145,6 +145,14 @@ class Event < ActiveRecord::Base
       self.schedule_items.find(:all, :include => [:room]) + \
       self.children.map(&:calendar_items).flatten
   end
+  
+  def users
+    User.submitted_to self
+  end
+  
+  def speakers
+    User.speaking_at self
+  end
 
   # Return other Event objects.
   def other_events

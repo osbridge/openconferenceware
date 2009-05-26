@@ -724,3 +724,73 @@ table#proposal-status-counts {
 }
 
 /* @end */
+
+#speaker_list {
+	margin: 0;
+}
+
+#speaker_list .speaker_head {
+  background: #116db6;
+  padding: .4em;
+  border-bottom: 1px solid #9cbdd6;
+  color: #fff;
+}
+
+#speaker_list li.speaker {
+  clear: both;
+  list-style: none;
+  margin-bottom: 2em;
+  border-left: 4px solid #116db6;
+  border-bottom: 1px solid #b8cbd8;
+  border-right: 1px solid #b8cbd8;
+}
+
+#speaker_list .speaker_body {
+	padding: 1em;
+}
+
+#speaker_list h3 {
+	display: inline;
+}
+
+#speaker_list .affiliation {
+	float: right;
+	font-style: italic;
+	font-size: .9em;
+}
+
+
+#speaker_list .user-photo {
+	border: 3px solid #222;
+	background: #222;
+}
+
+#speaker_list h3 a {
+	text-decoration: none;
+	color: #fff;
+}
+
+#speaker_list h3 a:hover {
+	text-decoration: underline;
+}
+
+#speaker_list .speaker_links {
+	font-weight: bold;
+}
+
+#speaker_list .speaker_links a {
+	font-weight: normal;
+}
+
+#speaker_list .speaker_links ul {
+	margin: 0 0 1em 0;
+}
+
+#speaker_list .speaker_links li {
+	list-style: none;
+}
+
+#speaker_list h4 {
+	color: #116db6;
+	margin-bottom: .4em;
+}

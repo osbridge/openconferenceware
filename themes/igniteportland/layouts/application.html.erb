@@ -6,9 +6,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
   <meta name="description" content="Share Burning Ideas" />
 
-  <%= auto_discovery_link_tag(:atom, proposals_feed_path, :title => "#{SETTINGS.organization}: Proposals feed") %>
+  <%= auto_discovery_link_tag(:atom, formatted_proposals_path(:atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
   <% if admin? %>
-    <%= auto_discovery_link_tag(:atom, comments_feed_path(:secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
+    <%= auto_discovery_link_tag(:atom, formatted_comments_path(:atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
   <% end %>
 
   <%= theme_stylesheet_link_tag "k2" %>
@@ -111,9 +111,9 @@
         <div id="subscribe-to" class="hoverable widget module module1 sb-subscribe alt">
           <h4>Subscribe to</h4>
           <ul>
-            <li><%= link_to "Proposals feed <span class='feedable' />", proposals_feed_path %></li>
+            <li><%= link_to "Proposals feed <span class='feedable' />", formatted_proposals_path(:atom) %></li>
             <% if admin? %>
-              <li><%= link_to "Comments feed <span class='feedable' />", comments_feed_path(:secret => CommentsController::SECRET) %></li>
+              <li><%= link_to "Comments feed <span class='feedable' />", formatted_comments_path(:atom, :secret => CommentsController::SECRET) %></li>
             <% end %>
           </ul>
         </div>

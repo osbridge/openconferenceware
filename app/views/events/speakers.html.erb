@@ -1,0 +1,42 @@
+<% page_title 'Speakers' %>
+
+<ul id='speaker_list'>
+<% @speakers.each do |speaker| %>
+  <li class='speaker'>
+    <%= link_to( image_tag( speaker.photo.url(:profile), :class => 'user-photo' ), speaker ) if speaker.photo.file? %>
+    <div class='speaker_head'>
+      <h3><%= link_to speaker.fullname, speaker %></h3>
+      <% unless speaker.affiliation.blank? -%>
+      <span class='affiliation'><%= speaker.affiliation %></span>
+      <% end -%>
+    </div>
+    <div class='speaker_body'>
+      <div class='speaker_links'>
+        <ul>
+          <% unless speaker.website.blank? %>
+            <li>Website: <%= display_link_to(speaker.website, :nofollow => true, :popup => true) %></li>
+          <% end %>
+          <% unless speaker.blog_url.blank? %>
+            <li>Blog: <%= display_link_to(speaker.blog_url, :nofollow => true, :popup => true) %></li>
+          <% end %>
+          <% unless speaker.twitter.blank? %>
+            <li>Twitter: <%= display_link_to(speaker.twitter_url, :title => speaker.twitter, :nofollow => true, :popup => true) %></li>
+          <% end %>
+          <% unless speaker.identica.blank? %>
+            <li>Identi.ca: <%= display_link_to(speaker.identica_url, :title => speaker.identica, :nofollow => true, :popup => true) %></li>
+          <% end %>
+        </ul>
+      </div>
+
+    <% unless speaker.biography.blank? %>
+      <h4>Biography</h4>
+      <div>
+        <%= display_textile_for speaker.biography %>
+      </div>
+    <% end %>
+    
+    </div>
+    <br clear='both' />
+  </li>
+<% end -%>
+</ul>

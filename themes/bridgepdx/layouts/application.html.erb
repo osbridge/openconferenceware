@@ -6,9 +6,9 @@
   <meta name="description" content="<%= SETTINGS.tagline %>" />
 
   <!-- Feeds -->
-  <%= auto_discovery_link_tag(:atom, proposals_feed_path, :title => "#{SETTINGS.organization}: Proposals feed") %>
+  <%= auto_discovery_link_tag(:atom, formatted_proposals_path(:atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
   <% if admin? %>
-    <%= auto_discovery_link_tag(:atom, comments_feed_path(:secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
+    <%= auto_discovery_link_tag(:atom, formatted_comments_path(:atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
   <% end %>
 
   <!-- Stylesheets -->
@@ -155,20 +155,20 @@
                 <li class='administration'>
                   <h3>Administer</h3>
                   <ul>
-                    <% if user_profiles? %>
-                      <li><%= link_to "Users", users_path %></li>
-                    <% end %>
-                    <li><%= link_to "Events", manage_events_path %></li>
-                    <% if @event && ! @event.new_record? %>
-                      <li>
-                        <%= link_to "Manage this event", manage_event_path(@event) %>
+                    <li>
+                      <%= link_to "Events", manage_events_path %>
+                      <% if @event && ! @event.new_record? %>
+                        (<%= link_to "manage this event", manage_event_path(@event) %>)
                         <ul>
-                          <li><%= link_to "Sessions", event_sessions_path(@event) %>
+                          <% if proposal_statuses? %>
+                            <li><%= link_to "Sessions", event_sessions_path(@event) %>
+                          <% end %>
                           <li><%= link_to "Proposals", event_proposals_path(@event) %>
-                            (<%= link_to "bulk edit", manage_event_proposals_path(@event) %>)
+                            (<%= link_to "Bulk edit", manage_event_proposals_path(@event) %>)
                             <% unless @event.accepting_proposals? %>
-                              (<%= link_to "add", new_event_proposal_path(@event) %>)
+                              (<%= link_to "Add new", new_event_proposal_path(@event) %>)
                             <% end %>
+                            (<%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %>)
                           </li>
                           <% if event_tracks? %>
                             <li><%= link_to "Tracks", tracks_path %></li>
@@ -180,9 +180,11 @@
                             <li><%= link_to "Rooms", rooms_path %></li>
                           <% end %>
                           <li><%= link_to "Schedule Items", event_schedule_items_path(@event) %></li>
-                          <li><%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %></li>
                         </ul>
-                      </li>
+                      <% end %>
+                    </li>
+                    <% if user_profiles? %>
+                      <li><%= link_to "Users", users_path %></li>
                     <% end %>
                     <li><%= link_to "Snippets", manage_snippets_path %></li>
                     <li><%= link_to "Comments", comments_path %></li>
@@ -205,9 +207,9 @@
             <li id="subscribe-to">
               <h3>Subscribe to</h3>
               <ul>
-                <li class="pre-bulletted"><%= link_to "Proposals feed", proposals_feed_path, :class => :feedable %></li>
+                <li class="pre-bulletted"><%= link_to "Proposals feed", formatted_proposals_path(:atom), :class => :feedable %></li>
                 <% if admin? %>
-                  <li class="pre-bulletted"><%= link_to "Comments feed", comments_feed_path(:secret => CommentsController::SECRET), :class => 'feedable' %></li>
+                  <li class="pre-bulletted"><%= link_to "Comments feed", formatted_comments_path(:atom, :secret => CommentsController::SECRET), :class => 'feedable' %></li>
                 <% end %>
               </ul>
             </li>

@@ -133,12 +133,46 @@ class ProposalsController < ApplicationController
     add_breadcrumb "Create a proposal", new_event_proposal_path(@event)
 
     @proposal = Proposal.new(:agreement => false)
+
+    if event_tracks? 
+      case @event.tracks.size
+      when 0
+        # Fail if tracks were needed but not found.
+        flash[:failure] = "Event has no tracks, admin must create at least one."
+        if admin?
+          redirect_to new_event_track_path(@event)
+        else
+          redirect_to event_proposals_path(@event)
+        end
+        return true
+      when 1
+        # Set default track if only one was found.
+        @proposal.track = @event.tracks.first
+      end
+    end
+
+    if event_session_types? 
+      case @event.session_types.size
+      when 0
+        # Fail if session_types were needed but not found.
+        flash[:failure] = "Event has no session types, admin must create at least one."
+        if admin?
+          redirect_to new_event_session_type_path(@event)
+        else
+          redirect_to event_proposals_path(@event)
+        end
+        return true
+      when 1
+        # Set default session_type if only one was found.
+        @proposal.session_type = @event.session_types.first
+      end
+    end
+
     if logged_in?
       @proposal.presenter = current_user.fullname
       @proposal.add_user(current_user)
     end
     @proposal.email = current_email
-
 
     respond_to do |format|
       format.html # new.html.erb

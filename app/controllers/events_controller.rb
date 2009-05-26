@@ -13,4 +13,8 @@ class EventsController < ApplicationController
     flash.keep
     redirect_to event_proposals_path(@event)
   end
+  
+  def speakers
+    @speakers = @event.speakers.scoped({:order => 'lower(last_name), lower(first_name)'})
+  end
 end
