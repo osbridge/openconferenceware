@@ -15,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
   map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
 
-  map.resources :events do |event|
+  map.resources :events, :member => { :speakers => :get } do |event|
     event.resources :proposals, :controller => 'proposals', :collection => 'stats'
     event.resources :tracks, :controller => 'tracks'
     event.resources :session_types
