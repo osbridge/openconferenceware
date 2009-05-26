@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
   # with the latest deadline, else returns a nil.
   def self.current
     return self.fetch_object(EVENT_CURRENT_CACHE_KEY) do
-      if record = self.current_by_deadline
+      if record = (self.current_by_settings || self.current_by_deadline)
         self.lookup(record.slug)
       else
         nil
@@ -78,6 +78,20 @@ class Event < ActiveRecord::Base
   # Return current event by finding it by deadline.
   def self.current_by_deadline
     return Event.find(:first, :order => 'deadline desc')
+  end
+
+  # Return current event by finding it through SETTINGS global.
+  # TODO Get the current event from an attribute in the Site object.
+  def self.current_by_settings
+    if slug = SETTINGS.current_event_slug
+      begin
+        return Event.find_by_slug(slug)
+      rescue ActiveRecord::RecordNotFound
+        return nil
+      end
+    else
+      return nil
+    end
   end
 
   # Delete the current cached event if it's present

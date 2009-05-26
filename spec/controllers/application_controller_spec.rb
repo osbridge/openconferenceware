@@ -245,4 +245,34 @@ describe ApplicationController do
 
   end
 
+  describe "current_user_cache_key" do
+    it "should return id of currently logged-in user" do
+      user = users(:quentin)
+      login_as user
+
+      @controller.send(:current_user_cache_key).should == user.id
+    end
+
+    it "should return -1 if not logged in" do
+      logout
+
+      @controller.send(:current_user_cache_key).should == -1
+    end
+  end
+
+  describe "current_event_cache_key" do
+    it "should return id of current event" do
+      event = events(:open)
+      @controller.instance_variable_set(:@event, event)
+
+      @controller.send(:current_event_cache_key).should == event.id
+    end
+
+    it "should return -1 if no current event" do
+      @controller.instance_variable_set(:@event, nil)
+
+      @controller.send(:current_event_cache_key).should == -1
+    end
+  end
+
 end

@@ -48,13 +48,13 @@ protected
 
   # Return a cache key for the currently authenticated or anonymous user.
   def current_user_cache_key
-    return logged_in? ? current_user.id : 0
+    return logged_in? ? current_user.id : -1
   end
   helper_method :current_user_cache_key
 
   # Return a cache key for the current event.
   def current_event_cache_key
-    return @event ? @event.slug : -1
+    return @event.ergo.id || -1
   end
   helper_method :current_event_cache_key
 
