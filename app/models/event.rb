@@ -161,6 +161,11 @@ class Event < ActiveRecord::Base
     return self.class.find(:all, :order => "title asc", :select => "id, title").reject{|event| event == self}
   end
 
+  # Return array of Rooms for this event or its parent event.
+  def rooms_overlay
+    return (self.parent.ergo.rooms || [] + self.rooms).sort_by(&:name)
+  end
+
   # Return start_time for either self or parent Event.
   def start_date
     return self.parent_id ? self.parent.start_date : self.read_attribute(:start_date)
