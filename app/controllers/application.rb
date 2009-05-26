@@ -40,7 +40,8 @@ protected
 
   #---[ General ]---------------------------------------------------------
 
-  # Return the current_user's email address
+  # Return the current_user's email address, from either the currently-logged
+  # in user or the cookie, else nil.
   def current_email
     (current_user != :false ? current_user.email : nil) || session[:email]
   end
