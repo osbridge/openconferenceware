@@ -40,6 +40,12 @@ protected
 
   #---[ General ]---------------------------------------------------------
 
+  # Return the current User record or a nil if not logged in.
+  def current_user_or_nil
+    return(current_user.kind_of?(User) ? current_user : nil)
+  end
+  helper_method :current_user_or_nil
+
   # Return the current_user's email address, from either the currently-logged
   # in user or the cookie, else nil.
   def current_email
