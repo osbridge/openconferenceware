@@ -39,7 +39,7 @@ Rails developer if you intend to use this software.
 If you need a simpler system for accepting proposals for Ignite-like
 events, please consider the stable and well-tested software this code
 was forked from: OpenProposals,
-<http://github.com/igal/openconferenceware/tree/master>
+<http://OpenProposals.org/>
 
 
 Features
@@ -133,6 +133,14 @@ Customization
 
 You can customize the application's appearance and behavior by creating
 a theme, read the [themes/README.txt](themes/README.txt) file.
+
+WARNING: The methods and instance variables used within the theme's
+application layout are in a state of flux as the software grows. These
+will be stablized for the 1.0 release. In the meantime, please
+watch the changes made to the bridgepdx theme's layout and incorporate
+them into your own, e.g.:
+
+        git log -p themes/bridgepdx/layouts/application.html.erb
 
 
 Deployment
