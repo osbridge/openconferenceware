@@ -38,7 +38,7 @@ kind = :proposals if kind == :all
         <a href="#" onclick="$(this).hide(); $(this).parent().parent().find('.proposals_sub_list_content').show(); return false;">Display <%= kind %>...</a>
       </div>
       <div class="proposals_sub_list_content">
-        <h3><%= "#{head_prefix} #{kind.to_s.titleize} for this #{title || container.class.name.singularize}".humanize %></h3>
+        <h3><%= "#{head_prefix} #{kind.to_s.titleize} for this #{title || container.class.name.singularize}".strip.humanize %></h3>
         <%= render :partial => "proposals/list", :locals => {:kind => kind, :records => records, :sorter => sorter} %>
       </div>
     </div>
