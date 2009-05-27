@@ -1,6 +1,4 @@
 <%
-include_user_favorites_javascript
-
 # Variables:
 ## ActiveRecord instance that has #proposals, e.g., a User. REQUIRED.
 container = local_assigns[:container]
@@ -15,6 +13,8 @@ displayer = lambda do |kind, archive|
   render :partial => "proposals/sub_list_for_kind", :locals => {
     :kind => kind, :container => container, :title => title, :head_prefix => head_prefix, :sorter => sorter, :archive => archive}
 end
+
+include_user_favorites_javascript
 %>
 
 <% if @event.proposal_status_published? %>

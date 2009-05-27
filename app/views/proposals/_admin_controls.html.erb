@@ -6,7 +6,7 @@ proposal ||= @proposal
 %>
 
 <% if admin? && ! proposal.new_record? %>
-  <% expose_to_js, :proposals_path, proposals_path %>
+  <% expose_to_js :proposals_path, proposals_path %>
   <% run_when_dom_is_ready "bind_all_proposal_controls();" %>
 
   <div class="admin-only">

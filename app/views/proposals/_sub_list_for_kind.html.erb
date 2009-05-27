@@ -44,7 +44,7 @@ kind = :proposals if kind == :all
     </div>
 
     <% if archive %>
-      <% run_when_jquery_is_ready "$('#proposals_sub_list_for_kind_#{kind} .proposals_sub_list_content').hide(); $('#proposals_sub_list_for_kind_#{kind} .proposals_sub_list_toggle').show()"%>
+      <% run_when_dom_is_ready "$('#proposals_sub_list_for_kind_#{kind} .proposals_sub_list_content').hide(); $('#proposals_sub_list_for_kind_#{kind} .proposals_sub_list_toggle').show()"%>
     <% end %>
   <% end %>
 <% end %>

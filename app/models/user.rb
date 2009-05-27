@@ -249,7 +249,7 @@ class User < ActiveRecord::Base
   end
 
   def possessive_label(html=true)
-    label + (html ? '&apos;' : "'") + (%w(s S).include?(fullname[-1].chr) ? '' : 's')
+    label + (html ? '&apos;' : "'") + (%w(s S).include?(label[-1..-1]) ? '' : 's')
   end
 
   # Set the user's first and last name by splitting a single string.

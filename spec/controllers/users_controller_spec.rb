@@ -88,7 +88,7 @@ describe UsersController do
           :fullname => "Jerky McJerkbag"
         }
 
-        response.should redirect_to(users_path)
+        response.should redirect_to(user_path(user))
         flash[:failure].should_not be_blank
       end
     end
