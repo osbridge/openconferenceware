@@ -112,20 +112,7 @@ focus :comment_message if @focus_comment
   <% if multiple_presenters? %>
     <h3><%= @proposal.users.size == 1 ? "Speaker" : "Speakers" %></h3>
 
-    <ul class='speakers'>
-    <% @proposal.users.each do |user| %>
-      <li class='vcard'>
-        <%= link_to "<span class='n fn'>#{user.fullname}</span>", user_path(user) %>
-        <%= "- <span class='org'>#{user.affiliation}</span>" unless user.affiliation.blank?%>
-        <% unless user.website.blank? %>
-          (<%= display_link_to(user.website, :class => 'url') %>)
-        <% end %>
-        <div class='note'>
-          <%= display_textile_for user.biography %>
-        </div>
-      </li>
-    <% end %>
-    </ul>
+    <%= render :partial => 'users/list', :locals => { :users => @proposal.users.by_name } %>
 
   <% end %>
 
