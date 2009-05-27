@@ -106,7 +106,7 @@ class Proposal < ActiveRecord::Base
 
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
-  named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :track, :room, :users]
+  named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :session_type, :track, :room, :users]
   named_scope :scheduled, :conditions => "start_time IS NOT NULL"
   named_scope :located, :conditions => "room_id IS NOT NULL"
 
