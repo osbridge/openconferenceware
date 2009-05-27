@@ -7,23 +7,18 @@ title     = local_assigns[:title]
 ## Display the sort toolbar? Optional, defaults to false.
 sorter    = local_assigns[:sorter]
 
-presenter = lambda {|kind| render :partial => "proposals/sub_list_for_kind", :locals => {:kind => kind, :container => container, :title => title, :sorter => sorter} }
+displayer = lambda do |kind, archive|
+  render :partial => "proposals/sub_list_for_kind", :locals => {
+    :kind => kind, :container => container, :title => title, :sorter => sorter, :archive => archive}
+end
 %>
 
-<%= presenter.call(:sessions) %>
+<% if @event.proposal_status_published? %>
+  <%= displayer.call(:sessions, false) %>
 
-<% unless container.kind_of?(Room) %>
-  <% name = "proposals-sub_list-kind_#{container.class.name}" %>
-  <div id="<%= name %>">
-    <div class="sub_list_toggle" style="display: none">
-      <a href="#" onclick="$(this).hide(); $('#<%= name %> .sub_list_listing').show(); return false;">Display proposals...</a>
-    </div>
-    <div class="sub_list_listing">
-      <%= presenter.call(:proposals) %>
-    </div>
-  </div>
-
-  <% if schedule_visible? %>
-    <% run_when_jquery_is_ready "$('##{name} .sub_list_listing').hide(); $('##{name} .sub_list_toggle').show()"%>
+  <% unless container.kind_of?(Room) %>
+    <%= displayer.call(:proposals, schedule_visible?) %>
   <% end %>
+<% else %>
+  <%= displayer.call(:all, false) %>
 <% end %>
