@@ -83,7 +83,8 @@ module ApplicationHelper
 
   # Is the current action related to sessions?
   def session_related_action?
-    return controller.kind_of?(ProposalsController) && ProposalsController::SESSION_RELATED_ACTIONS.include?(action_name)
+    return (controller.kind_of?(EventsController) && action_name == "speakers") || controller.kind_of?(ProposalsController) && ProposalsController::SESSION_RELATED_ACTIONS.include?(action_name)
+    # TODO Make this logic clearer and the menu system less crazy.
   end
 
   # Main navigation to display.
