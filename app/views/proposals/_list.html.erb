@@ -38,7 +38,7 @@ end
         <% end %>
         <% previous_start_time = record.start_time %>
 
-      <tr>
+      <tr class='proposal_row' id='proposal_row_<%= record.id %>'>
         <td rowspan='2' class='description'>
           <h3>
             <% if multiple_presenters? %>
