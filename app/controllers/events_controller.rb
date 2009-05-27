@@ -4,6 +4,7 @@ class EventsController < ApplicationController
 
   before_filter :assert_current_event_or_redirect
   before_filter :normalize_event_path_or_redirect
+  before_filter :assert_proposal_status_published, :only => :speakers
 
   def index
     flash.keep
@@ -16,6 +17,6 @@ class EventsController < ApplicationController
   end
   
   def speakers
-    @speakers = @event.speakers.scoped({:order => 'lower(last_name), lower(first_name)'})
+    @speakers = @event.speakers
   end
 end

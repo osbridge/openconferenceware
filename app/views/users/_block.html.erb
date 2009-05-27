@@ -1,0 +1,38 @@
+<% wrapper_tag ||= :div %>
+
+<% content_tag wrapper_tag, :class => 'user_box vcard' do %>
+  <%= link_to( image_tag( user.photo.url(:profile), :class => 'user-photo photo' ), user ) if user.photo.file? %>
+  <div class='user_head'>
+    <h3><%= link_to user.fullname, user, :name => "id_#{user.id}", :id => "id_#{user.id}", :class => 'fn n' %></h3>
+    <% unless user.affiliation.blank? -%>
+    <span class='affiliation org'><%= user.affiliation %></span>
+    <% end -%>
+  </div>
+  <div class='user_body'>
+    <div class='user_links'>
+      <ul>
+        <% unless user.website.blank? %>
+          <li>Website: <%= display_link_to(user.website, :nofollow => true, :popup => true, :class => 'url') %></li>
+        <% end %>
+        <% unless user.blog_url.blank? %>
+          <li>Blog: <%= display_link_to(user.blog_url, :nofollow => true, :popup => true, :class => 'url') %></li>
+        <% end %>
+        <% unless user.twitter.blank? %>
+          <li>Twitter: <%= display_link_to(user.twitter_url, :title => user.twitter, :nofollow => true, :popup => true, :class => 'url') %></li>
+        <% end %>
+        <% unless user.identica.blank? %>
+          <li>Identi.ca: <%= display_link_to(user.identica_url, :title => user.identica, :nofollow => true, :popup => true, :class => 'url') %></li>
+        <% end %>
+      </ul>
+    </div>
+
+  <% unless user.biography.blank? %>
+    <h4>Biography</h4>
+    <div class='note'>
+      <%= display_textile_for user.biography %>
+    </div>
+  <% end %>
+
+  </div>
+  <br clear='both' />
+<% end -%>
