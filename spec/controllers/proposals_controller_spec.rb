@@ -176,6 +176,20 @@ describe ProposalsController do
         titles_returned.should == titles_expected
       end
 
+      it "should sort proposals by start time" do
+        stub_current_event!(:event => @event)
+        @event.stub!(:proposal_status_published? => true)
+
+        get :sessions_index, :sort => "start_time", :event_id => @event.slug
+        proposals = extract_proposals
+
+        proposals.size.should > 0
+
+        values = proposals.map(&:start_time)
+        expected = values.sort
+        values.should == expected
+      end
+
       it "should not sort proposals by forbidden field" do
         proposal = Proposal.new
         proposal.should_not_receive(:destroy)

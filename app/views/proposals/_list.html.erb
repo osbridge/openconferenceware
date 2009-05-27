@@ -4,9 +4,7 @@
 # * records => Array of Proposal records.
 # * sorter => Display the sort toolbar? Defaults to false.
 
-if kind == :sessions && params[:sort].blank? && params[:dir].blank? && schedule_visible?
-  records = sort_proposals(records, "start_time")
-end
+records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
 %>
 
 <% if proposal_excerpts? %>

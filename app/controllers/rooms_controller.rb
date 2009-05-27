@@ -22,6 +22,10 @@ class RoomsController < ApplicationController
   def show
     add_breadcrumb @room.name
 
+    unless params[:sort]
+      params[:sort] = schedule_visible? ? "start_time" : "title"
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @room }

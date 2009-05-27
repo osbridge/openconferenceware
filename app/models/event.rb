@@ -121,16 +121,6 @@ class Event < ActiveRecord::Base
       :include => [:track])
   end
 
-  # Return an array of populated sessions for this event.
-  def populated_sessions
-    return self.proposals.populated.confirmed
-  end
-
-  # Return an array of populated proposals for this event.
-  def populated_proposals
-    return self.proposals.populated
-  end
-
   # Return an array of the Event's ScheduleItems and Proposal sessions that
   # have been scheduled and given a room location.
   def calendar_items
@@ -148,6 +138,19 @@ class Event < ActiveRecord::Base
   # Return list of speakers for this event.
   def speakers
     return User.speaking_at(self)
+  end
+
+  # Return records for this event that are of the given +kind+ (e.g.,
+  # :proposals or :sessions).
+  def populated_proposals(kind=:proposals)
+    case kind
+    when :proposals
+      return self.proposals.populated
+    when :sessions
+      return self.proposals.populated.confirmed
+    else
+      raise ArgumentError, "Unknown kind: #{kind}"
+    end
   end
 
 end

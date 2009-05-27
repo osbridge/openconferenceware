@@ -19,7 +19,12 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
-    @proposals = fetch_sorted_proposals_for(@event, @kind, params[:sort], params[:dir])
+    @proposals = Defer { @event.populated_proposals(@kind) }
+
+    unless params[:sort]
+      params[:sort] = "submitted_at"
+      params[:dir] = "desc"
+    end
 
     respond_to do |format|
       format.html {
@@ -35,14 +40,14 @@ class ProposalsController < ApplicationController
         # index.atom.builder
       }
       format.csv {
-        @proposals = @proposals.find(:all, :include => [:comments, :session_type])
         if admin?
-          render :csv => @proposals, :style => :admin
+          @proposals.scoped(:include => [:comments])
+          render :csv => @proposals.all, :style => :admin
         else
           if schedule_visible?
-            render :csv => @proposals, :style => :schedule
+            render :csv => @proposals.all, :style => :schedule
           else
-            render :csv => @proposals
+            render :csv => @proposals.all
           end
         end
       }
@@ -51,8 +56,9 @@ class ProposalsController < ApplicationController
 
   def sessions_index
     @kind = :sessions
+    @proposals = Defer { @event.populated_proposals(@kind) }
+
     params[:sort] ||= "track"
-    @proposals = fetch_sorted_proposals_for(@event, @kind, params[:sort], params[:dir])
 
     respond_to do |format|
       format.html {
@@ -64,9 +70,6 @@ class ProposalsController < ApplicationController
       }
       format.json {
         render :json => @proposals.map(&:public_attributes)
-      }
-      format.atom {
-        @proposals = @proposals[0..MAX_FEED_ITEMS]
       }
     end
   end
@@ -490,20 +493,6 @@ protected
       format.html { render :template => "/proposals/show" }
       format.xml  { render :xml => @proposal.public_attributes }
       format.json { render :json => @proposal.public_attributes }
-    end
-  end
-
-  def fetch_sorted_proposals_for(event, kind, order, direction="asc")
-    Defer do
-      Proposal.fetch_object("#{kind}_index,event_#{event.id},sort_#{order.hash},dir_#{direction.hash}") do
-        proposals = \
-          case kind
-          when :proposals then event.populated_proposals
-          when :sessions  then event.populated_sessions
-          else raise ArgumentError, "Unknown kind: #{kind}"
-          end
-        sort_proposals(proposals, order, direction)
-      end
     end
   end
 

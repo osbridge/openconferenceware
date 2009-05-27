@@ -64,4 +64,30 @@ describe Event do
       Event.expire_cache
     end
   end
+
+  context "populated_proposals" do
+    fixtures :events, :proposals
+
+    before(:each) do
+      @event = events(:open)
+    end
+
+    it "should get proposals and sessions for :proposals" do
+      records = @event.populated_proposals(:proposals).all
+
+      records.select(&:confirmed?).should_not be_empty
+      records.reject(&:confirmed?).should_not be_empty
+    end
+
+    it "should get just sessions for :sessions" do
+      records = @event.populated_proposals(:sessions).all
+      
+      records.select(&:confirmed?).should_not be_empty
+      records.reject(&:confirmed?).should be_empty
+    end
+
+    it "should fail to get invalid kind" do
+      lambda { @event.populated_proposals(:omg) }.should raise_error(ArgumentError)
+    end
+  end
 end
