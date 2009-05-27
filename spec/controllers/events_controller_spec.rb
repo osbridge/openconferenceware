@@ -13,12 +13,11 @@ describe EventsController, "when displaying events" do
       flash.has_key?(:failure).should be_true
     end
 
-    it "should redirect if there's a current event" do
-      event = events(:open)
-      Event.should_receive(:current).and_return(event)
+    it "should display a list of events" do
       get :index
 
-      response.should redirect_to(event_proposals_path(event))
+      response.should be_success
+      assigns[:events].should_not be_blank
     end
   end
 

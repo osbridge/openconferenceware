@@ -1,28 +1,64 @@
 <table class="standard-form">
   <tr>
     <td class="label-text">
+      <label>Slug</label>
+    </td>
+    <td>
+      <%=h @event.slug%>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
       <label>Title</label>
     </td>
     <td>
       <%=h @event.title %>
     </td>
   </tr>
-  <tr>
-    <td class="label-text">
-      <label>Start Date</label>
-    </td>
-    <td>
-      <%=h @event.start_date %>
-    </td>
-  </tr>
-  <tr>
-    <td class="label-text">
-      <label>End Date</label>
-    </td>
-    <td>
-      <%=h @event.end_date %>
-    </td>
-  </tr>
+  <% if @event.parent %>
+    <tr>
+      <td class="label-text">
+        <label>Child of</label>
+      </td>
+      <td>
+        <%= link_to(h(@event.parent.title), manage_event_path(@event.parent)) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <td class="label-text">
+        <label>Children</label>
+      </td>
+      <td>
+        <ul>
+          <% for child in @event.children %>
+            <li>
+              <%= link_to(h(child.title), manage_event_path(child)) %>
+            </li>
+          <% end %>
+          <li>
+            <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id) %>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-text">
+        <label>Start Date</label>
+      </td>
+      <td>
+        <%=h @event.start_date %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-text">
+        <label>End Date</label>
+      </td>
+      <td>
+        <%=h @event.end_date %>
+      </td>
+    </tr>
+  <% end %>
   <tr>
     <td class="label-text">
       <label>Proposal Deadline</label>
