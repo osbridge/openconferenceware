@@ -4,26 +4,26 @@
 # Table name: proposals
 #
 #  id                 :integer         not null, primary key
-#  user_id            :integer         
-#  presenter          :string(255)     
-#  affiliation        :string(255)     
-#  email              :string(255)     
-#  website            :string(255)     
-#  biography          :string(255)     
-#  title              :string(255)     
-#  description        :string(255)     
+#  user_id            :integer
+#  presenter          :string(255)
+#  affiliation        :string(255)
+#  email              :string(255)
+#  website            :string(255)
+#  biography          :string(255)
+#  title              :string(255)
+#  description        :string(255)
 #  agreement          :boolean         default(TRUE)
-#  created_at         :datetime        
-#  updated_at         :datetime        
-#  event_id           :integer         
-#  submitted_at       :datetime        
-#  note_to_organizers :text            
-#  excerpt            :text(400)       
-#  track_id           :integer         
-#  session_type_id    :integer         
+#  created_at         :datetime
+#  updated_at         :datetime
+#  event_id           :integer
+#  submitted_at       :datetime
+#  note_to_organizers :text
+#  excerpt            :text(400)
+#  track_id           :integer
+#  session_type_id    :integer
 #  status             :string(255)     default("proposed"), not null
-#  room_id            :integer         
-#  start_time         :datetime        
+#  room_id            :integer
+#  start_time         :datetime
 #
 
 class Proposal < ActiveRecord::Base
@@ -71,7 +71,7 @@ class Proposal < ActiveRecord::Base
   aasm_event :confirm do
     transitions :from => :accepted, :to => :confirmed
   end
-  
+
   aasm_event :decline do
     transitions :from => :accepted, :to => :declined
   end
@@ -94,6 +94,9 @@ class Proposal < ActiveRecord::Base
   belongs_to :session_type
   belongs_to :room
   has_many :comments
+  has_many :user_favorites
+  has_many :users_who_favor, :through => :user_favorites, :source => :user
+
   has_and_belongs_to_many :users do
     def fullnames
       self.map(&:fullname).join(', ')
@@ -194,7 +197,7 @@ class Proposal < ActiveRecord::Base
   def slug
     return "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
   end
-  
+
   # returns a proposal's duration based on its session type
   def duration
     self.session_type.ergo.duration
@@ -263,7 +266,7 @@ class Proposal < ActiveRecord::Base
   def user_has_complete_profile?
     self.users.each do |user|
       if user.blank? || !user.complete_profile?
-        return false 
+        return false
       end
     end
     return true

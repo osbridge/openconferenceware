@@ -4,25 +4,25 @@
 # Table name: users
 #
 #  id                        :integer         not null, primary key
-#  login                     :string(255)     
-#  email                     :string(255)     
-#  crypted_password          :string(40)      
-#  salt                      :string(40)      
-#  admin                     :boolean         
-#  created_at                :datetime        
-#  updated_at                :datetime        
-#  remember_token            :string(255)     
-#  remember_token_expires_at :datetime        
-#  using_openid              :boolean         
-#  affiliation               :string(128)     
-#  biography                 :text(2048)      
-#  website                   :string(1024)    
-#  complete_profile          :boolean         
-#  photo_file_name           :string(255)     
-#  photo_content_type        :string(255)     
-#  photo_file_size           :integer         
-#  first_name                :string(255)     
-#  last_name                 :string(255)     
+#  login                     :string(255)
+#  email                     :string(255)
+#  crypted_password          :string(40)
+#  salt                      :string(40)
+#  admin                     :boolean
+#  created_at                :datetime
+#  updated_at                :datetime
+#  remember_token            :string(255)
+#  remember_token_expires_at :datetime
+#  using_openid              :boolean
+#  affiliation               :string(128)
+#  biography                 :text(2048)
+#  website                   :string(1024)
+#  complete_profile          :boolean
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  first_name                :string(255)
+#  last_name                 :string(255)
 #  blog_url                  :string(255)
 #  identica                  :string(255)
 #  twitter                   :string(255)
@@ -52,6 +52,9 @@ class User < ActiveRecord::Base
 
   # Associations
   has_and_belongs_to_many :proposals
+
+  has_many :user_favorites
+  has_many :favorites, :through => :user_favorites, :source => :proposal
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -211,7 +214,7 @@ class User < ActiveRecord::Base
     self.find(:first, :conditions => {:login => identity_url, :using_openid => true})
   end
 
-  # Return a User instance for a value, which can either be a User, 
+  # Return a User instance for a value, which can either be a User,
   # Symbol of the User's login, or a String or Integer id for the User.
   def self.get(value)
     case value
@@ -312,6 +315,6 @@ protected
 
   # Ensure URLs are valid, else add validation errors.
   def url_validator
-    return validate_url_attribute(:website, :blog_url) 
+    return validate_url_attribute(:website, :blog_url)
   end
 end
