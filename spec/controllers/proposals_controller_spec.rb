@@ -4,6 +4,11 @@ describe ProposalsController do
   integrate_views
   fixtures :all
 
+  # Return an array of Proposal objects extracted from the response body.
+  def extract_proposals
+    return assert_select('.proposal_row').map{|n| Proposal.find(n.attributes['id'].gsub(/^proposal_row_/, ''))}
+  end
+
   before(:all) do
     @event = Event.current
   end
@@ -141,18 +146,17 @@ describe ProposalsController do
     describe "when sorting" do
       it "should sort proposals by title" do
         get :index, :sort => "title"
-        proposals = assigns(:proposals)
+        extracted = extract_proposals
 
-        proposals.size.should > 0
-
-        titles_returned = proposals.map(&:title)
-        titles_expected = titles_returned.sort_by(&:downcase)
-        titles_returned.should == titles_expected
+        extracted.size.should > 0
+        values = extracted.map(&:title)
+        expected = values.sort_by(&:downcase)
+        values.should == expected
       end
 
       it "should sort proposals by track" do
         get :index, :sort => "track"
-        proposals = assigns(:proposals)
+        proposals = extract_proposals
 
         proposals.size.should > 0
 
@@ -163,13 +167,27 @@ describe ProposalsController do
 
       it "should sort proposals by title descending" do
         get :index, :sort => "title", :dir => "desc"
-        proposals = assigns(:proposals)
+        proposals = extract_proposals
 
         proposals.size.should > 0
 
         titles_returned = proposals.map(&:title)
         titles_expected = titles_returned.sort_by(&:downcase).reverse
         titles_returned.should == titles_expected
+      end
+
+      it "should sort proposals by start time" do
+        stub_current_event!(:event => @event)
+        @event.stub!(:proposal_status_published? => true)
+
+        get :sessions_index, :sort => "start_time", :event_id => @event.slug
+        proposals = extract_proposals
+
+        proposals.size.should > 0
+
+        values = proposals.map(&:start_time)
+        expected = values.sort
+        values.should == expected
       end
 
       it "should not sort proposals by forbidden field" do

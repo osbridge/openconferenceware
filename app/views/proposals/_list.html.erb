@@ -4,9 +4,7 @@
 # * records => Array of Proposal records.
 # * sorter => Display the sort toolbar? Defaults to false.
 
-if kind == :sessions && params[:sort].blank? && params[:dir].blank? && schedule_visible?
-  records = sort_proposals(records, "start_time")
-end
+records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
 %>
 
 <% if proposal_excerpts? %>
@@ -38,7 +36,7 @@ end
         <% end %>
         <% previous_start_time = record.start_time %>
 
-      <tr>
+      <tr class='proposal_row' id='proposal_row_<%= record.id %>'>
         <td rowspan='2' class='description'>
           <h3>
             <% if multiple_presenters? %>

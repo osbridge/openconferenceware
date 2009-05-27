@@ -106,7 +106,7 @@ class Proposal < ActiveRecord::Base
 
   # Named scopes
   named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
-  named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :track, :room, :users]
+  named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :session_type, :track, :room, :users]
   named_scope :scheduled, :conditions => "start_time IS NOT NULL"
   named_scope :located, :conditions => "room_id IS NOT NULL"
 
@@ -322,6 +322,25 @@ class Proposal < ActiveRecord::Base
       link << self.profile.email
     end
     return link
+  end
+
+  # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
+  def self.sort(proposals, field="title", is_ascending=true)
+    proposals = \
+      case field.to_sym
+      when :track
+        without_tracks = proposals.reject(&:track)
+        with_tracks = proposals.select(&:track).sort_by{|proposal| [proposal.track, proposal.title]}
+        with_tracks + without_tracks
+      when :start_time
+        proposals.select{|proposal| !proposal.start_time.nil? }.sort_by{|proposal| proposal.start_time.to_i }.concat(proposals.select{|proposal| proposal.start_time.nil?})
+      when :submitted_at
+        proposals.sort_by(&:submitted_at)
+      else
+        proposals.sort_by{|proposal| proposal.send(field).to_s.downcase rescue nil}
+      end
+    proposals = proposals.reverse unless is_ascending
+    return proposals
   end
 
 end

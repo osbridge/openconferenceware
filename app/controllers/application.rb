@@ -275,29 +275,4 @@ protected
     end
   end
 
-  # Return an array of sorted +proposals+.
-  #
-  # Arguments:
-  # * order => Sorting order, e.g., "title".
-  # * direction => Direction to sort, e.g. "desc". Optional, defaults to "asc".
-  def sort_proposals(proposals, order, direction=nil)
-    if %w[title track submitted_at session_type start_time].include?(order) || (admin? && order == 'status')
-      # NOTE: Proposals are sorted in memory, not in the database, because the CacheLookupsMixin system already loaded the records into memory and thus this is efficient.
-      proposals = \
-        case order.to_sym
-        when :track
-          without_tracks = proposals.reject(&:track)
-          with_tracks = proposals.select(&:track).sort_by{|proposal| [proposal.track, proposal.title]}
-          with_tracks + without_tracks
-        when :start_time
-          proposals.select{|proposal| !proposal.start_time.nil? }.sort_by{|proposal| proposal.start_time.to_i }.concat(proposals.select{|proposal| proposal.start_time.nil?})
-        else
-          proposals.sort_by{|proposal| proposal.send(order).to_s.downcase rescue nil}
-        end
-      proposals = proposals.reverse if direction == 'desc'
-    end
-    return proposals
-  end
-  helper_method :sort_proposals
-
 end
