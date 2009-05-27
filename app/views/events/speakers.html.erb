@@ -5,7 +5,7 @@
   <li class='speaker'>
     <%= link_to( image_tag( speaker.photo.url(:profile), :class => 'user-photo' ), speaker ) if speaker.photo.file? %>
     <div class='speaker_head'>
-      <h3><%= link_to speaker.fullname, speaker %></h3>
+      <h3><%= link_to speaker.fullname, speaker, :name => "id_#{speaker.id}", :id => "id_#{speaker.id}" %></h3>
       <% unless speaker.affiliation.blank? -%>
       <span class='affiliation'><%= speaker.affiliation %></span>
       <% end -%>
