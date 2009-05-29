@@ -347,4 +347,30 @@ class Proposal < ActiveRecord::Base
     return proposals
   end
 
+  # Return a string of iCalendar data for the given +items+.
+  #
+  # Options:
+  # * :title => String to use as the calendar title. Optional.
+  # * :url_helper => Lambda that's called with an item that should return
+  #   the URL for the item. Optional, defaults to not returning a URL.
+  def self.to_icalendar(items, opts={})
+    title = opts[:title] || "Schedule"
+    url_helper = opts[:url_helper]
+
+    calendar = Vpim::Icalendar.create2
+    items.each do |item|
+      calendar.add_event do |e|
+        e.dtstart     item.start_time
+        e.dtend       item.start_time + item.duration.minutes
+        e.summary     item.title
+        e.created     item.created_at if item.created_at
+        e.lastmod     item.updated_at if item.updated_at
+        e.description item.excerpt
+        e.url         url_helper.call(item) if url_helper
+        e.set_text    'LOCATION', item.room.name if item.room
+      end
+    end
+    return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title} favorites\nMETHOD:PUBLISH")
+  end
+
 end

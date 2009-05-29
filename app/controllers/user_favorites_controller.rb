@@ -19,22 +19,10 @@ class UserFavoritesController < ApplicationController
       format.xml  { render :xml => @user_favorites }
       format.json  { render :json => @user_favorites }
       format.ics {
-        calendar = Vpim::Icalendar.create2
-        @user_favorites.scheduled.each do |item|
-          calendar.add_event do |e|
-            e.dtstart     item.start_time
-            e.dtend       item.start_time + item.duration.minutes
-            e.summary     item.title
-            e.created     item.created_at if item.created_at
-            e.lastmod     item.updated_at if item.updated_at
-            e.description item.excerpt
-            e.url         session_url(item)
-            e.set_text    'LOCATION', item.room.name if item.room
-          end
-        end
-        calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@user.possessive_label(false)} favorites\nMETHOD:PUBLISH")
-
-        render :text => calendar
+        render :text => Proposal.to_icalendar(
+          @user_favorites, 
+          :title => "#{@user.possessive_label(false)} favorites",
+          :url_helper => lambda {|item| session_url(item)})
       }
     end
   end
