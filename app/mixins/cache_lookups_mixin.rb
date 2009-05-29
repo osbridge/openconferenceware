@@ -53,6 +53,15 @@ module CacheLookupsMixin
     # Return instance from cache matching +key+. If +key+ is undefined, returns
     # array of all instances.
     def lookup(key=nil)
+      ### Bypass lookup caching if the following global is true:
+      if $cache_lookup_mixin_disable
+        if key
+          return self.find(:first, :conditions => {self.lookup_key => key})
+        else
+          return self.find(:all, self.lookup_opts)
+        end
+      end
+
       silo = self.lookup_silo_name
       dict = nil
       ActiveRecord::Base.benchmark("Lookup: #{silo}#{key.ergo{'#'+to_s}}") do
