@@ -9,7 +9,8 @@ class Observist < ActiveRecord::Observer
     SessionType,
     Snippet,
     Track,
-    User
+    User,
+    UserFavorite
 
   def self.expire(*args)
     pattern = args.first || //
