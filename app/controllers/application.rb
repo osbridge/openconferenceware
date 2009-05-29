@@ -300,6 +300,7 @@ protected
       end
     end
 
+    # TODO Move breadcrumbs to filters/actions that rely on user.
     add_breadcrumb "Users", users_path
     add_breadcrumb @user.label, user_path(@user)
     add_breadcrumb "Edit" if ["edit", "update"].include?(action_name)
