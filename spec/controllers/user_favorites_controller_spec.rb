@@ -14,10 +14,11 @@ describe UserFavoritesController do
 
   describe "GET index" do
     it "assigns favorites for the given user as @user_favorites" do
+      favorite = stub_model(UserFavorite)
       User.should_receive(:find).with('42').and_return(@user = stub_model(User))
-      @user.should_receive(:favorites).and_return([mock_user_favorite])
+      @user.stub!(:favorites => mock(Array, :populated => [favorite]))
       get :index, :user_id => '42'
-      assigns[:user_favorites].should == [mock_user_favorite]
+      Undefer(assigns[:user_favorites]).should == [favorite]
     end
   end
 

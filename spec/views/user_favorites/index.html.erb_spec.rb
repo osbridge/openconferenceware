@@ -7,13 +7,14 @@ describe "/user_favorites/index.html.erb" do
   before(:each) do
     @proposals = proposals(:couchdb_session, :bigtable_session)
     @user = users(:quentin)
-    @user.stub!(:favorites => @proposals)
+    #@user.stub!(:favorites => @proposals)
     @event = stub_current_event!(:controller => template)
     @event.stub!(:proposal_status_published? => false)
     @event.stub!(:schedule_visible? => false)
     template.stub!(:schedule_visible? => false)
 
     assigns[:user] = @user
+    assigns[:user_favorites] = @proposals
   end
 
   it "renders a list of user_favorites" do

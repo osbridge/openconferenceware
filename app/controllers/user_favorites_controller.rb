@@ -7,20 +7,25 @@ class UserFavoritesController < ApplicationController
   # GET /favorites.xml
   # GET /favorites.json
   def index
-    # TODO Document what :join does or remove it.
-    if params[:join] == "1"
-      @user_favorites = UserFavorite.find_all_by_user_id(@user.id)
-    else
-      @user_favorites = @user.favorites
-    end
+    @user_favorites = Defer {
+      view_cache_key = "favorites,user_#{@user.id}.#{request.format}"
+      Rails.cache.fetch_object(view_cache_key) {
+        # The :join argument, used by the AJAX, causes action to return UserFavorite records, rather than Proposal records.
+        if params[:join] == "1"
+          UserFavorite.find_all_by_user_id(@user.id)
+        else
+          @user.favorites.populated
+        end
+      }
+    }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @user_favorites }
-      format.json  { render :json => @user_favorites }
+      format.xml  { render :xml => Undefer(@user_favorites) }
+      format.json  { render :json => Undefer(@user_favorites) }
       format.ics {
         render :text => Proposal.to_icalendar(
-          @user_favorites, 
+          @user_favorites,
           :title => "#{@user.possessive_label(false)} favorites",
           :url_helper => lambda {|item| session_url(item)})
       }
