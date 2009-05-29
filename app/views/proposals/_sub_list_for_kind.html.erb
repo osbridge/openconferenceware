@@ -1,50 +1,29 @@
 <%
 # Variables:
-## Kind of records to list, e.g, :sessions or :proposals. REQUIRED.
-kind      = local_assigns[:kind]
-## ActiveRecord instance that has #proposals, e.g., a User. REQUIRED.
-container = local_assigns[:container]
-## Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
-title     = local_assigns[:title]
-## Prefix to add to the sub-list headers.
-head_prefix = local_assigns[:head_prefix]
-## Display the sort toolbar? Optional, defaults to false.
-sorter    = local_assigns[:sorter]
-## Archive the content and hide it behind a link? Optional, defaults to false.
-archive      = local_assigns[:archive]
+# * kind => :proposals or :sessions. REQUIRED.
+# * container => ActiveRecord instance that owns the Proposal records to show, e.g., a User. REQUIRED.
+# * records => Array of Proposal instances to display. Optional, defaults to #proposals method on +container+.
+# * title => Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
+# * title_prefix => Prefix to add to the title, e.g., "Favorite"
+# * show_sorter => Display the sort toolbar? Optional, defaults to false.
+# * is_archived => Archive the content and hide it behind a link? Optional, defaults to false.
 
-# Display all proposals if :all
-inclusive = kind == :all
-kind = :proposals if kind == :all
+kind         = local_assigns[:kind]
+container    = local_assigns[:container] || container.proposals
+records      = local_assigns[:records]
+title        = local_assigns[:title]
+title_prefix = local_assigns[:title_prefix]
+show_sorter  = local_assigns[:show_sorter]
 %>
 
-<% cache "proposals,sub_list_for_kind,kind_#{kind},container_#{container.class.name}_#{container.id},title_#{title.hash},head_prefix_#{head_prefix.hash},sorter_#{sorter.hash},admin_#{admin?}" do %>
-  <%
-    records = \
-      if inclusive
-        container.proposals.all
-      else
-        case kind
-        when :proposals then container.proposals.unconfirmed
-        when :sessions then container.proposals.confirmed
-        else raise TypeError, "Unknown kind: #{kind}"
-        end
-      end
-  %>
-
-  <% unless records.blank? %>
-    <div class="proposals_sub_list" id="proposals_sub_list_for_kind_<%= kind %>">
-      <div class="proposals_sub_list_toggle" style="display: none">
-        <a href="#" onclick="$(this).hide(); $(this).parent().parent().find('.proposals_sub_list_content').show(); return false;">Display <%= kind %>...</a>
-      </div>
-      <div class="proposals_sub_list_content">
-        <h3><%= "#{head_prefix} #{kind.to_s.titleize} for this #{title || container.class.name.singularize}".strip.humanize %></h3>
-        <%= render :partial => "proposals/list", :locals => {:kind => kind, :records => records, :sorter => sorter} %>
-      </div>
+<% unless records.blank? %>
+  <div class="proposals_sub_list_for_kind" id="proposals_sub_list_for_kind_<%= kind %>">
+    <div class="proposals_sub_list_for_kind_toggle" style="display: none">
+      <%= link_to "Display #{kind}...", "#" %>
     </div>
-
-    <% if archive %>
-      <% run_when_dom_is_ready "$('#proposals_sub_list_for_kind_#{kind} .proposals_sub_list_content').hide(); $('#proposals_sub_list_for_kind_#{kind} .proposals_sub_list_toggle').show()"%>
-    <% end %>
-  <% end %>
+    <div class="proposals_sub_list_for_kind_content">
+      <h3><%= "#{title_prefix} #{kind} for this #{title || container.class.name.singularize}".strip.humanize %></h3>
+      <%= render :partial => "proposals/list", :locals => {:kind => kind, :records => records, :sorter => show_sorter} %>
+    </div>
+  </div>
 <% end %>

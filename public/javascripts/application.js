@@ -231,8 +231,23 @@ function bind_manage_proposals_checkboxes() {
   });
 }
 
-/*===[ fin ]==========================================================*/
+/*---[ proposals sub lists ]------------------------------------------*/
 
+// Change the UI of the proposal_sub_list so that the proposals are hidden behind a link.
+function archive_proposals_sub_list() {
+  var container = $('#proposals_sub_list_for_kind_proposals');
+  var toggle = container.find('.proposals_sub_list_for_kind_toggle');
+  var content = container.find('.proposals_sub_list_for_kind_content');
+  toggle.click(function(event) {
+    var target = $(this); $t = target;
+    var partner = target.parents('.proposals_sub_list_for_kind').find('.proposals_sub_list_for_kind_content');
+    target.hide();
+    partner.show();
+    return false;
+  });
+  toggle.show();
+  content.hide();
+}
 
 /*---[ schedule hover ]----------------------------------------------*/
 
@@ -315,3 +330,5 @@ function populate_user_favorites() {
     )
   }
 }
+
+/*===[ fin ]==========================================================*/

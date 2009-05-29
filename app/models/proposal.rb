@@ -373,4 +373,13 @@ class Proposal < ActiveRecord::Base
     return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title} favorites\nMETHOD:PUBLISH")
   end
 
+  POPULATED_INCLUDES = [:event, :room, :session_type, :track, :users]
+  def self.populated_proposals_for(container)
+    kind = container.class.name.tableize
+    kind_plural = kind.to_sym
+    kind_singular = kind.singularize.to_sym
+    args = POPULATED_INCLUDES - [kind_singular, kind_plural]
+    return container.proposals.all(:include => args)
+  end
+
 end

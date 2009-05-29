@@ -1,28 +1,59 @@
 <%
 # Variables:
-## ActiveRecord instance that has #proposals, e.g., a User. REQUIRED.
-container = local_assigns[:container]
-## Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
-title     = local_assigns[:title]
-## Prefix to add to the sub-list headers.
-head_prefix = local_assigns[:head_prefix]
-## Display the sort toolbar? Optional, defaults to false.
-sorter    = local_assigns[:sorter]
+# * container => ActiveRecord instance that owns the Proposal records to show, e.g., a User. REQUIRED.
+# * records => Array of Proposal instances to display. Optional, defaults to #proposals method on +container+.
+# * title => Title of the container, e.g., "user". Optional, leave blank to guess based on container's class.
+# * title_prefix => Prefix to add to the title, e.g., "Favorite"
+# * show_sorter =>  Display the sort toolbar? Optional, defaults to false.
 
-displayer = lambda do |kind, archive|
-  render :partial => "proposals/sub_list_for_kind", :locals => {
-    :kind => kind, :container => container, :title => title, :head_prefix => head_prefix, :sorter => sorter, :archive => archive}
-end
+container    = local_assigns[:container]
+title        = local_assigns[:title]
+title_prefix = local_assigns[:title_prefix]
+show_sorter  = local_assigns[:show_sorter]
+
+cache_key = "proposals,sub_list,container_#{container.class.name}_#{container.id},title_#{title}_#{title_prefix},admin_#{admin?},order_#{params[:sort]},dir_#{params[:dir]}"
 
 include_user_favorites_javascript
-%>
 
-<% if @event.proposal_status_published? %>
-  <%= displayer.call(:sessions, false) %>
+cache(cache_key) do
+  # Defer expensive operations so they run within the cached block.
 
-  <% unless container.kind_of?(Room) %>
-    <%= displayer.call(:proposals, schedule_visible?) %>
+  ## The +displayer+ provides an easier way to render the partials.
+  displayer = lambda{|kind, my_records, is_archived|
+    render :partial => "proposals/sub_list_for_kind", :locals => {
+      :kind => kind,
+      :records => my_records,
+      :container => container,
+      :title => title,
+      :title_prefix => title_prefix,
+      :show_sorter => show_sorter,
+      :is_archived => is_archived,
+    }
+  }
+
+  ## Get records from variable or through an association.
+  records = local_assigns[:records] || Proposal.populated_proposals_for(container)
+
+  ## Get events to organize records.
+  events_to_records = records.select(&:event).group_by(&:event)
+  events_by_deadline = events_to_records.keys.sort_by(&:deadline).reverse
+  many_events = events_by_deadline.size > 1
+  %>
+
+  <% events_by_deadline.each do |event| %>
+    <% event_records = events_to_records[event] %>
+    <% if many_events %>
+      <b><%=h event.title %></b>
+    <% end %>
+    <% if event.proposal_status_published? %>
+      <% event_records_by_confirmation = event_records.group_by(&:confirmed?) %>
+      <%= displayer.call(:sessions, event_records_by_confirmation[true], false) %>
+      <% unless container.kind_of?(Room) %>
+        <%= displayer.call(:proposals, event_records_by_confirmation[false], true) %>
+      <% end %>
+      <% run_when_dom_is_ready "archive_proposals_sub_list()" %>
+    <% else %>
+      <%= displayer.call(:proposals, event_records) %>
+    <% end %>
   <% end %>
-<% else %>
-  <%= displayer.call(:all, false) %>
 <% end %>

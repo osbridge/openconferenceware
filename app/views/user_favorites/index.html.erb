@@ -5,4 +5,4 @@
   <%= link_to "Subscribe", user_formatted_favorites_url(@user, :format => 'ics', :protocol => 'webcal') %>
 </div>
 
-<%= render :partial => "proposals/sub_list", :locals => {:container => @user.favorites, :head_prefix => "Favorite", :title => 'user'} %>
+<%= render :partial => "proposals/sub_list", :locals => {:container => @user, :records => @user.favorites, :title_prefix => "Favorite"} %>
