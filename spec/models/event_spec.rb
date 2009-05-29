@@ -39,7 +39,7 @@ describe Event do
 
     it "should use find if not in cache" do
       event = events(:open)
-      RAILS_CACHE.delete_matched(//) # Everything
+      Observist.expire
       Event.should_receive(:current_by_deadline).and_return(event)
 
       Event.current.should == event
