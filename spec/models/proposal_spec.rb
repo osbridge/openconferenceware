@@ -99,7 +99,13 @@ describe Proposal do
       @proposal.should be_junk
     end
 
-    %w(accepted confirmed rejected declined junk).each do |initial_status|
+    it "should be possible to cancel a confirmed proposal" do
+      @proposal.status = 'confirmed'
+      @proposal.cancel!
+      @proposal.should be_cancelled
+    end
+
+    %w(accepted confirmed rejected declined junk cancelled).each do |initial_status|
       it "should be posible to reset a #{initial_status} proposal back to proposed" do
         @proposal.status = initial_status
         @proposal.reset_status!

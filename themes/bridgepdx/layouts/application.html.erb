@@ -87,6 +87,7 @@
             <ul>
                <li<%= (action_name == 'sessions_index' ? ' class="selected"' : nil) %>><%= link_to "Session List", event_sessions_path(@event) %></li>
                <li<%= (action_name == 'schedule' ? ' class="selected"' : nil) %>><%= link_to "Schedule", event_schedule_path(@event) %></li>
+               <li<%= (action_name == 'speakers' ? ' class="selected"' : nil) %>><%= link_to "Speakers", speakers_event_path(@event) %></li>
             </ul>
             <% end -%>
           </div>
