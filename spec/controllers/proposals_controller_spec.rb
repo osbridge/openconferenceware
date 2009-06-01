@@ -302,7 +302,11 @@ describe ProposalsController do
         @key = 123
         @event.stub!(:proposal_status_published?).and_return(opts[:published])
         stub_current_event!(:event => @event)
-        @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => [])
+        
+        @users = []
+        @users.stub!(:by_name).and_return([])
+        
+        @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => @users)
         @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
         controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
         get opts[:session] ? :session_show : :show, :id => @key

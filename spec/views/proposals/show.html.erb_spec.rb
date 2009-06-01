@@ -6,7 +6,10 @@ describe "/proposals/show.html.erb" do
   end
   
   before :each do
-    @proposal = stub_model(Proposal, :status => "proposed", :users => OpenStruct.new)
+    @users = []
+    @users.stub!(:by_name).and_return([])
+    
+    @proposal = stub_model(Proposal, :status => "proposed", :users => @users)
     @event = stub_model(Event, :id => 1, :title => "Event 1", :proposal_status_published => false);
   end
   
