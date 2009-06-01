@@ -36,7 +36,7 @@ namespace :db do
       case adapter
       when "sqlite3"
         target = struct.database
-        mv target, "#{target}.old", :verbose => true
+        mv target, "#{target}.old", :verbose => true if File.exist?(target)
         sh "sqlite3 #{target} < #{source}", :verbose => true
       when "mysql"
         sh "mysql #{mysql_credentials_for(struct)} < #{source}", :verbose => true
