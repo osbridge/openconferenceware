@@ -1,19 +1,10 @@
 # Monkey patch ActiveSupport::Cache provider to allow caching objects.
 
 module ActiveSupportCacheObject
-  def write_object(key, object)
-    return Rails.cache.write(key, Marshal.dump(object), :raw => true)
-  end
-
-  def read_object(key)
-    value = Rails.cache.read(key, :raw => true)
-    return value ? Marshal.load(value) : value
-  end
-
   def fetch_object(key, &block)
-    unless value = read_object(key)
+    unless value = Rails.cache.read(key)
       value = yield
-      write_object(key, value)
+      Rails.cache.write(key, value)
     end
     return value
   end
