@@ -1,21 +1,20 @@
-# Reads the Rails +database.yml+ configuration file and provides access to its
-# data structures.
-#
-# Structure:
-# * username
-# * database
+# Returns a data structure representing the currently configured database in
+# "database.yml" for this "RAILS_ENV".
 #
 # Examples:
 #
+#   # Return current database information:
 #   struct = DatabaseYmlReader.read
-#   puts struct.username
+#
+#   # Print currently-configured database name:
+#   p struct.database
 class DatabaseYmlReader
   require 'erb'
   require 'yaml'
   require 'ostruct'
 
   def self.read
-    OpenStruct.new(
+    return OpenStruct.new(
       YAML.load(
         ERB.new(
           File.read(
