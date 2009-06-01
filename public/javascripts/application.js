@@ -1,6 +1,9 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+// app object used to expose rails variables to javascript
+var app = new Object;
+
 /*===[ onload functions ]=============================================*/
 
 // Highlight the flash notification area briefly.
@@ -14,6 +17,10 @@ $(document).ready(function() {
 })
 
 /*===[ custom functions ]=============================================*/
+
+function logged_in() {
+  return !app.current_user == false;
+}
 
 /*---[ data structure conveniences ]----------------------------------*/
 
@@ -79,9 +86,9 @@ function bind_proposal_generic_control(kind, elements) {
     value = target.attr('value');
     proposal_id = target.attr('x_proposal_id');
     format = 'json';
-    url = '/proposals/'+proposal_id+'.'+format;
+    url = app.proposals_path + '/' + proposal_id + '.' + format;
 
-    data = { 'authenticity_token': window._token };
+    data = { 'authenticity_token': app.authenticity_token };
     data[name] = value;
     $d = data;
 
@@ -132,19 +139,19 @@ function bind_proposal_schedule_controls() {
       target.parent().find('select').attr('selectedIndex',0);
     }
   }).change(function(event) {
+    target = $(this);
     // Submits the schedule form on change if all three select element have values.
     if(target.parent().find('option:selected[value]').get().length == 3) {
-      target = $(this);
 
       data = {
-        'authenticity_token': window._token,
+        'authenticity_token': app.authenticity_token,
         'start_time[date]': target.parent().find('select.date').attr('value'),
         'start_time[hour]': target.parent().find('select.hour').attr('value'),
         'start_time[minute]': target.parent().find('select.minute').attr('value')
       };
       proposal_id = target.parent().attr('id').split('_').pop();
       format = 'json';
-      url = '/proposals/'+proposal_id+'.'+format;
+      url = app.proposals_path + '/' + proposal_id + '.' + format;
 
       $.ajax({
         'type': 'PUT',
@@ -224,8 +231,23 @@ function bind_manage_proposals_checkboxes() {
   });
 }
 
-/*===[ fin ]==========================================================*/
+/*---[ proposals sub lists ]------------------------------------------*/
 
+// Change the UI of the proposal_sub_list so that the proposals are hidden behind a link.
+function archive_proposals_sub_list() {
+  var container = $('#proposals_sub_list_for_kind_proposals');
+  var toggle = container.find('.proposals_sub_list_for_kind_toggle');
+  var content = container.find('.proposals_sub_list_for_kind_content');
+  toggle.click(function(event) {
+    var target = $(this); $t = target;
+    var partner = target.parents('.proposals_sub_list_for_kind').find('.proposals_sub_list_for_kind_content');
+    target.hide();
+    partner.show();
+    return false;
+  });
+  toggle.show();
+  content.hide();
+}
 
 /*---[ schedule hover ]----------------------------------------------*/
 
@@ -247,3 +269,66 @@ $(document).ready(function() {
     }
   )
 })
+
+/*---[ user favorites ]----------------------------------------------*/
+
+function bind_user_favorite_controls() {
+  $('.favorite').each(function() {
+      if( !logged_in() ) {
+        $(this).addClass('disabled');
+      }
+    }).click(function(event) {
+    target = $(this);
+
+    if( !logged_in() ) {
+      alert("You must be logged in to add items to your favorites.");
+    } else {
+      target.addClass('working');
+
+      mode = target.hasClass('checked') ? 'remove' : 'add';
+
+      $.ajax({
+        'type': 'PUT',
+        'url': app.favorites_path + '/modify.json',
+        'dataType': 'json',
+        'data': {
+          'authenticity_token': app.authenticity_token,
+          'proposal_id': target.attr('id').split('_').pop(),
+          'mode': mode
+        },
+        'complete': function(request,status){
+          target.removeClass('working');
+        },
+        'success': function(data, status) {
+          switch(mode) {
+          case 'add':
+            target.addClass('checked');
+            break;
+          case 'remove':
+            target.removeClass('checked');
+            break;
+          }
+        },
+        'error': function(request, status, error) {
+          alert('There was an error.' + status + error);
+          // TODO Specify what error has occurred.
+        }
+      });
+    }
+    return false;
+  });
+}
+
+function populate_user_favorites() {
+  if( logged_in() ) {
+    $.getJSON( app.favorites_path + '.json?join=1',
+      function(data) {
+        jQuery.each( data, function(i, fav) {
+          $( '#favorite_' + fav.proposal_id ).addClass('checked');
+        });
+      }
+    )
+  }
+}
+
+/*===[ fin ]==========================================================*/

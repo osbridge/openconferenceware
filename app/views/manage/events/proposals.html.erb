@@ -1,7 +1,8 @@
 <% page_title "Bulk edit proposals for #{@event.title}" %>
 
-<% run_when_jquery_is_ready "bind_all_proposal_controls();" %>
-<% run_when_jquery_is_ready "bind_manage_proposals_checkboxes();" %>
+<% expose_to_js :proposals_path, proposals_path %>
+<% run_when_dom_is_ready "bind_all_proposal_controls();" %>
+<% run_when_dom_is_ready "bind_manage_proposals_checkboxes();" %>
 
 <% if proposal_statuses? %>
   <table cellspacing="0" id="proposal-status-counts">

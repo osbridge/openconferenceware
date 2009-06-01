@@ -62,13 +62,27 @@ module ApplicationHelper
     content_for :scripts, html
   end
 
-  # Include a jQuery $(document).ready() function that calls the given +javascript+ code.
-  def run_when_jquery_is_ready(javascript)
-    content_for :javascript, <<-HERE
-      $(document).ready(function() {
-        #{javascript};
-      });
-    HERE
+  # Indents a block of code to a specified minimum indent level.
+  def indent_block(string, level=0)
+    lines = string.to_a
+    common_space = lines.map{|line| line.length - line.lstrip.length}.min
+    string.to_a.map{ |line| ('  ' * level) + line[common_space..-1] }.join
+  end
+
+  # Exposes a value as a property of the JavaScript 'app' object.
+  #   Example:
+  #     <% expose_to_js :current_user_id, current_user.id %>
+  #     <script> alert(app.current_user_id); </script>
+  #
+  def expose_to_js(key, value)
+    raise(ArgumentError, "key must be a symbol") unless key.is_a?(Symbol)
+    value = "'#{value}'" unless value.is_a?(Integer) || value.bool?
+    content_for :javascript_expose_values, "app.#{key.to_s} = #{value};\n"
+  end
+
+  # Enqueues the given javascript code to run once the DOM is ready.
+  def run_when_dom_is_ready(javascript)
+    content_for :javascript_on_ready, javascript + "\n"
   end
 
   # Is the navigation item the currently viewed page? E.g., if the navigation is :sessions, is the :subnav also :sessions.
@@ -83,7 +97,8 @@ module ApplicationHelper
 
   # Is the current action related to sessions?
   def session_related_action?
-    return controller.kind_of?(ProposalsController) && ProposalsController::SESSION_RELATED_ACTIONS.include?(action_name)
+    return (controller.kind_of?(EventsController) && action_name == "speakers") || controller.kind_of?(ProposalsController) && ProposalsController::SESSION_RELATED_ACTIONS.include?(action_name)
+    # TODO Make this logic clearer and the menu system less crazy.
   end
 
   # Main navigation to display.

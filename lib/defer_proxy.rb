@@ -66,9 +66,10 @@ class DeferProxy
 
   def __materialize(method=nil, *args, &block)
     unless self.__called
+      Rails.logger.debug("DeferProxy materialized by: #{self.__value.class.name}##{method}") if defined?(Rails)
       self.__value = self.__callback.call
       self.__called = true
-      Rails.logger.debug("DeferProxy materialized by: #{self.__value.class.name}##{method}") if defined?(Rails)
+      return self.__value
     end
   end
 
@@ -80,6 +81,7 @@ class DeferProxy
   alias_method :kind_of_old?, :kind_of?
   def kind_of_with_trickery?(klass)
     self.__materialize('kind_of?')
+    # FIXME how to handle #to_a calls?
     # TODO Figure out why this causes a endless loop: self.kind_of_without_trickery?(DeferProxy)
     #return self.__value.kind_of?(klass) || self.kind_of_without_trickery?(klass)
     #return self.class == klass || self.kind_of_without_trickery?(klass) || self.__value.kind_of?(klass)
@@ -91,6 +93,12 @@ end
 # Return a DeferProxy instance for the given +block+.
 def Defer(&block)
   return DeferProxy.new(&block)
+end
+
+# Return the content of a value, be it a Defer or not.
+def Undefer(value)
+  # TODO Surely there's a less hideous way!?
+  return value.respond_to?(:kind_of_with_trickery?) ? value.__materialize : value
 end
 
 __END__

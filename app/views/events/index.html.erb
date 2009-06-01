@@ -1,1 +1,9 @@
 <% page_title "Events" %>
+
+<ul>
+  <% for event in @events %>
+    <li>
+      <%= link_to h(event.title), event_proposals_path(event.slug) %>
+    </li>
+  <% end %>
+</ul>

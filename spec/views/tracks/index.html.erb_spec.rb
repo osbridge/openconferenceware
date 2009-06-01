@@ -41,7 +41,6 @@ describe "/tracks/index.html.erb" do
     end
 
     it "should render new link" do
-      save_body
       response.should have_tag("a[href=#{new_track_path}]")
     end
 

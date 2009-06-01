@@ -1,0 +1,8 @@
+<% page_title "#{@user.possessive_label} favorites" %>
+
+<div class='calendar_download'>
+  <%= link_to "Download", user_formatted_favorites_path(@user, :format => 'ics') %> /
+  <%= link_to "Subscribe", user_formatted_favorites_url(@user, :format => 'ics', :protocol => 'webcal') %>
+</div>
+
+<%= render :partial => "proposals/sub_list", :locals => {:container => @user, :records => @user_favorites, :title_prefix => "Favorite"} %>

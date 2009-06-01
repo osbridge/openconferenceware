@@ -15,8 +15,10 @@
 
   <div class="description"><%= textilize @room.description %></div>
 
-  <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
-  <%= link_to 'Rooms for this event', rooms_path, :class => "cancelable" %>
+  <div class='record-controls'>
+    <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
+    <%= link_to 'Rooms for this event', rooms_path, :class => "cancelable" %>
+  </div>
 
   <%= render :partial => "proposals/sub_list", :locals => {:container => @room} %>
 </div>

@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_filter :require_admin unless user_profiles?
-
-  before_filter :require_user, :only => [:show, :edit, :update, :destroy, :complete_profile]
+  before_filter :assert_user, :only => [:show, :edit, :update, :destroy, :complete_profile]
+  before_filter :login_required, :only => [:edit, :update, :destroy]
+  before_filter :assert_record_ownership, :only => [:edit, :update, :destroy]
 
   def index
     add_breadcrumb 'Users'
@@ -85,30 +86,6 @@ class UsersController < ApplicationController
       flash[:notice] = "Please complete your user profile."
       redirect_to(edit_user_path(current_user, :require_complete_profile => true))
     end
-  end
-
-protected
-
-  # Sets @user based on params[:id] and adds related breadcrumbs.
-  def require_user
-    if params[:id] == "me"
-      if logged_in?
-        @user = current_user
-      else
-        return access_denied(:message => "Please login to access your user profile.")
-      end
-    else
-      begin
-        @user = User.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        flash[:failure] = "User not found or deleted"
-        return redirect_to(users_path)
-      end
-    end
-
-    add_breadcrumb "Users", users_path
-    add_breadcrumb @user.label, user_path(@user)
-    add_breadcrumb "Edit" if ["edit", "update"].include?(action_name)
   end
 
 end

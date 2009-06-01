@@ -725,72 +725,108 @@ table#proposal-status-counts {
 
 /* @end */
 
-#speaker_list {
+/* @group Speaker List */
+
+.user_list {
 	margin: 0;
 }
 
-#speaker_list .speaker_head {
+.user_box .user_head {
   background: #116db6;
   padding: .4em;
   border-bottom: 1px solid #9cbdd6;
   color: #fff;
 }
 
-#speaker_list li.speaker {
+.user_box {
   clear: both;
   list-style: none;
   margin-bottom: 2em;
-  border-left: 4px solid #116db6;
-  border-bottom: 1px solid #b8cbd8;
-  border-right: 1px solid #b8cbd8;
 }
 
-#speaker_list .speaker_body {
-	padding: 1em;
+.user_box .user_body {
+	padding: 1em .5em;
 }
 
-#speaker_list h3 {
+.user_box h3 {
 	display: inline;
 }
 
-#speaker_list .affiliation {
+.user_box .affiliation {
 	float: right;
 	font-style: italic;
 	font-size: .9em;
 }
 
 
-#speaker_list .user-photo {
+.user_box .user-photo {
 	border: 3px solid #222;
 	background: #222;
 }
 
-#speaker_list h3 a {
+.user_box h3 a {
 	text-decoration: none;
 	color: #fff;
 }
 
-#speaker_list h3 a:hover {
+.user_box h3 a:hover {
 	text-decoration: underline;
 }
 
-#speaker_list .speaker_links {
+.user_box .user_links {
 	font-weight: bold;
 }
 
-#speaker_list .speaker_links a {
+.user_box .user_links a {
 	font-weight: normal;
 }
 
-#speaker_list .speaker_links ul {
+.user_box .user_links ul {
 	margin: 0 0 1em 0;
 }
 
-#speaker_list .speaker_links li {
+.user_box .user_links li {
 	list-style: none;
 }
 
-#speaker_list h4 {
+.user_box h4 {
 	color: #116db6;
 	margin-bottom: .4em;
 }
+
+/* @end */
+
+/* @group Favorites */
+
+.favorite {
+  background-image: url('/images/favorite.png');
+  background-position: left -36px;
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -999px;
+}
+
+.favorite.checked {
+  background-position: left 0;
+}
+
+.favorite.disabled {
+  background-position: left -54px;
+}
+
+.favorite.working {
+  background-position: left -18px;
+}
+
+body.proposals.session_show #content .favorite {
+  position: absolute;
+  top: 2em;
+}
+
+body.proposals.session_show #content h2.page_title {
+  text-indent: 25px;
+}
+/* @end */

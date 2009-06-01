@@ -1,28 +1,28 @@
 # == Schema Information
-# Schema version: 20090510024259
+# Schema version: 20090521012427
 #
 # Table name: users
 #
 #  id                        :integer         not null, primary key
-#  login                     :string(255)     
-#  email                     :string(255)     
-#  crypted_password          :string(40)      
-#  salt                      :string(40)      
-#  admin                     :boolean         
-#  created_at                :datetime        
-#  updated_at                :datetime        
-#  remember_token            :string(255)     
-#  remember_token_expires_at :datetime        
-#  using_openid              :boolean         
-#  affiliation               :string(128)     
-#  biography                 :text(2048)      
-#  website                   :string(1024)    
-#  complete_profile          :boolean         
-#  photo_file_name           :string(255)     
-#  photo_content_type        :string(255)     
-#  photo_file_size           :integer         
-#  first_name                :string(255)     
-#  last_name                 :string(255)     
+#  login                     :string(255)
+#  email                     :string(255)
+#  crypted_password          :string(40)
+#  salt                      :string(40)
+#  admin                     :boolean
+#  created_at                :datetime
+#  updated_at                :datetime
+#  remember_token            :string(255)
+#  remember_token_expires_at :datetime
+#  using_openid              :boolean
+#  affiliation               :string(128)
+#  biography                 :text(2048)
+#  website                   :string(1024)
+#  complete_profile          :boolean
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  first_name                :string(255)
+#  last_name                 :string(255)
 #  blog_url                  :string(255)
 #  identica                  :string(255)
 #  twitter                   :string(255)
@@ -52,6 +52,13 @@ class User < ActiveRecord::Base
 
   # Associations
   has_and_belongs_to_many :proposals
+
+  has_many :user_favorites
+  has_many :favorites, :through => :user_favorites, :source => :proposal do
+    def proposals
+      self
+    end
+  end
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -87,19 +94,22 @@ class User < ActiveRecord::Base
 
   validate :url_validator
 
+  default_order = { :order => 'lower(last_name), lower(first_name)' }
+
   # Scopes
-  named_scope :complete_profiles, :conditions => {:complete_profile => true}, :order => 'last_name asc'
+  named_scope :by_name, default_order
+  named_scope :complete_profiles, { :conditions => {:complete_profile => true} }.reverse_merge!(default_order)
   
   named_scope :submitted_to, lambda {|event| {
     :select => 'DISTINCT users.id, users.*', 
     :joins => :proposals, 
-    :conditions => ['proposals.event_id = ?', event.id] } 
+    :conditions => ['proposals.event_id = ?', event.id] }.reverse_merge!(default_order)
   }
   
   named_scope :speaking_at, lambda {|event| { 
     :select => 'DISTINCT users.id, users.*',
     :joins => :proposals, 
-    :conditions => ['proposals.status = "confirmed" AND proposals.event_id = ?', event.id] } 
+    :conditions => ['proposals.status = "confirmed" AND proposals.event_id = ?', event.id] }.reverse_merge!(default_order)
   }
 
   # CSV Export
@@ -211,7 +221,7 @@ class User < ActiveRecord::Base
     self.find(:first, :conditions => {:login => identity_url, :using_openid => true})
   end
 
-  # Return a User instance for a value, which can either be a User, 
+  # Return a User instance for a value, which can either be a User,
   # Symbol of the User's login, or a String or Integer id for the User.
   def self.get(value)
     case value
@@ -239,6 +249,10 @@ class User < ActiveRecord::Base
   # Return string with the user's full name, or as much of it as possible, or a nil.
   def fullname
     return [self.first_name, self.last_name].compact.join(" ") if ! self.first_name.blank? || ! self.last_name.blank?
+  end
+
+  def possessive_label(html=true)
+    label + (html ? '&apos;' : "'") + (%w(s S).include?(label[-1..-1]) ? '' : 's')
   end
 
   # Set the user's first and last name by splitting a single string.
@@ -312,6 +326,6 @@ protected
 
   # Ensure URLs are valid, else add validation errors.
   def url_validator
-    return validate_url_attribute(:website, :blog_url) 
+    return validate_url_attribute(:website, :blog_url)
   end
 end

@@ -8,6 +8,9 @@ class ApplicationController < ActionController::Base
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '56b4f0ad244d35b7e0d30ba0c5e1ae61'
+  
+  # Don't include password values in Rails request logs.
+  filter_parameter_logging :password, :password_confirmation 
 
   # Provide methods for checking SETTINGS succinctly
   include SettingsCheckersMixin
@@ -84,8 +87,7 @@ protected
   #---[ Access control ]--------------------------------------------------
 
   # Can the current user edit the current +record+?
-  def can_edit?(record=nil)
-    record ||= @proposal || @user
+  def can_edit?(record)
     raise ArgumentError, "No record specified" unless record
 
     if logged_in?
@@ -275,4 +277,60 @@ protected
     end
   end
 
+  # Sets @user based on params[:id] and adds related breadcrumbs.
+  def assert_user
+    case self
+    when UsersController
+      user_id = params[:id]
+    when UserFavoritesController
+      user_id = params[:user_id]
+    else
+      raise TypeError
+    end
+
+    if user_id == "me"
+      if logged_in?
+        @user = current_user
+      else
+        return access_denied(:message => "Please login to access your user profile.")
+      end
+    else
+      begin
+        @user = User.find(user_id)
+      rescue ActiveRecord::RecordNotFound
+        flash[:failure] = "User not found or deleted"
+        return redirect_to(users_path)
+      end
+    end
+
+    # TODO Move breadcrumbs to filters/actions that rely on user.
+    add_breadcrumb "Users", users_path
+    add_breadcrumb @user.label, user_path(@user)
+    add_breadcrumb "Edit" if ["edit", "update"].include?(action_name)
+  end
+
+  # Assert that #current_user can edit record.
+  def assert_record_ownership
+    case self
+    when ProposalsController
+      record = @proposal
+    when UsersController, UserFavoritesController
+      record = @user
+      failure_message = "Sorry, you can't edit other users."
+    else
+      raise TypeError
+    end
+
+    if admin?
+      return false # admin can always edit
+    else
+      # FIXME when should people be able to edit proposals?!
+      if can_edit?(record)
+        return false # current_user can edit
+      else
+        flash[:failure] = failure_message ||= "Sorry, you can't edit #{record.class.name.pluralize.downcase} that aren't yours."
+        return redirect_to(record)
+      end
+    end
+  end
 end

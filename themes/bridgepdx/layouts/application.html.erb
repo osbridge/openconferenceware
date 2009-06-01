@@ -22,11 +22,11 @@
 
   <!-- Dynamic styles -->
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
-  <% if @event && event_tracks? %>
-    <style type="text/css" media="screen">
-      <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks } %>
-    </style>
-  <% end %>
+    <% if @event && event_tracks? %>
+      <style type="text/css" media="screen">
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks_descend} %>
+      </style>
+    <% end %>
   <% end %>
 
   <!-- Scripts -->
@@ -34,13 +34,23 @@
   <%= javascript_include_tag("jquery-ui.effects.core") %>
   <%= javascript_include_tag("jquery-ui.effects.highlight") %>
   <%= javascript_include_tag("application") %>
-  <%= yield :scripts %>
-  <%# TODO Add script and stylesheet yield blocks to other themes %>
+  <%# TODO Add script and stylesheet yield blocks to other themes -%>
+  <%= yield :scripts -%>
+
+  <% expose_to_js( :current_user, current_user == :false ? false : current_user.id ) -%>
+  <% expose_to_js( :authenticity_token, form_authenticity_token ) if protect_against_forgery? -%>
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+<%=       indent_block( yield(:javascript_expose_values), 3) -%>
+<%=       indent_block( yield(:javascript_on_ready), 3) -%>
+    });
+  </script>
 </head>
 
 <% remote_base = SETTINGS.public_url %>
 
-<body>
+<body class='<%= "#{controller.controller_name} #{action_name}" %>'>
   <div id="wrapper">
      <div id="header">
        <div class='inner_container'>
@@ -77,6 +87,7 @@
             <ul>
                <li<%= (action_name == 'sessions_index' ? ' class="selected"' : nil) %>><%= link_to "Session List", event_sessions_path(@event) %></li>
                <li<%= (action_name == 'schedule' ? ' class="selected"' : nil) %>><%= link_to "Schedule", event_schedule_path(@event) %></li>
+               <li<%= (action_name == 'speakers' ? ' class="selected"' : nil) %>><%= link_to "Speakers", speakers_event_path(@event) %></li>
             </ul>
             <% end -%>
           </div>
@@ -100,7 +111,7 @@
             </div>
           <% end %>
 
-          <h2><%= page_title %></h2>
+          <h2 class='page_title'><%= page_title %></h2>
 
           <!-- Display notices -->
           <%# flash[:success] = "This test is for testing the notifications." %>
@@ -129,6 +140,7 @@
                   <% if user_profiles? %>
                     <li><%= link_to "My profile", user_path(current_user) %> (<%= link_to "edit", edit_user_path(current_user) %>)</li>
                   <% end %>
+                  <li><%= link_to "My favorites", user_favorites_path(current_user) %></li>
                   <li><%= link_to "Logout", logout_path, :method => :delete %></li>
                 </ul>
               </li>
@@ -237,7 +249,7 @@
   <%= hidden_field_tag(:current_user_id, current_user.id) if logged_in? %>
 
   <!-- arbitrary javascript from views -->
-  <%= javascript_tag "window._token = '#{form_authenticity_token}'" if protect_against_forgery? %>
+
   <script type="text/javascript">
     <%= yield :javascript %>
   </script>

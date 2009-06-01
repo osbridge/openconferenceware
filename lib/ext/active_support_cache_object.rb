@@ -2,11 +2,11 @@
 
 module ActiveSupportCacheObject
   def write_object(key, object)
-    return RAILS_CACHE.write(key, Marshal.dump(object), :raw => true)
+    return Rails.cache.write(key, Marshal.dump(object), :raw => true)
   end
 
   def read_object(key)
-    value = RAILS_CACHE.read(key, :raw => true)
+    value = Rails.cache.read(key, :raw => true)
     return value ? Marshal.load(value) : value
   end
 
@@ -19,10 +19,12 @@ module ActiveSupportCacheObject
   end
 end
 
-# FileStore on Rails 2.1 requires this
 require 'active_support/cache/file_store'
 unless ActiveSupport::Cache::FileStore.instance_methods.include?("fetch_object")
   ActiveSupport::Cache::FileStore.send(:include, ActiveSupportCacheObject)
 end
 
-# MemCacheStore on Rails 2.1 does NOT require this
+require 'active_support/cache/mem_cache_store'
+unless ActiveSupport::Cache::MemCacheStore.instance_methods.include?("fetch_object")
+  ActiveSupport::Cache::MemCacheStore.send(:include, ActiveSupportCacheObject)
+end

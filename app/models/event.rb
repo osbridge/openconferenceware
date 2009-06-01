@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090510024259
+# Schema version: 20090521012427
 #
 # Table name: events
 #
@@ -16,6 +16,9 @@
 #  start_date                              :datetime        
 #  end_date                                :datetime        
 #  accept_proposal_comments_after_deadline :boolean         
+#  schedule_published                      :boolean
+#  slug                                    :string(255)
+#  parent_id                               :integer
 #
 
 class Event < ActiveRecord::Base
@@ -32,6 +35,8 @@ class Event < ActiveRecord::Base
   has_many :session_types
   has_many :rooms
   has_many :schedule_items
+  has_many :children, :class_name => 'Event', :foreign_key => 'parent_id'
+  belongs_to :parent, :class_name => 'Event', :foreign_key => 'parent_id'
 
   # Validations
   validates_presence_of \
@@ -125,9 +130,11 @@ class Event < ActiveRecord::Base
   # have been scheduled and given a room location.
   def calendar_items
     return \
-      self.proposals.confirmed.scheduled.located.find(:all, \
-        :include => [:users, :room, :session_type, {:track => :event}]) + \
-      self.schedule_items.find(:all, :include => [:room])
+      (self.schedule_published? \
+        ? self.proposals.confirmed.scheduled.located.find(:all, :include => [:users, :room, :session_type, {:track => :event}]) \
+        : []) + \
+      self.schedule_items.find(:all, :include => [:room]) + \
+      self.children.map(&:calendar_items).flatten
   end
   
   # Return list of people that submitted to this event.
@@ -153,4 +160,28 @@ class Event < ActiveRecord::Base
     end
   end
 
+  # Return other Event objects.
+  def other_events
+    return self.class.find(:all, :order => "title asc", :select => "id, title").reject{|event| event == self}
+  end
+
+  # Return array of Rooms for this event or its parent event.
+  def rooms_inherit
+    return (self.parent.ergo.rooms || [] + self.rooms).sort_by(&:name)
+  end
+
+  # Return array of Tracks for this event and its children.
+  def tracks_descend
+    return (self.tracks + self.children.map(&:tracks)).flatten.sort_by(&:title)
+  end
+
+  # Return start_time for either self or parent Event.
+  def start_date
+    return self.parent_id ? self.parent.start_date : self.read_attribute(:start_date)
+  end
+
+  # Return end_time for either self or parent Event.
+  def end_date
+    return self.parent_id ? self.parent.end_date : self.read_attribute(:end_date)
+  end
 end

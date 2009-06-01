@@ -99,7 +99,13 @@ describe Proposal do
       @proposal.should be_junk
     end
 
-    %w(accepted confirmed rejected declined junk).each do |initial_status|
+    it "should be possible to cancel a confirmed proposal" do
+      @proposal.status = 'confirmed'
+      @proposal.cancel!
+      @proposal.should be_cancelled
+    end
+
+    %w(accepted confirmed rejected declined junk cancelled).each do |initial_status|
       it "should be posible to reset a #{initial_status} proposal back to proposed" do
         @proposal.status = initial_status
         @proposal.reset_status!
@@ -228,6 +234,33 @@ describe Proposal do
       room = stub_model(Room)
       @proposal.room = room
       @proposal.room.should==room
+    end
+  end
+
+  describe "to_icalendar" do
+    def assert_calendar_match(item, component, url_helper=nil)
+      component.should_not be_nil
+      component.dtstart.should == item.start_time
+      component.dtend.should == item.end_time
+      component.summary.should == item.title
+      component.description.should == item.excerpt
+      component.url.should == url_helper.call(item) if url_helper
+    end
+
+    it "should export proposals to iCalendar" do
+      mysql_record = proposals(:mysql_session)
+      postgresql_record = proposals(:postgresql_session)
+      items = [ mysql_record, postgresql_record ]
+      title = "MyTitle"
+      url_helper = lambda {|item| "http://foo.bar/#{item.id}"}
+
+      data = Proposal.to_icalendar(items, :title => title, :url_helper => url_helper)
+
+      calendar = Vpim::Icalendar.decode(data).first
+      components = calendar.to_a
+      components.size.should == 2
+      assert_calendar_match(mysql_record, components.find{|t| t.summary == mysql_record.title}, url_helper)
+      assert_calendar_match(postgresql_record, components.find{|t| t.summary == postgresql_record.title}, url_helper)
     end
   end
 

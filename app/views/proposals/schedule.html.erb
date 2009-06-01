@@ -1,3 +1,5 @@
+<% include_user_favorites_javascript %>
+
 <div class='calendar_download'>
   <%= link_to "Download", event_formatted_schedule_path(@event, :format => 'ics') %> /
   <%= link_to "Subscribe", event_formatted_schedule_url(@event, :format => 'ics', :protocol => 'webcal') %>
@@ -32,7 +34,7 @@
 
 <div class="schedule_color_key">
   <strong>Color key:</strong>
-  <% for track in @event.tracks.sort_by(&:title) %>
+  <% for track in @event.tracks_descend.sort_by(&:title) %>
     <span class="definition light <%= track_css_class(track) %>">
       <%= link_to h(track.title), track_path(track) %>
     </span>

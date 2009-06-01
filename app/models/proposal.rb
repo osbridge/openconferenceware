@@ -1,29 +1,29 @@
 # == Schema Information
-# Schema version: 20090510024259
+# Schema version: 20090521012427
 #
 # Table name: proposals
 #
 #  id                 :integer         not null, primary key
-#  user_id            :integer         
-#  presenter          :string(255)     
-#  affiliation        :string(255)     
-#  email              :string(255)     
-#  website            :string(255)     
-#  biography          :string(255)     
-#  title              :string(255)     
-#  description        :string(255)     
+#  user_id            :integer
+#  presenter          :string(255)
+#  affiliation        :string(255)
+#  email              :string(255)
+#  website            :string(255)
+#  biography          :string(255)
+#  title              :string(255)
+#  description        :string(255)
 #  agreement          :boolean         default(TRUE)
-#  created_at         :datetime        
-#  updated_at         :datetime        
-#  event_id           :integer         
-#  submitted_at       :datetime        
-#  note_to_organizers :text            
-#  excerpt            :text(400)       
-#  track_id           :integer         
-#  session_type_id    :integer         
+#  created_at         :datetime
+#  updated_at         :datetime
+#  event_id           :integer
+#  submitted_at       :datetime
+#  note_to_organizers :text
+#  excerpt            :text(400)
+#  track_id           :integer
+#  session_type_id    :integer
 #  status             :string(255)     default("proposed"), not null
-#  room_id            :integer         
-#  start_time         :datetime        
+#  room_id            :integer
+#  start_time         :datetime
 #
 
 class Proposal < ActiveRecord::Base
@@ -57,6 +57,7 @@ class Proposal < ActiveRecord::Base
   aasm_state :confirmed
   aasm_state :declined
   aasm_state :junk
+  aasm_state :cancelled
 
   aasm_event :accept do
     transitions :from => :proposed, :to => :accepted
@@ -71,7 +72,7 @@ class Proposal < ActiveRecord::Base
   aasm_event :confirm do
     transitions :from => :accepted, :to => :confirmed
   end
-  
+
   aasm_event :decline do
     transitions :from => :accepted, :to => :declined
   end
@@ -85,7 +86,11 @@ class Proposal < ActiveRecord::Base
   end
 
   aasm_event :reset_status do
-    transitions :from => %w(accepted rejected confirmed declined junk), :to => :proposed
+    transitions :from => %w(accepted rejected confirmed declined junk cancelled), :to => :proposed
+  end
+
+  aasm_event :cancel  do
+    transitions :from => :confirmed, :to => :cancelled
   end
 
   # Associations
@@ -94,6 +99,9 @@ class Proposal < ActiveRecord::Base
   belongs_to :session_type
   belongs_to :room
   has_many :comments
+  has_many :user_favorites
+  has_many :users_who_favor, :through => :user_favorites, :source => :user
+
   has_and_belongs_to_many :users do
     def fullnames
       self.map(&:fullname).join(', ')
@@ -109,6 +117,7 @@ class Proposal < ActiveRecord::Base
   named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :session_type, :track, :room, :users]
   named_scope :scheduled, :conditions => "start_time IS NOT NULL"
   named_scope :located, :conditions => "room_id IS NOT NULL"
+  named_scope :for_event, lambda { |event| { :conditions => { :event_id => event } } }
 
   # Validations
   validates_presence_of :title, :description, :event_id
@@ -193,7 +202,7 @@ class Proposal < ActiveRecord::Base
   def slug
     return "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
   end
-  
+
   # returns a proposal's duration based on its session type
   def duration
     self.session_type.ergo.duration
@@ -262,7 +271,7 @@ class Proposal < ActiveRecord::Base
   def user_has_complete_profile?
     self.users.each do |user|
       if user.blank? || !user.complete_profile?
-        return false 
+        return false
       end
     end
     return true
@@ -341,6 +350,42 @@ class Proposal < ActiveRecord::Base
       end
     proposals = proposals.reverse unless is_ascending
     return proposals
+  end
+
+  # Return a string of iCalendar data for the given +items+.
+  #
+  # Options:
+  # * :title => String to use as the calendar title. Optional.
+  # * :url_helper => Lambda that's called with an item that should return
+  #   the URL for the item. Optional, defaults to not returning a URL.
+  def self.to_icalendar(items, opts={})
+    title = opts[:title] || "Schedule"
+    url_helper = opts[:url_helper]
+
+    calendar = Vpim::Icalendar.create2
+    items.each do |item|
+      calendar.add_event do |e|
+        e.dtstart     item.start_time
+        e.dtend       item.start_time + item.duration.minutes
+        e.summary     item.title
+        e.created     item.created_at if item.created_at
+        e.lastmod     item.updated_at if item.updated_at
+        e.description item.excerpt
+        e.url         url_helper.call(item) if url_helper
+        e.set_text    'LOCATION', item.room.name if item.room
+      end
+    end
+    return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title} favorites\nMETHOD:PUBLISH")
+  end
+
+  def self.populated_proposals_for(container)
+    args = [:event, :room, :session_type, :track, :users]
+    case container
+    when User
+      # Can't eager fetch users for users for some reason, yet all other combinations work fine.
+      args.delete(:users)
+    end
+    return container.proposals.all(:include => args)
   end
 
 end

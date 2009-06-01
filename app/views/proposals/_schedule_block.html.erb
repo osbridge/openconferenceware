@@ -11,6 +11,7 @@
         <% if item.is_a?(ScheduleItem) %>
           <span class='summary'><%= h item.title %></span>
         <% else %>
+          <%= render :partial => 'user_favorites/control', :locals => { :proposal => item } %>
           <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
         <% end -%>
         <span class='room'><%= h item.room.ergo.name %></span>

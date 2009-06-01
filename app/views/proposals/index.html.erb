@@ -7,6 +7,8 @@
 
 <% page_title "#{@event.title} #{@kind}" %>
 
+<% include_user_favorites_javascript %>
+
 <%
 cache_key = "#{@kind}_index,event_#{@event.id},admin_#{admin?}"
 cache_key << ",params_#{params[:sort]}_#{params[:dir]}" if params[:sort]

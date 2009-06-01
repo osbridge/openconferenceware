@@ -8,7 +8,7 @@ class ProposalsController < ApplicationController
   before_filter :assert_anonymous_proposals, :only => [:new, :create]
   before_filter :assert_accepting_proposals, :only => [:new, :create]
   before_filter :assign_proposal_and_event, :only => [:show, :session_show, :edit, :update, :destroy]
-  before_filter :assert_proposal_ownership, :only => [:edit, :update, :destroy]
+  before_filter :assert_record_ownership, :only => [:edit, :update, :destroy]
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
 
@@ -327,33 +327,6 @@ protected
     end
   end
 
-  # Assert that #current_user can edit @proposal.
-  def assert_proposal_ownership
-    if admin?
-      return false # admin can always edit
-    else
-      # FIXME when should people be able to edit proposals?!
-      if can_edit?
-        return false # current_user can edit
-      else
-        flash[:failure] = "Sorry, you can't alter proposals that aren't yours."
-        return redirect_to(proposal_path(@proposal))
-      end
-#      if accepting_proposals?
-#        if can_edit?
-#          return false # current_user can edit
-#        else
-#          flash[:failure] = "Sorry, you can't alter proposals that aren't yours."
-#          return redirect_to(proposal_path(@proposal))
-#        end
-#      else
-#        # TODO allow people to edit proposals after deadline IF there's a process that marks them as approved/rejected/etc.
-#        flash[:failure] = "You cannot edit proposals after the submission deadline."
-#        return redirect_to(@event ? event_proposals_path(@event) : proposals_path)
-#      end
-    end
-  end
-
   # Ensure that anonymous users are allowed to add proposals
   def assert_anonymous_proposals
     if logged_in?
@@ -479,7 +452,7 @@ protected
        # Don't display comment form if user has just commented
        ! params[:commented] &&
        # Don't display comment form for the proposal owner
-       ! can_edit? &&
+       ! can_edit?(@proposal) &&
        (
         # Display comment form if the event is accepting proposals
         accepting_proposals? ||

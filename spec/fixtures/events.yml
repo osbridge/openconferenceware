@@ -23,6 +23,8 @@ closed:
   closed_text: |
     Old Event is the premier event for all things antiquated. We're no-longer accepting proposals, better luck next time.
   slug: closed
+  schedule_published: true
+  proposal_status_published: true
 
 open:
   id: 2009
@@ -33,3 +35,5 @@ open:
   closed_text: |
     Current Event is the premier event for all things shiny. We're no-longer accepting proposals, better luck next time.
   slug: open
+  schedule_published: true
+  proposal_status_published: true
