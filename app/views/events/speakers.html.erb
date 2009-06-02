@@ -2,4 +2,6 @@
 <% run_when_dom_is_ready('bind_calendar_items();' )%>
 <% page_title 'Speakers' %>
 
-<%= render :partial => 'users/list', :locals => { :users => @speakers } %>
+<% cache "speakers,event_#{@event.id},admin_#{admin?}" do %>
+  <%= render :partial => 'users/list', :locals => { :users => @speakers, :hide_rooms => true } %>
+<% end %>
