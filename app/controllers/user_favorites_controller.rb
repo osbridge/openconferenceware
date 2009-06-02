@@ -8,7 +8,7 @@ class UserFavoritesController < ApplicationController
   # GET /favorites.json
   def index
     @user_favorites = Defer {
-      view_cache_key = "favorites,user_#{@user.id}.#{request.format}"
+      view_cache_key = "favorites,user_#{@user.id}.#{request.format},join_#{params[:join]}"
       Rails.cache.fetch_object(view_cache_key) {
         # The :join argument, used by the AJAX, causes action to return UserFavorite records, rather than Proposal records.
         if params[:join] == "1"
