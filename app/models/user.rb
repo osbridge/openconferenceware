@@ -285,8 +285,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def proposals_scheduled
-    self.proposals.scheduled.all
+  def sessions
+    return self.proposals.confirmed
   end
 
 protected
