@@ -29,6 +29,9 @@
         <% unless user.identica.blank? %>
           <li>Identi.ca: <%= display_link_to(user.identica_url, :title => user.identica, :nofollow => true, :popup => true, :class => 'url') %></li>
         <% end %>
+        <% unless user.favorites.blank? %>
+          <li>Favorites: <%= link_to "View #{user.first_name.ergo.possessiveize} favorites", user_favorites_path(user) %></li>
+        <% end -%>
       </ul>
     </div>
 
