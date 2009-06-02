@@ -111,7 +111,9 @@
             </div>
           <% end %>
 
-          <h2 class='page_title'><%= page_title %></h2>
+          <% if page_title %>
+            <h2 class='page_title'><%= page_title %></h2>
+          <% end %>
 
           <!-- Display notices -->
           <%# flash[:success] = "This test is for testing the notifications." %>
