@@ -26,7 +26,7 @@ class UserFavoritesController < ApplicationController
       format.ics {
         render :text => Proposal.to_icalendar(
           @user_favorites,
-          :title => "#{@user.possessive_label(false)} favorites",
+          :title => "#{@user.label.possessiveize} favorites",
           :url_helper => lambda {|item| session_url(item)})
       }
     end

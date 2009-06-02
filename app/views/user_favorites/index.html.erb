@@ -1,4 +1,4 @@
-<% page_title "#{@user.possessive_label} favorites" %>
+<% page_title "#{@user.label.possessiveize} favorites" %>
 
 <div class='calendar_download'>
   <%= link_to "Download", user_formatted_favorites_path(@user, :format => 'ics') %> /

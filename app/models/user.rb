@@ -251,10 +251,6 @@ class User < ActiveRecord::Base
     return [self.first_name, self.last_name].compact.join(" ") if ! self.first_name.blank? || ! self.last_name.blank?
   end
 
-  def possessive_label(html=true)
-    label + (html ? '&apos;' : "'") + (%w(s S).include?(label[-1..-1]) ? '' : 's')
-  end
-
   # Set the user's first and last name by splitting a single string.
   def fullname=(value)
     self.first_name = value.ergo{split(" ")[0..-2].join(' ')}
