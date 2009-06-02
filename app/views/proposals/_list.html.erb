@@ -1,7 +1,9 @@
 <%
+# Display a detailed list of Proposal records.
+#
 # Variables:
-# * kind => :sessions or :proposals.
-# * records => Array of Proposal records.
+# * records => Array of Proposal records to display. REQUIRED.
+# * kind => Treat these records as :sessions or :proposals. REQUIRED.
 # * sorter => Display the sort toolbar? Defaults to false.
 
 records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
