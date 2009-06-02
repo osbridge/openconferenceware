@@ -13,7 +13,7 @@ run_when_dom_is_ready( 'bind_calendar_items();' )
 focus :comment_message if @focus_comment
 %>
 
-<%= render :partial => '/user_favorites/control', :locals => { :proposal => @proposal }%>
+<%= user_favorite_control_for @proposal %>
 <%= render :partial => "/proposals/admin_controls" %>
 
 <% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)}" do %>

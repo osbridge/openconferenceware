@@ -19,7 +19,7 @@ hide_rooms ||= false
         <% if item.is_a?(ScheduleItem) %>
           <span class='summary'><%= h item.title %></span>
         <% else %>
-          <%= render :partial => 'user_favorites/control', :locals => { :proposal => item } %>
+          <%= user_favorite_control_for item %>
           <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
         <% end %>
         <% if !hide_rooms && item.respond_to?(:room) && item.room %>
