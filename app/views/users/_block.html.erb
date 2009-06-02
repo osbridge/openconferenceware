@@ -3,7 +3,7 @@
   display_sub_list ||= false
 %>
 
-<% content_tag wrapper_tag, :class => 'user_box vcard' do %>
+<% content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
   <%= link_to( image_tag( user.photo.url(:profile), :class => 'user-photo photo' ), user ) if user.photo.file? %>
   <div class='user_head'>
     <h3><%= link_to user.fullname, user, :name => "id_#{user.id}", :id => "id_#{user.id}", :class => 'fn n' %></h3>
@@ -14,6 +14,9 @@
   <div class='user_body'>
     <div class='user_links'>
       <ul>
+        <% if admin? || can_edit?(user) %>
+          <li>Email (private): <%= display_link_to(user.email, :mailto => true) %></li>
+        <% end -%>
         <% unless user.website.blank? %>
           <li>Website: <%= display_link_to(user.website, :nofollow => true, :popup => true, :class => 'url') %></li>
         <% end %>
@@ -36,8 +39,17 @@
     </div>
   <% end %>
   
+  <% if can_edit?(user) %>
+    <div class='record-controls'>
+      <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
+      <% if admin? %>
+        <%= link_to "Login", browser_session_path(:login_as => user.login), :method => :post, :class => "cancelable" %>
+      <% end %>
+    </div>
+  <% end %>
+  
   <% if display_sub_list %>
-    <%= render :partial => 'proposals/sub_list', :locals => { :container => user }%>
+    <%= render :partial => 'proposals/sub_list', :locals => { :container => user, :header_tag => :h4 }%>
   <% else %>
     <% if @event.proposal_status_published? && @event.schedule_published? && !user.sessions.empty? %>
       <h4 class='sessions'>Sessions</h4>

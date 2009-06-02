@@ -738,6 +738,15 @@ ul.calendar_items {
   color: #fff;
 }
 
+.user_box.admin .user_head {
+  background: #AB1D14;
+}
+
+.user_box.admin .user_head h3:after {
+  content: " (admin)";
+  color: #fff;
+}
+
 .user_box {
   clear: both;
   list-style: none;
@@ -748,7 +757,7 @@ ul.calendar_items {
 	padding: 1em .5em;
 }
 
-.user_box h3 {
+.user_box .user_head h3 {
 	display: inline;
 }
 
@@ -768,12 +777,12 @@ ul.calendar_items {
 	background: #222;
 }
 
-.user_box h3 a {
+.user_box .user_head h3 a {
 	text-decoration: none;
 	color: #fff;
 }
 
-.user_box h3 a:hover {
+.user_box .user_head h3 a:hover {
 	text-decoration: underline;
 }
 
@@ -793,7 +802,7 @@ ul.calendar_items {
 	list-style: none;
 }
 
-.user_box h4 {
+.user_box .user_head h4 {
 	color: #116db6;
 	margin-bottom: .4em;
 }
