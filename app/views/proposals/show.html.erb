@@ -114,7 +114,7 @@ focus :comment_message if @focus_comment
   <% if multiple_presenters? %>
     <h3><%= @proposal.users.size == 1 ? "Speaker" : "Speakers" %></h3>
 
-    <%= render :partial => 'users/list', :locals => { :users => @proposal.users.by_name } %>
+    <%= render :partial => 'users/list', :locals => { :users => @proposal.users.by_name, :hide_sessions => true } %>
 
   <% end %>
 

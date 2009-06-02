@@ -626,29 +626,29 @@ table#proposal-status-counts {
   background: #ddebff;
 }
 
-.schedule ul {
+ul.calendar_items {
   margin: 0;
 }
 
-.schedule .concise a {
+.calendar_items .concise a {
   color: #222;
   text-decoration: none;
 }
 
-.schedule .concise a:hover {
+.calendar_items .concise a:hover {
   text-decoration: underline;
 }
 
-.schedule .summary {
+.calendar_items .summary {
   font-weight: bold;
 }
 
-.schedule li {
+.calendar_items li {
   list-style: none;
 }
 
 
-.schedule li.vevent {
+.calendar_items li.vevent {
   position: relative;
   margin: 0 .5em .5em;
     padding: .2em 7em .2em .5em;
@@ -656,12 +656,12 @@ table#proposal-status-counts {
     color: #222;
 }
 
-.schedule .vevent.generic_item {
+.calendar_items .vevent.generic_item {
   border: 1px solid #116db6;
   background: #fff;
 }
 
-.schedule .vevent .room {
+.calendar_items .vevent .room {
   position: absolute;
   top: 0;
   right: .2em;
@@ -671,7 +671,7 @@ table#proposal-status-counts {
   width: 5.5em;
 }
 
-.schedule .session_info {
+.calendar_items .session_info {
   background: white;
   border: 2px solid #999;
   position: absolute;
@@ -684,8 +684,8 @@ table#proposal-status-counts {
   top: 0;
 }
 
-.schedule li:hover .session_info,
-.schedule li.hover .session_info {
+.calendar_items li:hover .session_info,
+.calendar_items li.hover .session_info {
   display: block;
 }
 
@@ -750,6 +750,10 @@ table#proposal-status-counts {
 
 .user_box h3 {
 	display: inline;
+}
+
+.user_box h4.sessions {
+  clear: both;
 }
 
 .user_box .affiliation {

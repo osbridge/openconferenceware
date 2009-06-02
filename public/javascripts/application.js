@@ -251,8 +251,8 @@ function archive_proposals_sub_list() {
 
 /*---[ schedule hover ]----------------------------------------------*/
 
-$(document).ready(function() {
-  $('table.schedule li.vevent').hover(
+function bind_calendar_items() {
+  $('ul.calendar_items li.vevent').hover(
     function() {
       $(this).addClass('hover');
       box = $(this).children('.session_info');
@@ -268,7 +268,9 @@ $(document).ready(function() {
       $(this).children('.session_info').css('top',0);
     }
   )
-})
+}
+
+
 
 /*---[ user favorites ]----------------------------------------------*/
 

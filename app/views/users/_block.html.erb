@@ -1,4 +1,7 @@
-<% wrapper_tag ||= :div %>
+<% 
+  wrapper_tag ||= :div 
+  hide_sessions ||= true
+%>
 
 <% content_tag wrapper_tag, :class => 'user_box vcard' do %>
   <%= link_to( image_tag( user.photo.url(:profile), :class => 'user-photo photo' ), user ) if user.photo.file? %>
@@ -32,7 +35,11 @@
       <%= display_textile_for user.biography %>
     </div>
   <% end %>
+  
+  <% if !hide_sessions && @event.schedule_published? && !user.sessions.empty? %>
+    <h4 class='sessions'>Sessions</h4>
+    <%= render :partial => 'proposals/calendar_items', :locals => { :items => user.sessions }%>
+  <% end -%>
 
   </div>
-  <br clear='both' />
 <% end -%>

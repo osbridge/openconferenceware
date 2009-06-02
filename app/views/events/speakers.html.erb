@@ -1,3 +1,5 @@
+<% include_user_favorites_javascript %>
+<% run_when_dom_is_ready('bind_calendar_items();' )%>
 <% page_title 'Speakers' %>
 
 <%= render :partial => 'users/list', :locals => { :users => @speakers } %>
