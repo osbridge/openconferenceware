@@ -1,26 +1,30 @@
 <% page_title "#{@schedule_item.title}" %>
 
-<div id="schedule_item-show">
-  <h3>Excerpt</h3>
-  <%= preserve_formatting_of @schedule_item.excerpt %>
+<% cache "schedule_item_#{@schedule_item.id},admin_#{admin?}" do %>
+  <div id="schedule_item-show">
+    <h3>Excerpt</h3>
+    <%= preserve_formatting_of @schedule_item.excerpt %>
 
-  <% unless @schedule_item.description.blank? %>
-    <h3>Description</h3>
-    <%= display_textile_for @schedule_item.description %>
-  <% end -%>
+    <% unless @schedule_item.description.blank? %>
+      <h3>Description</h3>
+      <%= display_textile_for @schedule_item.description %>
+    <% end -%>
 
-  <% if @schedule_item.room %>
-    <h3>Room</h3>
-    <p><%= link_to h(@schedule_item.room.name), @schedule_item.room %></p>
-  <% end -%>
+    <% if @schedule_item.room %>
+      <h3>Room</h3>
+      <p><%= link_to h(@schedule_item.room.name), @schedule_item.room %></p>
+    <% end -%>
 
-  <h3>Start Time</h3>
-  <p><%= @schedule_item.start_time.to_s(:db) %></p>
+    <h3>Start Time</h3>
+    <p><%= @schedule_item.start_time.to_s(:db) %></p>
 
-  <h3>Duration</h3>
-  <p><%= @schedule_item.duration %></p>
+    <h3>Duration</h3>
+    <p><%= @schedule_item.duration %></p>
 
-  <%= link_to 'Edit', edit_schedule_item_path(@schedule_item), :class => "editable" if admin? %>
-  <%= link_to 'New schedule item', new_schedule_item_path, :class => "addable" if admin? %>
-  <%= link_to 'Schedule items for this event', schedule_items_path, :class => "cancelable" %>
-</div>
+    <div class='record-controls'>
+      <%= link_to 'Edit', edit_schedule_item_path(@schedule_item), :class => "editable" if admin? %>
+      <%= link_to 'New schedule item', new_schedule_item_path, :class => "addable" if admin? %>
+      <%= link_to 'Schedule items for this event', schedule_items_path, :class => "cancelable" %>
+    </div>
+  </div>
+<% end %>
