@@ -336,6 +336,8 @@ protected
 
   # OMFG HORRORS!!1!
   def assign_prefetched_hashes
+    @users                    = Defer { @event.users }
+    @users_hash               = Defer { @users.all.mash{|t| [t.id, t]} }
     @speakers                 = Defer { @event.speakers }
     @speakers_hash            = Defer { @speakers.all.mash{|t| [t.id, t]} }
     @tracks_hash              = Defer { @event.tracks.all.mash{|t| [t.id, t]} }
@@ -345,7 +347,7 @@ protected
     @sessions_hash            = Defer { @event.proposals.confirmed.all(:include => :track).mash{|t| [t.id, t]} }
     @users_and_proposals      = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.event_id = #{@event.id}}) }
     @users_and_sessions       = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.status = "confirmed" and proposals.event_id = #{@event.id}}) }
-    @users_for_proposal_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["proposal_id"].to_i] ||= Set.new) << @speakers_hash[v["user_id"].to_i]; s} }
+    @users_for_proposal_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["proposal_id"].to_i] ||= Set.new) << @users_hash[v["user_id"].to_i]; s} }
     @sessions_for_user_hash   = Defer { @users_and_sessions.inject({}){|s,v| (s[v["user_id"].to_i] ||= Set.new) << @sessions_hash[v["proposal_id"].to_i]; s} }
     @proposals_for_user_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["user_id"].to_i] ||= Set.new) << @proposals_hash[v["proposal_id"].to_i]; s} }
     @user_favorites_count_for_user_hash = Defer { ActiveRecord::Base.connection.select_all("select user_id, count(proposal_id) as favorites from user_favorites group by user_id").inject({}){|s,v| s[v["user_id"].to_i] = v["favorites"].to_i; s} }
