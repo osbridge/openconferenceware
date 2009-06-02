@@ -40,7 +40,21 @@ class BrowserSessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default(proposals_path)
+
+    # After logging out, try to return to the most sensible page: current
+    # event's sessions or proposals, or default event's proposals.
+    target_path = \
+      if @event
+        if @event.proposal_status_published?
+          event_sessions_path(@event)
+        else
+          event_proposals_path(@event)
+        end
+      else
+        proposals_path
+      end
+
+    redirect_back_or_default(target_path)
   end
 
 protected
