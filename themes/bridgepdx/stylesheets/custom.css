@@ -843,3 +843,7 @@ body.proposals.session_show #content h2.page_title {
   text-indent: 25px;
 }
 /* @end */
+
+body.users.show h2.page_title {
+  display: none;
+}

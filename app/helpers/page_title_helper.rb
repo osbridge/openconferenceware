@@ -8,8 +8,8 @@ module PageTitleHelper
   # If +value+ provided, also sets page title. If no page title was set,
   # provides a reasonable simulation based on the controller's name and action.
   def page_title(value=nil)
-    @_page_title = value unless value.nil?
-    return(@_page_title.nil? ? "#{controller.controller_name.humanize}: #{action_name.humanize}" : @_page_title)
+    @_page_title = value if value
+    return(@_page_title || "#{controller.controller_name.humanize}: #{action_name.humanize}")
   end
 
 end
