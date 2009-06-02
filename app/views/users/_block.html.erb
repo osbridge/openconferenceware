@@ -1,5 +1,6 @@
 <% 
   wrapper_tag ||= :div
+  display_sub_list ||= false
 %>
 
 <% content_tag wrapper_tag, :class => 'user_box vcard' do %>
@@ -35,9 +36,13 @@
     </div>
   <% end %>
   
-  <% if @event.schedule_published? && !user.sessions.empty? %>
-    <h4 class='sessions'>Sessions</h4>
-    <%= render :partial => 'proposals/list_concise', :locals => { :items => user.sessions, :hide_rooms => true }%>
+  <% if display_sub_list %>
+    <%= render :partial => 'proposals/sub_list', :locals => { :container => user }%>
+  <% else %>
+    <% if @event.proposal_status_published? && @event.schedule_published? && !user.sessions.empty? %>
+      <h4 class='sessions'>Sessions</h4>
+      <%= render :partial => 'proposals/list_concise', :locals => { :items => user.sessions, :hide_rooms => true }%>
+    <% end -%>
   <% end -%>
 
   </div>
