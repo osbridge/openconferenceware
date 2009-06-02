@@ -825,7 +825,7 @@ ul.calendar_items {
   background-position: left -18px;
 }
 
-body.proposals.session_show #content .favorite {
+body.proposals.session_show #content > .favorite {
   position: absolute;
   top: 2em;
 }

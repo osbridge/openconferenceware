@@ -9,6 +9,7 @@
 @kind ||= :proposal
 page_title h(@proposal.title)
 include_user_favorites_javascript
+run_when_dom_is_ready( 'bind_calendar_items();' )
 focus :comment_message if @focus_comment
 %>
 

@@ -1,5 +1,5 @@
 <% include_user_favorites_javascript %>
-<% run_when_dom_is_ready('bind_calendar_items();' )%>
+<% run_when_dom_is_ready( 'bind_calendar_items();' ) %>
 
 <div class='calendar_download'>
   <%= link_to "Download", event_formatted_schedule_path(@event, :format => 'ics') %> /
