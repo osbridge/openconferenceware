@@ -19,7 +19,8 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
-    @proposals = Defer { @event.populated_proposals(@kind) }
+    assign_prefetched_hashes
+    @proposals = Defer { @proposals_hash.values }
 
     unless params[:sort]
       params[:sort] = "submitted_at"
@@ -56,7 +57,8 @@ class ProposalsController < ApplicationController
 
   def sessions_index
     @kind = :sessions
-    @proposals = Defer { @event.populated_proposals(@kind) }
+    assign_prefetched_hashes
+    @proposals = Defer { @sessions_hash.values }
 
     params[:sort] ||= "track"
 
@@ -78,6 +80,7 @@ class ProposalsController < ApplicationController
     page_title 'Schedule'
 
     @schedule = Defer { Schedule.new(@event) }
+    assign_prefetched_hashes
 
     respond_to do |format|
       format.html {

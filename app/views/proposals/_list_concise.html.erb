@@ -9,9 +9,13 @@ hide_rooms ||= false
 %>
 <ul class='calendar_items'>
   <% items.each do |item|
+    # Use prefetched values
+    track = item.respond_to?(:track_id) ? (@tracks_hash.ergo[item.track_id] || item.track) : nil
+    room = item.respond_to?(:room_id) ? (@rooms_hash.ergo[item.room_id] || item.room) : nil
 
+    # Establish classs
     item_class = 'vevent'
-    item_class << ' light ' << track_css_class(item.track) if item.respond_to?(:track) && item.track
+    item_class << ' light ' << track_css_class(track) if track
     item_class << ' generic_item' if item.is_a?(ScheduleItem)
     %>
     <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
@@ -22,8 +26,8 @@ hide_rooms ||= false
           <%= user_favorite_control_for item %>
           <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
         <% end %>
-        <% if !hide_rooms && item.respond_to?(:room) && item.room %>
-          <span class='room'><%= h item.room.ergo.name %></span>
+        <% if !hide_rooms && room %>
+          <span class='room'><%= h room.name %></span>
         <% end %>
       </div>
       <ul class='session_info'>
@@ -35,16 +39,16 @@ hide_rooms ||= false
             <%= link_to h(item.title), session_path(item) %>
           <% end %>
         </li>
-        <% if item.respond_to?(:track) && item.track %>
+        <% if track %>
           <li>
             <strong>Track:</strong>
-            <%= link_to h(item.track.title), track_path(item.track), :class => track_css_class(item.track) %>
+            <%= link_to h(track.title), track_path(track), :class => track_css_class(track) %>
           </li>
         <% end %>
-        <% if item.respond_to?(:room) && item.room %>
+        <% if room %>
           <li class='location'>
             <strong>Room:</strong>
-            <%= link_to h(item.room.name), room_path(item.room) %>
+            <%= link_to h(room.name), room_path(room) %>
           </li>
         <% end %>
         <% if item.start_time && @event.schedule_published? %>
@@ -61,7 +65,10 @@ hide_rooms ||= false
             </div>
           </li>
         <% end %>
-        <% if multiple_presenters? && item.respond_to?(:users) && !item.users.ergo.empty? %>
+        <% if multiple_presenters? %>
+          <% users = item.respond_to?(:users) ? (@users_for_proposal_hash.ergo[item.id] || item.users) : [] %>
+        <% end %>
+        <% unless users.empty? %>
           <li>
             <strong>Speakers:</strong>
             <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>

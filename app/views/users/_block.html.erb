@@ -38,7 +38,8 @@ display_sub_list ||= false
         <% unless user.identica.blank? %>
           <li>Identi.ca: <%= display_link_to(user.identica_url, :title => user.identica, :nofollow => true, :popup => true, :class => 'url') %></li>
         <% end %>
-        <% unless user.favorites.count == 0 %>
+        <% user_favorites_count = @user_favorites_count_for_user_hash ? (@user_favorites_count_for_user_hash[user.id] || 0) : user.favorites.count %>
+        <% unless user_favorites_count == 0 %>
           <li>Favorites: <%= link_to "View #{user.first_name.ergo.possessiveize} favorites", user_favorites_path(user) %></li>
         <% end -%>
       </ul>
@@ -63,9 +64,15 @@ display_sub_list ||= false
   <% if display_sub_list %>
     <%= render :partial => 'proposals/sub_list', :locals => { :container => user, :header_tag => :h4 } %>
   <% else %>
-    <% if @event.proposal_status_published? && @event.schedule_published? && !user.sessions.empty? %>
-      <h4 class='sessions'>Sessions</h4>
-      <%= render :partial => 'proposals/list_concise', :locals => { :items => user.sessions, :hide_rooms => hide_rooms } %>
+    <% if @event.proposal_status_published? %>
+      <%
+      # Use prefetched values
+      sessions = @sessions_for_user_hash.ergo[user.id] || user.sessions
+      %>
+      <% unless sessions.empty? %>
+        <h4 class='sessions'>Sessions</h4>
+        <%#= render :partial => 'proposals/list_concise', :locals => { :items => sessions, :hide_rooms => hide_rooms } %>
+      <% end %>
     <% end -%>
   <% end -%>
 
