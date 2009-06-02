@@ -1,4 +1,7 @@
-/* @override http://localhost:3000/themes/bridgepdx/stylesheets/custom.css */
+/* @override 
+	http://localhost:3000/themes/bridgepdx/stylesheets/custom.css
+	http://ocw.local/themes/bridgepdx/stylesheets/custom.css
+*/
 
 /* Make VIM use tabs in this file
 vim:tw=0:ft=css:noet:
@@ -17,7 +20,8 @@ div.admin-only {
 }
 
 .admin-only {
-  background: #EFC5C5;
+  background: #F9EAE9;
+  border: 1px solid #B81F16;
 }
 
 .admin-only input[type=submit],
@@ -91,7 +95,8 @@ div.admin-only {
 .deletable,
 .feedable,
 .snippet_edit_link,
-.spinning {
+.spinning,
+.to_top {
   margin-right: 10px;
   padding-left: 20px;
   background-position: left center;
@@ -125,6 +130,10 @@ div.admin-only {
 
 .spinning {
   background-image: url('/images/spinner.gif');
+}
+
+.to_top {
+  background-image: url('/images/arrow-up.png');
 }
 
 /* @end */
@@ -619,6 +628,10 @@ table#proposal-status-counts {
   border: none;
 }
 
+.schedule a.to_top {
+	float: right;
+}
+
 .schedule .schedule_block {
   border-left: 4px solid #116db6;
   border-bottom: 1px solid #b8cbd8;
@@ -699,8 +712,7 @@ ul.calendar_items {
 }
 
 .schedule_color_key {
-  margin-bottom: 2em;
-  margin-left: 1em;
+  margin-bottom: .5em;
 }
 
 .schedule_color_key .definition {
@@ -841,6 +853,11 @@ body.proposals.session_show #content > .favorite {
 
 body.proposals.session_show #content h2.page_title {
   text-indent: 25px;
+}
+
+a.to_favorites {
+  background: url('/images/star.png') no-repeat left center;
+  padding: 0 0 0 22px;
 }
 /* @end */
 

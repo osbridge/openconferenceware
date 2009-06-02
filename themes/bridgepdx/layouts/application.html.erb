@@ -34,6 +34,7 @@
   <%= javascript_include_tag("jquery-ui.effects.core") %>
   <%= javascript_include_tag("jquery-ui.effects.highlight") %>
   <%= javascript_include_tag("application") %>
+  
   <%# TODO Add script and stylesheet yield blocks to other themes -%>
   <%= yield :scripts -%>
 
@@ -51,6 +52,7 @@
 <% remote_base = SETTINGS.public_url %>
 
 <body class='<%= "#{controller.controller_name} #{action_name}" %>'>
+  <a name='top'></a>
   <div id="wrapper">
      <div id="header">
        <div class='inner_container'>

@@ -1,6 +1,10 @@
 <% include_user_favorites_javascript %>
 <% run_when_dom_is_ready( 'bind_calendar_items();' ) %>
 
+<% add_javascript javascript_include_tag('jquery.scrollTo-1.4.2-min') %>
+<% add_javascript javascript_include_tag('jquery.localscroll-1.2.7-min' )%>
+<% run_when_dom_is_ready('$.localScroll({hash:true, duration:300});')%>
+
 <div class='calendar_download'>
   <%= link_to "Download", event_formatted_schedule_path(@event, :format => 'ics') %> /
   <%= link_to "Subscribe", event_formatted_schedule_url(@event, :format => 'ics', :protocol => 'webcal') %>
@@ -45,7 +49,18 @@
   </span>
 </div>
 
+<div class='schedule_jump'>
+  <strong>Jump to day:</strong>
+  <ul>
+  <% @schedule.days.each do |day| %>
+    <li><%= link_to day.date.strftime("%A, %B %e, %Y"), "#day_#{day.date.xmlschema}" %></li>
+  <% end -%>
+  </ul>
+</div>
+
 <% @schedule.days.each do |day| %>
+  <a name="<%= "day_#{day.date.xmlschema}" %>"></a>
+  <a href="#top" class='to_top'>Return to top</a>
   <h3><%= day.date.strftime("%A, %B %e, %Y") %></h3>
 
   <table class='schedule'>

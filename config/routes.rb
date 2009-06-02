@@ -11,8 +11,6 @@ ActionController::Routing::Routes.draw do |map|
   map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
 
   map.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
-  map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
-  map.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
   map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
 
   map.resources :events, :member => { :speakers => :get } do |event|
@@ -26,6 +24,9 @@ ActionController::Routing::Routes.draw do |map|
     event.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
     event.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
   end
+  
+  map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
+  map.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
 
   map.namespace :manage do |manage|
     manage.root :controller => 'events', :action => 'index'
