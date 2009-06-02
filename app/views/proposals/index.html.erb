@@ -11,7 +11,8 @@
 
 <%
 cache_key = "#{@kind}_index,event_#{@event.id},admin_#{admin?}"
-cache_key << ",params_#{params[:sort]}_#{params[:dir]}" if params[:sort]
+cache_key << ",sort_#{params[:sort]}" if params[:sort]
+cache_key << ",dir_#{params[:dir]}" if params[:dir]
 %>
 
 <% cache cache_key do %>
