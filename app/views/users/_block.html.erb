@@ -1,6 +1,15 @@
-<% 
-  wrapper_tag ||= :div
-  display_sub_list ||= false
+<%
+# Display a user and their proposals/sessions with conditional formatting.
+#
+# Locals:
+# * user => The User to display. REQUIRED.
+# * wrapper_tag => Tag to wrap the display in. Defaults to :div.
+# * display_sub_list => Should a sub_list, a detailed list of proposals/sessions for the user, be displayed? Defaults to false.
+# * hide_rooms => Should the rooms be hidden in the list of sessions displayed for each user? Defaults to false.
+
+hide_rooms ||= false
+wrapper_tag ||= :div
+display_sub_list ||= false
 %>
 
 <% content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
@@ -52,11 +61,11 @@
   <% end %>
   
   <% if display_sub_list %>
-    <%= render :partial => 'proposals/sub_list', :locals => { :container => user, :header_tag => :h4 }%>
+    <%= render :partial => 'proposals/sub_list', :locals => { :container => user, :header_tag => :h4 } %>
   <% else %>
     <% if @event.proposal_status_published? && @event.schedule_published? && !user.sessions.empty? %>
       <h4 class='sessions'>Sessions</h4>
-      <%= render :partial => 'proposals/list_concise', :locals => { :items => user.sessions, :hide_rooms => true }%>
+      <%= render :partial => 'proposals/list_concise', :locals => { :items => user.sessions, :hide_rooms => hide_rooms } %>
     <% end -%>
   <% end -%>
 
