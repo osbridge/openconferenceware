@@ -1,6 +1,5 @@
 <% 
-  wrapper_tag ||= :div 
-  hide_sessions ||= true
+  wrapper_tag ||= :div
 %>
 
 <% content_tag wrapper_tag, :class => 'user_box vcard' do %>
@@ -36,9 +35,9 @@
     </div>
   <% end %>
   
-  <% if !hide_sessions && @event.schedule_published? && !user.sessions.empty? %>
+  <% if @event.schedule_published? && !user.sessions.empty? %>
     <h4 class='sessions'>Sessions</h4>
-    <%= render :partial => 'proposals/calendar_items', :locals => { :items => user.sessions }%>
+    <%= render :partial => 'proposals/list_concise', :locals => { :items => user.sessions, :hide_rooms => true }%>
   <% end -%>
 
   </div>

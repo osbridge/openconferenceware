@@ -1,6 +1,6 @@
-<% hide_sessions ||= true %>
+<%  %>
 <ul class='user_list'>
 <% users.each do |user| %>
-  <%= render :partial => 'users/block', :locals => { :user => user, :wrapper_tag => :li, :hide_sessions => hide_sessions } %>
+  <%= render :partial => 'users/block', :locals => { :user => user, :wrapper_tag => :li } %>
 <% end -%>
 </ul>

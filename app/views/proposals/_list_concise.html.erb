@@ -1,3 +1,4 @@
+<% hide_rooms ||= false %>
 <ul class='calendar_items'>
 <% items.each do |item|
 
@@ -13,7 +14,9 @@
         <%= render :partial => 'user_favorites/control', :locals => { :proposal => item } %>
         <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
       <% end -%>
-      <span class='room'><%= h item.room.ergo.name %></span>
+      <% if !hide_rooms && item.respond_to?(:room) && item.room %>
+        <span class='room'><%= h item.room.ergo.name %></span>
+      <% end -%>
     </div>
     <ul class='session_info'>
       <li>
@@ -36,10 +39,12 @@
           <%= link_to h(item.room.name), room_path(item.room) %>
         </li>
       <% end %>
-      <li class='time'>
-        <strong>Time:</strong>
-        <%= normalize_time(item, :context => item.start_time.to_date )%>
-      </li>
+      <% if item.start_time && @event.schedule_published? %>
+        <li class='time'>
+          <strong>Time:</strong>
+          <%= normalize_time(item, :context => item.start_time.to_date )%>
+        </li>
+      <% end -%>
       <% unless item.excerpt.blank? %>
         <li>
           <div class='description'>

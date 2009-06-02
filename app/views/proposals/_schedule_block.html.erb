@@ -1,2 +1,2 @@
 <h4><%= normalize_time(block, :context => block.start_time.to_date) %></h4>
-<%= render :partial => 'proposals/calendar_items', :locals => { :items => block.items }%>
+<%= render :partial => 'proposals/list_concise', :locals => { :items => block.items }%>
