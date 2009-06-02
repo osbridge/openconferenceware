@@ -1,65 +1,73 @@
-<% hide_rooms ||= false %>
-<ul class='calendar_items'>
-<% items.each do |item|
+<%
+# Display a concise summary of calendar items.
+#
+# Locals:
+# * items => Array of Proposal and ScheduleItem records to display. REQUIRED.
+# * hide_rooms => Hide room name on the item row listing? Defaults to false, which shows the room.
 
-  item_class = 'vevent'
-  item_class << ' light ' << track_css_class(item.track) if item.respond_to?(:track) && item.track
-  item_class << ' generic_item' if item.is_a?(ScheduleItem)
-  %>
-  <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
-    <div class='concise'>
-      <% if item.is_a?(ScheduleItem) %>
-        <span class='summary'><%= h item.title %></span>
-      <% else %>
-        <%= render :partial => 'user_favorites/control', :locals => { :proposal => item } %>
-        <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
-      <% end -%>
-      <% if !hide_rooms && item.respond_to?(:room) && item.room %>
-        <span class='room'><%= h item.room.ergo.name %></span>
-      <% end -%>
-    </div>
-    <ul class='session_info'>
-      <li>
-        <strong>Title:</strong>
+hide_rooms ||= false
+%>
+<ul class='calendar_items'>
+  <% items.each do |item|
+
+    item_class = 'vevent'
+    item_class << ' light ' << track_css_class(item.track) if item.respond_to?(:track) && item.track
+    item_class << ' generic_item' if item.is_a?(ScheduleItem)
+    %>
+    <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
+      <div class='concise'>
         <% if item.is_a?(ScheduleItem) %>
-          <%= h item.title %>
+          <span class='summary'><%= h item.title %></span>
         <% else %>
-          <%= link_to h(item.title), session_path(item) %>
+          <%= render :partial => 'user_favorites/control', :locals => { :proposal => item } %>
+          <%= link_to h(item.title), session_path(item), :class => 'url summary' %>
         <% end %>
-      </li>
-      <% if item.respond_to?(:track) && item.track %>
+        <% if !hide_rooms && item.respond_to?(:room) && item.room %>
+          <span class='room'><%= h item.room.ergo.name %></span>
+        <% end %>
+      </div>
+      <ul class='session_info'>
         <li>
-          <strong>Track:</strong>
-          <%= link_to h(item.track.title), track_path(item.track), :class => track_css_class(item.track) %>
+          <strong>Title:</strong>
+          <% if item.is_a?(ScheduleItem) %>
+            <%= h item.title %>
+          <% else %>
+            <%= link_to h(item.title), session_path(item) %>
+          <% end %>
         </li>
-      <% end %>
-      <% if item.respond_to?(:room) && item.room %>
-        <li class='location'>
-          <strong>Room:</strong>
-          <%= link_to h(item.room.name), room_path(item.room) %>
-        </li>
-      <% end %>
-      <% if item.start_time && @event.schedule_published? %>
-        <li class='time'>
-          <strong>Time:</strong>
-          <%= normalize_time(item, :context => item.start_time.to_date )%>
-        </li>
-      <% end -%>
-      <% unless item.excerpt.blank? %>
-        <li>
-          <div class='description'>
-            <strong>Excerpt:</strong>
-            <%= h item.excerpt %>
-          </div>
-        </li>
-      <% end %>
-      <% if multiple_presenters? && item.respond_to?(:users) && !item.users.ergo.empty? %>
-        <li>
-          <strong>Speakers:</strong>
-          <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
-        </li>
-      <% end -%>
-    </ul>
-  </li>
-<% end %>
+        <% if item.respond_to?(:track) && item.track %>
+          <li>
+            <strong>Track:</strong>
+            <%= link_to h(item.track.title), track_path(item.track), :class => track_css_class(item.track) %>
+          </li>
+        <% end %>
+        <% if item.respond_to?(:room) && item.room %>
+          <li class='location'>
+            <strong>Room:</strong>
+            <%= link_to h(item.room.name), room_path(item.room) %>
+          </li>
+        <% end %>
+        <% if item.start_time && @event.schedule_published? %>
+          <li class='time'>
+            <strong>Time:</strong>
+            <%= normalize_time(item, :context => item.start_time.to_date )%>
+          </li>
+        <% end %>
+        <% unless item.excerpt.blank? %>
+          <li>
+            <div class='description'>
+              <strong>Excerpt:</strong>
+              <%= h item.excerpt %>
+            </div>
+          </li>
+        <% end %>
+        <% if multiple_presenters? && item.respond_to?(:users) && !item.users.ergo.empty? %>
+          <li>
+            <strong>Speakers:</strong>
+            <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
 </ul>
