@@ -169,8 +169,10 @@ describe ApplicationController do
           :protocol => 'http',
           :host_with_port => 'foo:80',
           :relative_url_root => ''))
+
         @controller.instance_variable_set(:@event, event)
         @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")
+
         @controller.send(:normalize_event_path_or_redirect).should_not be_false
       end
     end
@@ -272,6 +274,12 @@ describe ApplicationController do
       @controller.instance_variable_set(:@event, nil)
 
       @controller.send(:current_event_cache_key).should == -1
+    end
+  end
+
+  describe "developer_mode?" do
+    it "should not be in development mode when testing" do
+      @controller.send(:development_mode?).should be_false
     end
   end
 
