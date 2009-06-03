@@ -302,6 +302,14 @@ describe ProposalsController do
 
       response.should redirect_to(event_sessions_path(event))
     end
+
+    it "should normalize /schedule if proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => true, :schedule_published? => true, :id => 1234, :slug => 'event_slug')
+      stub_current_event!(:event => event, :status => :assigned_to_current)
+      get :schedule, :format => :html
+
+      response.should redirect_to(event_schedule_path(event))
+    end
   end
 
   describe "show" do
