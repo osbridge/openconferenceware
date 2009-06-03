@@ -15,7 +15,7 @@ display_sub_list ||= false
 <% content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
   <%= link_to( image_tag( user.photo.url(:profile), :class => 'user-photo photo' ), user ) if user.photo.file? %>
   <div class='user_head'>
-    <h3><%= link_to user.fullname, user, :name => "id_#{user.id}", :id => "id_#{user.id}", :class => 'fn n' %></h3>
+    <h3><%= link_to user.label, user, :name => "id_#{user.id}", :id => "id_#{user.id}", :class => 'fn n' %></h3>
     <% unless user.affiliation.blank? -%>
     <span class='affiliation org'><%= user.affiliation %></span>
     <% end -%>
