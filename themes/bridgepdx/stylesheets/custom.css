@@ -481,6 +481,13 @@ table.proposals .description {
   background-color: #08b9a6;
 }
 
+.proposal-meta .proposal-scheduling {
+  background: #D7E0D5;
+  color: black;
+  padding: .5em;
+  font-size: .9em;
+}
+
 /* @group Comments */
 
 ul.proposal-comments {
