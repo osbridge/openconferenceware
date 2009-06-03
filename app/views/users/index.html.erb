@@ -18,7 +18,7 @@
         <td nowrap="nowrap">
           <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
           <%= link_to "Delete...", user, :method => :delete, :confirm => "Delete user #{h user.label}?", :class => "deletable" %>
-          <%= link_to "Login", browser_session_path(:login_as => user.login), :method => :post, :class => "cancelable" %>
+          <%= link_to "Login as this user", browser_session_path(:login_as => user.login), :method => :post, :class => "cancelable" %>
         </td>
       <% end %>
     </tr>

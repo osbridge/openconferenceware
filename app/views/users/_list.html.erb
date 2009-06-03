@@ -1,6 +1,15 @@
-<%  %>
+<%
+# Display a list of users and their sessions.
+#
+# Locals:
+# * users => Array of users to display. REQUIRED.
+# * hide_rooms => Should the rooms be hidden in the list of sessions displayed for each user? Defaults to false.
+
+hide_rooms ||= false
+%>
+
 <ul class='user_list'>
 <% users.each do |user| %>
-  <%= render :partial => 'users/block', :locals => { :user => user, :wrapper_tag => :li } %>
+  <%= render :partial => 'users/block', :locals => { :user => user, :wrapper_tag => :li, :hide_rooms => hide_rooms } %>
 <% end -%>
 </ul>

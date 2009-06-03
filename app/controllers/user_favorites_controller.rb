@@ -1,4 +1,8 @@
 class UserFavoritesController < ApplicationController
+  # Don't assign @event for "modify" action, it doesn't need it and will be slowed by it.
+  skip_before_filter :assign_events, :only => :modify
+  skip_before_filter :assign_current_event_without_redirecting, :only => :modify
+
   before_filter :assert_user
   before_filter :login_required, :only => :modify
   before_filter :assert_record_ownership, :only => :modify

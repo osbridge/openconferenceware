@@ -1,7 +1,9 @@
 <%
+# Display a detailed list of Proposal records.
+#
 # Variables:
-# * kind => :sessions or :proposals.
-# * records => Array of Proposal records.
+# * records => Array of Proposal records to display. REQUIRED.
+# * kind => Treat these records as :sessions or :proposals. REQUIRED.
 # * sorter => Display the sort toolbar? Defaults to false.
 
 records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
@@ -39,7 +41,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
       <tr class='proposal_row' id='proposal_row_<%= record.id %>'>
         <td rowspan='2' class='description'>
           <h3>
-            <%= render :partial => 'user_favorites/control', :locals => { :proposal => record } %>
+            <%= user_favorite_control_for record %>
             <% if multiple_presenters? %>
               <%= link_to(h(record.title), record_path(record, kind), :class => "title") %>
             <% else %>

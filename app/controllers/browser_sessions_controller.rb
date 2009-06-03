@@ -17,6 +17,14 @@ class BrowserSessionsController < ApplicationController
 
   # Process login
   def create
+    # Save the "remember_me" value as a cookie so it survives OpenID redirects.
+    # Keep this cookie around for a few minutes so the user can complete the
+    # OpenID login. When their login succeeds, they'll get a persistent
+    # "auth_token" cookie that'll be used to do subsequent logins.
+    if params[:remember_me]
+      cookies[:remember_me] = { :value => "1", :expires => 10.minutes.from_now }
+    end
+
     if (admin? || allow_arbitrary_logins?) && params[:login_as]
       if user = User.find_by_login(params[:login_as])
         self.current_user = user
@@ -40,7 +48,21 @@ class BrowserSessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default(proposals_path)
+
+    # After logging out, try to return to the most sensible page: current
+    # event's sessions or proposals, or default event's proposals.
+    target_path = \
+      if @event
+        if @event.proposal_status_published?
+          event_sessions_path(@event)
+        else
+          event_proposals_path(@event)
+        end
+      else
+        proposals_path
+      end
+
+    redirect_back_or_default(target_path)
   end
 
 protected
@@ -102,7 +124,8 @@ private
   end
 
   def successful_login(message="Logged in successfully")
-    if params[:remember_me] == "1"
+    if cookies[:remember_me] == "1"
+      cookies.delete(:remember_me)
       self.current_user.remember_me
       cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
     end
