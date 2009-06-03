@@ -284,7 +284,7 @@ describe ProposalsController do
       stub_current_event!(:event => event)
       get :sessions_index, :event => 1234
 
-      response.should redirect_to(proposals_url)
+      response.should redirect_to(event_proposals_url(event))
     end
 
     it "should redirect /sessions to proposals unless proposal status is published" do
@@ -292,7 +292,7 @@ describe ProposalsController do
       stub_current_event!(:event => event, :status => :assigned_to_current)
       get :sessions_index, :format => :html
 
-      response.should redirect_to(proposals_url)
+      response.should redirect_to(event_proposals_url(event))
     end
 
     it "should normalize /sessions if proposal status is published" do
