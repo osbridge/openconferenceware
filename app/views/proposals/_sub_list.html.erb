@@ -44,19 +44,21 @@ cache(cache_key) do
   %>
 
   <% events_by_deadline.each do |event| %>
-    <% event_records = events_to_records[event] %>
-    <% if many_events %>
-      <b><%=h event.title %></b>
-    <% end %>
-    <% if event.proposal_status_published? %>
-      <% event_records_by_confirmation = event_records.group_by(&:confirmed?) %>
-      <%= displayer.call(:sessions, event_records_by_confirmation[true], false) %>
-      <% unless container.kind_of?(Room) %>
-        <%= displayer.call(:proposals, event_records_by_confirmation[false], true) %>
+    <div id="sub_list_for_event_<%= event.id %>" class="sub_list_for_event <%= "sub_list_for_many_events" if many_events %>">
+      <% event_records = events_to_records[event] %>
+      <% if many_events %>
+        <h3><%=h event.title %></h3>
       <% end %>
-      <% run_when_dom_is_ready "archive_proposals_sub_list()" %>
-    <% else %>
-      <%= displayer.call(:proposals, event_records) %>
-    <% end %>
-  <% end %>
-<% end %>
+      <% if event.proposal_status_published? %>
+        <% event_records_by_confirmation = event_records.group_by(&:confirmed?) %>
+        <%= displayer.call(:sessions, event_records_by_confirmation[true], false) %>
+        <% unless container.kind_of?(Room) %>
+          <%= displayer.call(:proposals, event_records_by_confirmation[false], true) %>
+        <% end %>
+        <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
+      <% else %>
+        <%= displayer.call(:proposals, event_records) %>
+      <% end %>
+    </div>
+  <% end %><%# END: events_by_deadline.each %>
+<% end %><%# END: cache %>

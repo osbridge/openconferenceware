@@ -830,6 +830,26 @@ ul.calendar_items {
 
 /* @group Favorites */
 
+.proposals_sub_list_for_kind_toggle {
+  margin-bottom: 1em;
+}
+
+.sub_list_for_many_events {
+  margin-left: 2em;
+}
+
+.sub_list_for_many_events h3 {
+  margin-left: -1em;
+}
+
+.sub_list_for_many_events h4 {
+  margin-left: -0.75em;
+}
+
+.sub_list_for_event h4 {
+  color: #116DB6;
+}
+
 .favorite {
   background-image: url('/images/favorite.png');
   background-position: left -36px;

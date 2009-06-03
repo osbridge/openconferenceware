@@ -234,8 +234,8 @@ function bind_manage_proposals_checkboxes() {
 /*---[ proposals sub lists ]------------------------------------------*/
 
 // Change the UI of the proposal_sub_list so that the proposals are hidden behind a link.
-function archive_proposals_sub_list() {
-  var container = $('#proposals_sub_list_for_kind_proposals');
+function archive_proposals_sub_list(event_id) {
+  var container = $('#sub_list_for_event_'+event_id+' .proposals_sub_list_for_kind_proposals');
   var toggle = container.find('.proposals_sub_list_for_kind_toggle');
   var content = container.find('.proposals_sub_list_for_kind_content');
   toggle.click(function(event) {
