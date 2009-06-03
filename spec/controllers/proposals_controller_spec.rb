@@ -37,6 +37,7 @@ describe ProposalsController do
         before do
           SETTINGS.stub!(:have_user_profiles => true)
           SETTINGS.stub!(:have_multiple_presenters => true)
+          stub_current_event!(:event => @event)
 
           get :index, :event_id => @event.slug, :format => "csv"
 
@@ -53,16 +54,45 @@ describe ProposalsController do
         end
       end
 
+      describe "shared non-admin CSV behaviors", :shared => true do
+        it "should not see private fields" do
+          @header.should_not include("Emails")
+        end
+      end
+
       describe "anonymous user" do
         before do
           logout
         end
 
-        it_should_behave_like "shared CSV behaviors"
+        describe "with visible schedule" do
+          before do
+            @controller.stub!(:schedule_visible? => true)
+          end
 
-        it "should not see private fields" do
-          @header.should_not include("Emails")
+          it_should_behave_like "shared CSV behaviors"
+
+          it_should_behave_like "shared non-admin CSV behaviors"
+
+          it "should see schedule fields" do
+            @header.should include("Start Time")
+          end
         end
+
+        describe "without visible schedule" do
+          before do
+            @controller.stub!(:schedule_visible? => false)
+          end
+
+          it_should_behave_like "shared CSV behaviors"
+
+          it_should_behave_like "shared non-admin CSV behaviors"
+
+          it "should not see schedule fields" do
+            @header.should_not include("Start Time")
+          end
+        end
+
       end
 
       describe "mortal user" do
@@ -72,9 +102,7 @@ describe ProposalsController do
 
         it_should_behave_like "shared CSV behaviors"
 
-        it "should not see private fields" do
-          @header.should_not include("Emails")
-        end
+        it_should_behave_like "shared non-admin CSV behaviors"
       end
 
       describe "admin user" do
