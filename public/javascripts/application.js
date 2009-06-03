@@ -274,6 +274,21 @@ function bind_calendar_items() {
 
 /*---[ user favorites ]----------------------------------------------*/
 
+// Return the proposal_id (e.g., "266") bound to a user favorite control, which
+// is a JQuery +element+ object.
+var proposal_id_pattern = /^favorite_(\d+)$/;
+function proposal_id_for(element) {
+  var klasses = element.attr('class').split(' ');
+  for (i in klasses) {
+    klass = klasses[i];
+    var matcher = klass.match(proposal_id_pattern);
+    if (matcher) {
+      return matcher[1];
+    }
+  }
+  return null;
+}
+
 function bind_user_favorite_controls() {
   $('.favorite').each(function() {
       if( !logged_in() ) {
