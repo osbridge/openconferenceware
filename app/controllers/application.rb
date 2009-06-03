@@ -273,7 +273,7 @@ protected
 
     unless display
       flash[:failure] = "The schedule has not yet been published for this event."
-      return redirect_to(@event.proposal_status_published? ? sessions_path : proposals_path)
+      return redirect_to(@event.proposal_status_published? ? event_sessions_path(@event) : event_proposals_path(@event))
     end
   end
 
