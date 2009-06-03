@@ -42,13 +42,13 @@ hide_rooms ||= false
         <% if track %>
           <li>
             <strong>Track:</strong>
-            <%= link_to h(track.title), track_path(track), :class => track_css_class(track) %>
+            <%= link_to h(track.title), event_track_path(@event,track), :class => track_css_class(track) %>
           </li>
         <% end %>
         <% if room %>
           <li class='location'>
             <strong>Room:</strong>
-            <%= link_to h(room.name), room_path(room) %>
+            <%= link_to h(room.name), event_room_path(@event,room) %>
           </li>
         <% end %>
         <% if item.start_time && @event.schedule_published? %>
@@ -66,12 +66,25 @@ hide_rooms ||= false
           </li>
         <% end %>
         <% if multiple_presenters? %>
-          <% users = item.respond_to?(:users) ? (@users_for_proposal_hash.ergo[item.id] || item.users) : [] %>
+          <% users = \
+            if item.respond_to?(:users)
+              # A proposal
+              if @users_for_proposal_hash
+                # Trust the cache
+                @users_for_proposal_hash[item.id] || []
+              else
+                # No cache, use association
+                item.users
+              end
+            else
+              # Not a propsal
+              []
+            end %>
         <% end %>
         <% unless users.empty? %>
           <li>
             <strong>Speakers:</strong>
-            <%= item.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+            <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
           </li>
         <% end %>
       </ul>
