@@ -66,14 +66,16 @@ focus :comment_message if @focus_comment
 
 
   <div class='proposal-meta'>
-    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.confirmed? %>
-      <div class='proposal-status <%= @proposal.status %>'>
-        Accepted Session
-      </div>
-    <% elsif proposal_statuses? @event.proposal_status_published? %>
-      <div class='proposal-status proposed'>
-        Proposal
-      </div>
+    <% if proposal_statuses? && @event.proposal_status_published? %>
+      <% if @proposal.confirmed? %>
+        <div class='proposal-status <%= @proposal.status %>'>
+          Accepted Session
+        </div>
+      <% else %>
+        <div class='proposal-status proposed'>
+          Proposal
+        </div>
+      <% end %>
     <% end %>
   <% if event_tracks? %>
       <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
