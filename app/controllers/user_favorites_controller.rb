@@ -29,7 +29,7 @@ class UserFavoritesController < ApplicationController
       format.json  { render :json => Undefer(@user_favorites) }
       format.ics {
         render :text => Proposal.to_icalendar(
-          @user_favorites,
+          @user_favorites.scheduled,
           :title => "#{@user.label.possessiveize} favorites",
           :url_helper => lambda {|item| session_url(item)})
       }
