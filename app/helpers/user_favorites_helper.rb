@@ -8,6 +8,6 @@ module UserFavoritesHelper
 
   # Return link for a UserFavorite control for the given +proposal+.
   def user_favorite_control_for(proposal)
-    return link_to("STAR", user_favorites_path(:me), :class => 'favorite', :id => "favorite_#{proposal.id}")
+    return link_to("STAR", user_favorites_path(:me), :class => "favorite favorite_#{proposal.id}")
   end
 end

@@ -303,6 +303,7 @@ function bind_user_favorite_controls() {
       target.addClass('working');
 
       mode = target.hasClass('checked') ? 'remove' : 'add';
+      proposal_id = proposal_id_for(target);
 
       $.ajax({
         'type': 'PUT',
@@ -310,25 +311,25 @@ function bind_user_favorite_controls() {
         'dataType': 'json',
         'data': {
           'authenticity_token': app.authenticity_token,
-          'proposal_id': target.attr('id').split('_').pop(),
+          'proposal_id': proposal_id,
           'mode': mode
         },
         'complete': function(request,status){
           target.removeClass('working');
         },
         'success': function(data, status) {
+          nodes = $('.favorite_'+proposal_id);
           switch(mode) {
           case 'add':
-            target.addClass('checked');
+            nodes.addClass('checked');
             break;
           case 'remove':
-            target.removeClass('checked');
+            nodes.removeClass('checked');
             break;
           }
         },
         'error': function(request, status, error) {
-          alert('There was an error.' + status + error);
-          // TODO Specify what error has occurred.
+          alert('There was an error! Status: ' + status + ". Error: " + error);
         }
       });
     }
@@ -341,7 +342,7 @@ function populate_user_favorites() {
     $.getJSON( app.favorites_path + '.json?join=1',
       function(data) {
         jQuery.each( data, function(i, fav) {
-          $( '#favorite_' + fav.proposal_id ).addClass('checked');
+          $( '.favorite_' + fav.proposal_id ).addClass('checked');
         });
       }
     )
