@@ -175,7 +175,7 @@
                         (<%= link_to "manage this event", manage_event_path(@event) %>)
                         <ul>
                           <% if proposal_statuses? %>
-                            <li><%= link_to "Sessions", event_sessions_path(@event) %>
+                            <li><%= link_to "Sessions", event_sessions_path(@event) %></li>
                           <% end %>
                           <li><%= link_to "Proposals", event_proposals_path(@event) %>
                             (<%= link_to "Bulk edit", manage_event_proposals_path(@event) %>)
