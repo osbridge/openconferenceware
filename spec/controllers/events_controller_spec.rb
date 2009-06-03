@@ -4,7 +4,7 @@ describe EventsController, "when displaying events" do
   integrate_views
   fixtures :all
 
-  context "index" do
+  describe "index" do
     it "should display error if there's no current event" do
       Event.should_receive(:current).and_return(nil)
       get :index
@@ -21,8 +21,8 @@ describe EventsController, "when displaying events" do
     end
   end
 
-  context "show" do
-    context "non-existent event" do
+  describe "show" do
+    describe "non-existent event" do
       before do
         get :show, :id => -1
       end
@@ -36,7 +36,7 @@ describe EventsController, "when displaying events" do
       end
     end
 
-    context "extant event" do
+    describe "extant event" do
       before do
         @event = events(:closed)
         get :show, :id => @event.slug
@@ -46,6 +46,56 @@ describe EventsController, "when displaying events" do
         response.should redirect_to(event_proposals_path(@event))
       end
     end
+  end
+
+  describe "speakers" do
+    before do
+      @event = events(:open)
+      stub_current_event!(:event => @event)
+    end
+
+    describe "before proposals statuses published" do
+      before do
+        @event.stub!(:proposal_status_published? => false)
+
+        get :speakers, :event_id => @event.to_param
+      end
+
+      it "should redirect to event's proposals" do
+        response.should redirect_to(event_proposals_path(@event))
+      end
+
+      it "should display a flash error" do
+        flash[:failure].should_not be_blank
+      end
+
+    end
+
+    describe "after proposals statuses published" do
+      before do
+        @event.stub!(:proposal_status_published? => true)
+        @event.stub!(:schedule_published? => true)
+
+        get :speakers, :event_id => @event.to_param
+      end
+
+      it "should get a speaker's page" do
+        response.should be_success
+      end
+
+      it "should see speakers" do
+        response.should have_tag(".fn", users(:quentin).fullname)
+      end
+
+      it "should see sessions" do
+        response.should have_tag(".summary", proposals(:postgresql_session).title)
+      end
+
+      it "should not see non-confirmed proposals" do
+        response.should_not have_tag(".summary", proposals(:clio_chupacabras).title)
+      end
+    end
+
   end
 end
 

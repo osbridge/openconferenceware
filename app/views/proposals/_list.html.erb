@@ -29,6 +29,10 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
     <table class='proposals' cellspacing='0'>
       <% previous_start_time = false %>
       <% for record in records %>
+        <%
+        # Use prefetched values
+        track = record.respond_to?(:track_id) ? (@tracks_hash.ergo[record.track_id] || record.track) : nil
+        %>
         <% if schedule_visible? && kind == :sessions && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
           <tr>
             <td colspan='3' class='schedule_header'>
@@ -58,8 +62,8 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
         </td>
 
         <% if event_tracks? %>
-        <td class='track block <%= track_css_class(record.track) if record.track %>'>
-          <%= link_to(h(record.track.ergo.title), event_track_path(record.event, record.track)) || "- N/A -" %>
+        <td class='track block <%= track_css_class(track) if track %>'>
+          <%= link_to(h(track.ergo.title), event_track_path(@event, track)) || "- N/A -" %>
         </td>
         <% end %>
 
@@ -72,7 +76,10 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
       <tr>
         <td class="speakers" colspan='<%= event_tracks? ? 2 : 1 %>'>
           <% if multiple_presenters? %>
-            <%= record.users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+            <% users = record.respond_to?(:users) ? (@users_for_proposal_hash.ergo[record.id] || record.users) : [] %>
+          <% end %>
+          <% unless users.empty? %>
+            <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
           <% end %>
         </td>
       </tr>
@@ -133,7 +140,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
 <% if event_tracks? %>
           <td>
             <p>
-              <%= record.track.ergo.title || "- N/A -" %>
+              <%= track.ergo.title || "- N/A -" %>
             </p>
           </td>
 <% end %>

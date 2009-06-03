@@ -14,8 +14,8 @@ class EventsController < ApplicationController
     flash.keep
     redirect_to event_proposals_path(@event)
   end
-  
+
   def speakers
-    @speakers = @event.speakers
+    assign_prefetched_hashes
   end
 end

@@ -37,6 +37,7 @@ describe ProposalsController do
         before do
           SETTINGS.stub!(:have_user_profiles => true)
           SETTINGS.stub!(:have_multiple_presenters => true)
+          stub_current_event!(:event => @event)
 
           get :index, :event_id => @event.slug, :format => "csv"
 
@@ -53,16 +54,45 @@ describe ProposalsController do
         end
       end
 
+      describe "shared non-admin CSV behaviors", :shared => true do
+        it "should not see private fields" do
+          @header.should_not include("Emails")
+        end
+      end
+
       describe "anonymous user" do
         before do
           logout
         end
 
-        it_should_behave_like "shared CSV behaviors"
+        describe "with visible schedule" do
+          before do
+            @controller.stub!(:schedule_visible? => true)
+          end
 
-        it "should not see private fields" do
-          @header.should_not include("Emails")
+          it_should_behave_like "shared CSV behaviors"
+
+          it_should_behave_like "shared non-admin CSV behaviors"
+
+          it "should see schedule fields" do
+            @header.should include("Start Time")
+          end
         end
+
+        describe "without visible schedule" do
+          before do
+            @controller.stub!(:schedule_visible? => false)
+          end
+
+          it_should_behave_like "shared CSV behaviors"
+
+          it_should_behave_like "shared non-admin CSV behaviors"
+
+          it "should not see schedule fields" do
+            @header.should_not include("Start Time")
+          end
+        end
+
       end
 
       describe "mortal user" do
@@ -72,9 +102,7 @@ describe ProposalsController do
 
         it_should_behave_like "shared CSV behaviors"
 
-        it "should not see private fields" do
-          @header.should_not include("Emails")
-        end
+        it_should_behave_like "shared non-admin CSV behaviors"
       end
 
       describe "admin user" do
@@ -196,8 +224,7 @@ describe ProposalsController do
 
         event = Event.current
 
-        # TODO Why is #find being called more than once?!
-        event.proposals.should_receive(:find).twice.and_return([proposal])
+        event.proposals.should_receive(:find).and_return([proposal])
 
         stub_current_event!(:event => event)
 
@@ -257,7 +284,7 @@ describe ProposalsController do
       stub_current_event!(:event => event)
       get :sessions_index, :event => 1234
 
-      response.should redirect_to(proposals_url)
+      response.should redirect_to(event_proposals_url(event))
     end
 
     it "should redirect /sessions to proposals unless proposal status is published" do
@@ -265,7 +292,7 @@ describe ProposalsController do
       stub_current_event!(:event => event, :status => :assigned_to_current)
       get :sessions_index, :format => :html
 
-      response.should redirect_to(proposals_url)
+      response.should redirect_to(event_proposals_url(event))
     end
 
     it "should normalize /sessions if proposal status is published" do
@@ -274,6 +301,14 @@ describe ProposalsController do
       get :sessions_index, :format => :html
 
       response.should redirect_to(event_sessions_path(event))
+    end
+
+    it "should normalize /schedule if proposal status is published" do
+      event = stub_model(Event, :proposal_status_published? => true, :schedule_published? => true, :id => 1234, :slug => 'event_slug')
+      stub_current_event!(:event => event, :status => :assigned_to_current)
+      get :schedule, :format => :html
+
+      response.should redirect_to(event_schedule_path(event))
     end
   end
 

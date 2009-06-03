@@ -15,6 +15,7 @@ describe TracksController do
   
   before do
     @event = stub_current_event!(:event => events(:open))
+    @controller.stub!(:assign_events => [])
   end
     
   describe "responding to GET index" do
@@ -131,7 +132,6 @@ describe TracksController do
     describe "responding to PUT update" do
 
       describe "with valid params" do
-
         it "should update the requested track" do
           Track.should_receive(:find).with("37").and_return(mock_track)
           mock_track.should_receive(:update_attributes).with({'these' => 'params'})
