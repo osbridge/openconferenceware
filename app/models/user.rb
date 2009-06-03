@@ -238,7 +238,7 @@ class User < ActiveRecord::Base
 
   # Return a label for the user.
   def label
-    return "#{(self.fullname.with{blank? ? nil : self}) || (self.using_openid? ? URI.parse(login).host : self.login)}"
+    return self.fullname.with{blank? ? nil : self} || (self.using_openid? ? "User ##{self.id} at #{URI.parse(login).host}" : self.login)
   end
 
   # Return a label for the user with their user ID.
