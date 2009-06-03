@@ -15,6 +15,8 @@ class TimeRange
   # "Thursday-Friday, April 3-5, 2008"
   # (context: during 2008) "Thursday April 5, 2009 at 3:30pm through Friday, April 5 at 8:45pm, 2009"
   # (same, context: during 2009) "Thursday April 5 at 3:30pm through Friday, April 5 at 8:45pm"
+  
+  @@to_s_cache = {}
 
   def initialize(start_time, end_time=nil, opts=nil)
     # Initialize with a single DateTime, a pair of DateTimes,
@@ -43,7 +45,15 @@ class TimeRange
     @context_date = opts[:context]
   end
 
+  def cache_key
+    return [@start_time, @end_time, @format, @relative, @context_date].hash
+  end
+
   def to_s
+    return @@to_s_cache[cache_key] ||= self.to_s_raw
+  end
+
+  def to_s_raw
     # Assume one date only, equal start/end
     start_format_list = [nil, :wday, :month, :day, :year, :at, :hour, :min, :suffix, nil]
 
