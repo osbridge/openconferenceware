@@ -14,7 +14,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
          sort_links << sort_link_for("Track", 'track', kind) if event_tracks?
          sort_links << sort_link_for("Submission date", 'submitted_at', kind) if kind == :proposals
          sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_visible? && kind == :sessions
-         sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses?
+         sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses? && admin?
       %>
       Sort by:
       <%= sort_links.join(', ') %>
