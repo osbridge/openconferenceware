@@ -11,6 +11,7 @@ describe "/proposals/show.html.erb" do
     
     @proposal = stub_model(Proposal, :status => "proposed", :users => @users)
     @event = stub_model(Event, :id => 1, :title => "Event 1", :proposal_status_published => false);
+    @controller.stub!(:schedule_visible? => true)
   end
   
   %w[accepted confirmed rejected junk].each do |status|
