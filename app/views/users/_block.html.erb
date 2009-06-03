@@ -71,7 +71,7 @@ display_sub_list ||= false
       %>
       <% unless sessions.empty? %>
         <h4 class='sessions'>Sessions</h4>
-        <%#= render :partial => 'proposals/list_concise', :locals => { :items => sessions, :hide_rooms => hide_rooms } %>
+        <%= render :partial => 'proposals/list_concise', :locals => { :items => sessions, :hide_rooms => hide_rooms } %>
       <% end %>
     <% end -%>
   <% end -%>
