@@ -19,6 +19,7 @@ class ProposalsController < ApplicationController
   # GET /proposals.xml
   def index
     @kind = :proposals
+
     assign_prefetched_hashes
     @proposals = Defer { @proposals_hash.values }
 
@@ -41,14 +42,14 @@ class ProposalsController < ApplicationController
         # index.atom.builder
       }
       format.csv {
+        records = @event.populated_proposals(@kind).all(:include => :comments)
         if admin?
-          @proposals.scoped(:include => [:comments])
-          render :csv => @proposals.all, :style => :admin
+          render :csv => records, :style => :admin
         else
           if schedule_visible?
-            render :csv => @proposals.all, :style => :schedule
+            render :csv => records, :style => :schedule
           else
-            render :csv => @proposals.all
+            render :csv => records
           end
         end
       }
@@ -57,6 +58,7 @@ class ProposalsController < ApplicationController
 
   def sessions_index
     @kind = :sessions
+
     assign_prefetched_hashes
     @proposals = Defer { @sessions_hash.values }
 
