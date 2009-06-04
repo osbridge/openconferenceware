@@ -8,6 +8,8 @@ namespace :db do
   namespace :raw do
     desc "Dump database to FILE or name of RAILS_ENV"
     task :dump do
+      verbose(true) unless Rake.application.options.silent
+
       require "lib/database_yml_reader"
       struct = DatabaseYmlReader.read
       target = ENV['FILE'] || "#{File.basename(Dir.pwd)}.sql"
@@ -16,9 +18,9 @@ namespace :db do
       case adapter
       when "sqlite3"
         source = struct.database
-        sh "sqlite3 #{source} '.dump' > #{target}", :verbose => true
+        sh "sqlite3 #{source} '.dump' > #{target}"
       when "mysql"
-        sh "mysqldump --add-locks --create-options --disable-keys --extended-insert --quick --set-charset #{mysql_credentials_for(struct)} > #{target}.tmp && mv #{target}.tmp #{target}", :verbose => true
+        sh "mysqldump --add-locks --create-options --disable-keys --extended-insert --quick --set-charset #{mysql_credentials_for(struct)} > #{target}.tmp && mv #{target}.tmp #{target}"
       else
         raise ArgumentError, "Unknown database adapter: #{adapter}"
       end
@@ -26,6 +28,8 @@ namespace :db do
 
     desc "Restore database from FILE"
     task :restore do
+      verbose(true) unless Rake.application.options.silent
+
       source = ENV['FILE']
       raise ArgumentError, "No FILE argument specified to restore from." unless source
 
@@ -36,10 +40,10 @@ namespace :db do
       case adapter
       when "sqlite3"
         target = struct.database
-        mv target, "#{target}.old", :verbose => true if File.exist?(target)
-        sh "sqlite3 #{target} < #{source}", :verbose => true
+        mv target, "#{target}.old" if File.exist?(target)
+        sh "sqlite3 #{target} < #{source}"
       when "mysql"
-        sh "mysql #{mysql_credentials_for(struct)} < #{source}", :verbose => true
+        sh "mysql #{mysql_credentials_for(struct)} < #{source}"
       else
         raise ArgumentError, "Unknown database adapter: #{adapter}"
       end
