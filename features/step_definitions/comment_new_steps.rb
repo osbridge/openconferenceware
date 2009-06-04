@@ -7,7 +7,13 @@ Given /^I am interested in a proposal for a "([^\"]*)" event$/ do |kind|
     when "closed" then 1975
     else raise ArgumentError, "Unknown event_id: #{kind}"
     end
+
+  # Set flags on event to prevent redirections
   @event = Event.find(event_id)
+  @event.proposal_status_published = false
+  @event.schedule_published = false
+  @event.save!
+
   @proposal = @event.proposals.first
 end
 
