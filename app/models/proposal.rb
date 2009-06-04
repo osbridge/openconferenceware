@@ -375,7 +375,7 @@ class Proposal < ActiveRecord::Base
         e.set_text    'LOCATION', item.room.name if item.room
       end
     end
-    return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title} favorites\nMETHOD:PUBLISH")
+    return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title}\nMETHOD:PUBLISH")
   end
 
   def self.populated_proposals_for(container)
