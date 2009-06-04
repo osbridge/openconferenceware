@@ -873,12 +873,14 @@ ul.calendar_items {
   background-position: left -18px;
 }
 
-body.proposals.session_show #content > .favorite {
+body.proposals.session_show #content > .favorite,
+body.proposals.show #content > .favorite {
   position: absolute;
   top: 2em;
 }
 
-body.proposals.session_show #content h2.page_title {
+body.proposals.session_show #content h2.page_title,
+body.proposals.show #content h2.page_title {
   text-indent: 25px;
 }
 
