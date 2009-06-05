@@ -864,7 +864,11 @@ ul.calendar_items {
   visibility: hidden;
 }
 
-a.favorite {
+
+.calendar_items .concise a.favorite,
+.calendar_items .concise a:hover.favorite,
+a.favorite, 
+a:hover.favorite {
   text-decoration: none;
 }
 
