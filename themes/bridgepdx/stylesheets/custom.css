@@ -864,6 +864,10 @@ ul.calendar_items {
   visibility: hidden;
 }
 
+a.favorite {
+  text-decoration: none;
+}
+
 .favorite.checked {
   background-position: left 0;
 }
