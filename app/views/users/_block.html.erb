@@ -54,7 +54,7 @@ display_sub_list ||= false
   
   <% if can_edit?(user) %>
     <div class='record-controls'>
-      <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
+      <%= link_to "Edit user", edit_user_path(user), :class => "editable" %>
       <% if admin? %>
         <%= link_to "Login as this user", browser_session_path(:login_as => user.login), :method => :post, :class => "cancelable" %>
       <% end %>
