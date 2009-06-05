@@ -1,4 +1,4 @@
-<% raise NotImplementedError, "Sorry, the 'default' theme is broken, please try using 'bridgepdx'. See README.txt to set the current theme." %>
+<% raise NotImplementedError, "Sorry, the 'default' theme is broken, please try using 'bridgepdx' and run 'rake bridgepdx:styles' to download the latest styles. See themes/README.txt for information on how to set the current theme." %>
 
 # Organization running event:
 organization: 'Ignite Anytown'
