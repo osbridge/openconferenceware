@@ -858,7 +858,10 @@ ul.calendar_items {
   height: 18px;
   display: inline-block;
   overflow: hidden;
-  text-indent: -999px;
+}
+
+.favorite span {
+  visibility: hidden;
 }
 
 .favorite.checked {
