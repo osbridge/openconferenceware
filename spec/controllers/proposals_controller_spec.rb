@@ -150,8 +150,7 @@ describe ProposalsController do
         get :index, :event_id => @event.slug, :format => "xml"
 
         @proposals = assigns(:proposals)
-        @struct = XmlSimple.xml_in_string(response.body)
-        @records = @struct['record']
+        @records = ActiveResource::Formats::XmlFormat.decode(response.body)
         @record = @records.first
       end
 
