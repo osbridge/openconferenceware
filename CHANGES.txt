@@ -3,6 +3,14 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* v0.20090605
+
+- FIXED schema/migrations for MySQL, it was truncating important columns
+  to 255 characters. This fix upgrades these "varchar(255)" columns to
+  "text": proposal descriptions, schedule items excerpts and
+  descriptions, snippets descriptions, and tracks descriptions. If you
+  were using SQLite, you were not affected by this bug.
+
 * v0.20090524
 
 - FIXED layout, it no longer raises an exception if there's no event.
