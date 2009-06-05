@@ -117,20 +117,20 @@ focus :comment_message if @focus_comment
     <%= preserve_formatting_of @proposal.note_to_organizers %>
   <% end %>
 
+  <div class="record-controls">
+    <% if can_edit?(@proposal) %>
+      <%= link_to 'Edit proposal', edit_proposal_path(@proposal), :class => "editable" %>
+      <%= link_to 'Destroy proposal', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
+    <% end %>
+      <%= link_to 'Back to list of proposals', records_path, :class => "cancelable" %>
+  </div>
+
   <% if multiple_presenters? %>
     <h3><%= @proposal.users.size == 1 ? "Speaker" : "Speakers" %></h3>
 
     <%= render :partial => 'users/list', :locals => { :users => @proposal.users.by_name, :hide_rooms => true } %>
 
   <% end %>
-
-  <div class="record-controls">
-    <% if can_edit?(@proposal) %>
-      <%= link_to 'Edit', edit_proposal_path(@proposal), :class => "editable" %>
-      <%= link_to 'Destroy', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
-    <% end %>
-      <%= link_to 'Back', records_path, :class => "cancelable" %>
-  </div>
 
 <% end %>
 
