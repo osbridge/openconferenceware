@@ -371,8 +371,14 @@ class Proposal < ActiveRecord::Base
         e.created     item.created_at if item.created_at
         e.lastmod     item.updated_at if item.updated_at
         e.description item.excerpt
-        e.url         url_helper.call(item) if url_helper
-        e.set_text    'LOCATION', item.room.name if item.room
+        if item.room
+          e.set_text  'LOCATION', item.room.name 
+        end
+        if url_helper
+          url = url_helper.call(item)
+          e.url       url
+          e.uid       url
+        end
       end
     end
     return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title}\nMETHOD:PUBLISH")
