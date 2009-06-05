@@ -99,20 +99,10 @@ class ProposalsController < ApplicationController
       format.ics {
         view_cache_key = "schedule,event_#{@event.id}.ics"
         data = Rails.cache.fetch_object(view_cache_key) {
-          calendar = Vpim::Icalendar.create2
-          @schedule.items.each do |item|
-            calendar.add_event do |e|
-              e.dtstart     item.start_time
-              e.dtend       item.start_time + item.duration.minutes
-              e.summary     item.title
-              e.created     item.created_at if item.created_at
-              e.lastmod     item.updated_at if item.updated_at
-              e.description item.excerpt
-              e.url         session_url(item)
-              e.set_text    'LOCATION', item.room.name if item.room
-            end
-          end
-          calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{@event.title}\nMETHOD:PUBLISH")
+          Proposal.to_icalendar(
+            @schedule.items,
+            :title => "#{@event.title}",
+            :url_helper => lambda {|item| session_url(item)})
         }
         render :text => data
       }
