@@ -1,13 +1,12 @@
-cache "proposals_atom" do
+cache @cache_key do
 atom_feed do |feed|
   feed.title("#{SETTINGS.organization}: Presentation Proposals")
   feed.updated((@proposals.blank? ? Time.at(0) : @proposals.first.submitted_at))
 
   @proposals.each_with_index do |proposal, i|
-    break if i >= ProposalsController::MAX_FEED_ITEMS
-
     feed.entry(proposal, :url => proposal_url(proposal)) do |entry|
-      entry.title  proposal.title
+      entry.title proposal.title
+      entry.updated proposal.submitted_at.utc.xmlschema
 
       xm = ::Builder::XmlMarkup.new
       xm.div {

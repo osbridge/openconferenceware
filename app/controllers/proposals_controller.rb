@@ -12,7 +12,7 @@ class ProposalsController < ApplicationController
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
 
-  MAX_FEED_ITEMS = 20
+  MAX_FEED_ITEMS = 50
   SESSION_RELATED_ACTIONS = ['sessions_index', 'session_show', 'schedule']
 
   # GET /proposals
@@ -40,6 +40,13 @@ class ProposalsController < ApplicationController
       }
       format.atom {
         # index.atom.builder
+        if @event_assignment == :assigned_to_param
+          @cache_key = "proposals_atom,event_#{@event.id}"
+          @proposals = Defer { @event.populated_proposals(:proposals).all(:order => "submitted_at desc", :limit => MAX_FEED_ITEMS) }
+        else
+          @cache_key = "proposals_atom,all"
+          @proposals = Defer { Proposal.populated.all(:order => "submitted_at desc", :limit => MAX_FEED_ITEMS) }
+        end
       }
       format.csv {
         records = @event.populated_proposals(@kind).all(:include => :comments)
