@@ -165,14 +165,19 @@ class Event < ActiveRecord::Base
     return self.class.find(:all, :order => "title asc", :select => "id, title").reject{|event| event == self}
   end
 
-  # Return array of Rooms for this event or its parent event.
+  # Return array of Rooms for this event and its parent event.
   def rooms_inherit
-    return (self.parent.ergo.rooms || [] + self.rooms).sort_by(&:name)
+    return [self.parent.ergo.rooms, self.rooms].flatten.compact.sort_by(&:name)
   end
 
+  # Return array of Tracks for this event, its parent, and its siblings.
+  def tracks_combined
+    return [self.tracks_descend, self.parent.ergo.tracks_descend].flatten.compact.uniq.sort_by(&:title)
+  end
+  
   # Return array of Tracks for this event and its children.
   def tracks_descend
-    return (self.tracks + self.children.map(&:tracks)).flatten.sort_by(&:title)
+    return (self.tracks + self.children.map(&:tracks)).flatten.uniq.sort_by(&:title)
   end
 
   # Return start_time for either self or parent Event.

@@ -24,7 +24,7 @@
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
     <% if @event && event_tracks? %>
       <style type="text/css" media="screen">
-        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks_descend} %>
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks_combined} %>
       </style>
     <% end %>
   <% end %>
