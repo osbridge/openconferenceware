@@ -65,6 +65,11 @@ class Event < ActiveRecord::Base
   def dates_for_select
     return [['','']] + self.dates.map{|date| [date.strftime("%B %d, %Y"), date.strftime("%Y-%m-%d")]}
   end
+  
+  # Determines if the event is currently taking place.
+  def underway?
+    self.start_date && self.end_date && (self.start_date..self.end_date).include?(Time.zome.now)
+  end
 
   EVENT_CURRENT_CACHE_KEY = "event_current"
 

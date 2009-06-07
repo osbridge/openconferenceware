@@ -4,6 +4,9 @@
 <% add_javascript javascript_include_tag('jquery.scrollTo-1.4.2-min') %>
 <% add_javascript javascript_include_tag('jquery.localscroll-1.2.7-min' )%>
 <% run_when_dom_is_ready('$.localScroll({hash:true, duration:300});')%>
+<% if @event.underway? -%>
+  <% run_when_dom_is_ready("$('#to_day_#{Time.now.strftime('%Y_%m_%d')}').trigger('click');") %>
+<% end -%>
 
 <div class='calendar_download'>
   <%= link_to "Download all", event_formatted_schedule_path(@event, :format => 'ics') %> /
@@ -58,13 +61,13 @@
   <strong>Jump to day:</strong>
   <ul>
   <% @schedule.days.each do |day| %>
-    <li><%= link_to day.date.strftime("%A, %B %e, %Y"), "#day_#{day.date.xmlschema}" %></li>
+    <li><%= link_to day.date.strftime("%A, %B %e, %Y"), "#day_#{day.date.strftime('%Y_%m_%d')}", :id => "to_day_#{day.date.strftime('%Y_%m_%d')}" %></li>
   <% end -%>
   </ul>
 </div>
 
 <% @schedule.days.each do |day| %>
-  <a name="<%= "day_#{day.date.xmlschema}" %>"></a>
+  <a name="<%= "day_#{day.date.strftime('%Y_%m_%d')}" %>"></a>
   <a href="#top" class='to_top'>Return to top</a>
   <h3><%= day.date.strftime("%A, %B %e, %Y") %></h3>
 
