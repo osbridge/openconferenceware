@@ -24,6 +24,11 @@ div.admin-only {
   border: 1px solid #B81F16;
 }
 
+span.admin-only {
+  border: 0;
+  color: #B81F16;
+}
+
 .admin-only input[type=submit],
 .admin-only form,
 .admin-only form div {
@@ -903,4 +908,10 @@ a.to_favorites {
 
 body.users.show h2.page_title {
   display: none;
+}
+
+.locked {
+  background: url(/images/lock.png) no-repeat 0 2px;
+  padding-left: 23px;
+  margin: 1em 0;
 }

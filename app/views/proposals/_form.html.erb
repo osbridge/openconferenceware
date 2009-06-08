@@ -114,7 +114,25 @@
         </tr>
         <tr>
           <td class="label-cell"><%= required_field %><%= f.label :title, "Title" %></td>
-          <td><%= f.text_field :title %></td>
+          <td>
+            <% if @event.proposal_titles_locked? && ! (admin? || @proposal.new_record?) -%>
+              <%= @proposal.title %>
+            <% else -%>
+              <%= f.text_field :title %>
+            <% end -%>
+            
+            <% if @event.proposal_titles_locked? && ! @proposal.new_record? %>
+              <p class='locked'>
+                Editing of <%= @proposal.kind_label %> titles has been locked.
+                
+                <% if admin? %>
+                  <br /><span class='admin-only'><strong>WARNING:</strong> Titles are locked because other systems are currently depending on them. (MediaWiki, printed programs, etc.)</span>
+                <% else -%>
+                  If you need to change this information, please <%= mail_to SECRETS.administrator_email, 'contact the administrator' %>.
+                <% end -%>
+              </p>
+            <% end -%>
+          </td>
         </tr>
           <% if event_tracks? and @event.tracks.size > 1 %>
             <tr>

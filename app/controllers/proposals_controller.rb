@@ -236,6 +236,11 @@ class ProposalsController < ApplicationController
   # PUT /proposals/1.xml
   def update
     # @proposal and @event set via #assign_proposal_and_event filter
+    
+    # If proposal title editing is locked, prevent non-admin from modifying title.
+    if params[:proposal] && @event.proposal_titles_locked? && ! admin?
+      params[:proposal].delete(:title)
+    end
 
     if params[:start_time]
       if params[:start_time][:date].blank? || params[:start_time][:hour].blank? || params[:start_time][:minute].blank?

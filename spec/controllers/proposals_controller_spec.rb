@@ -728,7 +728,7 @@ describe ProposalsController do
     def assert_update(login=nil, inputs={}, &block)
       login ? login_as(login) : logout
       # TODO extract :commit?
-      put :update, :id => inputs['id'] || inputs[:id], :proposal => inputs, :commit => 'really'
+      put :update, :id => ( inputs['id'] || inputs[:id] ), :proposal => inputs, :commit => 'really'
       block.call
     end
 
@@ -736,6 +736,18 @@ describe ProposalsController do
       @user = users(:quentin)
       @proposal = proposals(:quentin_widgets)
       @inputs = @proposal.attributes.clone
+    end
+    
+    it "should prevent editing of title when proposal titles are locked" do
+      @event = stub_current_event!
+      @event.stub!(:proposal_titles_locked?).and_return(true)
+      @controller.stub!(:get_proposal_and_assignment_status).and_return(@proposal)
+      @proposal.stub!(:event).and_return(@event)
+      
+      assert_update(:quentin, :id => @proposal.id, :title => 'OMG') do
+        @proposal.reload
+        @proposal.title.should_not == 'OMG'
+      end
     end
 
     it "should redirect anonymous user to login" do
