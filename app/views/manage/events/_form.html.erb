@@ -77,6 +77,16 @@
         <%= f.datetime_select :deadline %>
       </td>
     </tr>
+    
+    <tr>
+      <td class="label-cell">
+        <%= f.label :proposal_titles_locked, "Lock editing of proposal title?" %>
+      </td>
+      <td>
+        <%= f.select :proposal_titles_locked, [['Yes',true],["No",false]] %>
+      </td>
+    </tr>
+    
     <% if proposal_statuses? %>
       <tr>
         <td class="label-cell">

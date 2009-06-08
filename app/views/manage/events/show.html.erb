@@ -67,6 +67,16 @@
       <%=h @event.deadline %>
     </td>
   </tr>
+  
+  <tr>
+    <td class="label-cell">
+      <label>Lock editing of proposal title?</label>
+    </td>
+    <td>
+      <%= @event.proposal_titles_locked ? "Yes" : "No" %>
+    </td>
+  </tr>
+  
   <% if proposal_statuses? %>
     <tr>
       <td class="label-text">
