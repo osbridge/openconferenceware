@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 20090521012427
+# Schema version: 20090608053232
 #
 # Table name: proposals_users
 #
-#  proposal_id :integer         
-#  user_id     :integer         
+#  proposal_id :integer(4)      
+#  user_id     :integer(4)      
 #  created_at  :datetime        
 #  updated_at  :datetime        
 #

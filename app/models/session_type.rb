@@ -1,13 +1,13 @@
 # == Schema Information
-# Schema version: 20090521012427
+# Schema version: 20090608053232
 #
 # Table name: session_types
 #
-#  id          :integer         not null, primary key
+#  id          :integer(4)      not null, primary key
 #  title       :string(255)     
 #  description :text            
-#  duration    :integer         
-#  event_id    :integer         
+#  duration    :integer(4)      
+#  event_id    :integer(4)      
 #  created_at  :datetime        
 #  updated_at  :datetime        
 #

@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20090608053232
+#
+# Table name: user_favorites
+#
+#  id          :integer(4)      not null, primary key
+#  user_id     :integer(4)      
+#  proposal_id :integer(4)      
+#  created_at  :datetime        
+#  updated_at  :datetime        
+#
+
 class UserFavorite < ActiveRecord::Base
   # Associations
   belongs_to :user

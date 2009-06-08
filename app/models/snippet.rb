@@ -1,14 +1,14 @@
 # == Schema Information
-# Schema version: 20090521012427
+# Schema version: 20090608053232
 #
 # Table name: snippets
 #
-#  id          :integer         not null, primary key
+#  id          :integer(4)      not null, primary key
 #  slug        :string(255)     not null
-#  description :string(255)     not null
+#  description :text            not null
 #  content     :text            
-#  value       :integer         
-#  public      :boolean         default(TRUE)
+#  value       :integer(4)      
+#  public      :boolean(1)      default(TRUE)
 #  created_at  :datetime        
 #  updated_at  :datetime        
 #

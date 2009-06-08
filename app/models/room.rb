@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 20090521012427
+# Schema version: 20090608053232
 #
 # Table name: rooms
 #
-#  id                    :integer         not null, primary key
+#  id                    :integer(4)      not null, primary key
 #  name                  :string(255)     not null
-#  capacity              :integer         
+#  capacity              :integer(4)      
 #  size                  :string(255)     
 #  seating_configuration :string(255)     
 #  description           :text            
-#  event_id              :integer         
+#  event_id              :integer(4)      
 #  created_at            :datetime        
 #  updated_at            :datetime        
 #
