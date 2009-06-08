@@ -242,7 +242,7 @@ class ProposalsController < ApplicationController
       params[:proposal].delete(:title)
     end
 
-    if params[:start_time]
+    if params[:start_time] && admin?
       if params[:start_time][:date].blank? || params[:start_time][:hour].blank? || params[:start_time][:minute].blank?
         @proposal.start_time = nil
       else
