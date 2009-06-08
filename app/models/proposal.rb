@@ -332,6 +332,11 @@ class Proposal < ActiveRecord::Base
     end
     return link
   end
+  
+  # Returns a string labeling a proposal object as either a proposal or a session depending on its state.
+  def kind_label
+    self.confirmed? ? 'session' : 'proposal'
+  end
 
   # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
   def self.sort(proposals, field="title", is_ascending=true)
