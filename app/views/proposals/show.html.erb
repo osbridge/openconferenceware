@@ -97,7 +97,10 @@ focus :comment_message if @focus_comment
       </div>
     <% end %>
   </div>
-
+  
+  <% if @proposal.session_notes_url && @event.proposal_titles_locked? %>
+    <%= link_to "Session Notes", @proposal.session_notes_url %>
+  <% end -%>
 
   <% if proposal_excerpts? %>
     <h3>Excerpt</h3>
