@@ -35,6 +35,7 @@ Rails::Initializer.run do |config|
   config.gem "vpim", :lib => 'vpim/icalendar'
   config.gem "RedCloth"
   config.gem 'color'
+  config.gem 'rwikibot'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
