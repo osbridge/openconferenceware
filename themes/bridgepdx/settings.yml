@@ -1,6 +1,12 @@
 # Public URL of website:
 public_url: 'http://opensourcebridge.org/'
 
+# URL where OCW is installed
+app_root_url: 'http://opensourcebridge.org/'
+
+# URL of a wiki to hold sessions notes (optional)
+session_notes_wiki_url: 'http://opensourcebridge.org/wiki/'
+
 # Organization running event:
 organization: 'Open Source Bridge'
 

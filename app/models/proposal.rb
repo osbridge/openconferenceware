@@ -335,7 +335,14 @@ class Proposal < ActiveRecord::Base
   
   # Returns a string labeling a proposal object as either a proposal or a session depending on its state.
   def kind_label
-    self.confirmed? ? 'session' : 'proposal'
+    return self.confirmed? ? 'session' : 'proposal'
+  end
+  
+  # Returns the url where session notes for this proposal can be found
+  def session_notes_url
+    if SETTINGS.session_notes_wiki_url
+      return SETTINGS.session_notes_wiki_url + URI.escape(@proposal.title)
+    end
   end
 
   # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
