@@ -397,7 +397,9 @@ class Proposal < ActiveRecord::Base
     title = opts[:title] || "Schedule"
     url_helper = opts[:url_helper]
 
-    calendar = Vpim::Icalendar.create2
+    calendar = Vpim::Icalendar.create2(Vpim::PRODID)
+    calendar.title = title
+    calendar.time_zone = Time.zone.tzinfo.name
     items.each do |item|
       calendar.add_event do |e|
         e.dtstart     item.start_time
@@ -416,7 +418,7 @@ class Proposal < ActiveRecord::Base
         end
       end
     end
-    return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nX-WR-CALNAME:#{title}\nMETHOD:PUBLISH")
+    return calendar.encode.sub(/CALSCALE:Gregorian/, "CALSCALE:Gregorian\nMETHOD:PUBLISH")
   end
 
   def self.populated_proposals_for(container)
