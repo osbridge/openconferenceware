@@ -30,12 +30,15 @@ Rails::Initializer.run do |config|
   config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
-  config.gem "comma"
   config.gem "gchartrb", :lib => "google_chart"
   config.gem "vpim", :lib => 'vpim/icalendar'
   config.gem "RedCloth"
-  config.gem 'color'
-  config.gem 'rwikibot'
+  config.gem "color"
+  config.gem "deep_merge"
+
+  # Gems in vendor/gems
+  config.gem "comma"
+  config.gem "rwikibot"
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
