@@ -11,3 +11,4 @@ Contributors
 * Scott Becker: http://synthesis.sbecker.net/
 * Don Park: http://donpark.org/
 * Sam Goldstein: http://twitter.com/sam_goldstein
+* James Murty: http://www.jamesmurty.com/
