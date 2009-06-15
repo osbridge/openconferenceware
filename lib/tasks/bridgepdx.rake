@@ -42,9 +42,9 @@ For example:
       credentials = get_wiki_credentials
       wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
       
-      Event.current.tracks.each do |track|
+      Event.current.tracks.all(:include => [:event]).each do |track|
         puts "Creating Track: '#{track.title}'"
-        @track = track
+        @track = track 
         template = ERB.new <<-HERE
           [[Category:Tracks]]
           [[Category:<%= @track.event.title%>]]
@@ -52,7 +52,7 @@ For example:
         wiki.page("Category:#{track.title}").save(template.result)
       end
       
-      Event.current.proposals.confirmed.each do |proposal|
+      Event.current.proposals.confirmed.all(:include => [:event, :track, :session_type]).each do |proposal|
         puts "Creating '#{proposal.title}'"
         @proposal = proposal
         template = ERB.new <<-HERE
