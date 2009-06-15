@@ -8,9 +8,39 @@ namespace :bridgepdx do
   end
   
   namespace :wiki do
+    def get_wiki_credentials
+      return @get_wiki_credentials ||= begin
+        require 'ostruct'
+
+        missing = nil
+
+        credentials          = OpenStruct.new
+        credentials.user     = ENV['USER']     or missing = "USER"
+        credentials.password = ENV['PASSWORD'] or missing = "PASSWORD"
+        credentials.url      = ENV['URL']      or missing = "URL"
+
+        if missing
+          puts <<-HERE
+MediaWiki credentials must include:
+  * USER: The admin user to login to the wiki as.
+  * PASSWORD: The admin user's password.
+  * URL: The URL for the server's "api.php".
+
+For example:
+    rake bridgepdx:wiki:populate USER=admin PASSWORD=secret URL=http://localhost/wiki/api.php
+          HERE
+
+          raise ArgumentError, "No #{missing} defined"
+        else
+          credentials
+        end
+      end
+    end
+
     desc "Populates the attendee wiki with pages to hold session notes."
     task :populate => :environment do
-      wiki = RWikiBot::Bot.new('admin','1adam12','http://localhost/web/mediawiki/api.php','',true)
+      credentials = get_wiki_credentials
+      wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
       
       Event.current.tracks.each do |track|
         puts "Creating Track: '#{track.title}'"
