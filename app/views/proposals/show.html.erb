@@ -96,12 +96,13 @@ focus :comment_message if @focus_comment
         <%= link_to h(@proposal.room.name), @proposal.room %>
       </div>
     <% end %>
+    <% if @proposal.session_notes_url && @event.proposal_titles_locked? %>
+      <div class='proposal-notes'>
+        <%= link_to "Session notes", @proposal.session_notes_url, :class => "showable" %>
+      </div>
+    <% end -%>
   </div>
   
-  <% if @proposal.session_notes_url && @event.proposal_titles_locked? %>
-    <%= link_to "Session Notes", @proposal.session_notes_url %>
-  <% end -%>
-
   <% if proposal_excerpts? %>
     <h3>Excerpt</h3>
     <%= preserve_formatting_of @proposal.excerpt %>
