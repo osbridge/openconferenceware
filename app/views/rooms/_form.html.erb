@@ -1,6 +1,6 @@
 <% focus :room_name %>
 
-<% form_for(@room) do |f| %>
+<% form_for(@room, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -22,6 +22,11 @@
   <p>
     <%= f.label :description %> (<%= display_textile_help_link %>)<br />
     <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :image, "Image" %>
+    <%= image_tag @room.image.url(:small) if @room.image.file? %>
+    <%= f.file_field :image %>
   </p>
   <p>
     <%= f.submit @room.new_record? ? "Create" : "Update" %>

@@ -23,4 +23,12 @@ class Room < ActiveRecord::Base
   # Validations
   validates_presence_of :name, :event
   validates_numericality_of :capacity, :unless => lambda{|obj| obj.capacity.blank? }
+
+  # Image Attachment
+  has_attached_file :image,
+    :styles => {
+      :large => "650>",
+      :medium => "350>",
+      :small => "150>"
+    }
 end
