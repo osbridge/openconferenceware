@@ -341,8 +341,7 @@ class Proposal < ActiveRecord::Base
   # Returns the url where session notes for this proposal can be found
   def session_notes_url
     if SETTINGS.session_notes_wiki_url && ! self.title.blank?
-      #IK# return SETTINGS.session_notes_wiki_url + URI.escape(self.title)
-      return SETTINGS.session_notes_wiki_url + URI.escape("#{self.title} :: #{self.event.title}")
+      return SETTINGS.session_notes_wiki_url + CGI.escape("#{self.title} :: #{self.event.title}".gsub(/\s+/, '_').squeeze('_'))
     end
   end
 
