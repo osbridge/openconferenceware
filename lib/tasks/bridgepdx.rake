@@ -37,31 +37,59 @@ For example:
       end
     end
 
+    def event_wiki_title(event)
+      return "Category:#{event.title}"
+    end
+    
+    def tracks_wiki_title(event)
+      return "Category:#{event.title} tracks"
+    end
+
+    def track_wiki_title(track)
+      return "Category:#{track.title} :: #{track.event.title}"
+    end
+
+    def session_wiki_title(session)
+      return "#{session.title} :: #{session.event.title}"
+    end
+
     desc "Populates the attendee wiki with pages to hold session notes."
     task :populate => :environment do
       credentials = get_wiki_credentials
       wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
-      
-      Event.current.tracks.all(:include => [:event]).each do |track|
-        puts "Creating Track: '#{track.title}'"
-        @track = track 
-        template = ERB.new <<-HERE
-          [[Category:Tracks]]
-          [[Category:<%= @track.event.title%>]]
-        HERE
-        wiki.page("Category:#{track.title}").save(template.result)
+      event = Event.current
+
+      # Event page
+      drone = RwikibotPageDrone.new(wiki, event_wiki_title(event))
+      drone.replace_span "description", "For details, see [#{SETTINGS.public_url} #{SETTINGS.organization}]."
+      drone.save(true)
+
+      # Tracks page
+      drone = RwikibotPageDrone.new(wiki, tracks_wiki_title(event))
+      drone.replace_span "description", "Tracks for [#{SETTINGS.public_url} #{SETTINGS.organization}]."
+      drone.save(true)
+
+      # Tracks
+      event.tracks.all(:include => [:event]).each do |track|
+        drone = RwikibotPageDrone.new(wiki, track_wiki_title(track))
+        drone.append "[[#{event_wiki_title(track.event)}]]"
+        drone.append "[[#{tracks_wiki_title(track.event)}]]"
+        drone.replace_span "description", "#{textilize track.description}"
+        drone.save(true)
       end
       
-      Event.current.proposals.confirmed.all(:include => [:event, :track, :session_type]).each do |proposal|
-        puts "Creating '#{proposal.title}'"
-        @proposal = proposal
-        template = ERB.new <<-HERE
-          [[Category:Session Notes]]
-          [[Category:<%= @proposal.event.title%>]]
-          [[Category:<%= @proposal.track.title %>]]
-          [[Category:<%= @proposal.session_type.title %>]]
-        HERE
-        wiki.page(proposal.title).save(template.result)
+      # Sessions
+      event.proposals.confirmed.all(:include => [:event, :track, :session_type]).each do |proposal|
+        drone = RwikibotPageDrone.new(wiki, session_wiki_title(proposal))
+        drone.append "[[#{event_wiki_title(proposal.event)}]]"
+        drone.append "[[#{track_wiki_title(proposal.track)}]]"
+        #drone.replace_span "description", "#{textilize proposal.description}"
+        drone.replace_span "excerpt", "#{textilize proposal.excerpt}" unless proposal.excerpt.blank?
+        drone.replace_span "speakers", "Speaker#{proposal.users.size > 1 ? 's' : ''}: #{proposal.users.map{|user| sprintf('[%susers/%s %s]', SETTINGS.app_root_url, user.id, user.fullname)}.join(', ')}"
+        drone.replace_span "back", "\nReturn to [#{sprintf '%ssessions/%s', SETTINGS.app_root_url, proposal.id} this session's details]"
+        drone.append "= Contributed notes ="
+        #drone.append "\n\n----\n''Add your notes above this line''"
+        drone.save(true)
       end
     end
   end
