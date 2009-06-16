@@ -35,6 +35,7 @@ Rails::Initializer.run do |config|
   config.gem "RedCloth"
   config.gem "color"
   config.gem "deep_merge"
+  config.gem "hpricot"
 
   # Gems in vendor/gems
   config.gem "comma"

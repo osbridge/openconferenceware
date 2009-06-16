@@ -8,6 +8,7 @@ require 'facets/boolean'
 
 # Local libraries
 require 'lib/defer_proxy'
+require 'lib/rwikibot_page_drone'
 require 'lib/ext/active_support_cache_object'
 require 'lib/ext/object_logit'
 require 'lib/ext/active_record_quoting_fix'
