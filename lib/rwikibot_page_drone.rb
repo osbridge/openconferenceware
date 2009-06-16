@@ -44,9 +44,9 @@ class RwikibotPageDrone
     doc = Hpricot(self.content)
     element = doc.search("//##{identifier}")
     if element.size == 0
-      self.append(string)
+      self.append(%{<span id="#{identifier}">#{string}</span>\n})
     else
-      element.html = string + "\n"
+      element.html = string
       self.content = doc.to_s
     end
   end
