@@ -3,6 +3,39 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* v0.20090616
+
+- FIXED bug that showed proposal statuses (e.g., "Accepted session")
+  before these statues were published. They're now only shown if the
+  Admin sets the "Proposal statuses published?" flag on an event.
+- FIXED the login "remember me" feature. Previously it was ignored.
+- FIXED proposals feeds. Made top-level "/proposal.atom" and
+  event-specific "/events/2009/proposals.atom" feed. Also fixed the feed
+  article timestamps so proposals aren't relisted if edited.
+- FIXED the views to use "record-controls" wrappers around controls.
+- CHANGED logic for finding the current event: first try using the
+  "settings.yml" file's "current_event_slug" field and find an event
+  with a matching slug, else use the old latest-deadline logic. Setting
+  a current event is necessary if you have multiple open events and want
+  a specific one to respond to URLs like "/proposals".
+- CHANGED anonymous user's label from something like "myopenid.com" to
+  "User #123 at myopenid.com", which is much clearer.
+- CHANGED "rake db:dump" and "rake db:restore" to "rake db:raw:dump" and
+  "rake db:raw:restore" to avoid collisions with YamlDB.
+- Improved "rake db:raw:dump" and "rake db:raw:restore" to support both
+  SQLite and MySQL.
+- Improved proposal form, if an event has a single track or session
+  type, it's used as the default and no UI is shown. This helps child
+  events, e.g., parent has many tracks, child has one track.
+- Improved events, added parent/child relationships between them. Change
+  these these associations via the Admin's manage events UI.
+- Added user favorites, these show up as stars next to all proposals.
+- Added speaker list, e.g., "/events/2009/speakers".
+- Improved display of sublists (e.g., a user's sessions and proposals).
+  These list links back to sessions and display favorites.
+- Improved CSV exports for proposals and added these to speakers.
+- Improved session sidebox, added room and scheduling information.
+
 * v0.20090605
 
 - FIXED schema/migrations for MySQL, it was truncating important columns
