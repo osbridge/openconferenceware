@@ -95,7 +95,11 @@ module RWikiBot
         @config['_session'] = response.header['set-cookie'].split("=")[1]
       end
 
-      return_result = XmlSimple.xml_in(response.body, { 'ForceArray' => false })
+      begin
+        return_result = XmlSimple.xml_in(response.body, { 'ForceArray' => false })
+      rescue Exception => e
+        raise ResponseError, "Response was not valid XML", e, response
+      end
 
       if return_result.has_key?('error')
         raise RWikiBotError, "#{return_result.fetch('error').fetch('code').capitalize}: #{return_result.fetch('error').fetch('info')}"
