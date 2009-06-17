@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090608053232
+# Schema version: 20090616061006
 #
 # Table name: rooms
 #
@@ -12,6 +12,10 @@
 #  event_id              :integer(4)      
 #  created_at            :datetime        
 #  updated_at            :datetime        
+#  image_file_name       :string(255)
+#  image_content_type    :string(255)
+#  image_file_size       :integer(4)
+#  image_updated_at      :datetime
 #
 
 class Room < ActiveRecord::Base
@@ -23,4 +27,12 @@ class Room < ActiveRecord::Base
   # Validations
   validates_presence_of :name, :event
   validates_numericality_of :capacity, :unless => lambda{|obj| obj.capacity.blank? }
+
+  # Image Attachment
+  has_attached_file :image,
+    :styles => {
+      :large => "650>",
+      :medium => "350>",
+      :small => "150>"
+    }
 end

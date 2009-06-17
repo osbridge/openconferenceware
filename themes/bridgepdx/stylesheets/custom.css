@@ -855,6 +855,11 @@ ul.calendar_items {
   color: #116DB6;
 }
 
+.sub_list_for_event,
+.sub_list_for_many_events {
+  clear: both;
+}
+
 .favorite {
   background-image: url('/images/favorite.png');
   background-position: left -36px;
@@ -914,4 +919,8 @@ body.users.show h2.page_title {
   background: url(/images/lock.png) no-repeat 0 2px;
   padding-left: 23px;
   margin: 1em 0;
+}
+
+.room-image {
+  float: right;
 }
