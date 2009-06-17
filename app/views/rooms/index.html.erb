@@ -1,7 +1,7 @@
 <% page_title "Rooms" %>
 
 <ul>
-<% for room in @rooms %>
+<% for room in @rooms.sort_by(&:name) %>
   <li><%= link_to h(room.name), room_path(room) %></li>
   <span class="description"><%= textilize room.description %></span>
 <% end %>
