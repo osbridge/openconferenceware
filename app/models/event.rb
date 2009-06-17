@@ -195,4 +195,9 @@ class Event < ActiveRecord::Base
   def end_date
     return self.parent_id ? self.parent.end_date : self.read_attribute(:end_date)
   end
+
+  # Return the parent event or this Event.
+  def parent_or_self
+    return self.parent || self
+  end
 end
