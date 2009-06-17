@@ -46,11 +46,13 @@ For example:
     end
 
     def track_wiki_title(track)
-      return "Category:#{track.title} :: #{track.event.title}"
+      #IK# return "Category:#{track.title} :: #{track.event.title}"
+      return "Category:#{track.title}"
     end
 
     def session_wiki_title(session)
-      return "#{session.title} :: #{session.event.title}"
+      #IK# return "#{session.title} :: #{session.event.title}"
+      return "#{session.title}"
     end
 
     desc "Populates the attendee wiki with pages to hold session notes."
