@@ -264,6 +264,27 @@ describe Proposal do
     end
   end
 
+  describe "session_notes_url" do
+    before do
+      @proposal = proposals(:clio_chupacabras)
+    end
+
+    it "should be nil if no session_notes_wiki_url_format is defined" do
+      SETTINGS.stub!(:session_notes_wiki_url_format => nil)
+
+      @proposal.session_notes_url.should be_nil
+    end
+
+    it "should interpolate content if session_notes_wiki_url_format is defined" do
+      SETTINGS.stub!(
+        :session_notes_wiki_url_format => '%1$s%2$s/wiki/',
+        :public_url => 'http://mysite.com/'
+      )
+
+      @proposal.session_notes_url.should == "http://mysite.com/closed/wiki/Chupacabras_and_you"
+    end
+  end
+
 private
 
   def new_proposal(attr = {})

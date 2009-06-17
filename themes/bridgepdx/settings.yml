@@ -4,8 +4,13 @@ public_url: 'http://opensourcebridge.org/'
 # URL where OCW is installed
 app_root_url: 'http://opensourcebridge.org/'
 
-# URL of a wiki to hold sessions notes (optional)
-session_notes_wiki_url: 'http://opensourcebridge.org/wiki/'
+# URL of wiki with session notes (optional). This 'printf' format contains
+# positional variables that filled by Proposal#session_notes_url:
+#   * %1 => site's public URL
+#   * %2 => parent OR event slug
+#   * %3 => event slug
+# E.g., '%1$s%2$s/wiki/' may translate to 'http://my_site.com/my_parent_slug/wiki'
+session_notes_wiki_url_format: '%1$s%2$s/wiki/'
 
 # Organization running event:
 organization: 'Open Source Bridge'
@@ -22,7 +27,7 @@ breadcrumbs: []
 # Timezone for dates in this application:
 timezone: 'Pacific Time (US & Canada)'
 
-# What is the slug for the current event? E.g., if this is '2009' and the user visits the '/proposals' URI, then the system will try to lookup an Event with the '2009' slug and redirect to '/events/2009 proposals' if it's available. 
+# What is the slug for the current event? E.g., if this is '2009' and the user visits the '/proposals' URI, then the system will try to lookup an Event with the '2009' slug and redirect to '/events/2009 proposals' if it's available.
 # TODO: Setting the current event here is a short-term hack and will be replaced shortly with a Site record that tracks the current event in the database and provides a way to set it through an admin web UI.
 current_event_slug: '2009'
 

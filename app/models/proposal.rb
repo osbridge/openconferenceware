@@ -338,12 +338,34 @@ class Proposal < ActiveRecord::Base
     return self.confirmed? ? 'session' : 'proposal'
   end
   
-  # Returns the url where session notes for this proposal can be found
+  # Returns URL of session notes for this proposal, if available.
+  # 
+  # Reads optional SETTINGS.session_notes_wiki_url_format. This 'printf' format
+  # contains positional variables that filled by Proposal#session_notes_url:
+  #   * %1 => site's public URL
+  #   * %2 => parent OR event slug
+  #   * %3 => event slug
+  #
+  # E.g., '%1$s%2$s/wiki/' may translate to 'http://my_site.com/my_parent_slug/wiki'
   def session_notes_url
-    if SETTINGS.session_notes_wiki_url && ! self.title.blank?
-      #IK# return SETTINGS.session_notes_wiki_url + CGI.escape("#{self.title} :: #{self.event.title}".gsub(/\s+/, '_').squeeze('_'))
-      return SETTINGS.session_notes_wiki_url + CGI.escape("#{self.title}".gsub(/\s+/, '_').squeeze('_'))
+    escape = lambda{|string| self.class._session_notes_url_escape(string)}
+
+    if SETTINGS.session_notes_wiki_url_format && ! self.title.blank?
+      return (
+        sprintf(
+          SETTINGS.session_notes_wiki_url_format,
+          SETTINGS.public_url,
+          escape[self.event.parent_or_self.slug],
+          escape[self.event.slug]
+        ) \
+        + escape[self.title]
+      )
     end
+  end
+
+  # Return escaped string for use in a URL in the session notes wiki.
+  def self._session_notes_url_escape(string)
+    return CGI.escape(string.gsub(/\s+/, '_').squeeze('_'))
   end
 
   # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
