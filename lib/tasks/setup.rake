@@ -3,7 +3,7 @@ namespace :setup do
     puts <<-HERE
 
 TO FINISH SETUP
-1. See README.txt for information about security and customization
+1. See README.markdown for information about security and customization
 2. Start the server, e.g.: ruby script/server
 3. Login as "admin" to "/admin" URI, e.g.,: http://localhost:3000/admin}
 4. Use the web-based admin interface to configure site
