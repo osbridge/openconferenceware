@@ -59,7 +59,7 @@ For example:
     task :populate => :environment do
       credentials = get_wiki_credentials
       wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
-      event = Event.current
+      event = ENV['EVENT'] ? Event.find_by_slug(ENV['EVENT']) : Event.current
 
       # Event page
       drone = RwikibotPageDrone.new(wiki, event_wiki_title(event))
