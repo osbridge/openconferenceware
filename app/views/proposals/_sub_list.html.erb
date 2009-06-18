@@ -57,7 +57,7 @@ cache(cache_key) do
         <% end %>
         <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
       <% else %>
-        <%= displayer.call(:proposals, event_records) %>
+        <%= displayer.call(:proposals, event_records, false) %>
       <% end %>
     </div>
   <% end %><%# END: events_by_deadline.each %>
