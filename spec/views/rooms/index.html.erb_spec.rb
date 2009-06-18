@@ -5,8 +5,8 @@ describe "/rooms/index.html.erb" do
 
   before(:each) do
     assigns[:rooms] = [
-      stub_model(Room),
-      stub_model(Room)
+      stub_model(Room, :name => "Foo room"),
+      stub_model(Room, :name => "Bar room"),
     ]
   end
 
