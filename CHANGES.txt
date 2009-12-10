@@ -3,6 +3,15 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Current
+
+- FIXED Event#underway? typo that would throw exception in schedule.
+- Improved Proposal's session notes wiki linkage to use flexible URLs.
+- Improved Proposal's export to iCalendar to include a time zone.
+- Improved Room, added picture of room.
+- Improved Proposal to only sort in a few specific ways.
+- Improved DeferProxy, made it simpler and more transparent.
+
 * v0.20090616
 
 - FIXED bug that showed proposal statuses (e.g., "Accepted session")
