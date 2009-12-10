@@ -368,20 +368,30 @@ class Proposal < ActiveRecord::Base
     return CGI.escape(string.gsub(/\s+/, '_').squeeze('_'))
   end
 
+  # Return the proposal's tite downcased or nil.
+  def title_downcased
+    return self.title.ergo.downcase
+  end
+
   # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
   def self.sort(proposals, field="title", is_ascending=true)
     proposals = \
       case field.to_sym
       when :track
-        without_tracks = proposals.reject(&:track)
-        with_tracks = proposals.select(&:track).sort_by{|proposal| [proposal.track, proposal.title]}
+        partitioned = proposals.partition{|proposal| proposal.track.nil?}
+        without_tracks = partitioned.first.sort_by(&:title)
+        with_tracks = partitioned.last.select(&:track).sort_by{|proposal| [proposal.track, proposal.title]}
         with_tracks + without_tracks
       when :start_time
         proposals.select{|proposal| !proposal.start_time.nil? }.sort_by{|proposal| proposal.start_time.to_i }.concat(proposals.select{|proposal| proposal.start_time.nil?})
       when :submitted_at
         proposals.sort_by(&:submitted_at)
+      when :title
+        proposals.sort_by{|proposal| proposal.title_downcased}
+      when :status
+        proposals.sort_by{|proposal| [proposal.status, proposal.title_downcased]}
       else
-        proposals.sort_by{|proposal| proposal.send(field).to_s.downcase rescue nil}
+        proposals.sort_by(&:submitted_at)
       end
     proposals = proposals.reverse unless is_ascending
     return proposals

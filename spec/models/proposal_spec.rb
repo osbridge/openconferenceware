@@ -285,6 +285,70 @@ describe Proposal do
     end
   end
 
+  describe "when sorting" do
+    before(:each) do
+      @shonen   = stub_model(Track, :title => "Shonen")
+      @bishoujo = stub_model(Track, :title => "Bishoujo")
+      @tracks = [@shonen, @bishoujo]
+
+      @naruto = stub_model(Proposal, 
+        :title => "Naruto", 
+        :track => @shonen, 
+        :status => "proposed",
+        :submitted_at => Time.parse('2009/12/09 01:00'),
+        :start_time => Time.parse('2009/12/10 05:00'))
+      @bleach = stub_model(Proposal,
+        :title => "Bleach", 
+        :track => @shonen, 
+        :status => "confirmed",
+        :submitted_at => Time.parse('2009/12/09 02:00'),
+        :start_time => Time.parse('2009/12/10 04:00')) 
+      @sera_mun = stub_model(Proposal,
+        :title => "Bishoujo Senshi Sera Mun", 
+        :track => @bishoujo, 
+        :status => "confirmed",
+        :submitted_at => Time.parse('2009/12/09 04:00'),
+        :start_time => Time.parse('2009/12/10 01:00')) 
+      @kadocapta_sakura = stub_model(Proposal,
+        :title => "Kadocapta Sakura", 
+        :track => @bishoujo, 
+        :status => "accepted",
+        :submitted_at => Time.parse('2009/12/09 03:00'),
+        :start_time => Time.parse('2009/12/10 02:00'))
+      @kino = stub_model(Proposal,
+        :title => "Kino no Tabi", 
+        :track => nil, 
+        :status => "accepted",
+        :submitted_at => Time.parse('2009/12/09 06:00'),
+        :start_time => Time.parse('2009/12/10 06:00'))
+      @proposals = [@kadocapta_sakura, @bleach, @kino, @naruto, @sera_mun]
+    end
+
+    it "should sort by title" do
+      Proposal.sort(@proposals, :title).should == [@sera_mun, @bleach, @kadocapta_sakura, @kino, @naruto]
+    end
+
+    it "should sort by title descending" do
+      Proposal.sort(@proposals, :title, false).should == [@naruto, @kino, @kadocapta_sakura, @bleach, @sera_mun]
+    end
+
+    it "should sort by track" do
+      Proposal.sort(@proposals, :track).should == [@sera_mun, @kadocapta_sakura, @bleach, @naruto, @kino]
+    end
+
+    it "should sort by status" do
+      Proposal.sort(@proposals, :status).should == [@kadocapta_sakura, @kino, @sera_mun, @bleach, @naruto]
+    end
+
+    it "should sort by submitted date" do
+      Proposal.sort(@proposals, :submitted_at).should == [@naruto, @bleach, @kadocapta_sakura, @sera_mun, @kino]
+    end
+
+    it "should default to sorting by submitted date if given unknown sorting" do
+      Proposal.sort(@proposals, :submitted_at).should == [@naruto, @bleach, @kadocapta_sakura, @sera_mun, @kino]
+    end
+  end
+
 private
 
   def new_proposal(attr = {})
