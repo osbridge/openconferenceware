@@ -41,7 +41,7 @@ describe ProposalsController do
 
           get :index, :event_id => @event.slug, :format => "csv"
 
-          @rows = CSV::Reader.parse(response.body).inject([]){|result,row| result << row; result}
+          @rows = CSV::Reader.parse(response.body).to_a
           @header = @rows.first
         end
 
