@@ -16,7 +16,7 @@ TO FINISH SETUP
       if ENV["PASSWORD"]
         ENV["PASSWORD"]
       else
-        print %{?? Enter the password to use for the "admin" user: }
+        print %{?? Enter the password to use for the OpenConferenceWare "admin" user: }
         STDOUT.flush
         STDIN.readline
       end.strip
