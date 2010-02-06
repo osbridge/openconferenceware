@@ -19,6 +19,10 @@ the name of a theme was specified in the "THEME" environmental variable,
 else in the "config/theme.txt" file, else it falls back to the "default"
 theme.
 
+To specify which theme you would like to use, create a new 
+config/theme.txt file, containing the name of the folder for the theme 
+settings.
+
 == Customizing
 
 See the files in the "themes/default" directory to see the files
