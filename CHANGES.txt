@@ -3,7 +3,7 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Current
+* v0.20100206
 
 - FIXED Event#underway? typo that would throw exception in schedule.
 - Improved Proposal's session notes wiki linkage to use flexible URLs.
