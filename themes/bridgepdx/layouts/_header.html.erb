@@ -1,0 +1,30 @@
+<div id="access">
+  <div class="skip-link">
+    <a href="#content" title="Skip to content">Skip to content</a>
+  </div>
+
+  <div id="menu">
+    <ul>
+      <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
+      <li><a href='/attend/' title='Attend' class=''>Attend</a></li>
+      <li class="<%= nav_current_page_item? ? 'current_page_item' : '' %>"><a href='<%= nav_path %>' title='<%= nav_title %>' class=''><%= nav_title %></a></li>
+      <li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
+      <li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href='/wiki/'>Wiki</a></li>
+    </ul>
+  </div>
+
+  <div id="subnav" class='navbar'>
+    <div class='inner_container'>
+      <h2><%= subnav_title %></h2>
+      <% if session_related_action? && schedule_visible? %>
+      <ul>
+         <li<%= (action_name == 'sessions_index' ? ' class="selected"' : nil) %>><%= link_to "Session List", event_sessions_path(@event) %></li>
+         <li<%= (action_name == 'schedule' ? ' class="selected"' : nil) %>><%= link_to "Schedule", event_schedule_path(@event) %></li>
+         <li<%= (action_name == 'speakers' ? ' class="selected"' : nil) %>><%= link_to "Speakers", speakers_event_path(@event) %></li>
+      </ul>
+      <% end %>
+    </div>
+  </div>
+</div>
