@@ -107,7 +107,7 @@ ERROR!  You must have a file on your server with the database configuration.
 
   desc "Clear the application's cache"
   task :clear_cache do
-    run "(cd #{current_path} && rake RAILS_ENV=production clear)"
+    run "(cd #{current_path} && rake RAILS_ENV=production clear shared_fragments)"
   end
 end
 
