@@ -1,30 +1,56 @@
-<div id="access">
-  <div class="skip-link">
-    <a href="#content" title="Skip to content">Skip to content</a>
-  </div>
-
-  <div id="menu">
-    <ul>
-      <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
-      <li><a href='/attend/' title='Attend' class=''>Attend</a></li>
-      <li class="<%= nav_current_page_item? ? 'current_page_item' : '' %>"><a href='<%= nav_path %>' title='<%= nav_title %>' class=''><%= nav_title %></a></li>
-      <li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
-      <li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href='/wiki/'>Wiki</a></li>
-    </ul>
-  </div>
-
-  <div id="subnav" class='navbar'>
-    <div class='inner_container'>
-      <h2><%= subnav_title %></h2>
-      <% if session_related_action? && schedule_visible? %>
-      <ul>
-         <li<%= (action_name == 'sessions_index' ? ' class="selected"' : nil) %>><%= link_to "Session List", event_sessions_path(@event) %></li>
-         <li<%= (action_name == 'schedule' ? ' class="selected"' : nil) %>><%= link_to "Schedule", event_schedule_path(@event) %></li>
-         <li<%= (action_name == 'speakers' ? ' class="selected"' : nil) %>><%= link_to "Speakers", speakers_event_path(@event) %></li>
-      </ul>
-      <% end %>
+<div id="header">
+ <div class='inner_container'>
+    <h1 id="site-title"><span><a href="<%= SETTINGS.public_url %>" title="<%= SETTINGS.organization %>" rel="home"><%= SETTINGS.organization %></a></span></h1>
+    <div id="site-description">
+       <h2>The conference for open source citizens</h2>
+       <p id='conference-date-location'>June 1&ndash;4, 2009 <span class='separator'>|</span> Portland, Oregon</p>
     </div>
   </div>
+</div>
+
+<div class="skip-link">
+  <a href="#content" title="Skip to content">Skip to content</a>
+</div>
+
+<div class='inner_container'>
+<ul id='menu'>
+  <li class='global'>
+    <ul>
+      <li><a href='/about/' class='about'>About</a></li>
+      <li><a href='/blog/' class='blog'>Blog</a></li>
+      <li><a href='/video/' class='video'>Video</a></li>
+      <li><a href='/get-involved' class='get-involved'>Get Involved</a></li>
+    </ul>
+  </li>
+  <li class='events'>
+    <ul>
+    <% sorted_events = [@event] + @events.reject{ |e| e == @event } %>
+    <% for event in sorted_events.select{|e| e.parent.nil? } %>
+      <% content_tag :li, :id => "event-#{event.slug}",
+          :class => "event #{(event == @event) ? 'active' : ''}".strip do %>
+        <%= link_to event.slug, "/#{event.slug}", :class => 'year' %>
+        <ul>
+          <% if event.current? %>
+          <li><%= link_to 'Attend', '/attend' %></li>
+          <% end -%>
+
+          <li><%= link_to nav_title(event), nav_path(event) %></li>
+
+          <% if event.schedule_published? %>
+          <li><%= link_to 'Schedule', event_schedule_path(event), :class => 'active' %></li>
+          <% end -%>
+
+          <% if event.proposal_status_published? %>
+          <li><%= link_to 'Speakers', speakers_event_path(event) %></li>
+          <% end -%>
+
+          <li><%= link_to 'Wiki', "/#{event.slug}/wiki/" %></li>
+          <li><%= link_to 'Sponsors', "sponsors/#{event.slug}/" %></li>
+        </ul>
+      <% end -%>
+    <% end -%>
+    </ul>
+  </li>
+
+</ul>
 </div>
