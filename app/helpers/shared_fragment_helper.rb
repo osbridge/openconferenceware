@@ -51,13 +51,21 @@ module SharedFragmentHelper
   # Return a new ApplicationController that can be used for rendering fragments.
   def self.new_shared_fragment_app
     app = ApplicationController.new
-    app.request = ActionController::TestRequest.new
-    app.response = ActionController::TestResponse.new
+    app.process(ActionController::TestRequest.new, ActionController::TestResponse.new)
     app.request_forgery_protection_token = false
-    app.extend(ActionView::Helpers::UrlHelper)
-    app.extend(ApplicationHelper)
-    def app.controller; return self; end
+
     return app
+  end
+
+  # Return a new ActionView that can be used for rendering fragments.
+  def self.new_shared_fragment_renderer
+    renderer = ActionView::Base.new(Rails::Configuration.new.view_path)
+    renderer.extend ApplicationController.master_helper_module
+    renderer.extend(ActionView::Helpers::UrlHelper)
+    renderer.extend(ActionView::Helpers::TagHelper)
+    renderer.controller = self.new_shared_fragment_app
+
+    return renderer
   end
 
   # Return a string containing the theme's header for given event, or nil if
@@ -75,18 +83,13 @@ module SharedFragmentHelper
       event = Event.current || Event.new
     end
 
-    # Setup an Rails app and environment:
-    app = self.new_shared_fragment_app
-    app.instance_variable_set(:@event, event)
+    # Set up a Rails view renderer, and context.
+    renderer = self.new_shared_fragment_renderer
+
+    renderer.instance_variable_set(:@event, event)
+    renderer.instance_variable_set(:@events, Event.lookup)
 
     # Render template:
-    filename = theme_file('layouts/_header.html.erb')
-    begin
-      markup = File.read(filename)
-    rescue Errno::ENOENT
-      # No such file
-      return nil
-    end
-    return ERB.new(markup, nil, '-').result(app.send(:binding))
+    return renderer.render_file( theme_file('layouts/_header.html.erb') )
   end
 end
