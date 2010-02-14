@@ -139,8 +139,9 @@ module ApplicationHelper
   end
 
   # Main navigation to display.
-  def nav_kind
-    if @event && @event.proposal_status_published?
+  def nav_kind(event=nil)
+    event ||= @event
+    if event && event.proposal_status_published?
       return :sessions
     else
       return :proposals
@@ -148,13 +149,15 @@ module ApplicationHelper
   end
 
   # Main navigation path to use.
-  def nav_path
-    return self.send("#{nav_kind}_path")
+  def nav_path(event=nil)
+    event ||= @event
+    return self.send("event_#{nav_kind(event)}_path", event)
   end
 
   # Main navigation title.
-  def nav_title
-    return self.nav_kind.to_s.titleize
+  def nav_title(event=nil)
+    event ||= @event
+    return self.nav_kind(event).to_s.titleize
   end
 
   # Subnavigation to display.
