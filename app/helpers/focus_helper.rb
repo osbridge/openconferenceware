@@ -1,6 +1,6 @@
 module FocusHelper
 
-  # Focus the form input on the +target+ element.
+  # Focus the form input on the +target+ id element.
   def focus(target)
     # # Plain JavaScript
     #     content_for :javascript, <<-HERE
