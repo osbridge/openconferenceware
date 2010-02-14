@@ -79,8 +79,8 @@ module SharedFragmentHelper
       # Lookup by slug
       event = Event.find_by_slug(event.to_s)
     else
-      # Use current event or use a placeholder
-      event = Event.current || Event.new
+      # Use current event
+      event = Event.current
     end
 
     # Set up a Rails view renderer, and context.
