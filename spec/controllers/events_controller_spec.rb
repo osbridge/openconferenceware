@@ -6,7 +6,7 @@ describe EventsController, "when displaying events" do
 
   describe "index" do
     it "should display error if there's no current event" do
-      Event.should_receive(:current).and_return(nil)
+      Event.should_receive(:current).any_number_of_times.and_return(nil)
       get :index
 
       response.should be_success
