@@ -24,7 +24,7 @@
   </li>
   <li class='events'>
     <ul>
-    <% sorted_events = [@event] + @events.reject{ |e| e == @event } %>
+    <% sorted_events = ([@event] + @events.reject{ |e| e == @event }).compact %>
     <% for event in sorted_events.select{|e| e.parent.nil? } %>
       <% content_tag :li, :id => "event-#{event.slug}",
           :class => "event #{(event == @event) ? 'active' : ''}".strip do %>
