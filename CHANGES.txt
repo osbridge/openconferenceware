@@ -3,6 +3,11 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Next
+- FIXED scrolling to a specific field on the admin's "Manage event" page.
+- Added #scroll_to helper, which scrolls the page to an HTML element.
+- Upgraded to jwysiwyg 0.6.
+
 * v0.20100206.1
 - FIXED rake use when not running the "test" environment.
 

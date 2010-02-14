@@ -1,4 +1,4 @@
-<% focus "event_#{params[:jump_to]}" if params[:jump_to] %>
+<% scroll_to "label[for=event_#{params[:jump_to]}]" if params[:jump_to] %>
 
 <% include_jwysiwyg %>
 
