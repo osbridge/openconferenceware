@@ -8,7 +8,7 @@ module FocusHelper
     #     HERE
 
     # jQuery
-    run_when_dom_is_ready "$('##{target.to_s}').focus();"
+    run_when_dom_is_ready "$('##{h target.to_s}').focus();"
   end
 
 end
