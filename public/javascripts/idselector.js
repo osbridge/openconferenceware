@@ -22,7 +22,7 @@
         var unameCookie = readCookie('__openid_selector_uname');
 
         var s;
-        var providers = [{longname: "myOpenID", shortname: "myOpenID", url_suffix: ".myopenid.com/", usercalled: "username", icon: "myopenid.ico", id: 8, website: "https://www.myopenid.com/", openid1: true, url_prefix: "http://", openid2: true}, {longname: "Verisign PIP", shortname: "Verisign", url_suffix: ".pip.verisignlabs.com/", usercalled: "username", icon: "verisign.ico", id: 11, website: "http://pip.verisignlabs.com/", openid1: true, url_prefix: "http://", openid2: true}, {longname: "Vidoop", shortname: "Vidoop", url_suffix: ".myvidoop.com/", usercalled: "username", icon: "vidoop.ico", id: 12, website: "http://www.vidoop.com/", openid1: true, url_prefix: "http://", openid2: true}, {longname: "Clickpass", shortname: "Clickpass", url_suffix: "", usercalled: "username", icon: "clickpass.ico", id: 5, website: "http://www.clickpass.com/", openid1: true, url_prefix: "http://clickpass.com/public/", openid2: true}, {longname: "Flickr", shortname: "Flickr", url_suffix: "", usercalled: "username", icon: "flickr.ico", id: 6, website: "http://www.flickr.com/", openid1: false, url_prefix: "http://www.flickr.com/photos/", openid2: true}, {longname: "Yahoo!", shortname: "Yahoo!", url_suffix: "", usercalled: "yahoo id", icon: "yahoo.ico", id: 15, website: "http://yahoo.com/", openid1: false, url_prefix: "http://me.yahoo.com/", openid2: true}, {longname: "claimID", shortname: "claimID", url_suffix: "", usercalled: "username", icon: "claimid.ico", id: 4, website: "http://claimid.com/", openid1: true, url_prefix: "http://claimid.com/", openid2: false}, {longname: "America Online/AIM", shortname: "AOL", url_suffix: "", usercalled: "screenname", icon: "aol.ico", id: 1, website: "http://www.aol.com/", openid1: true, url_prefix: "http://openid.aol.com/", openid2: false}, {longname: "Google Blogger", shortname: "Blogger", url_suffix: ".blogspot.com/", usercalled: "blog name", icon: "blogger.ico", id: 2, website: "http://www.blogger.com/", openid1: true, url_prefix: "http://", openid2: false}, {longname: "Livejournal", shortname: "Livejournal", url_suffix: ".livejournal.com/", usercalled: "username", icon: "lj.ico", id: 7, website: "http://www.livejournal.com/", openid1: true, url_prefix: "http://", openid2: false}, {longname: "Technorati", shortname: "Technorati", url_suffix: "", usercalled: "username", icon: "technorati.ico", id: 10, website: "http://www.technorati.com/", openid1: true, url_prefix: "http://technorati.com/people/technorati/", openid2: false}, {longname: "Vox", shortname: "Vox", url_suffix: ".vox.com/", usercalled: "username", icon: "vox.ico", id: 13, website: "http://www.vox.com/", openid1: true, url_prefix: "http://", openid2: false}];
+        var providers = [{longname: "myOpenID", shortname: "myOpenID", url_suffix: ".myopenid.com/", usercalled: "username", icon: "myopenid.ico", id: 8, website: "https://www.myopenid.com/", openid1: true, url_prefix: "http://", openid2: true}, {longname: "Yahoo!", shortname: "Yahoo!", url_suffix: "", usercalled: "yahoo id", icon: "yahoo.ico", id: 15, website: "http://yahoo.com/", openid1: false, url_prefix: "http://me.yahoo.com/", openid2: true}, {longname: "Google", shortname: "Google", url_suffix: "", usercalled: "username", icon: "google.ico", id: 26, website: "https://www.google.com/accounts/o8/id", openid1: false, url_prefix: "", openid2: true}, {longname: "Flickr", shortname: "Flickr", url_suffix: "", usercalled: "username", icon: "flickr.ico", id: 6, website: "http://www.flickr.com/", openid1: false, url_prefix: "http://www.flickr.com/photos/", openid2: true}, {longname: "America Online/AIM", shortname: "AOL", url_suffix: "", usercalled: "screenname", icon: "aol.ico", id: 1, website: "http://www.aol.com/", openid1: true, url_prefix: "http://openid.aol.com/", openid2: false}, {longname: "Google Blogger", shortname: "Blogger", url_suffix: ".blogspot.com/", usercalled: "blog name", icon: "blogger.ico", id: 2, website: "http://www.blogger.com/", openid1: true, url_prefix: "http://", openid2: false}, {longname: "Livejournal", shortname: "Livejournal", url_suffix: ".livejournal.com/", usercalled: "username", icon: "lj.ico", id: 7, website: "http://www.livejournal.com/", openid1: true, url_prefix: "http://", openid2: false}, {longname: "Verisign PIP", shortname: "Verisign", url_suffix: ".pip.verisignlabs.com/", usercalled: "username", icon: "verisign.ico", id: 11, website: "http://pip.verisignlabs.com/", openid1: true, url_prefix: "http://", openid2: true}, {longname: "Vidoop", shortname: "Vidoop", url_suffix: ".myvidoop.com/", usercalled: "username", icon: "vidoop2.ico", id: 12, website: "http://www.vidoop.com/", openid1: true, url_prefix: "http://", openid2: true}, {longname: "claimID", shortname: "claimID", url_suffix: "", usercalled: "username", icon: "claimid.ico", id: 4, website: "http://claimid.com/", openid1: true, url_prefix: "http://claimid.com/", openid2: false}, {longname: "Technorati", shortname: "Technorati", url_suffix: "", usercalled: "username", icon: "technorati.ico", id: 10, website: "http://www.technorati.com/", openid1: true, url_prefix: "http://technorati.com/people/technorati/", openid2: false}, {longname: "Vox", shortname: "Vox", url_suffix: ".vox.com/", usercalled: "username", icon: "vox.ico", id: 13, website: "http://www.vox.com/", openid1: true, url_prefix: "http://", openid2: false}];
   
         var oidTbId = window.idselector_input_id ? window.idselector_input_id : "openid_identifier";
         var oidTb = document.getElementById(oidTbId);
@@ -46,7 +46,7 @@
         btnMkr.innerHTML = "<button type=\"button\"></button>";
         
         var arrow = document.createElement('img');
-        arrow.src = "https://www.idselector.com/images/arrow.gif";
+        arrow.src = "/images/idselector/arrow.gif";
         arrow.style.display = 'inline';
         
         var btn = btnMkr.firstChild;
@@ -87,11 +87,11 @@
  
         var back = pdoc.createElement('img');
         back.style.verticalAlign = "middle"; back.style.cursor = "pointer";
-        back.src = "https://www.idselector.com/images/arrow_white_back.png";
+        back.src = "/images/idselector/arrow_white_back.png";
 
         var forward = pdoc.createElement('img');
         forward.style.verticalAlign = "middle"; forward.style.cursor = "pointer";
-        forward.src = "https://www.idselector.com/images/arrow_white_forward.png";
+        forward.src = "/images/idselector/arrow_white_forward.png";
 
         var headRight = pdoc.createElement('div');
         headRight.style[document.all ? 'styleFloat' : 'cssFloat'] = 'right';
@@ -148,8 +148,8 @@
 
             var provider = providers[idx];
             var icon = pdoc.createElement("img");
-            icon.src = provider ? ('https://www.idselector.com/static/opicons/' + provider.icon) :
-                'https://www.idselector.com/images/openid.ico';
+            icon.src = provider ? ('/images/idselector/' + provider.icon) :
+                '/images/idselector/openid.ico';
             icon.style.width = "16px";
             icon.style.height = "16px";
             icon.style.verticalAlign = "middle";
@@ -278,16 +278,16 @@
                     var s = pdoc.createTextNode(provider.longname + " " +
                                                 provider.usercalled + ":");
                     nameLabel.appendChild(s);
-                    nameTb.style.backgroundImage = 'url(https://www.idselector.com/static/opicons/' + provider.icon + ')';
+                    nameTb.style.backgroundImage = 'url(/images/idselector/' + provider.icon + ')';
                     oidTb.value = provider.url_prefix + "username" +
                         provider.url_suffix;
                     nameTb.value = "username";
                 }
-                btnIcn.src = 'https://www.idselector.com/static/opicons/' + provider.icon;
+                btnIcn.src = '/images/idselector/' + provider.icon;
             } else {
                 nameLabel.style.visibility = 'hidden';
                 nameTb.style.visibility = 'hidden';
-                btnIcn.src = 'https://www.idselector.com/images/openid.ico';
+                btnIcn.src = '/images/idselector/openid.ico';
             }
         }
 
