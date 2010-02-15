@@ -146,40 +146,47 @@ protected
   # Return the event and a status which describes how the event was assigned. The status can be one of the following:
   # * :assigned_to_param
   # * :invalid_param
+  # * :invalid_proposal_event
   # * :assigned_to_current
   # * :empty
   def get_current_event_and_assignment_status
-    event = nil
-    status = nil
+    invalid = false
 
-    # Try finding event matching the :event_id given in the #params.
+    # Try finding event using params:
     event_id_key = controller_name == "events" ? :id : :event_id
     if key = params[event_id_key]
       if event = Event.lookup(key)
-        logit "assigned via #{event_id_key} to: #{key}"
-        status = :assigned_to_param
-        return [event, status]
+        return [event, :assigned_to_param]
       else
-        logit "error, specified event_id_key '#{key}' was not found in database"
-        invalid_param = params[event_id_key]
+        logit "error, couldn't find event from key: #{key}"
+        invalid = :invalid_param
+      end
+    end
+
+    # Try finding event using proposal:
+    if controller_name == "proposals" && params[:id]
+      if proposal = Proposal.find_by_id(params[:id])
+        if proposal.event
+          return [proposal.event, :assigned_to_param]
+        else
+          logit "error, couldn't find event from Proposal ##{proposal.id}"
+          invalid = :invalid_proposal_event
+        end
       end
     end
 
     # Try finding the current event.
     if event = Event.current
       logit "assigned to current event"
-      if invalid_param
-        status = :invalid_param
-        return [event, status]
+      if invalid
+        return [event, invalid]
       else
-        status = :assigned_to_current
-        return [event, status]
+        return [event, :assigned_to_current]
       end
     end
 
     logit "error, no current event found"
-    status = :empty
-    return [event, status]
+    return [nil, :empty]
   end
 
   # Assign @event if it's not already set. Also set the
@@ -205,6 +212,10 @@ protected
   # If not, display an error or force the admin to create a new event.
   def assert_current_event_or_redirect
     case @event_assignment
+    when :invalid_proposal_event
+      flash[:failure] = "Invalid proposal has no event, redirecting to current event's proposals."
+      flash.keep
+      return redirect_to(event_proposals_path(@event))
     when :invalid_param
       flash[:failure] = "Couldn't find event, redirected to current event."
       flash.keep
