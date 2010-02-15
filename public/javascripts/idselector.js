@@ -179,7 +179,13 @@
                 oidTb.focus();
             } else {
                 if (provider["openid2"] && !provider["openid1"]) {
-                    oidTb.focus();
+                    oidTb.form.submit();
+
+                    inputs = oidTb.form.getElementsByTagName('input')
+                    for( var i = 0; i < inputs.length; i++ ) {
+                      inputs[i].disabled = true;
+                    }
+
                     setTimeout(hidePopup, 1);
                 } else {
                     nameTb.focus();
