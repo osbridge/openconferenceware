@@ -4,6 +4,8 @@ Changes
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
+- FIXED event-related checks to use a proposal's event when possible,
+  rather than the current event, since these aren't always the same.
 - FIXED scrolling to a specific field on the admin's "Manage event" page.
 - Added #scroll_to helper, which scrolls the page to an HTML element.
 - Upgraded to jwysiwyg 0.6.
