@@ -6,7 +6,30 @@ namespace :bridgepdx do
     sh "rsync -uvax --exclude='.git' --exclude='Rakefile' --exclude='README.markdown' tmp/style_clone/ themes/bridgepdx/stylesheets/common_css/"
     sh "rm -rf tmp/style_clone"
   end
-  
+
+  desc 'Symlink a checkout of the common styles at DIR to bridge theme'
+  task 'styles:symlink' do
+    unless ENV['DIR']
+      puts <<-HERE
+ERROR: You must specify a DIR environmental variable with the path to the checkout of your common styles. For example:
+  rake bridgepdx:styles:symlink DIR=~/checkouts/osbp_styles
+      HERE
+      exit 1
+    end
+
+    target = 'themes/bridgepdx/stylesheets/common_css'
+    backup = "#{target}.bak"
+
+    rm(target) if File.symlink?(target)
+
+    if File.directory?(target)
+      rm_rf(backup) if File.exist?(backup)
+      mv target, backup
+    end
+
+    ln_s(File.expand_path(ENV['DIR']), target)
+  end
+
   namespace :wiki do
     def get_wiki_credentials
       return @get_wiki_credentials ||= begin
