@@ -354,10 +354,22 @@ describe ProposalsController do
       assigns(:proposal).should == proposal
     end
 
-    it "should fail to display non-existent proposal" do
+    it "should redirect back to proposals list if asked to display a non-existent proposal" do
       get :show, :id => -1
 
+      flash[:failure].should_not be_blank
       response.should redirect_to(proposals_url)
+    end
+
+    it "should redirect back to proposals list if asked to display a proposal without an event" do
+      proposal = proposals(:quentin_widgets)
+      proposal.stub!(:event => nil)
+      Proposal.stub!(:find_by_id => proposal, :find => proposal, :lookup => proposal)
+
+      get :show, :id => proposal.id
+
+      flash[:failure].should_not be_blank
+      response.should redirect_to(event_proposals_path(events(:open)))
     end
 
     describe "redirect" do
@@ -430,6 +442,21 @@ describe ProposalsController do
         end
       end
 
+      describe "non-current event" do
+        integrate_views false
+        it "should not redirect a published session of an old event if current event isn't publishing sesions" do
+          current_event = stub_model(Event, :slug => 'new', :proposal_status_published => false)
+          old_event = stub_model(Event, :slug => 'old', :proposal_status_published => true)
+          old_session_user = users(:clio)
+          old_session = stub_model(Proposal, :status => 'confirmed', :event => old_event, :users => [old_session_user])
+
+          Proposal.stub!(:find => old_session, :find_by_id => old_session, :lookup => old_session)
+          Event.stub!(:current => current_event)
+
+          get :session_show, :id => old_session.id
+          response.should be_success
+        end
+      end
     end
   end
 
@@ -576,7 +603,7 @@ describe ProposalsController do
         get :edit, :id => proposal.id
 
         pending "FIXME when should people not be able to edit proposals?"
-        response.should redirect_to(event_proposals_url(proposal.event))
+        response.should redirect_to(event_proposals_path(proposal.event))
       end
 
       it "should allow admin to edit" do
@@ -990,5 +1017,4 @@ describe ProposalsController do
       end
     end
   end
-
 end
