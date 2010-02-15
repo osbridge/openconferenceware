@@ -62,6 +62,7 @@ namespace :deploy do
   task :prepare_shared do
     run "mkdir -p #{shared_path}/config"
     run "mkdir -p #{shared_path}/db"
+    run "mkdir -p #{shared_path}/system/shared_fragments"
   end
 
   desc "Set the application's secrets"
