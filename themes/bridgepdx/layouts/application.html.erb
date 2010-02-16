@@ -30,10 +30,7 @@
   <% end %>
 
   <!-- Scripts -->
-  <%= javascript_include_tag("jquery.min.js") %>
-  <%= javascript_include_tag("jquery-ui.effects.core") %>
-  <%= javascript_include_tag("jquery-ui.effects.highlight") %>
-  <%= javascript_include_tag("application") %>
+  <%= javascript_include_tag 'jquery.min.js', 'jquery-ui.effects.core', 'jquery-ui.effects.highlight', 'application', :cache => 'cache/all' %>
   
   <%# TODO Add script and stylesheet yield blocks to other themes -%>
   <%= yield :scripts -%>
