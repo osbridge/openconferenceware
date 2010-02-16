@@ -86,9 +86,9 @@ namespace :db do
   # Return string with MySQL credentials for use on a command-line.
   def mysql_credentials_for(struct)
     result = []
-    result << "--user #{shellescape struct.username}" if struct.username
-    result << "--password #{shellescape struct.password}" if struct.password
-    result << "--host #{shellescape struct.host}" if struct.host
+    result << "--user=#{shellescape struct.username}" if struct.username
+    result << "--password=#{shellescape struct.password}" if struct.password
+    result << "--host=#{shellescape struct.host}" if struct.host
     result << "#{shellescape struct.database}"
     return result.join(' ')
   end
