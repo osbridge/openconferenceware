@@ -3,16 +3,16 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Next
+* v0.20100218
 - FIXED event-related checks to use a proposal's event when possible,
   rather than the current event, since these aren't always the same.
 - FIXED scrolling to a specific field on the admin's "Manage event" page.
+- Added #scroll_to helper, which scrolls the page to an HTML element.
 - Added "cap db:use" task to dump and download remote database and
   restore it locally.
 - Improved "rake db:raw:*" tasks to support proper database dump and
   restore for MySQL, PostgreSQL and SQLite3.
-- Added #scroll_to helper, which scrolls the page to an HTML element.
-- Upgraded to jwysiwyg 0.6.
+- Upgraded to jQuery 1.3.2 and jwysiwyg 0.6.
 
 * v0.20100206.1
 - FIXED rake use when not running the "test" environment.
