@@ -152,7 +152,7 @@ class User < ActiveRecord::Base
   has_attached_file :photo,
     :styles => {
       :profile => "200x400>",
-      :avatar => "48x48!"
+      :avatar => "48x48#"
     }
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
