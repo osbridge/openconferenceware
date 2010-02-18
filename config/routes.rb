@@ -42,7 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   map.m1ss  '/m1ss',  :controller => 'proposals', :action => 'm1ss'
 
   # Authentication
-  map.resources :users, :member => { :complete_profile => :get }, :requirements => { :id => /\w+/ } do |user|
+  map.resources :users, :member => { :complete_profile => :get, :proposals => :get }, :requirements => { :id => /\w+/ } do |user|
     user.favorites 'favorites', { :controller => 'user_favorites', :action => 'index' }
     user.formatted_favorites 'favorites.:format', { :controller => 'user_favorites', :action => 'index' }
     user.formatted_modify_favorites 'favorites/modify.:format', { :controller => 'user_favorites', :action => 'modify', :conditions => { :method => :put } }
