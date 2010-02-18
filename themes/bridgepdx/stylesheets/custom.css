@@ -719,7 +719,7 @@ ul.calendar_items {
   padding: 3px 0 0 50px;
   min-height: 26px;
   position: absolute;
-  top: 1.5em;
+  top: 3em;
   right: 2em;
 }
 
@@ -923,4 +923,14 @@ body.users.show h2.page_title {
 
 .room-image {
   float: right;
+}
+
+.submit_a_proposal,
+.sidebar .submit_a_proposal {
+	font-weight: bold;
+	background: #08b9a6;
+	color: #fff;
+	padding: .3em .5em;
+	display: block;
+	margin: .3em 0 0 -.5em;
 }
