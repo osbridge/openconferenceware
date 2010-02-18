@@ -51,7 +51,6 @@ module SharedFragmentHelper
   # Return a new ApplicationController that can be used for rendering fragments.
   def self.new_shared_fragment_app
     app = ApplicationController.new
-    app.request_forgery_protection_token = false
     begin
       app.process(ActionController::TestRequest.new, ActionController::TestResponse.new)
     rescue Exception => e
