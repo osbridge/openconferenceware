@@ -81,7 +81,7 @@
     <% sorted_events = ([@event] + @events.reject{ |e| e == @event }).compact %>
     <% for event in sorted_events.select{|e| e.parent.nil? } %>
       <% content_tag :li, :id => "event-#{event.slug}",
-          :class => "event #{(event == @event) ? 'active' : ''}".strip do %>
+          :class => "event #{(event == @event.parent_or_self) ? 'active' : ''}".strip do %>
         <%= link_to event.slug, "/#{event.slug}", :class => 'year' %>
         <ul>
           <% if event.current? %>
