@@ -146,8 +146,7 @@
                 <ul>
                   <li><%= link_to "Login", login_path %></li>
                   <% if @event.ergo.accepting_proposals? %>
-                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(@event), :class => :addable ),
-                          :class => 'pre-bulletted') %>
+                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(@event), :class => 'submit_a_proposal' )) %>
                   <% end %>
                 </ul>
               </li>
