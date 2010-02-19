@@ -897,7 +897,7 @@ a:hover.favorite {
 body.proposals.session_show #content > .favorite,
 body.proposals.show #content > .favorite {
   position: absolute;
-  top: 2em;
+  top: .5em;
 }
 
 body.proposals.session_show #content h2.page_title,
