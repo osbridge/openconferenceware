@@ -9,8 +9,10 @@
           <%= render :partial => "proposals/list", :locals => {:kind => :sessions, :records => sessions, :sorter => false} %>
         <% end -%>
 
-        <h2>Sessions proposed for <%= event.title%></h2>
-        <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => proposals.reject{|proposal| proposal.confirmed?}, :sorter => false} %>
+        <% unless ( unaccepted_proposals = proposals.reject{|proposal| proposal.confirmed? } ).empty? %>
+          <h2>Sessions proposed for <%= event.title%></h2>
+          <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => unaccepted_proposals, :sorter => false} %>
+        <% end -%>
       <% else -%>
         <h2>Sessions proposed for <%= event.title%></h2>
         <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => proposals, :sorter => false} %>
