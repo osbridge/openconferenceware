@@ -24,7 +24,8 @@
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
     <% if @event && event_tracks? %>
       <style type="text/css" media="screen">
-        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks_combined} %>
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {
+          :tracks => @events.sort_by(&:start_date).map(&:tracks_combined).flatten} %>
       </style>
     <% end %>
   <% end %>
