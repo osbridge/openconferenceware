@@ -1,7 +1,20 @@
 <script type="text/javascript">
   $(document).ready(function () {
     activate_menu_item();
+    bind_multiyear_nav_controls();
   });
+
+  function bind_multiyear_nav_controls() {
+    $('#menu li.event.active a.year').click(function(e) {
+      e.preventDefault();
+      $(e.target).parents('li.events').toggleClass('expanded');
+    });
+
+    $(document).bind('click', function(e) {
+        if (! $(e.target).parents().hasClass("events"))
+            $("#menu li.events").removeClass('expanded');
+    });
+  }
 
   // Highlight the active menu item. Works by adding an 'active' class to a
   // menu item based on the current URL. Status is reported via 'console.log'
