@@ -389,6 +389,7 @@ strong.admin {
 
 table.proposals {
   margin: 1em 0;
+  width: 100%;
 }
 
 table.proposals td {
@@ -431,6 +432,18 @@ table.proposals .date, table.proposals .track {
   line-height: 2em;
   padding: .5em 1em;
   height: 2em;
+}
+
+table.proposals .date, table.proposals .track {
+  font-size: .9em;
+  text-align: center;
+  line-height: 2em;
+  padding: .5em 1em;
+  height: 2em;
+  min-width: 80px;
+}
+
+table.kind_sessions .track {
 }
 
 table.proposals .date {
@@ -617,7 +630,7 @@ table#proposal-status-counts {
 
 /* @group Schedule */
 
-.schedule {
+#content .schedule {
   width: 100%;
   border-collapse: separate;
   border-spacing: 1em;
@@ -714,8 +727,12 @@ ul.calendar_items {
   display: block;
 }
 
+#list_user_favorites {
+  margin-top: 3em;
+}
+
 .calendar_download {
-   background: url(/common/i/calendar.png) no-repeat;
+  background: url(/common/i/calendar.png) no-repeat;
   padding: 3px 0 0 50px;
   min-height: 26px;
   position: absolute;
@@ -724,7 +741,7 @@ ul.calendar_items {
 }
 
 .schedule_color_key {
-  margin-bottom: .5em;
+  margin: 4em 0 .5em;
 }
 
 .schedule_color_key .definition {
@@ -933,4 +950,5 @@ body.users.show h2.page_title {
 	padding: .3em .5em;
 	display: block;
 	margin: .3em 0 0 -.5em;
+	border: 3px solid #109A8B;
 }

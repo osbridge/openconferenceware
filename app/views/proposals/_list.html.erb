@@ -26,7 +26,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
   <% if records.blank? %>
     <h4>&mdash; No <%= kind %> submitted yet &mdash;</h4>
   <% else %>
-    <table class='proposals' cellspacing='0'>
+    <table class='proposals kind_<%= kind %>' cellspacing='0'>
       <% previous_start_time = false %>
       <% for record in records %>
         <%
