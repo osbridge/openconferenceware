@@ -1,8 +1,8 @@
 set :theme, "ignitebend"
 
 set :scm, "git"
+set :branch, "master" unless variables[:branch]
 set :repository,  "git@github.com:igal/openproposals.git"
-set :branch, "master"
 set :deploy_to, "/var/www/proposals.ignitebend.com"
 set :user, "igal"
 set :host, "sumomo"

@@ -23,6 +23,8 @@ class Observist < ActiveRecord::Observer
     else
       raise NotImplementedError, "Don't know how to expire cache: #{Rails.cache.class.name}"
     end
+
+    SharedFragmentHelper.render_shared_fragments
   end
 
   def expire(*args)

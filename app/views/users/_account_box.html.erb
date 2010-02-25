@@ -1,0 +1,10 @@
+<div id='account-box'>
+  <%= link_to( image_tag( current_user.photo.url(:avatar), :class => 'user-photo photo' ), current_user ) if current_user.photo.file? %>
+  <h3><%= link_to current_user.label, current_user %></h3>
+  <div class='user_actions'>
+    <% if user_profiles? %>
+      <%= link_to "Edit profile", edit_user_path(current_user) %> |
+    <% end -%>
+    <%= link_to "Logout", logout_path, :method => :delete %>
+  </div>
+</div>

@@ -30,7 +30,8 @@
 
 require 'digest/sha1'
 class User < ActiveRecord::Base
-  # Mixins
+  #---[ Mixins ]----------------------------------------------------------
+
   include NormalizeUrlMixin
   include SettingsCheckersMixin
   include PublicAttributesMixin
@@ -50,7 +51,8 @@ class User < ActiveRecord::Base
     :label,
     :label_with_id
 
-  # Associations
+  #---[ Associations ]----------------------------------------------------
+
   has_and_belongs_to_many :proposals
 
   has_many :user_favorites
@@ -60,11 +62,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  #---[ Attributes ]------------------------------------------------------
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
-
-  # Triggers
-  before_save :encrypt_password
 
   # Protected fields
   attr_protected *[
@@ -74,7 +75,10 @@ class User < ActiveRecord::Base
     :complete_profile,
   ]
 
-  # Validations
+  #---[ Validations ]-----------------------------------------------------
+
+  before_save :encrypt_password
+
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
   validates_uniqueness_of   :login,                       :case_sensitive => false
@@ -94,25 +98,26 @@ class User < ActiveRecord::Base
 
   validate :url_validator
 
+  #---[ Scopes ]----------------------------------------------------------
+
   default_order = { :order => 'lower(last_name), lower(first_name)' }
 
-  # Scopes
   named_scope :by_name, default_order
   named_scope :complete_profiles, { :conditions => {:complete_profile => true} }.reverse_merge!(default_order)
-  
+
   named_scope :submitted_to, lambda {|event| {
-    :select => 'DISTINCT users.id, users.*', 
-    :joins => :proposals, 
+    :select => 'DISTINCT users.id, users.*',
+    :joins => :proposals,
     :conditions => ['proposals.event_id = ?', event.id] }.reverse_merge!(default_order)
   }
-  
-  named_scope :speaking_at, lambda {|event| { 
+
+  named_scope :speaking_at, lambda {|event| {
     :select => 'DISTINCT users.id, users.*',
-    :joins => :proposals, 
+    :joins => :proposals,
     :conditions => ['proposals.status = "confirmed" AND proposals.event_id = ?', event.id] }.reverse_merge!(default_order)
   }
 
-  # CSV Export
+  #---[ CSV export ]------------------------------------------------------
 
   comma :brief do
     first_name
@@ -129,14 +134,24 @@ class User < ActiveRecord::Base
     affiliation
     email
     biography
-    photo :url => "Photo"
+    photo :url => 'Photo'
     website
     twitter
     identica
     blog_url
-    created_at :xmlschema => "Created"
-    updated_at :xmlschema => "Updated"
+    created_at :xmlschema => 'Created'
+    updated_at :xmlschema => 'Updated'
   end
+
+  #---[ PaperClip avatar images ]-----------------------------------------
+
+  has_attached_file :photo,
+    :styles => {
+      :profile => '200x400>',
+      :avatar => '48x48#'
+    }
+
+  #---[ Methods ]---------------------------------------------------------
 
   # Return first admin user or a nil
   def self.find_first_admin
@@ -147,13 +162,6 @@ class User < ActiveRecord::Base
   def self.find_first_non_admin
     self.find(:first, :conditions => {:admin => false})
   end
-
-  # Photo Attachments
-  has_attached_file :photo,
-    :styles => {
-      :profile => "200x400>",
-      :avatar => "48x48!"
-    }
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)

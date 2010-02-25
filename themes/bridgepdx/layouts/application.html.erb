@@ -12,10 +12,10 @@
   <% end %>
 
   <!-- Stylesheets -->
-  <% if %w[preview production].include?(RAILS_ENV) && ENV['LOCALCSS'].blank? %>
-    <%= stylesheet_link_tag '/common/osbp_common_v3.css' %>
-  <% else %>
+  <% if localcss? %>
     <%= theme_stylesheet_link_tag 'common_css/osbp_common_v3.css' %>
+  <% else %>
+    <%= stylesheet_link_tag '/common/osbp_common_v3.css' %>
   <% end %>
   <%= theme_stylesheet_link_tag "custom" %>
   <%= yield :stylesheets %>
@@ -24,16 +24,14 @@
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
     <% if @event && event_tracks? %>
       <style type="text/css" media="screen">
-        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @event.tracks_combined} %>
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {
+          :tracks => @events.sort_by(&:start_date).map(&:tracks_combined).flatten} %>
       </style>
     <% end %>
   <% end %>
 
   <!-- Scripts -->
-  <%= javascript_include_tag("jquery.min.js") %>
-  <%= javascript_include_tag("jquery-ui.effects.core") %>
-  <%= javascript_include_tag("jquery-ui.effects.highlight") %>
-  <%= javascript_include_tag("application") %>
+  <%= javascript_include_tag 'jquery.min.js', 'jquery-ui.effects.core', 'jquery-ui.effects.highlight', 'application', :cache => 'cache/all' %>
   
   <%# TODO Add script and stylesheet yield blocks to other themes -%>
   <%= yield :scripts -%>
@@ -49,54 +47,19 @@
   </script>
 </head>
 
-<% remote_base = SETTINGS.public_url %>
-
 <body class='<%= "#{controller.controller_name} #{action_name}" %>'>
   <a name='top'></a>
   <div id="wrapper">
-     <div id="header">
-       <div class='inner_container'>
-          <h1 id="site-title"><span><a href="<%= remote_base %>" title="<%= SETTINGS.organization %>" rel="home"><%= SETTINGS.organization %></a></span></h1>
-          <div id="site-description">
-             <h2>The conference for open source citizens</h2>
-             <p id='conference-date-location'>June 17&ndash;19, 2009 <span class='separator'>|</span> Portland, Oregon</p>
-          </div>
-        </div>
-      </div>
-
-      <div id="access">
-        <div class="skip-link">
-          <a href="#content" title="Skip to content">Skip to content</a>
-        </div>
-
-        <div id="menu">
-          <ul>
-            <li id="menu_first_item"><a href='/about/' title='About' class=''>About</a></li>
-            <li><a href='/attend/' title='Attend' class=''>Attend</a></li>
-            <li class="<%= nav_current_page_item? ? 'current_page_item' : '' %>"><a href='<%= nav_path %>' title='<%= nav_title %>' class=''><%= nav_title %></a></li>
-            <li><a href="/volunteer/" title="Volunteer">Get Involved</a></li>
-            <li><a href="/sponsors/" title="Sponsors">Sponsors</a></li>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href='/wiki/'>Wiki</a></li>
-          </ul>
-        </div>
-
-        <div id="subnav" class='navbar'>
-          <div class='inner_container'>
-            <h2><%= subnav_title %></h2>
-            <% if session_related_action? && schedule_visible? %>
-            <ul>
-               <li<%= (action_name == 'sessions_index' ? ' class="selected"' : nil) %>><%= link_to "Session List", event_sessions_path(@event) %></li>
-               <li<%= (action_name == 'schedule' ? ' class="selected"' : nil) %>><%= link_to "Schedule", event_schedule_path(@event) %></li>
-               <li<%= (action_name == 'speakers' ? ' class="selected"' : nil) %>><%= link_to "Speakers", speakers_event_path(@event) %></li>
-            </ul>
-            <% end -%>
-          </div>
-        </div>
-      </div>
+      <%= render :partial => "layouts/header" %>
 
       <div id="container">
+        <div class='section_title'>
+          <h2 class='event_level'><%= link_to subnav_title, subnav_path %></h2>
+        </div>
+
         <div id="content">
+          <h2 class='page_title'><%= page_title %></h2>
+
           <% if false %>
             <%# RB: temporarily removing breadcrumbs, pending improvement %>
             <div id="breadcrumbs">
@@ -112,8 +75,6 @@
             </div>
           <% end %>
 
-          <h2 class='page_title'><%= page_title %></h2>
-
           <!-- Display notices -->
           <%# flash[:success] = "This test is for testing the notifications." %>
           <%# flash[:failure] = "This test is for testing the notifications." %>
@@ -128,33 +89,17 @@
           <ul class="xoxo">
             <% if logged_in? %>
               <li id="login-as">
-                <h3><%= current_user.label %></h3>
+                <%= render :partial => 'users/account_box' %>
                 <ul>
-                  <% if user_profiles? %>
-                    <li><%= link_to "My profile", user_path(current_user) %> (<%= link_to "edit", edit_user_path(current_user) %>)</li>
-                  <% end %>
-                  <li><%= link_to "My favorites", user_favorites_path(current_user) %></li>
-                  <li><%= link_to "Logout", logout_path, :method => :delete %></li>
+                  <%= content_tag(:li, link_to( "My favorites", user_favorites_path(current_user) ),
+                        :class => (controller.controller_name == 'user_favorites') ? 'active' : '' ) %>
+                  <%= content_tag(:li, link_to( "My proposals", proposals_user_path(current_user) ),
+                        :class => (controller.controller_name == 'users' && action_name == 'proposals') ? 'active' : '') %>
+                  <% if @event.ergo.accepting_proposals? && !(controller.controller_name == 'proposals' && action_name == 'new') %>
+                  <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(@event), :class => 'submit_a_proposal' )) %>
+                  <% end -%>
                 </ul>
               </li>
-
-              <% cache "layout,my_proposals,user_#{current_user.id},event_#{current_event_cache_key}" do %>
-              <% if ! current_user.proposals.empty? || @event.ergo.accepting_proposals? %>
-                <li id='my-proposals'>
-                  <h3>My proposals</h3>
-                  <ul>
-                    <% unless current_user.proposals.empty? %>
-                      <% for proposal in current_user.proposals %>
-                        <li><%= link_to proposal.title, proposal_path(proposal) %></li>
-                      <% end %>
-                    <% end %>
-                    <% if @event.ergo.accepting_proposals? %>
-                      <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
-                    <% end %>
-                  </ul>
-                </li>
-              <% end %>
-              <% end %>
 
               <% if admin? %>
                 <li class='administration'>
@@ -199,25 +144,14 @@
 
             <% else %>
               <li id="login-as">
-                <h3>Welcome</h3>
                 <ul>
                   <li><%= link_to "Login", login_path %></li>
                   <% if @event.ergo.accepting_proposals? %>
-                    <li class='pre-bulletted'><%= link_to "Submit a proposal", new_event_proposal_path(@event), :class => :addable %> </li>
+                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(@event), :class => 'submit_a_proposal' )) %>
                   <% end %>
                 </ul>
               </li>
             <% end %>
-
-            <li id="subscribe-to">
-              <h3>Subscribe to</h3>
-              <ul>
-                <li class="pre-bulletted"><%= link_to "Proposals feed", formatted_proposals_path(:atom), :class => :feedable %></li>
-                <% if admin? %>
-                  <li class="pre-bulletted"><%= link_to "Comments feed", formatted_comments_path(:atom, :secret => CommentsController::SECRET), :class => 'feedable' %></li>
-                <% end %>
-              </ul>
-            </li>
 
             <% if events_picker? %>
               <li id="proposals-for">
@@ -231,6 +165,21 @@
             <% end %>
           </ul>
         </div><!-- #sidebar-1 -->
+
+        <div id="secondary" class="sidebar">
+          <ul class="xoxo">
+            <li id="subscribe-to">
+              <h3>Subscribe to</h3>
+              <ul>
+                <li class="pre-bulletted"><%= link_to "Proposals feed", formatted_proposals_path(:atom), :class => :feedable %></li>
+                <% if admin? %>
+                  <li class="pre-bulletted"><%= link_to "Comments feed", formatted_comments_path(:atom, :secret => CommentsController::SECRET), :class => 'feedable' %></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- #sidebar-2 -->
+
       </div><!-- container -->
 
     <div id="footer">

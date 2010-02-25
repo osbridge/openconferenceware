@@ -1,3 +1,21 @@
+# Display all the files required or loaded if the VERBOSE_LOADING environmental
+# variable is defined, e.g., "VERBOSE_LOAD=1 script/server""
+if ENV['VERBOSE_LOAD']
+  alias :require_without_announcer :require
+  def require_with_announcer(*args)
+    puts "require: #{args.inspect}"
+    require_without_announcer(*args)
+  end
+  alias :require :require_with_announcer
+
+  alias :load_without_announcer :load
+  def load_with_announcer(*args)
+    puts "load: #{args.inspect}"
+    load_without_announcer(*args)
+  end
+  alias :load :load_with_announcer
+end
+
 # Be sure to restart your server when you modify this file
 
 # Uncomment below to force Rails into production mode when

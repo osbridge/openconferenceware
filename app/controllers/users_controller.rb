@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_admin unless user_profiles?
-  before_filter :assert_user, :only => [:show, :edit, :update, :destroy, :complete_profile]
+  before_filter :assert_user, :only => [:show, :edit, :update, :destroy, :complete_profile, :proposals]
   before_filter :login_required, :only => [:edit, :update, :destroy]
   before_filter :assert_record_ownership, :only => [:edit, :update, :destroy]
 
@@ -88,4 +88,7 @@ class UsersController < ApplicationController
     end
   end
 
+  def proposals
+    @proposals = @user.proposals
+  end
 end
