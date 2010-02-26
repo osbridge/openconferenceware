@@ -9,7 +9,15 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/'
+      root_path
+
+    when /a proposal with comments/
+      @proposal = Proposal.find(Fixtures.identify(:clio_chupacabras))
+      proposal_path(@proposal)
+
+    when /a proposal accepting comments/
+      @proposal = Proposal.find(Fixtures.identify(:aaron_aardvarks))
+      proposal_path(@proposal)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
