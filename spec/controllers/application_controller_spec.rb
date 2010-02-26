@@ -173,7 +173,7 @@ describe ApplicationController do
         @controller.instance_variable_set(:@event, event)
         @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")
 
-        @controller.send(:normalize_event_path_or_redirect).should_not be_false
+        @controller.send(:normalize_event_path_or_redirect)
       end
     end
 
