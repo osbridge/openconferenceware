@@ -18,6 +18,8 @@ closed:
   id: 1975
   title: "Old Event"
   deadline: <%= (Time.now - 2.year).to_s(:db) %>
+  start_date: <%= (Time.now - 2.year + 1.week).to_s(:db) %>
+  end_date: <%= (Time.now - 2.year + 2.weeks).to_s(:db) %>
   open_text: |
     Old Event is the premier event for all things antiquated. We're now accepting proposals, submit yours today!
   closed_text: |
@@ -30,6 +32,8 @@ open:
   id: 2009
   title: Current Event
   deadline: <%= (Time.now + 1.year).to_s(:db) %>
+  start_date: <%= (Time.now - 1.year + 1.week).to_s(:db) %>
+  end_date: <%= (Time.now - 1.year + 2.weeks).to_s(:db) %>
   open_text: |
     Current Event is the premier event for all things shiny. We're now accepting proposals, submit yours today!
   closed_text: |
