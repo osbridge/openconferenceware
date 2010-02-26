@@ -22,17 +22,16 @@
 
   <!-- Dynamic styles -->
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
-    <% if @event && event_tracks? %>
+    <% if event_tracks? && @events %>
       <style type="text/css" media="screen">
-        <%= render :partial => 'tracks/colors.css.erb', :locals => {
-          :tracks => @events.sort_by(&:start_date).map(&:tracks_combined).flatten} %>
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @events.map(&:tracks_combined).flatten} %>
       </style>
     <% end %>
   <% end %>
 
   <!-- Scripts -->
   <%= javascript_include_tag 'jquery.min.js', 'jquery-ui.effects.core', 'jquery-ui.effects.highlight', 'application', :cache => 'cache/all' %>
-  
+
   <%# TODO Add script and stylesheet yield blocks to other themes -%>
   <%= yield :scripts -%>
 
