@@ -96,4 +96,26 @@ describe Event do
       lambda { @event.populated_proposals(:omg) }.should raise_error(ArgumentError)
     end
   end
+
+  describe "#dates" do
+    it "should return range between start_date and end_date" do
+      start_date = Date.today + 1.week
+      end_date   = Date.today + 2.weeks
+      event = Event.new(:start_date => start_date, :end_date => end_date)
+
+      event.dates.should == (start_date..end_date).to_a
+    end
+
+    it "should return empty array if no dates" do
+      Event.new().dates.should == []
+    end
+
+    it "should return empty array if no start_date" do
+      Event.new(:end_date => Date.today).dates.should == []
+    end
+
+    it "should return empty array if no end_date" do
+      Event.new(:start_date => Date.today).dates.should == []
+    end
+  end
 end
