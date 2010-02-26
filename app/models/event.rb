@@ -71,8 +71,9 @@ class Event < ActiveRecord::Base
     self.start_date && self.end_date && (self.start_date..self.end_date).include?(Time.zone.now)
   end
 
+  # Is this the current event?
   def current?
-    self == Event.current
+    return self == Event.current
   end
 
   EVENT_CURRENT_CACHE_KEY = "event_current"
