@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Event do
   fixtures :all
 
-  context "when accepting proposals" do
+  describe "when accepting proposals" do
     it "should accept proposals for future" do
       events(:closed).accepting_proposals?.should be_false
     end
@@ -28,7 +28,7 @@ describe Event do
     end
   end
 
-  context "when finding current event" do
+  describe "when finding current event" do
     it "should use cache" do
       event = events(:open)
       Event.should_receive(:fetch_object).with("event_current").and_return(event)
@@ -55,7 +55,7 @@ describe Event do
     end
   end
 
-  context "when expiring cache" do
+  describe "when expiring cache" do
     it "should expire current" do
       RAILS_CACHE.should_receive(:delete).with(Event::EVENT_CURRENT_CACHE_KEY)
 
@@ -69,7 +69,7 @@ describe Event do
     end
   end
 
-  context "populated_proposals" do
+  describe "populated_proposals" do
     fixtures :events, :proposals
 
     before(:each) do
