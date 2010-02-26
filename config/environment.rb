@@ -1,5 +1,5 @@
 # Display all the files required or loaded if the VERBOSE_LOADING environmental
-# variable is defined, e.g., "VERBOSE_LOAD=1 script/server""
+# variable is defined, e.g., "VERBOSE_LOAD=1 script/server"
 if ENV['VERBOSE_LOAD']
   alias :require_without_announcer :require
   def require_with_announcer(*args)
@@ -29,35 +29,37 @@ RAILS_GEM_VERSION = '~> 2.1.0' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  # Gems that are selectively loaded
-  config.gem "sqlite3-ruby", :lib => false
-  config.gem "ruby-openid", :lib => false # Selectively loaded by open_id_authentication plugin
-  config.gem "facets", :lib => false # Selectively loaded by config/initializers/dependencies.rb
-  config.gem "right_aws", :lib => false # we aren't actually using AWS, but paperclip can, so it requires it.
+  # Gems that are selectively loaded:
+  config.gem 'sqlite3-ruby', :lib => false # For default database driver
+  config.gem 'ruby-openid',  :lib => false # For open_id_authentication
+  config.gem 'facets',       :lib => false # For initializers/dependencies.rb
+  config.gem 'right_aws',    :lib => false # For paperclip
 
-  # Gems only used for development and test
+  # Gems only used for development and test:
   if %w[development test].include?(RAILS_ENV) then
-    config.gem "rspec", :lib => false, :version => ">=1.2.2"
-    config.gem "rspec-rails", :lib => false, :version => ">=1.2.2"
-    config.gem "webrat", :lib => false, :version => ">=0.4.3"
-    config.gem "cucumber", :lib => false, :version => ">=0.2.2"
+    config.gem 'rspec',       :version => '~> 1.3.0', :lib => false
+    config.gem 'rspec-rails', :version => '~> 1.3.0', :lib => false
+    config.gem 'cucumber',    :version => '~> 0.6.2', :lib => false
+    config.gem 'webrat',      :version => '~> 0.7.0', :lib => false
   end
 
-  # Gems to load into the environment
-  config.gem "newrelic_rpm" if ENV['NEWRELIC'] # Only include NewRelic profiling if requested, e.g.,: NEWRELIC=1 ./script/server
-  config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
-  config.gem "thoughtbot-paperclip", :source => "http://gems.github.com", :lib => 'paperclip'
-  config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm'
-  config.gem "gchartrb", :lib => "google_chart"
-  config.gem "vpim", :lib => 'vpim/icalendar'
-  config.gem "RedCloth"
-  config.gem "color"
-  config.gem "deep_merge"
-  config.gem "hpricot"
+  # Provide profiling at '/newrelic' if requested, e.g.: NEWRELIC=1 ./script/server
+  config.gem 'newrelic_rpm' if ENV['NEWRELIC']
+
+  # Gems to load into the environment:
+  config.gem 'acts-as-taggable-on', :version => '~> 1.1.5'
+  config.gem 'paperclip',           :version => '~> 2.3.1'
+  config.gem 'aasm',                :version => '~> 2.1.5'
+  config.gem 'gchartrb',            :lib => 'google_chart'
+  config.gem 'vpim',                :lib => 'vpim/icalendar'
+  config.gem 'RedCloth'
+  config.gem 'color'
+  config.gem 'deep_merge'
+  config.gem 'hpricot'
 
   # Gems in vendor/gems
-  config.gem "comma"
-  config.gem "rwikibot"
+  config.gem 'comma'
+  config.gem 'rwikibot'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -122,7 +124,7 @@ Rails::Initializer.run do |config|
   # Read settings
   require 'settings_reader'
   SETTINGS = SettingsReader.read(
-    theme_file("settings.yml"), {
+    theme_file('settings.yml'), {
       'public_url' => 'http://change_your/settings.yml/',
       'organization' => 'Default Organization Name',
       'Organization_slug' => 'defaultslug',
@@ -149,7 +151,7 @@ Rails::Initializer.run do |config|
 
   # Set cookie session
   config.action_controller.session = {
-    :session_key => SECRETS.session_name || "openproposals",
+    :session_key => SECRETS.session_name || 'openproposals',
     :secret => SECRETS.session_secret,
   }
 
