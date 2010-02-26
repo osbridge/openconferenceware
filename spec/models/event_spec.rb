@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Event do
-  fixtures :all
-
   describe "when accepting proposals" do
+    fixtures :all
+
     it "should accept proposals for future" do
       events(:closed).accepting_proposals?.should be_false
     end
@@ -12,16 +12,16 @@ describe Event do
       events(:open).accepting_proposals?.should be_true
     end
   end
-  
-  describe "when determining if proposal status is visible" do 
+
+  describe "when determining if proposal status is visible" do
     before :each do
       @event = Event.new
     end
-    
+
     it "should not be published by default" do
       @event.proposal_status_published.should be_false
     end
-    
+
     it "should be possible to publish proposal statuses" do
       @event.proposal_status_published = true
       @event.proposal_status_published.should be_true
@@ -29,6 +29,8 @@ describe Event do
   end
 
   describe "when finding current event" do
+    fixtures :all
+
     it "should use cache" do
       event = events(:open)
       Event.should_receive(:fetch_object).with("event_current").and_return(event)
@@ -69,7 +71,7 @@ describe Event do
     end
   end
 
-  describe "populated_proposals" do
+  describe "#populated_proposals" do
     fixtures :events, :proposals
 
     before(:each) do
@@ -85,7 +87,7 @@ describe Event do
 
     it "should get just sessions for :sessions" do
       records = @event.populated_proposals(:sessions).all
-      
+
       records.select(&:confirmed?).should_not be_empty
       records.reject(&:confirmed?).should be_empty
     end
