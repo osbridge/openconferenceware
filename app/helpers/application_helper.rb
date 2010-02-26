@@ -182,4 +182,11 @@ module ApplicationHelper
   def subnav_title
     return self.subnav_kind.to_s.titleize
   end
+
+  # Should this event be flagged as active in the HTML/CSS header?
+  def flag_event_as_active?(event)
+    return @event ?
+      event == @event.parent_or_self :
+      true
+  end
 end
