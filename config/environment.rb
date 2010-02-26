@@ -37,10 +37,12 @@ Rails::Initializer.run do |config|
 
   # Gems only used for development and test:
   if %w[development test].include?(RAILS_ENV) then
-    config.gem 'rspec',       :version => '~> 1.3.0', :lib => false
-    config.gem 'rspec-rails', :version => '~> 1.3.0', :lib => false
-    config.gem 'cucumber',    :version => '~> 0.6.2', :lib => false
-    config.gem 'webrat',      :version => '~> 0.7.0', :lib => false
+    config.gem 'rspec',            :version => '~> 1.3.0', :lib => false
+    config.gem 'rspec-rails',      :version => '~> 1.3.0', :lib => false
+    config.gem 'cucumber',         :version => '~> 0.6.2', :lib => false
+    config.gem 'cucumber-rails',   :version => '~> 0.2.4', :lib => false
+    config.gem 'webrat',           :version => '~> 0.7.0', :lib => false
+    config.gem 'database_cleaner', :version => '~> 0.4.3', :lib => false
   end
 
   # Provide profiling at '/newrelic' if requested, e.g.: NEWRELIC=1 ./script/server
