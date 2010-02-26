@@ -1,8 +1,8 @@
+*.bak
 *.diff
 *.rcov
 *.swp
 *.tmp
-*.bak
 *~
 .hg
 .hgtags
@@ -22,6 +22,7 @@
 /public/stylesheets/cache/*
 /public/system/*
 /public/themes/*
+/rerun.txt
 /tags
 /themes/bridgepdx/stylesheets/common_css/*
 /tmp/*
