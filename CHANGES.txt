@@ -3,6 +3,15 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Next
+- Redesigned "bridgepdx" theme for 2010, uses a new menu that provides a
+  way to pick events and their associated data.
+- Improved handling of multiple events: reworked layout, header, menu,
+  favorites, tracks, etc.
+- Added shared fragments, which are local files that can be included in
+  different applications, e.g., a header to include in WordPress and wiki.
+- Added task to update thumbnails: `rake paperclip:refresh CLASS=User`
+
 * v0.20100218
 - FIXED event-related checks to use a proposal's event when possible,
   rather than the current event, since these aren't always the same.
