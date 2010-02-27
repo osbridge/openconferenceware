@@ -1,3 +1,15 @@
+# FIXME Due to a bug in Bundler, you must add 'require' statements for every library you want activated.
+require 'acts-as-taggable-on'
+require 'paperclip'
+require 'aasm'
+require 'google_chart'
+require 'vpim/icalendar'
+require 'RedCloth'
+require 'color'
+require 'deep_merge'
+require 'hpricot'
+require 'fastercsv'
+
 # Facets
 require 'facets/dictionary'
 require 'facets/enumerable/mash'

@@ -119,7 +119,7 @@ ERROR!  You must have a file on your server with the database configuration.
 
   desc "Install gems"
   task :gems, :roles => :app do
-    run "cd #{current_path} && rake RAILS_ENV=production gems:install"
+    run "cd #{release_path} && (bundle check || bundle install) && bundle lock"
   end
 end
 
@@ -158,6 +158,7 @@ after "deploy:setup", "deploy:prepare_shared"
 after "deploy:finalize_update", "deploy:database_yml"
 after "deploy:finalize_update", "deploy:secrets_yml"
 after "deploy:finalize_update", "deploy:theme_txt"
+after "deploy:finalize_update", "deploy:gems"
 
 # After symlink
 after "deploy:symlink", "deploy:clear_cache"
