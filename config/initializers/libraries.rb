@@ -10,6 +10,13 @@ require 'deep_merge'
 require 'hpricot'
 require 'fastercsv'
 
+# Standard libraries:
+require 'csv'
+require 'ostruct'
+require 'stringio'
+require 'uri'
+require 'fileutils'
+
 # Facets
 require 'facets/dictionary'
 require 'facets/enumerable/mash'
