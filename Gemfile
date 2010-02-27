@@ -1,4 +1,4 @@
-# FIXME Due to a bug in Bundler, you must add 'require' statements for every library you want activated. Put these in "config/initializers/libraries.rb".
+# Additional libraries are loaded in "config/initializers/libraries.rb".
 
 # Repository:
 source :gemcutter
