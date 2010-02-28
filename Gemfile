@@ -32,6 +32,7 @@ group :development do
 end
 
 group :test do
+  gem 'rcov',             :version => '~> 9.7',   :lib => false
   gem 'rspec',            :version => '~> 1.3.0', :lib => false
   gem 'rspec-rails',      :version => '~> 1.3.0', :lib => false
   gem 'cucumber',         :version => '~> 0.6.2', :lib => false
