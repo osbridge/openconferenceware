@@ -65,14 +65,14 @@ namespace :deploy do
   end
 
   desc "Prepare shared directories"
-  task :prepare_shared do
+  task :prepare_shared, :roles => :app do
     run "mkdir -p #{shared_path}/config"
     run "mkdir -p #{shared_path}/db"
     run "mkdir -p #{shared_path}/system/shared_fragments"
   end
 
   desc "Set the application's secrets"
-  task :secrets_yml do
+  task :secrets_yml, :roles => :app do
     source = "#{shared_path}/config/secrets.yml"
     target = "#{release_path}/config/secrets.yml"
     begin
@@ -90,7 +90,7 @@ ERROR!  You must have a file on your server to store secret information.
   end
 
   desc "Generate database.yml"
-  task :database_yml do
+  task :database_yml, :roles => :app do
     source = "#{shared_path}/config/database.yml"
     target = "#{release_path}/config/database.yml"
     begin
@@ -108,38 +108,43 @@ ERROR!  You must have a file on your server with the database configuration.
   end
 
   desc "Set the application's theme"
-  task :theme_txt do
+  task :theme_txt, :roles => :app do
     run "echo #{theme} > #{release_path}/config/theme.txt"
   end
 
   desc "Clear the application's cache"
-  task :clear_cache do
+  task :clear_cache, :roles => :app do
     run "(cd #{current_path} && rake RAILS_ENV=production clear)"
+  end
+
+  desc "Install gems"
+  task :gems, :roles => :app do
+    run "cd #{current_path} && rake RAILS_ENV=production gems:install"
   end
 end
 
 namespace :db do
   namespace :remote do
     desc "Dump database on remote server"
-    task :dump do
+    task :dump, :roles => :db, :only => {:primary => true} do
       run "(cd #{current_path} && rake RAILS_ENV=production db:raw:dump FILE=#{shared_path}/db/database.sql)"
     end
   end
 
   namespace :local do
     desc "Restore downloaded database on local server"
-    task :restore do
+    task :restore, :roles => :db, :only => {:primary => true} do
       sh "rake db:raw:dump FILE=database~old.sql && rake db:raw:restore FILE=database.sql"
     end
   end
 
   desc "Download database from remote server"
-  task :download do
+  task :download, :roles => :db, :only => {:primary => true} do
     sh "rsync -uvax #{user}@#{host}:#{shared_path}/db/database.sql ."
   end
 
   desc "Use: dump and download remote database and restore it locally"
-  task :use do
+  task :use, :roles => :db, :only => {:primary => true} do
     db.remote.dump
     db.download
     db.local.restore
