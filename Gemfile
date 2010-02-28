@@ -8,6 +8,7 @@ gem "rails", "~> 2.1.2", :require => nil
 
 # Selectively-loaded:
 gem 'sqlite3-ruby', :lib => false # For default database driver
+gem 'mysql',        :lib => false # For commonly used database driver
 gem 'ruby-openid',  :lib => false # For open_id_authentication
 gem 'facets',       :lib => false # For initializers/dependencies.rb
 gem 'right_aws',    :lib => false # For paperclip
