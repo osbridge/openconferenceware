@@ -78,8 +78,16 @@ namespace :deploy do
     run "mkdir -p #{shared_path}/system/shared_fragments"
   end
 
-  desc "Set the application's secrets"
-  task :secrets_yml, :roles => :app do
+
+  desc "Finish update, called by deploy"
+  task :finish, :roles => :app do
+    # Gems
+    run "cd #{release_path} && (bundle check || bundle install) && bundle lock"
+
+    # Theme
+    put theme, "#{release_path}/config/theme.txt"
+
+    # Secrets
     source = "#{shared_path}/config/secrets.yml"
     target = "#{release_path}/config/secrets.yml"
     begin
@@ -94,10 +102,8 @@ ERROR!  You must have a file on your server to store secret information.
       HERE
       raise e
     end
-  end
 
-  desc "Generate database.yml"
-  task :database_yml, :roles => :app do
+    # Database
     source = "#{shared_path}/config/database.yml"
     target = "#{release_path}/config/database.yml"
     begin
@@ -114,19 +120,9 @@ ERROR!  You must have a file on your server with the database configuration.
     end
   end
 
-  desc "Set the application's theme"
-  task :theme_txt, :roles => :app do
-    run "echo #{theme} > #{release_path}/config/theme.txt"
-  end
-
   desc "Clear the application's cache"
   task :clear_cache, :roles => :app do
     run "(cd #{current_path} && rake RAILS_ENV=production clear)"
-  end
-
-  desc "Install gems"
-  task :gems, :roles => :app do
-    run "cd #{release_path} && (bundle check || bundle install) && bundle lock"
   end
 end
 
@@ -158,14 +154,7 @@ namespace :db do
   end
 end
 
-# After setup
+# Hooks
 after "deploy:setup", "deploy:prepare_shared"
-
-# After finalize_update
-after "deploy:finalize_update", "deploy:database_yml"
-after "deploy:finalize_update", "deploy:secrets_yml"
-after "deploy:finalize_update", "deploy:theme_txt"
-after "deploy:finalize_update", "deploy:gems"
-
-# After symlink
+after "deploy:finalize_update", "deploy:finish"
 after "deploy:symlink", "deploy:clear_cache"
