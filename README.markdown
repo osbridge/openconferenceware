@@ -99,13 +99,14 @@ Dependencies
 3. Install Ruby 1.8.6 or 1.8.7 from [ftp://ftp.ruby-lang.org/pub/ruby/1.8/](ftp://ftp.ruby-lang.org/pub/ruby/1.8/) or Ruby Enterprise Edition from [http://www.rubyenterpriseedition.com/download.html](http://www.rubyenterpriseedition.com/download.html)
 
 4. Install RubyGems 1.3.x: <http://rubyforge.org/forum/forum.php?forum_id=28071>
-5. Install Rails 2.1.x:
 
-        sudo gem install rails --version=2.1.2
+5. Install Bundler:
+
+        sudo gem install bundler
 
 6. Install other Ruby libraries from within the checkout directory:
 
-        sudo rake gems:install
+        bundle check || bundle install
 
 Setup
 -----

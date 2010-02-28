@@ -32,18 +32,25 @@
 #
 #  8. If you deployed a broken revision, you can rollback to the previous, e.g.,:
 #       cap mysite deploy:rollback
-ssh_options[:compression] = false
+#
+# == Paths
+#
+# There are various paths used in the tasks:
+# * current_path: The 'current' directory linked to the current release
+# * release_path: The current release within the 'release' directory
+# * shared_path: The 'shared' directory with common data, e.g., logs
 
-set :application, "openproposals"
+# General settings
+ssh_options[:compression] = false
+default_run_options[:pty] = true
 set :use_sudo, false
+
+# Name
+set :application, "openconferenceware"
 
 # Load stages from config/deploy/*
 set :stages, Dir["config/deploy/*.rb"].map{|t| File.basename(t, ".rb")}
 require 'capistrano/ext/multistage'
-
-# :current_path - 'current' symlink pointing at current release
-# :release_path - 'release' directory being deployed
-# :shared_path - 'shared' directory with shared content
 
 # Print the command and then execute it, just like Rake
 def sh(command)
@@ -119,7 +126,7 @@ ERROR!  You must have a file on your server with the database configuration.
 
   desc "Install gems"
   task :gems, :roles => :app do
-    run "cd #{current_path} && rake RAILS_ENV=production gems:install"
+    run "cd #{release_path} && (bundle check || bundle install) && bundle lock"
   end
 end
 
@@ -158,6 +165,7 @@ after "deploy:setup", "deploy:prepare_shared"
 after "deploy:finalize_update", "deploy:database_yml"
 after "deploy:finalize_update", "deploy:secrets_yml"
 after "deploy:finalize_update", "deploy:theme_txt"
+after "deploy:finalize_update", "deploy:gems"
 
 # After symlink
 after "deploy:symlink", "deploy:clear_cache"

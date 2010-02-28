@@ -23,43 +23,18 @@ end
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '~> 2.1.0' unless defined? RAILS_GEM_VERSION
+# NOTE: When upgrading, change Gemfile too because it must match
+RAILS_GEM_VERSION = '~> 2.1.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  # Gems that are selectively loaded:
-  config.gem 'sqlite3-ruby', :lib => false # For default database driver
-  config.gem 'ruby-openid',  :lib => false # For open_id_authentication
-  config.gem 'facets',       :lib => false # For initializers/dependencies.rb
-  config.gem 'right_aws',    :lib => false # For paperclip
+  # For more gem dependencies see:
+  # * Gemfile
+  # * config/initializers/libraries.rb
 
-  # Gems only used for development and test:
-  if %w[development test].include?(RAILS_ENV) then
-    config.gem 'rspec',            :version => '~> 1.3.0', :lib => false
-    config.gem 'rspec-rails',      :version => '~> 1.3.0', :lib => false
-    config.gem 'cucumber',         :version => '~> 0.6.2', :lib => false
-    config.gem 'cucumber-rails',   :version => '~> 0.2.4', :lib => false
-    config.gem 'webrat',           :version => '~> 0.7.0', :lib => false
-    config.gem 'database_cleaner', :version => '~> 0.4.3', :lib => false
-  end
-
-  # Provide profiling at '/newrelic' if requested, e.g.: NEWRELIC=1 ./script/server
-  config.gem 'newrelic_rpm' if ENV['NEWRELIC']
-
-  # Gems to load into the environment:
-  config.gem 'acts-as-taggable-on', :version => '~> 1.1.5'
-  config.gem 'paperclip',           :version => '~> 2.3.1'
-  config.gem 'aasm',                :version => '~> 2.1.5'
-  config.gem 'gchartrb',            :lib => 'google_chart'
-  config.gem 'vpim',                :lib => 'vpim/icalendar'
-  config.gem 'RedCloth'
-  config.gem 'color'
-  config.gem 'deep_merge'
-  config.gem 'hpricot'
-
-  # Gems in vendor/gems
+  # Activate gems in vendor/gems
   config.gem 'comma'
   config.gem 'rwikibot'
 

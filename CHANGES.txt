@@ -4,6 +4,8 @@ Changes
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
+- Gem dependencies are now managed with Bundler and deployed via
+  Capistrano, eliminating need to run "sudo rake gems:install".
 - Redesigned "bridgepdx" theme for 2010, uses a new menu that provides a
   way to pick events and their associated data.
 - Improved handling of multiple events: reworked layout, header, menu,
