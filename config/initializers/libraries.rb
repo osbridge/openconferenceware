@@ -1,3 +1,6 @@
+# WTF Require these gems manually because Bundler doesn't seem to:
+require 'google_chart'
+
 # Facets
 require 'facets/dictionary'
 require 'facets/enumerable/mash'
