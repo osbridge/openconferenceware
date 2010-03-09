@@ -1,5 +1,5 @@
 <% 
-cache "proposals_stats" do
+cache "proposals_stats,event_#{@event.slug}" do
   @tracks = @event.tracks
   @proposals = @event.proposals_for_stats
   proposals_for_track = @proposals.inject({}){|result, proposal| (result[proposal.track] ||= []) << proposal; result}
