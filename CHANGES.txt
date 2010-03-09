@@ -4,14 +4,11 @@ Changes
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
-- Gem dependencies are now managed with Bundler and deployed via
-  Capistrano, eliminating need to run "sudo rake gems:install".
-- Redesigned "bridgepdx" theme for 2010, uses a new menu that provides a
-  way to pick events and their associated data.
-- Improved handling of multiple events: reworked layout, header, menu,
-  favorites, tracks, etc.
-- Added shared fragments, which are local files that can be included in
-  different applications, e.g., a header to include in WordPress and wiki.
+- Fixed "/events/EVENTID/proposals/stats" to use per-event caching.
+- Gem dependencies are now managed with Bundler and deployed via Capistrano, eliminating need to run "sudo rake gems:install".
+- Redesigned "bridgepdx" theme for 2010, it uses a new menu that provides a way to pick events and their associated data.
+- Improved handling of multiple events: reworked layout, header, menu, favorites, tracks, etc.
+- Added shared fragments, which are local files that can be included in different applications, e.g., a header to include in WordPress and wiki.
 - Added task to update thumbnails: `rake paperclip:refresh CLASS=User`
 
 * v0.20100218
