@@ -211,7 +211,7 @@ class ProposalsController < ApplicationController
     manage_speakers_on_submit
 
     respond_to do |format|
-      if params[:speaker_submit].blank? && @proposal.save
+      if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.save
         format.html {
           if has_theme_specific_create_success_page?
             page_title "Thank You!"
@@ -225,6 +225,7 @@ class ProposalsController < ApplicationController
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
         format.json { render :json => @proposal, :status => :created, :location => @proposal }
       else
+        @proposal.valid? if params[:preview]
         format.html { render :action => "new" }
         format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }
         format.json { render :json => @proposal.errors, :status => :unprocessable_entity }
@@ -256,7 +257,7 @@ class ProposalsController < ApplicationController
     manage_speakers_on_submit
 
     respond_to do |format|
-      if params[:speaker_submit].blank? && @proposal.update_attributes(params[:proposal])
+      if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.update_attributes(params[:proposal])
         @proposal.transition = transition_from_params if admin?
         format.html {
           flash[:success] = 'Updated proposal.'
@@ -273,6 +274,10 @@ class ProposalsController < ApplicationController
           )
         }
       else
+        if params[:preview]
+          @proposal.attributes = params[:proposal]
+          @proposal.valid?
+        end
         format.html { render :action => "edit" }
         format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }
         format.json { render :json => @proposal.errors, :status => :unprocessable_entity }

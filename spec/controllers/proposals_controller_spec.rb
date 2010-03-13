@@ -692,6 +692,16 @@ describe ProposalsController do
             proposal.id.should_not be_nil
           end
         end
+
+        it "should preview proposal for anonymous user" do
+          @inputs['title'] = ''
+          assert_create(nil, :event_id => @event.slug, :proposal => @inputs, :submit => nil, :preview => 'Preview') do
+            proposal = assigns(:proposal)
+            proposal.errors.should_not be_empty
+            proposal.should_not be_valid
+            proposal.id.should be_nil            
+          end
+        end
       end
 
       describe "without anonymous proposals" do
@@ -752,10 +762,10 @@ describe ProposalsController do
   end
 
   describe "update" do
-    def assert_update(login=nil, inputs={}, &block)
+    def assert_update(login=nil, inputs={}, optional_params={}, &block)
       login ? login_as(login) : logout
-      # TODO extract :commit?
-      put :update, :id => ( inputs['id'] || inputs[:id] ), :proposal => inputs, :commit => 'really'
+      optional_params.reverse_merge :commit => 'really'
+      put :update, { :id => ( inputs['id'] || inputs[:id] ), :proposal => inputs }.merge(optional_params)
       block.call
     end
 
@@ -835,6 +845,13 @@ describe ProposalsController do
         assert_update(:quentin, @inputs) do
           flash.should have_key(:success)
           response.should redirect_to(proposal_url(@proposal))
+        end
+      end
+
+      it "should display preview" do
+        assert_update(:quentin, @inputs, { :commit => nil, :preview => 'Preview' }) do
+          response.should be_success
+          response.should render_template('edit')
         end
       end
 

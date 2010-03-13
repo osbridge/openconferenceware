@@ -101,6 +101,26 @@
           </tr>
         <% end %>
 
+        <% if params[:preview] and @proposal.valid? %>
+        <tr>
+          <td colspan="2">
+            <div class="preview">
+              <h3>Preview of Proposal: <em><%= @proposal.title %></em></h3>
+               <% if proposal_excerpts? %>
+                <h4>Excerpt</h4>
+                <div class="inner">
+                  <%= preserve_formatting_of @proposal.excerpt %>
+                </div>
+              <% end %>
+                <h4>Description</h4>
+                <div class="inner">
+                  <%= display_textile_for @proposal.description %>
+                </div>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+
         <tr>
           <td colspan="2">
             <h3>
@@ -213,6 +233,8 @@
           <td>
             <div class="record-controls">
               <%= f.submit(@proposal.new_record? ? "Create" : "Update") %>
+              <%= submit_tag 'Preview', :name => 'preview' %>
+              
               <%= yield :form_controls %>
               <%= link_to("Cancel", (@proposal.new_record? ? event_proposals_path(@event) : proposal_path(@proposal)), :class => "cancelable") %>
             </div>
