@@ -10,5 +10,8 @@ Contributors
 * Brandon Philips: http://ifup.org/
 * Scott Becker: http://synthesis.sbecker.net/
 * Don Park: http://donpark.org/
-* Sam Goldstein: http://twitter.com/sam_goldstein
+* Sam Goldstein: http://twitter.com/sam_goldstein/
 * James Murty: http://www.jamesmurty.com/
+* David Cato: http://crunchyfrog.net/
+* Drew Kalina: http://drewkalina.org/
+* Jason LaPier: http://offtheline.net/
