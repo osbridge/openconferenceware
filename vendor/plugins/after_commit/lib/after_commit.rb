@@ -35,6 +35,10 @@ module AfterCommit
     collection :committed_records_on_destroy, connection
   end
 
+  def self.committed_records(connection)
+    collection :committed_records, connection, :unique
+  end
+
   def self.cleanup(connection)
     [
       :committed_records,
@@ -56,9 +60,9 @@ module AfterCommit
     Thread.current[collection][connection.unique_transaction_key] << record
   end
 
-  def self.collection(collection, connection)
+  def self.collection(collection, connection, kind=:old)
     Thread.current[collection] ||= {}
-    Thread.current[collection][connection.old_transaction_key] ||= []
+    Thread.current[collection][connection.send("#{kind}_transaction_key")] ||= []
   end
 end
 

@@ -85,7 +85,7 @@ module AfterCommit
         end
 
         def trigger_before_rollback_callbacks
-          AfterCommit.records(self).each do |record|
+          AfterCommit.committed_records(self).each do |record|
             begin
               record.send :callback, :before_rollback
             rescue
@@ -145,7 +145,7 @@ module AfterCommit
         def trigger_after_rollback_callbacks
           # Trigger the after_rollback callback for each of the committed
           # records.
-          AfterCommit.records(self).each do |record|
+          AfterCommit.committed_records(self).each do |record|
             begin
               record.send :callback, :after_rollback
             rescue
