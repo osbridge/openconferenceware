@@ -1,0 +1,1 @@
+require 'after_commit'
