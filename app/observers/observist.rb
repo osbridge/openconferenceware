@@ -31,6 +31,7 @@ class Observist < ActiveRecord::Observer
     self.class.expire
   end
 
-  alias_method :after_save,    :expire
-  alias_method :after_destroy, :expire
+  alias_method :after_save,     :expire
+  alias_method :after_destroy,  :expire
+  alias_method :after_rollback, :expire
 end
