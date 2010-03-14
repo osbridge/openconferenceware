@@ -48,6 +48,7 @@ namespace :db do
       end
 
       Rake::Task['clear'].invoke
+      Rake::Task['db:migrate'].invoke
     end
   end
 
