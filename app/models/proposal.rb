@@ -200,7 +200,7 @@ class Proposal < ActiveRecord::Base
 
   # generates a unique slug for the proposal
   def slug
-    return "#{SETTINGS.organization_slug}#{event.ergo.id}-%04d" % id
+    return "#{SETTINGS.organization_slug}#{event.ergo.slug}-%04d" % id
   end
 
   # returns a proposal's duration based on its session type

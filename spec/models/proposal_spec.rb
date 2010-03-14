@@ -349,6 +349,14 @@ describe Proposal do
     end
   end
 
+  describe "when retreiving slug" do
+    it "should return a slug composed of the organization and event slugs plus the proposal identifier" do
+      proposal = proposals(:clio_chupacabras)
+
+      proposal.slug.should == "#{SETTINGS.organization_slug}#{proposal.event.slug}-%04d" % proposal.id
+    end
+  end
+
 private
 
   def new_proposal(attr = {})
