@@ -50,14 +50,13 @@ module SharedFragmentHelper
 
   # Return a new ApplicationController that can be used for rendering fragments.
   def self.new_shared_fragment_app
+    request = ActionController::TestRequest.new
+    response = ActionController::TestResponse.new
     app = ApplicationController.new
-    begin
-      app.process(ActionController::TestRequest.new, ActionController::TestResponse.new)
-    rescue Exception => e
-      # FIXME: WTF!? If and only if specs for multiple controllers are called
-      # during a single execution of spec, the #process command will raise:
-      #   ActionController::UnknownAction: No action responded to index
-      # However, ignoring these errors doesn't seem to hurt anything. WTF!?
+    app.instance_eval do
+      initialize_template_class(response)
+      assign_shortcuts(request, response)
+      initialize_current_url
     end
     return app
   end
