@@ -1,4 +1,4 @@
-<% puts "WARNING: MySQL support is incomplete at this time, use at your own risk!" unless $dyW; $dyW = true %>
+<% puts "WARNING: PostgreSQL support is incomplete at this time, use at your own risk!" unless $dyW; $dyW = true %>
 # PostgreSQL. Versions 7.4 and 8.x are supported.
 #
 # Install the ruby-postgres driver:
