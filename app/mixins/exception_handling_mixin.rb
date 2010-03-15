@@ -1,32 +1,70 @@
 # = ExceptionHandlingMixin
 #
-# This mixin provides application with exception handling:
+# This mixin provides the application with exception handling:
 # 1. Includes ExceptionNotifier plugin's methods
 # 2. Provides attractive template views
 # 3. Provides /br3ak action to test exception handling
+#
+# The exception notifier is enabled by default for the 'preview' and
+# 'production' environments, but you can set the environmental variable
+# EXCEPTION_NOTIFIER to '1' to enable it or '0' to disable it.
+#
+# The exception emails are enabled by default in environments other than 'test'
+# and 'development', but you can set the environmental variable
+# EXCEPTION_EMAILS to '1' to enable them or '0' to disable them.
+#
+# For example, enable the exception notifier for a 'development' server:
+#   EXCEPTION_NOTIFIER=1 ./script/server
 module ExceptionHandlingMixin
 
   include PageTitleHelper
 
-  # Notify on exceptions if Rails environment is either 'preview' or
-  # 'production', or if 'NOTIFY_ON_EXCEPTIONS' environmental variable is set.
-  NOTIFY_ON_EXCEPTIONS = ['preview', 'production'].include?(RAILS_ENV) || ENV['NOTIFY_ON_EXCEPTIONS']
-  NOTIFY_ON_AUTHENTICY_EXCEPTIONS = ENV['NOTIFY_ON_AUTHENTICY_EXCEPTIONS']
-
   # Setup ExceptionNotifier plugin
   def self.included(mixee)
-    if NOTIFY_ON_EXCEPTIONS
+    if self.exception_notifier?
+      Rails.logger.info('ExceptionHandlingMixin: Enabling exception handling')
+
       Rails.configuration.action_controller.consider_all_requests_local = false
       Rails.configuration.action_mailer.raise_delivery_errors = true
+
       mixee.send(:include, ExceptionNotifiable)
+      mixee.send(:consider_all_requests_local=, false)
       mixee.local_addresses.clear
 
       mixee.send(:extend, Methods)
       mixee.send(:include, Methods)
+
+      unless self.exception_emails?
+        Rails.logger.info('ExceptionHandlingMixin: Disabling exception emails')
+        ExceptionNotifier.exception_recipients = []
+      end
+    end
+  end
+
+  # Use the exception notifier?
+  def self.exception_notifier?
+    if ENV['EXCEPTION_NOTIFIER']
+      return ENV['EXCEPTION_NOTIFIER'] == '1'
+    else
+      return %w[preview production].include?(RAILS_ENV)
+    end
+  end
+
+  # Send emails if the exception notifier is enabled?
+  def self.exception_emails?
+    if ENV['EXCEPTION_EMAILS']
+      return ENV['EXCEPTION_EMAILS'] == '1'
+    else
+      return ! %w[test development].include?(RAILS_ENV)
     end
   end
 
   module Methods
+    # Overrides ApplicationController
+    def local_request?
+      return false
+    end
+
     # Overrides ExceptionNotifiable
     def rescue_action_in_public(exception)
       @exception = exception
@@ -34,19 +72,6 @@ module ExceptionHandlingMixin
       case exception
       when ActionController::InvalidAuthenticityToken
         render_422
-
-        # Send emails when encountering InvalidAuthenticityToken errors?
-        if NOTIFY_ON_AUTHENTICY_EXCEPTIONS
-          deliverer = self.class.exception_data
-          data = case deliverer
-            when nil then {}
-            when Symbol then send(deliverer)
-            when Proc then deliverer.call(self)
-          end
-
-          ExceptionNotifier.deliver_exception_notification(exception, self,
-            request, data)
-        end
       else
         super(exception)
       end
