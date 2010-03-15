@@ -65,14 +65,10 @@ module ExceptionHandlingMixin
 
     # Overrides exception_notification/lib/exception_notifiable.rb
     def render_422
-      begin
-        page_title "422 Unprocessable Entity"
-        respond_to do |type|
-          type.html { render :template => "/422.html.erb", :status => "422 Unprocessable Entity" }
-          type.all  { render :nothing => true, :status => "422 Unprocessable Entity" }
-        end
-      rescue
-        super
+      page_title "422 Unprocessable Entity"
+      respond_to do |type|
+        type.html { render :template => "/422.html.erb", :status => "422 Unprocessable Entity" }
+        type.all  { render :nothing => true, :status => "422 Unprocessable Entity" }
       end
     end
 
