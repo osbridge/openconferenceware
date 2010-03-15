@@ -122,6 +122,8 @@ module ApplicationHelper
     content_for :javascript_on_ready, javascript + "\n"
   end
 
+  #---[ Menu navigation ]-------------------------------------------------
+
   # Is the navigation item the currently viewed page? E.g., if the navigation is :sessions, is the :subnav also :sessions.
   def nav_current_page_item?
     return(nav_kind == subnav_kind)
@@ -188,5 +190,22 @@ module ApplicationHelper
     return @event ?
       event == @event.parent_or_self :
       true
+  end
+
+  #---[ Assigned events ]-------------------------------------------------
+
+  # Return array of events assigned to this request.
+  def assigned_events
+    return @events || []
+  end
+
+  # Return array of non-child events assigned to this request.
+  def assigned_nonchild_events
+    return self.assigned_events.compact.uniq.reject(&:parent)
+  end
+
+  # Return array of non-child events assigned to this request sorted by end-date.
+  def assigned_nonchild_events_by_date
+    return self.assigned_nonchild_events.sort_by{|event| event.end_date.ergo.to_i || 0}
   end
 end
