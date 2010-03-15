@@ -27,8 +27,10 @@ module ExceptionHandlingMixin
   end
 
   module Methods
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Overrides ExceptionNotifiable
     def rescue_action_in_public(exception)
+      @exception = exception
+
       case exception
       when ActionController::InvalidAuthenticityToken
         render_422
@@ -50,39 +52,41 @@ module ExceptionHandlingMixin
       end
     end
 
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Render an exception for the given HTTP +code+ (e.g. 404) with a message (e.g. 'Not Found').
+    #
+    # Options:
+    # * :status => Status message to use for title and HTTP status line. Defaults to code and message.
+    # * :template => Template to render. Defaults to using the one matching the error code.
+    def render_exception(code, message, opts={})
+      status   = opts[:status]   || "#{code} #{message}"
+      template = opts[:template] || "/#{code}.html.erb"
+
+      begin
+        page_title status
+        respond_to do |type|
+          type.html { render :status => status, :template => template }
+          type.all  { render :status => status, :nothing  => true     }
+        end
+        return true
+      rescue Exception => e
+        @exception_handler_exception = e
+        return false
+      end
+    end
+
+    # Overrides ExceptionNotifiable
     def render_404
-      begin
-        page_title "404 Not Found"
-        respond_to do |type|
-          type.html { render :template => "/404.html.erb", :status => "404 Not Found" }
-          type.all  { render :nothing => true, :status => "404 Not Found" }
-        end
-      rescue
-        super
-      end
+      render_exception(404, 'Not Found') or super
     end
 
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Unique renderer
     def render_422
-      page_title "422 Unprocessable Entity"
-      respond_to do |type|
-        type.html { render :template => "/422.html.erb", :status => "422 Unprocessable Entity" }
-        type.all  { render :nothing => true, :status => "422 Unprocessable Entity" }
-      end
+      render_exception(422, 'Unprocessable Entity')
     end
 
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Overrides ExceptionNotifiable
     def render_500
-      begin
-        page_title "500 Server Error"
-        respond_to do |type|
-          type.html { render :template => "/500.html.erb", :status => "500 Error" }
-          type.all  { render :nothing => true, :status => "500 Error" }
-        end
-      rescue
-        super
-      end
+      render_exception(500, 'Server Error') or super
     end
 
     # Action for testing 500 error
