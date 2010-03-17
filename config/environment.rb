@@ -36,7 +36,6 @@ Rails::Initializer.run do |config|
 
   # Activate gems in vendor/gems
   config.gem 'comma'
-  config.gem 'rwikibot'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

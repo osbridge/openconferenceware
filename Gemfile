@@ -31,6 +31,10 @@ gem 'action_mailer_tls',   '~> 1.1.3'
 gem 'comma',               '~> 0.3.2'
 gem 'nokogiri',            '~> 1.5.10'
 
+# RB #
+# Disabling this for now, as it isn't actually essential to the app's function
+# gem 'rwikibot',            '= 2.0.7', :path => 'vendor/gems/rwikibot-2.0.7'
+
 gem 'prawn',               '= 0.11.1'
 
 group :development do
