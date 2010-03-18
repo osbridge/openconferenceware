@@ -387,7 +387,7 @@ describe ProposalsController do
         @users = []
         @users.stub!(:by_name).and_return([])
         
-        @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => @users)
+        @proposal = stub_model(Proposal, :id => @key, :event => @event, :track => @event.tracks.empty? ? nil : Track.first, :users => @users)
         @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
         controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
         get opts[:session] ? :session_show : :show, :id => @key
