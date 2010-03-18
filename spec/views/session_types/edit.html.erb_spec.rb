@@ -13,7 +13,7 @@ describe "/session_types/edit.html.erb" do
   it "should render edit form" do
     render "/session_types/edit.html.erb"
     
-    response.should have_tag("form[action=#{session_type_path(@session_type)}][method=post]") do
+    response.should have_selector("form[action=#{session_type_path(@session_type)}][method=post]") do
     end
   end
 end

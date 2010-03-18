@@ -286,8 +286,8 @@ describe ProposalsController do
       stub_current_event!(:event => event)
 
       get :sessions_index, :event => 1234
-      response.should have_tag(".event_text", event.session_text)
-      response.should have_tag(".session_text", event.session_text)
+      response.should have_selector(".event_text", :content => event.session_text)
+      response.should have_selector(".session_text", :content => event.session_text)
     end
 
     it "should display a list of sessions" do
@@ -761,7 +761,7 @@ describe ProposalsController do
         SETTINGS.stub!(:have_anonymous_proposals).and_return(true)
         assert_create(nil, :event_id => @event.slug, :commit => 'Login', :openid_url => 'http://foo.bar') do
           response.should be_redirect
-          response.should redirect_to(browser_session_url(:openid_url => 'http://foo.bar'))
+          response.should redirect_to(open_id_complete_url(:openid_url => 'http://foo.bar'))
           assigns(:proposal).should be_blank
         end
       end
@@ -1021,7 +1021,7 @@ describe ProposalsController do
       get :schedule, :event_id => @event.slug
 
       response.should be_success
-      response.should have_tag(".summary", :text => /#{item.title}/)
+      response.should have_selector(".summary", :content => item.title)
     end
 
     it "should not fail like a whale with iCalendar" do
@@ -1064,24 +1064,24 @@ describe ProposalsController do
 
     it "should list" do
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}"}
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
-      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should_not have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
     end
 
     it "should add user" do
       User.should_receive(:find).and_return(@sue)
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :add => @sue.id}
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
     end
 
     it "should remove user" do
       User.should_receive(:find).and_return(@billy)
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :remove => @billy.id}
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should_not have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
     end
   end
 

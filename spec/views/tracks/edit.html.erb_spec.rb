@@ -16,9 +16,9 @@ describe "/tracks/edit.html.erb" do
   it "should render edit form" do
     render "/tracks/edit.html.erb"
     
-    response.should have_tag("form[action=#{track_path(@track)}][method=post]") do
-      with_tag('input#track_title[name=?]', "track[title]")
-      with_tag('textarea#track_description[name=?]', "track[description]")
+    response.should have_selector("form[action=#{track_path(@track)}][method=post]") do
+      with_selector('input#track_title[name=?]', :content => "track[title]")
+      with_selector('textarea#track_description[name=?]', :content => "track[description]")
     end
   end
 end

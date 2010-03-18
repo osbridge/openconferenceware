@@ -20,9 +20,9 @@ describe "/user_favorites/index.html.erb" do
   it "renders a list of user_favorites" do
     render "user_favorites/index.html.erb"
 
-    response.should have_tag( ".proposal_row", :count => 2 )
-    response.should have_tag( "#proposal_row_#{@proposals[0].id}" )
-    response.should have_tag( "#proposal_row_#{@proposals[1].id}" )
+    response.should have_selector(".proposal_row", :count => 2)
+    response.should have_selector("#proposal_row_#{@proposals[0].id}")
+    response.should have_selector("#proposal_row_#{@proposals[1].id}")
   end
 end
 

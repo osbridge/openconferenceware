@@ -15,7 +15,7 @@ describe "/session_types/new.html.erb" do
   it "should render new form" do
     render "/session_types/new.html.erb"
     
-    response.should have_tag("form[action=?][method=post]", session_types_path) do
+    response.should have_selector("form[action=?][method=post]", session_types_path) do
     end
   end
 end

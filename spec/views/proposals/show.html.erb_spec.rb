@@ -23,12 +23,24 @@ describe "/proposals/show.html.erb" do
       assigns[:kind] = :proposal
     
       render "/proposals/show.html.erb"
-      response.should_not have_tag(".#{status}")
+      response.should_not have_selector(".#{status}")
     end
   end
   
+  it "should show the proposal status for a confirmed proposal if statuses are published" do
+    @event.proposal_status_published = true
+    @proposal.status = 'confirmed'
+
+    assigns[:event]  = @event
+    assigns[:proposal] = @proposal
+    assigns[:kind] = :proposal
+
+    render "/proposals/show.html.erb"
+    response.should have_selector("div.proposal-status")
+  end
+
   %w[accepted waitlisted rejected junk].each do |status|
-    it "should not show the status for #{status} proposals even if statuses are published" do
+    it "should should not show the status for #{status} proposals even if statuses are published" do
       @event.proposal_status_published = true
       @proposal.status = status
       
@@ -37,7 +49,7 @@ describe "/proposals/show.html.erb" do
       assigns[:kind] = :proposal
     
       render "/proposals/show.html.erb"
-      response.should_not have_tag(".#{status}")
+      response.should_not have_selector(".#{status}")
     end
   end
 

@@ -5,10 +5,10 @@ describe "/proposals/_transition_control.html.erb" do
     proposal = stub_model(Proposal, :aasm_events_for_current_state => [:accept, :reject])
     assigns[:proposal] = proposal
     render "/proposals/_transition_control.html.erb"
-    response.should have_tag("select[name='proposal[transition]']") do
-      with_tag "option[value=]", "(currently 'Proposed')"
-      with_tag "option[value=accept]", "Accept"
-      with_tag "option[value=reject]", "Reject"
+    response.should have_selector("select[name='proposal[transition]']") do |node|
+      node.should have_selector("option[value='']", :content => "(currently 'Proposed')")
+      node.should have_selector("option[value='accept']", :content => "Accept")
+      node.should have_selector("option[value='reject']", :content => "Reject")
     end
   end
 end

@@ -17,9 +17,9 @@ describe "/tracks/new.html.erb" do
   it "should render new form" do
     render "/tracks/new.html.erb"
     
-    response.should have_tag("form[action=?][method=post]", tracks_path) do
-      with_tag("input#track_title[name=?]", "track[title]")
-      with_tag('textarea#track_description[name=?]', "track[description]")
+    response.should have_selector("form[action='#{tracks_path}'][method=post]") do |node|
+      node.should have_selector("input#track_title[name='track[title]']")
+      node.should have_selector("textarea#track_description[name='track[description]']")
     end
   end
 end
