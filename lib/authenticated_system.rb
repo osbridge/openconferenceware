@@ -9,12 +9,7 @@ module AuthenticatedSystem
     # Accesses the current user from the session.  Set it to :false if login fails
     # so that future calls do not hit the database.
     def current_user
-      begin
-        @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false)
-      rescue NoMethodError
-        # One of the above calls .env on nil when it's not set during testing, lame.
-        :false
-      end
+      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false)
     end
 
     # Store the given user in the session.
@@ -107,19 +102,26 @@ module AuthenticatedSystem
 
     # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
-      self.current_user = User.find_by_id(session[:user]) if session[:user]
+      if session[:user]
+        Rails.logger.info("Login via session: User##{session[:user]}")
+        self.current_user = User.find_by_id(session[:user]) 
+      end
     end
 
     # Called from #current_user.  Now, attempt to login by basic authentication information.
     def login_from_basic_auth
       username, passwd = get_auth_data
-      self.current_user = User.authenticate(username, passwd) if username && passwd
+      if username && passwd
+        Rails.logger.info("Login via basic auth: username #{username}")
+        self.current_user = User.authenticate(username, passwd) 
+      end
     end
 
     # Called from #current_user.  Finaly, attempt to login by an expiring token in the cookie.
     def login_from_cookie
       user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
       if user && user.remember_token?
+        Rails.logger.info("Login via cookie: auth_token #{cookies[:auth_token]}")
         user.remember_me
         cookies[:auth_token] = { :value => user.remember_token, :expires => user.remember_token_expires_at }
         self.current_user = user
