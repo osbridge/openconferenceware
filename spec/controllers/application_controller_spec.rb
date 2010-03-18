@@ -168,7 +168,6 @@ describe ApplicationController do
           :format => 'html',
           :protocol => 'http',
           :host_with_port => 'foo:80'))
-        @controller.stub!(:relative_url_root).and_return('')
 
         @controller.instance_variable_set(:@event, event)
         @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")
