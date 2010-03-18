@@ -1,5 +1,4 @@
 module DisplayLinkToHelper
-  include MyTruncateHelper
 
   # Return a #link_to for a +url+ that's been sanitized by #h, had its text
   # truncated, and optionally has the 'rel="nofollow"' flag set.
@@ -18,7 +17,7 @@ module DisplayLinkToHelper
     link_to_opts = {}
     link_to_opts[:rel] = "nofollow" if opts[:nofollow]
     link_to_opts[:popup] = true if opts[:popup]
-    truncated_url = my_truncate(url, opts[:maxlength])
+    truncated_url = truncate(url, :length => opts[:maxlength])
     url = "mailto:#{url}" if opts[:mailto];
     return link_to(h(opts[:title] || truncated_url), h(url), link_to_opts)
   end

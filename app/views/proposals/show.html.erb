@@ -22,7 +22,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
       metadescription = "#{published_type if published_type}at #{@event.title}"
       metadescription << " by #{@proposal.users.fullnames}" if multiple_presenters? && @proposal.users.size > 1
   %>
-  <meta name="twitter:description" content="<%= h my_truncate("#{metadescription} &mdash; #{@proposal.excerpt}", 200) %>">
+  <meta name="twitter:description" content="<%= h truncate("#{metadescription} &mdash; #{@proposal.excerpt}", :length => 200) %>">
   <%- if SETTINGS.twitter -%>
   <meta name="twitter:site" content="<%= SETTINGS.twitter %>">
   <%- end -%>
