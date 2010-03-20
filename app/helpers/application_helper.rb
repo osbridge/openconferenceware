@@ -192,6 +192,11 @@ module ApplicationHelper
       true
   end
 
+  # Should the "submit a proposal" link be shown?
+  def display_submit_proposal_link?
+    assigned_event.ergo.accepting_proposals? && !(controller.controller_name == 'proposals' && action_name == 'new')
+  end
+
   #---[ Assigned events ]-------------------------------------------------
 
   # Return array of events assigned to this request.
