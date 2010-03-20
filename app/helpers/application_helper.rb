@@ -198,8 +198,13 @@ module ApplicationHelper
   end
 
   #---[ Assigned events ]-------------------------------------------------
+  
+  # Return event assigned to this request, may be nil.
+  def assigned_event
+    return @event
+  end
 
-  # Return array of events assigned to this request.
+  # Return array of events assigned to this request, may be empty.
   def assigned_events
     return @events || []
   end
