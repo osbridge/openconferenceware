@@ -10,12 +10,12 @@ describe "/tracks/index.html.erb" do
       stub_model(Track,
         :id => 2,
         :title => "value for title",
-        :event_id => @event.id
+        :event => @event
       ),
       stub_model(Track,
         :id => 3,
         :title => "value for title",
-        :event_id => @event.id
+        :event => @event
       )
     ]
     assigns[:tracks] = @tracks
@@ -41,11 +41,11 @@ describe "/tracks/index.html.erb" do
     end
 
     it "should render new link" do
-      response.should have_selector("a[href=#{new_track_path}]")
+      response.should have_selector("a[href='#{new_track_path}']")
     end
 
     it "should render edit links" do
-      response.should have_selector("a[href=#{edit_track_path(@tracks.first)}]")
+      response.should have_selector("a[href='#{edit_track_path(@tracks.first)}']")
     end
   end
 end

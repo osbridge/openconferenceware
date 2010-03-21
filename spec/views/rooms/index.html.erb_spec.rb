@@ -4,9 +4,10 @@ describe "/rooms/index.html.erb" do
   include RoomsHelper
 
   before(:each) do
+    @event = stub_current_event!
     assigns[:rooms] = [
-      stub_model(Room, :name => "Foo room"),
-      stub_model(Room, :name => "Bar room"),
+      stub_model(Room, :name => "Foo room", :event => @event),
+      stub_model(Room, :name => "Bar room", :event => @event),
     ]
   end
 
