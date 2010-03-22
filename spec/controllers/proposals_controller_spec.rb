@@ -1124,8 +1124,9 @@ describe ProposalsController do
     describe "existing record" do
       before(:each) do
         @proposal.id = 123
+        @proposal.event = Event.current
         @params[:id] = @proposal.id
-        Proposal.should_receive(:find).and_return(@proposal)
+        Proposal.should_receive(:find).twice.and_return(@proposal)
       end
 
       it "should match users that aren't in the proposal" do
