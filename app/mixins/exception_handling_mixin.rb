@@ -1,92 +1,117 @@
 # = ExceptionHandlingMixin
 #
-# This mixin provides application with exception handling:
+# This mixin provides the application with exception handling:
 # 1. Includes ExceptionNotifier plugin's methods
 # 2. Provides attractive template views
 # 3. Provides /br3ak action to test exception handling
+#
+# The exception notifier is enabled by default for the 'preview' and
+# 'production' environments, but you can set the environmental variable
+# EXCEPTION_NOTIFIER to '1' to enable it or '0' to disable it.
+#
+# The exception emails are enabled by default in environments other than 'test'
+# and 'development', but you can set the environmental variable
+# EXCEPTION_EMAILS to '1' to enable them or '0' to disable them.
+#
+# For example, enable the exception notifier for a 'development' server:
+#   EXCEPTION_NOTIFIER=1 ./script/server
 module ExceptionHandlingMixin
 
   include PageTitleHelper
 
-  # Notify on exceptions if Rails environment is either 'preview' or
-  # 'production', or if 'NOTIFY_ON_EXCEPTIONS' environmental variable is set.
-  NOTIFY_ON_EXCEPTIONS = ['preview', 'production'].include?(RAILS_ENV) || ENV['NOTIFY_ON_EXCEPTIONS']
-  NOTIFY_ON_AUTHENTICY_EXCEPTIONS = ENV['NOTIFY_ON_AUTHENTICY_EXCEPTIONS']
-
   # Setup ExceptionNotifier plugin
   def self.included(mixee)
-    if NOTIFY_ON_EXCEPTIONS
+    if self.exception_notifier?
+      Rails.logger.info('ExceptionHandlingMixin: Enabling exception handling')
+
       Rails.configuration.action_controller.consider_all_requests_local = false
       Rails.configuration.action_mailer.raise_delivery_errors = true
+
       mixee.send(:include, ExceptionNotifiable)
+      mixee.send(:consider_all_requests_local=, false)
       mixee.local_addresses.clear
 
       mixee.send(:extend, Methods)
       mixee.send(:include, Methods)
+
+      unless self.exception_emails?
+        Rails.logger.info('ExceptionHandlingMixin: Disabling exception emails')
+        ExceptionNotifier.exception_recipients = []
+      end
+    end
+  end
+
+  # Use the exception notifier?
+  def self.exception_notifier?
+    if ENV['EXCEPTION_NOTIFIER']
+      return ENV['EXCEPTION_NOTIFIER'] == '1'
+    else
+      return %w[preview production].include?(RAILS_ENV)
+    end
+  end
+
+  # Send emails if the exception notifier is enabled?
+  def self.exception_emails?
+    if ENV['EXCEPTION_EMAILS']
+      return ENV['EXCEPTION_EMAILS'] == '1'
+    else
+      return ! %w[test development].include?(RAILS_ENV)
     end
   end
 
   module Methods
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Overrides ApplicationController
+    def local_request?
+      return false
+    end
+
+    # Overrides ExceptionNotifiable
     def rescue_action_in_public(exception)
+      @exception = exception
+
       case exception
       when ActionController::InvalidAuthenticityToken
         render_422
-
-        # Send emails when encountering InvalidAuthenticityToken errors?
-        if NOTIFY_ON_AUTHENTICY_EXCEPTIONS
-          deliverer = self.class.exception_data
-          data = case deliverer
-            when nil then {}
-            when Symbol then send(deliverer)
-            when Proc then deliverer.call(self)
-          end
-
-          ExceptionNotifier.deliver_exception_notification(exception, self,
-            request, data)
-        end
       else
         super(exception)
       end
     end
 
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Render an exception for the given HTTP +code+ (e.g. 404) with a message (e.g. 'Not Found').
+    #
+    # Options:
+    # * :status => Status message to use for title and HTTP status line. Defaults to code and message.
+    # * :template => Template to render. Defaults to using the one matching the error code.
+    def render_exception(code, message, opts={})
+      status   = opts[:status]   || "#{code} #{message}"
+      template = opts[:template] || "/#{code}.html.erb"
+
+      begin
+        page_title status
+        respond_to do |type|
+          type.html { render :status => status, :template => template }
+          type.all  { render :status => status, :nothing  => true     }
+        end
+        return true
+      rescue Exception => e
+        @exception_handler_exception = e
+        return false
+      end
+    end
+
+    # Overrides ExceptionNotifiable
     def render_404
-      begin
-        page_title "404 Not Found"
-        respond_to do |type|
-          type.html { render :template => "/404.html.erb", :status => "404 Not Found" }
-          type.all  { render :nothing => true, :status => "404 Not Found" }
-        end
-      rescue
-        super
-      end
+      render_exception(404, 'Not Found') or super
     end
 
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Unique renderer
     def render_422
-      begin
-        page_title "422 Unprocessable Entity"
-        respond_to do |type|
-          type.html { render :template => "/422.html.erb", :status => "422 Unprocessable Entity" }
-          type.all  { render :nothing => true, :status => "422 Unprocessable Entity" }
-        end
-      rescue
-        super
-      end
+      render_exception(422, 'Unprocessable Entity')
     end
 
-    # Overrides exception_notification/lib/exception_notifiable.rb
+    # Overrides ExceptionNotifiable
     def render_500
-      begin
-        page_title "500 Server Error"
-        respond_to do |type|
-          type.html { render :template => "/500.html.erb", :status => "500 Error" }
-          type.all  { render :nothing => true, :status => "500 Error" }
-        end
-      rescue
-        super
-      end
+      render_exception(500, 'Server Error') or super
     end
 
     # Action for testing 500 error

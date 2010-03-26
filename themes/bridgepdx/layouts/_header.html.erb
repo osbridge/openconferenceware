@@ -91,7 +91,7 @@
   </li>
   <li class='events'>
     <ul>
-    <% for event in ([@event]+@events).compact.uniq.reject{|event| event.parent} %>
+    <% for event in assigned_nonchild_events_by_date.reverse %>
       <% content_tag :li, :id => "event-#{event.slug}",
           :class => "event #{flag_event_as_active?(event) ? 'active' : ''}".strip do %>
         <%= link_to event.slug, "/#{event.slug}", :class => 'year' %>

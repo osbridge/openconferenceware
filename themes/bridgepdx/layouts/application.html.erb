@@ -22,9 +22,9 @@
 
   <!-- Dynamic styles -->
   <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
-    <% if event_tracks? && @events %>
+    <% if event_tracks? && assigned_events %>
       <style type="text/css" media="screen">
-        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => @events.map(&:tracks_combined).flatten} %>
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => assigned_events.map(&:tracks_combined).flatten} %>
       </style>
     <% end %>
   <% end %>
@@ -94,8 +94,8 @@
                         :class => (controller.controller_name == 'user_favorites') ? 'active' : '' ) %>
                   <%= content_tag(:li, link_to( "My proposals", proposals_user_path(current_user) ),
                         :class => (controller.controller_name == 'users' && action_name == 'proposals') ? 'active' : '') %>
-                  <% if @event.ergo.accepting_proposals? && !(controller.controller_name == 'proposals' && action_name == 'new') %>
-                  <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(@event), :class => 'submit_a_proposal' )) %>
+                  <% if display_submit_proposal_link? %>
+                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(assigned_event), :class => 'submit_a_proposal' )) %>
                   <% end -%>
                 </ul>
               </li>
@@ -106,18 +106,18 @@
                   <ul>
                     <li>
                       <%= link_to "Events", manage_events_path %>
-                      <% if @event && ! @event.new_record? %>
-                        (<%= link_to "manage this event", manage_event_path(@event) %>)
+                      <% if assigned_event && ! assigned_event.new_record? %>
+                        (<%= link_to "manage this event", manage_event_path(assigned_event) %>)
                         <ul>
                           <% if proposal_statuses? %>
-                            <li><%= link_to "Sessions", event_sessions_path(@event) %></li>
+                            <li><%= link_to "Sessions", event_sessions_path(assigned_event) %></li>
                           <% end %>
-                          <li><%= link_to "Proposals", event_proposals_path(@event) %>
-                            (<%= link_to "Bulk edit", manage_event_proposals_path(@event) %>)
-                            <% unless @event.accepting_proposals? %>
-                              (<%= link_to "Add new", new_event_proposal_path(@event) %>)
+                          <li><%= link_to "Proposals", event_proposals_path(assigned_event) %>
+                            (<%= link_to "Bulk edit", manage_event_proposals_path(assigned_event) %>)
+                            <% unless assigned_event.accepting_proposals? %>
+                              (<%= link_to "Add new", new_event_proposal_path(assigned_event) %>)
                             <% end %>
-                            (<%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %>)
+                            (<%= link_to "Export CSV", formatted_event_proposals_path(assigned_event,:csv) %>)
                           </li>
                           <% if event_tracks? %>
                             <li><%= link_to "Tracks", tracks_path %></li>
@@ -128,7 +128,7 @@
                           <% if event_rooms? %>
                             <li><%= link_to "Rooms", rooms_path %></li>
                           <% end %>
-                          <li><%= link_to "Schedule Items", event_schedule_items_path(@event) %></li>
+                          <li><%= link_to "Schedule Items", event_schedule_items_path(assigned_event) %></li>
                         </ul>
                       <% end %>
                     </li>
@@ -145,8 +145,8 @@
               <li id="login-as">
                 <ul>
                   <li><%= link_to "Login", login_path %></li>
-                  <% if @event.ergo.accepting_proposals? %>
-                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(@event), :class => 'submit_a_proposal' )) %>
+                  <% if assigned_event.ergo.accepting_proposals? %>
+                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(assigned_event), :class => 'submit_a_proposal' )) %>
                   <% end %>
                 </ul>
               </li>
@@ -156,7 +156,7 @@
               <li id="proposals-for">
                 <h3>Proposals for</h3>
                 <ul>
-                  <% for event in @events %>
+                  <% for event in assigned_nonchild_events_by_date.reverse %>
                     <li><%= link_to event.title, event_proposals_path(event) %></li>
                   <% end %>
                 </ul>

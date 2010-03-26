@@ -1,13 +1,11 @@
 <p>
-  Sorry, that action failed because you either have your cookies turned off, have a bad browser, or the server's configuration just changed. Please do the following:
+  Sorry, could not complete your request because its security token was invalid. This error may have happened because:
 </p>
 <ol>
-  <li>Enable cookies and accept them from this site.</li>
-  <li>Logout and login if you were logged in before.</li>
-  <li>Navigate back to the form and use it again</li>
+  <li>Your browser isn't accepting cookies: please accept this site's cookies, reload the form and try again.</li>
+  <li>You submitted a stale form, one loaded before you logged in or out: please reload the form and try again.</li>
+  <li>Our server's security token was just updated: please reload the form and try again.</li>
 </ol>
-
 <p>
-  If followed the above instructions and got this error message again, please <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "422 Unprocessable Entity on #{Socket.gethostname}:#{File.basename(RAILS_ROOT)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
+  If the instructions above didn't help, please <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "422 Unprocessable Entity on #{Socket.gethostname}:#{File.basename(RAILS_ROOT)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
 </p>
-
