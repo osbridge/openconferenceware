@@ -62,15 +62,8 @@ TO FINISH SETUP
     Snippet.reload_from_fixtures! if perform
   end
 
-  desc "Destroy all data"
-  task :destroy => ['clear'] do
-    FileList['db/development.sqlite3', 'db/test.sqlite3'].each do |path|
-      rm path if File.exist?(path)
-    end
-  end
-
   desc 'Load sample data, after destroying existing data and cache'
-  task :sample => [:destroy, 'clear', 'db:migrate', 'spec:db:fixtures:load', 'setup:admin']
+  task :sample => ['db:migrate', 'spec:db:fixtures:load', 'setup:admin', 'clear']
 end
 
 desc %{Setup application's database, "admin" user, and snippets}
