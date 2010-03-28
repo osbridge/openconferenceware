@@ -121,10 +121,6 @@ module AuthenticatedSystem
     def login_from_cookie
       user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
       if user && user.remember_token?
-        # FIXME Resolve issues with the auth_token
-        Rails.logger.info("Login via cookie: temporarily disabled, auth_token #{cookies[:auth_token]}")
-        return false 
-
         Rails.logger.info("Login via cookie: auth_token #{cookies[:auth_token]}")
         user.remember_me
         cookies[:auth_token] = { :value => user.remember_token, :expires => user.remember_token_expires_at }
