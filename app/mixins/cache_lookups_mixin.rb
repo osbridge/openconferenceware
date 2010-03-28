@@ -35,6 +35,21 @@ module CacheLookupsMixin
   end
 
   module ClassMethods
+    # Should lookups be cached? If the "perform_caching" Rails environment
+    # configuration setting is enabled, default to using cache.
+    #
+    # You can force caching on or off using the CACHELOOKUPS environmental
+    # variable, e.g. activate with:
+    #
+    #   CACHELOOKUPS=1 ./script/server
+    def cache_lookups?
+      if Rails.configuration.action_controller.perform_caching
+        return ENV['CACHELOOKUPS'] != '0'
+      else
+        return ENV['CACHELOOKUPS'] == '1'
+      end
+    end
+
     # Setup the lookup caching system.
     #
     # Arguments:
@@ -50,27 +65,35 @@ module CacheLookupsMixin
       return "#{self.name.gsub('::', '__')}_dict"
     end
 
+    def query_one(key)
+      return self.find(:first, :conditions => {self.lookup_key => key})
+    end
+
+    def query_all
+      return self.all(self.lookup_opts)
+    end
+
     # Return instance from cache matching +key+. If +key+ is undefined, returns
     # array of all instances.
     def lookup(key=nil)
-      ### Bypass lookup caching if the following global is true:
-      if $cache_lookup_mixin_disable
-        if key
-          return self.find(:first, :conditions => {self.lookup_key => key})
-        else
-          return self.find(:all, self.lookup_opts)
-        end
+      unless self.cache_lookups?
+        return key ?
+          self.query_one(key) :
+          self.query_all
       end
 
       silo = self.lookup_silo_name
-      dict = nil
       ActiveRecord::Base.benchmark("Lookup: #{silo}#{key.ergo{'#'+to_s}}") do
         dict = self.fetch_object(silo){
           # FIXME Exceptions within this block are silently swallowed by something. This is bad.
-          self.find(:all, self.lookup_opts).inject(Dictionary.new){|s,v| s[v.send(self.lookup_key)] = v; s}
+          dict = Dictionary.new
+          for record in self.query_all
+            dict[record.send(self.lookup_key)] = record
+          end
+          dict
         }
+        return key ? dict[key.kind_of?(Symbol) ? key.to_s : key] : dict.values
       end
-      return key ? dict[key.with{kind_of?(Symbol) ? to_s : self}] : (dict.values || [])
     end
 
     def expire_cache
