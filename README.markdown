@@ -131,6 +131,27 @@ You can customize the application's appearance and behavior by creating a theme,
         git log -p themes/bridgepdx/layouts/application.html.erb
 
 
+Environmental variables
+-----------------------
+
+You can alter the application's behavior by setting environmental variables. For example, to use the `bridgepdx` theme you can run:
+    THEME=bridgepdx ./script/server
+
+Application behavior is affected by these environmental variables:
+
+- `THEME=foo` forces the system to use the `foo` theme. You can also put the name of the theme into the `config/theme.txt` file in `RAILS_ROOT`.
+- `NO_MIGRATION_CHECK=1` disables the check that ensures the database has had all the migrations applied.
+- `EXCEPTION_NOTIFIER=1` forces the exception notification system to run, it's only used by default in `production` and `preview` environments.
+- `EXCEPTION_EMAILS=1` forces the exception notification system to actually send emails, it's only not used by default in `test` and `development` environments.
+- `QUERYTRACE=1` provides logging that shows where each database query is done, handy for identifying unwanted queries.
+- `VERBOSE_LOAD=1` enables verbose logging of all `require` and `load` statements in the application.
+
+The "bridgepdx" theme's behavior is affected by these environmental variables:
+
+- `LOCALCSS=1` forces the use of local CSS files when using the `production` or `preview` environments, these default to using the CSS files on the production servers.
+- `WEBANALYTICS=1` forces the inclusion of web analytics tracking in the layout, this is enabled by default in the `production` environment.
+
+
 Mailing list
 ------------
 
