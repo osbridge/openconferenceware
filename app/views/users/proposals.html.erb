@@ -1,24 +1,39 @@
 <% is_for_current_user = (current_user == @user) %>
+<% kind = :proposals %>
 <% cache "my_proposals,user_#{@user.id},is_me_#{is_for_current_user}" do %>
   <% page_title "#{@user.label.possessiveize} Proposals"%>
   <% unless @proposals.blank? %>
     <% @proposals.group_by(&:event).sort_by{|group| group[0].start_date }.reverse.each do |event, proposals| %>
-      <% if event.proposal_status_published? %>
-        <% unless ( sessions = proposals.select{|proposal| proposal.confirmed?} ).empty? %>
-          <h2>Sessions accepted for <%= event.title %></h2>
-          <%= render :partial => "proposals/list", :locals => {:kind => :sessions, :records => sessions, :sorter => false} %>
-        <% end -%>
+      <div id="sub_list_for_event_<%= event.id %>">
+        <h2><%= event.title %></h2>
+        <div class="proposals_sub_list_for_kind proposals_sub_list_for_kind_<%= kind %>">
+          <div class="proposals_sub_list_for_kind_toggle">
+            <%= link_to "Display #{kind}...", "#", :class => "show_toggle", :style => "display: none" %>
+            <%= link_to "Hide #{kind}...", "#",    :class => "hide_toggle", :style => "display: none" %>
+          </div>
+          <div class="proposals_sub_list_for_kind_content">
+            <% if event.proposal_status_published? %>
+              <% unless ( sessions = proposals.select{|proposal| proposal.confirmed?} ).empty? %>
+                <h3>Sessions accepted</h3>
+                <%= render :partial => "proposals/list", :locals => {:kind => :sessions, :records => sessions, :sorter => false} %>
+              <% end -%>
 
-        <% unless ( unaccepted_proposals = proposals.reject{|proposal| proposal.confirmed? } ).empty? %>
-          <h2>Sessions proposed for <%= event.title%></h2>
-          <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => unaccepted_proposals, :sorter => false} %>
-        <% end -%>
-      <% else -%>
-        <h2>Sessions proposed for <%= event.title%></h2>
-        <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => proposals, :sorter => false} %>
-      <% end -%>
+              <% unless ( unaccepted_proposals = proposals.reject{|proposal| proposal.confirmed? } ).empty? %>
+                <h3>Sessions proposed</h3>
+                <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => unaccepted_proposals, :sorter => false} %>
+              <% end -%>
+            <% else -%>
+              <h3>Sessions proposed</h3>
+              <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => proposals, :sorter => false} %>
+            <% end -%>
+          </div>
+        </div>
+      </div>
+      <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
     <% end -%>
   <% else -%>
     <h2><%= is_for_current_user ? 'You have' : "#{@user.label} has" %> not submitted any proposals</h2>
   <% end -%>
 <% end -%>
+
+<% run_when_dom_is_ready "$('#sub_list_for_event_#{Event.current.id} .show_toggle').click()" %>
