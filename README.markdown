@@ -139,7 +139,8 @@ You can customize the application's appearance and behavior by creating a theme,
         git log -p themes/bridgepdx/layouts/application.html.erb
 
 
-### Environmental variables
+Environmental variables
+-----------------------
 
 You can alter the application's behavior by setting environmental variables. For example, to use the `bridgepdx` theme you can run:
     THEME=bridgepdx ./script/server
