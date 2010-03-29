@@ -105,7 +105,7 @@ module SharedFragmentHelper
     # Render template:
     filename = 'layouts/_header.html.erb'
     if File.exist?(File.join(RAILS_ROOT, 'app', 'views', filename))
-      return renderer.render_file(filename)
+      return renderer.render_file(:file => filename)
     else
       return nil
     end
