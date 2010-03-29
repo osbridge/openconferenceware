@@ -235,17 +235,20 @@ function bind_manage_proposals_checkboxes() {
 
 // Change the UI of the proposal_sub_list so that the proposals are hidden behind a link.
 function archive_proposals_sub_list(event_id) {
-  var container = $('#sub_list_for_event_'+event_id+' .proposals_sub_list_for_kind_proposals');
+  var container = $('#sub_list_for_event_'+event_id+' .proposals_sub_list_for_kind');
   var toggle = container.find('.proposals_sub_list_for_kind_toggle');
   var content = container.find('.proposals_sub_list_for_kind_content');
-  toggle.click(function(event) {
+  toggle.find('a').click(function(event) {
     var target = $(this); $t = target;
-    var partner = target.parents('.proposals_sub_list_for_kind').find('.proposals_sub_list_for_kind_content');
+    var partner_content = target.parents('.proposals_sub_list_for_kind').find('.proposals_sub_list_for_kind_content');
+    var partner_toggle = target.siblings().slice(0,1);
     target.hide();
-    partner.show();
+    partner_toggle.show();
+    target.hasClass('show_toggle') ? partner_content.show() : partner_content.hide();
     return false;
   });
-  toggle.show();
+  toggle.find('.show_toggle').show();
+  toggle.find('.hide_toggle').hide();
   content.hide();
 }
 
