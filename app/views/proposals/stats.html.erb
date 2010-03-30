@@ -1,8 +1,10 @@
 <% 
 cache "proposals_stats,event_#{@event.slug}" do
   @tracks = @event.tracks
+  @session_types = @event.session_types
   @proposals = @event.proposals_for_stats
   proposals_for_track = @proposals.inject({}){|result, proposal| (result[proposal.track] ||= []) << proposal; result}
+  proposals_for_session_type = @proposals.inject({}){|result, proposal| (result[proposal.session_type] ||= []) << proposal; result}
 
   proposals_over_time = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
 
@@ -45,8 +47,14 @@ cache "proposals_stats,event_#{@event.slug}" do
   @tracks.each do |track|
     track_distribution.data track.title, proposals_for_track[track].ergo.size || 0, track.color.html.gsub('#','')
   end
+
+  session_type_distribution = GoogleChart::PieChart.new("650x400","Proposals by Session Type",false)
+  @session_types.each do |type|
+    session_type_distribution.data type.title, proposals_for_session_type[type].ergo.size || 0
+  end
   %>
 
   <p><img src="<%= proposals_over_time.to_url %>" /></p>
   <p><img src="<%= track_distribution.to_url %>" /></p>
+  <p><img src="<%= session_type_distribution.to_url %>" /></p>
 <% end %><%# cache %>

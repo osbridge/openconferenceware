@@ -133,8 +133,8 @@ class Event < ActiveRecord::Base
     return self.proposals.find(
       :all, 
       :order => "created_at", 
-      :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at", 
-      :include => [:track])
+      :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at, proposals.session_type_id",
+      :include => [:track, :session_type])
   end
 
   # Return an array of the Event's ScheduleItems and Proposal sessions that
