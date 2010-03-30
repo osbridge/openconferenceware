@@ -47,7 +47,7 @@
         <label>Start Date</label>
       </td>
       <td>
-        <%=h @event.start_date %>
+        <%=h @event.start_date.to_s(:date_time_long) %>
       </td>
     </tr>
     <tr>
@@ -55,7 +55,7 @@
         <label>End Date</label>
       </td>
       <td>
-        <%=h @event.end_date %>
+        <%=h @event.end_date.to_s(:date_time_long) %>
       </td>
     </tr>
   <% end %>
@@ -64,12 +64,12 @@
       <label>Proposal Deadline</label>
     </td>
     <td>
-      <%=h @event.deadline %>
+      <%=h @event.deadline.to_s(:date_time_long) %>
     </td>
   </tr>
   
   <tr>
-    <td class="label-cell">
+    <td class="label-text">
       <label>Lock editing of proposal title?</label>
     </td>
     <td>
