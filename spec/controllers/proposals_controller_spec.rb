@@ -535,8 +535,10 @@ describe ProposalsController do
           proposal.presenter.should == user.fullname
         end
       end
+    end
 
-      it "should not display form for closed events" do
+    describe "with closed event" do
+      it "should not display form" do
         login_as(users(:quentin))
         event = events(:closed)
         get :new, :event_id => event.slug
