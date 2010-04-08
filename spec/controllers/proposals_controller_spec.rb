@@ -534,9 +534,111 @@ describe ProposalsController do
           proposal = assigns(:proposal)
           proposal.presenter.should == user.fullname
         end
-      end
 
-      it "should not display form for closed events" do
+        describe "when event has tracks" do
+          describe "when there are no tracks" do
+            it "should display new event form for admin user" do
+              event = Factory(:event, :tracks => [])
+              user = Factory(:admin)
+              login_as(user)
+
+              get :new, :event_id => event.slug
+
+              flash[:failure].should =~ /no tracks/i
+              response.should redirect_to(new_event_track_path(event))
+            end
+
+            it "should display error for non-admin user" do
+              event = Factory(:event, :tracks => [])
+              user = Factory(:user)
+              login_as(user)
+
+              get :new, :event_id => event.slug
+
+              flash[:failure].should =~ /no tracks/i
+              response.should redirect_to(event_proposals_path(event))
+            end
+          end
+
+          it "should assign a track if there's only one" do
+            event = Factory(:event, :tracks => [])
+            track = Factory(:track, :event => event)
+            user = Factory(:user)
+            login_as(user)
+
+            get :new, :event_id => event.slug
+
+            flash[:failure].should be_nil
+            assigns[:proposal].track.should == track
+          end
+
+          it "should not assign a track if there's more than one" do
+            event = Factory(:event, :tracks => [])
+            track1 = Factory(:track, :event => event)
+            track2 = Factory(:track, :event => event)
+            user = Factory(:user)
+            login_as(user)
+
+            get :new, :event_id => event.slug
+
+            flash[:failure].should be_nil
+            assigns[:proposal].track.should be_nil
+          end
+        end
+
+        describe "when event has session types" do
+          describe "when there are no session types" do
+            it "should display new event form for admin user" do
+              event = Factory(:event, :session_types => [])
+              user = Factory(:admin)
+              login_as(user)
+
+              get :new, :event_id => event.slug
+
+              response.should redirect_to(new_event_session_type_path(event))
+              flash[:failure].should =~ /no session types/i
+            end
+
+            it "should display error for non-admin user" do
+              event = Factory(:event, :session_types => [])
+              user = Factory(:user)
+              login_as(user)
+
+              get :new, :event_id => event.slug
+
+              response.should redirect_to(event_proposals_path(event))
+              flash[:failure].should =~ /no session types/i
+            end
+          end
+
+          it "should assign a session type if there's only one" do
+            event = Factory(:event, :session_types => [])
+            session_type = Factory(:session_type, :event => event)
+            user = Factory(:user)
+            login_as(user)
+
+            get :new, :event_id => event.slug
+
+            assigns[:proposal].session_type.should == session_type
+          end
+
+          it "should not assign a session type if there's more than one" do
+            event = Factory(:event, :session_types => [])
+            session_type1 = Factory(:session_type, :event => event)
+            session_type2 = Factory(:session_type, :event => event)
+            user = Factory(:user)
+            login_as(user)
+
+            get :new, :event_id => event.slug
+
+            assigns[:proposal].session_type.should be_nil
+          end
+        end
+      end
+    end
+
+    describe "with closed event" do
+      it "should not display form" do
         login_as(users(:quentin))
         event = events(:closed)
         get :new, :event_id => event.slug

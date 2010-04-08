@@ -2,6 +2,10 @@
 
 include AuthenticatedTestHelper
 
+# Load factory girl and all her factories in 'spec/factories/':
+require 'factory_girl'
+Dir["#{RAILS_ROOT}/spec/factories/*.rb"].each{|filename| require filename}
+
 # Save the response.body to "/tmp/response.html", to aid manual debugging.
 def save_body
   filename = "/tmp/response.html"
