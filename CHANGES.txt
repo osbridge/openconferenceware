@@ -3,15 +3,18 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Next
-- FIXED "/events/EVENTID/proposals/stats" to use per-event caching.
+* v0.20100408
+- SECURITY flaw fixed: The buggy "restful_authentication" plugin used by OpenConferenceWare and OpenProposals let users without email addresses that had used the "remember me" feature to sometimes login as other users without email addresses that had also used the "remember me" feature during the same day. All known operators running this software were notified and sent patches in advance of this notification. Because authentication was handled by OpenID, a compromise could not be escalated and there was no password to steal, the worst thing an attacker could do was edit your profile and proposals.
+- FIXED handling of multiple events: reworked layout, header, menu, favorites, tracks, etc.
+- FIXED autoincrement id in the events table, which could prevent creation of new events.
 - FIXED "rake setup:sample" to work with an empty database.
 - FIXED exception handling to display clearer messages and correctly handle rendering errors in the layout.
-- CHANGED Gem dependencies to use Bundler, install the "bundler" gem and then run "bundle install" to install the application's dependencies. If you're deploying via Capistrano, they will automatically be installed for you.
-- CHANGED "bridgepdx" theme for 2010, it uses a new menu that provides a way to pick events and their associated data.
-- Improved handling of multiple events: reworked layout, header, menu, favorites, tracks, etc.
-- Added shared fragments, which are local files that can be included in different applications, e.g., a header to include in WordPress and wiki.
+- FIXED "/events/EVENTID/proposals/stats" to use per-event caching.
+- CHANGED Gem dependencies to use Bundler. You must install the "bundler" gem and run "bundle install" to install the application's dependencies. If you're using the Capistrano deploy task, install Bundler and its "deploy" task will automatically install the other dependencies.
+- CHANGED "bridgepdx" theme for 2010, it uses a new menu that provides a way to choose events and their associated data.
+- Added shared fragments to provide a common heaer for Rails app, WordPress blog and wikis, these are local files that are included into these different applications.
 - Added task to update thumbnails: `rake paperclip:refresh CLASS=User`
+- Added factory_girl library, factories and additional specs.
 
 * v0.20100218
 - FIXED event-related checks to use a proposal's event when possible,
