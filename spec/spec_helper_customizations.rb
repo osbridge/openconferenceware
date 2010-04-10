@@ -1,10 +1,19 @@
-# Extra libraries and features imported into "spec/spec_helper.rb"
+# Customizations made to RSpec environment
+
+#---[ Settings ]--------------------------------------------------------
+
+# Disable the shared fragment rendering
+SharedFragmentHelper.enabled = false
+
+#---[ Libraries ]-------------------------------------------------------
 
 include AuthenticatedTestHelper
 
 # Load factory girl and all her factories in 'spec/factories/':
 require 'factory_girl'
 Dir["#{RAILS_ROOT}/spec/factories/*.rb"].each{|filename| require filename}
+
+#---[ Functions ]-------------------------------------------------------
 
 # Save the response.body to "/tmp/response.html", to aid manual debugging.
 def save_body
@@ -37,3 +46,5 @@ def stub_current_event!(opts={})
   end
   return event
 end
+
+#---[ fin ]-------------------------------------------------------------
