@@ -55,7 +55,9 @@ cache(cache_key) do
         <% unless container.kind_of?(Room) %>
           <%= displayer.call(:proposals, event_records_by_confirmation[false], true) %>
         <% end %>
-        <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
+        <% unless event.current_or_parent_current? %>
+          <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
+        <% end %>
       <% else %>
         <%= displayer.call(:proposals, event_records, false) %>
       <% end %>

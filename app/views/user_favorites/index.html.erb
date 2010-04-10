@@ -10,5 +10,3 @@
 <div id='list_user_favorites'>
 <%= render :partial => "proposals/sub_list", :locals => {:container => @user, :records => @user_favorites, :header_prefix => "Favorite", :header_tag => "h4"} %>
 </div>
-
-<% run_when_dom_is_ready "$('#sub_list_for_event_#{Event.current.id} .show_toggle').click()" %>

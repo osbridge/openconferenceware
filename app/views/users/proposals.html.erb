@@ -29,11 +29,11 @@
           </div>
         </div>
       </div>
-      <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
+      <% unless event.current_or_parent_current? %>
+        <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
+      <% end %>
     <% end -%>
   <% else -%>
     <h2><%= is_for_current_user ? 'You have' : "#{@user.label} has" %> not submitted any proposals</h2>
   <% end -%>
 <% end -%>
-
-<% run_when_dom_is_ready "$('#sub_list_for_event_#{Event.current.id} .show_toggle').click()" %>
