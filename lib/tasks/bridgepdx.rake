@@ -190,6 +190,8 @@ For example:
 
     desc "Populates the attendee wiki with pages to hold session notes."
     task :populate => :environment do
+      require 'lib/rwikibot_page_drone'
+
       credentials = get_wiki_credentials
       wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
       event = ENV['EVENT'] ? Event.find_by_slug(ENV['EVENT']) : Event.current

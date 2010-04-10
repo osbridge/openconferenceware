@@ -11,7 +11,6 @@ require 'facets/boolean'
 
 # Local libraries
 require 'lib/defer_proxy'
-require 'lib/rwikibot_page_drone'
 require 'lib/ext/active_support_cache_object'
 require 'lib/ext/hash_to_xml_workaround'
 require 'lib/ext/object_logit'
