@@ -12,6 +12,10 @@ module SharedFragmentHelper
   # Provides the TestRequest and TestRequest objects for ::render_theme_header_to_string.
   require 'action_controller/test_process'
 
+  # Should the shared fragments be rendered? Defaults to true.
+  mattr_accessor :enabled
+  @@enabled = true
+
   # Render all shared fragments to files.
   def self.render_shared_fragments
     Rails.logger.info("SharedFragmentHelper: rendering all shared fragments to files at #{self.shared_fragments_dir}")
@@ -75,6 +79,11 @@ module SharedFragmentHelper
   # Return a string containing the theme's header for given event, or nil if
   # the theme doesn't have a header partial found.
   def self.render_theme_header_to_string(event=nil)
+    unless self.enabled
+      Rails.logger.info("SharedFragmentHelper: not rendering because disabled")
+      return false
+    end
+
     # Get an Event record:
     case event
     when Event
