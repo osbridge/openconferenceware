@@ -3,6 +3,9 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* v0.20100408.1
+- FIXED proposal creation: the acts-as-taggable 1.1.9 plugin was buggy, reverted to 1.1.5.
+
 * v0.20100408
 - SECURITY flaw fixed: The buggy "restful_authentication" plugin used by OpenConferenceWare and OpenProposals let users without email addresses that had used the "remember me" feature to sometimes login as other users without email addresses that had also used the "remember me" feature during the same day. All known operators running this software were notified and sent patches in advance of this notification. Because authentication was handled by OpenID, a compromise could not be escalated and there was no password to steal, the worst thing an attacker could do was edit your profile and proposals.
 - FIXED handling of multiple events: reworked layout, header, menu, favorites, tracks, etc.
