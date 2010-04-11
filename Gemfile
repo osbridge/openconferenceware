@@ -16,7 +16,7 @@ gem 'sqlite3-ruby', '~> 1.2.0', :require => false # For default database driver
 # Necessary:
 gem 'RedCloth',            '~> 4.2.3'
 gem 'aasm',                '~> 2.1.5'
-gem 'acts-as-taggable-on', '~> 1.1.5'
+gem 'acts-as-taggable-on', '=  1.1.5'
 gem 'color',               '~> 1.4.1'
 gem 'deep_merge',          '~> 0.1.0'
 gem 'fastercsv',           '~> 1.5.3'
