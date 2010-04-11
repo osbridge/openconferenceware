@@ -9,7 +9,7 @@
 # You can render the fragments from the command-line by running:
 #   ./script/runner "SharedFragmentHelper.render_shared_fragments"
 module SharedFragmentHelper
-  # Provides the TestRequest and TestRequest objects for ::render_theme_header_to_string.
+  # Provides the TestRequest and TestRequest objects for ::render_theme_header_to_file.
   require 'action_controller/test_process'
 
   # Should the shared fragments be rendered? Defaults to true.
@@ -35,6 +35,11 @@ module SharedFragmentHelper
   # Render the theme's header to a file for the given +event+. If no event was
   # specified, will render the current event.
   def self.render_theme_header_to_file(event=nil)
+    unless self.enabled
+      Rails.logger.info("SharedFragmentHelper: not rendering because disabled")
+      return false
+    end
+
     File.open(self.shared_fragment_path_for_header(event), 'w+') do |handle|
       handle.write(self.render_theme_header_to_string(event))
     end
@@ -79,11 +84,6 @@ module SharedFragmentHelper
   # Return a string containing the theme's header for given event, or nil if
   # the theme doesn't have a header partial found.
   def self.render_theme_header_to_string(event=nil)
-    unless self.enabled
-      Rails.logger.info("SharedFragmentHelper: not rendering because disabled")
-      return false
-    end
-
     # Get an Event record:
     case event
     when Event
