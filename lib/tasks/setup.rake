@@ -1,5 +1,5 @@
 namespace :setup do
-  task :default => ["tmp:create", "db:migrate", "clear", :admin, :snippets, "db:test:prepare"] do
+  task :default => ['tmp:create', 'db:migrate:reset', 'clear', :admin, :snippets, 'db:test:prepare'] do
     puts <<-HERE
 
 TO FINISH SETUP
@@ -63,7 +63,7 @@ TO FINISH SETUP
   end
 
   desc 'Load sample data, after destroying existing data and cache'
-  task :sample => ['db:migrate', 'spec:db:fixtures:load', 'setup:admin', 'clear']
+  task :sample => ['tmp:create', 'db:migrate:reset', 'spec:db:fixtures:load', 'setup:admin', 'clear']
 end
 
 desc %{Setup application's database, "admin" user, and snippets}
