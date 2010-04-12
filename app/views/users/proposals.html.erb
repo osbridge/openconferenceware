@@ -11,7 +11,7 @@
         <div class="proposals_sub_list_for_kind proposals_sub_list_for_kind_<%= kind %>">
           <div class="proposals_sub_list_for_kind_toggle">
             <%= link_to "Display #{kind}...", "#", :class => "show_toggle", :style => "display: none" %>
-            <%= link_to "Hide #{kind}...", "#",    :class => "hide_toggle", :style => "display: none" %>
+            <%#= link_to "Hide #{kind}...", "#",    :class => "hide_toggle", :style => "display: none" %>
           </div>
           <div class="proposals_sub_list_for_kind_content">
             <% if event.proposal_status_published? %>
