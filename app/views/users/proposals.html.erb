@@ -1,3 +1,5 @@
+<% include_user_favorites_javascript %>
+
 <% is_for_current_user = (current_user == @user) %>
 <% kind = :proposals %>
 <% cache "my_proposals,user_#{@user.id},is_me_#{is_for_current_user}" do %>
