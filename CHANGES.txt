@@ -3,6 +3,10 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Next
+- Fixed "rake setup" and "rake setup:sample": these now drop, create and populate the database.
+- Improved admin interface to "accept and confirm" a proposal.
+
 * v0.20100408.1
 - FIXED proposal creation: the acts-as-taggable 1.1.9 plugin was buggy, reverted to 1.1.5.
 
