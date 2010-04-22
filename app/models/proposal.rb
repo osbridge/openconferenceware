@@ -81,6 +81,10 @@ class Proposal < ActiveRecord::Base
     transitions :from => :proposed, :to => :confirmed
   end
 
+  aasm_event :accept_and_decline do
+    transitions :from => :proposed, :to => :declined
+  end
+
   aasm_event :mark_as_junk do
     transitions :from => :proposed, :to => :junk
   end
@@ -218,7 +222,7 @@ class Proposal < ActiveRecord::Base
   # the second is the status.
   def titles_and_statuses
     result = [["(currently '#{self.aasm_current_state.to_s.titleize}')", nil]]
-    result += self.aasm_events_for_current_state.map{|s|[s.to_s.titleize, s.to_s]}
+    result += self.aasm_events_for_current_state.map{|s|[s.to_s.titleize, s.to_s]}.sort_by{|title, state| title}
     return result
   end
 
