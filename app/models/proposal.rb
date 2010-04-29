@@ -288,7 +288,7 @@ class Proposal < ActiveRecord::Base
     if self.users.include?(user)
       return nil
     else
-      Observist.expire
+      CacheWatcher.expire
       self.users << user
       return user
     end
@@ -299,7 +299,7 @@ class Proposal < ActiveRecord::Base
     user = User.get(user)
 
     if self.users.include?(user)
-      Observist.expire
+      CacheWatcher.expire
       self.users.delete(user)
       return user
     else

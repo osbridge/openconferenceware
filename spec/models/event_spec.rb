@@ -31,19 +31,8 @@ describe Event do
   describe "when finding current event" do
     fixtures :all
 
-    it "should use cache" do
+    it "should use find event" do
       event = events(:open)
-      Event.should_receive(:fetch_object).with("event_current").and_return(event)
-      Event.should_not_receive(:current_by_deadline)
-
-      Event.current.should == event
-    end
-
-    it "should use find if not in cache" do
-      event = events(:open)
-      Rails.cache.should_receive(:read).any_number_of_times.and_return(nil)
-
-      Observist.expire
 
       Event.should_receive(:current_by_settings).and_return(nil)
       Event.should_receive(:current_by_deadline).and_return(event)
@@ -56,21 +45,6 @@ describe Event do
       Event.current.should be_nil
     end
   end
-
-  describe "when expiring cache" do
-    it "should expire current" do
-      RAILS_CACHE.should_receive(:delete).with(Event::EVENT_CURRENT_CACHE_KEY)
-
-      Event.expire_current
-    end
-
-    it "should expire current through expire_cache" do
-      Event.should_receive(:expire_current)
-
-      Event.expire_cache
-    end
-  end
-
   describe "#populated_proposals" do
     fixtures :events, :proposals
 

@@ -5,6 +5,10 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
 - FIXED Event, added uniqueness validations to slug and title fields.
+- FIXED `rake clear` to expire the compiled javascripts.
+- FIXED cache consistency, rollbacks now cause expirations so that cache doesn't store stale data.
+- Improved performance of shared fragments, they're now only regenerated as needed and use fast preloaded data.
+- Improved performance of user favorites, they now only load the proposal ids for more efficient transfers.
 - Improved models, added cascade deletes to avoid leaving orphaned records after parents are deleted.
 - Improved "README", described the various custom environmental variables that affect the application's behavior.
 - Improved performance of event loading code by checking identifiers rather than loading entire objects.

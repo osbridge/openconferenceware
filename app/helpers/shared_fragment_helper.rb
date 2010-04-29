@@ -9,8 +9,12 @@
 # You can render the fragments from the command-line by running:
 #   ./script/runner "SharedFragmentHelper.render_shared_fragments"
 module SharedFragmentHelper
-  # Provides the TestRequest and TestRequest objects for ::render_theme_header_to_string.
+  # Provides the TestRequest and TestRequest objects for ::render_theme_header_to_file.
   require 'action_controller/test_process'
+
+  # Should the shared fragments be rendered? Defaults to true.
+  mattr_accessor :enabled
+  @@enabled = true
 
   # Render all shared fragments to files.
   def self.render_shared_fragments
@@ -22,7 +26,7 @@ module SharedFragmentHelper
   # Render the theme headers for all events in the database to files.
   def self.render_theme_headers_to_files
     self.render_theme_header_to_file # current
-    for event in Event.all
+    for event in Event.lookup
       self.render_theme_header_to_file(event)
     end
     return true
@@ -31,6 +35,11 @@ module SharedFragmentHelper
   # Render the theme's header to a file for the given +event+. If no event was
   # specified, will render the current event.
   def self.render_theme_header_to_file(event=nil)
+    unless self.enabled
+      Rails.logger.info("SharedFragmentHelper: not rendering because disabled")
+      return false
+    end
+
     File.open(self.shared_fragment_path_for_header(event), 'w+') do |handle|
       handle.write(self.render_theme_header_to_string(event))
     end
@@ -81,7 +90,7 @@ module SharedFragmentHelper
       # Accept given object
     when String, Symbol, Fixnum
       # Lookup by slug
-      event = Event.find_by_slug(event.to_s)
+      event = Event.lookup(event.to_s)
     else
       # Use current event
       event = Event.current

@@ -341,8 +341,8 @@ function populate_user_favorites() {
   if( logged_in() ) {
     $.getJSON( app.favorites_path + '.json?join=1',
       function(data) {
-        jQuery.each( data, function(i, fav) {
-          $( '.favorite_' + fav.proposal_id ).addClass('checked');
+        jQuery.each( data, function(i, proposal_id) {
+          $( '.favorite_' + proposal_id ).addClass('checked');
         });
       }
     )

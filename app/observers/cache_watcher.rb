@@ -1,4 +1,8 @@
-class Observist < ActiveRecord::Observer
+# = CacheWatcher
+#
+# Watches for changes in models and expires the cache.
+class CacheWatcher < ActiveRecord::Observer
+  # Watch for changes in these classes:
   observe \
     Comment,
     Event,
@@ -12,25 +16,25 @@ class Observist < ActiveRecord::Observer
     User,
     UserFavorite
 
+  # Expire the cache
   def self.expire(*args)
-    pattern = args.first || //
-    Rails.logger.info("Observist: expiring cache")
+    Rails.logger.info("CacheWatcher: expiring cache")
     case Rails.cache
     when ActiveSupport::Cache::MemCacheStore
       Rails.cache.instance_variable_get(:@data).flush_all
     when ActiveSupport::Cache::FileStore
-      Rails.cache.delete_matched(pattern) rescue nil
+      Rails.cache.delete_matched(//) rescue nil
     else
       raise NotImplementedError, "Don't know how to expire cache: #{Rails.cache.class.name}"
     end
-
-    SharedFragmentHelper.render_shared_fragments
   end
 
   def expire(*args)
-    self.class.expire
+    self.class.expire(*args)
   end
 
-  alias_method :after_save,    :expire
-  alias_method :after_destroy, :expire
+  # Expire the cache when these triggers are called on a record
+  alias_method :after_save,     :expire
+  alias_method :after_destroy,  :expire
+  alias_method :after_rollback, :expire
 end
