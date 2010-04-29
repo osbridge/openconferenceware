@@ -33,4 +33,9 @@ describe UserFavorite do
   it "should remove and do nothing if no existing record" do
     proc { remove_favorite }.should_not change(UserFavorite, :count)
   end
+
+  it "should return ids of user's favorite proposals" do
+    add_favorite
+    UserFavorite.proposal_ids_for(@user).should == [@proposal.id]
+  end
 end

@@ -14,9 +14,10 @@ class UserFavoritesController < ApplicationController
     @user_favorites = Defer {
       view_cache_key = "favorites,user_#{@user.id}.#{request.format},join_#{params[:join]}"
       Rails.cache.fetch_object(view_cache_key) {
-        # The :join argument, used by the AJAX, causes action to return UserFavorite records, rather than Proposal records.
+        # The :join argument is sent by the AJAX UI to fetch a terse list of
+        # proposal_ids so it can display stars next to favorited proposals.
         if params[:join] == "1"
-          UserFavorite.find_all_by_user_id(@user.id)
+          UserFavorite.proposal_ids_for(@user)
         else
           @user.favorites.populated
         end
