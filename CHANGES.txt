@@ -3,7 +3,7 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Next
+* v0.20100429.1
 - FIXED Event, added uniqueness validations to slug and title fields.
 - FIXED `rake clear` to expire the compiled javascripts.
 - FIXED cache consistency, rollbacks now cause expirations so that cache doesn't store stale data.
