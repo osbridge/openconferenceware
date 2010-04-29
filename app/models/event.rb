@@ -46,6 +46,8 @@ class Event < ActiveRecord::Base
     :deadline,
     :open_text,
     :closed_text
+  validates_uniqueness_of :slug
+  validates_uniqueness_of :title
 
   # Is this event accepting proposals?
   def accepting_proposals?

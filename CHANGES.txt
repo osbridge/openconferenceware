@@ -4,6 +4,7 @@ Changes
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
+- FIXED Event, added uniqueness validations to slug and title fields.
 - Improved models, added cascade deletes to avoid leaving orphaned records after parents are deleted.
 
 * v0.20100429
