@@ -75,7 +75,7 @@ module CacheLookupsMixin
 
     def expire_cache
       Rails.logger.info("Lookup, expiring: #{self.name}")
-      Observist.expire(/#{lookup_silo_name}_.+/)
+      CacheWatcher.expire(/#{lookup_silo_name}_.+/)
     end
 
     def fetch_object(silo, &block)

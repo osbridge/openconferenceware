@@ -43,7 +43,7 @@ describe Event do
       event = events(:open)
       Rails.cache.should_receive(:read).any_number_of_times.and_return(nil)
 
-      Observist.expire
+      CacheWatcher.expire
 
       Event.should_receive(:current_by_settings).and_return(nil)
       Event.should_receive(:current_by_deadline).and_return(event)

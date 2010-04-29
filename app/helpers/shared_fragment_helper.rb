@@ -22,7 +22,7 @@ module SharedFragmentHelper
   # Render the theme headers for all events in the database to files.
   def self.render_theme_headers_to_files
     self.render_theme_header_to_file # current
-    for event in Event.all
+    for event in Event.lookup
       self.render_theme_header_to_file(event)
     end
     return true
@@ -81,7 +81,7 @@ module SharedFragmentHelper
       # Accept given object
     when String, Symbol, Fixnum
       # Lookup by slug
-      event = Event.find_by_slug(event.to_s)
+      event = Event.lookup(event.to_s)
     else
       # Use current event
       event = Event.current
