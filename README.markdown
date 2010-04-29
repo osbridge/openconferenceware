@@ -94,17 +94,23 @@ To install the application and its dependencies:
 
         bundle install
 
-8. Run the application's interactive setup and follow its instructions -- WARNING, this will destroy your database's contents:
+8. Optionally configure a custom database, see `config/database.yml` for details.
+
+9. Create your databases using its native tools or by running:
+
+        rake db:create:all
+
+10. Run the application's interactive setup and follow its instructions -- WARNING, this will destroy your database's contents:
 
         rake setup
 
-9. Or run the application's interactive setup which pre-populates your database with sample data -- WARNING, this will destroy your database's contents:
+11. Or run the application's interactive setup which pre-populates your database with sample data -- WARNING, this will destroy your database's contents:
 
         rake setup:sample
 
-10. If you intend to setup a production server, you should consider using Phusion Passenger from <http://www.modrails.com/> or Thin <http://code.macournoyer.com/thin/>
+12. If you intend to setup a production server, you should consider using Phusion Passenger from <http://www.modrails.com/> or Thin <http://code.macournoyer.com/thin/>
 
-11. If you intend to deploy releases to a production server, consider using Capistrano and read the `config/deploy.rb` file.
+13. If you intend to deploy releases to a production server, consider using Capistrano and read the `config/deploy.rb` file.
 
 
 Security
