@@ -535,10 +535,11 @@ describe ProposalsController do
           proposal.presenter.should == user.fullname
         end
 
-        describe "when event has tracks" do
-          describe "when there are no tracks" do
+        describe "when an event can have tracks" do
+          describe "but none are assigned" do
             it "should display new event form for admin user" do
-              event = Factory(:event, :tracks => [])
+              event = Factory(:event)
+              event.session_types << Factory.build(:session_type)
               user = Factory(:admin)
               login_as(user)
 
@@ -549,7 +550,8 @@ describe ProposalsController do
             end
 
             it "should display error for non-admin user" do
-              event = Factory(:event, :tracks => [])
+              event = Factory(:event)
+              event.session_types << Factory.build(:session_type)
               user = Factory(:user)
               login_as(user)
 
@@ -561,7 +563,8 @@ describe ProposalsController do
           end
 
           it "should assign a track if there's only one" do
-            event = Factory(:event, :tracks => [])
+            event = Factory(:event)
+            event.session_types << Factory.build(:session_type)
             track = Factory(:track, :event => event)
             user = Factory(:user)
             login_as(user)
@@ -573,7 +576,8 @@ describe ProposalsController do
           end
 
           it "should not assign a track if there's more than one" do
-            event = Factory(:event, :tracks => [])
+            event = Factory(:event)
+            event.session_types << Factory.build(:session_type)
             track1 = Factory(:track, :event => event)
             track2 = Factory(:track, :event => event)
             user = Factory(:user)
@@ -586,10 +590,11 @@ describe ProposalsController do
           end
         end
 
-        describe "when event has session types" do
-          describe "when there are no session types" do
+        describe "when event can have session types" do
+          describe "but none are assigned" do
             it "should display new event form for admin user" do
-              event = Factory(:event, :session_types => [])
+              event = Factory(:event)
+              event.tracks << Factory.build(:track)
               user = Factory(:admin)
               login_as(user)
 
@@ -600,7 +605,8 @@ describe ProposalsController do
             end
 
             it "should display error for non-admin user" do
-              event = Factory(:event, :session_types => [])
+              event = Factory(:event)
+              event.tracks << Factory.build(:track)
               user = Factory(:user)
               login_as(user)
 
@@ -612,7 +618,8 @@ describe ProposalsController do
           end
 
           it "should assign a session type if there's only one" do
-            event = Factory(:event, :session_types => [])
+            event = Factory(:event)
+            event.tracks << Factory.build(:track)
             session_type = Factory(:session_type, :event => event)
             user = Factory(:user)
             login_as(user)
@@ -623,7 +630,8 @@ describe ProposalsController do
           end
 
           it "should not assign a session type if there's more than one" do
-            event = Factory(:event, :session_types => [])
+            event = Factory(:event)
+            event.tracks << Factory.build(:track)
             session_type1 = Factory(:session_type, :event => event)
             session_type2 = Factory(:session_type, :event => event)
             user = Factory(:user)
