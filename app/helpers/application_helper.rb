@@ -211,7 +211,7 @@ module ApplicationHelper
 
   # Return array of non-child events assigned to this request.
   def assigned_nonchild_events
-    return self.assigned_events.compact.uniq.reject(&:parent)
+    return self.assigned_events.compact.uniq.reject(&:parent_id)
   end
 
   # Return array of non-child events assigned to this request sorted by end-date.
