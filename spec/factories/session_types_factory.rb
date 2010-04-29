@@ -4,5 +4,5 @@ Factory.define :session_type do |f|
   f.duration "45"
 
   # :belongs_to association
-  f.association :event
+  # * :event
 end

@@ -13,9 +13,4 @@ Factory.define :event do |f|
   f.schedule_published false
   f.parent_id nil
   f.proposal_titles_locked false
-
-  # :has_many associations
-  f.tracks { |record| [record.association(:track, :event => record.result)] }
-  f.rooms { |record| [record.association(:room, :event => record.result)] }
-  f.session_types { |record| [record.association(:session_type, :event => record.result)] }
 end
