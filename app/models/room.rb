@@ -21,8 +21,8 @@
 class Room < ActiveRecord::Base
   # Associations
   belongs_to :event
-  has_many :proposals
-  has_many :schedule_items
+  has_many :proposals, :dependent => :nullify
+  has_many :schedule_items, :dependent => :nullify
 
   # Validations
   validates_presence_of :name, :event

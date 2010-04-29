@@ -102,8 +102,8 @@ class Proposal < ActiveRecord::Base
   belongs_to :track
   belongs_to :session_type
   belongs_to :room
-  has_many :comments
-  has_many :user_favorites
+  has_many :comments, :dependent => :destroy
+  has_many :user_favorites, :dependent => :destroy
   has_many :users_who_favor, :through => :user_favorites, :source => :user
 
   has_and_belongs_to_many :users do

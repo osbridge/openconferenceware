@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :proposals
 
-  has_many :user_favorites
+  has_many :user_favorites, :dependent => :destroy
   has_many :favorites, :through => :user_favorites, :source => :proposal do
     def proposals
       self
