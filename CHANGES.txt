@@ -3,6 +3,9 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Next
+- Improved models, added cascade deletes to avoid leaving orphaned records after parents are deleted.
+
 * v0.20100429
 - Fixed "rake setup" and "rake setup:sample": these now drop, create and populate the database correctly.
 - Improved admin interface, added a way to "accept and decline" a proposal in one step, as pair for the existing "accept and confirm".

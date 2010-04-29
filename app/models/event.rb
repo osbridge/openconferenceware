@@ -31,12 +31,12 @@ class Event < ActiveRecord::Base
   cache_lookups_for :slug, :order => 'deadline desc', :include => [:tracks, :rooms]
 
   # Associations
-  has_many :proposals, :order => 'submitted_at desc'
-  has_many :tracks, :order => 'title asc'
-  has_many :session_types
-  has_many :rooms
-  has_many :schedule_items
-  has_many :children, :class_name => 'Event', :foreign_key => 'parent_id'
+  has_many :proposals, :order => 'submitted_at desc', :dependent => :destroy
+  has_many :tracks, :order => 'title asc', :dependent => :destroy
+  has_many :session_types, :dependent => :destroy
+  has_many :rooms, :dependent => :destroy
+  has_many :schedule_items, :dependent => :destroy
+  has_many :children, :class_name => 'Event', :foreign_key => 'parent_id', :dependent => :destroy
   belongs_to :parent, :class_name => 'Event', :foreign_key => 'parent_id'
 
   # Validations

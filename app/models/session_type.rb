@@ -15,7 +15,7 @@
 class SessionType < ActiveRecord::Base
   # Associations
   belongs_to :event
-  has_many :proposals
+  has_many :proposals, :dependent => :nullify
 
   # Validations
   validates_presence_of \
