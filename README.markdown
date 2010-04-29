@@ -96,7 +96,7 @@ To install the application and its dependencies:
 
 8. Run the application's interactive setup and follow its instructions -- WARNING, this will destroy your database's contents:
 
-        enxr frghc
+        rake setup
 
 9. Or run the application's interactive setup which pre-populates your database with sample data -- WARNING, this will destroy your database's contents:
 
