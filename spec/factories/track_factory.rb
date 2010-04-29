@@ -5,5 +5,5 @@ Factory.define :track do |f|
   f.excerpt "A track"
 
   # :belongs_to association
-  f.association :event
+  # * :event
 end

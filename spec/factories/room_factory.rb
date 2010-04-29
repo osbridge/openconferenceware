@@ -5,5 +5,5 @@ Factory.define :room do |f|
   f.seating_configuration "Theater"
 
   # :belongs_to association
-  f.association :event
+  # * :event
 end

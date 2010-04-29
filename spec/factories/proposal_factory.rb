@@ -18,9 +18,10 @@ Factory.define :proposal do |f|
   f.status "proposed"
   f.start_time nil
 
-  # :belongs_to associations
-  f.association :event
-  f.association :track
-  f.association :session_type
-  f.association :room
+  # :belongs_to associations:
+  # * :event
+  # * :track
+  # * :session_type
+  # * :room
+  # * :users
 end
