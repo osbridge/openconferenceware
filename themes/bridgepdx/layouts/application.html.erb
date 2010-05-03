@@ -206,8 +206,10 @@
       pageTracker._trackPageview();
     </script>
 
+    <%# getclicky is really, really slow and this hurts the loading of pages:
     <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
+    %>
 
     <script type="text/javascript">
     var pkBaseURL = (("https:" == document.location.protocol) ? "https://opensourcebridge.org/stats/piwik/" : "http://opensourcebridge.org/stats/piwik/");
