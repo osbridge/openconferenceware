@@ -1,5 +1,50 @@
 namespace :schedule do
   namespace :import do
+    desc "Import schedule from CSV file."
+    task :csv => :environment do
+      unless ENV['CSV'] and ENV['EVENT']
+        puts <<-HERE
+schedule:import:csv
+
+Usage:
+  rake schedule:import:csv RAILS_ENV=production EVENT=2010 CSV=schedule.csv
+
+CSV format:
+  Your CSV file must have a header with these titles and data:
+  * date
+  * time
+  * proposal_id
+        HERE
+        exit 1
+      end
+
+      event_slug = ENV['EVENT']
+      csv_file = ENV['CSV']
+
+      event = Event.find_by_slug(event_slug)
+      puts "* Loaded event by slug: #{event.slug}"
+
+      has_seen_header = false
+      puts "* Reading CSV file: #{csv_file}"
+      FasterCSV.foreach(csv_file) do |row|
+        date, time, proposal_id = row
+        if has_seen_header
+          proposal = Proposal.find(proposal_id)
+          datetime = Time.zone.parse "#{date} #{time}"
+          puts "- Setting #{datetime.inspect} for #{proposal.title}"
+          proposal.update_attribute(:start_time, datetime)
+        else
+          expected_header = %w[date time proposal_id]
+          unless expected_header == row
+            puts "ERROR: your CSV file header must be #{expected_header.inspect}"
+            exit 1
+          end
+          puts "* Validated CSV header"
+          has_seen_header = true
+        end
+      end
+    end
+
     desc "Import schedule from Google Spread Sheet"
     task :google_spreadsheet => :environment do
       require 'google_spreadsheet'
