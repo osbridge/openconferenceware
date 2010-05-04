@@ -3,6 +3,10 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Next
+- Improved schedule so admins can view it before it's published or sessions are assigned to rooms.
+- Added task to import schedule for an event from a CSV file: `rake schedule:import:csv`.
+
 * v0.20100429.1
 - FIXED Event, added uniqueness validations to slug and title fields.
 - FIXED `rake clear` to expire the compiled javascripts.
