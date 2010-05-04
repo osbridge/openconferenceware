@@ -1,12 +1,14 @@
 class Schedule
   attr_accessor :items
+  attr_accessor :is_admin
 
-  def initialize(event_or_items)
+  def initialize(event_or_items, is_admin=false)
     self.items = []
+    self.is_admin = is_admin
 
     case event_or_items
     when Event
-      self.items = event_or_items.calendar_items
+      self.items = event_or_items.calendar_items(is_admin)
     when Array
       self.items = event_or_items
     else

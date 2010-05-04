@@ -66,6 +66,12 @@
   </ul>
 </div>
 
+<% if admin? && !@event.schedule_published? %>
+<div class='admin-only'>
+  Schedule isn't public yet &mdash; only admins can see this!
+</div>
+<% end -%>
+
 <% @schedule.days.each do |day| %>
   <a name="<%= "day_#{day.date.strftime('%Y_%m_%d')}" %>"></a>
   <a href="#top" class='to_top'>Return to top</a>

@@ -117,14 +117,22 @@ class Event < ActiveRecord::Base
   end
 
   # Return an array of the Event's ScheduleItems and Proposal sessions that
-  # have been scheduled and given a room location.
-  def calendar_items
-    return \
-      (self.schedule_published? \
-        ? self.proposals.confirmed.scheduled.located.find(:all, :include => [:users, :room, :session_type, {:track => :event}]) \
-        : []) + \
-      self.schedule_items.find(:all, :include => [:room]) + \
-      self.children.map(&:calendar_items).flatten
+  # have been scheduled and given a room location. Optionally specify +is_admin+
+  # to display schedule if it's not been published yet.
+  def calendar_items(is_admin=false)
+    results = []
+    scope = nil
+    if self.schedule_published?
+      scope = self.proposals.confirmed.scheduled.located
+    elsif is_admin
+      scope = self.proposals.confirmed.scheduled
+    end
+    if scope
+      results += scope.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
+    end
+    results += self.schedule_items.find(:all, :include => [:room])
+    results += (self.children.map{|child| child.calendar_items(is_admin)}.flatten)
+    return results
   end
   
   # Return list of people that submitted to this event.

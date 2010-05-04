@@ -88,7 +88,7 @@ class ProposalsController < ApplicationController
   def schedule
     page_title 'Schedule'
 
-    @schedule = Defer { Schedule.new(@event) }
+    @schedule = Defer { Schedule.new(@event, admin?) }
     assign_prefetched_hashes
 
     respond_to do |format|
