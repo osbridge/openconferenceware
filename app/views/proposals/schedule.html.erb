@@ -22,26 +22,30 @@
 <% if admin? && !@schedule.room_conflicts.empty? %>
 <div class='admin-only'>
   <h3>( ! ) Room Conflicts Detected</h3>
-  <%= content_tag(:ul,
-        @schedule.room_conflicts.map{ |conflict|
-          content_tag(:li,
-            "<em>#{conflict[:item].title}</em> vs. <em>#{conflict[:conflicts_with].title}</em> in #{conflict[:room].name}"
-          )
-        }.join("\n")
-      ) %>
+  <ul>
+    <% for conflict in @schedule.room_conflicts %>
+      <li>
+        <em><%= conflict[:item].title %></em> vs. <em><%= conflict[:conflicts_with].title %></em> 
+        <% if conflict[:room] %>
+          in <%= conflict[:room].name %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 </div>
 <% end -%>
 
 <% if admin? && !@schedule.user_conflicts.empty? %>
 <div class='admin-only'>
   <h3>( ! ) Speaker Conflicts Detected</h3>
-  <%= content_tag(:ul,
-        @schedule.user_conflicts.map{ |conflict|
-          content_tag(:li,
-            "<strong>#{conflict[:user].fullname}</strong><em>#{conflict[:item].title}</em> vs. <em>#{conflict[:conflicts_with].title}</em> in #{conflict[:room].name}"
-          )
-        }.join("\n")
-      ) %>
+  <% for conflict in @schedule.user_conflicts %>
+    <li>
+      <strong><%= conflict[:user].fullname %></strong> is trying to speak at: <em><%= conflict[:item].title %></em> -and- <em><%= conflict[:conflicts_with].title %></em>
+      <% if conflict[:room] %>
+        in <%= conflict[:room].name %>
+      <% end %>
+    </li>
+  <% end %>
 </div>
 <% end -%>
 
