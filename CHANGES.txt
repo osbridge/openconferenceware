@@ -4,6 +4,8 @@ Changes
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
+- Fixed schedule of user favorites so it's only displayed when the schedule is published.
+- Fixed schedule so admin can view an unreleased schedule with collisions but without room assignments.
 - Fixed schedule items (e.g., coffee breaks) so that they're displayed for an event.
 - Improved schedule so admins can view it before it's published or sessions are assigned to rooms.
 - Added task to import schedule for an event from a CSV file: `rake schedule:import:csv`.
