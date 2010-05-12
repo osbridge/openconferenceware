@@ -29,6 +29,7 @@ class UserFavoritesController < ApplicationController
       format.xml  { render :xml => Undefer(@user_favorites) }
       format.json  { render :json => Undefer(@user_favorites) }
       format.ics {
+        return redirect_to user_favorites_path(@user) unless schedule_visible?
         render :text => Proposal.to_icalendar(
           @user_favorites.scheduled,
           :title => "#{@user.label.possessiveize} favorites",

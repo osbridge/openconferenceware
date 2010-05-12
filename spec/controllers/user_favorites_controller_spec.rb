@@ -13,12 +13,37 @@ describe UserFavoritesController do
   end
 
   describe "GET index" do
-    it "assigns favorites for the given user as @user_favorites" do
-      favorite = stub_model(UserFavorite)
+    before do
+      @event = stub_current_event!
+      @favorite = stub_model(UserFavorite)
       User.should_receive(:find).with('42').and_return(@user = stub_model(User))
-      @user.stub!(:favorites => mock(Array, :populated => [favorite]))
+      @user.stub!(:favorites => mock(Array, :populated => [@favorite]),
+                  :label => 'Sven')
+    end
+
+    it "assigns favorites for the given user as @user_favorites" do
       get :index, :user_id => '42'
-      Undefer(assigns[:user_favorites]).should == [favorite]
+      Undefer(assigns[:user_favorites]).should == [@favorite]
+    end
+
+    describe "as an ics file" do
+      it "should render an ics file if the schedule is published" do
+        @event.stub!(:schedule_published? => true)
+
+        # TODO I'm sure there's a better way to mock this scope onto this fake ActiveRecord recordset
+        DeferProxy.should_receive(:new).and_return(mock( Array, :scheduled => [@favorite]))
+
+        Proposal.should_receive(:to_icalendar).and_return("ICS'D!")
+        get :index, :user_id => '42', :format => 'ics'
+        response.body.should == "ICS'D!"
+      end
+
+      it "should redirect to the sessions path if the schedule has not been published" do
+        @event.stub!(:proposal_status_published? => true)
+        @controller.stub!(:schedule_visible? => false)
+        get :index, :user_id => '42', :format => 'ics'
+        response.should redirect_to user_favorites_url(@user)
+      end
     end
   end
 
