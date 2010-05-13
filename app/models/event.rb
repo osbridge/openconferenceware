@@ -121,14 +121,8 @@ class Event < ActiveRecord::Base
   # to display schedule if it's not been published yet.
   def calendar_items(is_admin=false)
     results = []
-    scope = nil
-    if self.schedule_published?
-      scope = self.proposals.confirmed.scheduled.located
-    elsif is_admin
-      scope = self.proposals.confirmed.scheduled
-    end
-    if scope
-      results += scope.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
+    if self.schedule_published? || is_admin
+      results += self.proposals.confirmed.scheduled.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
     end
     results += self.schedule_items.find(:all, :include => [:room])
     results += (self.children.map{|child| child.calendar_items(is_admin)}.flatten)
