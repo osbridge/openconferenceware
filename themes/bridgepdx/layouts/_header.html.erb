@@ -31,6 +31,7 @@
         ["video", "video"],
         ["get-involved", "get-involved"],
         ["attend", "(attend|register)"],
+        ["bofs", "events/.+?bof/.+"],
         ["proposals_or_sessions", "(events/.+?/)?(proposals|sessions)"],
         ["schedule", "events/.+?/schedule"],
         ["speakers", "events/.+?/speakers"],
@@ -109,6 +110,10 @@
           <% if event.proposal_status_published? %>
           <li><%= link_to 'Speakers', speakers_event_path(event), :class => 'speakers' %></li>
           <% end -%>
+
+          <% if bof = event.children.first(:conditions => ['slug LIKE ?', '%bof']) %>
+            <li><%= link_to 'BoFs', "/events/#{bof.slug}/", :class => 'bofs' %></li>
+          <% end %>
 
           <li><%= link_to 'Wiki', "/#{event.slug}/wiki/", :class => 'wiki' %></li>
           <li><%= link_to 'Sponsors', "/sponsors/#{event.slug}/", :class => 'sponsors' %></li>

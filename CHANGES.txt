@@ -9,6 +9,7 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Fixed schedule items (e.g., coffee breaks) so that they're displayed for an event.
 - Improved schedule so admins can view it before it's published or sessions are assigned to rooms.
 - Added task to import schedule for an event from a CSV file: `rake schedule:import:csv`.
+- Added menu link on 'bridgepdx' header to BoF event if they're available.
 
 * v0.20100429.1
 - FIXED Event, added uniqueness validations to slug and title fields.
