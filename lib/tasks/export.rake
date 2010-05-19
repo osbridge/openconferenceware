@@ -7,7 +7,8 @@ namespace :export do
 
   namespace :speakers do
     def speakers
-      Proposal.confirmed.populated.map(&:users).flatten.sort_by(&:last_name).uniq
+      scope = ENV["EVENT"] ? Event.find_by_slug(ENV["EVENT"]).proposals : Proposal
+      return scope.confirmed.populated.map(&:users).flatten.sort_by(&:last_name).uniq
     end
 
     desc "Exports basic speaker badge information to speakers.csv"
