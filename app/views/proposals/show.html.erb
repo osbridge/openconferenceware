@@ -88,12 +88,16 @@ focus :comment_message if @focus_comment
     <div class='proposal-slug'>
       <%= @proposal.slug %>
     </div>
-    <% if schedule_visible? && event_rooms? && @proposal.room && @proposal.start_time %>
+    <% if schedule_visible? && @proposal.start_time %>
       <div class='proposal-scheduling'>
         <b>Scheduled:</b>
         <%= normalize_time(@proposal, :format => :html) %> 
-        in 
-        <%= link_to h(@proposal.room.name), @proposal.room %>
+        <% if event_rooms? && @proposal.room %>
+          in
+          <span class='proposal-room'>
+            <%= link_to h(@proposal.room.name), @proposal.room %>
+          </span>
+        <% end %>
       </div>
     <% end %>
     <% if @proposal.session_notes_url && @event.proposal_titles_locked? %>
