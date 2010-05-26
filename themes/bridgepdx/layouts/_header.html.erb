@@ -112,7 +112,7 @@
           <% end -%>
 
           <% if bof = event.children.first(:conditions => ['slug LIKE ?', '%bof']) %>
-            <li><%= link_to 'BoFs', "/events/#{bof.slug}/", :class => 'bofs' %></li>
+            <li><%= link_to 'BoFs', "/events/#{bof.slug}/#{bof.proposal_status_published? ? 'sessions' : 'proposals' }", :class => 'bofs' %></li>
           <% end %>
 
           <li><%= link_to 'Wiki', "/#{event.slug}/wiki/", :class => 'wiki' %></li>
