@@ -357,6 +357,39 @@ describe Proposal do
     end
   end
 
+  describe "is a proposal related to an event?" do
+    it "should be related to its own event" do
+      event = Factory :populated_event
+      proposal = proposal_for_event(event)
+
+      proposal.related_to_event?(proposal.event).should be_true
+    end
+
+    it "should be related to its own event's parent" do
+      parent = Factory :populated_event
+      event = Factory :populated_event, :parent => parent
+      proposal = proposal_for_event(event)
+
+      proposal.related_to_event?(event).should be_true
+    end
+
+    it "should be related to its own event's parent's children" do
+      event = Factory :populated_event
+      child = Factory :populated_event, :parent => event
+      proposal = proposal_for_event(event)
+
+      proposal.related_to_event?(event).should be_true
+    end
+
+    it "should not be related to an unrelated event" do
+      event = Factory :populated_event
+      proposal = proposal_for_event(event)
+      unrelated = Factory :populated_event
+
+      proposal.related_to_event?(unrelated).should be_false
+    end
+  end
+
 private
 
   def new_proposal(attr = {})

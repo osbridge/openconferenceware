@@ -6,10 +6,12 @@
 # * wrapper_tag => Tag to wrap the display in. Defaults to :div.
 # * display_sub_list => Should a sub_list, a detailed list of proposals/sessions for the user, be displayed? Defaults to false.
 # * hide_rooms => Should the rooms be hidden in the list of sessions displayed for each user? Defaults to false.
+# * only_for_event => Only display entries associated with this event record or its children. Optional.
 
 hide_rooms ||= false
 wrapper_tag ||= :div
 display_sub_list ||= false
+only_for_event = local_assigns[:only_for_event]
 %>
 
 <% content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
@@ -68,6 +70,7 @@ display_sub_list ||= false
       <%
       # Use prefetched values
       sessions = @sessions_for_user_hash.ergo[user.id] || user.sessions
+      sessions = @event.related_proposals(sessions) if only_for_event
       %>
       <% unless sessions.empty? %>
         <h4 class='sessions'>Sessions</h4>

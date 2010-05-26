@@ -188,4 +188,31 @@ class Event < ActiveRecord::Base
       self.parent :
       self
   end
+
+  # Return all of this event's children and its children's children all the way down.
+  def descendents
+    return [self.children, self.children.map(&:descendents)].flatten.uniq
+  end
+
+  # Return the parent and all it's descendants
+  def family
+    return [self.parent_or_self, self.parent_or_self.descendents].flatten.uniq
+  end
+
+  # Return proposals that are related to this event, it's children or its parent.
+  def related_proposals(some_proposals)
+    returning([]) do |related|
+      parent = self.parent_or_self
+      for proposal in some_proposals
+        catch :found do
+          for an_event in self.family
+            if proposal.event_id == an_event.id
+              related << proposal
+              throw :found
+            end
+          end
+        end
+      end
+    end
+  end
 end

@@ -45,8 +45,9 @@ describe Event do
       Event.current.should be_nil
     end
   end
+
   describe "#populated_proposals" do
-    fixtures :events, :proposals
+    fixtures :all
 
     before(:each) do
       @event = events(:open)
@@ -105,6 +106,105 @@ describe Event do
       event = Event.create!(:title => "Event!", :slug => "event", :deadline => Time.now, :open_text => "Open!", :closed_text => "Closed!")
 
       event.parent_or_self.should == event
+    end
+  end
+
+  describe "#related_proposals" do
+    before :each do
+      Event.destroy_all
+
+      @parent    = Factory :populated_event
+      @event     = Factory :populated_event, :parent => @parent
+      @child     = Factory :populated_event, :parent => @event
+      @unrelated = Factory :populated_event
+
+      @event_proposal     = proposal_for_event @event
+      @parent_proposal    = proposal_for_event @parent
+      @child_proposal     = proposal_for_event @child
+      @unrelated_proposal = proposal_for_event @unrelated
+
+      @proposals = [@event_proposal, @parent_proposal, @child_proposal, @unrelated_proposal]
+
+      @event.reload
+
+      @related = @event.related_proposals @proposals
+    end
+
+    it "should find the event's proposals" do
+      @related.should include(@event_proposal)
+    end
+
+    it "should find the event parent's proposals" do
+      @related.should include(@parent_proposal)
+    end
+
+    it "should find the event children's proposals" do
+      @related.should include(@child_proposal)
+    end
+
+    it "should not find unrelated event's proposals" do
+      @related.should_not include(@unrelated_proposal)
+    end
+  end
+
+  describe "#descendents" do
+    before :each do
+      @parent     = Factory :populated_event
+      @event      = Factory :populated_event, :parent => @parent
+      @child      = Factory :populated_event, :parent => @event
+      @grandchild = Factory :populated_event, :parent => @child
+      @unrelated  = Factory :populated_event
+
+      @descendents = @event.descendents
+    end
+
+    it "should include an event's children" do
+      @descendents.should include(@child)
+    end
+
+    it "should include an event's children's children" do
+      @descendents.should include(@grandchild)
+    end
+
+    it "should not include parent" do
+      @descendents.should_not include(@parent)
+    end
+
+    it "should not include unrelated event" do
+      @descendents.should_not include(@unrelated)
+    end
+  end
+
+  describe "#family" do
+    before :each do
+      @parent     = Factory :populated_event
+      @stepchild  = Factory :populated_event, :parent => @parent
+      @event      = Factory :populated_event, :parent => @parent
+      @child      = Factory :populated_event, :parent => @event
+      @grandchild = Factory :populated_event, :parent => @child
+      @unrelated  = Factory :populated_event
+
+      @family = @event.family
+    end
+
+    it "should include an event's children" do
+      @family.should include(@child)
+    end
+
+    it "should include an event's children's children" do
+      @family.should include(@grandchild)
+    end
+
+    it "should include parent" do
+      @family.should include(@parent)
+    end
+
+    it "should include step-child" do
+      @family.should include(@stepchild)
+    end
+
+    it "should not include unrelated event" do
+      @family.should_not include(@unrelated)
     end
   end
 
