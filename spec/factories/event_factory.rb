@@ -14,3 +14,11 @@ Factory.define :event do |f|
   f.parent_id nil
   f.proposal_titles_locked false
 end
+
+Factory.define :populated_event, :parent => :event do |f|
+  f.after_create do |record|
+    record.rooms         << Factory(:room,         :event => record) if record.rooms.empty?
+    record.tracks        << Factory(:track,        :event => record) if record.tracks.empty?
+    record.session_types << Factory(:session_type, :event => record) if record.session_types.empty?
+  end
+end
