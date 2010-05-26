@@ -82,7 +82,7 @@ focus :comment_message if @focus_comment
         <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
       </div>
   <% end %>
-  <% if event_session_types? && ! @proposal.session_type.ergo.title.blank? %>
+  <% if event_session_types? && @proposal.session_type && ! @proposal.session_type.title.blank? && @event.session_types.size > 1 %>
       <%= link_to(h(@proposal.session_type.ergo.title), event_session_type_path(@proposal.event, @proposal.session_type), :class=>'session_type') || "- N/A -" %>
   <% end %>
     <div class='proposal-slug'>
