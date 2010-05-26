@@ -3,7 +3,7 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Next
+* v0.20100518
 - Fixed schedule of user favorites so it's only displayed when the schedule is published.
 - Fixed schedule so admin can view an unreleased schedule with collisions but without room assignments.
 - Fixed schedule items (e.g., coffee breaks) so that they're displayed for an event.
