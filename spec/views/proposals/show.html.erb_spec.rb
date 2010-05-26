@@ -6,11 +6,10 @@ describe "/proposals/show.html.erb" do
   end
   
   before :each do
-    @users = []
-    @users.stub!(:by_name).and_return([])
-    
-    @proposal = stub_model(Proposal, :status => "proposed", :users => @users)
-    @event = stub_model(Event, :id => 1, :title => "Event 1", :proposal_status_published => false);
+    @user = Factory :user
+    @event = Factory :populated_event, :proposal_status_published => false
+    @proposal = proposal_for_event(@event, :users => [@user])
+
     @controller.stub!(:schedule_visible? => true)
   end
   
