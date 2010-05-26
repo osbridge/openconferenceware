@@ -8,10 +8,20 @@ class UsersController < ApplicationController
     add_breadcrumb 'Users'
 
     @users = User.find(:all, :order => 'last_name asc')
+
+    respond_to do |format|
+      format.html # Display index.html.erb for @users
+      format.json { render :json => @users }
+      format.xml  { render :xml  => @users }
+    end
   end
 
   def show
-    # Display show.html.erb for @user
+    respond_to do |format|
+      format.html # Display show.html.erb for @user
+      format.json { render :json => @user }
+      format.xml  { render :xml  => @user }
+    end
   end
 
   def new

@@ -13,7 +13,8 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @schedule_items }
+      format.json  { render :json => @schedule_items }
+      format.xml   { render :xml  => @schedule_items }
     end
   end
 
@@ -24,7 +25,8 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @schedule_item }
+      format.json { render :json => @schedule_item }
+      format.xml  { render :xml  => @schedule_item }
     end
   end
 
@@ -35,7 +37,8 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @schedule_item }
+      format.json { render :json => @schedule_item }
+      format.xml  { render :xml  => @schedule_item }
     end
   end
 
@@ -53,10 +56,12 @@ class ScheduleItemsController < ApplicationController
       if @schedule_item.save
         flash[:notice] = 'ScheduleItem was successfully created.'
         format.html { redirect_to(@schedule_item) }
-        format.xml  { render :xml => @schedule_item, :status => :created, :location => @schedule_item }
+        format.json { render :json => @schedule_item, :status => :created, :location => @schedule_item }
+        format.xml  { render :xml  => @schedule_item, :status => :created, :location => @schedule_item }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @schedule_item.errors, :status => :unprocessable_entity }
+        format.json { render :json => @schedule_item.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml  => @schedule_item.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -68,10 +73,12 @@ class ScheduleItemsController < ApplicationController
       if @schedule_item.update_attributes(params[:schedule_item])
         flash[:notice] = 'ScheduleItem was successfully updated.'
         format.html { redirect_to(@schedule_item) }
-        format.xml  { head :ok }
+        format.json  { head :ok }
+        format.xml   { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @schedule_item.errors, :status => :unprocessable_entity }
+        format.json { render :json => @schedule_item.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml  => @schedule_item.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -83,6 +90,7 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(schedule_items_url) }
+      format.json { head :ok }
       format.xml  { head :ok }
     end
   end

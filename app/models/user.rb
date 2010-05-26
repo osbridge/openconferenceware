@@ -151,6 +151,16 @@ class User < ActiveRecord::Base
       :avatar => '48x48#'
     }
 
+  #---[ Serializers ]-----------------------------------------------------
+  
+  def to_xml(*args)
+    self.public_attributes.to_xml(*args)
+  end
+
+  def to_json(*args)
+    self.public_attributes.to_json(*args)
+  end
+
   #---[ Methods ]---------------------------------------------------------
 
   # Return first admin user or a nil
@@ -332,4 +342,5 @@ protected
   def url_validator
     return validate_url_attribute(:website, :blog_url)
   end
+  
 end

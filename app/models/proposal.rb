@@ -138,7 +138,13 @@ class Proposal < ActiveRecord::Base
 
   # Public attributes for export
   include PublicAttributesMixin
-  set_public_attributes :id, :user_id, :presenter, :affiliation, :website, :biography, :title, :description, :created_at, :updated_at, :event_id, :submitted_at
+  set_public_attributes :id, :user_id, :presenter, :affiliation, :website, :biography, :title, :description, :created_at, :updated_at, :submitted_at, 
+    :start_time, :end_time,
+    :event_id, :event_title,
+    :room_id, :room_title,
+    :session_type_id, :session_type_title,
+    :track_id, :track_title,
+    :user_ids, :user_titles
 
   # Triggers
   before_save :populate_submitted_at
@@ -214,7 +220,11 @@ class Proposal < ActiveRecord::Base
 
   # Return the time this session ends.
   def end_time
-    self.start_time + (self.duration || 0).minutes
+    if self.start_time
+      self.start_time + (self.duration || 0).minutes
+    else
+      nil
+    end
   end
 
   # Return array of arrays, the first representing the current state, the rest
@@ -452,5 +462,39 @@ class Proposal < ActiveRecord::Base
     end
     return false
   end
+
+  #---[ Serializers ]-----------------------------------------------------
+
+  def to_xml(*args)
+    self.public_attributes.to_xml_workaround.to_xml(*args)
+  end
+
+  def to_json(*args)
+    self.public_attributes.to_json(*args)
+  end
+
+  #---[ Accessors for getting the titles of related objects ]-------------
+
+  def track_title
+    return self.track.ergo.title
+  end
+
+  def room_title
+    return self.room.ergo.name
+  end
+
+  def session_type_title
+    return self.session_type.ergo.title
+  end
+
+  def event_title
+    return self.event.ergo.slug
+  end
+  alias_method :event_slug, :event_title
+
+  def user_titles
+    return self.users.map(&:label).map(&:to_s)
+  end
+  alias_method :user_labels, :user_titles
 
 end
