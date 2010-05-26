@@ -445,4 +445,12 @@ class Proposal < ActiveRecord::Base
     return container.proposals.all(:include => args)
   end
 
+  # Is this proposal related to the +event+, as in to the event, its parent or children?
+  def related_to_event?(some_event)
+    for an_event in [some_event, some_event.parent, some_event.parent_or_self.children].compact.flatten
+      return true if self.event_id == an_event.id
+    end
+    return false
+  end
+
 end
