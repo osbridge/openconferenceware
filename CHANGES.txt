@@ -4,6 +4,7 @@ Changes
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 * Next
+- Fixed the display of a session and the event's speakers listing so that the concise listing of sessions for each speaker contains only those related to this event.
 - Fixed display of a confirmed session to show the scheduled time even if no room was set.
 
 * v0.20100518
