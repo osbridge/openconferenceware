@@ -33,10 +33,10 @@ class ProposalsController < ApplicationController
         add_breadcrumb @event.title, event_proposals_path(@event)
       }
       format.xml  {
-        render :xml => @proposals.map(&:public_attributes)
+        render :xml => @proposals
       }
       format.json {
-        render :json => @proposals.map(&:public_attributes)
+        render :json => @proposals
       }
       format.atom {
         # index.atom.builder
@@ -77,10 +77,10 @@ class ProposalsController < ApplicationController
         render :action => "index"
       }
       format.xml  {
-        render :xml => @proposals.map(&:public_attributes)
+        render :xml => @proposals
       }
       format.json {
-        render :json => @proposals.map(&:public_attributes)
+        render :json => @proposals
       }
     end
   end
@@ -95,7 +95,13 @@ class ProposalsController < ApplicationController
       format.html {
         @view_cache_key = "schedule,event_#{@event.id},admin_#{admin?}"
       }
-
+      format.json {
+        render :json => @schedule
+      }
+      format.xml {
+        ### render :xml => @schedule
+        render :xml => {:error => "XML output of schedule not yet supported"}, :status => :unprocessable_entity
+      }
       format.ics {
         view_cache_key = "schedule,event_#{@event.id}.ics"
         data = Rails.cache.fetch_object(view_cache_key) {
@@ -113,8 +119,10 @@ class ProposalsController < ApplicationController
     # @proposal and @event set via #assign_proposal_and_event filter
     @kind = :session
     unless @proposal.confirmed?
-      flash[:failure] = "This proposal is not a session."
-      return redirect_to( proposal_path(@proposal) )
+      @redirector = lambda {
+        flash[:failure] = "This proposal is not a session."
+        return redirect_to( proposal_path(@proposal) )
+      }
     end
     return base_show
   end
@@ -125,8 +133,10 @@ class ProposalsController < ApplicationController
     # @proposal and @event set via #assign_proposal_and_event filter
     @kind = :proposal
     if @event.proposal_status_published? && @proposal.confirmed?
-      flash[:notice] = "This proposal has been accepted as a session."
-      return redirect_to( session_path(@proposal) )
+      @redirector = lambda {
+        flash[:notice] = "This proposal has been accepted as a session."
+        return redirect_to( session_path(@proposal) )
+      }
     end
     return base_show
   end
@@ -453,31 +463,39 @@ protected
 
   # Base method used for #show and #session_show
   def base_show
-    add_breadcrumb @event.title, event_proposals_path(@event)
-    add_breadcrumb @proposal.title, proposal_path(@proposal)
+    unless defined?(@redirector)
+      add_breadcrumb @event.title, event_proposals_path(@event)
+      add_breadcrumb @proposal.title, proposal_path(@proposal)
 
-    @profile = @proposal.profile
-    @comment = Comment.new(:proposal => @proposal, :email => current_email)
-    @display_comment_form = \
-      # Admin can always leave comments
-      admin? || (
-       # Don't display comment form if user has just commented
-       ! params[:commented] &&
-       # Don't display comment form for the proposal owner
-       ! can_edit?(@proposal) &&
-       (
-        # Display comment form if the event is accepting proposals
-        accepting_proposals? ||
-        # or if the settings provide a toggle and the event is accepting comments
-        (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
-       )
-      )
-    @focus_comment = false
+      @profile = @proposal.profile
+      @comment = Comment.new(:proposal => @proposal, :email => current_email)
+      @display_comment_form = \
+        # Admin can always leave comments
+        admin? || (
+         # Don't display comment form if user has just commented
+         ! params[:commented] &&
+         # Don't display comment form for the proposal owner
+         ! can_edit?(@proposal) &&
+         (
+          # Display comment form if the event is accepting proposals
+          accepting_proposals? ||
+          # or if the settings provide a toggle and the event is accepting comments
+          (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
+         )
+        )
+      @focus_comment = false
+    end
 
     respond_to do |format|
-      format.html { render :template => "/proposals/show" }
-      format.xml  { render :xml => @proposal.public_attributes }
-      format.json { render :json => @proposal.public_attributes }
+      format.html { 
+        if defined?(@redirector)
+          @redirector.call
+        else
+          render :template => "/proposals/show" 
+        end
+      }
+      format.xml  { render :xml  => @proposal }
+      format.json { render :json => @proposal }
     end
   end
 

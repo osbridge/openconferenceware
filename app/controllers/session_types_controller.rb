@@ -5,7 +5,7 @@ class SessionTypesController < ApplicationController
   before_filter :add_event_breadcrumb
   before_filter :add_session_types_breadcrumb
   before_filter :assign_session_type, :only => [:show, :edit, :update, :destroy]
-  
+
   # GET /session_types
   # GET /session_types.xml
   def index
@@ -13,7 +13,8 @@ class SessionTypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @session_types }
+      format.json { render :json => @session_types }
+      format.xml  { render :xml  => @session_types }
     end
   end
 
@@ -24,7 +25,8 @@ class SessionTypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @session_type }
+      format.json { render :json => @session_type }
+      format.xml  { render :xml  => @session_type }
     end
   end
 
@@ -34,7 +36,8 @@ class SessionTypesController < ApplicationController
     @session_type = SessionType.new
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @session_type }
+      format.json { render :json => @session_type }
+      format.xml  { render :xml  => @session_type }
     end
   end
 
@@ -52,9 +55,11 @@ class SessionTypesController < ApplicationController
       if @session_type.save
         flash[:notice] = 'SessionType was successfully created.'
         format.html { redirect_to(session_types_path) }
+        format.json  { render :json => @session_type, :status => :created, :location => @session_type }
         format.xml  { render :xml => @session_type, :status => :created, :location => @session_type }
       else
         format.html { render :action => "new" }
+        format.json  { render :json => @session_type.errors, :status => :unprocessable_entity }
         format.xml  { render :xml => @session_type.errors, :status => :unprocessable_entity }
       end
     end
@@ -67,9 +72,11 @@ class SessionTypesController < ApplicationController
       if @session_type.update_attributes(params[:session_type])
         flash[:notice] = 'SessionType was successfully updated.'
         format.html { redirect_to(@session_type) }
+        format.json  { head :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
+        format.json  { render :json => @session_type.errors, :status => :unprocessable_entity }
         format.xml  { render :xml => @session_type.errors, :status => :unprocessable_entity }
       end
     end
@@ -82,10 +89,11 @@ class SessionTypesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(session_types_url) }
+      format.json  { head :ok }
       format.xml  { head :ok }
     end
   end
-  
+
   protected
 
     def add_event_breadcrumb

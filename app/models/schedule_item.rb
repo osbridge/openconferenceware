@@ -4,26 +4,59 @@
 # Table name: schedule_items
 #
 #  id          :integer(4)      not null, primary key
-#  title       :string(255)     
-#  excerpt     :text            
-#  description :text            
-#  start_time  :datetime        
-#  duration    :integer(4)      
-#  event_id    :integer(4)      
-#  room_id     :integer(4)      
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  title       :string(255)
+#  excerpt     :text
+#  description :text
+#  start_time  :datetime
+#  duration    :integer(4)
+#  event_id    :integer(4)
+#  room_id     :integer(4)
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class ScheduleItem < ActiveRecord::Base
+  # Associations
   belongs_to :event
   belongs_to :room
 
   # Provides #overlaps?
   include ScheduleOverlapsMixin
 
+  # Public attributes for export
+  include PublicAttributesMixin
+  set_public_attributes :id, :title, :excerpt, :description, :start_time, :end_time, :duration,
+    :event_id, :event_title,
+    :room_id, :room_title,
+    :created_at, :updated_at
+
   # Return the time this session ends.
   def end_time
-    self.start_time + (self.duration || 0).minutes
+    if self.start_time
+      self.start_time + (self.duration || 0).minutes
+    else
+      nil
+    end
   end
+
+  #---[ Serializers ]-----------------------------------------------------
+
+  def to_xml(*args)
+    return self.public_attributes.to_xml(*args)
+  end
+
+  def to_json(*args)
+    self.public_attributes.to_json(*args)
+  end
+
+  #---[ Accessors for getting the titles of related objects ]-------------
+
+  def room_title
+    return self.room.ergo.name
+  end
+
+  def event_title
+    return self.event.ergo.slug
+  end
+  alias_method :event_slug, :event_title
 end
