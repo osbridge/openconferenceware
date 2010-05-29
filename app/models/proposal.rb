@@ -425,9 +425,10 @@ class Proposal < ActiveRecord::Base
     calendar.title = title
     calendar.time_zone = Time.zone.tzinfo.name
     items.each do |item|
+      next if item.start_time.nil?
       calendar.add_event do |e|
         e.dtstart     item.start_time
-        e.dtend       item.start_time + item.duration.minutes
+        e.dtend       item.start_time + item.duration.minutes if item.duration
         e.summary     item.title
         e.created     item.created_at if item.created_at
         e.lastmod     item.updated_at if item.updated_at
