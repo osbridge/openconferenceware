@@ -14,7 +14,7 @@ class Schedule
     else
       raise TypeError, "Unknown type: #{event_or_items.class.name}"
     end
-    self.items = self.items.sort_by{|item| [item.start_time, item.end_time]}
+    self.items = self.items.reject{|item| item.end_time.nil?}.sort_by{|item| [item.start_time, item.end_time].join('.')}
   end
 
   def days

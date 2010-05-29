@@ -17,7 +17,15 @@ describe Schedule do
       @sessions << @business_session   = proposals(:business_session)   #
     # ------------------------------------------------------------------/
 
+    # An item without a duration/end_time
+    @sessions << @opening_item = schedule_items(:opening)
+    # An item with a duration/end_time
+    @sessions << @coffee_break_item = schedule_items(:coffee_break)
+    # An item without a start_time
+    @sessions << @unscheduled_item = schedule_items(:unscheduled)
+
     @sessions.should_not be_empty
+    @scheduled_sessions = @sessions - [@unscheduled_item]
     @schedule = Schedule.new(@sessions)
   end
 
@@ -34,8 +42,8 @@ describe Schedule do
     schedule.items.should_not be_empty
   end
 
-  it "should initialize from an array of proposals" do
-    @schedule.items.sort_by(&:title).should == @sessions.sort_by(&:title)
+  it "should initialize from an array of proposals, skipping unscheduled items" do
+    @schedule.items.sort_by(&:title).should == @scheduled_sessions.sort_by(&:title)
   end
 
   describe "is a container for days and" do
@@ -123,11 +131,11 @@ describe Schedule do
       end
 
       it "should create a day for each day represented in the input set" do
-        @days.map(&:date).sort.should == @sessions.map{|session| session.start_time.to_date}.uniq.sort
+        @days.map(&:date).sort.should == @scheduled_sessions.map{|session| session.start_time.to_date}.uniq.sort
       end
 
       it "each item should be contained in one and only one block" do
-        @sessions.each do |session|
+        @scheduled_sessions.each do |session|
           @blocks.select{|block| block.items.include?(session)}.size.should == 1
         end
       end
@@ -136,7 +144,7 @@ describe Schedule do
         @blocks.each do |block|
           block.items.each do |item|
             block.start_time.should == item.start_time
-            block.duration.should == item.duration
+            block.duration.to_i.should == item.duration.to_i
           end
         end
       end
