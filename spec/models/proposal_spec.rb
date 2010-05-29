@@ -240,8 +240,12 @@ describe Proposal do
   describe "to_icalendar" do
     def assert_calendar_match(item, component, url_helper=nil)
       component.should_not be_nil
-      component.dtstart.should == item.start_time
-      component.dtend.should == item.end_time
+      component.dtstart.to_i.should == item.start_time.to_i
+      if item.duration
+        component.dtend.to_i.should == item.end_time.to_i
+      else
+        component.dtend.should be_nil
+      end
       component.summary.should == item.title
       component.description.should == item.excerpt
       component.url.should == url_helper.call(item) if url_helper
@@ -261,6 +265,28 @@ describe Proposal do
       components.size.should == 2
       assert_calendar_match(mysql_record, components.find{|t| t.summary == mysql_record.title}, url_helper)
       assert_calendar_match(postgresql_record, components.find{|t| t.summary == postgresql_record.title}, url_helper)
+    end
+
+    it "should skip items without a start time" do
+      event = Factory :populated_event
+      item = Factory :schedule_item, :start_time => nil, :duration => nil
+
+      data = Proposal.to_icalendar([item])
+      calendar = Vpim::Icalendar.decode(data).first
+      components = calendar.to_a
+      components.size.should == 0
+    end
+
+    it "should not raise exceptions if nil duration" do
+      event = Factory :populated_event
+      item = Factory :schedule_item, :duration => nil
+
+      data = Proposal.to_icalendar([item])
+      calendar = Vpim::Icalendar.decode(data).first
+      components = calendar.to_a
+      components.size.should == 1
+      component = components.first
+      assert_calendar_match(item, component)
     end
   end
 
