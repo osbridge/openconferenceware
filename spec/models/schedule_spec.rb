@@ -4,29 +4,37 @@ describe Schedule do
   fixtures :all
 
   before(:each) do
+    # Sessions
     @sessions = []
+
+    # ...typical session
     @sessions << @rakudo_session     = proposals(:rakudo_session)
 
-    # Same time, different duration ------------------------------------\
-      @sessions << @drizzle_session    = proposals(:drizzle_session)    #
-      @sessions << @postgresql_session = proposals(:postgresql_session) #
-    # ------------------------------------------------------------------/
+    # ...at same time, but with different duration
+    @sessions << @drizzle_session    = proposals(:drizzle_session)
+    @sessions << @postgresql_session = proposals(:postgresql_session)
 
-    # Same time, same duration -----------------------------------------\
-      @sessions << @cloud_session      = proposals(:cloud_session)      #
-      @sessions << @business_session   = proposals(:business_session)   #
-    # ------------------------------------------------------------------/
+    # ..at same time, with same duration
+    @sessions << @cloud_session      = proposals(:cloud_session)
+    @sessions << @business_session   = proposals(:business_session)
 
-    # An item without a duration/end_time
-    @sessions << @opening_item = schedule_items(:opening)
-    # An item with a duration/end_time
-    @sessions << @coffee_break_item = schedule_items(:coffee_break)
-    # An item without a start_time
-    @sessions << @unscheduled_item = schedule_items(:unscheduled)
 
-    @sessions.should_not be_empty
-    @scheduled_sessions = @sessions - [@unscheduled_item]
-    @schedule = Schedule.new(@sessions)
+    # Schedule items
+    @schedule_items = []
+
+    # ...without a duration/end_time
+    @schedule_items << @opening_item = schedule_items(:opening)
+
+    # ...with a duration/end_time
+    @schedule_items << @coffee_break_item = schedule_items(:coffee_break)
+
+    # ..without a start_time
+    @schedule_items << @unscheduled_item = schedule_items(:unscheduled)
+
+    # Composites
+    @entries = (@sessions + @schedule_items).sort { rand }
+    @scheduleable_entries = @entries - [@unscheduled_item]
+    @schedule = Schedule.new(@entries)
   end
 
   it "should not initialize from unknown types" do
@@ -34,16 +42,19 @@ describe Schedule do
   end
 
   it "should initialize from an Event" do
-    schedule = Schedule.new(events(:open))
-    schedule.days.should_not be_empty
-    schedule.sections.should_not be_empty
-    schedule.slices.should_not be_empty
-    schedule.blocks.should_not be_empty
-    schedule.items.should_not be_empty
+    @schedule.days.should_not be_empty
+    @schedule.sections.should_not be_empty
+    @schedule.slices.should_not be_empty
+    @schedule.blocks.should_not be_empty
+    @schedule.items.should_not be_empty
+  end
+
+  it "should sort schedule contents by their start time and end time if given" do
+    @schedule.items.should == @schedule.items.sort_by{|t| [t.start_time.to_i, t.end_time.to_i]}
   end
 
   it "should initialize from an array of proposals, skipping unscheduled items" do
-    @schedule.items.sort_by(&:title).should == @scheduled_sessions.sort_by(&:title)
+    @schedule.items.sort_by(&:title).should == @scheduleable_entries.sort_by(&:title)
   end
 
   describe "is a container for days and" do
@@ -131,12 +142,12 @@ describe Schedule do
       end
 
       it "should create a day for each day represented in the input set" do
-        @days.map(&:date).sort.should == @scheduled_sessions.map{|session| session.start_time.to_date}.uniq.sort
+        @days.map(&:date).sort.should == @scheduleable_entries.map{|entry| entry.start_time.to_date}.uniq.sort
       end
 
       it "each item should be contained in one and only one block" do
-        @scheduled_sessions.each do |session|
-          @blocks.select{|block| block.items.include?(session)}.size.should == 1
+        @scheduleable_entries.each do |entry|
+          @blocks.select{|block| block.items.include?(entry)}.size.should == 1
         end
       end
 
