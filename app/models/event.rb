@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
   has_many :tracks, :order => 'title asc', :dependent => :destroy
   has_many :session_types, :dependent => :destroy
   has_many :rooms, :dependent => :destroy
-  has_many :schedule_items, :dependent => :destroy
+  has_many :schedule_items, :dependent => :destroy, :order => 'start_time asc'
   has_many :children, :class_name => 'Event', :foreign_key => 'parent_id', :dependent => :destroy
   belongs_to :parent, :class_name => 'Event', :foreign_key => 'parent_id'
 
