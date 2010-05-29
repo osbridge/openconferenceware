@@ -1,7 +1,23 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+opening: 
+  event_id: 2009
+  title: 'Opening'
+  excerpt: 'Yay, welcome!'
+  description: 'Is there tea?'
+  start_time: <%= Time.zone.parse('2009-06-17 09:00am').to_s(:db) %>
+  # Note that this has no :duration
+
+coffee_break:
+  event_id: 2009
+  title: 'Coffee Break'
+  excerpt: 'Yay, coffee!'
+  description: 'Is there tea?'
+  start_time: <%= Time.zone.parse('2009-06-17 09:45am').to_s(:db) %>
+  duration: 15
+
+unscheduled:
+  event_id: 2009
+  title: 'Unschedule schedule item'
+  excerpt: 'When do I start? No one knows.'
+  description: 'When do I end? No one knows.'
