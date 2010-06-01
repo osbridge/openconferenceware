@@ -247,7 +247,9 @@ describe Proposal do
         component.dtend.should be_nil
       end
       component.summary.should == item.title
-      component.description.should == item.excerpt
+      component.description.should == (item.respond_to?(:users) ?
+        "#{item.users.map(&:fullname).join(', ')}: #{item.excerpt}" :
+        item.excerpt)
       component.url.should == url_helper.call(item) if url_helper
     end
 

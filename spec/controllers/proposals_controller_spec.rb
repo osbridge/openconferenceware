@@ -1042,7 +1042,9 @@ describe ProposalsController do
       component.dtstart.should      == item.start_time
       component.dtend.should        == item.end_time
       component.summary.should      == item.title
-      component.description.should  == item.excerpt
+      component.description.should  == (item.respond_to?(:users) ?
+        "#{item.users.map(&:fullname).join(', ')}: #{item.excerpt}" :
+        item.excerpt)
       component.url                 == session_url(item)
     end
   end
