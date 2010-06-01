@@ -301,13 +301,22 @@ describe Proposal do
       @proposal.session_notes_url.should be_nil
     end
 
-    it "should interpolate content if session_notes_wiki_url_format is defined" do
-      SETTINGS.stub!(
-        :session_notes_wiki_url_format => '%1$s%2$s/wiki/',
-        :public_url => 'http://mysite.com/'
-      )
+    describe "with wiki" do
+      before :each do
+        SETTINGS.stub!(
+          :session_notes_wiki_url_format => '%1$s%2$s/wiki/',
+          :public_url => 'http://mysite.com/'
+        )
+      end
 
-      @proposal.session_notes_url.should == "http://mysite.com/closed/wiki/Chupacabras_and_you"
+      it "should interpolate content if session_notes_wiki_url_format is defined" do
+        @proposal.session_notes_url.should == "http://mysite.com/closed/wiki/Chupacabras_and_you"
+      end
+
+      it "should replace slashes with dashes" do
+        @proposal.title = "CouchApp Evently Guided Hack w/ CouchDB"
+        @proposal.session_notes_url.should == "http://mysite.com/closed/wiki/CouchApp_Evently_Guided_Hack_w-_CouchDB"
+      end
     end
   end
 
