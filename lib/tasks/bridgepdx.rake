@@ -75,7 +75,7 @@ For example:
 
     def session_wiki_title(session)
       #IK# return "#{session.title} :: #{session.event.title}"
-      return "#{session.title}"
+      return "#{session.title.gsub(/\\|\//, '-')}"
     end
 
     desc "Populates the attendee wiki with pages to hold session notes."
