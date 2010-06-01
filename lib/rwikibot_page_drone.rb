@@ -44,7 +44,7 @@ class RwikibotPageDrone
     doc = Hpricot(self.content)
     element = doc.search("//##{identifier}")
     if element.size == 0
-      self.append(%{<span id="#{identifier}">#{string}</span>\n})
+      self.append(%{<span id="#{identifier}">#{string}</span>})
     else
       element.html = string
       self.content = doc.to_s
@@ -56,6 +56,14 @@ class RwikibotPageDrone
   end
 
   def get_content
-    return self.page.exists? ? self.page.content : ""
+    if self.page.exists?
+      if self.page.content.kind_of?(Hash) and value = self.page.content['content']
+        return value
+      else
+        return self.page.content
+      end
+    else
+      return ''
+    end
   end
 end

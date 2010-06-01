@@ -106,14 +106,14 @@ For example:
       # Sessions
       event.proposals.confirmed.all(:include => [:event, :track, :session_type]).each do |proposal|
         drone = RwikibotPageDrone.new(wiki, session_wiki_title(proposal))
-        drone.append "[[#{event_wiki_title(proposal.event)}]]"
-        drone.append "[[#{track_wiki_title(proposal.track)}]]"
-        #drone.replace_span "description", "#{textilize proposal.description}"
-        drone.replace_span "excerpt", "#{textilize proposal.excerpt}" unless proposal.excerpt.blank?
-        drone.replace_span "speakers", "Speaker#{proposal.users.size > 1 ? 's' : ''}: #{proposal.users.map{|user| sprintf('[%susers/%s %s]', SETTINGS.app_root_url, user.id, user.fullname)}.join(', ')}"
-        drone.replace_span "back", "\nReturn to [#{sprintf '%ssessions/%s', SETTINGS.app_root_url, proposal.id} this session's details]"
-        drone.append "= Contributed notes ="
-        #drone.append "\n\n----\n''Add your notes above this line''"
+        content = "[[#{event_wiki_title(proposal.event)} notes]] [[#{track_wiki_title(proposal.track)} notes]]"
+        content << "#{textilize proposal.excerpt} " unless proposal.excerpt.blank?
+        content << "<p>Speaker#{proposal.users.size > 1 ? 's' : ''}: #{proposal.users.map{|user| sprintf('[%susers/%s %s]', SETTINGS.app_root_url, user.id, user.fullname)}.join(', ')}</p>"
+        content << "<p>Return to [#{sprintf '%ssessions/%s', SETTINGS.app_root_url, proposal.id} this session's details]</p>"
+        content << "\n= Contributed notes =\n"
+        drone.replace_span("generated", content)
+        drone.append "<!-- DO NOT CHANGE ANYTHING ABOVE THIS LINE -->"
+        drone.append "(Add your notes here!)"
         drone.save(true)
       end
     end
