@@ -155,7 +155,7 @@ The "bridgepdx" theme's behavior is affected by these environmental variables:
 Mailing list
 ------------
 
-Please join the mailing list if you're interested in using or developing the software: <http://groups.google.com/OpenConferenceWare>
+Please join the mailing list if you're interested in using or developing the software: <http://groups.google.com/group/openconferenceware>
 
 
 Issue tracker
