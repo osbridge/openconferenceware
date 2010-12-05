@@ -104,7 +104,7 @@ class ProposalsController < ApplicationController
       }
       format.ics {
         view_cache_key = "schedule,event_#{@event.id}.ics"
-        data = Rails.cache.fetch_object(view_cache_key) {
+        data = Cache.fetch(view_cache_key) {
           Proposal.to_icalendar(
             @schedule.items,
             :title => "#{@event.title}",

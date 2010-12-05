@@ -19,14 +19,7 @@ class CacheWatcher < ActiveRecord::Observer
   # Expire the cache
   def self.expire(*args)
     Rails.logger.info("CacheWatcher: expiring cache")
-    case Rails.cache
-    when ActiveSupport::Cache::MemCacheStore
-      Rails.cache.instance_variable_get(:@data).flush_all
-    when ActiveSupport::Cache::FileStore
-      Rails.cache.delete_matched(//) rescue nil
-    else
-      raise NotImplementedError, "Don't know how to expire cache: #{Rails.cache.class.name}"
-    end
+    Cache.expire(*args)
   end
 
   def expire(*args)

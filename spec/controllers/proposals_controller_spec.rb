@@ -227,11 +227,6 @@ describe ProposalsController do
 
         stub_current_event!(:event => event)
 
-        # Bypass #fetch_object because it can't cache our singleton mocks.
-        Proposal.stub!(:fetch_object).and_return do |slug, callback|
-          callback.call
-        end
-
         get :index, :sort => "destroy"
       end
 
@@ -300,11 +295,6 @@ describe ProposalsController do
       )
 
       stub_current_event!(:event => event)
-
-      # Bypass #fetch_object because it can't cache our singleton mocks.
-      Proposal.stub!(:fetch_object).and_return do |slug, callback|
-        callback.call
-      end
 
       get :sessions_index, :event => 1234
 

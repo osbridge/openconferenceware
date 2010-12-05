@@ -35,21 +35,6 @@ module CacheLookupsMixin
   end
 
   module ClassMethods
-    # Should lookups be cached? If the "perform_caching" Rails environment
-    # configuration setting is enabled, default to using cache.
-    #
-    # You can force caching on or off using the CACHELOOKUPS environmental
-    # variable, e.g. activate with:
-    #
-    #   CACHELOOKUPS=1 ./script/server
-    def cache_lookups?
-      if Rails.configuration.action_controller.perform_caching
-        return ENV['CACHELOOKUPS'] != '0'
-      else
-        return ENV['CACHELOOKUPS'] == '1'
-      end
-    end
-
     # Setup the lookup caching system.
     #
     # Arguments:
@@ -76,7 +61,7 @@ module CacheLookupsMixin
     # Return instance from cache matching +key+. If +key+ is undefined, returns
     # array of all instances.
     def lookup(key=nil)
-      unless self.cache_lookups?
+      unless Cache.enabled?
         return key ?
           self.query_one(key) :
           self.query_all
@@ -84,7 +69,7 @@ module CacheLookupsMixin
 
       silo = self.lookup_silo_name
       ActiveRecord::Base.benchmark("Lookup: #{silo}#{key.ergo{'#'+to_s}}") do
-        dict = self.fetch_object(silo){
+        dict = Cache.fetch(silo){
           # FIXME Exceptions within this block are silently swallowed by something. This is bad.
           dict = Dictionary.new
           for record in self.query_all
@@ -99,23 +84,6 @@ module CacheLookupsMixin
     def expire_cache
       Rails.logger.info("Lookup, expiring: #{self.name}")
       CacheWatcher.expire(/#{lookup_silo_name}_.+/)
-    end
-
-    def fetch_object(silo, &block)
-      self.revive_associations_for(self)
-      method = Rails.cache.respond_to?(:fetch_object) ? :fetch_object : :fetch
-      return Rails.cache.send(method, silo, &block)
-    end
-
-    def revive_associations_for(object)
-      if object.kind_of?(ActiveRecord::Base) || object.ancestors.include?(ActiveRecord::Base)
-        object.reflect_on_all_associations.each do |association|
-          name = association.class_name
-          unless object.constants.include?(name)
-            name.constantize # This line forces Rails to load this class
-          end
-        end
-      end
     end
   end
 

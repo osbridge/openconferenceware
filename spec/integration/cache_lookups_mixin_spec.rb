@@ -10,13 +10,13 @@ describe CacheLookupsMixin do
     describe 'and environment defaults to performing caching' do
       shared_examples_for 'overrides' do
         it 'should cache lookups if forced to' do
-          ENV.should_receive(:[]).with('CACHELOOKUPS').and_return('1')
-          Event.cache_lookups?.should == true
+          ENV.should_receive(:[]).with('CACHE').and_return('1')
+          Cache.enabled?.should == true
         end
 
         it 'should not cache lookups if forced not to' do
-          ENV.should_receive(:[]).with('CACHELOOKUPS').and_return('0')
-          Event.cache_lookups?.should == false
+          ENV.should_receive(:[]).with('CACHE').and_return('0')
+          Cache.enabled?.should == false
         end
       end
 
@@ -27,7 +27,7 @@ describe CacheLookupsMixin do
       it_should_behave_like 'overrides'
 
       it 'should cache lookups by default' do
-        Event.cache_lookups?.should == true
+        Cache.enabled?.should == true
       end
 
     end
@@ -40,20 +40,21 @@ describe CacheLookupsMixin do
       it_should_behave_like 'overrides'
 
       it 'should not cache lookups by default' do
-        Event.cache_lookups?.should == false
+        Cache.enabled?.should == false
       end
     end
   end
 
   describe 'queries' do
     before :each do
-      Event.stub!(:cache_lookups? => true)
+      Cache.stub!(:enabled? => true)
       CacheWatcher.expire
 
       @event1 = Factory :event
       @event2 = Factory :event
 
       @events = [@event1, @event2]
+      @events_hash = {@event1.slug => @event1, @event2.slug => @event2}
       @event  = @event1
 
       CacheWatcher.expire
@@ -67,7 +68,8 @@ describe CacheLookupsMixin do
       end
 
       it 'should read from cache' do
-        Event.lookup(@event.slug).should == @event
+        Cache.stub!(:enabled? => true)
+        Cache.should_receive(:fetch).and_return(@events_hash)
         Event.should_not_receive(:query_all)
 
         Event.lookup(@event.slug).should == @event
@@ -82,7 +84,8 @@ describe CacheLookupsMixin do
       end
 
       it 'should read from cache' do
-        Event.lookup.should == @events
+        Cache.stub!(:enabled? => true)
+        Cache.should_receive(:fetch).and_return(@events_hash)
         Event.should_not_receive(:query_all)
 
         Event.lookup.should == @events
@@ -96,8 +99,8 @@ describe CacheLookupsMixin do
 
       describe 'when caching' do
         it 'should fetch from cache' do
-          Event.should_receive(:cache_lookups?).and_return(true)
-          Event.should_receive(:fetch_object).with('event_current').and_return(@event)
+          Cache.stub!(:enabled? => true)
+          Cache.should_receive(:fetch).with('event_current').and_return(@event)
 
           Event.current.should == @event
         end
@@ -105,7 +108,6 @@ describe CacheLookupsMixin do
 
       describe 'when not caching' do
         it 'should not fetch from cache' do
-          Event.should_receive(:cache_lookups?).and_return(false)
           Event.should_receive(:current_by_settings).and_return(@event)
 
           Event.current.should == @event

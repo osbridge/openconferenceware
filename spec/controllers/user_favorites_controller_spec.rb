@@ -14,24 +14,24 @@ describe UserFavoritesController do
 
   describe "GET index" do
     before do
+      # TODO Consider using factories to setup complex graphs of objects rather than stubbing too many things.
       @event = stub_current_event!
       @favorite = stub_model(UserFavorite)
+      @favorites = [@favorite]
+      @favorites.stub!(:populated => @favorites)
+      @favorites.stub!(:scheduled => @favorites)
       User.should_receive(:find).with('42').and_return(@user = stub_model(User))
-      @user.stub!(:favorites => mock(Array, :populated => [@favorite]),
-                  :label => 'Sven')
+      @user.stub!(:favorites => @favorites, :label => 'Sven')
     end
 
     it "assigns favorites for the given user as @user_favorites" do
       get :index, :user_id => '42'
-      Undefer(assigns[:user_favorites]).should == [@favorite]
+      assigns[:user_favorites].should == [@favorite]
     end
 
     describe "as an ics file" do
       it "should render an ics file if the schedule is published" do
         @event.stub!(:schedule_published? => true)
-
-        # TODO I'm sure there's a better way to mock this scope onto this fake ActiveRecord recordset
-        DeferProxy.should_receive(:new).and_return(mock( Array, :scheduled => [@favorite]))
 
         Proposal.should_receive(:to_icalendar).and_return("ICS'D!")
         get :index, :user_id => '42', :format => 'ics'

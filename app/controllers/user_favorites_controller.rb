@@ -12,22 +12,22 @@ class UserFavoritesController < ApplicationController
   # GET /favorites.json
   def index
     @user_favorites = Defer {
-      view_cache_key = "favorites,user_#{@user.id}.#{request.format},join_#{params[:join]}"
-      Rails.cache.fetch_object(view_cache_key) {
+      Cache.fetch("favorites,user_#{@user.id}.#{request.format},join_#{params[:join]}") {
         # The :join argument is sent by the AJAX UI to fetch a terse list of
         # proposal_ids so it can display stars next to favorited proposals.
         if params[:join] == "1"
           UserFavorite.proposal_ids_for(@user)
         else
-          @user.favorites.populated
+          # TODO why do tests insist that #populated is a private method?
+          @user.favorites.send(:populated)
         end
       }
     }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => Undefer(@user_favorites) }
-      format.json  { render :json => Undefer(@user_favorites) }
+      format.xml  { render :xml => @user_favorites }
+      format.json  { render :json => @user_favorites }
       format.ics {
         return redirect_to user_favorites_path(@user) unless schedule_visible?
         render :text => Proposal.to_icalendar(

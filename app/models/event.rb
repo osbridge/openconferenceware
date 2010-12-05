@@ -82,10 +82,7 @@ class Event < ActiveRecord::Base
   # see if a snippet says which is current, else tries to return the event
   # with the latest deadline, else returns a nil.
   def self.current
-    query = lambda { self.current_by_settings || self.current_by_deadline }
-    return self.cache_lookups? ?
-      self.fetch_object('event_current', &query) :
-      query.call
+    return Cache.fetch('event_current') { self.current_by_settings || self.current_by_deadline }
   end
 
   # Return current event by finding it by deadline.
