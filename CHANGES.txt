@@ -3,10 +3,16 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Next
-- Fixed the display of a session and the event's speakers listing so that the concise listing of sessions for each speaker contains only those related to this event.
-- Fixed display of a confirmed session to show the scheduled time even if no room was set.
-- Fixed display of a proposal/session to only show the session_type if its event has more than one.
+* v0.20100818
+- Fixed iCalendar exporter to skip items without a "start time" and not set the "end time" unless one is defined.
+- Fixed proposal to only show a speaker's sessions for the related event, not all events.
+- Fixed schedule to display time in local timezone.
+- Fixed session's notes link by using URL escaping.
+- Improved iCalendar exporter to add speaker names to excerpt.
+- Improved XML and JSON exporter to include all useful fields in all models.
+- Improved proposals to show the session's type only if multiple types are defined.
+- Improved schedule to also show items not assigned to rooms.
+- Updated `rake bridgepdx:wiki:populate` to work with new libraries.
 
 * v0.20100518
 - Fixed schedule of user favorites so it's only displayed when the schedule is published.
