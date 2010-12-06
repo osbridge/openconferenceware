@@ -19,7 +19,7 @@ organization: 'Open Source Bridge'
 organization_slug: 'osb'
 
 # Top-level tagline or description.
-tagline: 'The conference for open source citizens / June 1-4, 2010 / Portland, OR'
+tagline: 'The conference for open source citizens / June 21-24, 2011 / Portland, OR'
 
 # Breadcrumbs that are always visible, each breadcrumb is a name and URI:
 breadcrumbs: []
@@ -29,7 +29,7 @@ timezone: 'Pacific Time (US & Canada)'
 
 # What is the slug for the current event? E.g., if this is '2009' and the user visits the '/proposals' URI, then the system will try to lookup an Event with the '2009' slug and redirect to '/events/2009 proposals' if it's available.
 # TODO: Setting the current event here is a short-term hack and will be replaced shortly with a Site record that tracks the current event in the database and provides a way to set it through an admin web UI.
-current_event_slug: '2010'
+current_event_slug: '2011'
 
 # Can people create proposals without logging in?
 have_anonymous_proposals: false
