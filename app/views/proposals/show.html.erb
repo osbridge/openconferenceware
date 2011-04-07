@@ -13,6 +13,16 @@ run_when_dom_is_ready( 'bind_calendar_items();' )
 focus :comment_message if @focus_comment
 %>
 
+<% content_for :scripts do %>
+  <%= javascript_include_tag 'audiojs/audio.min.js' %>
+  <script>
+    audiojs.events.ready(function() {
+      var as = audiojs.createAll();
+    });
+  </script>
+<% end %>
+
+
 <%= user_favorite_control_for @proposal %>
 <%= render :partial => "/proposals/admin_controls" %>
 
@@ -114,6 +124,16 @@ focus :comment_message if @focus_comment
 
     <h3>Description</h3>
     <%= display_textile_for @proposal.description %>
+
+  <% unless @proposal.audio_url.empty? %>
+    <h3>Session Audio</h3>
+    <div>
+      <audio src="<%= @proposal.audio_url %>" preload="none" />
+    </div>
+    <p>
+      <%= link_to "Download audio of this session", @proposal.audio_url %>
+    </p>
+  <% end -%>
 
   <% unless @proposal.tags.empty? %>
     <h3>Tags</h3>
