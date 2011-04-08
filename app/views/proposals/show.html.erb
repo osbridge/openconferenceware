@@ -125,7 +125,7 @@ focus :comment_message if @focus_comment
     <h3>Description</h3>
     <%= display_textile_for @proposal.description %>
 
-  <% unless @proposal.audio_url.empty? %>
+  <% unless @proposal.audio_url.blank? %>
     <h3>Session Audio</h3>
     <div>
       <audio src="<%= @proposal.audio_url %>" preload="none" />
