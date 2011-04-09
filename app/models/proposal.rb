@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090616061006
+# Schema version: 20110409034822
 #
 # Table name: proposals
 #
@@ -24,6 +24,7 @@
 #  status             :string(255)     default("proposed"), not null
 #  room_id            :integer(4)      
 #  start_time         :datetime        
+#  audio_url          :string(255)     
 #
 
 class Proposal < ActiveRecord::Base
