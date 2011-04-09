@@ -22,7 +22,6 @@ focus :comment_message if @focus_comment
   </script>
 <% end %>
 
-
 <%= user_favorite_control_for @proposal %>
 <%= render :partial => "/proposals/admin_controls" %>
 
@@ -74,6 +73,17 @@ focus :comment_message if @focus_comment
 
   <div class='show-proposal'>
 
+  <% unless @proposal.audio_url.blank? %>
+    <div class="session-audio">
+      <h3>Session Audio</h3>
+      <div>
+        <audio src="<%= @proposal.audio_url %>" preload="none" />
+      </div>
+      <p>
+        <%= link_to "Download audio of this session", @proposal.audio_url %>
+      </p>
+    </div>
+  <% end -%>
 
   <div class='proposal-meta'>
     <% if proposal_statuses? && @event.proposal_status_published? %>
@@ -122,18 +132,8 @@ focus :comment_message if @focus_comment
     <%= preserve_formatting_of @proposal.excerpt %>
   <% end %>
 
-    <h3>Description</h3>
-    <%= display_textile_for @proposal.description %>
-
-  <% unless @proposal.audio_url.blank? %>
-    <h3>Session Audio</h3>
-    <div>
-      <audio src="<%= @proposal.audio_url %>" preload="none" />
-    </div>
-    <p>
-      <%= link_to "Download audio of this session", @proposal.audio_url %>
-    </p>
-  <% end -%>
+  <h3>Description</h3>
+  <%= display_textile_for @proposal.description %>
 
   <% unless @proposal.tags.empty? %>
     <h3>Tags</h3>
