@@ -472,16 +472,10 @@ protected
       @display_comment_form = \
         # Admin can always leave comments
         admin? || (
-         # Don't display comment form if user has just commented
-         ! params[:commented] &&
-         # Don't display comment form for the proposal owner
-         ! can_edit?(@proposal) &&
-         (
           # Display comment form if the event is accepting proposals
           accepting_proposals? ||
           # or if the settings provide a toggle and the event is accepting comments
           (event_proposal_comments_after_deadline? && @event.accept_proposal_comments_after_deadline?)
-         )
         )
       @focus_comment = false
     end
