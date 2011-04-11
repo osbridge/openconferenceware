@@ -46,7 +46,7 @@
   </script>
 </head>
 
-<body class='<%= "#{controller.controller_name} #{action_name}" %>'>
+<body class='<%= "#{controller.controller_name} #{action_name}" %> <%= "#{controller.controller_name}_#{action_name}" %>'>
   <a name='top'></a>
   <div id="wrapper">
       <%= render :partial => "layouts/header" %>

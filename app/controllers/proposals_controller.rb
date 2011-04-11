@@ -134,7 +134,8 @@ class ProposalsController < ApplicationController
     @kind = :proposal
     if @event.proposal_status_published? && @proposal.confirmed?
       @redirector = lambda {
-        flash[:notice] = "This proposal has been accepted as a session."
+        # flash[:notice] = "This proposal has been accepted as a session."
+        flash.keep
         return redirect_to( session_path(@proposal) )
       }
     end
@@ -463,6 +464,10 @@ protected
 
   # Base method used for #show and #session_show
   def base_show
+    if selector?
+      @selector_vote = @proposal.selector_votes.find_or_initialize_by_user_id(current_user.id)
+    end
+
     unless defined?(@redirector)
       add_breadcrumb @event.title, event_proposals_path(@event)
       add_breadcrumb @proposal.title, proposal_path(@proposal)

@@ -58,6 +58,7 @@ class UsersController < ApplicationController
       if admin?
         @user.login            = params[:user][:login]
         @user.admin            = params[:user][:admin]
+        @user.selector         = params[:user][:selector]
         @user.complete_profile = params[:user][:complete_profile]
       end
 

@@ -106,6 +106,7 @@ class Proposal < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :user_favorites, :dependent => :destroy
   has_many :users_who_favor, :through => :user_favorites, :source => :user
+  has_many :selector_votes
 
   has_and_belongs_to_many :users do
     def fullnames
@@ -463,6 +464,16 @@ class Proposal < ActiveRecord::Base
       return true if self.event_id == an_event.id
     end
     return false
+  end
+
+  # Return next proposal in this event after this one, or nil if none.
+  def next_proposal
+    return self.event.proposals.first(:conditions => ["proposals.id > ?", self.id], :order => "created_at ASC")
+  end
+
+  # Return previous proposal in this event after this one, or nil if none.
+  def previous_proposal
+    return self.event.proposals.first(:conditions => ["proposals.id < ?", self.id], :order => "created_at DESC")
   end
 
   #---[ Serializers ]-----------------------------------------------------

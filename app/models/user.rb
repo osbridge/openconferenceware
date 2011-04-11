@@ -62,6 +62,7 @@ class User < ActiveRecord::Base
       self
     end
   end
+  has_many :selector_votes
 
   #---[ Attributes ]------------------------------------------------------
 
@@ -71,6 +72,7 @@ class User < ActiveRecord::Base
   # Protected fields
   attr_protected *[
     :admin,
+    :selector,
     :id,
     :login,
     :complete_profile,

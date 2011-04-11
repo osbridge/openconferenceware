@@ -1,0 +1,2 @@
+module SelectorVotesHelper
+end

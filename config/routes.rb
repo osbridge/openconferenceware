@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :selector_votes
+
   # See how all your routes lay out with "rake routes"
 
   map.resources :comments, :path_prefix => 'proposals'

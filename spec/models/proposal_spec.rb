@@ -427,6 +427,35 @@ describe Proposal do
     end
   end
 
+  describe "traversal" do
+    before(:each) do
+      @event = Factory :populated_event
+      @event.proposals.destroy_all
+      @proposal1 = proposal_for_event(@event)
+      @proposal2 = proposal_for_event(@event)
+    end
+
+    context "when finding next proposal" do
+      it "should return the next proposal when it exists" do
+        @proposal1.next_proposal.should == @proposal2
+      end
+
+      it "should return nil when it's the last" do
+        @proposal2.next_proposal.should be_nil
+      end
+    end
+
+    context "when finding previous proposal" do
+      it "should return the previous proposal when it exists" do
+        @proposal2.previous_proposal.should == @proposal1
+      end
+
+      it "should return nil when it's the first" do
+        @proposal1.previous_proposal.should be_nil
+      end
+    end
+  end
+
 private
 
   def new_proposal(attr = {})
