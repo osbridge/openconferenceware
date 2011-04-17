@@ -491,6 +491,11 @@ class Proposal < ActiveRecord::Base
     return self.selector_votes.map(&:rating).reject{|o| o == -1}.sum
   end
 
+  # Return the integer number of votes submitted that aren't abstensions.
+  def selector_votes_count
+    return self.selector_votes.map(&:rating).reject{|o| o == -1}.size
+  end
+
   #---[ Serializers ]-----------------------------------------------------
 
   def to_xml(*args)
