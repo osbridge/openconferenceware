@@ -5,53 +5,35 @@ class SelectorVotesController < ApplicationController
   # GET /selector_votes
   # GET /selector_votes.xml
   def index
-    raise NotImplementedError
-=begin
-    @selector_votes = SelectorVote.find(:all)
+    unless @event
+      raise NotImplementedError
+    end
+
+    # Sort using Ruby because overriding the sorting on a Proposal with includes produces very inefficient SQL.
+    @proposals = \
+      begin
+        proposals = @event.proposals.all(:include => [:selector_votes, :comments, :users, :user_favorites])
+        case params[:order]
+        when 'title'
+          proposals.sort_by { |proposal| proposal.title.downcase }
+        when 'vote_points'
+          proposals.sort_by { |proposal| - proposal.selector_vote_points }
+        when 'votes_count'
+          proposals.sort_by { |proposal| - proposal.selector_votes.size }
+        when 'favorites_count'
+          proposals.sort_by { |proposal| - proposal.user_favorites.size }
+        when 'id', '', nil
+          proposals.sort_by { |proposal| proposal.created_at }
+        else # includes 'id'
+          flash[:failure] = "Unknown order: #{h(params[:order])}"
+          proposals.sort_by { |proposal| proposal.created_at }
+        end
+      end
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @selector_votes }
+      format.html
+      format.csv { render :csv => @proposals, :style => :selector_votes }
     end
-=end
-  end
-
-  # GET /selector_votes/1
-  # GET /selector_votes/1.xml
-  def show
-    raise NotImplementedError
-=begin
-    @selector_vote = SelectorVote.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @selector_vote }
-    end
-=end
-  end
-
-  # GET /selector_votes/new
-  # GET /selector_votes/new.xml
-  def new
-    raise NotImplementedError
-
-=begin
-    @selector_vote = SelectorVote.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @selector_vote }
-    end
-=end
-  end
-
-  # GET /selector_votes/1/edit
-  def edit
-    raise NotImplementedError
-
-=begin
-    @selector_vote = SelectorVote.find(params[:id])
-=end
   end
 
   # POST /selector_votes
@@ -90,22 +72,6 @@ class SelectorVotesController < ApplicationController
         format.xml  { render :xml => @selector_vote.errors, :status => :unprocessable_entity }
       end
     end
-  end
-
-  # DELETE /selector_votes/1
-  # DELETE /selector_votes/1.xml
-  def destroy
-    raise NotImplementedError
-
-=begin
-    @selector_vote = SelectorVote.find(params[:id])
-    @selector_vote.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(selector_votes_url) }
-      format.xml  { head :ok }
-    end
-=end
   end
 
   protected

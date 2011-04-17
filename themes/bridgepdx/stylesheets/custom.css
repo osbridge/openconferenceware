@@ -992,3 +992,15 @@ body.users.show h2.page_title {
 	font-size: 80%;
   font-style: italic;
 }
+
+.selector_votes_index {}
+  .selector_votes_index th {
+    background-color: #EEE; }
+  .selector_votes_index .proposal_details {
+    border-top: 2px solid #AAA }
+  .selector_votes_index td {
+    vertical-align: top; }
+  .selector_votes_index .subrow table {
+    width: 100%; }
+  .selector_votes_index .subrow > td {
+    padding-left: 4em; }

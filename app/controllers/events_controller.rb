@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   before_filter :assert_current_event_or_redirect
   before_filter :normalize_event_path_or_redirect
   before_filter :assert_proposal_status_published, :only => :speakers
+  before_filter :require_admin, :only => [:selector_votes]
 
   def index
     @events = Event.find(:all, :order => "deadline asc")

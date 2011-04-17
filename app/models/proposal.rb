@@ -204,6 +204,15 @@ class Proposal < ActiveRecord::Base
     comments_text
   end
 
+  comma :selector_votes do
+    instance_eval &base_comma_attributes
+    
+    user_favorites :size => 'Favorites'
+    selector_vote_points 'Selector points'
+    selector_votes_for_comma 'Selector votes'
+    comments_for_comma 'Comments'
+  end
+
   # Return the first User owner. Burst into flames if no user or multiple users listed.
   def user
     raise ArgumentError, "Can't lookup user when in multiple presenters mode" if multiple_presenters?
@@ -476,6 +485,12 @@ class Proposal < ActiveRecord::Base
     return self.event.proposals.first(:conditions => ["proposals.id < ?", self.id], :order => "created_at DESC")
   end
 
+  # Return the integer sum of the selector votes rating for this proposal. Skips
+  # the "-1" votes because these mean "I don't know how to rate this proposal".
+  def selector_vote_points
+    return self.selector_votes.map(&:rating).reject{|o| o == -1}.sum
+  end
+
   #---[ Serializers ]-----------------------------------------------------
 
   def to_xml(*args)
@@ -510,4 +525,17 @@ class Proposal < ActiveRecord::Base
   end
   alias_method :user_labels, :user_titles
 
+  #---[ Accessors for comma ]---------------------------------------------
+
+  def selector_votes_for_comma
+    return self.selector_votes.map do |selector_vote|
+      "#{selector_vote.rating == -1 ? 'Abstain' : selector_vote.rating}: #{selector_vote.comment}"
+    end.join("\n")
+  end
+
+  def comments_for_comma
+    return self.comments.map do |comment|
+      "#{comment.email}: #{comment.message}"
+    end.join("\n")
+  end
 end

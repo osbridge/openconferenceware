@@ -29,6 +29,8 @@ ActionController::Routing::Routes.draw do |map|
     event.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
     event.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
     event.formatted_session '/sessions/:id.:format', :controller => 'proposals', :action => 'session_show'
+    event.selector_votes '/selector_votes', :controller => 'selector_votes', :action => 'index'
+    event.formatted_selector_votes '/selector_votes.:format', :controller => 'selector_votes', :action => 'index'
   end
   
   map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
