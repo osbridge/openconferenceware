@@ -38,6 +38,7 @@ class Event < ActiveRecord::Base
   has_many :schedule_items, :dependent => :destroy, :order => 'start_time asc'
   has_many :children, :class_name => 'Event', :foreign_key => 'parent_id', :dependent => :destroy
   belongs_to :parent, :class_name => 'Event', :foreign_key => 'parent_id'
+  has_many :selector_votes, :through => :proposals, :dependent => :destroy
 
   # Validations
   validates_presence_of \
