@@ -1,6 +1,6 @@
 class SelectorVotesController < ApplicationController
-  before_filter :require_admin, :only => [:index, :new, :edit, :destroy]
-  before_filter :require_selector, :only => [:create, :update]
+  before_filter :require_admin, :only => [:new, :edit, :destroy]
+  before_filter :require_selector, :only => [:index, :create, :update]
 
   # GET /selector_votes
   # GET /selector_votes.xml
