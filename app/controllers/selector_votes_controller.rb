@@ -23,6 +23,8 @@ class SelectorVotesController < ApplicationController
           proposals.sort_by { |proposal| - proposal.selector_votes.size }
         when 'favorites_count'
           proposals.sort_by { |proposal| - proposal.user_favorites.size }
+        when 'track'
+          proposals.sort_by { |proposal| proposal.track_title }
         when 'id', '', nil
           proposals.sort_by { |proposal| proposal.created_at }
         else # includes 'id'

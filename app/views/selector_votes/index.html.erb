@@ -5,6 +5,7 @@
     <th><%= link_to('ID', url_for(:order => 'id')) %></th>
     <th><%= link_to('Title', url_for(:order => 'title')) %></th>
     <th>Speaker(s)</th>
+    <th><%= link_to('Track', url_for(:order => 'track')) %></th>
     <th><%= link_to('Vote points', url_for(:order => 'vote_points')) %></th>
     <th><%= link_to('Votes count', url_for(:order => 'votes_count')) %></th>
     <th><%= link_to('Favorites count', url_for(:order => 'favorites_count')) %></th>
@@ -22,6 +23,7 @@
           <% end %>
         </ul>
       </td>
+      <td><%= proposal.track_title %></td>
       <td><%= proposal.selector_vote_points %></td>
       <td><%= proposal.selector_votes_count %></td>
       <td><%= proposal.user_favorites.size %></td>
