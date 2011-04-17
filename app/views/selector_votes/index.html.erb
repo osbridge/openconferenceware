@@ -1,5 +1,14 @@
 <% page_title "#{@event.title} selector votes" %>
 
+<% run_when_dom_is_ready <<-HERE
+  // TODO HACK: Hides the sidebar. Come up with more sensible solution.
+  $(".sidebar").hide();
+  $("#content").css("width", "100%");
+  $("#content").css("margin", "1em");
+  $("#content h2").css("margin", "0px");
+HERE
+%>
+
 <table>
   <tr>
     <th><%= link_to('ID', url_for(:order => 'id')) %></th>
