@@ -10,7 +10,7 @@
     <th><%= link_to('Favorites count', url_for(:order => 'favorites_count')) %></th>
   </tr>
   <% for proposal in @proposals %>
-    <tr class="proposal_details">
+    <tr class="proposal_details proposal_<%= proposal.id %> %>">
       <td><%= proposal.id %></td>
       <td style="width: 100%"><%= link_to(h(proposal.title), proposal) %></td>
       <td>
@@ -34,7 +34,7 @@
               <th colspan="2">Selector's rating and comment</th>
             </tr>
             <% for selector_vote in proposal.selector_votes.sort_by { |t| 0 - t.rating.to_i } %>
-              <tr>
+              <tr class="selector_vote_<%= selector_vote.id %>">
                 <td class="nowrap"><%= selector_vote.rating == -1 ? "Abstain" : selector_vote.rating %></td>
                 <td><%= selector_vote.comment.blank? ? "&mdash; N/A &mdash;" : h(selector_vote.comment) %></td>
               </tr>
@@ -51,7 +51,7 @@
               <th>Commentor's email address and comment</th>
             </tr>
             <% for comment in proposal.comments %>
-              <tr>
+              <tr class="comment_<%= comment.id %>">
                 <td>
                   <%= h comment.email %>:
                   <%= h comment.message %>
