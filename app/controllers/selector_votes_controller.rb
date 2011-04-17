@@ -6,7 +6,8 @@ class SelectorVotesController < ApplicationController
   # GET /selector_votes.xml
   def index
     unless @event
-      raise NotImplementedError
+      flash[:failure] = "Can't display selector votes without an event!"
+      return redirect_back_or_to(root_path)
     end
 
     # Sort using Ruby because overriding the sorting on a Proposal with includes produces very inefficient SQL.
