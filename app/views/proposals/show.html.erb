@@ -11,6 +11,7 @@ page_title h(@proposal.title)
 include_user_favorites_javascript
 run_when_dom_is_ready( 'bind_calendar_items();' )
 focus :comment_message if @focus_comment
+show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_organizers.blank?
 %>
 
 <% content_for :scripts do %>
@@ -80,7 +81,7 @@ focus :comment_message if @focus_comment
 <%= user_favorite_control_for @proposal %>
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)}" do %>
+<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)},private_note_#{show_private_note}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -195,7 +196,7 @@ focus :comment_message if @focus_comment
     <p><%= @proposal.tag_list %></p>
   <% end %>
 
-  <% if (can_edit?(@proposal) || selector?) && ! @proposal.note_to_organizers.blank?%>
+  <% if show_private_note %>
     <h3>Private Note to Organizers</h3>
     <%= preserve_formatting_of @proposal.note_to_organizers %>
   <% end %>
