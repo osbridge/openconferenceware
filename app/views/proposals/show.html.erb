@@ -23,7 +23,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
   </script>
 <% end %>
 
-<% if selector? %>
+<% if @selector_vote %>
   <div class="admin-only selector-vote-form">
     <strong>SELECTION COMMITTEE MEMBER:</strong>
     <%= @proposal.user_favorites.count %> users have favorited this proposal.

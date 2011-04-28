@@ -80,6 +80,15 @@
     
     <tr>
       <td class="label-cell">
+        <%= f.label :accept_selector_votes, "Accept selector votes?" %>
+      </td>
+      <td>
+        <%= f.select :accept_selector_votes, [['Yes',true],["No",false]] %>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="label-cell">
         <%= f.label :proposal_titles_locked, "Lock editing of proposal title?" %>
       </td>
       <td>
