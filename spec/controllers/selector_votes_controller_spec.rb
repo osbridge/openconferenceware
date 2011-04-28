@@ -7,11 +7,42 @@ describe SelectorVotesController do
   end
 
   describe "GET index" do
-    describe "when logged in as admin" do
+
+    describe "when not logged in" do
+      before do
+        logout
+
+        SelectorVote.should_not_receive(:find)
+
+        get :index
+      end
+
+      it "should reject request and redirect to login page" do
+        response.should redirect_to(login_path)
+      end
+    end
+
+    describe "when logged in as non-selector" do
+      before do
+        @user = Factory :user, :selector => false
+        login_as @user
+
+        SelectorVote.should_not_receive(:find)
+
+        get :index
+      end
+
+      it "should reject request and redirect to login page" do
+        response.should redirect_to(login_path)
+      end
+
+    end
+
+    describe "when logged in as member of selection comittee" do
       before do
         Event.destroy_all # Previous tests may have left an event behind
 
-        @user = Factory :admin
+        @user = Factory :selector
         login_as @user
       end
 
@@ -132,9 +163,8 @@ describe SelectorVotesController do
         logout
       end
 
-      it "should reject request" do
-        SelectorVote.should_not_receive(:find)
-        SelectorVote.should_not_receive(:new)
+      it "should reject request and redirect to login page" do
+        SelectorVote.should_not_receive(:find_or_initialize_by_user_id_and_proposal_id)
 
         post :create, :selector_vote => {:these => 'params'}
 
@@ -149,9 +179,8 @@ describe SelectorVotesController do
         login_as @user
       end
 
-      it "should reject request" do
-        SelectorVote.should_not_receive(:find)
-        SelectorVote.should_not_receive(:new)
+      it "should reject request and redirect to login page" do
+        SelectorVote.should_not_receive(:find_or_initialize_by_user_id_and_proposal_id)
 
         post :create, :selector_vote => {:these => 'params'}
 
@@ -175,97 +204,53 @@ describe SelectorVotesController do
       describe "with valid params" do
 
         before do
+          @parameters = {:proposal_id => @proposal1.id, :selector_vote => {:comment => 'Yay!', :rating => 5}}
           @selector_vote = mock_selector_vote(:save => true, :proposal => @proposal1)
-          @selector_vote.should_receive(:user=).with(@user)
-          SelectorVote.should_receive(:new).with({'these' => 'params'}).and_return(@selector_vote)
-          post :create, :selector_vote => {:these => 'params'}
+          @selector_vote.should_receive(:attributes=).with(:comment => @parameters[:selector_vote][:comment], :rating => @parameters[:selector_vote][:rating])
+          SelectorVote.should_receive(:find_or_initialize_by_user_id_and_proposal_id).with(@user.id, @proposal1.id).and_return(@selector_vote)
+          post :create, @parameters
         end
 
         it "should create the vote" do
           assigns[:selector_vote].should equal(mock_selector_vote)
         end
 
-        it "should have successful notification message" do
-          flash[:success].should_not be_blank
-        end
-
         it "should redirect to next proposal" do
           response.should redirect_to(proposal_path(@proposal2))
         end
 
+        it "should not display an error" do
+          flash[:failure].should be_nil
+        end
+
       end
 
-    end
-
-  end
-
-  describe "PUT update" do
-
-    describe "when not logged in" do
-      before do
-        logout
-      end
-
-      it "should reject request" do
-        SelectorVote.should_not_receive(:find)
-        SelectorVote.should_not_receive(:new)
-
-        put :update, :id => 42, :selector_vote => {:these => 'params'}
-
-        flash[:failure].should =~ /selection committee/
-        response.should redirect_to(login_path)
-      end
-    end
-
-    describe "when logged in as non-selector" do
-      before do
-        @user = Factory :user, :selector => false
-        login_as @user
-      end
-
-      it "should reject request" do
-        SelectorVote.should_not_receive(:find)
-        SelectorVote.should_not_receive(:new)
-
-        put :update, :id => 42, :selector_vote => {:these => 'params'}
-
-        flash[:failure].should =~ /selection committee/
-        response.should redirect_to(login_path)
-      end
-
-    end
-
-    describe "when logged in as member of selection comittee" do
-
-      before do
-        @user = Factory :user, :selector => true
-        login_as @user
-
-        @event = Factory :populated_event
-        @proposal1 = proposal_for_event(@event)
-        @proposal2 = proposal_for_event(@event)
-      end
-
-      describe "with valid params" do
+      describe "with existing vote" do
 
         before do
-          @selector_vote = mock_selector_vote(:save => true, :proposal => @proposal1)
-          @selector_vote.should_receive(:user=).with(@user)
-          @selector_vote.should_receive(:update_attributes).with({'these' => 'params'}).and_return(true)
-          SelectorVote.should_receive(:find).with('42').and_return(@selector_vote)
-          put :update, :id => '42', :selector_vote => {:these => 'params'}
+          SelectorVote.destroy_all
+          @selector_vote = SelectorVote.create!(:user => @user, :proposal => @proposal1, :rating => 1, :comment => 'Yay')
+          SelectorVote.count.should == 1
+
+          post :create, :proposal_id => @proposal1.id, :selector_vote => {:comment => 'Nay', :rating  => 0}
         end
 
-        it "should create the vote" do
-          assigns[:selector_vote].should equal(mock_selector_vote)
+        it "should not create a new vote" do
+          SelectorVote.count.should == 1
         end
 
-        it "should have successful notification message" do
-          flash[:success].should_not be_blank
+        it "should update the vote" do
+          @selector_vote.reload
+          @selector_vote.rating.should == 0
+          @selector_vote.comment.should == 'Nay'
         end
 
         it "should redirect to next proposal" do
           response.should redirect_to(proposal_path(@proposal2))
+        end
+
+        it "should not display an error" do
+          flash[:failure].should be_nil
         end
 
       end

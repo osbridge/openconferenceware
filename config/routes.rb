@@ -1,12 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :selector_votes
-
   # See how all your routes lay out with "rake routes"
 
   map.resources :comments, :path_prefix => 'proposals'
 
   map.resources :proposals do |proposals|
     proposals.resources :comments, :controller => 'comments'
+    proposals.resource :selector_vote, :only => :create
   end
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
@@ -29,8 +28,7 @@ ActionController::Routing::Routes.draw do |map|
     event.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
     event.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
     event.formatted_session '/sessions/:id.:format', :controller => 'proposals', :action => 'session_show'
-    event.selector_votes '/selector_votes', :controller => 'selector_votes', :action => 'index'
-    event.formatted_selector_votes '/selector_votes.:format', :controller => 'selector_votes', :action => 'index'
+    event.resources :selector_votes, :only => :index
   end
   
   map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
