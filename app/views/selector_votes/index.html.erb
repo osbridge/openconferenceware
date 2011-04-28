@@ -9,6 +9,10 @@
 HERE
 %>
 
+<p>
+  <%= link_to "Export as CSV", formatted_event_selector_votes_path(assigned_event, :csv) %>
+</p>
+
 <table>
   <tr>
     <th><%= link_to('ID', url_for(:order => 'id')) %></th>
