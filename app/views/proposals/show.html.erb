@@ -11,6 +11,7 @@ page_title h(@proposal.title)
 include_user_favorites_javascript
 run_when_dom_is_ready( 'bind_calendar_items();' )
 focus :comment_message if @focus_comment
+show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_organizers.blank?
 %>
 
 <% content_for :scripts do %>
@@ -22,10 +23,64 @@ focus :comment_message if @focus_comment
   </script>
 <% end %>
 
+<% if @selector_vote %>
+  <div class="admin-only selector-vote-form">
+    <strong>SELECTION COMMITTEE MEMBER:</strong>
+    <%= @proposal.user_favorites.count %> users have favorited this proposal.
+
+    <% form_for(@selector_vote, :url => proposal_selector_vote_path(@proposal), :html => {:method => :post}) do |f| %>
+      <table cellspacing="0">
+        <tr>
+          <td><%= f.label :rating %></td>
+          <td><%= f.label :comment %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <%= f.select :rating, [ ["Choose one:", ""],
+                                    ["0 - Horrible", 0],
+                                    ["1 - Poor" , 1],
+                                    ["2 - Fair", 2],
+                                    ["3 - Average", 3],
+                                    ["4 - Good", 4],
+                                    ["5 - Awesome", 5],
+                                    ["x - I don't know", -1]] %>
+            <% focus(:selector_vote_rating) %>
+          </td>
+          <td class="selector-vote-form-comment-cell">
+            <%= f.text_area :comment, :rows => 2 %>
+          </td>
+          <td>
+            <%= f.submit "Vote and next!" %>
+            <br />
+
+            <span class="nowrap">
+              <% if previous_proposal_path = previous_proposal_path_from(@proposal) %>
+                <%= link_to("&larr; Previous", previous_proposal_path) %>
+              <% else %>
+                First proposal!
+              <% end %>
+              |
+              <% if next_proposal_path = next_proposal_path_from(@proposal) %>
+                <%= link_to("Next &rarr;", next_proposal_path) %>
+              <% else %>
+                Last proposal!
+              <% end %>
+            </span>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+    <div class="selector-vote-form-protip">
+      <strong>Protip:</strong> You can vote quickly by just pressing the number of rating to choose it because it's focused on page load, then <code>Tab</code> to the comment field and fill it, then <code>Tab</code> to the "Vote" button and <code>Enter</code> to submit!
+    </div>
+  </div>
+<% end %>
+
 <%= user_favorite_control_for @proposal %>
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)}" do %>
+<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)},private_note_#{show_private_note}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -140,7 +195,7 @@ focus :comment_message if @focus_comment
     <p><%= @proposal.tag_list %></p>
   <% end %>
 
-  <% if can_edit?(@proposal) && ! @proposal.note_to_organizers.blank?%>
+  <% if show_private_note %>
     <h3>Private Note to Organizers</h3>
     <%= preserve_formatting_of @proposal.note_to_organizers %>
   <% end %>
@@ -162,7 +217,7 @@ focus :comment_message if @focus_comment
 
 <% end %>
 
-<% if admin? %>
+<% if admin? or selector? %>
   <% cache "proposal_#{@proposal.id},comments_list" do %>
   <h3>Comments</h3>
   <%= render :partial => 'comments/list', :locals => { :comments => @proposal.comments }%>

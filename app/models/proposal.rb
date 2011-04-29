@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090616061006
+# Schema version: 20110409034822
 #
 # Table name: proposals
 #
@@ -24,6 +24,7 @@
 #  status             :string(255)     default("proposed"), not null
 #  room_id            :integer(4)      
 #  start_time         :datetime        
+#  audio_url          :string(255)     
 #
 
 class Proposal < ActiveRecord::Base
@@ -105,6 +106,7 @@ class Proposal < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :user_favorites, :dependent => :destroy
   has_many :users_who_favor, :through => :user_favorites, :source => :user
+  has_many :selector_votes
 
   has_and_belongs_to_many :users do
     def fullnames
@@ -200,6 +202,15 @@ class Proposal < ActiveRecord::Base
     end
     note_to_organizers
     comments_text
+  end
+
+  comma :selector_votes do
+    instance_eval &base_comma_attributes
+    
+    user_favorites :size => 'Favorites'
+    selector_vote_points 'Selector points'
+    selector_votes_for_comma 'Selector votes'
+    comments_for_comma 'Comments'
   end
 
   # Return the first User owner. Burst into flames if no user or multiple users listed.
@@ -464,6 +475,27 @@ class Proposal < ActiveRecord::Base
     return false
   end
 
+  # Return next proposal in this event after this one, or nil if none.
+  def next_proposal
+    return self.event.proposals.first(:conditions => ["proposals.id > ?", self.id], :order => "created_at ASC")
+  end
+
+  # Return previous proposal in this event after this one, or nil if none.
+  def previous_proposal
+    return self.event.proposals.first(:conditions => ["proposals.id < ?", self.id], :order => "created_at DESC")
+  end
+
+  # Return the integer sum of the selector votes rating for this proposal. Skips
+  # the "-1" votes because these mean "I don't know how to rate this proposal".
+  def selector_vote_points
+    return self.selector_votes.map(&:rating).reject{|o| o == -1}.sum
+  end
+
+  # Return the integer number of votes submitted that aren't abstensions.
+  def selector_votes_count
+    return self.selector_votes.map(&:rating).reject{|o| o == -1}.size
+  end
+
   #---[ Serializers ]-----------------------------------------------------
 
   def to_xml(*args)
@@ -498,4 +530,17 @@ class Proposal < ActiveRecord::Base
   end
   alias_method :user_labels, :user_titles
 
+  #---[ Accessors for comma ]---------------------------------------------
+
+  def selector_votes_for_comma
+    return self.selector_votes.map do |selector_vote|
+      "#{selector_vote.rating == -1 ? 'Abstain' : selector_vote.rating}: #{selector_vote.comment}"
+    end.join("\n")
+  end
+
+  def comments_for_comma
+    return self.comments.map do |comment|
+      "#{comment.email}: #{comment.message}"
+    end.join("\n")
+  end
 end

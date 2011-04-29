@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090616061006
+# Schema version: 20110409034822
 #
 # Table name: users
 #
@@ -26,6 +26,7 @@
 #  blog_url                  :string(255)     
 #  identica                  :string(255)     
 #  twitter                   :string(255)     
+#  selector                  :boolean(1)      
 #
 
 require 'digest/sha1'
@@ -61,6 +62,7 @@ class User < ActiveRecord::Base
       self
     end
   end
+  has_many :selector_votes
 
   #---[ Attributes ]------------------------------------------------------
 
@@ -70,6 +72,7 @@ class User < ActiveRecord::Base
   # Protected fields
   attr_protected *[
     :admin,
+    :selector,
     :id,
     :login,
     :complete_profile,

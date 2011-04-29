@@ -138,6 +138,15 @@ protected
   end
   helper_method :accepting_proposals?
 
+  def selector?
+    logged_in? && current_user.selector?
+  end
+  helper_method :selector?
+
+  def require_selector
+    selector? || access_denied(:message => "You must be part of the selection committee to access the requested page.")
+  end
+
   #---[ Logging ]---------------------------------------------------------
 
   def log_the_current_user

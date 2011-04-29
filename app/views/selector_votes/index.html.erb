@@ -1,0 +1,81 @@
+<% page_title "#{@event.title} selector votes" %>
+
+<% run_when_dom_is_ready <<-HERE
+  // TODO HACK: Hides the sidebar. Come up with more sensible solution.
+  $(".sidebar").hide();
+  $("#content").css("width", "100%");
+  $("#content").css("margin", "1em");
+  $("#content h2").css("margin", "0px");
+HERE
+%>
+
+<p>
+  <%= link_to "Export as CSV", formatted_event_selector_votes_path(assigned_event, :csv) %>
+</p>
+
+<table>
+  <tr>
+    <th><%= link_to('ID', url_for(:order => 'id')) %></th>
+    <th><%= link_to('Title', url_for(:order => 'title')) %></th>
+    <th>Speaker(s)</th>
+    <th><%= link_to('Track', url_for(:order => 'track')) %></th>
+    <th><%= link_to('Vote points', url_for(:order => 'vote_points')) %></th>
+    <th><%= link_to('Votes count', url_for(:order => 'votes_count')) %></th>
+    <th><%= link_to('Favorites count', url_for(:order => 'favorites_count')) %></th>
+  </tr>
+  <% for proposal in @proposals %>
+    <tr class="proposal_details proposal_<%= proposal.id %> %>">
+      <td><%= proposal.id %></td>
+      <td style="width: 100%"><%= link_to(h(proposal.title), proposal) %></td>
+      <td>
+        <ul>
+          <% proposal.users.each_with_index do |user, i| %>
+            <li class="nowrap">
+              <%= link_to(h(user.fullname), user) %>
+            </li>
+          <% end %>
+        </ul>
+      </td>
+      <td><%= proposal.track_title %></td>
+      <td><%= proposal.selector_vote_points %></td>
+      <td><%= proposal.selector_votes_count %></td>
+      <td><%= proposal.user_favorites.size %></td>
+    </tr>
+    <% if proposal.selector_votes.size > 0 %>
+      <tr class="subrow selector_vote_row">
+        <td colspan="6">
+          <table>
+            <tr>
+              <th colspan="2">Selector's rating and comment</th>
+            </tr>
+            <% for selector_vote in proposal.selector_votes.sort_by { |t| 0 - t.rating.to_i } %>
+              <tr class="selector_vote_<%= selector_vote.id %>">
+                <td class="nowrap"><%= selector_vote.rating == -1 ? "Abstain" : selector_vote.rating %></td>
+                <td><%= selector_vote.comment.blank? ? "&mdash; N/A &mdash;" : h(selector_vote.comment) %></td>
+              </tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+    <% if proposal.comments.size > 0 %>
+      <tr class="subrow comment_row">
+        <td colspan="6">
+          <table>
+            <tr>
+              <th>Commentor's email address and comment</th>
+            </tr>
+            <% for comment in proposal.comments %>
+              <tr class="comment_<%= comment.id %>">
+                <td>
+                  <%= h comment.email %>:
+                  <%= h comment.message %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

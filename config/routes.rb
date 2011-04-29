@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :proposals do |proposals|
     proposals.resources :comments, :controller => 'comments'
+    proposals.resource :selector_vote, :only => :create
   end
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
@@ -27,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
     event.formatted_schedule '/schedule.:format', :controller => 'proposals', :action => 'schedule'
     event.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
     event.formatted_session '/sessions/:id.:format', :controller => 'proposals', :action => 'session_show'
+    event.resources :selector_votes, :only => :index
   end
   
   map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'

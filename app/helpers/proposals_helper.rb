@@ -31,4 +31,22 @@ module ProposalsHelper
     kind = (kind || @kind).to_s.pluralize
     return self.send("event_#{kind}_path", @event)
   end
+
+  # Return a path to the next proposal after +proposal+. Or none if none.
+  def next_proposal_path_from(proposal)
+    if next_proposal = proposal.next_proposal
+      return proposal_path(next_proposal)
+    else
+      return nil
+    end
+  end
+
+  # Return a path to the previous proposal after +proposal+. Or none if none.
+  def previous_proposal_path_from(proposal)
+    if previous_proposal = proposal.previous_proposal
+      return proposal_path(previous_proposal)
+    else
+      return nil
+    end
+  end
 end

@@ -46,7 +46,7 @@
   </script>
 </head>
 
-<body class='<%= "#{controller.controller_name} #{action_name}" %>'>
+<body class='<%= "#{controller.controller_name} #{action_name}" %> <%= "#{controller.controller_name}_#{action_name}" %>'>
   <a name='top'></a>
   <div id="wrapper">
       <%= render :partial => "layouts/header" %>
@@ -129,6 +129,7 @@
                             <li><%= link_to "Rooms", rooms_path %></li>
                           <% end %>
                           <li><%= link_to "Schedule Items", event_schedule_items_path(assigned_event) %></li>
+                          <li><%= link_to "Selector Votes", event_selector_votes_path(assigned_event) %></li>
                         </ul>
                       <% end %>
                     </li>
