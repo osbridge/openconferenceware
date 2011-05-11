@@ -15,7 +15,7 @@ cache_key = "#{@kind}_index_terse,event_#{@event.id}"
 <h2><%= track.title %></h2>
 <ul>
     <%- for proposal in proposals -%>
-  <li><%= link_to proposal.title -%> by <%= proposal.users.map(&:fullname).to_sentence %></li>
+  <li><%= link_to proposal.title, session_path(proposal) -%> by <%= proposal.users.map(&:fullname).to_sentence %></li>
     <%- end -%>
 </ul>
   <%- end -%>
