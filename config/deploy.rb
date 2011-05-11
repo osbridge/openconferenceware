@@ -126,6 +126,21 @@ ERROR!  You must have a file on your server with the database configuration.
   end
 end
 
+namespace :data do
+  desc "Download files and database from production, and install it locally."
+  task :use, :roles => :db, :only => {:primary => true} do
+    shared.download
+    db.use
+  end
+end
+
+namespace :shared do
+  desc "Download shared content in 'system' directory from production, install locally"
+  task :download, :roles => :db, :only => {:primary => true} do
+    sh "rsync -vaxP --delete-after #{user}@#{host}:#{shared_path}/system public/"
+  end
+end
+
 namespace :db do
   namespace :remote do
     desc "Dump database on remote server"
