@@ -1,0 +1,22 @@
+<%
+# VARIABLES:
+# * @event => Event these proposals are for
+# * @proposals => Array of proposal objects
+
+page_title "#{@event.title} sessions"
+
+cache_key = "#{@kind}_index_terse,event_#{@event.id}"
+%>
+
+<%- cache cache_key do -%>
+  <%- for track in @event.tracks.sort_by(&:title) -%>
+    <%- proposals = track.proposals.confirmed.sort_by(&:title) -%>
+    <%- next unless proposals.size > 0 -%>
+<h2><%= track.title %></h2>
+<ul>
+    <%- for proposal in proposals -%>
+  <li><%= link_to proposal.title -%> by <%= proposal.users.map(&:fullname).to_sentence %></li>
+    <%- end -%>
+</ul>
+  <%- end -%>
+<%- end -%>
