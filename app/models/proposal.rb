@@ -202,12 +202,13 @@ class Proposal < ActiveRecord::Base
     end
     note_to_organizers
     comments_text
+    user_favorites :size => 'Favorites count'
   end
 
   comma :selector_votes do
     instance_eval &base_comma_attributes
     
-    user_favorites :size => 'Favorites'
+    user_favorites :size => 'Favorites count'
     selector_vote_points 'Selector points'
     selector_votes_for_comma 'Selector votes'
     comments_for_comma 'Comments'
