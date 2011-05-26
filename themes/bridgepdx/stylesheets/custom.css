@@ -141,6 +141,14 @@ span.admin-only {
   background-image: url('/images/arrow-up.png');
 }
 
+.popup {
+  margin-right: 10px;
+  padding-left: 20px;
+  background-position: left center;
+  background-repeat: no-repeat;
+	background-image: url('/images/new_window.gif');
+}
+
 /* @end */
 
 /* @group Forms */

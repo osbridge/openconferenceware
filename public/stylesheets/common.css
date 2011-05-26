@@ -428,6 +428,12 @@ div.admin-only {
   visible: visible;
 }
 
+.popup {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: url('/images/new_window.gif') left center no-repeat;
+}
+
 /*---[ submit a talk button ]-----------------------------------------*/
 
 /* FIXME how to automatically size width of the box? */
