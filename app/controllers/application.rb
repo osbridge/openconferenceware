@@ -400,4 +400,14 @@ protected
     @proposals_for_user_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["user_id"].to_i] ||= Set.new) << @proposals_hash[v["proposal_id"].to_i]; s} }
     @user_favorites_count_for_user_hash = Defer { ActiveRecord::Base.connection.select_all("select user_id, count(proposal_id) as favorites from user_favorites group by user_id").inject({}){|s,v| s[v["user_id"].to_i] = v["favorites"].to_i; s} }
   end
+
+# Make it possible to use helpers in controllers
+# http://www.johnyerhot.com/2008/01/10/rails-using-helpers-in-you-controller/
+class Helper
+  include Singleton
+  include ActionView::Helpers::UrlHelper # Provide: #link_to
+  include ActionView::Helpers::TagHelper # Provide: #escape_once (which #link_to needs)
+end
+def help
+  Helper.instance
 end
