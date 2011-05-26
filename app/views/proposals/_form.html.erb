@@ -229,8 +229,11 @@
           <tr>
             <td class="label-cell"><%= required_field %><%= f.label :agreement, "Agreement" %></td>
             <td><%= f.check_box :agreement %>
-              <%# TODO extract into snippet %>
-              I understand that my talk will be recorded and posted online for the whole world to see. I know that <%= SETTINGS.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and this not welcomed by the audience.
+              <% unless SETTINGS.agreement.blank? %>
+                <%= SETTINGS.agreement %>
+              <% else %>
+                I understand that my talk may be recorded and posted online for the whole world to see. I understand that <%= SETTINGS.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and this not welcomed by the audience.
+              <% end %>
             </td>
           </tr>
         <% end %>
