@@ -86,6 +86,22 @@ protected
   end
   helper_method :schedule_visible?
 
+  # Flash notification levels allowed by #notify.
+  NOTIFY_LEVELS = Set.new([:notice, :success, :failure])
+
+  # Sets or appends the flash notification.
+  #
+  # Arguments:
+  # * level: Symbol name of the notificaiton level, e.g. "failure".
+  # * message: String message to display.
+  def notify(level, message)
+    level = level.to_sym
+    raise ArgumentError, "Invalid flash notification level: #{level}" unless NOTIFY_LEVELS.include?(level)
+    flash[level] ?
+      flash[level] << " #{message}" :
+      flash[level] = "#{message}"
+  end
+
   #---[ Access control ]--------------------------------------------------
 
   # Can the current user edit the current +record+?

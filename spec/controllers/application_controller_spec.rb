@@ -283,4 +283,24 @@ describe ApplicationController do
     end
   end
 
+  describe "#notify" do
+    it "should set a message if one isn't defined" do
+      @controller.send(:notify, :failure, "OMG")
+
+      flash[:failure].should == "OMG"
+    end
+
+    it "should append a message if one is defined" do
+      @controller.send(:notify, :failure, "OMG.")
+      @controller.send(:notify, :failure, "WTF.")
+      @controller.send(:notify, :failure, "BBQ.")
+
+      flash[:failure].should == "OMG. WTF. BBQ."
+    end
+
+    it "should fail if given an invalid level" do
+      lambda { @controller.send(:notify, :omg, "kittens") }.should raise_error(ArgumentError)
+    end
+  end
+
 end
