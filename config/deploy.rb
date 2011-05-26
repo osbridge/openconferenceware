@@ -122,7 +122,7 @@ ERROR!  You must have a file on your server with the database configuration.
 
   desc "Clear the application's cache"
   task :clear_cache, :roles => :app do
-    run "(cd #{current_path} && rake RAILS_ENV=production clear)"
+    run "(cd #{current_path} && bundle exec rake RAILS_ENV=production clear)"
   end
 end
 
@@ -145,14 +145,14 @@ namespace :db do
   namespace :remote do
     desc "Dump database on remote server"
     task :dump, :roles => :db, :only => {:primary => true} do
-      run "(cd #{current_path} && rake RAILS_ENV=production db:raw:dump FILE=#{shared_path}/db/database.sql)"
+      run "(cd #{current_path} && bundle exec rake RAILS_ENV=production db:raw:dump FILE=#{shared_path}/db/database.sql)"
     end
   end
 
   namespace :local do
     desc "Restore downloaded database on local server"
     task :restore, :roles => :db, :only => {:primary => true} do
-      sh "rake db:raw:dump FILE=database~old.sql && rake db:raw:restore FILE=database.sql"
+      sh "bundle exec rake db:raw:dump FILE=database~old.sql && bundle exec rake db:raw:restore FILE=database.sql"
     end
   end
 
