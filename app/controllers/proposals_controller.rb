@@ -18,6 +18,8 @@ class ProposalsController < ApplicationController
   # GET /proposals
   # GET /proposals.xml
   def index
+    warn_about_incomplete_event
+
     @kind = :proposals
 
     assign_prefetched_hashes
@@ -154,38 +156,14 @@ class ProposalsController < ApplicationController
 
     @proposal = Proposal.new(:agreement => false)
 
-    if event_tracks? 
-      case @event.tracks.size
-      when 0
-        # Fail if tracks were needed but not found.
-        flash[:failure] = "Event has no tracks, admin must create at least one."
-        if admin?
-          redirect_to new_event_track_path(@event)
-        else
-          redirect_to event_proposals_path(@event)
-        end
-        return true
-      when 1
-        # Set default track if only one was found.
-        @proposal.track = @event.tracks.first
-      end
+    # Set default track if only one was found.
+    if event_tracks? && @event.tracks.size == 1
+      @proposal.track = @event.tracks.first
     end
 
-    if event_session_types? 
-      case @event.session_types.size
-      when 0
-        # Fail if session_types were needed but not found.
-        flash[:failure] = "Event has no session types, admin must create at least one."
-        if admin?
-          redirect_to new_event_session_type_path(@event)
-        else
-          redirect_to event_proposals_path(@event)
-        end
-        return true
-      when 1
-        # Set default session_type if only one was found.
-        @proposal.session_type = @event.session_types.first
-      end
+    # Set default session_type if only one was found.
+    if event_session_types? && @event.session_types.size == 1
+      @proposal.session_type = @event.session_types.first
     end
 
     if logged_in?

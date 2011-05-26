@@ -536,32 +536,6 @@ describe ProposalsController do
         end
 
         describe "when an event can have tracks" do
-          describe "but none are assigned" do
-            it "should display new event form for admin user" do
-              event = Factory(:event)
-              event.session_types << Factory.build(:session_type)
-              user = Factory(:admin)
-              login_as(user)
-
-              get :new, :event_id => event.slug
-
-              flash[:failure].should =~ /no tracks/i
-              response.should redirect_to(new_event_track_path(event))
-            end
-
-            it "should display error for non-admin user" do
-              event = Factory(:event)
-              event.session_types << Factory.build(:session_type)
-              user = Factory(:user)
-              login_as(user)
-
-              get :new, :event_id => event.slug
-
-              flash[:failure].should =~ /no tracks/i
-              response.should redirect_to(event_proposals_path(event))
-            end
-          end
-
           it "should assign a track if there's only one" do
             event = Factory(:event)
             event.session_types << Factory.build(:session_type)
@@ -591,32 +565,6 @@ describe ProposalsController do
         end
 
         describe "when event can have session types" do
-          describe "but none are assigned" do
-            it "should display new event form for admin user" do
-              event = Factory(:event)
-              event.tracks << Factory.build(:track)
-              user = Factory(:admin)
-              login_as(user)
-
-              get :new, :event_id => event.slug
-
-              response.should redirect_to(new_event_session_type_path(event))
-              flash[:failure].should =~ /no session types/i
-            end
-
-            it "should display error for non-admin user" do
-              event = Factory(:event)
-              event.tracks << Factory.build(:track)
-              user = Factory(:user)
-              login_as(user)
-
-              get :new, :event_id => event.slug
-
-              response.should redirect_to(event_proposals_path(event))
-              flash[:failure].should =~ /no session types/i
-            end
-          end
-
           it "should assign a session type if there's only one" do
             event = Factory(:event)
             event.tracks << Factory.build(:track)

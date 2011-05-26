@@ -401,6 +401,28 @@ protected
     @user_favorites_count_for_user_hash = Defer { ActiveRecord::Base.connection.select_all("select user_id, count(proposal_id) as favorites from user_favorites group by user_id").inject({}){|s,v| s[v["user_id"].to_i] = v["favorites"].to_i; s} }
   end
 
+  # Warn admin to create event's session type and track if needed.
+  def warn_about_incomplete_event
+    if @event
+      if event_tracks? && @event.tracks.size == 0
+        if admin?
+          notify :notice, "This event needs a track, you should #{help.link_to 'create one', new_event_track_path(@event)}."
+        else
+          notify :failure, "This event has no tracks, an admin must create at least one."
+        end
+      end
+
+      if event_session_types? && @event.session_types.size == 0
+        if admin?
+          notify :notice, "This event needs a session type, you should #{help.link_to 'create one', new_event_session_type_path(@event)}."
+        else
+          notify :failure, "This event has no session types, an admin must create at least one."
+        end
+      end
+    end
+  end
+end
+
 # Make it possible to use helpers in controllers
 # http://www.johnyerhot.com/2008/01/10/rails-using-helpers-in-you-controller/
 class Helper

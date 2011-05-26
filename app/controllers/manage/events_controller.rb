@@ -20,6 +20,8 @@ class Manage::EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
+    warn_about_incomplete_event
+
     add_breadcrumb @event.title, manage_event_path(@event)
 
     respond_to do |format|
