@@ -95,15 +95,19 @@ describe Event do
   end
 
   describe "#parent_or_self" do
+    def create_event(opts)
+      Event.create!({:deadline => Time.now, :start_date => Time.now+1.hour, :end_date => Time.now+2.hours}.merge(opts))
+    end
+
     it "should find a parent when there is one" do
-      parent = Event.create!(:title => "Mommy!", :slug => "mommy", :deadline => Time.now, :open_text => "Open!", :closed_text => "Closed!")
-      child  = Event.create!(:title => "Baby!",  :slug => "baby",  :deadline => Time.now, :open_text => "Open!", :closed_text => "Closed!", :parent => parent)
+      parent = create_event :title => "Mommy!", :slug => "mommy", :open_text => "Open!", :closed_text => "Closed!"
+      child  = create_event :title => "Baby!",  :slug => "baby",  :open_text => "Open!", :closed_text => "Closed!", :parent => parent
 
       child.parent_or_self.should == parent
     end
 
     it "should find self when there's no parent" do
-      event = Event.create!(:title => "Event!", :slug => "event", :deadline => Time.now, :open_text => "Open!", :closed_text => "Closed!")
+      event = create_event :title => "Event!", :slug => "event", :open_text => "Open!", :closed_text => "Closed!"
 
       event.parent_or_self.should == event
     end
