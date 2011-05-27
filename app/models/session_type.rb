@@ -22,6 +22,7 @@ class SessionType < ActiveRecord::Base
     :title,
     :description,
     :event_id
+  validates_numericality_of :duration, :if => :duration
 
   def <=>(against)
     self.title <=> (against.nil? ? '' : against.title)
