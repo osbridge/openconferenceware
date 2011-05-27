@@ -34,7 +34,7 @@
         </td>
       </tr>
     <% end %>
-    <% if @event.parent.blank? or not @event.children.empty? %>
+    <% if not @event.new_record? and @event.parent.blank? or not @event.children.empty? %>
       <tr>
         <td class="label-cell">
           <%= f.label :parent_id, "Children" %>
