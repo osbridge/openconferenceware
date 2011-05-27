@@ -43,11 +43,11 @@
           <ul>
             <% for child in @event.children %>
               <li>
-                <%= link_to h(child.title), manage_event_path(child) %>
+                <%= link_to h(child.title), manage_event_path(child), :popup => true, :class => "popup" %>
               </li>
             <% end %>
             <li>
-              <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id) %>
+              <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id), :popup => true, :class => "popup" %>
             </li>
           </ul>
         </td>
