@@ -372,7 +372,6 @@ protected
     if admin?
       return false # admin can always edit
     else
-      # FIXME when should people be able to edit proposals?!
       if can_edit?(record)
         return false # current_user can edit
       else
