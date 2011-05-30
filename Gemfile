@@ -3,6 +3,9 @@
 # Repository:
 source :gemcutter
 
+# Rails version
+gem 'rake', '~> 0.8.7'
+
 # Rails version, which must be specified here AND in the environment.rb:
 gem 'rails', '~> 2.1.2'
 
