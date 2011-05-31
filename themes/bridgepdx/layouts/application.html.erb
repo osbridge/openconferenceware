@@ -129,6 +129,11 @@
                             <li><%= link_to "Rooms", rooms_path %></li>
                           <% end %>
                           <li><%= link_to "Schedule items", event_schedule_items_path(assigned_event) %></li>
+                          <% if user_profiles? %>
+                            <li><%= link_to "Speakers", speakers_event_path(assigned_event) %>
+                              (<%= link_to "Export CSV", formatted_speakers_event_path(assigned_event,:csv) %>)
+                            </li>
+                          <% end %>
                           <% if selector? %>
                             <li><%= link_to "Selector votes", event_selector_votes_path(assigned_event) %></li>
                           <% end %>
