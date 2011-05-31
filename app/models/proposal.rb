@@ -193,6 +193,7 @@ class Proposal < ActiveRecord::Base
 
   comma :admin do
     instance_eval &base_comma_attributes
+    status
     instance_eval &schedule_comma_attributes
 
     if SETTINGS.have_multiple_presenters
