@@ -133,13 +133,11 @@ class User < ActiveRecord::Base
     email
   end
 
-  comma :full do
+  base_comma_attributes = lambda {
     id
-    login
     first_name
     last_name
     affiliation
-    email
     biography
     photo :url => 'Photo'
     website
@@ -148,6 +146,17 @@ class User < ActiveRecord::Base
     blog_url
     created_at :xmlschema => 'Created'
     updated_at :xmlschema => 'Updated'
+    proposals :ids => 'Session ids'
+  }
+
+  comma :full do
+    login
+    email
+    instance_eval &base_comma_attributes
+  end
+
+  comma :public do
+    instance_eval &base_comma_attributes
   end
 
   #---[ PaperClip avatar images ]-----------------------------------------
