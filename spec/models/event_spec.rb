@@ -96,7 +96,7 @@ describe Event do
 
   describe "#parent_or_self" do
     def create_event(opts)
-      Event.create!({:deadline => Time.now, :start_date => Time.now+1.hour, :end_date => Time.now+2.hours}.merge(opts))
+      Event.create!({:deadline => Time.now}.merge(opts))
     end
 
     it "should find a parent when there is one" do

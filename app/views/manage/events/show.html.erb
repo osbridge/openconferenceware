@@ -47,7 +47,7 @@
         <label>Start Date</label>
       </td>
       <td>
-        <%=h @event.start_date.to_s(:date_time_long) %>
+        <%=h @event.start_date.to_s(:date_time_long) if @event.start_date %>
       </td>
     </tr>
     <tr>
@@ -55,7 +55,7 @@
         <label>End Date</label>
       </td>
       <td>
-        <%=h @event.end_date.to_s(:date_time_long) %>
+        <%=h @event.end_date.to_s(:date_time_long) if @event.end_date %>
       </td>
     </tr>
   <% end %>

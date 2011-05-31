@@ -45,8 +45,6 @@ class Event < ActiveRecord::Base
     :slug,
     :title,
     :deadline,
-    :start_date,
-    :end_date,
     :open_text,
     :closed_text
   validates_uniqueness_of :slug
