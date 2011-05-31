@@ -54,7 +54,11 @@ class User < ActiveRecord::Base
 
   #---[ Associations ]----------------------------------------------------
 
-  has_and_belongs_to_many :proposals
+  has_and_belongs_to_many :proposals do
+    def ids
+      self.map(&:id).join(', ')
+    end
+  end
 
   has_many :user_favorites, :dependent => :destroy
   has_many :favorites, :through => :user_favorites, :source => :proposal do
