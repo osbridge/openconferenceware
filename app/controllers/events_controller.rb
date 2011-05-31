@@ -18,5 +18,10 @@ class EventsController < ApplicationController
 
   def speakers
     assign_prefetched_hashes
+
+    respond_to do |format|
+      format.html
+      format.csv { render :csv => @speakers, :style => admin? ? :full : :public }
+    end
   end
 end
