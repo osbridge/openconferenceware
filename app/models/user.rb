@@ -84,7 +84,11 @@ class User < ActiveRecord::Base
 
   #---[ Validations ]-----------------------------------------------------
 
+  before_validation :add_salt
   before_save :encrypt_password
+
+  validates_presence_of     :salt
+  validates_length_of       :salt,     :minimum => 40
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40,  :unless => :using_openid?
@@ -189,49 +193,62 @@ class User < ActiveRecord::Base
     self.find(:first, :conditions => {:admin => false})
   end
 
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
+  # Returns user if they're authenticated by their login name and unencrypted password, else a nil.
   def self.authenticate(login, password)
-    u = find_by_login(login) # need to get the salt
-    u && u.authenticated?(password) ? u : nil
+    if user = self.find_by_login(login) and user.authenticated?(password)
+      return user
+    else
+      return nil
+    end
   end
 
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)
+    raise ArgumentError, "Password and salt must be specified." if password.blank? || salt.blank?
     Digest::SHA1.hexdigest("--#{salt}--#{password}--")
   end
 
-  # Encrypts the password with the user salt
+  # Encrypts the password with the user's salt
   def encrypt(password)
-    self.class.encrypt(password, salt)
+    raise ArgumentError, "Salt must be specified." if self.salt.blank?
+    self.class.encrypt(password, self.salt)
   end
 
+  # Is this user authenticated by this unencrypted password?
   def authenticated?(password)
-    crypted_password == encrypt(password)
+    self.crypted_password == self.encrypt(password)
   end
 
+  # Does this user have a remember token?
   def remember_token?
-    remember_token_expires_at && Time.now.utc < remember_token_expires_at
+    self.remember_token_expires_at && Time.now.utc < self.remember_token_expires_at
   end
 
-  # These create and unset the fields required for remembering users between browser closes
+  # Remember this user for the default period of time.
   def remember_me
-    remember_me_for 2.weeks
+    self.remember_me_for 2.weeks
   end
 
+  # Remember user for a given amount of time (e.g. 2.weeks).
   def remember_me_for(time)
-    remember_me_until time.from_now.utc
+    self.remember_me_until time.from_now
   end
 
+  # Remember user until a given time(e.g. 2.weeks.from_now).
   def remember_me_until(time)
-    self.remember_token_expires_at = time
-    self.remember_token            = encrypt("#{email}--#{remember_token_expires_at}")
-    save(false)
+    token = self.encrypt([self.id, self.login, self.remember_token_expires_at, Time.now.to_i, (1..10).map{rand.to_s}].join('|'))
+    self.update_attributes(
+      :remember_token_expires_at => time,
+      :remember_token => token
+    )
   end
 
+  # Forget the user's remember token.
   def forget_me
-    self.remember_token_expires_at = nil
-    self.remember_token            = nil
-    save(false)
+    self.update_attributes(
+      :remember_token_expires_at => nil,
+      :remember_token            => nil
+    )
   end
 
   def change_password!(password)
@@ -246,6 +263,7 @@ class User < ActiveRecord::Base
     user.email = registration["email"]
     user.fullname = registration["fullname"]
     user.using_openid = true
+    user.add_salt
     user.save!
     return user
   end
@@ -319,12 +337,18 @@ class User < ActiveRecord::Base
     return self.proposals.confirmed
   end
 
+  # Add encryption salt to record if needed.
+  def add_salt
+    self.salt ||= Digest::SHA1.hexdigest([self.id, self.login, Time.now.to_i, (1..10).map{rand.to_s}].join('|'))
+  end
+
 protected
 
+  # Create crypted password from plain-text password entered by user, if provided.
   def encrypt_password
-    return if password.blank?
-    self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
-    self.crypted_password = encrypt(password)
+    return if self.password.blank?
+    self.add_salt
+    self.crypted_password = self.encrypt(self.password)
   end
 
   # Does this user require a password to be defined?
