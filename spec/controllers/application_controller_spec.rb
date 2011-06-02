@@ -303,4 +303,33 @@ describe ApplicationController do
     end
   end
 
+  describe "current_user" do
+    it "should login_from_session" do
+      user = stub_model(User)
+      session[:user] = user.id
+      User.should_receive(:find_by_id).and_return(user)
+
+      controller.send(:current_user).should == user
+    end
+
+    it "should login_from_basic_auth" do
+      user = stub_model(User)
+      controller.should_receive(:get_auth_data).and_return(["username", "password"])
+      User.should_receive(:authenticate).and_return(user)
+
+      controller.send(:current_user).should == user
+    end
+
+    it "should login_from_cookie" do
+      token = "1234"
+      user = stub_model(User, :remember_token => token, :remember_token_expires_at => 1.day.from_now)
+      cookies[:auth_token] = token
+      User.should_receive(:find_by_remember_token).and_return(user)
+      user.should_receive(:remember_me)
+      controller.response = response
+
+      controller.send(:current_user).should == user
+    end
+  end
+
 end

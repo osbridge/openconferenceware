@@ -3,6 +3,9 @@ Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+* Next
+- Fixed "remember me" feature for logging in through a token.
+
 * v0.20100818
 - Fixed iCalendar exporter to skip items without a "start time" and not set the "end time" unless one is defined.
 - Fixed proposal to only show a speaker's sessions for the related event, not all events.
