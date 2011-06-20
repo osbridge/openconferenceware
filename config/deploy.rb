@@ -158,7 +158,7 @@ namespace :db do
 
   desc "Download database from remote server"
   task :download, :roles => :db, :only => {:primary => true} do
-    sh "rsync -uvax #{user}@#{host}:#{shared_path}/db/database.sql ."
+    sh "rsync -vaxP #{user}@#{host}:#{shared_path}/db/database.sql ."
   end
 
   desc "Use: dump and download remote database and restore it locally"
