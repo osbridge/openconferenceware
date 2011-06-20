@@ -383,13 +383,14 @@ div.rnd_content {
   color: #fff;
 }
 
-.track.block,
-.track.block a {
+.track.block {
   color: #fff;
   text-transform: uppercase;
   padding: .5em;
-  line-height: 2em;
-  height: 2em;
+}
+
+.track.block a {
+	color: #fff
 }
 
 /* @end */
