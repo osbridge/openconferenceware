@@ -724,7 +724,7 @@ ul.calendar_items {
 .calendar_items li.vevent {
   position: relative;
   margin: 0 .5em .5em;
-    padding: .2em 7em .2em .5em;
+    padding: .2em 9em .2em .5em;
     display: block;
     color: #222;
 }
@@ -741,7 +741,7 @@ ul.calendar_items {
   border-left: 1px dotted #fff;
   border-bottom: 1px dotted #fff;
   padding: .2em .5em;
-  width: 5.5em;
+  width: 7em;
 }
 
 .calendar_items .session_info {
