@@ -1,7 +1,7 @@
 <% page_title "#{@room.name}" %>
 
 <% cache "room_#{@room.id},admin_#{admin?}" do %>
-  <%= image_tag( @room.image.url(:medium), :class => 'room-image' )  if @room.image.file? %>
+  <%= image_tag( @room.image.url(:large), :class => 'room-image' )  if @room.image.file? %>
   <div id="room-show">
     <% if @room.capacity %>
       <div><strong>Capacity:</strong> <%= @room.capacity %></div>
