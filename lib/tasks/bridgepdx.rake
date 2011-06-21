@@ -50,7 +50,7 @@ MediaWiki credentials must include:
   * URL: The URL for the server's "api.php".
 
 For example:
-    rake bridgepdx:wiki:populate USER=admin PASSWORD=secret URL=http://localhost/wiki/api.php
+    rake --trace bridgepdx:wiki:populate USER=admin PASSWORD=secret URL=http://opensourcebridge.org/2011/w/api.php EVENT=2011
           HERE
 
           raise ArgumentError, "No #{missing} defined"
