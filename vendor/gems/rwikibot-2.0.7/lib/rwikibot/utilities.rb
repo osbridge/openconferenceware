@@ -79,10 +79,26 @@ module RWikiBot
       r
     end
 
+    # Wrapper for #real_raw_call that handles token-based authentication.
+    def raw_call(headers, post_this)
+      result, posted = real_raw_call(headers, post_this)
+      if result['login'] && result['login']['result'] == 'NeedToken'
+        token = result['login']['token']
+        prefix = result['login']['cookieprefix']
+        sessionid = result['login']['sessionid']
+
+        post_this['lgtoken'] = token
+        headers['Cookie'] = "#{prefix}_session=#{sessionid}; #{prefix}Token=#{token}"
+
+        result, posted = real_raw_call(headers, post_this)
+      end
+      return result, posted
+    end
+
     # Raw Call handles actually, physically talking to the wiki. It is broken out to handle
     # query-continues where applicable. So, all the methods call make_request, and it calls
     # raw_call until raw_call returns a nil post_this.
-    def raw_call(headers, post_this)
+    def real_raw_call(headers, post_this)
       request = Net::HTTP::Post.new(@config.fetch('uri').path, headers)
       request.set_form_data(post_this)
       net = Net::HTTP.new(@config.fetch('uri').host, @config.fetch('uri').port)
