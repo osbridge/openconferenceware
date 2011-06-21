@@ -389,7 +389,7 @@ class Proposal < ActiveRecord::Base
 
   # Return escaped string for use in a URL in the session notes wiki.
   def self._session_notes_url_escape(string)
-    return CGI.escape(string.gsub(/\s/, '_').gsub(/\\|\//, '-').squeeze('_').squeeze('-'))
+    return CGI.escape(string.gsub(/\s/, '_').gsub(/[\\\/\(\)\[\]]+/, '-').squeeze('_').squeeze('-'))
   end
 
   # Return the proposal's tite downcased or nil.

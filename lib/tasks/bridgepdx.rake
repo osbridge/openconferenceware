@@ -60,22 +60,26 @@ For example:
       end
     end
 
+    def sanitize_string(string)
+      return CGI.unescape(Proposal._session_notes_url_escape(string))
+    end
+
     def event_wiki_title(event)
-      return "Category:#{event.title}"
+      return "Category:#{sanitize_string(event.title)}"
     end
     
     def tracks_wiki_title(event)
-      return "Category:#{event.title} tracks"
+      return "Category:#{sanitize_string(event.title)} tracks"
     end
 
     def track_wiki_title(track)
       #IK# return "Category:#{track.title} :: #{track.event.title}"
-      return "Category:#{track.title}"
+      return "Category:#{sanitize_string(track.title)}"
     end
 
     def session_wiki_title(session)
       #IK# return "#{session.title} :: #{session.event.title}"
-      return "#{session.title.gsub(/\\|\//, '-')}"
+      return "#{sanitize_string(session.title)}"
     end
 
     desc "Populates the attendee wiki with pages to hold session notes."
