@@ -95,7 +95,7 @@
     <% for event in assigned_nonchild_events_by_date.reverse %>
       <% content_tag :li, :id => "event-#{event.slug}",
           :class => "event #{flag_event_as_active?(event) ? 'active' : ''}".strip do %>
-        <%= link_to event.slug, "/#{event.slug}", :class => 'year' %>
+        <%= link_to event.slug, "/y#{event.slug}", :class => 'year' %>
         <ul>
           <% if event.current? %>
           <li><%= link_to 'Attend', '/attend' , :class => 'attend' %></li>
