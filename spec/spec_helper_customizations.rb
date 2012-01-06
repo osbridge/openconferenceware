@@ -2,6 +2,10 @@
 
 #---[ Settings ]--------------------------------------------------------
 
+# Use spec-specific settings
+# NOTE: The marshal_load/marshal_dump calls are just to avoid constant redefinition error.
+SETTINGS.marshal_load(SettingsReader.read('spec/settings.yml').marshal_dump)
+
 # Disable the shared fragment rendering
 SharedFragmentHelper.enabled = false
 
