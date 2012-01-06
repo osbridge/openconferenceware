@@ -497,6 +497,15 @@ table.proposals .description {
   padding: .5em;
 }
 
+.proposal-audience_level {
+  display: block;
+  background: #ccc;
+  color: black;
+  text-decoration: none;
+  font-size: .8em;
+  padding: .3em 0;
+}
+
 .proposal-meta {
   text-align: center;
   border: 1px solid #666;

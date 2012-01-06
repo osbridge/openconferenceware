@@ -133,6 +133,11 @@ class Proposal < ActiveRecord::Base
   validates_presence_of :session_type,                    :if => :event_session_types?
   validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
   validates_presence_of :speaking_experience,             :if => :proposal_speaking_experience?
+  validates_presence_of :audience_level,                  :if => lambda { self.audience_levels }
+  validates_inclusion_of :audience_level,                 :if => lambda { self.audience_levels }, :allow_blank => true,
+                                                          :in => SETTINGS.proposal_audience_levels ?
+                                                                 SETTINGS.proposal_audience_levels.flatten.map { |level| level['slug'] } :
+                                                                 []
   validate :validate_complete_user_profile,               :if => :user_profiles?
   validate :url_validator
 
@@ -529,6 +534,34 @@ class Proposal < ActiveRecord::Base
     return self.users.map(&:label).map(&:to_s)
   end
   alias_method :user_labels, :user_titles
+
+  #---[ Audience level ]--------------------------------------------------
+
+  # Return the audience levels. May be nil if not defined.
+  #
+  # Structure: array of hashes with a "label" and "slug".
+  #
+  # Example:
+  #   [
+  #     {"label"=>"Beginner", "slug"=>"a"},
+  #     {"label"=>"Intermediate", "slug"=>"b"},
+  #     {"label"=>"Advanced", "slug"=>"c"}
+  #   ]
+  def self.audience_levels
+    SETTINGS.proposal_audience_levels
+  end
+
+  # Return the text hint describing the audience level UI control.
+  def self.audience_level_hint
+    SETTINGS.proposal_audience_level_hint
+  end
+
+  # Return the string label for the audience level, or nil if not set.
+  def audience_level_label
+    if ! self.audience_level.blank? && self.class.audience_levels
+      return self.class.audience_levels.find { |level| level['slug'] == self.audience_level }['label']
+    end
+  end
 
   #---[ Accessors for comma ]---------------------------------------------
 

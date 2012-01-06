@@ -198,6 +198,27 @@
               </td>
             </tr>
           <% end %>
+          <% if Proposal.audience_levels %>
+            <tr>
+              <td class="label-cell">
+                <%= required_field %><%= f.label :session_type_id, "Audience level" %>
+              </td>
+              <td>
+                <ul class='radio-set'>
+                <% for audience_level in Proposal.audience_levels %>
+                  <li>
+                    <%= f.radio_button :audience_level, audience_level['slug'], :class => :radio %>
+                      <label for="proposal_audience_level_<%= audience_level['slug'] %>">
+                      <strong><%= audience_level['label'] %></strong>
+                    </label>
+                  </li>
+                <% end %>
+                </ul>
+                <p class='help'><%= Proposal.audience_level_hint %></p>
+              </td>
+            </tr>
+
+          <% end %>
           <% if proposal_excerpts? %>
             <tr>
               <td class="label-cell"><%= required_field %><%= f.label :excerpt, "Excerpt" %></td>
