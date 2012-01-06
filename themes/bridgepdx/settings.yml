@@ -72,3 +72,18 @@ have_proposal_statuses: true
 
 # Can users add comments until a toggle is flipped on the event?
 have_event_proposal_comments_after_deadline: true
+
+# What audience experience levels can a proposal be classified as? The list will be displayed on the form in the order defined below. The "slug" is the unique key defining the particular audience level, while the "label" is the human-readable value displayed.
+proposal_audience_levels:
+  -
+    slug: a
+    label: Beginner
+  -
+    slug: b
+    label: Intermediate
+  -
+    slug: c
+    label: Advanced
+
+# What message is displayed as a hint to explain the audience level?
+proposal_audience_level_hint: "(Tell us the intended audience experience level for this talk)"
