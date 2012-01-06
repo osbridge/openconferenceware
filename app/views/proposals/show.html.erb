@@ -195,6 +195,11 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
     <p><%= @proposal.tag_list %></p>
   <% end %>
 
+  <% if proposal_speaking_experience? %>
+    <h3>Speaking experience</h3>
+    <%= preserve_formatting_of @proposal.speaking_experience %>
+  <% end %>
+
   <% if show_private_note %>
     <h3>Private Note to Organizers</h3>
     <%= preserve_formatting_of @proposal.note_to_organizers %>
