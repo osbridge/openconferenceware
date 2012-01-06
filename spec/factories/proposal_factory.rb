@@ -44,6 +44,7 @@ Factory.define :proposal do |f|
   f.speaking_experience "My speaking experience is awesome"
   f.status "proposed"
   f.start_time nil
+  f.audience_level "a"
 
   # :belongs_to associations:
   # * :event

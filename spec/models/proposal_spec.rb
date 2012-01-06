@@ -466,7 +466,8 @@ private
       :title => "New Proposal",
       :description => "Valid Description",
       :excerpt => "Valid Excerpt",
-      :speaking_experience => "Valid Speaking Experience"
+      :speaking_experience => "Valid Speaking Experience",
+      :audience_level => "a"
     }
     Proposal.new(valid_attr.merge(attr))
   end
