@@ -29,6 +29,7 @@ module SettingsCheckersMixin
       event_rooms
       multiple_presenters
       proposal_excerpts
+      proposal_speaking_experience
       proposal_start_times
       proposal_statuses
       user_pictures

@@ -61,6 +61,9 @@ have_user_profiles: true
 # Do events have rooms?
 have_event_rooms: true
 
+# Should a proposal ask for the submitter's speaking experience?
+have_proposal_speaking_experience: true
+
 # Can proposals have start times?
 have_proposal_start_times: true
 

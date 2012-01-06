@@ -132,6 +132,7 @@ class Proposal < ActiveRecord::Base
   validates_presence_of :track,                           :if => :event_tracks?
   validates_presence_of :session_type,                    :if => :event_session_types?
   validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
+  validates_presence_of :speaking_experience,             :if => :proposal_speaking_experience?
   validate :validate_complete_user_profile,               :if => :user_profiles?
   validate :url_validator
 
