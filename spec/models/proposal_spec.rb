@@ -465,7 +465,8 @@ private
       :session_type => mock_model(SessionType),
       :title => "New Proposal",
       :description => "Valid Description",
-      :excerpt => "Valid Excerpt"
+      :excerpt => "Valid Excerpt",
+      :speaking_experience => "Valid Speaking Experience"
     }
     Proposal.new(valid_attr.merge(attr))
   end

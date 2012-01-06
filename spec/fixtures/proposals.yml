@@ -36,6 +36,7 @@ quentin_widgets:
   session_type: long_form
   status: proposed
   submitted_at: <%= Time.now.to_s(:db) %>
+  speaking_experience: My speaking experience rules.
   title: My favorite widgets.
   excerpt: |
     A widget is a placeholder name for an object or, more specifically, a mechanical or other manufactured device. It is an abstract unit of production.
@@ -59,6 +60,7 @@ aaron_aardvarks:
   session_type: long_form
   status: proposed
   submitted_at: <%= Time.now.to_s(:db) %>
+  speaking_experience: I have vast academic speaking experience on the scholarly topic of aardvarks.
   title: My favorite Aardvarks.
   excerpt: |
     The Aardvark (Orycteropus afer) (afer: from Africa) is a medium-sized, burrowing, nocturnal mammal native to Africa.
@@ -75,7 +77,6 @@ clio_chupacabras:
   presenter: Clio
   email: clio@i_want_to_believe.com
   biography: "They walk amongst us."
-  title: "Chupacabras and you"
   agreement: true
   #IK# event: closed
   event_id: 1975
@@ -83,6 +84,8 @@ clio_chupacabras:
   session_type: short_form
   status: rejected
   submitted_at: <%= (Time.now - 1.year).to_s(:db) %>
+  speaking_experience: I am a respected cryptozoologist on the world speaking circuit.
+  title: "Chupacabras and you"
   excerpt: |
     The Chupacabra, also called el Chupacabras (pronunciation: /tʃupa'kabɾas/, from the Spanish words chupar, meaning "to suck", and cabra, meaning "goat"; literally "goat sucker") is a legendary cryptid rumored to inhabit parts of the Americas.
   description: |
@@ -99,6 +102,7 @@ postgresql_session:
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 10:00am').to_s(:db) %>
+  speaking_experience: "I know PostgreSQL stuff." 
   title: "PostgreSQL Session"
   excerpt: "Let's talk about PostgreSQL"
   description: "Details about PostgreSQL session"
@@ -111,6 +115,7 @@ drizzle_session:
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 10:00am').to_s(:db) %>
+  speaking_experience: "I know Drizzle stuff." 
   title: "Drizzle Session"
   excerpt: "Let's talk about Drizzle"
   description: "Details about Drizzle session"
@@ -123,6 +128,7 @@ mysql_session:
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 11:00am').to_s(:db) %>
+  speaking_experience: "I know MySQL stuff." 
   title: "MySQL Session"
   excerpt: "Let's talk about MySQL"
   description: "Details about MySQL session"
@@ -136,6 +142,7 @@ sqlite_session:
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 11:00am').to_s(:db) %>
   title: "SQLite Session"
+  speaking_experience: "I know SQLite stuff." 
   excerpt: "Let's talk about SQLite"
   description: "Details about SQLite session"
   status: confirmed
@@ -147,6 +154,7 @@ rakudo_session:
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 12:00pm').to_s(:db) %>
+  speaking_experience: "I AM A PONY!!1!" 
   title: "Rakudo Session"
   excerpt: "PERL 6 IS COMING SOON!!!1!"
   description: "ROLES! GIMME A PONY OPERATOR! WORLD DOMINATION! LOL!"
@@ -159,6 +167,7 @@ cloud_session:
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-18 12:00pm').to_s(:db) %>
+  speaking_experience: "I know everything there is about stratocumulus clouds." 
   title: "The Cloud is Falling!"
   excerpt: "They told me to put all of my data in the cloud, now it's falling on me."
   description: "None of the other animals believe me."
@@ -171,6 +180,7 @@ business_session:
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-18 12:00pm').to_s(:db) %>
+  speaking_experience: "I own you." 
   title: "Give us money."
   excerpt: "$ pls."
   description: "3. Profit"
@@ -183,6 +193,7 @@ sql_server_session:
   track: business
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 10:00am').to_s(:db) %>
+  speaking_experience: "Microsoft owns me." 
   title: "SQL Server Session"
   excerpt: "A brief talk about SQL server."
   description: "none"
@@ -195,6 +206,7 @@ couchdb_session:
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 10:30am').to_s(:db) %>
+  speaking_experience: "I write all my code using curl." 
   title: "CouchDB Session"
   excerpt: "A brief talk about CouchDB."
   description: "Hopefully without porn."
@@ -207,6 +219,7 @@ bigtable_session:
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
   start_time: <%= Time.zone.parse('2009-06-17 11:00am').to_s(:db) %>
+  speaking_experience: "My table is bigger than yours." 
   title: "BigTable Session"
   excerpt: "Big table, short talk."
   description: "This table is bigger than you are."

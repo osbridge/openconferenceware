@@ -41,6 +41,7 @@ Factory.define :proposal do |f|
   f.agreement true
   f.note_to_organizers "My note to organizers"
   f.excerpt "My excerpt"
+  f.speaking_experience "My speaking experience is awesome"
   f.status "proposed"
   f.start_time nil
 
