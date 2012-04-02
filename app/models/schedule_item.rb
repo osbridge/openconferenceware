@@ -1,18 +1,18 @@
 # == Schema Information
-# Schema version: 20090616061006
+# Schema version: 20120106011926
 #
 # Table name: schedule_items
 #
 #  id          :integer(4)      not null, primary key
-#  title       :string(255)
-#  excerpt     :text
-#  description :text
-#  start_time  :datetime
-#  duration    :integer(4)
-#  event_id    :integer(4)
-#  room_id     :integer(4)
-#  created_at  :datetime
-#  updated_at  :datetime
+#  title       :string(255)     
+#  excerpt     :text            
+#  description :text            
+#  start_time  :datetime        
+#  duration    :integer(4)      
+#  event_id    :integer(4)      
+#  room_id     :integer(4)      
+#  created_at  :datetime        
+#  updated_at  :datetime        
 #
 
 class ScheduleItem < ActiveRecord::Base

@@ -1,30 +1,32 @@
 # == Schema Information
-# Schema version: 20110409034822
+# Schema version: 20120106011926
 #
 # Table name: proposals
 #
-#  id                 :integer(4)      not null, primary key
-#  user_id            :integer(4)      
-#  presenter          :string(255)     
-#  affiliation        :string(255)     
-#  email              :string(255)     
-#  website            :string(255)     
-#  biography          :text            
-#  title              :string(255)     
-#  description        :text            
-#  agreement          :boolean(1)      default(TRUE)
-#  created_at         :datetime        
-#  updated_at         :datetime        
-#  event_id           :integer(4)      
-#  submitted_at       :datetime        
-#  note_to_organizers :text            
-#  excerpt            :text            
-#  track_id           :integer(4)      
-#  session_type_id    :integer(4)      
-#  status             :string(255)     default("proposed"), not null
-#  room_id            :integer(4)      
-#  start_time         :datetime        
-#  audio_url          :string(255)     
+#  id                  :integer(4)      not null, primary key
+#  user_id             :integer(4)      
+#  presenter           :string(255)     
+#  affiliation         :string(255)     
+#  email               :string(255)     
+#  website             :string(255)     
+#  biography           :text            
+#  title               :string(255)     
+#  description         :text            
+#  agreement           :boolean(1)      default(TRUE)
+#  created_at          :datetime        
+#  updated_at          :datetime        
+#  event_id            :integer(4)      
+#  submitted_at        :datetime        
+#  note_to_organizers  :text            
+#  excerpt             :text            
+#  track_id            :integer(4)      
+#  session_type_id     :integer(4)      
+#  status              :string(255)     default("proposed"), not null
+#  room_id             :integer(4)      
+#  start_time          :datetime        
+#  audio_url           :string(255)     
+#  speaking_experience :text            
+#  audience_level      :string(255)     
 #
 
 class Proposal < ActiveRecord::Base

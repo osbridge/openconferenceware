@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20090616061006
+# Schema version: 20120106011926
 #
 # Table name: rooms
 #
@@ -12,10 +12,10 @@
 #  event_id              :integer(4)      
 #  created_at            :datetime        
 #  updated_at            :datetime        
-#  image_file_name       :string(255)
-#  image_content_type    :string(255)
-#  image_file_size       :integer(4)
-#  image_updated_at      :datetime
+#  image_file_name       :string(255)     
+#  image_content_type    :string(255)     
+#  image_file_size       :integer(4)      
+#  image_updated_at      :datetime        
 #
 
 class Room < ActiveRecord::Base

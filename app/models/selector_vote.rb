@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20120106011926
+#
+# Table name: selector_votes
+#
+#  id          :integer(4)      not null, primary key
+#  user_id     :integer(4)      not null
+#  proposal_id :integer(4)      not null
+#  rating      :integer(4)      not null
+#  comment     :text            
+#
+
 class SelectorVote < ActiveRecord::Base
   belongs_to :user
   belongs_to :proposal
