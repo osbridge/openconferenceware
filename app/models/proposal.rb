@@ -168,6 +168,7 @@ class Proposal < ActiveRecord::Base
     title
     excerpt if SETTINGS.have_proposal_excerpts
     description
+    audience_level_label "Audience Level"
 
     if SETTINGS.have_event_session_types
       session_type :title => "Session Type"
@@ -201,6 +202,7 @@ class Proposal < ActiveRecord::Base
 
   comma :admin do
     instance_eval &base_comma_attributes
+    speaking_experience
     status
     instance_eval &schedule_comma_attributes
 
