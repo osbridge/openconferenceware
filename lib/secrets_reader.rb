@@ -22,7 +22,7 @@ class SecretsReader
   #
   # Arguments:
   # * Filename to read secrets from. Optional, if not given will try
-  #   "config/secret.yml" and "config/secret.yml.sample".
+  #   "config/secrets.yml" and "config/secrets.yml.sample".
   #
   # Options:
   # * :verbose => Print status to screen on error. Defaults to true.

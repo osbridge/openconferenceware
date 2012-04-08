@@ -402,7 +402,7 @@ class Proposal < ActiveRecord::Base
     return CGI.escape(string.gsub(/\s/, '_').gsub(/[\\\/\(\)\[\]]+/, '-').squeeze('_').squeeze('-'))
   end
 
-  # Return the proposal's tite downcased or nil.
+  # Return the proposal's title downcased or nil.
   def title_downcased
     return self.title.ergo.downcase
   end
