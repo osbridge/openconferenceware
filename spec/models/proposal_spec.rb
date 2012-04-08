@@ -65,6 +65,11 @@ describe Proposal do
       @proposal.should be_confirmed
     end
 
+    it "should be possible to decline a proposed proposal" do
+      @proposal.accept_and_decline!
+      @proposal.should be_declined
+    end
+
     it "should be possible to reject a proposed proposal" do
       @proposal.reject!
       @proposal.should be_rejected
@@ -105,7 +110,48 @@ describe Proposal do
       @proposal.should be_cancelled
     end
 
-    %w(accepted confirmed rejected declined junk cancelled).each do |initial_status|
+    it "should be possible to waitlist a proposed proposal" do
+      @proposal.waitlist!
+      @proposal.should be_waitlisted
+    end
+
+    it "should be possible to waitlist an accepted proposal" do
+      @proposal.status = 'accepted'
+      @proposal.waitlist!
+      @proposal.should be_waitlisted
+    end
+
+    it "should be possible to waitlist a rejected proposal" do
+      @proposal.status = 'rejected'
+      @proposal.waitlist!
+      @proposal.should be_waitlisted
+    end
+
+    it "should be possible to accept a waitlisted proposal" do
+      @proposal.status = 'waitlisted'
+      @proposal.accept!
+      @proposal.should be_accepted
+    end
+
+    it "should be possible to confirm a waitlisted proposal" do
+      @proposal.status = 'waitlisted'
+      @proposal.accept_and_confirm!
+      @proposal.should be_confirmed
+    end
+
+    it "should be possible to decline a waitlisted proposal" do
+      @proposal.status = 'waitlisted'
+      @proposal.accept_and_decline!
+      @proposal.should be_declined
+    end
+
+    it "should be possible to reject a waitlisted proposal" do
+      @proposal.status = 'waitlisted'
+      @proposal.reject!
+      @proposal.should be_rejected
+    end
+
+    %w(accepted confirmed waitlisted rejected declined junk cancelled).each do |initial_status|
       it "should be posible to reset a #{initial_status} proposal back to proposed" do
         @proposal.status = initial_status
         @proposal.reset_status!

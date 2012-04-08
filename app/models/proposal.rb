@@ -56,6 +56,7 @@ class Proposal < ActiveRecord::Base
 
   aasm_state :proposed
   aasm_state :accepted
+  aasm_state :waitlisted
   aasm_state :rejected
   aasm_state :confirmed
   aasm_state :declined
@@ -65,11 +66,19 @@ class Proposal < ActiveRecord::Base
   aasm_event :accept do
     transitions :from => :proposed, :to => :accepted
     transitions :from => :rejected, :to => :accepted
+    transitions :from => :waitlisted, :to => :accepted
   end
 
   aasm_event :reject do
     transitions :from => :proposed, :to => :rejected
     transitions :from => :accepted, :to => :rejected
+    transitions :from => :waitlisted, :to => :rejected
+  end
+
+  aasm_event :waitlist do
+    transitions :from => :proposed, :to => :waitlisted
+    transitions :from => :accepted, :to => :waitlisted
+    transitions :from => :rejected, :to => :waitlisted
   end
 
   aasm_event :confirm do
@@ -82,10 +91,12 @@ class Proposal < ActiveRecord::Base
 
   aasm_event :accept_and_confirm do
     transitions :from => :proposed, :to => :confirmed
+    transitions :from => :waitlisted, :to => :confirmed
   end
 
   aasm_event :accept_and_decline do
     transitions :from => :proposed, :to => :declined
+    transitions :from => :waitlisted, :to => :declined
   end
 
   aasm_event :mark_as_junk do
@@ -93,7 +104,7 @@ class Proposal < ActiveRecord::Base
   end
 
   aasm_event :reset_status do
-    transitions :from => %w(accepted rejected confirmed declined junk cancelled), :to => :proposed
+    transitions :from => %w(accepted rejected waitlisted confirmed declined junk cancelled), :to => :proposed
   end
 
   aasm_event :cancel  do

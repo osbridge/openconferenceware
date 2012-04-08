@@ -12,6 +12,7 @@
       <th>Confirmed</th>
       <th>Accepted or Confirmed</th>
       <th>Declined</th>
+      <th>Waitlisted</th>
       <th>Rejected</th>
       <th>Junk</th>
     </tr>
@@ -21,6 +22,7 @@
       <td><%= @event.proposals.confirmed.count %></td>
       <td><%= @event.proposals.accepted.count + @event.proposals.confirmed.count %></td>
       <td><%= @event.proposals.declined.count %></td>
+      <td><%= @event.proposals.waitlisted.count %></td>
       <td><%= @event.proposals.rejected.count %></td>
       <td><%= @event.proposals.junk.count %></td>
     </tr>
