@@ -14,20 +14,20 @@ class SelectorVotesController < ApplicationController
         proposals = @event.proposals.all(:include => [:selector_votes, :comments, :users, :user_favorites])
         case params[:order]
         when 'title'
-          proposals.sort_by { |proposal| proposal.title.downcase }
+          proposals.sort_by { |proposal| [ proposal.title.downcase, proposal.id ] }
         when 'vote_points'
-          proposals.sort_by { |proposal| - proposal.selector_vote_points }
+          proposals.sort_by { |proposal| [ 0 - proposal.selector_vote_points, 0 - proposal.user_favorites.size,  proposal.id ] }
         when 'votes_count'
-          proposals.sort_by { |proposal| - proposal.selector_votes.size }
+          proposals.sort_by { |proposal| [ 0 - proposal.selector_votes.size,  0 - proposal.user_favorites.size,  proposal.id ] }
         when 'favorites_count'
-          proposals.sort_by { |proposal| - proposal.user_favorites.size }
+          proposals.sort_by { |proposal| [ 0 - proposal.user_favorites.size,  0 - proposal.selector_vote_points, proposal.id ] }
         when 'track'
-          proposals.sort_by { |proposal| proposal.track_title }
+          proposals.sort_by { |proposal| [ proposal.track_title, proposal.id ] }
         when 'id', '', nil
-          proposals.sort_by { |proposal| proposal.created_at }
+          proposals.sort_by { |proposal| [ proposal.created_at, proposal.id ] }
         else # includes 'id'
           flash[:failure] = "Unknown order: #{h(params[:order])}"
-          proposals.sort_by { |proposal| proposal.created_at }
+          proposals.sort_by { |proposal| [ proposal.created_at, proposal.id ] }
         end
       end
 
