@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20120106011926
+# Schema version: 20120412211821
 #
 # Table name: proposals
 #
@@ -27,6 +27,7 @@
 #  audio_url           :string(255)     
 #  speaking_experience :text            
 #  audience_level      :string(255)     
+#  notified_at         :datetime
 #
 
 class Proposal < ActiveRecord::Base
