@@ -1,14 +1,14 @@
 class ProposalsController < ApplicationController
 
-  before_filter :login_required, :only => [:edit, :update, :destroy]
+  before_filter :login_required, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline]
   before_filter :assert_current_event_or_redirect
-  before_filter :assert_proposal_status_published, :only => [:sessions_index, :sessions_index_terse, :session_show]
+  before_filter :assert_proposal_status_published, :only => [:sessions_index, :sessions_index_terse, :session_show, :speaker_confirm, :speaker_decline]
   before_filter :assert_schedule_published, :only => [:schedule]
   before_filter :normalize_event_path_or_redirect, :only => [:index, :sessions_index, :schedule]
   before_filter :assert_anonymous_proposals, :only => [:new, :create]
   before_filter :assert_accepting_proposals, :only => [:new, :create]
-  before_filter :assign_proposal_and_event, :only => [:show, :session_show, :edit, :update, :destroy]
-  before_filter :assert_record_ownership, :only => [:edit, :update, :destroy]
+  before_filter :assign_proposal_and_event, :only => [:show, :session_show, :edit, :update, :destroy, :speaker_confirm, :speaker_decline]
+  before_filter :assert_record_ownership, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline]
   before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
 
@@ -320,6 +320,20 @@ class ProposalsController < ApplicationController
 
   def stats
     # Uses @event
+  end
+
+  def speaker_confirm
+    # @proposal and @event set via #assign_proposal_and_event filter
+    @proposal.confirm! if current_user_is_proposal_speaker?
+    flash[:success] = 'Updated proposal. Thank you for confirming!'
+    redirect_to(@proposal)
+  end
+
+  def speaker_decline
+    # @proposal and @event set via #assign_proposal_and_event filter
+    @proposal.decline! if current_user_is_proposal_speaker?
+    flash[:success] = 'Updated proposal.'
+    redirect_to(@proposal)
   end
 
 protected

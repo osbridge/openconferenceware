@@ -132,8 +132,8 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
     <% if proposal_statuses? && @event.proposal_status_published? && @proposal.accepted? %>
       <h3>Congratulations, your proposal was accepted!</h3>
       <div class="record-controls">
-        <%= link_to 'Confirm', '', :class => 'editable' %>
-        <%= link_to 'Decline', '', :confirm => 'Are you sure?', :class => 'deletable' %>
+        <%= link_to 'Confirm', speaker_confirm_path(@proposal), :method => :post, :class => 'editable' %>
+        <%= link_to 'Decline', speaker_decline_path(@proposal), :confirm => 'Are you sure?', :method => :post, :class => 'deletable' %>
         <p>If you have any questions, email us.</p>
       </div>
     <% end %>

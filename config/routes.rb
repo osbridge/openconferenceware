@@ -10,6 +10,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
   map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
+  map.speaker_confirm '/proposals/speaker_confirm/:id', :controller => 'proposals', :action => 'speaker_confirm', :requirements => { :method => :post }
+  map.speaker_decline '/proposals/speaker_decline/:id', :controller => 'proposals', :action => 'speaker_decline', :requirements => { :method => :post }
 
   map.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
   map.formatted_sessions '/sessions.:format', :controller => 'proposals', :action => 'sessions_index'
