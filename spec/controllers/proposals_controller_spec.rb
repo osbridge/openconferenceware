@@ -458,6 +458,49 @@ describe ProposalsController do
         end
       end
     end
+
+    describe "accepted proposal" do
+      it "should notify owners of acceptance" do
+        login_as(users(:quentin))
+        @proposal = proposals(:quentin_widgets)
+        @proposal.accept!
+        get :show, :id => @proposal.id
+        response.should have_tag("h3", /Congratulations/)
+      end
+
+      it "should not notify non-owners of acceptance" do
+        login_as(users(:aaron))
+        @proposal = proposals(:quentin_widgets)
+        @proposal.accept!
+        get :show, :id => @proposal.id
+        response.should_not have_tag("h3", /Congratulations/)
+      end
+    end
+
+    describe "not-accepted proposal" do
+      before do
+        login_as(users(:quentin))
+        @proposal = proposals(:quentin_widgets)
+      end
+
+      it "should not notify proposed proposal owners of acceptance" do
+        get :show, :id => @proposal.id
+        response.should_not have_tag("h3", /Congratulations/)
+      end
+
+      it "should not notify rejected proposal owners of acceptance" do
+        @proposal.reject!
+        get :show, :id => @proposal.id
+        response.should_not have_tag("h3", /Congratulations/)
+      end
+
+      it "should not notify junk proposal owners of acceptance" do
+        @proposal.mark_as_junk!
+        get :show, :id => @proposal.id
+        response.should_not have_tag("h3", /Congratulations/)
+      end
+    end
+
   end
 
   describe "new" do

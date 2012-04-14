@@ -128,6 +128,17 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 
   <div class='show-proposal'>
 
+  <% if current_user_is_proposal_speaker? %>
+    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.accepted? %>
+      <h3>Congratulations, your proposal was accepted!</h3>
+      <div class="record-controls">
+        <%= link_to 'Confirm', '', :class => 'editable' %>
+        <%= link_to 'Decline', '', :confirm => 'Are you sure?', :class => 'deletable' %>
+        <p>If you have any questions, email us.</p>
+      </div>
+    <% end %>
+  <% end %>
+
   <% unless @proposal.audio_url.blank? %>
     <div class="session-audio">
       <h3>Session Audio</h3>

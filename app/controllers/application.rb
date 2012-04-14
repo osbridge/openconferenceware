@@ -141,6 +141,14 @@ protected
     admin? || access_denied(:message => "You must have administrator privileges to access the requested page.")
   end
 
+  def current_user_is_proposal_speaker?
+    if logged_in?
+      return @proposal.users.include?(current_user)
+    end
+    return false
+  end
+  helper_method :current_user_is_proposal_speaker?
+
   # Is this event accepting proposals?
   def accepting_proposals?(record=nil)
     event = \
