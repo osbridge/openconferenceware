@@ -29,7 +29,17 @@
   </table>
 <% end %>
 
+<p>
 <%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
+</p>
+<p>
+  <% form_tag(manage_notify_speakers_path(@event), :method => :post) do %>
+    <%= hidden_field_tag 'proposal_ids' %>
+    <%= hidden_field_tag 'proposal_status', 'accepted' %>
+    <%= submit_tag 'Notify selected &amp; accepted speakers...',
+      :confirm => "Email uses the snippets 'proposals_acceptance_email_text' and 'proposals_acceptance_email_subject'.\n\nSend email?" %>
+  <% end %>
+</p>
 
 <%
 control_rowspan = proposal_start_times? ? 'rowspan="2"' : ''

@@ -39,3 +39,8 @@ g:
   slug: tracks_index_intro
   description: "An introduction for the tracks index."
   content: "<p>In order to create a conference that promotes cross-pollination as well as providing space for in-depth discussion, we’ve split the tracks into the following five areas:</p>"
+
+h:
+  slug: acceptance_email
+  description: "Text of the email notifying speakers that their proposal was accepted"
+  content: "<p><strong>Congratulations!</strong> Your talk was accepted<br>%SPEAKER_NAMES%<br>%PROPOSAL_TITLE%<br>%TRACK%<br>%AUDIENCE_LEVEL%<br>%FORM%<br>Click here: %PROPOSAL_URL%</p>"

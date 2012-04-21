@@ -99,4 +99,31 @@ class Manage::EventsController < ApplicationController
     # NOTE: This is the bulk editor for the admin.
     @proposals = @event.proposals.populated
   end
+
+  # POST /events/1/notify_speakers
+  def notify_speakers
+    not_emailed = []
+    proposals = params[:proposal_ids].split(',')
+    proposals.each do |proposal_id|
+      proposal = Proposal.lookup(proposal_id)
+      next unless proposal
+      case params[:proposal_status]
+      when 'accepted'
+        unless proposal.notify_accepted_speakers(proposal_url(proposal))
+          not_emailed << proposal.mailto_emails
+        end
+      when 'rejected'
+        unless proposal.notify_rejected_speakers
+          not_emailed << proposal.mailto_emails
+        end
+      else
+        raise ArgumentError, "No proposal_status specified"
+      end
+    end
+    flash[:success] = "Notified speakers."
+    unless not_emailed.count == 0
+      flash[:success] << "<br/>These proposal speakers were not emailed because they have already been notified: #{not_emailed.join(' &amp; ')}."
+    end
+    redirect_to(manage_event_proposals_path(@event))
+  end
 end

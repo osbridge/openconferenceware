@@ -43,6 +43,12 @@ class Proposal < ActiveRecord::Base
   # Provide ::overlaps?
   include ScheduleOverlapsMixin
 
+  # Provide ::raw_snippet_for
+  include SnippetsHelper
+
+  # Provide ::strip_tags
+  include ActionView::Helpers::SanitizeHelper
+
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags
@@ -371,12 +377,16 @@ class Proposal < ActiveRecord::Base
   # Return string with a "mailto:" link for contacting the proposal's speakers.
   def mailto_link
     link = "mailto:"
+    return link << mailto_emails
+  end
+
+  # Return string with the proposal's speakers' emails.
+  def mailto_emails
     if multiple_presenters?
-      link << self.users.map(&:email).join(",")
+      return self.users.map(&:email).join(",")
     else
-      link << self.profile.email
+      return self.profile.email
     end
-    return link
   end
   
   # Returns a string labeling a proposal object as either a proposal or a session depending on its state.
@@ -577,6 +587,66 @@ class Proposal < ActiveRecord::Base
     if ! self.audience_level.blank? && self.class.audience_levels
       return self.class.audience_levels.find { |level| level['slug'] == self.audience_level }['label']
     end
+  end
+
+  #---[ Notify speakers ]---------------------------------------------
+
+  def fill_email_template(snippet, proposal_url=nil)
+    text = raw_snippet_for(snippet)
+    text = text.gsub(/%PROPOSAL_URL%/i, proposal_url)
+    text = text.gsub(/%SPEAKER_NAMES%/i, user_titles.join(', '))
+    text = text.gsub(/%PROPOSAL_TITLE%/i, title)
+    text = text.gsub(/%TRACK%/i, track_title)
+    text = text.gsub(/%AUDIENCE_LEVEL%/i, audience_level_label)
+    text = text.gsub(/%FORM%/i, session_type_title)
+    text = text.gsub(/<br>/, "\n")
+    return strip_tags(text)
+  end
+
+  def acceptance_email_text(proposal_url)
+    return fill_email_template('proposals_acceptance_email_text', proposal_url)
+  end
+
+  def acceptance_email_subject
+    return raw_snippet_for('proposals_acceptance_email_subject')
+  end
+
+  def rejected_email_text
+    return fill_email_template('proposals_rejected_email_text')
+  end
+
+  def rejected_email_subject
+    return raw_snippet_for('proposals_rejected_email_subject')
+  end
+
+  # returns true if speakers are emailed OR proposal is not accepted.
+  # returns false if speakers have already been notified.
+  def notify_accepted_speakers(proposal_url)
+    if accepted?
+      if !notified_at
+        SpeakerMailer.deliver_speaker_email(acceptance_email_subject, acceptance_email_text(proposal_url), self.mailto_emails)
+        self.notified_at = Time.now
+        self.save
+      else
+        return false
+      end
+    end
+    return true
+  end
+
+  # returns true if speakers are emailed OR proposal is not rejected.
+  # returns false if speakers have already been notified.
+  def notify_rejected_speakers
+    if rejected?
+      if !notified_at
+        SpeakerMailer.deliver_speaker_email(rejected_email_subject, rejected_email_text, self.mailto_emails)
+        self.notified_at = Time.now
+        self.save
+      else
+        return false
+      end
+    end
+    return true
   end
 
   #---[ Accessors for comma ]---------------------------------------------

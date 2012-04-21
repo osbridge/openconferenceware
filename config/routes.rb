@@ -43,6 +43,7 @@ ActionController::Routing::Routes.draw do |map|
     manage.resources :events
     manage.resources :snippets
     manage.event_proposals '/events/:id/proposals', :controller => 'events', :action => 'proposals'
+    manage.notify_speakers '/events/:id/notify_speakers', :controller => 'events', :action => 'notify_speakers'
   end
 
   map.root :controller => "proposals"

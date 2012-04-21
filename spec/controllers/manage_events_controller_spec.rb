@@ -41,4 +41,21 @@ describe Manage::EventsController do
   it "should create event"
 
   it "should destroy event"
+
+  def setup_proposals
+    @proposal_ids = ""
+    @proposals = []
+    %w[aaron_aardvarks quentin_widgets].each do |slug|
+      proposal = proposals(slug)
+      @proposal_ids << "#{proposal.id},"
+      @proposals << proposal
+    end
+  end
+
+  it "should raise an error if trying to notify speakers other than accepted or rejected" do
+    setup_proposals
+    lambda { post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids }  }.should raise_error(ArgumentError)
+  end
+
+  it "should notify accepted speakers"
 end

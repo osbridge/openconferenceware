@@ -220,6 +220,23 @@ function update_manage_proposals_mailto(is_add, addresses) {
   return result;
 }
 
+// Update the hidden field proposal_ids, used to notify presenters. The +is_add+ is true if
+// adding, false if removing.
+//    update_manage_proposals_notify_list(true, 123)
+function update_manage_proposals_notify_list(is_add, proposal_id) {
+  element = $('#proposal_ids');
+  value = element.attr('value');
+  proposal_id_hash = array_to_hash(value.split(','));
+  if (is_add) {
+    proposal_id_hash[proposal_id] = true;
+  } else {
+    delete proposal_id_hash[proposal_id];
+  }
+  result = hash_keys(proposal_id_hash).join(',');
+  element.attr('value', result);
+  return element;
+}
+
 function bind_manage_proposals_checkboxes() {
   $('.send-email-checkbox').click(function(event) {
     target = $(this); $t = target;
@@ -227,6 +244,7 @@ function bind_manage_proposals_checkboxes() {
     proposal_id = row.attr('x_proposal_id');
     proposal_addresses = addresses_for_manage_proposal_id(proposal_id);
     update_manage_proposals_mailto(target.attr('checked'), proposal_addresses);
+    update_manage_proposals_notify_list(target.attr('checked'), proposal_id);
     return true;
   });
 }
