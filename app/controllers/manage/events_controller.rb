@@ -102,27 +102,27 @@ class Manage::EventsController < ApplicationController
 
   # POST /events/1/notify_speakers
   def notify_speakers
-    not_emailed = []
+    emailed = []
+    already_emailed = []
     proposals = params[:proposal_ids].split(',')
     proposals.each do |proposal_id|
       proposal = Proposal.lookup(proposal_id)
       next unless proposal
       case params[:proposal_status]
       when 'accepted'
-        unless proposal.notify_accepted_speakers(proposal_url(proposal))
-          not_emailed << proposal.mailto_emails
-        end
+        e, a = proposal.notify_accepted_speakers(proposal_url(proposal))
       when 'rejected'
-        unless proposal.notify_rejected_speakers
-          not_emailed << proposal.mailto_emails
-        end
+        e, a = proposal.notify_rejected_speakers
       else
         raise ArgumentError, "No proposal_status specified"
       end
+      emailed << e if e
+      already_emailed << a if a
     end
-    flash[:success] = "Notified speakers."
-    unless not_emailed.count == 0
-      flash[:success] << "<br/>These proposal speakers were not emailed because they have already been notified: #{not_emailed.join(' &amp; ')}."
+    flash[:success] = "Notified these speakers: "
+    flash[:success] << ( emailed.count == 0 ? "none" : emailed.join(' &amp; ') )
+    unless already_emailed.count == 0
+      flash[:success] << "<br/>These proposal speakers were not emailed because they have already been notified: #{already_emailed.join(' &amp; ')}."
     end
     redirect_to(manage_event_proposals_path(@event))
   end

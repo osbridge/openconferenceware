@@ -543,14 +543,18 @@ describe Proposal do
     end
 
     it "should not notify unaccepted proposal speakers" do
-      @proposal.notify_accepted_speakers('http://').should be_true
+      emailed, already = @proposal.notify_accepted_speakers('http://')
+      emailed.should be_nil
+      already.should be_nil
       @proposal.notified_at.should be_nil
     end
 
     it "should not notify already-notified proposal speakers" do
       @proposal.accept!
       @proposal.notified_at = Time.now
-      @proposal.notify_accepted_speakers('http://').should be_false
+      emailed, already = @proposal.notify_accepted_speakers('http://')
+      emailed.should be_nil
+      already.should == @proposal.mailto_emails
     end
 
     it "should notify accepted proposal speakers" do
@@ -558,7 +562,9 @@ describe Proposal do
       SpeakerMailer.stub(:deliver_acceptance_email).and_return(true)
       @proposal.stub(:acceptance_email_text).and_return('email text')
       @proposal.stub(:acceptance_email_subject).and_return('email subject')
-      @proposal.notify_accepted_speakers('http://').should be_true
+      emailed, already = @proposal.notify_accepted_speakers('http://')
+      emailed.should == @proposal.mailto_emails
+      already.should be_nil
       @proposal.notified_at.should_not be_nil
     end
   end
@@ -569,14 +575,18 @@ describe Proposal do
     end
 
     it "should not notify unrejected proposal speakers" do
-      @proposal.notify_rejected_speakers.should be_true
+      emailed, already = @proposal.notify_rejected_speakers
+      emailed.should be_nil
+      already.should be_nil
       @proposal.notified_at.should be_nil
     end
 
     it "should not notify already-notified proposal speakers" do
       @proposal.reject!
       @proposal.notified_at = Time.now
-      @proposal.notify_rejected_speakers.should be_false
+      emailed, already = @proposal.notify_rejected_speakers
+      emailed.should be_nil
+      already.should == @proposal.mailto_emails
     end
 
     it "should notify rejected proposal speakers" do
@@ -584,7 +594,9 @@ describe Proposal do
       SpeakerMailer.stub(:deliver_rejected_email).and_return(true)
       @proposal.stub(:rejected_email_text).and_return('email text')
       @proposal.stub(:rejected_email_subject).and_return('email subject')
-      @proposal.notify_rejected_speakers.should be_true
+      emailed, already = @proposal.notify_rejected_speakers
+      emailed.should == @proposal.mailto_emails
+      already.should be_nil
       @proposal.notified_at.should_not be_nil
     end
   end

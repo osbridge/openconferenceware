@@ -619,34 +619,34 @@ class Proposal < ActiveRecord::Base
     return raw_snippet_for('proposals_rejected_email_subject')
   end
 
-  # returns true if speakers are emailed OR proposal is not accepted.
-  # returns false if speakers have already been notified.
+  # returns [sent-emails, already-notified-emails]
   def notify_accepted_speakers(proposal_url)
     if accepted?
       if !notified_at
         SpeakerMailer.deliver_speaker_email(acceptance_email_subject, acceptance_email_text(proposal_url), self.mailto_emails)
         self.notified_at = Time.now
         self.save
+        return [self.mailto_emails, nil]
       else
-        return false
+        return [nil, self.mailto_emails]
       end
     end
-    return true
+    return [nil, nil]
   end
 
-  # returns true if speakers are emailed OR proposal is not rejected.
-  # returns false if speakers have already been notified.
+  # returns [sent-emails, already-notified-emails]
   def notify_rejected_speakers
     if rejected?
       if !notified_at
         SpeakerMailer.deliver_speaker_email(rejected_email_subject, rejected_email_text, self.mailto_emails)
         self.notified_at = Time.now
         self.save
+        return [ self.mailto_emails, nil ]
       else
-        return false
+        return [ nil, self.mailto_emails ]
       end
     end
-    return true
+    return [ nil, nil ]
   end
 
   #---[ Accessors for comma ]---------------------------------------------
