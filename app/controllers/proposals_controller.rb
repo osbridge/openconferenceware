@@ -324,15 +324,17 @@ class ProposalsController < ApplicationController
 
   def speaker_confirm
     # @proposal and @event set via #assign_proposal_and_event filter
-    @proposal.confirm! if current_user_is_proposal_speaker?
-    flash[:success] = 'Updated proposal. Thank you for confirming!'
+    if current_user_is_proposal_speaker? and @proposal.confirm!
+      flash[:success] = 'Updated proposal. Thank you for confirming!'
+    end
     redirect_to(@proposal)
   end
 
   def speaker_decline
     # @proposal and @event set via #assign_proposal_and_event filter
-    @proposal.decline! if current_user_is_proposal_speaker?
-    flash[:success] = 'Updated proposal.'
+    if current_user_is_proposal_speaker? and @proposal.decline!
+      flash[:success] = 'Updated proposal.'
+    end
     redirect_to(@proposal)
   end
 
