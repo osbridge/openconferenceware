@@ -502,48 +502,13 @@ describe Proposal do
     end
   end
 
-  context "when fetching speaker notification email content" do
-    before(:each) do
-      @proposal = proposals(:quentin_widgets)
-    end
-
-    it "should fill in email template" do
-      text = @proposal.fill_email_template('acceptance_email', 'http://')
-      text.should =~ /Congratulations/
-      text.should =~ /http/
-      text.should =~ /Quentin/
-      text.should =~ /My favorite widgets./
-      text.should =~ /Chemistry/
-      text.should =~ /Beginner/
-      text.should =~ /Long/
-      text.should =~ /\n/
-      text.should_not =~ /<|>/
-    end
-
-    it "should raise error if acceptance email template not found" do
-      lambda { @proposal.acceptance_email_text('http://') }.should raise_error(ActiveRecord::RecordNotFound)
-    end
-
-    it "should raise error if accepted email subject template not found" do
-      lambda { @proposal.acceptance_email_subject }.should raise_error(ActiveRecord::RecordNotFound)
-    end
-
-    it "should raise error if rejected email template not found" do
-      lambda { @proposal.rejected_email_text }.should raise_error(ActiveRecord::RecordNotFound)
-    end
-
-    it "should raise error if rejected email subject template not found" do
-      lambda { @proposal.rejected_email_subject }.should raise_error(ActiveRecord::RecordNotFound)
-    end
-  end
-
   context "when notifying accepted speakers" do
     before(:each) do
       @proposal = proposals(:quentin_widgets)
     end
 
     it "should not notify unaccepted proposal speakers" do
-      emailed, already = @proposal.notify_accepted_speakers('http://')
+      emailed, already = @proposal.notify_accepted_speakers
       emailed.should be_nil
       already.should be_nil
       @proposal.notified_at.should be_nil
@@ -552,17 +517,15 @@ describe Proposal do
     it "should not notify already-notified proposal speakers" do
       @proposal.accept!
       @proposal.notified_at = Time.now
-      emailed, already = @proposal.notify_accepted_speakers('http://')
+      emailed, already = @proposal.notify_accepted_speakers
       emailed.should be_nil
       already.should == @proposal.mailto_emails
     end
 
     it "should notify accepted proposal speakers" do
       @proposal.accept!
-      SpeakerMailer.stub(:deliver_acceptance_email).and_return(true)
-      @proposal.stub(:acceptance_email_text).and_return('email text')
-      @proposal.stub(:acceptance_email_subject).and_return('email subject')
-      emailed, already = @proposal.notify_accepted_speakers('http://')
+      SpeakerMailer.stub(:deliver_speaker_accepted_email).and_return(true)
+      emailed, already = @proposal.notify_accepted_speakers
       emailed.should == @proposal.mailto_emails
       already.should be_nil
       @proposal.notified_at.should_not be_nil
@@ -591,9 +554,7 @@ describe Proposal do
 
     it "should notify rejected proposal speakers" do
       @proposal.reject!
-      SpeakerMailer.stub(:deliver_rejected_email).and_return(true)
-      @proposal.stub(:rejected_email_text).and_return('email text')
-      @proposal.stub(:rejected_email_subject).and_return('email subject')
+      SpeakerMailer.stub(:deliver_speaker_rejected_email).and_return(true)
       emailed, already = @proposal.notify_rejected_speakers
       emailed.should == @proposal.mailto_emails
       already.should be_nil

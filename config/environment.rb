@@ -104,6 +104,7 @@ Rails::Initializer.run do |config|
   SETTINGS = SettingsReader.read(
     theme_file('settings.yml'), {
       'public_url' => 'http://change_your/settings.yml/',
+      'mailer_host' => 'change-your-mailer-host.local',
       'organization' => 'Default Organization Name',
       'Organization_slug' => 'defaultslug',
       'tagline' => 'Default Tagline',
@@ -132,6 +133,9 @@ Rails::Initializer.run do |config|
     :session_key => SECRETS.session_name || 'openproposals',
     :secret => SECRETS.session_secret,
   }
+
+  # Setup default host for use in mailers
+  config.action_mailer.default_url_options = { :host => SETTINGS.mailer_host }
 
   # Setup cache
   require 'rails_cache_configurator'

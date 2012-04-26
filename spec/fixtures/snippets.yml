@@ -43,4 +43,9 @@ g:
 h:
   slug: acceptance_email
   description: "Text of the email notifying speakers that their proposal was accepted"
-  content: "<p><strong>Congratulations!</strong> Your talk was accepted<br>%SPEAKER_NAMES%<br>%PROPOSAL_TITLE%<br>%TRACK%<br>%AUDIENCE_LEVEL%<br>%FORM%<br>Click here: %PROPOSAL_URL%</p>"
+  content: "<p><strong>Congratulations!</strong> Your talk was accepted<br>%SPEAKER_NAMES%<br>%PROPOSAL_TITLE%<br>%TRACK%<br>%AUDIENCE_LEVEL%<br>%FORMAT%<br>Click here: %PROPOSAL_URL% %SPEAKER_CONFIRM_URL% %SPEAKER_DECLINE_URL%</p>"
+
+i:
+  slug: acceptance_subject
+  description: "Subject of the email notifying speakers that their proposal was accepted"
+  content: "Your talk was accepted"

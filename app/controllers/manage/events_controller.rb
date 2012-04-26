@@ -110,7 +110,7 @@ class Manage::EventsController < ApplicationController
       next unless proposal
       case params[:proposal_status]
       when 'accepted'
-        e, a = proposal.notify_accepted_speakers(proposal_url(proposal))
+        e, a = proposal.notify_accepted_speakers
       when 'rejected'
         e, a = proposal.notify_rejected_speakers
       else

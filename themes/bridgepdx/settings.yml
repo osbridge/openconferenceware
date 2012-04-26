@@ -4,6 +4,9 @@ public_url: 'http://opensourcebridge.org/'
 # URL where OCW is installed
 app_root_url: 'http://opensourcebridge.org/'
 
+# Mailer host
+mailer_host: 'opensourcebridge.org'
+
 # URL of wiki with session notes (optional). This 'printf' format contains
 # positional variables that filled by Proposal#session_notes_url:
 #   * %1 => site's public URL
