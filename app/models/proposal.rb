@@ -377,7 +377,7 @@ class Proposal < ActiveRecord::Base
   # Return string with the proposal's speakers' emails.
   def mailto_emails
     if multiple_presenters?
-      return self.users.map(&:email).join(",")
+      return self.users.map(&:email).join(", ")
     else
       return self.profile.email
     end
