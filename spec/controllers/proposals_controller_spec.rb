@@ -460,18 +460,29 @@ describe ProposalsController do
     end
 
     describe "accepted proposal" do
-      it "should notify owners of acceptance" do
-        login_as(users(:quentin))
+      before do
         @proposal = proposals(:quentin_widgets)
         @proposal.accept!
+      end
+
+      it "should notify owners of acceptance" do
+        login_as(users(:quentin))
         get :show, :id => @proposal.id
         response.should have_tag("h3", /Congratulations/)
       end
 
       it "should not notify non-owners of acceptance" do
-        login_as(users(:aaron))
-        @proposal = proposals(:quentin_widgets)
-        @proposal.accept!
+        get :show, :id => @proposal.id
+        response.should_not have_tag("h3", /Congratulations/)
+      end
+
+      it "should not notify owners of acceptance if proposal confirmation controls are not visible" do
+        event = @proposal.event
+        event.stub!(:show_proposal_confirmation_controls? => false)
+        Proposal.stub!(:lookup => @proposal)
+
+        login_as(users(:quentin))
+
         get :show, :id => @proposal.id
         response.should_not have_tag("h3", /Congratulations/)
       end

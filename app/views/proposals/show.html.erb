@@ -129,7 +129,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
   <div class='show-proposal'>
 
   <% if current_user_is_proposal_speaker? %>
-    <% if proposal_statuses? && @event.proposal_status_published? && @proposal.accepted? %>
+    <% if proposal_statuses? && @event.show_proposal_confirmation_controls? && @proposal.accepted? %>
       <div id="proposal-accepted">
         <h3>Congratulations, your proposal was accepted!</h3>
         <p>Are you are still able and willing to deliver this talk at the conference?</p>

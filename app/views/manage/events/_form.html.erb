@@ -99,6 +99,15 @@
     <% if proposal_statuses? %>
       <tr>
         <td class="label-cell">
+          <%= f.label :show_proposal_confirmation_controls, "Show proposal confirmation controls?" %>
+        </td>
+        <td>
+          <%= f.select :show_proposal_confirmation_controls, [['Yes',true],["No",false]] %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="label-cell">
           <%= f.label :proposal_status_published, "Publish proposal statuses?" %>
         </td>
         <td>

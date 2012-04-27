@@ -27,6 +27,7 @@ closed:
   slug: closed
   schedule_published: true
   proposal_status_published: true
+  show_proposal_confirmation_controls: true
 
 open:
   id: 2009
@@ -41,3 +42,4 @@ open:
   slug: open
   schedule_published: true
   proposal_status_published: true
+  show_proposal_confirmation_controls: true
