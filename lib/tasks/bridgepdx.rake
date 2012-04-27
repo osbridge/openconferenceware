@@ -7,6 +7,22 @@ namespace :bridgepdx do
     sh "rm -rf tmp/style_clone"
   end
 
+  desc "Export session information CSV for schedule monitor cards"
+  task :session_card_csv => :environment do
+    event = ENV['EVENT'].nil? ? Event.current : Event.find_by_slug(ENV['EVENT'])
+    FasterCSV.open('session_cards.csv','w') do |csv|
+      csv << %w(room start_time title speakers)
+      event.proposals.confirmed(:order => 'start_time ASC').each do |session|
+        row = []
+        row << session.room.ergo.name
+        row << session.start_time.strftime("%A, %B %d, %I:%M%p")
+        row << session.title
+        row << session.users.map{|u| u.fullname}.join(', ')
+        csv << row
+      end
+    end
+  end
+
   desc 'Symlink a checkout of the common styles at DIR to bridge theme'
   task 'styles:symlink' do
     unless ENV['DIR']
