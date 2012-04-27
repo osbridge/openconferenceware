@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 def stub_speaker_mailer_secrets
   SECRETS.stub!(:email => {
-    'default_from_address' => 'test@ocw.local',
+    'default_from_address' => 'test@example.com',
+    'default_bcc_address' => 'me@example.com',
     'action_mailer' => {
       :delivery_method => :test
     }
@@ -24,13 +25,14 @@ describe SpeakerMailer do
       lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should raise_error(ArgumentError)
     end
 
-    it "should send email if speaker_mailer is configured" do
+    it "should send email if speaker_mailer is configured (and BCC the default_bcc_address)" do
       stub_speaker_mailer_secrets
 
       lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
 
       email = ActionMailer::Base.deliveries.last
       email.to.should == ['quentin@example.com']
+      email.bcc.should == ['me@example.com']
       email.subject.should =~ /Your talk was accepted/
       email.body.should =~ /Congratulations/
     end

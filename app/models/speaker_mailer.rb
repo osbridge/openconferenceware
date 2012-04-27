@@ -25,6 +25,9 @@ class SpeakerMailer < ActionMailer::Base
       raise ArgumentError, "Email settings must be set in 'config/secrets.yml'"
     end
     recipients proposal.mailto_emails
+    if SECRETS.email['default_bcc_address']
+      bcc      SECRETS.email['default_bcc_address']
+    end
     from       SECRETS.email['default_from_address']
     sent_on    Time.now
     template   'speaker_email'
