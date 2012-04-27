@@ -12,7 +12,7 @@ def stub_speaker_mailer_secrets
 end
 
 describe SpeakerMailer do
-  fixtures :proposals, :snippets
+  fixtures :proposals, :tracks, :session_types, :users, :proposals_users, :snippets
   CHARSET = 'utf-8'
 
   before(:each) do
