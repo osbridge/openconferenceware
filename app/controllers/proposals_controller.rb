@@ -2,7 +2,7 @@ class ProposalsController < ApplicationController
 
   before_filter :login_required, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline, :proposal_login_required]
   before_filter :assert_current_event_or_redirect
-  before_filter :assert_proposal_status_published, :only => [:sessions_index, :sessions_index_terse, :session_show, :speaker_confirm, :speaker_decline]
+  before_filter :assert_proposal_status_published, :only => [:sessions_index, :sessions_index_terse, :session_show]
   before_filter :assert_schedule_published, :only => [:schedule]
   before_filter :normalize_event_path_or_redirect, :only => [:index, :sessions_index, :schedule]
   before_filter :assert_anonymous_proposals, :only => [:new, :create]
