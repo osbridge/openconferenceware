@@ -98,6 +98,7 @@ span.admin-only {
 .editable,
 .cancelable,
 .deletable,
+.confirmable,
 .feedable,
 .snippet_edit_link,
 .spinning,
@@ -126,7 +127,11 @@ span.admin-only {
 }
 
 .deletable {
-  background-image: url('/images/redx.png');
+  background-image: url('/images/delete.png');
+}
+
+.confirmable {
+  background-image: url('/images/accept.png');
 }
 
 .feedable {
@@ -956,6 +961,13 @@ body.proposals.show #content > .favorite {
 body.proposals.session_show #content h2.page_title,
 body.proposals.show #content h2.page_title {
   text-indent: 25px;
+}
+
+#proposal-accepted {
+  background: #F1F9FF;
+  border: 1px solid #116DB6;
+  padding : 1em;
+  margin-bottom : 1em;
 }
 
 a.to_favorites {
