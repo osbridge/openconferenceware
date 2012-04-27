@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :proposals do |proposals|
     proposals.resources :comments, :controller => 'comments'
     proposals.resource :selector_vote, :only => :create
+    proposals.login 'login', { :controller => 'proposals', :action => 'proposal_login_required' }
   end
 
   map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }

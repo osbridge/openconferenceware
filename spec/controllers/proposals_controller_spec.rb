@@ -1152,6 +1152,21 @@ describe ProposalsController do
     flash[:success].should_not =~ /Updated/
   end
 
+  describe "proposal login required" do
+      it "should redirect to login if not logged in" do
+        proposal = proposals(:quentin_widgets)
+        get :proposal_login_required, :proposal_id => proposal.id
+        response.should redirect_to(login_path)
+      end
+
+      it "should redirect to proposal if logged in" do
+        login_as(users(:quentin))
+        proposal = proposals(:quentin_widgets)
+        get :proposal_login_required, :proposal_id => proposal.id
+        response.should redirect_to(proposal_path(proposal))
+      end
+  end
+
   describe "speaker confirm" do
     describe "accepted proposal" do
       before(:each) do
