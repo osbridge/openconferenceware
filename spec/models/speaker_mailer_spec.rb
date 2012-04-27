@@ -21,13 +21,13 @@ describe SpeakerMailer do
     it "should not send email if speaker_mailer is not configured" do
       SpeakerMailer.stub!(:configured? => false)
 
-      lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'acceptance_email', @proposal) }.should raise_error(ArgumentError)
+      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should raise_error(ArgumentError)
     end
 
     it "should send email if speaker_mailer is configured" do
       stub_speaker_mailer_secrets
 
-      lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'acceptance_email', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
+      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
 
       email = ActionMailer::Base.deliveries.last
       email.to.should == ['quentin@example.com']
@@ -44,7 +44,7 @@ describe SpeakerMailer do
     it "should fill in email template" do
       stub_speaker_mailer_secrets
 
-      lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'acceptance_email', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
+      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
 
       email = ActionMailer::Base.deliveries.last
       email.body.should =~ /proposals\/speaker_confirm/
