@@ -1,13 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 def stub_speaker_mailer_secrets
-  SECRETS.stub!(:speaker_mailer => {
-    'address' => 'myprovider.com',
-    'port' => 587,
-    'authentication' => 'plain',
-    'enable_starttls_auto' => true,
-    'user_name' => 'test',
-    'password' => 'test',
+  SECRETS.stub!(:email => {
+    'default_from_address' => 'test@ocw.local',
+    'action_mailer' => {
+      :delivery_method => :test
+    }
   })
 end
 

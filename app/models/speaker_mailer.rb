@@ -7,9 +7,11 @@ class SpeakerMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
   def self.configured?
-    return false unless SECRETS.speaker_mailer
-    hostname = SECRETS.speaker_mailer['address']
-    return(hostname && hostname != 'test')
+    if SECRETS.email.blank? || SECRETS.email['action_mailer'].blank? || SECRETS.email['default_from_address'] == 'test'
+      return false
+    else
+      return true
+    end
   end
 
   def clean_snippet(slug)
@@ -20,10 +22,10 @@ class SpeakerMailer < ActionMailer::Base
 
   def speaker_email(subject_snippet, body_snippet, proposal)
     unless self.class.configured?
-      raise ArgumentError, "Email settings for 'speaker_mailer' must be set in 'config/secrets.yml'"
+      raise ArgumentError, "Email settings must be set in 'config/secrets.yml'"
     end
     recipients proposal.mailto_emails
-    from       SECRETS.speaker_mailer['from'] || SECRETS.speaker_mailer['user_name']
+    from       SECRETS.email['default_from_address']
     sent_on    Time.now
     template   'speaker_email'
     subject    clean_snippet(subject_snippet)
