@@ -24,6 +24,6 @@ if SECRETS.email
 end
 
 # We support sending using https://github.com/elevatedrails/emailthing_collector
-if SECRETS.emailthing_api_key
-  Emailthing.api_key = SECRETS.emailthing_api_key
+if SECRETS.email['emailthing_api_key']
+  Emailthing.api_key = SECRETS.email['emailthing_api_key']
 end
