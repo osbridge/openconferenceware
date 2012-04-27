@@ -28,6 +28,8 @@ gem 'hpricot',             '~> 0.8.2'
 gem 'paperclip',           '~> 2.3.1'
 gem 'vpim',                '=  0.695', :require => 'vpim/icalendar'
 
+gem 'prawn',               '= 0.11.1'
+
 group :development do
   gem 'capistrano',     :require => false
   gem 'capistrano-ext', :require => false
