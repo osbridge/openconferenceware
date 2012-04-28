@@ -89,6 +89,15 @@
   <% if proposal_statuses? %>
     <tr>
       <td class="label-text">
+        <label>Show proposal confirmation controls?</label>
+      </td>
+      <td>
+        <%= @event.show_proposal_confirmation_controls ? "Yes" : "No" %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="label-text">
         <label>Publish proposal status?</label>
       </td>
       <td>
