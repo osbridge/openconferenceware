@@ -36,8 +36,12 @@
   <% form_tag(manage_notify_speakers_path(@event), :method => :post) do %>
     <%= hidden_field_tag 'proposal_ids' %>
     <%= hidden_field_tag 'proposal_status', 'accepted' %>
-    <%= submit_tag 'Notify selected &amp; accepted speakers...',
-      :confirm => "Email uses the snippets 'proposals_acceptance_email_text' and 'proposals_acceptance_email_subject'.\n\nSend email?" %>
+    <% confirm_text = "Email uses the snippets 'proposals_acceptance_email_text' and 'proposals_acceptance_email_subject'.\n\n"
+       unless @event.show_proposal_confirmation_controls
+         confirm_text << "WARNING: the event's 'Show proposal confirmation controls' should be set to YES but it isn't.\n\n"
+       end
+    %>
+    <%= submit_tag 'Notify selected &amp; accepted speakers...', :confirm => "#{confirm_text}Send email?" %>
   <% end %>
 </p>
 
