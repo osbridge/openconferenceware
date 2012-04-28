@@ -964,13 +964,6 @@ body.proposals.show #content h2.page_title {
   text-indent: 25px;
 }
 
-#proposal-accepted {
-  background: #F1F9FF;
-  border: 1px solid #116DB6;
-  padding : 1em;
-  margin-bottom : 1em;
-}
-
 a.to_favorites {
   background: url('/images/star.png') no-repeat left center;
   padding: 0 0 0 22px;
@@ -1035,3 +1028,15 @@ body.users.show h2.page_title {
     width: 100%; }
   .selector_votes_index .subrow > td {
     padding-left: 4em; }
+
+#proposal-accepted {
+  background: #F1F9FF;
+  border: 1px solid #116DB6;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.notified_at {
+  color: #aaa;
+  padding-left: 15px;
+}

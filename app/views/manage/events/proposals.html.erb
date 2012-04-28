@@ -57,7 +57,7 @@ control_colspan = 0
         Email?
       </th>
       <th>
-        Proposal title and speakers
+        Proposal title and speakers, notified date
       </th>
       <% if proposal_statuses? %>
         <th>
@@ -94,6 +94,7 @@ control_colspan = 0
               <%= link_to user.fullname, user_path(user) %>
               <input type="hidden" class="user-email" value="<%= user.email %>">
             <% end %>
+            <span class="notified_at"><%= proposal.notified_at.ergo.strftime("%Y-%m-%d") %></span>
           <% else %>
             <%= proposal.presenter %>
           <% end %>
