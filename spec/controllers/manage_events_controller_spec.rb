@@ -42,20 +42,61 @@ describe Manage::EventsController do
 
   it "should destroy event"
 
-  def setup_proposals
+  def setup_proposals(&block)
     @proposal_ids = ""
     @proposals = []
     %w[aaron_aardvarks quentin_widgets].each do |slug|
       proposal = proposals(slug)
+      block.call proposal
       @proposal_ids << "#{proposal.id},"
       @proposals << proposal
     end
   end
 
+  def assert_notified
+    response.should be_redirect
+    flash[:success].should =~ /aaron@example.com/
+    flash[:success].should =~ /quentin@example.com/
+  end
+
   it "should raise an error if trying to notify speakers other than accepted or rejected" do
-    setup_proposals
+    setup_proposals { |proposal| proposal.accept! }
     lambda { post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids }  }.should raise_error(ArgumentError)
   end
 
-  it "should notify accepted speakers"
+  it "should skip proposals that don't exist" do
+    setup_proposals { |proposal| proposal.accept! }
+    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids+',999', :proposal_status => 'accepted' }
+
+    assert_notified
+  end
+
+  it "should skip proposals that have already been notified" do
+    setup_proposals do |proposal|
+      proposal.accept!
+      proposal.notified_at = Time.now
+      proposal.save
+    end
+    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids, :proposal_status => 'accepted' }
+
+    assert_notified
+    flash[:success].should =~ /none/
+    flash[:success].should =~ /already been notified/
+  end
+
+  it "should notify accepted speakers" do
+    setup_proposals { |proposal| proposal.accept! }
+    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids, :proposal_status => 'accepted' }
+
+    assert_notified
+    flash[:success].should_not =~ /already been notified/
+  end
+
+  it "should notify rejected speakers" do
+    setup_proposals { |proposal| proposal.reject! }
+    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids, :proposal_status => 'rejected' }
+
+    assert_notified
+    flash[:success].should_not =~ /already been notified/
+  end
 end

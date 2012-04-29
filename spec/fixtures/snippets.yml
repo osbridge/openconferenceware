@@ -51,3 +51,13 @@ i:
   slug: proposals_acceptance_email_subject
   description: "Subject of the email notifying speakers that their proposal was accepted"
   content: "Your talk was accepted"
+
+j:
+  slug: proposals_rejected_email_text
+  description: "Text of the email notifying speakers that their proposal was rejected"
+  content: "<p>Sorry</p>"
+
+k:
+  slug: proposals_rejected_email_subject
+  description: "Subject of the email notifying speakers that their proposal was rejected"
+  content: "Your talk was not accepted"
