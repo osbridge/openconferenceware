@@ -663,6 +663,7 @@ table#proposal-status-counts {
 #proposal-status-counts td {
   text-align: center;
   border: 1px solid #DEDEDE;
+  vertical-align: top;
 }
 
 /* @end */
