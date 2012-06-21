@@ -45,7 +45,7 @@ namespace :bridgepdx do
           sessions.sort_by{|s| s.start_time }.each do |session|
             pdf.font "HelveticaNeueLTPro", :style => :boldnormal, :size => 14
             pdf.fill_color 88, 55, 0, 0 # speaker blue
-            pdf.text "#{session.start_time.strftime("%I:%M%p").gsub(/^0/,'')} — #{session.end_time.strftime("%I:%M%p").gsub(/^0/,'')}", :kerning => true
+            pdf.text "#{session.start_time.strftime("%I:%M%p").gsub(/^0/,'')} \u002D #{session.end_time.strftime("%I:%M%p").gsub(/^0/,'')}", :kerning => true
 
             pdf.font "HelveticaNeueLTPro", :style => :boldnormal, :size => 18
             pdf.fill_color "000000"
