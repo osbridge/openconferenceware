@@ -21,9 +21,9 @@ if SECRETS.email
       ActionMailer::Base.send("#{key}=", value)
     end
   end
-end
 
-# We support sending using https://github.com/elevatedrails/emailthing_collector
-if SECRETS.email['emailthing_api_key']
-  Emailthing.api_key = SECRETS.email['emailthing_api_key']
+  # We support sending using https://github.com/elevatedrails/emailthing_collector
+  if SECRETS.email['emailthing_api_key']
+    Emailthing.api_key = SECRETS.email['emailthing_api_key']
+  end
 end
