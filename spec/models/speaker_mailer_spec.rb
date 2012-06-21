@@ -60,12 +60,28 @@ describe SpeakerMailer do
       email.body.should_not =~ /<|>/
     end
 
-    it "should raise error if email template not found" do
-      lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'test_text', @proposal) }.should raise_error(ActiveRecord::RecordNotFound)
+    context "when mailer is not configured" do
+      before(:each) do
+        SECRETS.stub(:email).and_return({})
+      end
+
+      it "should raise error if email is not configured" do
+        lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'test_text', @proposal) }.should raise_error(ArgumentError)
+      end
     end
 
-    it "should raise error if subject template not found" do
-      lambda { SpeakerMailer.deliver_speaker_email('test_subject', 'acceptance_email', @proposal) }.should raise_error(ActiveRecord::RecordNotFound)
+    context "when mailer is configured" do
+      before(:each) do
+        SECRETS.stub(:email).and_return({'action_mailer' => true, 'default_from_address' => 'hello@world.com'})
+      end
+
+      it "should raise error if email template not found" do
+        lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'test_text', @proposal) }.should raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it "should raise error if subject template not found" do
+        lambda { SpeakerMailer.deliver_speaker_email('test_subject', 'acceptance_email', @proposal) }.should raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 
