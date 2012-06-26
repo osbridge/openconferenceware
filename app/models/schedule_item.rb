@@ -23,6 +23,9 @@ class ScheduleItem < ActiveRecord::Base
   # Provides #overlaps?
   include ScheduleOverlapsMixin
 
+  # Provide sanitized ::to_xml and ::to_json
+  include SerializersMixin
+
   # Public attributes for export
   include PublicAttributesMixin
   set_public_attributes :id, :title, :excerpt, :description, :start_time, :end_time, :duration,
@@ -37,16 +40,6 @@ class ScheduleItem < ActiveRecord::Base
     else
       nil
     end
-  end
-
-  #---[ Serializers ]-----------------------------------------------------
-
-  def to_xml(*args)
-    return self.public_attributes.to_xml(*args)
-  end
-
-  def to_json(*args)
-    self.public_attributes.to_json(*args)
   end
 
   #---[ Accessors for getting the titles of related objects ]-------------

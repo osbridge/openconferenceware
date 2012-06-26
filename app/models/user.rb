@@ -33,6 +33,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   #---[ Mixins ]----------------------------------------------------------
 
+  include SerializersMixin
   include NormalizeUrlMixin
   include SettingsCheckersMixin
   include PublicAttributesMixin
@@ -170,16 +171,6 @@ class User < ActiveRecord::Base
       :profile => '200x400>',
       :avatar => '48x48#'
     }
-
-  #---[ Serializers ]-----------------------------------------------------
-  
-  def to_xml(*args)
-    self.public_attributes.to_xml(*args)
-  end
-
-  def to_json(*args)
-    self.public_attributes.to_json(*args)
-  end
 
   #---[ Methods ]---------------------------------------------------------
 

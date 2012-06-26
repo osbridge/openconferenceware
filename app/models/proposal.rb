@@ -43,6 +43,9 @@ class Proposal < ActiveRecord::Base
   # Provide ::overlaps?
   include ScheduleOverlapsMixin
 
+  # Provide sanitized ::to_xml and ::to_json
+  include SerializersMixin
+
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags
@@ -519,16 +522,6 @@ class Proposal < ActiveRecord::Base
   # Return the integer number of votes submitted that aren't abstensions.
   def selector_votes_count
     return self.selector_votes.map(&:rating).reject{|o| o == -1}.size
-  end
-
-  #---[ Serializers ]-----------------------------------------------------
-
-  def to_xml(*args)
-    self.public_attributes.to_xml_workaround.to_xml(*args)
-  end
-
-  def to_json(*args)
-    self.public_attributes.to_json(*args)
   end
 
   #---[ Accessors for getting the titles of related objects ]-------------
