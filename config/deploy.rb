@@ -82,7 +82,7 @@ namespace :deploy do
   desc "Finish update, called by deploy"
   task :finish, :roles => :app do
     # Gems
-    run "cd #{release_path} && (bundle check || bundle install) && bundle lock"
+    run "cd #{release_path} && (bundle check --path=../../shared/gems || bundle --without=development:test --path=../../shared/gems)"
 
     # Theme
     put theme, "#{release_path}/config/theme.txt"
