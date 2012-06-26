@@ -13,7 +13,7 @@ mailer_host: 'opensourcebridge.org'
 #   * %2 => parent OR event slug
 #   * %3 => event slug
 # E.g., '%1$s%2$s/wiki/' may translate to 'http://my_site.com/my_parent_slug/wiki'
-session_notes_wiki_url_format: '%1$s%2$s/wiki/'
+session_notes_wiki_url_format: '%1$swiki/%2$s/'
 
 # Organization running event:
 organization: 'Open Source Bridge'
