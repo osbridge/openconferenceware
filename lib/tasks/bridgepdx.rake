@@ -185,7 +185,7 @@ For example:
 
     def session_wiki_title(session)
       #IK# return "#{session.title} :: #{session.event.title}"
-      return "#{sanitize_string(session.title)}"
+      return "#{sanitize_string(session.event.slug)}/#{sanitize_string(session.title)}"
     end
 
     desc "Populates the attendee wiki with pages to hold session notes."
