@@ -27,7 +27,7 @@ class UserFavoritesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => Undefer(@user_favorites) }
-      format.json  { render :json => Undefer(@user_favorites) }
+      format.json { render :json => Undefer(@user_favorites) }
       format.ics {
         return redirect_to user_favorites_path(@user) unless schedule_visible?
         render :text => Proposal.to_icalendar(
@@ -52,13 +52,13 @@ class UserFavoritesController < ApplicationController
 
       respond_to do |format|
         format.xml  { head :ok }
-        format.json  { render :json => @user_favorite }
+        format.json { render :json => @user_favorite }
       end
     else
       errors = {:error => 'Malformed request.'}
       respond_to do |format|
         format.xml  { render :xml => errors, :status => :unprocessable_entity }
-        format.json  { render :json => errors, :status => :unprocessable_entity }
+        format.json { render :json => errors, :status => :unprocessable_entity }
       end
     end
   end
