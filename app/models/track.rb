@@ -26,6 +26,8 @@ class Track < ActiveRecord::Base
     :event_id,
     :title
     
+  include SerializersMixin
+
   def <=>(against)
     self.title <=> (against.nil? ? '' : against.title)
   end

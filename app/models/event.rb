@@ -32,6 +32,8 @@ class Event < ActiveRecord::Base
 
   cache_lookups_for :slug, :order => 'deadline desc', :include => [:tracks, :rooms]
 
+  include SerializersMixin
+
   # Associations
   has_many :proposals, :order => 'submitted_at desc', :dependent => :destroy
   has_many :tracks, :order => 'title asc', :dependent => :destroy
