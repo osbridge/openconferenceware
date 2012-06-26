@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20120106011926
+# Schema version: 20120427185014
 #
 # Table name: events
 #
@@ -21,6 +21,7 @@
 #  parent_id                               :integer(4)      
 #  proposal_titles_locked                  :boolean(1)      
 #  accept_selector_votes                   :boolean(1)      
+#  show_proposal_confirmation_controls     :boolean(1)      
 #
 
 class Event < ActiveRecord::Base
