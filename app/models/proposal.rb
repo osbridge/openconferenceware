@@ -403,7 +403,7 @@ class Proposal < ActiveRecord::Base
   def session_notes_url
     escape = lambda{|string| self.class._session_notes_url_escape(string)}
 
-    if SETTINGS.session_notes_wiki_url_format && ! self.title.blank?
+    if SETTINGS.public_url && SETTINGS.session_notes_wiki_url_format && ! self.title.blank?
       return (
         sprintf(
           SETTINGS.session_notes_wiki_url_format,
