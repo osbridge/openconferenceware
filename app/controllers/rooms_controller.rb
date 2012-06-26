@@ -13,6 +13,7 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render :json => @rooms }
       format.xml  { render :xml => @rooms }
     end
   end
@@ -28,6 +29,7 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json { render :json => @room }
       format.xml  { render :xml => @room }
     end
   end

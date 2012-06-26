@@ -9,11 +9,18 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.find(:all, :order => "deadline asc")
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @events }
+    end
   end
 
   def show
-    flash.keep
-    redirect_to event_proposals_path(@event)
+    respond_to do |format|
+      format.html { redirect_to event_proposals_path(@event) }
+      format.json { render :json => @event }
+    end
   end
 
   def speakers
