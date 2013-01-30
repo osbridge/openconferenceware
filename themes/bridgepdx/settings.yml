@@ -21,6 +21,9 @@ organization: 'Open Source Bridge'
 # Abbreviated name for use in URLs and proposal slugs.
 organization_slug: 'osb'
 
+# Twitter account for the event
+twitter: 'osbridge'
+
 # Top-level tagline or description.
 tagline: 'The conference for open source citizens / June 18-21, 2013 / Portland, OR'
 

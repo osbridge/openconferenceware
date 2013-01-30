@@ -5,6 +5,11 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <meta name="description" content="<%= SETTINGS.tagline %>" />
 
+  <meta property="og:image" content="http://opensourcebridge.org/common/i/header-logo.gif"/>
+  <meta property="og:title" content="<%= page_title %>"/>
+
+  <%= yield :meta %>
+
   <!-- Feeds -->
   <%= auto_discovery_link_tag(:atom, formatted_proposals_path(:atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
   <% if admin? %>

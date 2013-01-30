@@ -310,10 +310,17 @@ class User < ActiveRecord::Base
     return [self.fullname, self.affiliation].reject(&:blank?).join(' - ')
   end
 
+  # Normalize the user's twitter username when reading it
+  def normalized_twitter
+    if self.twitter
+      return self.twitter.sub(/^https?:\/\/(?:www\.)?twitter.com\//i, '').sub(/^@/, '')
+    end
+  end
+
   # Return the user's twitter profile.
   def twitter_url
     if self.twitter
-      return "http://twitter.com/#{self.twitter}"
+      return "http://twitter.com/#{self.normalized_twitter}"
     end
   end
 

@@ -14,6 +14,25 @@ focus :comment_message if @focus_comment
 show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_organizers.blank?
 %>
 
+<% content_for :meta do %>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="<%= proposal_url @proposal %>">
+  <meta name="twitter:title" content="<%= h @proposal.title %>">
+  <%  published_type = proposal_statuses? && (@event.proposal_status_published? && @proposal.confirmed? ? 'A session ' : 'A proposed session ')
+      metadescription = "#{published_type if published_type}at #{@event.title}"
+      metadescription << " by #{@proposal.users.fullnames}" if multiple_presenters? && @proposal.users.size > 1
+  %>
+  <meta name="twitter:description" content="<%= h my_truncate("#{metadescription} &mdash; #{@proposal.excerpt}", 200) %>">
+  <%- if SETTINGS.twitter -%>
+  <meta name="twitter:site" content="<%= SETTINGS.twitter %>">
+  <%- end -%>
+  <%- if multiple_presenters? && first_user_with_twitter = @proposal.users.detect{|u| !u.twitter.blank?} -%>
+  <meta name="twitter:creator" content="<%= first_user_with_twitter.normalized_twitter %>">
+  <%- elsif !multiple_presenters? && !@proposal.user.twitter.blank? -%>
+  <meta name="twitter:creator" content="<%= @proposal.user.normalized_twitter %>">
+  <% end -%>
+<% end -%>
+
 <% content_for :scripts do %>
   <%= javascript_include_tag 'audiojs/audio.min.js' %>
   <script>
