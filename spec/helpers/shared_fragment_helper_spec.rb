@@ -6,6 +6,11 @@ describe SharedFragmentHelper do
     helper.instance_variable_set(:@events, @events)
     Event.stub!(:lookup).and_return(@events)
     SharedFragmentWatcher.stub!(:render)
+    SharedFragmentHelper.shared_fragment_render = true
+  end
+
+  after(:each) do
+    SharedFragmentHelper.shared_fragment_render = false
   end
 
   shared_examples_for "all states" do
