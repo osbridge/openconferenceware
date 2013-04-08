@@ -1,2 +1,0 @@
-class ThemeError < StandardError
-end

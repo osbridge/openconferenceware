@@ -1,5 +1,0 @@
-require 'patches/actionview_ex'
-require 'patches/actioncontroller_ex'
-require 'patches/actionmailer_ex'
-require 'patches/routeset_ex'
-require 'helpers/rhtml_theme_tags'
