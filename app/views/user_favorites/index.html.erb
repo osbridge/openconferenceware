@@ -2,8 +2,8 @@
 
 <% if schedule_visible? %>
 <div class='calendar_download'>
-  <%= link_to "Download favorites", user_formatted_favorites_path(@user, :format => 'ics') %> /
-  <%= link_to "Subscribe to favorites", user_formatted_favorites_url(@user, :format => 'ics', :protocol => 'webcal') %>
+  <%= link_to "Download favorites", user_favorites_path(@user, :format => 'ics') %> /
+  <%= link_to "Subscribe to favorites", user_favorites_url(@user, :format => 'ics', :protocol => 'webcal') %>
 </div>
 <% end -%>
 

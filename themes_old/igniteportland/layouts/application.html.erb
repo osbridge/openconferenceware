@@ -6,9 +6,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
   <meta name="description" content="Share Burning Ideas" />
 
-  <%= auto_discovery_link_tag(:atom, formatted_proposals_path(:atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
+  <%= auto_discovery_link_tag(:atom, proposals_path(:format => :atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
   <% if admin? %>
-    <%= auto_discovery_link_tag(:atom, formatted_comments_path(:atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
+    <%= auto_discovery_link_tag(:atom, comments_path(:format => :atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
   <% end %>
 
   <%= theme_stylesheet_link_tag "k2" %>
@@ -94,7 +94,7 @@
                 <li><%= link_to "Manage snippets", manage_snippets_path %></li>
                 <li><%= link_to "Manage comments", comments_path %></li>
                 <% if @event %>
-                  <li><%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %></li>
+                  <li><%= link_to "Export CSV", event_proposals_path(@event, :format => :csv) %></li>
                 <% end %>
               <% end %>
               <li><%= link_to "Logout", logout_path, :method => :delete %></li>
@@ -111,9 +111,9 @@
         <div id="subscribe-to" class="hoverable widget module module1 sb-subscribe alt">
           <h4>Subscribe to</h4>
           <ul>
-            <li><%= link_to "Proposals feed <span class='feedable' />", formatted_proposals_path(:atom) %></li>
+            <li><%= link_to "Proposals feed <span class='feedable' />", proposals_path(:format => :atom) %></li>
             <% if admin? %>
-              <li><%= link_to "Comments feed <span class='feedable' />", formatted_comments_path(:atom, :secret => CommentsController::SECRET) %></li>
+              <li><%= link_to "Comments feed <span class='feedable' />", comments_path(:format => :atom, :secret => CommentsController::SECRET) %></li>
             <% end %>
           </ul>
         </div>

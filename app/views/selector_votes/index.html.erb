@@ -10,7 +10,7 @@ HERE
 %>
 
 <p>
-  <%= link_to "Export as CSV", formatted_event_selector_votes_path(assigned_event, :csv) %>
+  <%= link_to "Export as CSV", event_selector_votes_path(assigned_event, :format => :csv) %>
 </p>
 
 <table>
