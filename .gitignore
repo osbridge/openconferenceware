@@ -24,7 +24,7 @@
 /public/themes/*
 /rerun.txt
 /tags
-/themes/bridgepdx/stylesheets/common_css/*
+/public/stylesheets/common_css/*
 /tmp/*
 .ruby-version
 .ruby-gemset

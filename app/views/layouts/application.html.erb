@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+  <title><%= page_title %> / <%= SETTINGS.organization %>: <%= SETTINGS.tagline %></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="<%= SETTINGS.tagline %>" />
+
+  <meta property="og:title" content="<%= page_title %>"/>
+
+  <%= yield :meta %>
+
+  <!-- Feeds -->
+  <%= auto_discovery_link_tag(:atom, formatted_proposals_path(:atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
+  <% if admin? %>
+    <%= auto_discovery_link_tag(:atom, formatted_comments_path(:atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
+  <% end %>
+
+  <!-- Stylesheets -->
+  <% if localcss? %>
+    <%= stylesheet_link_tag 'common_css/osbp_common_v3.css' %>
+  <% else %>
+    <%= stylesheet_link_tag '/common/osbp_common_v3.css' %>
+  <% end %>
+  <%= stylesheet_link_tag "custom" %>
+  <%= yield :stylesheets %>
+
+  <!-- Dynamic styles -->
+  <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
+    <% if event_tracks? && assigned_events %>
+      <style type="text/css" media="screen">
+        <%= render :partial => 'tracks/colors.css.erb', :locals => {:tracks => assigned_events.map(&:tracks_combined).flatten} %>
+      </style>
+    <% end %>
+  <% end %>
+
+  <!-- Scripts -->
+  <%= javascript_include_tag 'jquery.min.js', 'jquery-ui.effects.core', 'jquery-ui.effects.highlight', 'application', :cache => 'cache/all' %>
+
+  <%= yield :scripts -%>
+
+  <% expose_to_js( :current_user, current_user == :false ? false : current_user.id ) -%>
+  <% expose_to_js( :authenticity_token, form_authenticity_token ) if protect_against_forgery? -%>
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+<%=       indent_block( yield(:javascript_expose_values), 3) -%>
+<%=       indent_block( yield(:javascript_on_ready), 3) -%>
+    });
+  </script>
+</head>
+
+<body class='<%= "#{controller.controller_name} #{action_name}" %> <%= "#{controller.controller_name}_#{action_name}" %>'>
+  <a name='top'></a>
+  <div id="wrapper">
+      <%= render :partial => "layouts/header" %>
+
+      <div id="container">
+        <div class='section_title'>
+          <h2 class='event_level'><%= link_to subnav_title, subnav_path %></h2>
+        </div>
+
+        <div id="content">
+          <h2 class='page_title'><%= page_title %></h2>
+
+          <% if false %>
+            <%# RB: temporarily removing breadcrumbs, pending improvement %>
+            <div id="breadcrumbs">
+              <% if @breadcrumbs %>
+                <% @breadcrumbs[0..-2].each_with_index do |breadcrumb, i| %>
+                   <% txt, path = breadcrumb %>
+                   <% if i > 0 %>
+                      &#187;
+                   <% end %>
+                   <%= link_to(h(txt), path) %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Display notices -->
+          <%# flash[:success] = "This test is for testing the notifications." %>
+          <%# flash[:failure] = "This test is for testing the notifications." %>
+          <%# flash[:notice] = "This test is for testing the notifications." %>
+          <%= notice %>
+
+          <!-- Display view's content -->
+          <%= yield %>
+        </div><!-- content -->
+
+        <div id="primary" class="sidebar">
+          <ul class="xoxo">
+            <% if logged_in? %>
+              <li id="login-as">
+                <%= render :partial => 'users/account_box' %>
+                <ul>
+                  <%= content_tag(:li, link_to( "My favorites", user_favorites_path(current_user) ),
+                        :class => (controller.controller_name == 'user_favorites') ? 'active' : '' ) %>
+                  <%= content_tag(:li, link_to( "My proposals", proposals_user_path(current_user) ),
+                        :class => (controller.controller_name == 'users' && action_name == 'proposals') ? 'active' : '') %>
+                  <% if display_submit_proposal_link? %>
+                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(assigned_event), :class => 'submit_a_proposal' )) %>
+                  <% end -%>
+                </ul>
+              </li>
+
+              <% if admin? %>
+                <li class='administration'>
+                  <h3>Administer</h3>
+                  <ul>
+                    <li>
+                      <%= link_to "Events", manage_events_path %>
+                      <% if assigned_event && ! assigned_event.new_record? %>
+                        (<%= link_to "manage this event", manage_event_path(assigned_event) %>)
+                        <ul>
+                          <% if proposal_statuses? %>
+                            <li><%= link_to "Sessions", event_sessions_path(assigned_event) %></li>
+                          <% end %>
+                          <li><%= link_to "Proposals", event_proposals_path(assigned_event) %>
+                            (<%= link_to "Bulk edit", manage_event_proposals_path(assigned_event) %>)
+                            <% unless assigned_event.accepting_proposals? %>
+                              (<%= link_to "Add new", new_event_proposal_path(assigned_event) %>)
+                            <% end %>
+                            (<%= link_to "Export CSV", formatted_event_proposals_path(assigned_event,:csv) %>)
+                          </li>
+                          <% if event_tracks? %>
+                            <li><%= link_to "Tracks", tracks_path %></li>
+                          <% end %>
+                          <% if event_session_types? %>
+                            <li><%= link_to "Session types", session_types_path %></li>
+                          <% end %>
+                          <% if event_rooms? %>
+                            <li><%= link_to "Rooms", rooms_path %></li>
+                          <% end %>
+                          <li><%= link_to "Schedule items", event_schedule_items_path(assigned_event) %></li>
+                          <% if user_profiles? %>
+                            <li><%= link_to "Speakers", speakers_event_path(assigned_event) %>
+                              (<%= link_to "Export CSV", formatted_speakers_event_path(assigned_event,:csv) %>)
+                            </li>
+                          <% end %>
+                          <% if selector? %>
+                            <li><%= link_to "Selector votes", event_selector_votes_path(assigned_event) %></li>
+                          <% end %>
+                        </ul>
+                      <% end %>
+                    </li>
+                    <% if user_profiles? %>
+                      <li><%= link_to "Users", users_path %></li>
+                    <% end %>
+                    <li><%= link_to "Snippets", manage_snippets_path %></li>
+                    <li><%= link_to "Comments", comments_path %></li>
+                  </ul>
+                </li>
+              <% end %>
+
+            <% else %>
+              <li id="login-as">
+                <ul>
+                  <li><%= link_to "Login", login_path %></li>
+                  <% if assigned_event.ergo.accepting_proposals? %>
+                    <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(assigned_event), :class => 'submit_a_proposal' )) %>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+
+            <% if events_picker? %>
+              <li id="proposals-for">
+                <h3>Proposals for</h3>
+                <ul>
+                  <% for event in assigned_nonchild_events_by_date.reverse %>
+                    <li><%= link_to event.title, event_proposals_path(event) %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div><!-- #sidebar-1 -->
+
+        <div id="secondary" class="sidebar">
+          <ul class="xoxo">
+            <li id="subscribe-to">
+              <h3>Subscribe to</h3>
+              <ul>
+                <li class="pre-bulletted"><%= link_to "Proposals feed", formatted_proposals_path(:atom), :class => :feedable %></li>
+                <% if admin? %>
+                  <li class="pre-bulletted"><%= link_to "Comments feed", formatted_comments_path(:atom, :secret => CommentsController::SECRET), :class => 'feedable' %></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- #sidebar-2 -->
+
+      </div><!-- container -->
+
+    <div id="footer">
+      &copy; 2008&ndash;<%= Date.today.year %> Open Source Bridge | <a href='/contact-us'>Contact Us</a>
+    </div>
+
+  </div><!--wrapper -->
+
+  <%= hidden_field_tag(:current_user_id, current_user.id) if logged_in? %>
+
+  <!-- arbitrary javascript from views -->
+
+  <script type="text/javascript">
+    <%= yield :javascript %>
+  </script>
+
+  <% if RAILS_ENV == "production" %>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("UA-168427-8");
+      pageTracker._initData();
+      pageTracker._trackPageview();
+    </script>
+
+    <%# getclicky is really, really slow and this hurts the loading of pages:
+    <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
+    %>
+
+    <script type="text/javascript">
+    var pkBaseURL = (("https:" == document.location.protocol) ? "https://opensourcebridge.org/stats/piwik/" : "http://opensourcebridge.org/stats/piwik/");
+    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script><script type="text/javascript">
+    piwik_action_name = '';
+    piwik_idsite = 1;
+    piwik_url = pkBaseURL + "piwik.php";
+    piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+  <% end %>
+</body>
+</html>

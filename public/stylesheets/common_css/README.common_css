@@ -1,0 +1,6 @@
+The common_css directory holds a copy of the common Open Source Bridge styleshets for local devleopment.
+
+You can run rake bridgepdx:styles to checkout a copy of the latest common styles.
+
+Modifications to the common styles should be submitted to the style repository at:
+http://github.com/reidab/osbp_styles
