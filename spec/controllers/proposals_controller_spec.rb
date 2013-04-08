@@ -469,12 +469,12 @@ describe ProposalsController do
       it "should notify owners of acceptance" do
         login_as(users(:quentin))
         get :show, :id => @proposal.id
-        response.should have_tag("h3", /Congratulations/)
+        response.should have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify non-owners of acceptance" do
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify owners of acceptance if proposal confirmation controls are not visible" do
@@ -485,7 +485,7 @@ describe ProposalsController do
         login_as(users(:quentin))
 
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
     end
 
@@ -497,19 +497,19 @@ describe ProposalsController do
 
       it "should not notify proposed proposal owners of acceptance" do
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify rejected proposal owners of acceptance" do
         @proposal.reject!
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify junk proposal owners of acceptance" do
         @proposal.mark_as_junk!
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
     end
 

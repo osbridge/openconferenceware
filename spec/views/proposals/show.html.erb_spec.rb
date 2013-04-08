@@ -63,7 +63,7 @@ describe "/proposals/show.html.erb" do
       assigns[:kind] = :proposal
 
       render "/proposals/show.html.erb"
-      response.should have_tag(".#{status}")
+      response.should have_selector(".#{status}")
     end
   end
 
@@ -81,17 +81,17 @@ describe "/proposals/show.html.erb" do
 
     it "should show the proposal status for a confirmed proposal" do
       render "/proposals/show.html.erb"
-      response.should have_tag(".proposal-status")
-      response.should_not have_tag(".proposal-scheduling")
-      response.should_not have_tag(".proposal-room")
+      response.should have_selector(".proposal-status")
+      response.should_not have_selector(".proposal-scheduling")
+      response.should_not have_selector(".proposal-room")
     end
 
     it "should show session time if set" do
       @proposal.start_time = Time.now
 
       render "/proposals/show.html.erb"
-      response.should have_tag(".proposal-scheduling")
-      response.should_not have_tag(".proposal-room")
+      response.should have_selector(".proposal-scheduling")
+      response.should_not have_selector(".proposal-room")
     end
 
     it "should show session time and location if both set" do
@@ -99,8 +99,8 @@ describe "/proposals/show.html.erb" do
       @proposal.room = @event.rooms.first
 
       render "/proposals/show.html.erb"
-      response.should have_tag(".proposal-scheduling")
-      response.should have_tag(".proposal-room")
+      response.should have_selector(".proposal-scheduling")
+      response.should have_selector(".proposal-room")
     end
   end
 
@@ -121,10 +121,10 @@ describe "/proposals/show.html.erb" do
     assigns[:kind] = :proposal
     render "/proposals/show.html.erb"
 
-    response.should have_tag(".session_info a[href=?]", session_path(event_proposal))
-    response.should have_tag(".session_info a[href=?]", session_path(child_proposal))
-    response.should have_tag(".session_info a[href=?]", session_path(parent_proposal))
-    response.should_not have_tag(".session_info a[href=?]", session_path(other_proposal))
+    response.should have_selector(".session_info a", :href => session_path(event_proposal))
+    response.should have_selector(".session_info a", :href => session_path(child_proposal))
+    response.should have_selector(".session_info a", :href => session_path(parent_proposal))
+    response.should_not have_selector(".session_info a", :href => session_path(other_proposal))
   end
 end
 
