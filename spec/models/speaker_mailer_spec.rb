@@ -10,53 +10,48 @@ def stub_speaker_mailer_secrets
   })
 end
 
+def deliver_email(proposal)
+  SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', proposal)
+end
+
 describe SpeakerMailer do
   fixtures :proposals, :tracks, :session_types, :users, :proposals_users, :snippets
   CHARSET = 'utf-8'
 
   before(:each) do
+    stub_speaker_mailer_secrets
     @proposal = proposals(:quentin_widgets)
-    @scheduled_proposal = proposals(:postgresql_session)
   end
 
   context "when sending email" do
-    it "should not send email if speaker_mailer is not configured" do
-      SpeakerMailer.stub!(:configured? => false)
-
-      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should raise_error(ArgumentError)
+    it "should raise error if speaker_mailer is not configured" do
+      SECRETS.stub(:email).and_return({})
+      lambda { deliver_email(@proposal) }.should raise_error(ArgumentError)
     end
 
-    it "should send email if speaker_mailer is configured (and BCC the default_bcc_address)" do
-      stub_speaker_mailer_secrets
-
-      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
-
+    it "should send email if speaker_mailer is configured" do
+      lambda { deliver_email(@proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
       email = ActionMailer::Base.deliveries.last
       email.to.should == ['quentin@example.com']
-      email.bcc.should == ['me@example.com']
       email.subject.should =~ /Your talk was accepted/
-      email.body.should =~ /Congratulations/
     end
 
-    it "should fill in session start_time if start_time exists" do
-      stub_speaker_mailer_secrets
-
-      SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @scheduled_proposal)
+    it "should BCC the default_bcc_address" do
+      deliver_email(@proposal)
       email = ActionMailer::Base.deliveries.last
-      email.body.should =~ /June 17/
+      email.bcc.should == ['me@example.com']
     end
   end
 
   context "when fetching speaker email content" do
-    before(:each) do
-      @proposal = proposals(:quentin_widgets)
+    it "should contain the template text" do
+      deliver_email(@proposal)
+      email = ActionMailer::Base.deliveries.last
+      email.body.should =~ /Congratulations/
     end
 
-    it "should fill in email template" do
-      stub_speaker_mailer_secrets
-
-      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @proposal) }.should change(ActionMailer::Base.deliveries, :size).by(1)
-
+    it "should fill in email template variables" do
+      deliver_email(@proposal)
       email = ActionMailer::Base.deliveries.last
       email.body.should =~ /proposals\/speaker_confirm/
       email.body.should =~ /proposals\/speaker_decline/
@@ -69,28 +64,25 @@ describe SpeakerMailer do
       email.body.should_not =~ /<|>/
     end
 
-    context "when mailer is not configured" do
-      before(:each) do
-        SECRETS.stub(:email).and_return({})
-      end
-
-      it "should raise error if email is not configured" do
-        lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'test_text', @proposal) }.should raise_error(ArgumentError)
-      end
+    it "should not break if proposal start_time doesn't exist" do
+      deliver_email(@proposal)
+      email = ActionMailer::Base.deliveries.last
+      email.body.should =~ /Unscheduled/
     end
 
-    context "when mailer is configured" do
-      before(:each) do
-        SECRETS.stub(:email).and_return({'action_mailer' => true, 'default_from_address' => 'hello@world.com'})
-      end
+    it "should fill in proposal start_time if start_time exists" do
+      @scheduled_proposal = proposals(:postgresql_session)
+      deliver_email(@scheduled_proposal)
+      email = ActionMailer::Base.deliveries.last
+      email.body.should =~ /June 17/
+    end
 
-      it "should raise error if email template not found" do
-        lambda { SpeakerMailer.deliver_speaker_email('acceptance_subject', 'test_text', @proposal) }.should raise_error(ActiveRecord::RecordNotFound)
-      end
+    it "should raise error if email template not found" do
+      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'error_email', @proposal) }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_email/)
+    end
 
-      it "should raise error if subject template not found" do
-        lambda { SpeakerMailer.deliver_speaker_email('test_subject', 'acceptance_email', @proposal) }.should raise_error(ActiveRecord::RecordNotFound)
-      end
+    it "should raise error if subject template not found" do
+      lambda { SpeakerMailer.deliver_speaker_email('error_subject', 'proposals_acceptance_email_text', @proposal) }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_subject/)
     end
   end
 
