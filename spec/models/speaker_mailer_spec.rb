@@ -16,6 +16,7 @@ describe SpeakerMailer do
 
   before(:each) do
     @proposal = proposals(:quentin_widgets)
+    @scheduled_proposal = proposals(:postgresql_session)
   end
 
   context "when sending email" do
@@ -35,6 +36,14 @@ describe SpeakerMailer do
       email.bcc.should == ['me@example.com']
       email.subject.should =~ /Your talk was accepted/
       email.body.should =~ /Congratulations/
+    end
+
+    it "should fill in session start_time if start_time exists" do
+      stub_speaker_mailer_secrets
+
+      SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', @scheduled_proposal)
+      email = ActionMailer::Base.deliveries.last
+      email.body.should =~ /June 17/
     end
   end
 
