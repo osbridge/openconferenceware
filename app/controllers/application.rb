@@ -286,7 +286,7 @@ protected
       if request.path.match(%r{^/events})
         return false
       else
-        prefix = request.relative_url_root
+        prefix = relative_url_root
         if controller_name == "proposals" && action_name == "sessions_index"
           path = "#{prefix}#{event_sessions_path(@event)}"
         elsif controller_name == "proposals" && action_name == "schedule"
