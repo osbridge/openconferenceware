@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '56b4f0ad244d35b7e0d30ba0c5e1ae61'
-  
+
   # Don't include password values in Rails request logs.
-  filter_parameter_logging :password, :password_confirmation 
+  filter_parameter_logging :password, :password_confirmation
 
   # Provide methods for checking SETTINGS succinctly
   include SettingsCheckersMixin
