@@ -1,0 +1,788 @@
+/* @override
+	http://opensourcebridge.org/common/osbp_common.css
+	http://localhost:3000/themes/bridgepdx/stylesheets/common_css/osbp_common.css
+*/
+
+/* Open Source Bridge Common Styles
+
+	The latest version of this stylesheet can be found at
+	http://github.com/reidab/osbp_styles
+
+*/
+
+/* Color Reference
+
+	#818285 - gray from logo
+	#116db6 - blue from logotype, h3
+	#08b9a6 - teal from logotype
+
+	#0a3456 - body background
+
+	#00a8d8 - brighter blue, used for links
+
+	#c0def5 - light blue, h2 background
+	#f1f9ff - even lighter blue, blockquote bg, alt table
+
+*/
+
+/* @group Reset */
+
+/* Strict reset here, overrides below. Should get squashed by build process. */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+body {
+	font: 87.5%/1.5em "Helvetica Neue", Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
+	background: #fff;
+	margin: 1.5em 0;
+	position: relative;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: 400;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: "";
+}
+
+blockquote, q {
+	quotes: "" "";
+}
+
+a img {
+	border: none;
+}
+
+input,textarea {
+	margin: 0;
+}
+
+/* Removes Firefox imposed outline */
+
+a {
+	outline: none;
+}
+
+/* @end */
+
+/* @group Typograpy */
+
+/* @group Colors */
+
+body {
+	background: #d6edff;
+	color: #fff;
+}
+
+#wrapper {
+	color: #494b50;
+}
+
+a:link {
+	color: #00a8d8;
+}
+
+a:visited {
+	color: #008d7f;
+}
+
+#footer a, #footer a:link {
+	color: #f1f9ff;
+}
+
+#footer a:visited {
+	color: #c0def5;
+}
+
+/*
+
+ @end */
+
+/* @group Headings */
+
+h1,
+h2.entry-title {
+	font-size: 1.65em;
+	background: #96d6f5;
+	margin: 0 -25px .8em;
+	padding: .2em 25px;
+	line-height: 1.5;
+	color: #333;
+}
+
+h1 a,
+h2.entry-title a {
+	color: #494b50;
+	text-decoration: none;
+}
+h2 {
+	font-size: 1.65em;
+	margin-bottom: 0.6em;
+}
+
+h3 {
+	font-size: 1.35em;
+	line-height: 1;
+	margin-bottom: .7em;
+}
+
+h4 {
+	font-size: 1.15em;
+	line-height: 1.25;
+	margin-bottom: .7em;
+}
+
+h5 {
+	font-size: 1em;
+	margin-bottom: .5em;
+}
+
+h6 {
+	font-size: 1em;
+}
+
+h1, h2, h3 {
+	color: #116db6;
+}
+
+h4, h5, h6 {
+	color: #333;
+}
+
+/* @end */
+
+/* @group Text Elements */
+
+p {
+	margin: 0 0 1.5em;
+}
+
+ul, ol {
+	margin: 0 1.5em 1.5em 1.5em;
+}
+
+ul {
+	list-style-type: circle;
+}
+
+ol {
+	list-style: outside decimal;
+}
+
+dl {
+	margin: 0 0 1.5em 0;
+}
+
+dl dt {
+	font-weight: bold;
+}
+
+dl dd {
+	margin-left: 1.5em;
+}
+
+abbr, acronym {
+	border-bottom: 1px dotted;
+}
+
+address {
+	margin-top: 1.5em;
+	font-style: italic;
+}
+
+cite,em,i {
+	font-style: italic;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+ins {
+	text-decoration: overline;
+}
+
+dfn {
+	border-bottom: 1px dashed;
+	font-style: italic;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+blockquote p {
+	background: #f1f9ff;
+	margin: 0 1.5em 1.5em;
+	padding: 0.75em;
+}
+
+sub {
+	bottom: -0.4em;
+	font-size: 0.85em;
+	line-height: 1em;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	font-size: 0.85em;
+	line-height: 1em;
+	position: relative;
+	top: -0.4em;
+	vertical-align: baseline;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em, dfn {
+	font-style: italic;
+}
+
+dfn {
+	font-weight: bold;
+}
+
+pre {
+	margin: 0 0 1.5em;
+	padding: 0 0 0 1.5em;
+	white-space: pre;
+}
+
+pre,code,kbd,tt {
+	font: 1em/1.5em Consolas, "Courier New", Courier, monospace;
+}
+
+tt {
+	display: block;
+	margin: 1.5em 0;
+	line-height: 1.5;
+}
+
+hr {
+	border: none;
+	border-bottom: 1px solid #c6d3dd;
+}
+
+/* @end */
+
+/* @group Tables */
+
+table {
+	margin-bottom: 1.5em;
+}
+
+caption {
+	font-style: italic;
+	text-align: left;
+}
+
+tr.alt td,
+tr.even td {
+	background: #f1f9ff;
+}
+
+td {
+	padding: 0.333em;
+	vertical-align: middle;
+}
+
+th {
+	font-weight: 700;
+	padding: 0.333em;
+	vertical-align: middle;
+}
+
+/* @end */
+
+/* @group Forms */
+
+input[type=text], input[type=password], textarea {
+	font-style: inherit;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+.help {
+	margin: 0;
+	color: #999;
+	font-size: .85em;
+}
+
+/* @end */
+
+/* @end */
+
+/* @group Common
+
+Classes */
+
+.clear {
+	clear: both;
+}
+
+.alignright,img.alignright {
+	float: right;
+	margin: 0 0 0 1em;
+}
+
+.alignleft,img.alignleft {
+	float: left;
+	margin: 0 1em 0 0;
+}
+
+.aligncenter,img.aligncenter {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.entry-date abbr {
+	border-bottom: none;
+}
+
+/* @end */
+
+/* @group Layout */
+
+#wrapper {
+	background: #fff;
+	width: 71.42em;
+	margin: 25px auto;
+	position: relative;
+	border: 1px solid #ccc;
+}
+
+/* @group Header */
+
+#header {
+	padding: 23px;
+	position: relative;
+}
+
+#site-title {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+}
+
+#site-description {
+	position: absolute;
+	right: 21em;
+	bottom: 18px;
+}
+
+#conference-date-location {
+	position: absolute;
+	right: 0;
+	top: 0;
+	background: url(i/header-sidebar.gif) no-repeat top center;
+	width: 20em;
+	height: 161px;
+}
+
+#menu-sidebar-background {
+	background: #072c49;
+	width: 20em;
+	height: 2.5em;
+	position: absolute;
+	top: 161px;
+	right: 0;
+}
+
+#subnav-sidebar-background {
+	background: #6c9ab0;
+	width: 20em;
+	height: 2.5em;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+#conference-date-location p {
+	width: 142px;
+	height: 41px;
+	background: url(i/header-date.png) no-repeat;
+	overflow: hidden;
+	text-indent: -999px;
+	margin: 60px auto	;
+}
+
+div.skip-link a {
+	position: absolute;
+	right: 0;
+	top: -99px;
+	background: #116db6;
+	color: #fff;
+	padding: .5em;
+	font-size: .7em;
+	text-decoration: none;
+}
+
+div.skip-link a:focus {
+	top: 0;
+}
+
+/* @end */
+
+/* @group Menu */
+
+div#menu, div.navbar {
+	background: #116db6;
+	color: #fff;
+	height: 2.5em;
+	line-height: 2.5em;
+	padding: 0 1em;
+	text-transform: uppercase;
+}
+
+div#subnav {
+	text-transform: none;
+}
+
+div#subnav {
+	background: #96d6f5;
+	position: relative;
+}
+
+div#subnav ul a {
+	color: #333;
+}
+
+div#menu ul li, div.navbar ul li {
+	float: left;
+}
+
+div#menu ul, div#menu ul ul,
+div.navbar ul, div.navbar ul ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div#menu ul a,
+div.navbar ul a {
+	color: #fff;
+	display: block;
+	margin-right: 1em;
+	padding: 0 0.5em;
+	text-decoration: none;
+	font-size: 1.1em;
+}
+
+div#menu ul li.current_page_item a,
+div.navbar ul li.current_page_item a {
+	background: url(i/menu-selected.gif) no-repeat center bottom;
+}
+
+div#subnav ul li.current_page_item a {
+	background: no-repeat;
+	font-weight: bold;
+}
+
+div#menu ul ul ul a {
+	font-style: italic;
+}
+
+div#menu ul li ul,
+div.navbar ul li ul {
+	left: -999em;
+	position: absolute;
+}
+
+div#menu ul li:hover ul {
+	left: auto;
+}
+
+/* @end */
+
+div#container {
+	float: left;
+	margin: 0 -19.86em 0 0;
+	width: 99%;
+}
+
+div#content {
+	margin: 0 19.86em 0 0;
+	padding: 25px;
+}
+
+.register-now-button {
+	width: 204px;
+	height: 48px;
+	display: block;
+	background: url(i/register_now.png) no-repeat;
+	overflow: hidden;
+	text-indent: -999px;
+	margin: 0 auto;
+}
+
+.book-now-button {
+	width: 204px;
+	height: 48px;
+	display: block;
+	background: url(i/book_a_room.png) no-repeat;
+	overflow: hidden;
+	text-indent: -999px;
+	margin: 0 auto;
+}
+
+.submit-a-proposal-button {
+	width: 204px;
+	height: 39px;
+	display: block;
+	background: url(i/submit_a_proposal.png);
+	overflow: hidden;
+	text-indent: -999px;
+	margin: 0 auto;
+}
+
+#menu-sidebar-nav {
+	position: absolute;
+	top: 137px;
+	right: 0;
+	width: 20em;
+}
+
+/* @group Sidebar */
+
+div.sidebar {
+	float: right;
+	width: 18em;
+	padding: 2.5em 1em 1em 1em;
+	background: #666;
+	color: #fff;
+}
+
+div.sidebar a {
+	color: #fff;
+}
+
+div.sidebar div,div.sidebar ul {
+	margin: 0;
+	padding: 0;
+}
+
+div#secondary {
+	clear: right;
+}
+
+div.sidebar h3 {
+	margin: .5em 0;
+	font-size: 1.25em;
+	color: #fff;
+}
+
+div.sidebar li {
+	margin: 0 0 2em;
+	list-style: none;
+}
+
+div.sidebar li form {
+	margin: 0.2em 0 0;
+	padding: 0;
+}
+
+div.sidebar ul ul {
+	margin: 0 0 0 1.5em;
+	font-size: .85em;
+}
+
+div.sidebar ul ul li {
+	margin: 0;
+	list-style: disc;
+}
+
+div.sidebar ul ul ul {
+	margin: 0 0 0 0.7em;
+}
+
+div.sidebar ul ul ul li {
+	list-style: circle;
+}
+
+li.pre-bulletted,
+div.sidebar li.pre-bulletted {
+	list-style: none;
+	position: relative;
+	left: -18px;
+}
+
+/* @end */
+
+div#footer {
+	clear: both;
+	width: 100%;
+	background: #0a3456;
+	padding: 25px 0;
+	color: #fff;
+	font-size: .8em;
+	visibility: hidden;
+}
+
+/* @end */
+
+/* @group Image Replacements */
+
+#site-title a,
+#site-description {
+	overflow: hidden;
+	text-indent: -999px;
+	display: block;
+}
+
+#site-title a {
+	width: 232px;
+	height: 115px;
+	background: url(i/header-logo.gif) no-repeat;
+}
+
+#site-description {
+	width: 322px;
+	height: 17px;
+	background: url(i/header-description.gif) no-repeat;
+}
+
+/* @end */
+
+/* @group Link Annotations */
+
+a.chicklet {
+	display: block;
+	padding: 3px 0 0 50px;
+	min-height: 23px;
+	background-position: 0 center;
+	background-repeat: no-repeat;
+}
+
+a.twitter.chicklet {
+	background-image: url(i/twitter.png);
+}
+
+a.facebook.chicklet {
+	background-image: url(i/facebook.png);
+}
+
+a.dopplr.chicklet {
+	background-image: url(i/dopplr.png);
+}
+
+a.identica.chicklet {
+	background-image: url(i/identica.png);
+}
+
+a.linkedin.chicklet {
+	background-image: url(i/linkedin.png);
+}
+
+a.rss.chicklet {
+	background-image: url(i/rss.png);
+}
+
+a.friendfeed.chicklet {
+	background-image: url(i/friendfeed.png);
+}
+
+a.feedburner {
+	margin-left: 50px;
+}
+
+/* @end */
+
+/* @group Rails Common Elements */
+
+/* @group Flash Notices */
+
+.flash p {
+	margin: 0.5em 0;
+	padding: 0.5em;
+}
+
+.flash .notice {
+	color: #555555;
+	background: #f1f9ff;
+	border: 1px solid #116db6;
+}
+
+.flash .success {
+	color: #555555;
+	background: #e1ffe8;
+	border: 1px solid #08b9a6;
+}
+
+.flash .failure {
+	color: #555555;
+	background: #ffeded;
+	border: 1px solid #c60000;
+}
+
+/* @end */
+
+/* @group Errors */
+
+#errorExplanation {
+	border: 2px solid #c60000;
+	padding: 7px;
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+	background-color: #;
+}
+
+#errorExplanation h2 {
+	padding: .5em 1em;
+	font-size: 1em;
+	margin: -7px;
+	background-color: #c60000;
+	color: #fff;
+}
+
+#errorExplanation p {
+	color: #333;
+	margin: 1em .5em .5em;
+}
+
+#errorExplanation ul {
+	margin-bottom: 0;
+}
+
+#errorExplanation li {
+	font-size: .9em;
+}
+
+.fieldWithErrors {
+	margin: 0;
+	display: inline;
+	background-color: inherit;
+}
+
+.fieldWithErrors label {
+	color: #c60000;
+}
+
+.fieldWithErrors textarea,
+  .fieldWithErrors input[type=text],
+  .fieldWithErrors input[type=checkbox] {
+	border: 2px solid #c60000;
+}
+
+/* @end */
+
+/* @end */

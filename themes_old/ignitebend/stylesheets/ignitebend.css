@@ -1,0 +1,74 @@
+/*
+	CSS files kept in the 'schemes' directory can be used to
+	costumize your K2 installation without having to mess
+	with the core K2 files. This in turn makes it easier to
+	upgrade to new K2 version as well as debug any problems
+	that might occur.
+
+	You select schemes from the K2 Options page in the
+	'Presentation' section of your WordPress administration.
+
+	Author Name	: Josh Bancroft
+	Author Site	: http://www.tinyscreenfuls.com
+	Style Name	: IgniteBend
+	Style URI	: http://www.ignitebend.com
+	Version		: 0.1
+	Comments	: Mods K2 sample.css to accomodate 640 wide video, white color scheme
+*/
+
+.columns-two #page {width:920px;
+}
+
+#primary {
+width:640px;
+}
+
+#page {
+	/* The entire design is contained within the 'page' id */
+	}
+
+#header h1 a, #header .description {
+color:black;
+}
+
+#header {
+	/* Contains the H1 and menu */
+	background:#DF0021 none repeat scroll 0%;
+	}
+
+/*- Main Menu in Header */
+
+ul.menu li a {
+        font-size: 1em;
+        color: black;
+        margin: 0;
+        }
+
+ul.menu li a:hover {
+        background: #333;
+        color: #eee !important;
+        text-decoration: none;
+        }
+
+ul.menu li.current_page_item a,
+ul.menu li.current_page_item a:hover {
+        color: #eee !important;
+        background: #333;
+        text-decoration: none;
+        }
+
+.primary {
+	/* Contains the main column */
+	}
+
+.hentry {
+	/* Each entry is contained within the 'hentry' class */
+	}
+
+.entry-content {
+	/* The meat and potatoes of every entry */
+	}
+
+.secondary {
+	/* Contains the sidebar */
+	}

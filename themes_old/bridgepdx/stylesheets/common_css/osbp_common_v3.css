@@ -1,0 +1,1082 @@
+/* @override
+	http://opensourcebridge.org/common/osbp_common_v3.css
+	http://localhost:3000/themes/bridgepdx/stylesheets/common_css/osbp_common_v3.css
+	http://localhost/web/bridge_styles/osbp_common_v3.css
+	http://ocw.local/themes/bridgepdx/stylesheets/common_css/osbp_common_v3.css
+*/
+
+/* Open Source Bridge Common Styles
+
+	The latest version of this stylesheet can be found at
+	http://github.com/reidab/osbp_styles
+
+*/
+
+/* Color Reference
+
+	#818285 - gray from logo
+	#116db6 - blue from logotype, h3
+	#08b9a6 - teal from logotype
+
+	#0a3456 - body background
+
+	#00a8d8 - brighter blue, used for links
+
+	#c0def5 - light blue, h2 background
+	#f1f9ff - even lighter blue, blockquote bg, alt table
+
+*/
+
+/* @group Reset */
+
+/* Strict reset here, overrides below. Should get squashed by build process. */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+body {
+	font: 87.5%/1.5em "Helvetica Neue", Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
+	background: #fff;
+	margin: 1.5em 0;
+	position: relative;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: 400;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: "";
+}
+
+blockquote, q {
+	quotes: "" "";
+}
+
+a img {
+	border: none;
+}
+
+input,textarea {
+	margin: 0;
+}
+
+/* Removes Firefox imposed outline */
+
+a {
+	outline: none;
+}
+
+/* @end */
+
+/* @group Typograpy */
+
+/* @group Colors */
+
+body {
+	background: #191919;
+	color: #ccc;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:link {
+	color: #00a8d8;
+}
+
+a:visited {
+	color: #238eae;
+}
+
+/*
+
+ @end */
+
+/* @group Headings */
+
+h1 {
+	font-size: 1.65em;
+	line-height: 1.5;
+}
+
+h2 {
+	font-size: 1.5em;
+	margin-bottom: 0.6em;
+}
+
+h2.entry-title a {
+	color: #222;
+	text-decoration: none;
+}
+
+h3 {
+	font-size: 1.35em;
+	line-height: 1;
+	margin-bottom: .7em;
+}
+
+h4 {
+	font-size: 1.15em;
+	line-height: 1.25;
+	margin-bottom: .7em;
+}
+
+h5 {
+	font-size: 1em;
+	margin-bottom: .5em;
+}
+
+h6 {
+	font-size: 1em;
+}
+
+h1, h2, h3 {
+	color: #116db6;
+}
+
+h4, h5, h6 {
+	color: #333;
+}
+
+/* @end */
+
+/* @group Text Elements */
+
+p {
+	margin: 0 0 1.5em;
+}
+
+ul, ol {
+	margin: 0 1.5em 1.5em 1.5em;
+}
+
+ul {
+	list-style-type: circle;
+}
+
+ol {
+	list-style: outside decimal;
+}
+
+dl {
+	margin: 0 0 1.5em 0;
+}
+
+dl dt {
+	font-weight: bold;
+}
+
+dl dd {
+	margin-left: 1.5em;
+}
+
+abbr, acronym {
+	border-bottom: 1px dotted;
+}
+
+address {
+	margin-top: 1.5em;
+	font-style: italic;
+}
+
+cite,em,i {
+	font-style: italic;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+ins {
+	text-decoration: overline;
+}
+
+dfn {
+	border-bottom: 1px dashed;
+	font-style: italic;
+}
+
+/*a:hover {
+	text-decoration: none;
+}*/
+
+blockquote {
+	background: #f1f9ff;
+}
+
+blockquote p {
+	margin: 0 1.5em 1.5em;
+	padding: 0.75em;
+}
+
+sub {
+	bottom: -0.4em;
+	font-size: 0.85em;
+	line-height: 1em;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	font-size: 0.85em;
+	line-height: 1em;
+	position: relative;
+	top: -0.4em;
+	vertical-align: baseline;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em, dfn {
+	font-style: italic;
+}
+
+dfn {
+	font-weight: bold;
+}
+
+pre {
+	margin: 0 0 1.5em;
+	padding: 0 0 0 1.5em;
+	white-space: pre;
+}
+
+pre,code,kbd,tt {
+	font: 1em/1.5em Consolas, "Courier New", Courier, monospace;
+}
+
+tt {
+	display: block;
+	margin: 1.5em 0;
+	line-height: 1.5;
+}
+
+hr {
+	border: none;
+	border-bottom: 1px solid #c6d3dd;
+}
+
+/* @end */
+
+/* @group Tables */
+
+table {
+	margin-bottom: 1.5em;
+}
+
+caption {
+	font-style: italic;
+	text-align: left;
+}
+
+tr.alt td,
+tr.even td {
+	background: #f1f9ff;
+}
+
+td {
+	padding: 0.333em;
+	vertical-align: middle;
+}
+
+th {
+	font-weight: 700;
+	padding: 0.333em;
+	vertical-align: middle;
+}
+
+/* @end */
+
+/* @group Forms */
+
+input[type=text], input[type=password], textarea {
+	font-style: inherit;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+.help {
+	margin: 0;
+	color: #999;
+	font-size: .85em;
+}
+
+/* @end */
+
+/* @end */
+
+/* @group Common
+
+Classes */
+
+.clear {
+	clear: both;
+}
+
+.alignright,img.alignright {
+	float: right;
+	margin: 0 0 0 1em;
+}
+
+.alignleft,img.alignleft {
+	float: left;
+	margin: 0 1em 0 0;
+}
+
+.aligncenter,img.aligncenter {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.entry-date abbr {
+	border-bottom: none;
+}
+
+/* @end */
+
+/* @group Layout */
+
+body {
+	margin: 0;
+}
+
+#wrapper {
+	position: relative;
+	background: #edeeef;
+	color: #191919;
+}
+
+.inner_container {
+  position: relative;
+	width: 960px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+/* @group Header */
+
+#header {
+	background: url(i/v3_header_bg.gif) repeat-x #fff;
+}
+
+#header .inner_container {
+	padding: 30px 0 17px;
+	position: relative;
+	height: 94px;
+}
+
+#site-title {
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+#site-description {
+	float: right;
+	text-align: right;
+	margin-top: 5px;
+}
+
+#site-description h2 {
+	color: #222;
+	font-size: 1.3em;
+	margin: 0;
+}
+
+#conference-date-location {
+	color: #08b9a6;
+	font-weight: bold;
+}
+
+#header-reg-now {
+	color: #fff;
+	background: #08b9a6 url(i/v3_head_reg_shadow.gif) no-repeat left bottom;
+	text-decoration: none;
+	font-weight: bold;
+	border-right: 4px solid #109a8b;
+	position: absolute;
+	top: 7px;
+	right: 0;
+	display: block;
+	padding: 0 1em .5em;
+}
+
+div.skip-link a {
+	position: absolute;
+	right: 0;
+	top: -99px;
+	background: #116db6;
+	color: #fff;
+	padding: .5em;
+	font-size: .7em;
+	text-decoration: none;
+}
+
+div.skip-link a:focus {
+	top: 0;
+}
+
+/* @end */
+
+/* @group Menu */
+
+#menu {
+	color: #fff;
+	position: absolute;
+	left: 218px;
+	top: -64px;
+	z-index: 99;
+}
+
+#menu,
+#menu ul {
+  margin: 0;
+  padding: 0;
+}
+
+#menu li {
+  list-style: none;
+  margin: 0;
+  float: left;
+}
+
+#menu li a {
+  display: block;
+  padding: .4em .8em;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+#menu li.global {
+  margin-left: 75px;
+  background: #109A8B url(i/v4_global_nav_BL.gif) no-repeat left bottom;
+  padding-bottom: 6px;
+  z-index: 2;
+  position: relative;
+}
+
+#menu li.global ul {
+  background: #109A8B url(i/v4_global_nav_TR.gif) no-repeat right top;
+  padding-right: 6px;
+  overflow: hidden;
+}
+
+#menu li.global ul li {
+  background: #08b9a6;
+}
+
+#menu li.global a.active {
+  border-color: #6AE5CC;
+}
+
+#menu li.global a:hover {
+  border-color: #A6F0DC;
+}
+
+#menu li.events {
+  margin-top: -13px;
+	background: #13558a url(i/v4_event_nav_BL.gif) no-repeat left bottom;
+	padding-bottom: 6px;
+	clear: left;
+}
+
+#menu li.events ul {
+  background: #13558a url(i/v4_event_nav_TR.gif) no-repeat right top;;
+  overflow: hidden;
+  padding-right: 6px;
+}
+
+#menu li.events ul ul {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+
+#menu li.event.active a.active {
+  border-color: #4784F8;
+}
+
+#menu li.event a:hover {
+  border-color: #7299F0;
+}
+
+
+#menu li.event a.year,
+#menu li.event a.year:hover {
+  width: 47px;
+  font-weight: bold;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  margin: 0 10px 0 0;
+  padding: .3em 0 .3em 20px;
+  border-color: transparent;
+}
+
+#menu li.active a.year {
+	background: url(i/v4_year_dropdown.gif) right center no-repeat;
+}
+
+#menu li.event {
+  background: #116db6;
+  overflow: hidden;
+  clear: both;
+  display: none;
+  border-top: 1px solid #13558a;
+  float: none;
+}
+
+#menu li.event.active {
+  border-top: none;
+  padding-top: 15px;
+}
+
+#menu li.event.active,
+#menu li.events.expanded li.event {
+  display: block;
+}
+
+#menu li.event a,
+#menu li.event ul {
+  float: left;
+}
+
+
+
+
+
+
+
+#subnav {
+/*  background-color: #d8efff;*/
+	padding: 1em 0 3em;
+}
+
+div#subnav ul a {
+	margin: 0;
+	margin-left: 1.5em;
+}
+
+#subnav ul {
+	float: right;
+	margin: -2.2em 280px 0 0 ;
+}
+
+#subnav a,
+#subnav a:link,
+#subnav a:visited,
+#subnav a:active {
+	color: #222;
+}
+
+
+#subnav h2 {
+	line-height: 2;
+	margin: 0;
+	color: #222;
+	padding: 0 270px 0 25px;
+}
+
+div#subnav ul li.current_page_item a,
+div#subnav ul li.selected a {
+	background: no-repeat;
+	font-weight: bold;
+}
+
+div#menu ul ul ul a {
+	font-style: italic;
+}
+
+div#menu ul li ul,
+div.navbar ul li ul {
+	left: -999em;
+	position: absolute;
+}
+
+div#menu ul li:hover ul {
+	left: auto;
+}
+
+/* @end */
+
+div#container {
+	width: 960px;
+	margin: 2.5em auto;
+}
+
+div#content {
+	padding: 0 20px 20px;
+	width: 712px;
+	float: right;
+	background: #fff;
+	margin: -2.5em auto 0;
+	position: relative;
+	min-height: 300px;
+}
+
+#content .page_title,
+#content .page-title {
+	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	color:  #222;
+	margin: 0 -20px 20px;
+	background: #edeeef;
+	padding: 0 20px 6px;
+	font-size: 2em;
+	line-height: 1;
+}
+
+.register-now-button {
+	width: 204px;
+	height: 48px;
+	display: block;
+	background: url(i/register_now.png) no-repeat;
+	overflow: hidden;
+	text-indent: -999px;
+	margin: 0 auto;
+}
+
+.book-now-button {
+	width: 204px;
+	height: 48px;
+	display: block;
+	background: url(i/book_a_room.png) no-repeat;
+	overflow: hidden;
+	text-indent: -999px;
+	margin: 0 auto;
+}
+
+a.submit-a-proposal-button {
+  width: 200px;
+  font-weight: bold;
+  color: #fff;
+  border: 3px solid #109A8B;
+	display: block;
+	margin: 0 auto;
+	padding: .5em 1em;
+	background: #08B9A6;
+}
+
+div.section_title {
+}
+
+div.section_title h2 {
+	font-weight: bold;
+	margin-left: 27px;
+	font-size: 18px;
+	line-height: 1;
+	margin-bottom: ;
+}
+
+div.section_title h2.event_level,
+div.section_title h2.event_level a {
+	color: #116db6;
+}
+
+div.section_title h2.global_level,
+div.section_title h2.global_level a {
+	color: #08b9a6;
+}
+
+/* @group Sidebar */
+
+div.sidebar {
+	color: #222;
+	font-size: 14px;
+	width: 200px;
+}
+
+#primary.sidebar {
+
+}
+
+#subscribe-to {
+	padding: 1em;
+}
+
+#subscribe-to h3 {
+	display: none;
+}
+
+.sidebar ul.xoxo {
+	margin: 0 0 0 27px;
+}
+
+.sidebar li li a {
+	color: #6d6e71;
+}
+
+.sidebar li li.active,
+.sidebar li.current_page_item {
+	background: url(i/v4_active_subnav.png) left center no-repeat;
+}
+
+div.sidebar div,div.sidebar ul {
+	margin: 0;
+	padding: 0;
+}
+
+/*div#secondary {
+	clear: right;
+}*/
+
+div.sidebar h3 {
+	margin: 0;
+	font-size: 1.25em;
+	color: #222;
+}
+
+div.sidebar li {
+	list-style: none;
+	margin-bottom: 1em;
+}
+
+div.sidebar li form {
+	margin: 0.2em 0 0;
+	padding: 0;
+}
+
+div.sidebar ul ul {
+	margin: 0 0 0 0;
+}
+
+div.sidebar ul ul li {
+	margin: 0;
+	padding-left: 15px;
+}
+
+div.sidebar ul ul ul {
+	margin: 0 0 0 1em;
+}
+
+div.sidebar ul ul ul li {
+	list-style: circle;
+	padding: 0;
+}
+
+li.pre-bulletted {
+	list-style: none;
+	position: relative;
+	left: -18px;
+}
+
+div.sidebar li.pre-bulletted {
+	padding: 0;
+	margin-left: -3px;
+}
+
+.sidebar #account-box {
+	padding: 5px;
+	margin-left: -5px;
+}
+
+.sidebar #account-box h3 {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.sidebar #account-box .user_actions {
+	font-size: .9em;
+}
+
+.sidebar #account-box .user-photo {
+	float: left;
+	clear: none;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #222;
+	margin: 0 .5em 0 0;
+}
+
+/* @end */
+
+div#footer {
+	clear: both;
+	width: 100%;
+	background: #191919 url(i/v3_icon_footer.gif) no-repeat center bottom;
+	padding: 25px 0 60px;
+	text-align: center;
+	color: #ccc;
+	margin: 30px 0 0;
+}
+
+/* @end */
+
+/* @group Image Replacements */
+
+#site-title a {
+	overflow: hidden;
+	text-indent: -999px;
+	display: block;
+}
+
+#site-title a {
+	width: 189px;
+	height: 94px;
+	background: url(i/v4_header_logo.gif) no-repeat;
+}
+
+/* @end */
+
+/* @group Link Annotations */
+
+a.chicklet {
+	display: block;
+	padding: 3px 0 0 50px;
+	min-height: 23px;
+	background-position: 0 center;
+	background-repeat: no-repeat;
+}
+
+a.chicklet.twitter {
+	background-image: url(i/twitter.png);
+}
+
+a.chicklet.facebook {
+	background-image: url(i/facebook.png);
+}
+
+a.chicklet.dopplr {
+	background-image: url(i/dopplr.png);
+}
+
+a.chicklet.identica {
+	background-image: url(i/identica.png);
+}
+
+a.chicklet.linkedin {
+	background-image: url(i/linkedin.png);
+}
+
+a.chicklet.rss {
+	background-image: url(i/rss.png);
+}
+
+a.chicklet.friendfeed {
+	background-image: url(i/friendfeed.png);
+}
+
+a.feedburner {
+	margin-left: 50px;
+}
+
+a.chicklet.calendar {
+	background-image: url(i/calendar.png);
+}
+
+/* @end */
+
+/* @group Rails Common Elements */
+
+/* @group Flash Notices */
+
+.flash p {
+	margin: 0.5em 0;
+	padding: 0.5em;
+}
+
+.flash .notice {
+	color: #555555;
+	background: #f1f9ff;
+	border: 1px solid #116db6;
+}
+
+.flash .success {
+	color: #555555;
+	background: #e1ffe8;
+	border: 1px solid #08b9a6;
+}
+
+.flash .failure {
+	color: #555555;
+	background: #ffeded;
+	border: 1px solid #c60000;
+}
+
+/* @end */
+
+/* @group Errors */
+
+#errorExplanation {
+	border: 2px solid #c60000;
+	padding: 7px;
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+	background-color: #;
+}
+
+#errorExplanation h2 {
+	padding: .5em 1em;
+	font-size: 1em;
+	margin: -7px;
+	background-color: #c60000;
+	color: #fff;
+}
+
+#errorExplanation p {
+	color: #333;
+	margin: 1em .5em .5em;
+}
+
+#errorExplanation ul {
+	margin-bottom: 0;
+}
+
+#errorExplanation li {
+	font-size: .9em;
+}
+
+.fieldWithErrors {
+	margin: 0;
+	display: inline;
+	background-color: inherit;
+}
+
+.fieldWithErrors label {
+	color: #c60000;
+}
+
+.fieldWithErrors textarea,
+  .fieldWithErrors input[type=text],
+  .fieldWithErrors input[type=checkbox] {
+	border: 2px solid #c60000;
+}
+
+/* @end */
+
+/* @end */
+
+.register-callout,
+div.sidebar div.register-callout {
+	background: #08b9a6;
+	color: #fff;
+	padding: 10px;
+	margin-bottom: 20px;
+	max-width: 150px;
+}
+
+a.register-button,
+a.register-button:link,
+a.register-button:visited,
+a.register-button:active {
+	margin-top: 10px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	padding: .5em;
+	background: #109a8b;
+	color: #fff;
+	text-decoration: none;
+}
+
+.hotel-callout,
+div.sidebar .hotel-callout {
+	background: #0bacd9;
+	color: #fff;
+	padding: 10px;
+	max-width: 150px;
+	margin-bottom: 20px;
+}
+
+a.book-room-button,
+a.book-room-button:link,
+a.book-room-button:visited,
+a.book-room-button:active {
+	margin-top: 10px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	padding: .5em;
+	background: #238db2;
+	color: #fff;
+	text-decoration: none;
+}
+
+.donate-callout,
+div.sidebar .donate-callout {
+	background: #a05cda;
+	color: #fff;
+	padding: 10px;
+	max-width: 150px;
+	position: relative;
+	left: -10px;
+}
+
+a.donate-button,
+a.donate-button:link,
+a.donate-button:visited,
+a.donate-button:active {
+	margin-top: 10px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	padding: .5em;
+	background: #7c47a9;
+	color: #fff;
+	text-decoration: none;
+}
+
+.frontpage_snippet {
+	padding: 0 0 0 60px;
+}
+
+#citizen_snippet {
+	background: url(i/v3_icon_citizen.gif) no-repeat 7px 3px;
+}
+
+#tracks_snippet {
+	background: url(i/v3_icon_tracks.gif) no-repeat 7px 3px;
+}
+
+#lounge_snippet {
+	background: url(i/v3_icon_lounge.png) no-repeat 7px 0;
+}
+
+#volunteer_snippet {
+	background: url(i/v3_icon_volunteers.png) no-repeat 7px 3px;
+}
+
+h2#latest_news_head {
+	font-weight: bold;
+	color: #222;
+	background: url(i/v3_icon_news.png) no-repeat;
+	min-height: 32px;
+	padding: 5px 0 0 40px;
+	font-size: 1.25em;
+	border-bottom: 1px solid #eee;
+}
+
+h2#latest_news_head a {
+	font-size: .7em;
+	float: right;
+	font-weight: normal;
+}
+
+#frontpage_info {
+	background: url(i/v3_front_info_bg.gif) repeat-x;
+	padding: 2.5em 0;
+	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
+
+
+
+  <title><%= SETTINGS.organization %>: <%= page_title %></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="generator" content="WordPress 2.5">
+	<meta name="template" content="K2 1.0-RC5">
+	<meta name="description" content="Share Burning Ideas in Bend">
+
+  <%= auto_discovery_link_tag(:atom, formatted_proposals_path(:atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
+  <% if admin? %>
+    <%= auto_discovery_link_tag(:atom, formatted_comments_path(:atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
+  <% end %>
+
+  <%= theme_stylesheet_link_tag "core" %>
+  <%= theme_stylesheet_link_tag "ignitebend" %>
+  <%= stylesheet_link_tag "common" %>
+  <%= theme_stylesheet_link_tag "custom" %>
+
+  <%= javascript_include_tag "jquery-1.2.6.min.js" %>
+
+		<style type="text/css">
+
+				#header h1 a, #header .description {
+			color: #ffffff;
+		}
+				</style>
+
+
+		<link rel="archives" title="April 2008" href="http://www.ignitebend.com/2008/04/">
+</head><body class="wordpress k2 y2008 m12 d22 h12 home blog columns-two lang-en">
+
+<a class="skiplink" href="#startcontent" accesskey="2">Skip to content</a>
+
+<div id="page">
+
+	<div id="header">
+
+		<h1><a href="http://www.ignitebend.com/" accesskey="1">Ignite Bend</a></h1>
+		<p class="description">Share Burning Ideas in Bend</p>
+
+
+	<ul class="menu">
+    <li class="page_item blog-tab"><a href="http://www.ignitebend.com/" title="Blog">Blog</a></li>
+		<li class="page_item page-item-2"><a href="http://www.ignitebend.com/about/" title="About">About</a></li>
+    <li class="page_item page-item-3"><a href="http://www.ignitebend.com/archivepage/" title="Archives">Archives</a></li>
+    <li class="page_item page-item-4"><a href="http://www.ignitebend.com/sponsorships/" title="Sponsorships">Sponsorships</a></li>
+    <li class="current_page_item page_item proposals-tab"><%= link_to "Proposals", root_path %></li>
+    <%# FIXME should the register tab be visible? %>
+    <% if false %>
+      <li class="admintab"><a href="http://www.ignitebend.com/wp-login.php?action=register">Register</a></li>
+    <% end %>
+
+</ul> <!-- .menu -->
+
+	</div> <!-- #header -->
+
+	<hr>
+
+
+<div class="content">
+
+	<div id="primary">
+		<div id="notices"></div>
+
+		<a name="startcontent" id="startcontent"></a>
+
+    <div id="breadcrumbs">
+      <% if @breadcrumbs %>
+        <% @breadcrumbs.each_with_index do |breadcrumb, i| %>
+          <% txt, path = breadcrumb %>
+          <% if i > 0 %>
+            &#187;
+          <% end %>
+          <%= link_to(h(txt), path) %>
+        <% end %>
+      <% end %>
+    </div>
+
+				<div class="onepageonly" id="dynamic-content">
+
+
+<div id="rollingarchives" style="display: none;">
+	<div id="texttrimmer">
+		<div id="trimmertrackwrap"><div id="trimmertrack"><div id="trimmerhandle"></div></div></div>
+
+		<div id="trimmerless"><span>Less</span></div>
+		<div id="trimmermore"><span>More</span></div>
+		<div id="trimmertrim"><span>Trim</span></div>
+		<div id="trimmeruntrim"><span>Untrim</span></div>
+	</div>
+
+	<div id="rollnavigation">
+		<div id="pagetrackwrap"><div id="pagetrack"><div id="pagehandle"><div id="rollhover"><div id="rolldates"></div></div></div></div></div>
+
+		<div id="rollpages"></div>
+
+		<a id="rollprevious" title="Older" href="#">
+			<span>«</span> Older		</a>
+		<div id="rollhome" title="Home">
+			<span>Home</span>
+		</div>
+		<div id="rollload" title="Loading">
+			<span>Loading</span>
+		</div>
+		<a id="rollnext" title="Newer" href="#">
+			Newer <span>»</span>
+		</a>
+
+	</div> <!-- #rollnavigation -->
+</div> <!-- #rollingarchives -->
+
+<noscript>
+
+		<div id="nav-above" class="navigation">
+
+								<div class="nav-previous"></div>
+			<div class="nav-next"></div>
+
+			<div class="clear"></div>
+		</div>
+
+
+</noscript>
+
+
+<div id="rollingcontent" class="hfeed">
+
+
+
+
+
+
+
+		<div id="post-1" class="hentry p1 post publish author-josh-bancroft category-posts y2008 m04 d14 h21 alt">
+			<div class="entry-head">
+        <h3 class="entry-title"><%= page_title %></h3>
+			</div> <!-- .entry-head -->
+
+			<div class="entry-content">
+        <%# flash[:success] = "This test is for testing the notifications." %>
+        <%# flash[:failure] = "This test is for testing the notifications." %>
+        <%# flash[:notice] = "This test is for testing the notifications." %>
+        <%= notice %>
+        <%= yield %>
+      </div> <!-- .entry-content -->
+		</div> <!-- #post-ID -->
+</div><!-- #rollingcontent .hfeed -->
+
+		</div> <!-- #dynamic-content -->
+			</div> <!-- #primary -->
+
+	<hr>
+<div id="sidebar-1" class="secondary">
+          <div id="sidebar-1">
+            <div id="login-as" class="hoverable">
+              <% if logged_in? %>
+                <h4>Logged in as</h4>
+                <ul>
+                  <li><b><%= current_user.label %></b></li>
+                  <% if admin? %>
+                    <li><%= link_to "Manage events", manage_events_path %></li>
+                    <li><%= link_to "Manage snippets", manage_snippets_path %></li>
+                    <li><%= link_to "Manage comments", comments_path %></li>
+                    <% if @event %>
+                      <li><%= link_to "Export CSV", formatted_event_proposals_path(@event,:csv) %></li>
+                    <% end %>
+                  <% end %>
+                  <li><%= link_to "Logout", logout_path, :method => :delete %></li>
+                </ul>
+              <% else %>
+                <h4>Login as</h4>
+                <ul>
+                  <li><%= link_to "<b>User</b> to manage your proposals", login_path %></li>
+                  <li><%= link_to "<b>Admin</b> to manage site", admin_path %></li>
+                </ul>
+              <% end %>
+            </div>
+
+            <div id="subscribe-to" class="hoverable">
+              <h4>Subscribe to</h4>
+              <ul>
+                <li><%= link_to "Proposals feed <span class='feedable' />", formatted_proposals_path(:atom) %></li>
+                <% if admin? %>
+                  <li><%= link_to "Comments feed <span class='feedable' />", formatted_comments_path(:atom, :secret => CommentsController::SECRET) %></li>
+                <% end %>
+              </ul>
+            </div>
+
+            <div id="proposals-for" class="hoverable">
+              <h4>Proposals for</h4>
+              <ul>
+                <% if @events.blank? %>
+                  <li class="empty-text">&mdash; No events &mdash;</li>
+                <% else %>
+                  <% for event in @events %>
+                    <li><%= link_to event.title, event_proposals_path(event) %></li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div><!-- #sidebar-1 -->
+</div> <!-- #sidebar-1 -->
+
+<hr>
+<div id="sidebar-2" class="secondary">
+</div> <!-- #sidebar-2 -->
+
+<div class="clear"></div>
+
+</div> <!-- .content -->
+
+	<div class="clear"></div>
+
+</div> <!-- Close Page -->
+
+
+<hr>
+
+<div id="footer">
+  <% if false %>
+			<p class="footerstyledwith">
+			Styled with <a href="http://www.ignitebend.com/" title="IgniteBend by Josh Bancroft">IgniteBend</a>		</p>
+
+	<p class="footerpoweredby">
+		Powered by <a href="http://wordpress.org/">WordPress<span class="wp-version">2.5</span></a> and <a href="http://getk2.com/" title="Loves you like a kitten.">K2<span class="k2-version">1.0-RC5</span></a>	</p>
+
+	<p class="footerfeedlinks">
+		<a href="http://www.ignitebend.com/feed/">Entries Feed</a> and <a href="http://www.ignitebend.com/comments/feed/">Comments Feed</a>	</p>
+
+	<!-- 18 queries. 0.3010 seconds. -->
+  <% end %>
+</div>
+
+  <!-- arbitrary javascript from views -->
+  <script type="text/javascript">
+    <%= yield :javascript %>
+  </script>
+</body></html>
