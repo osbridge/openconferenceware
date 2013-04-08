@@ -67,7 +67,7 @@ module Rails
 
     class << self
       def rubygems_version
-        Gem::RubyGemsVersion if defined? Gem::RubyGemsVersion
+        Gem::RubyGemsVersion rescue nil
       end
 
       def gem_version
@@ -82,7 +82,7 @@ module Rails
 
       def load_rubygems
         require 'rubygems'
-        min_version = '1.1.1'
+        min_version = '1.3.1'
         unless rubygems_version >= min_version
           $stderr.puts %Q(Rails requires RubyGems >= #{min_version} (you have #{rubygems_version}). Please `gem update --system` and try again.)
           exit 1
@@ -101,27 +101,6 @@ module Rails
         def read_environment_rb
           File.read("#{RAILS_ROOT}/config/environment.rb")
         end
-    end
-  end
-end
-
-# Bundler integration from http://gist.github.com/302406 with module/class hack for use within Passenger
-module Rails
-  class Boot
-    def run
-      load_initializer
-      extend_environment
-      Rails::Initializer.run(:set_load_path)
-    end
-
-    def extend_environment
-      Rails::Initializer.class_eval do
-        old_load = instance_method(:load_environment)
-        define_method(:load_environment) do
-          Bundler.require :default, Rails.env
-          old_load.bind(self).call
-        end
-      end
     end
   end
 end
