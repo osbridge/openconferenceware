@@ -176,7 +176,7 @@ protected
   end
 
   def log_the_session
-    Rails.logger.info("Session: #{session.data.inspect}") if session.respond_to?(:data)
+    Rails.logger.info("Session: #{session.to_hash.inspect}") if session.respond_to?(:data)
   end
 
   #---[ Assign items ]----------------------------------------------------
