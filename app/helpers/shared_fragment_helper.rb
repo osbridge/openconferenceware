@@ -103,8 +103,8 @@ module SharedFragmentHelper
     renderer.instance_variable_set(:@events, Event.lookup)
 
     # Render template:
-    filename = theme_file('layouts/_header.html.erb')
-    if File.exist?(filename)
+    filename = 'layouts/_header.html.erb'
+    if File.exist?(File.join(RAILS_ROOT, 'app', 'views', filename))
       return renderer.render_file(filename)
     else
       return nil

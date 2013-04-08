@@ -847,7 +847,7 @@ describe ProposalsController do
       end
     end
 
-    describe "theme-specific success page" do
+    describe "success page" do
       before(:each) do
         login_as(:quentin)
         @proposal = stub_model(Proposal, :id => 123)
@@ -856,18 +856,10 @@ describe ProposalsController do
         Proposal.should_receive(:new).and_return(@proposal)
       end
 
-      it "should display theme-specific success page if it exists" do
-        @controller.should_receive(:has_theme_specific_create_success_page?).and_return(true)
+      it "should display success page" do
         @controller.should_receive(:render).and_return("My HTML here")
 
         post :create, :commit => "Create", :proposal => {}
-      end
-
-      it "should redirect back to proposal if it theme-specific success page doesn't exist" do
-        @controller.should_receive(:has_theme_specific_create_success_page?).and_return(false)
-        post :create, :commit => "Create", :proposal => {}
-
-        response.should redirect_to(proposal_path(@proposal))
       end
     end
 

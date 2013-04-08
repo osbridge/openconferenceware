@@ -206,14 +206,9 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.save
         format.html {
-          if has_theme_specific_create_success_page?
-            page_title "Thank You!"
-            # Display theme-specific page thanking users for submitting a proposal and telling them what to do next.
-            render
-          else
-            flash[:success] = 'Proposal created. Thank you!'
-            redirect_to(@proposal)
-          end
+          page_title "Thank You!"
+          # Display a page thanking users for submitting a proposal and telling them what to do next.
+          render
         }
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
         format.json { render :json => @proposal, :status => :created, :location => @proposal }
@@ -442,11 +437,6 @@ protected
   # Return the name of a transition (e.g., "accept") from a Proposal's params.
   def transition_from_params
     return params[:proposal].ergo[:transition]
-  end
-
-  # Does the current theme have a success page that should be displayed when the user creates a new proposal?
-  def has_theme_specific_create_success_page?
-    File.exist?(theme_file('views/proposals/create.html.erb'))
   end
 
   # Return a sanitized Regexp for matching a speaker by name from the +query+ string.

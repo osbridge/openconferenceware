@@ -31,9 +31,7 @@ class ApplicationController < ActionController::Base
   include BreadcrumbsMixin
   add_breadcrumbs(SETTINGS.breadcrumbs)
 
-  # Setup theme
   layout "application"
-  theme THEME_NAME # DEPENDENCY: lib/theme_reader.rb
 
   # Filters
   before_filter :assign_events

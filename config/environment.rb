@@ -90,19 +90,10 @@ Rails::Initializer.run do |config|
   require 'secrets_reader'
   SECRETS = SecretsReader.read
 
-  # Read theme
-  require 'theme_reader'
-  THEME_NAME = ThemeReader.read
-  Kernel.class_eval do
-    def theme_file(filename)
-      return "#{RAILS_ROOT}/themes/#{THEME_NAME}/#{filename}"
-    end
-  end
-
   # Read settings
   require 'settings_reader'
   SETTINGS = SettingsReader.read(
-    theme_file('settings.yml'), {
+    File.join(RAILS_ROOT, 'config', 'settings.yml'), {
       'public_url' => 'http://change_your/settings.yml/',
       'mailer_host' => 'change-your-mailer-host.local',
       'organization' => 'Default Organization Name',

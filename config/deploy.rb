@@ -84,9 +84,6 @@ namespace :deploy do
     # Gems
     run "cd #{release_path} && (bundle check --path=../../shared/gems || bundle --without=development:test --path=../../shared/gems)"
 
-    # Theme
-    put theme, "#{release_path}/config/theme.txt"
-
     # Secrets
     source = "#{shared_path}/config/secrets.yml"
     target = "#{release_path}/config/secrets.yml"

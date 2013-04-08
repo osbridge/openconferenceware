@@ -1,5 +1,3 @@
-set :theme, "ignitebend"
-
 set :scm, "git"
 set :branch, "master" unless variables[:branch]
 set :repository,  "git@github.com:igal/openproposals.git"
