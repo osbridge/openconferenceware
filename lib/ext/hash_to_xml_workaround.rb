@@ -1,6 +1,6 @@
 class Hash
   def to_xml_workaround(*args)
-    returning(self.clone) do |result|
+    self.clone.tap do |result|
       result.each_pair do |key, value|
         case result[key]
         when Array

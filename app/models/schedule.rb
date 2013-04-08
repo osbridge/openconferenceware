@@ -34,7 +34,7 @@ class Schedule
   end
 
   def room_conflicts
-    @room_conflicts ||= returning([]) do |conflicts|
+    @room_conflicts ||= [].tap do |conflicts|
       self.items.select(&:room).group_by(&:room).each do |room, items|
         items.each do |item|
           if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
@@ -50,7 +50,7 @@ class Schedule
   end
 
   def user_conflicts
-    @user_conflicts ||= returning([]) do |conflicts|
+    @user_conflicts ||= [].tap do |conflicts|
       self.items.select{|item| item.respond_to?(:users)}.inject({}){|u2i, item| item.users.each{|user| u2i[user] ||= Set.new; u2i[user] << item}; u2i}.each do |user, items|
         items.each do |item|
           if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
@@ -103,7 +103,7 @@ class ScheduleDay
   end
 
   def self.new_array_from(items)
-    returning([]) do |days|
+    [].tap do |days|
       items.group_by{|item| item.start_time.to_date}.each do |date, collection|
         days << self.new(collection, date)
       end
@@ -139,7 +139,7 @@ class ScheduleSection
   end
 
   def self.new_array_from(items)
-    returning([]) do |sections|
+    [].tap do |sections|
       for item in items
         if section = sections.find{|section| section.overlaps?(item)}
           section.items << item
@@ -179,7 +179,7 @@ class ScheduleSlice
   end
 
   def self.new_array_from(items)
-    returning([]) do |slices|
+    [].tap do |slices|
       for block in ScheduleBlock.new_array_from(items)
         if slice = slices.find{|slice| ! slice.overlaps?(block)}
           slice.blocks << block
@@ -205,7 +205,7 @@ class ScheduleBlock
   end
 
   def self.new_array_from(items)
-    returning([]) do |blocks|
+    [].tap do |blocks|
       items.group_by{|item| [item.start_time, item.end_time]}.each do |range, collection|
         blocks << self.new(collection, range.first, range.last)
       end

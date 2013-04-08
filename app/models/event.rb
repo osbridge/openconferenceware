@@ -210,7 +210,7 @@ class Event < ActiveRecord::Base
 
   # Return proposals that are related to this event, it's children or its parent.
   def related_proposals(some_proposals)
-    returning([]) do |related|
+    [].tap do |related|
       parent = self.parent_or_self
       for proposal in some_proposals
         catch :found do
