@@ -47,8 +47,8 @@ group :test do
   gem 'cucumber-rails',   '~> 0.2.4', :require => false
   gem 'database_cleaner', '~> 0.4.3', :require => false
   gem 'factory_girl',     '~> 1.2.4', :require => false
-  gem 'rspec',            '~> 1.3.0', :require => false
-  gem 'rspec-rails',      '~> 1.3.0', :require => false
+  gem 'rspec',            '~> 1.3.2', :require => false
+  gem 'rspec-rails',      '~> 1.3.2', :require => false
   gem 'webrat',           '~> 0.7.0', :require => false
 end
 
