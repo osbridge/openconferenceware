@@ -224,7 +224,7 @@ function update_manage_proposals_mailto(is_add, addresses) {
 // adding, false if removing.
 //    update_manage_proposals_notify_list(true, 123)
 function update_manage_proposals_notify_list(is_add, proposal_id) {
-  element = $('#proposal_ids');
+  element = $('#accepted_email_proposal_ids, #rejected_email_proposal_ids');
   value = element.attr('value');
   proposal_id_hash = array_to_hash(value.split(','));
   if (is_add) {
