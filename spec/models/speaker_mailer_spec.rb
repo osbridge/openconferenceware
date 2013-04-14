@@ -59,7 +59,7 @@ describe SpeakerMailer do
       email.body.should =~ /My favorite widgets./
       email.body.should =~ /Chemistry/
       email.body.should =~ /Beginner/
-      email.body.should =~ /Long/
+      email.body.should =~ /long/
       email.body.should =~ /\n/
       email.body.should_not =~ /<|>/
     end
