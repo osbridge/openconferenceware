@@ -117,7 +117,7 @@ class Event < ActiveRecord::Base
     return self.proposals.find(
       :all, 
       :order => "created_at", 
-      :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at, proposals.session_type_id",
+      :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at, proposals.session_type_id, proposals.status",
       :include => [:track, :session_type])
   end
 

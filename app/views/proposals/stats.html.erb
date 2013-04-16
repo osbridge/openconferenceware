@@ -5,6 +5,7 @@ cache "proposals_stats,event_#{@event.slug}" do
   @proposals = @event.proposals_for_stats
   proposals_for_track = @proposals.inject({}){|result, proposal| (result[proposal.track] ||= []) << proposal; result}
   proposals_for_session_type = @proposals.inject({}){|result, proposal| (result[proposal.session_type] ||= []) << proposal; result}
+  proposals_for_status = @proposals.inject({}){|result, proposal| (result[proposal.status] ||= []) << proposal; result}
 
   proposals_over_time = GoogleChart::LineChart.new('650x400',"Proposals over time",false)
 
@@ -45,16 +46,25 @@ cache "proposals_stats,event_#{@event.slug}" do
 
   track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
   @tracks.each do |track|
-    track_distribution.data track.title, proposals_for_track[track].ergo.size || 0, track.color.html.gsub('#','')
+    count = proposals_for_track[track].ergo.size || 0
+    track_distribution.data "#{track.title} (#{count})", count, track.color.html.gsub('#','')
   end
 
   session_type_distribution = GoogleChart::PieChart.new("650x400","Proposals by Session Type",false)
   @session_types.each do |type|
-    session_type_distribution.data type.title, proposals_for_session_type[type].ergo.size || 0
+    count = proposals_for_session_type[type].ergo.size || 0
+    session_type_distribution.data "#{type.title} (#{count})", count
+  end
+
+  session_status_distribution = GoogleChart::PieChart.new("650x400","Proposals by Status",false)
+  proposals_for_status.keys.each do |status|
+    count = proposals_for_status[status].ergo.size || 0
+    session_status_distribution.data "#{status.titleize} (#{count})", count
   end
   %>
 
   <p><img src="<%= proposals_over_time.to_url %>" /></p>
   <p><img src="<%= track_distribution.to_url %>" /></p>
   <p><img src="<%= session_type_distribution.to_url %>" /></p>
+  <p><img src="<%= session_status_distribution.to_url %>" /></p>
 <% end %><%# cache %>
