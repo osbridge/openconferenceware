@@ -26,3 +26,5 @@
 /tags
 /themes/bridgepdx/stylesheets/common_css/*
 /tmp/*
+.ruby-version
+.ruby-gemset
