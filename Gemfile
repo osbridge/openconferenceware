@@ -3,11 +3,11 @@
 # Repository:
 source "https://rubygems.org"
 
-# Rails version
+# Rake version
 gem 'rake', '~> 0.8.7'
 
 # Rails version, which must be specified here AND in the environment.rb:
-gem 'rails', '~> 2.3.18'
+gem 'rails', '~> 3.0.20'
 
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
