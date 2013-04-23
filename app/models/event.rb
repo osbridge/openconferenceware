@@ -127,10 +127,9 @@ class Event < ActiveRecord::Base
   def calendar_items(is_admin=false)
     results = []
     if self.schedule_published? || is_admin
+      results += self.proposals.confirmed.scheduled.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
       if is_admin
         results += self.proposals.accepted.scheduled.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
-      else
-        results += self.proposals.confirmed.scheduled.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
       end
     elsif is_admin
     end
