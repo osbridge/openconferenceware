@@ -1040,3 +1040,28 @@ body.users.show h2.page_title {
   color: #aaa;
   padding-left: 15px;
 }
+
+.upcoming-talk-callout {
+	background: #3e3f9d;
+	color: #fff;
+	padding: 1em;
+	margin: 0 160px 1em 0;
+}
+
+.upcoming-talk-callout p {
+	margin-bottom: .5em
+}
+
+.upcoming-talk-callout h3 {
+	color: #fff;
+	font-weight: bold;
+}
+
+.upcoming-talk-callout a {
+	font-weight: bold;
+	font-size: 1.2em;
+	display: inline-block;
+	background: #3e68ad;
+	color: #fff;
+	padding: .5em;
+}
