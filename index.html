@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>OpenConferenceWare by osbridge</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>OpenConferenceWare</h1>
+        <p>OpenConferenceWare is an open source web application for events and conferences. This customizable, general-purpose platform provides proposals, sessions, schedules, tracks and more.</p>
+
+        <p class="view"><a href="https://github.com/osbridge/openconferenceware">View the Project on GitHub <small>osbridge/openconferenceware</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/osbridge/openconferenceware/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/osbridge/openconferenceware/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/osbridge/openconferenceware">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="openconferenceware" class="anchor" href="#openconferenceware"><span class="octicon octicon-link"></span></a>OpenConferenceWare</h1>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p><em>OpenConferenceWare</em> is an open source web application for supporting conference-like events. This customizable, general-purpose platform provides proposals, sessions, schedules, tracks, user profiles and more.</p>
+
+<p>If you only need a simpler system for accepting proposals for Ignite-like events, please consider the stable and well-tested software this code was forked from: OpenProposals, <a href="http://OpenProposals.org/">http://OpenProposals.org/</a></p>
+
+<h2>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why</h2>
+
+<p>By releasing this code under a liberal MIT open source license, we hope to empower other people so they can better organize and participate in more events that support free sharing of information, open society, and involved citizenry.</p>
+
+<h2>
+<a name="releases" class="anchor" href="#releases"><span class="octicon octicon-link"></span></a>Releases</h2>
+
+<p>The stable releases this software are tagged with version numbers, such as <code>v0.20090416</code>, which represent the date they were made. There is also a <code>stable</code> branch that points to the current stable release. The <code>CHANGES.txt</code> file describes a summary of significant changes made between releases. If you are running a fork of this software, please carefully read these changes to avoid surprises when you pull the updates into your fork.</p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Anyone can list events</li>
+<li>Anyone can list/show sessions for an event</li>
+<li>Anyone can list/show proposals for an event</li>
+<li>Anyone can leave private comments about proposals to organizers</li>
+<li>Anyone can get be informed of new proposals via ATOM feed</li>
+<li>Anyone can list/show tracks for an event</li>
+<li>Anyone can list/show session types for an event</li>
+<li>Anyone can subscribe to a feed of proposals for the event</li>
+<li>Anyone can list/show rooms for an event</li>
+<li>Anyone can create a profile, including a biography, picture and URLs</li>
+<li>Users can login via OpenID</li>
+<li>Users can create proposals until a deadline</li>
+<li>Users can update/delete their own proposals until a deadline</li>
+<li>Users can assign one or many speakers to a proposal</li>
+<li>Users can mark proposals/sessions as favorites</li>
+<li>Administrators can login via OpenID or password</li>
+<li>Administrators can assign/revoke administrator rights of other users</li>
+<li>Administrators can update text snippets throughout the site</li>
+<li>Administrators can create/update/delete events</li>
+<li>Administrators can set deadlines for accepting proposals for events</li>
+<li>Administrators can export proposals and comments to CSV</li>
+<li>Administrators can update/delete any proposal</li>
+<li>Administrators can set status of any proposal (e.g., accept, reject)</li>
+<li>Administrators can create/update/delete tracks</li>
+<li>Administrators can create/update/delete session types</li>
+<li>Administrators can create/update/delete rooms</li>
+<li>Administrators can list/show/destroy private comments for proposals</li>
+<li>Administrators can subscribe to a feed of private comments for proposals</li>
+<li>Developers can customize the site's appearance and behavior</li>
+<li>...and many more features are planned for the future!</li>
+</ul><h2>
+<a name="gotchas" class="anchor" href="#gotchas"><span class="octicon octicon-link"></span></a>Gotchas</h2>
+
+<p>Although this software works well and has been used in production on multiple sites for years, there are a number of issues you should be aware of. It remains under heavy development, documentation is scant, tests are incomplete, and the sample theme is broken. These issues are slowly being resolved.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Installing this application requires familiarity with <em>UNIX</em> system administration and <em>Ruby on Rails</em> applications.</p>
+
+<p>This application will run best on a UNIX-based dedicated server or virtual machine, and may not run at all on cheap shared hosting because these often restrict the CPU cycles and memory you're allowed to use below what this application requires.</p>
+
+<p>To install the application and its dependencies:</p>
+
+<ol>
+<li><p>Install Git: <a href="http://git-scm.com/">http://git-scm.com/</a></p></li>
+<li>
+<p>Checkout the OpenConferenceWare source code:</p>
+
+<pre><code>git clone git://github.com/igal/openconferenceware.git
+</code></pre>
+</li>
+<li><p>Install Ruby 1.8.6 or 1.8.7 from <a href="http://www.ruby-lang.org/en/downloads/">http://www.ruby-lang.org/en/downloads/</a> or Ruby Enterprise Edition from <a href="http://www.rubyenterpriseedition.com/download.html">http://www.rubyenterpriseedition.com/download.html</a></p></li>
+<li><p>Install RubyGems 1.3.6 or newer 1.3.x version from <a href="http://rubyforge.org/projects/rubygems">http://rubyforge.org/projects/rubygems</a></p></li>
+<li>
+<p>Install Bundler by running the following, likely as <code>root</code> or using <code>sudo</code>:</p>
+
+<pre><code>gem install bundler
+</code></pre>
+</li>
+<li>
+<p>Go into the checkout directory created by <code>git clone</code> above:</p>
+
+<pre><code>cd openconferenceware
+</code></pre>
+</li>
+<li>
+<p>Install the application's libraries:</p>
+
+<pre><code>bundle install
+</code></pre>
+</li>
+<li><p>Optionally configure a custom database, see <code>config/database.yml</code> for details.</p></li>
+<li>
+<p>Create your databases using its native tools or by running:</p>
+
+<pre><code>bundle exec rake db:create:all
+</code></pre>
+</li>
+<li>
+<p>Run the application's interactive setup and follow its instructions -- WARNING, this will destroy your database's contents:</p>
+
+<pre><code>bundle exec rake setup
+</code></pre>
+</li>
+<li>
+<p>Or run the application's interactive setup which pre-populates your database with sample data -- WARNING, this will destroy your database's contents:</p>
+
+<pre><code>bundle exec rake setup:sample
+</code></pre>
+</li>
+<li><p>If you intend to setup a production server, you should consider using Phusion Passenger from <a href="http://www.modrails.com/">http://www.modrails.com/</a> or Thin <a href="http://code.macournoyer.com/thin/">http://code.macournoyer.com/thin/</a></p></li>
+<li><p>If you intend to deploy releases to a production server, consider using Capistrano and read the <code>config/deploy.rb</code> file.</p></li>
+</ol><h2>
+<a name="security" class="anchor" href="#security"><span class="octicon octicon-link"></span></a>Security</h2>
+
+<p>This application runs with insecure settings by default to make it easy to get started, and will warn you about this each time you start it. These default settings include publicly-known cryptography keys that will let anyone get administrator privileges on your application. To secure your application, create a <code>config/secrets.yml</code> file with your secret settings based on the instructions in the <code>config/secrets.yml.sample</code> file.</p>
+
+<h2>
+<a name="customization" class="anchor" href="#customization"><span class="octicon octicon-link"></span></a>Customization</h2>
+
+<p>You can customize the application's appearance and behavior by creating a theme, read the <code>themes/README.txt</code> file.</p>
+
+<p><em>WARNING:</em> If you are running a fork of this software, you should be able to customize everything by modifying the theme and config files. If you find yourself modifying anything else, you may be doing it wrong and should <a href="http://github.com/igal/">get in touch</a> to discuss if we can figure out a way to make the platform more generic to support your needs.</p>
+
+<p><em>WARNING:</em> The methods and instance variables used within the theme's application layout are in a state of flux as the software evolves. These will be stabilized for the eventual 1.0 release. In the meantime, please watch the changes made to the <code>bridgepdx</code> theme's layout and incorporate them into your own, e.g.:</p>
+
+<pre><code>    git log -p themes/bridgepdx/layouts/application.html.erb
+</code></pre>
+
+<h2>
+<a name="environmental-variables" class="anchor" href="#environmental-variables"><span class="octicon octicon-link"></span></a>Environmental variables</h2>
+
+<p>You can alter the application's behavior by setting environmental variables. For example, to use the <code>bridgepdx</code> theme you can run:
+    THEME=bridgepdx ./script/server</p>
+
+<p>Application behavior is affected by these environmental variables:</p>
+
+<ul>
+<li>
+<code>THEME=foo</code> forces the system to use the <code>foo</code> theme. You can also put the name of the theme into the <code>config/theme.txt</code> file in <code>RAILS_ROOT</code>.</li>
+<li>
+<code>NO_MIGRATION_CHECK=1</code> disables the check that ensures the database has had all the migrations applied.</li>
+<li>
+<code>EXCEPTION_NOTIFIER=1</code> forces the exception notification system to run, it's only used by default in <code>production</code> and <code>preview</code> environments.</li>
+<li>
+<code>EXCEPTION_EMAILS=1</code> forces the exception notification system to actually send emails, it's only not used by default in <code>test</code> and <code>development</code> environments.</li>
+<li>
+<code>QUERYTRACE=1</code> provides logging that shows where each database query is done, handy for identifying unwanted queries.</li>
+<li>
+<code>VERBOSE_LOAD=1</code> enables verbose logging of all <code>require</code> and <code>load</code> statements in the application.</li>
+</ul><p>The "bridgepdx" theme's behavior is affected by these environmental variables:</p>
+
+<ul>
+<li>
+<code>LOCALCSS=1</code> forces the use of local CSS files when using the <code>production</code> or <code>preview</code> environments, these default to using the CSS files on the production servers.</li>
+<li>
+<code>WEBANALYTICS=1</code> forces the inclusion of web analytics tracking in the layout, this is enabled by default in the <code>production</code> environment.</li>
+</ul><h2>
+<a name="mailing-list" class="anchor" href="#mailing-list"><span class="octicon octicon-link"></span></a>Mailing list</h2>
+
+<p>Please join the mailing list if you're interested in using or developing the software: <a href="http://groups.google.com/group/openconferenceware">http://groups.google.com/group/openconferenceware</a></p>
+
+<h2>
+<a name="issue-tracker" class="anchor" href="#issue-tracker"><span class="octicon octicon-link"></span></a>Issue tracker</h2>
+
+<p>Found a bug? I'd like to fix it. Please report it, along with what you tried to do, what you expected, and what actually happened -- or better yet, provide a patch: <a href="http://github.com/igal/openconferenceware/issues">http://github.com/igal/openconferenceware/issues</a></p>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Please contribute fixes and features. You can find issues to work on in the <a href="http://github.com/igal/openconferenceware/issues">Issue tracker</a>. Please fork the source code, make your changes and submit a Github pull request. By submitting a patch, you agree that your software can be released under the same license as this software.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>This software is provided under an MIT open source license, read the <code>LICENSE.txt</code> file for details.</p>
+
+<h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+<p>This free, open source software was made possible by a group of volunteers that put many hours of hard work into it. See the <code>CONTRIBUTORS.markdown</code> file for details.</p>
+
+<h2>
+<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h2>
+
+<p>Copyright (c) 2007-2012 Igal Koshevoy, Reid Beels, and others.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/osbridge">osbridge</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
