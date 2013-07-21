@@ -1,12 +1,9 @@
-Changes
-=======
+## Changes
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
-* Next
-- Fixed "remember me" feature for logging in through a token.
+### v0.20100818
 
-* v0.20100818
 - Fixed iCalendar exporter to skip items without a "start time" and not set the "end time" unless one is defined.
 - Fixed proposal to only show a speaker's sessions for the related event, not all events.
 - Fixed schedule to display time in local timezone.
@@ -17,7 +14,8 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved schedule to also show items not assigned to rooms.
 - Updated `rake bridgepdx:wiki:populate` to work with new libraries.
 
-* v0.20100518
+### v0.20100518
+
 - Fixed schedule of user favorites so it's only displayed when the schedule is published.
 - Fixed schedule so admin can view an unreleased schedule with collisions but without room assignments.
 - Fixed schedule items (e.g., coffee breaks) so that they're displayed for an event.
@@ -26,7 +24,8 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Added task to import schedule for an event from a CSV file: `rake schedule:import:csv`.
 - Added menu link on 'bridgepdx' header to BoF event if they're available.
 
-* v0.20100429.1
+### v0.20100429.1
+
 - FIXED Event, added uniqueness validations to slug and title fields.
 - FIXED `rake clear` to expire the compiled javascripts.
 - FIXED cache consistency, rollbacks now cause expirations so that cache doesn't store stale data.
@@ -37,15 +36,18 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved performance of event loading code by checking identifiers rather than loading entire objects.
 - Added QueryTrace plugin, it shows where database queries are done. Set QUERYTRACE=1 environmental variable to use.
 
-* v0.20100429
+### v0.20100429
+
 - Fixed "rake setup" and "rake setup:sample": these now drop, create and populate the database correctly.
 - Improved admin interface, added a way to "accept and decline" a proposal in one step, as pair for the existing "accept and confirm".
 - Improved the "README.markdown" documentation.
 
-* v0.20100408.1
+### v0.20100408.1
+
 - FIXED proposal creation: the acts-as-taggable 1.1.9 plugin was buggy, reverted to 1.1.5.
 
-* v0.20100408
+### v0.20100408
+
 - SECURITY flaw fixed: The buggy "restful_authentication" plugin used by OpenConferenceWare and OpenProposals let users without email addresses that had used the "remember me" feature to sometimes login as other users without email addresses that had also used the "remember me" feature during the same day. All known operators running this software were notified and sent patches in advance of this notification. Because authentication was handled by OpenID, a compromise could not be escalated and there was no password to steal, the worst thing an attacker could do was edit your profile and proposals.
 - FIXED handling of multiple events: reworked layout, header, menu, favorites, tracks, etc.
 - FIXED autoincrement id in the events table, which could prevent creation of new events.
@@ -58,7 +60,8 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Added task to update thumbnails: `rake paperclip:refresh CLASS=User`
 - Added factory_girl library, factories and additional specs.
 
-* v0.20100218
+### v0.20100218
+
 - FIXED event-related checks to use a proposal's event when possible,
   rather than the current event, since these aren't always the same.
 - FIXED scrolling to a specific field on the admin's "Manage event" page.
@@ -69,10 +72,11 @@ OpenConferenceWare stable releases and changes included, with latest at top:
   restore for MySQL, PostgreSQL and SQLite3.
 - Upgraded to jQuery 1.3.2 and jwysiwyg 0.6.
 
-* v0.20100206.1
+### v0.20100206.1
+
 - FIXED rake use when not running the "test" environment.
 
-* v0.20100206
+### v0.20100206
 
 - FIXED Event#underway? typo that would throw exception in schedule.
 - Improved Proposal's session notes wiki linkage to use flexible URLs.
@@ -81,7 +85,7 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved Proposal to only sort in a few specific ways.
 - Improved DeferProxy, made it simpler and more transparent.
 
-* v0.20090616
+### v0.20090616
 
 - FIXED bug that showed proposal statuses (e.g., "Accepted session")
   before these statues were published. They're now only shown if the
@@ -114,7 +118,7 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved CSV exports for proposals and added these to speakers.
 - Improved session sidebox, added room and scheduling information.
 
-* v0.20090605
+### v0.20090605
 
 - FIXED schema/migrations for MySQL, it was truncating important columns
   to 255 characters. This fix upgrades these "varchar(255)" columns to
@@ -122,7 +126,7 @@ OpenConferenceWare stable releases and changes included, with latest at top:
   descriptions, snippets descriptions, and tracks descriptions. If you
   were using SQLite, you were not affected by this bug.
 
-* v0.20090524
+### v0.20090524
 
 - FIXED layout, it no longer raises an exception if there's no event.
 - FIXED cache expiration, it no longer raises an exception if called
@@ -138,7 +142,7 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Added new CSV export system that provides more flexible exporting.
 - Added DeferProxy, a clearer way to defer expensive queries.
 
-* v0.20090516
+### v0.20090516
 
 - Added schedule. It can be displayed as HTML or imported as iCalendar
   and hCalendar data. New admin interfaces provide ways to create and
@@ -152,14 +156,15 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved Track color handling with Color objects to make fancy color
   transformations easy.
 
-* v0.20090514
+### v0.20090514
 
 - FIXED lookup of current event when no events where in the database.
 - FIXED compatibility with Ruby 1.8.6p111, which doesn't have Enumerable#count.
 - Added association from rooms to events.
 - Added "rake export:speakers" task.
 
-* v0.20090505
+### v0.20090505
+
 - FIXED bug introduced by new ruby-openid and passengerl libraries that broke logins.
 - FIXED bug introduced by new RubyGems library that broke Time::today.
 - Refactored sorting and caching code used by proposals#index and
@@ -167,7 +172,7 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Added "rake tags" task that automatically uses ctags or rtags.
 - Added initial support for publishing schedule as iCalendar.
 
-* v0.20090425
+### v0.20090425
 - Added support for displaying sessions differently than proposals.
 - Added heavy caching to proposals and sessions indexes.
 - Added helpers to display main and sub navigation based on proposal
@@ -179,7 +184,8 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved boot, added check that ensures migrations have been applied.
 - Improved documentation.
 
-* v0.20090416
+### v0.20090416
+
 - FIXED login to work with current versions of ruby_openid and Passenger.
 - FIXED schema, made it compatible with other databases. SQLite was too lax.
 - HACKED proposal#edit, allowing owners to edit forever. This will be revised.
@@ -198,29 +204,34 @@ OpenConferenceWare stable releases and changes included, with latest at top:
 - Improved caching, added many caches and eliminated many queries.
 - Added "rake clear:cache" task which empties memcache or filesystem caches.
 
-* v0.20090412
+### v0.20090412
+
 - Improved logit, made it more efficient by avoiding calls based on log level.
 - Added cucumber specifications for comments.
 - Added cucumber (rake features).
 - Upgraded rspec, switched to gem-based dependency.
 
-Changes
-=======
+## Older Changes
 
 Below are the list of OpenProposals versions by GIT id (latest is at top) and the
 changes made to them:
 
-6098fe90a3e652a7e57497f31fa38d2df8912dd1
+### 6098fe90a3e652a7e57497f31fa38d2df8912dd1
+
 - IMPROVED: ExceptionHandlingMixin now notifies on InvalidAuthenticityToken exceptions.
 
-3a07223c1ed0d59d6f0bdcba83be519c9db4f81b
+### 3a07223c1ed0d59d6f0bdcba83be519c9db4f81b
+
 - FIXED: ExceptionHandlingMixin now catches InvalidAuthenticityToken errors.
 
-a9e00d9d22dcc16b53d2e8f1a5d167b53b69a9a2
+### a9e00d9d22dcc16b53d2e8f1a5d167b53b69a9a2
+
 - FIXED: themes/*/layouts/application.html.erb now doesn't raise exceptions if @events wasn't assigned.
 - FIXED: AuthenticationSystem#current_user now works in specs when no one is logged in.
 - IMPROVED: ExceptionHandlingMixin now sends errors even if error template rending fails.
 - IMPROVED: ApplicationController#can_edit? now works on Proposals and Users.
 
-85dcb7365a455d5b21de80ec04e54c271d47e913
-* Published source code
+### 85dcb7365a455d5b21de80ec04e54c271d47e913
+
+- Published source code
+
