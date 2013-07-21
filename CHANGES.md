@@ -2,6 +2,49 @@
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+### v0.20130720
+
+- Added Twitter card metadata to proposal pages.
+- Disabled XML parameter parsing, a security workaround for CVE-2013-0156.
+- Disabled YAML parsing in JSON parsing code, security patch for CVE-2013-0333
+- Disabled rich text editing for snippets
+- Include accepted-but-not-confirmed proposals in admin schedule
+- Improve status notification system.
+- Updated bridgepdx theme for 2014 conference.
+
+### v0.20121002
+
+- Added speaking experience to proposals.
+- Added audience level to proposals.
+- Added PDF generation for per-room schedule sheets.
+- Added support for waitlisted sesssions.
+- Added the ability to notify speakers of their selection status and request confirmation.
+- Added a script to generate a user favorites contention report.
+- Add JSON output for Events, Rooms, and Tracks.
+- Improved selector votes.
+- Tweak schedule styling.
+- Improved spec coverage.
+- Updated bridgepdx theme for 2013 conference.
+
+### v0.20110630
+
+- Fixed "remember me" feature for logging in through a token.
+- Fixed session type and proposal validations.
+- Improved event management experience.
+- Added CSV exports for speakers.
+- Added capistrano tasks to download production data
+- Added customizable agreement field to settings
+- Improve documentation.
+- Updated bridgepdx theme for 2012 conference.
+
+### v0.20110429
+
+- Added support for session audio linking and playback to session pages.
+- Added selection committee voting interface.
+- Fixed issues with Rails caching.
+- Updated bridgepdx theme for 2011 conference.
+- Improved exception notification emails.
+
 ### v0.20100818
 
 - Fixed iCalendar exporter to skip items without a "start time" and not set the "end time" unless one is defined.
