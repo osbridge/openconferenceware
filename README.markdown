@@ -131,8 +131,7 @@ You can customize the application's appearance and behavior by creating a theme,
         git log -p themes/bridgepdx/layouts/application.html.erb
 
 
-Environmental variables
------------------------
+### Environmental variables
 
 You can alter the application's behavior by setting environmental variables. For example, to use the `bridgepdx` theme you can run:
     THEME=bridgepdx ./script/server
@@ -150,6 +149,19 @@ The "bridgepdx" theme's behavior is affected by these environmental variables:
 
 - `LOCALCSS=1` forces the use of local CSS files when using the `production` or `preview` environments, these default to using the CSS files on the production servers.
 - `WEBANALYTICS=1` forces the inclusion of web analytics tracking in the layout, this is enabled by default in the `production` environment.
+
+Usage
+-----
+
+Some features of OCW may not be immediately evident as a new user. We will attempt to shed light on them here.
+
+### Selection Committee Voting
+
+OCW allows you to designate members of a content selection committee, who can then view feedback from the public and vote on sessions for inclusion in your conference. In order to emable this:
+
+1. An admin needs to edit users to grant them selection committee privileges.
+2. An admin needs to edit the event to accept selector votes.
+3. Selection committee members will then see a voting intereface on proposal pages and a  "selector votes" overview.
 
 
 Mailing list
