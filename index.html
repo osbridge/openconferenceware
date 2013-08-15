@@ -31,7 +31,10 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h2>
+        <h1>
+<a name="openconferenceware" class="anchor" href="#openconferenceware"><span class="octicon octicon-link"></span></a>OpenConferenceWare</h1>
+
+<h2>
 <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
 
 <p><em>OpenConferenceWare</em> is an open source web application for supporting conference-like events. This customizable, general-purpose platform provides proposals, sessions, schedules, tracks, user profiles and more.</p>
@@ -162,8 +165,8 @@
 <pre><code>    git log -p themes/bridgepdx/layouts/application.html.erb
 </code></pre>
 
-<h2>
-<a name="environmental-variables" class="anchor" href="#environmental-variables"><span class="octicon octicon-link"></span></a>Environmental variables</h2>
+<h3>
+<a name="environmental-variables" class="anchor" href="#environmental-variables"><span class="octicon octicon-link"></span></a>Environmental variables</h3>
 
 <p>You can alter the application's behavior by setting environmental variables. For example, to use the <code>bridgepdx</code> theme you can run:
     THEME=bridgepdx ./script/server</p>
@@ -191,6 +194,20 @@
 <li>
 <code>WEBANALYTICS=1</code> forces the inclusion of web analytics tracking in the layout, this is enabled by default in the <code>production</code> environment.</li>
 </ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Some features of OCW may not be immediately evident as a new user. We will attempt to shed light on them here.</p>
+
+<h3>
+<a name="selection-committee-voting" class="anchor" href="#selection-committee-voting"><span class="octicon octicon-link"></span></a>Selection Committee Voting</h3>
+
+<p>OCW allows you to designate members of a content selection committee, who can then view feedback from the public and vote on sessions for inclusion in your conference. In order to emable this:</p>
+
+<ol>
+<li>An admin needs to edit users to grant them selection committee privileges.</li>
+<li>An admin needs to edit the event to accept selector votes.</li>
+<li>Selection committee members will then see a voting intereface on proposal pages and a  "selector votes" overview.</li>
+</ol><h2>
 <a name="mailing-list" class="anchor" href="#mailing-list"><span class="octicon octicon-link"></span></a>Mailing list</h2>
 
 <p>Please join the mailing list if you're interested in using or developing the software: <a href="http://groups.google.com/group/openconferenceware">http://groups.google.com/group/openconferenceware</a></p>
