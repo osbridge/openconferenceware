@@ -34,9 +34,6 @@ Rails::Initializer.run do |config|
   # * Gemfile
   # * config/initializers/libraries.rb
 
-  # Activate gems in vendor/gems
-  config.gem 'comma'
-
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
