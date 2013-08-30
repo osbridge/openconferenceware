@@ -1033,9 +1033,13 @@ describe ProposalsController do
       response.should be_success
       calendar = Vpim::Icalendar.decode(response.body).first
       component = calendar.find{|t| t.summary == item.title}
+
+      dtstart = Time.parse(component.dtstart.strftime('%Y-%m-%d %H:%M:%S UTC'))
+      dtend   = Time.parse(component.dtend.strftime('%Y-%m-%d %H:%M:%S UTC'))
+
       component.should_not be_nil
-      component.dtstart.utc.should  == item.start_time.utc
-      component.dtend.utc.should    == item.end_time.utc
+      dtstart.should  == item.start_time
+      dtend.should    == item.end_time
       component.summary.should      == item.title
       component.description.should  == (item.respond_to?(:users) ?
         "#{item.users.map(&:fullname).join(', ')}: #{item.excerpt}" :
