@@ -1,7 +1,7 @@
 # Additional libraries are loaded in "config/initializers/libraries.rb".
 
 # Repository:
-source :gemcutter
+source "https://rubygems.org"
 
 # Rails version
 gem 'rake', '~> 0.8.7'
