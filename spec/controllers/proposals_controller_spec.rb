@@ -1041,8 +1041,8 @@ describe ProposalsController do
       calendar = Vpim::Icalendar.decode(response.body).first
       component = calendar.find{|t| t.summary == item.title}
       component.should_not be_nil
-      component.dtstart.should      == item.start_time
-      component.dtend.should        == item.end_time
+      component.dtstart.utc.should  == item.start_time.utc
+      component.dtend.utc.should    == item.end_time.utc
       component.summary.should      == item.title
       component.description.should  == (item.respond_to?(:users) ?
         "#{item.users.map(&:fullname).join(', ')}: #{item.excerpt}" :

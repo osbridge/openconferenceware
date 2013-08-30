@@ -104,7 +104,7 @@ postgresql_session:
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 10:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am UTC').to_s(:db) %>
   speaking_experience: "I know PostgreSQL stuff." 
   audience_level: a
   title: "PostgreSQL Session"
@@ -118,7 +118,7 @@ drizzle_session:
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 10:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am UTC').to_s(:db) %>
   speaking_experience: "I know Drizzle stuff." 
   audience_level: a
   title: "Drizzle Session"
@@ -132,7 +132,7 @@ mysql_session:
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 11:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am UTC').to_s(:db) %>
   speaking_experience: "I know MySQL stuff." 
   audience_level: a
   title: "MySQL Session"
@@ -146,7 +146,7 @@ sqlite_session:
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 11:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am UTC').to_s(:db) %>
   audience_level: a
   title: "SQLite Session"
   speaking_experience: "I know SQLite stuff." 
@@ -160,7 +160,7 @@ rakudo_session:
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 12:00pm').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 12:00pm UTC').to_s(:db) %>
   speaking_experience: "I AM A PONY!!1!" 
   audience_level: a
   title: "Rakudo Session"
@@ -174,7 +174,7 @@ cloud_session:
   event_id: 2009
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-18 12:00pm').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-18 12:00pm UTC').to_s(:db) %>
   speaking_experience: "I know everything there is about stratocumulus clouds." 
   audience_level: a
   title: "The Cloud is Falling!"
@@ -188,7 +188,7 @@ business_session:
   event_id: 2009
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-18 12:00pm').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-18 12:00pm UTC').to_s(:db) %>
   speaking_experience: "I own you." 
   audience_level: a
   title: "Give us money."
@@ -202,7 +202,7 @@ sql_server_session:
   event_id: 2009
   track: business
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 10:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am UTC').to_s(:db) %>
   speaking_experience: "Microsoft owns me." 
   audience_level: a
   title: "SQL Server Session"
@@ -216,7 +216,7 @@ couchdb_session:
   event_id: 2009
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 10:30am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:30am UTC').to_s(:db) %>
   speaking_experience: "I write all my code using curl." 
   audience_level: a
   title: "CouchDB Session"
@@ -230,7 +230,7 @@ bigtable_session:
   event_id: 2009
   track: hacks
   submitted_at: <%= Time.now.to_s(:db) %>
-  start_time: <%= Time.zone.parse('2009-06-17 11:00am').to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am UTC').to_s(:db) %>
   speaking_experience: "My table is bigger than yours." 
   audience_level: a
   title: "BigTable Session"

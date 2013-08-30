@@ -74,8 +74,8 @@ describe Event do
 
   describe "#dates" do
     it "should return range between start_date and end_date" do
-      start_date = Date.today + 1.week
-      end_date   = Date.today + 2.weeks
+      start_date = Time.now.utc.to_date + 1.week
+      end_date   = Time.now.utc.to_date + 2.weeks
       event = Event.new(:start_date => start_date, :end_date => end_date)
 
       event.dates.should == (start_date..end_date).to_a
