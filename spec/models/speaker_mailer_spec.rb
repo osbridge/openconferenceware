@@ -25,7 +25,7 @@ describe SpeakerMailer do
 
   context "when sending email" do
     it "should raise error if speaker_mailer is not configured" do
-      SECRETS.stub(:email).and_return({})
+      SpeakerMailer.stub(:configured?).and_return(false)
       lambda { deliver_email(@proposal) }.should raise_error(ArgumentError)
     end
 

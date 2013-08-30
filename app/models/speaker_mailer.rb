@@ -7,7 +7,7 @@ class SpeakerMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
   def self.configured?
-    if SECRETS.email.blank? || SECRETS.email['action_mailer'].blank? || SECRETS.email['default_from_address'] == 'test'
+    if !Rails.env.test? && (SECRETS.email.blank? || SECRETS.email['action_mailer'].blank? || SECRETS.email['default_from_address'] == 'test')
       return false
     else
       return true
