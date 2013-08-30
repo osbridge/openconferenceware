@@ -40,7 +40,7 @@ ActionController::Routing::Routes.draw do |map|
     manage.notify_speakers '/events/:id/notify_speakers', :controller => 'events', :action => 'notify_speakers'
   end
 
-  map.root :controller => "proposals"
+  map.root :controller => "proposals", :action => "proposals_or_sessions"
 
   # For testing errors
   map.br3ak '/br3ak', :controller => 'proposals', :action => 'br3ak'

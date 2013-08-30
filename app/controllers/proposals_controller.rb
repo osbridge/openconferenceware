@@ -15,6 +15,14 @@ class ProposalsController < ApplicationController
   MAX_FEED_ITEMS = 50
   SESSION_RELATED_ACTIONS = ['sessions_index', 'session_show', 'schedule']
 
+  def proposals_or_sessions
+    if @event && @event.proposal_status_published?
+      redirect_to event_sessions_path(@event)
+    else
+      redirect_to event_proposals_path(@event)
+    end
+  end
+
   # GET /proposals
   # GET /proposals.xml
   def index
