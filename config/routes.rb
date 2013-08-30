@@ -48,8 +48,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # Authentication
   map.resources :users, :member => { :complete_profile => :get, :proposals => :get }, :requirements => { :id => /\w+/ } do |user|
-    user.favorites 'favorites', { :controller => 'user_favorites', :action => 'index' }
-    user.modify_favorites 'favorites/modify', { :controller => 'user_favorites', :action => 'modify', :conditions => { :method => :put } }
+    user.favorites 'favorites.:format', { :controller => 'user_favorites', :action => 'index' }
+    user.modify_favorites 'favorites/modify.:format', { :controller => 'user_favorites', :action => 'modify', :conditions => { :method => :put } }
   end
   map.open_id_complete '/browser_session', :controller => "browser_sessions", :action => "create", :requirements => { :method => :get }
   map.login            '/login',  :controller => 'browser_sessions', :action => 'new'
