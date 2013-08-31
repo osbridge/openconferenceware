@@ -4,18 +4,6 @@
 // app object used to expose rails variables to javascript
 var app = new Object;
 
-/*===[ onload functions ]=============================================*/
-
-// Highlight the flash notification area briefly.
-// REQUIRES: jquery-ui.highlight
-function pulse_flash() {
-  $('.flash, .flash p').effect('highlight', {}, 3000)
-}
-
-$(document).ready(function() {
-  pulse_flash();
-})
-
 /*===[ custom functions ]=============================================*/
 
 function logged_in() {
