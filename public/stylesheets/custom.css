@@ -1,15 +1,23 @@
-/* @override
-	http://localhost:3000/themes/bridgepdx/stylesheets/custom.css
-	http://ocw.local/themes/bridgepdx/stylesheets/custom.css
-*/
+div.skip-link a {
+  position: absolute;
+  right: 0px;
+  top: -99px;
+  background: none repeat scroll 0% 0% rgb(17, 109, 182);
+  color: rgb(255, 255, 255);
+  padding: 0.5em;
+  font-size: 0.7em;
+  text-decoration: none;
+}
 
 /* Make VIM use tabs in this file
 vim:tw=0:ft=css:noet:
 */
+#content {
+  position: relative;
+}
 
-#breadcrumbs {
-  color: #888;
-  margin-bottom: .5em;
+body {
+  padding-top: 1em;
 }
 
 /* @group Common Helper Classes */
@@ -684,6 +692,7 @@ table#proposal-status-counts {
 }
 
 .schedule h4 {
+  margin-top: 0;
   background: #116db6;
   padding: .3em .4em;
   border-bottom: 1px solid #9cbdd6;
@@ -708,6 +717,7 @@ table#proposal-status-counts {
 
 ul.calendar_items {
   margin: 0;
+  padding: 0;
 }
 
 .calendar_items .concise a {
@@ -771,15 +781,6 @@ ul.calendar_items {
 
 #list_user_favorites {
   margin-top: 3em;
-}
-
-.calendar_download {
-  background: url(/common/i/calendar.png) no-repeat;
-  padding: 3px 0 0 50px;
-  min-height: 26px;
-  position: absolute;
-  top: 3em;
-  right: 2em;
 }
 
 .schedule_color_key {
