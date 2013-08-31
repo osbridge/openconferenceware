@@ -17,25 +17,24 @@
 
   <p>
     <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :class => "form-control" %>
   </p>
   <p>
-    <%= f.label :excerpt %> (one line description, used in track selector)<br />
-    <%= f.text_area :excerpt, :rows => 8 %>
+    <%= f.label :excerpt %> (one line description, used in track selector)
+    <%= f.text_area :excerpt, :rows => 8, :class => "form-control" %>
   </p>
   <p>
-    <%= f.label :description %> (<%= display_textile_help_link %>)<br />
-    <%= f.text_area :description %>
+    <%= f.label :description %> (<%= display_textile_help_link %>)
+    <%= f.text_area :description, :class => "form-control" %>
   </p>
   <p>
-    <%= f.label :color %><br />
-    <%= f.text_field :color %>
+    <%= f.label :color %>
+    <%= f.text_field :color, :class => "form-control" %>
     <div id="colorpicker"></div>
   </p>
   <p>
-    <%= f.submit @track.new_record? ? "Create" : "Update" %>
-    <%= link_to 'Cancel', @track, :class => "showable" %>
-    <%= link_to 'Back', tracks_path, :class => "cancelable" %>
-    <%= link_to 'Destroy', track_path(@track), :method => :delete, :confirm => %{Destroy track "#{@track.title}"?}, :class => "deletable" unless @track.new_record? %>
+    <%= f.submit @track.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
+    <%= link_to 'Cancel', @track, :class => "btn btn-default" %>
+    <%= link_to 'Destroy', track_path(@track), :method => :delete, :confirm => %{Destroy track "#{@track.title}"?}, :class => "btn btn-danger pull-right" unless @track.new_record? %>
   </p>
 <% end %>

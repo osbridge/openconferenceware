@@ -14,7 +14,7 @@
     <span class="rightish">
       &nbsp;
     </span>
-    <%= submit_tag 'Log in' %>
+    <%= submit_tag 'Log in', :class => "btn btn-primary" %>
     &nbsp;
     <%= check_box_tag 'remember_me', 1, true %>
     <label for="remember_me">Remember me</label>
@@ -36,10 +36,10 @@
     Developer:
 
     <% user = User.find_first_admin %>
-    <%= button_to("Login as admin", browser_session_path(:login_as => user.login), :method => "post") if user %>
+    <%= button_to("Login as admin", browser_session_path(:login_as => user.login), :method => "post", :class => "btn btn-default") if user %>
 
 
     <% user = User.find_first_non_admin %>
-    <%= button_to("Login as non-admin", browser_session_path(:login_as => user.login), :method => "post") if user %>
+    <%= button_to("Login as non-admin", browser_session_path(:login_as => user.login), :method => "post", :class => "btn btn-default") if user %>
   </div>
 <% end %>

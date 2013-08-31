@@ -47,7 +47,7 @@
                   <% if nav_event && ! nav_event.new_record? %>
                     <li class="divider"></li>
                     <li class="dropdown-header"><%= nav_event.title %></li>
-                    <li><%= link_to "Manage this event", manage_event_path(nav_event) %></li>
+                    <li><%= link_to "Edit this event", edit_manage_event_path(nav_event) %></li>
                     <% if proposal_statuses? %>
                       <li><%= link_to "Sessions", event_sessions_path(nav_event) %></li>
                     <% end %>

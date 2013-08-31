@@ -3,46 +3,28 @@
 <% form_for([:manage, @snippet], :html => {:class => "snippet_form"}) do |f| %>
   <%= hidden_field_tag :return_to, @return_to %>
 
-  <p>
-    <b>Slug</b><br />
+  <div class="form-group">
+    <%= f.label :slug %>
     <% if @snippet.new_record? %>
-      <%= f.text_field :slug%>
+      <%= f.text_field :slug, :class => "form-control" %>
     <% else %>
-      <%= h @snippet.slug %>
+      <p><%= h @snippet.slug %></p>
     <% end %>
-  </p>
+  </div>
 
-  <p>
-    <b>Description</b><br />
-    <%= f.text_field :description %>
-  </p>
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_field :description, :class => "form-control" %>
+  </div>
 
-  <p>
-    <b>Content</b>
-    <br />
-    <%= f.text_area :content, :id => :snippet_content %>
-  </p>
+  <div class="form-group">
+    <%= f.label :content %>
+    <%= f.text_area :content, :id => :snippet_content, :class => "form-control" %>
+  </div>
 
-  <% if false %>
-  <p>
-    <b>Public</b><br />
-    <%= f.check_box :public %>
-  </p>
-
-  <p>
-    <b>Value</b><br />
-    <%= f.text_field :value %>
-  </p>
-  <% end %>
-
-  <div class="record-controls">
-    <% if @snippet.new_record? %>
-      <%= f.submit "Create" %>
-      <%= link_to "Cancel", manage_snippets_path, :class => :cancelable %>
-    <% else %>
-      <%= f.submit "Update" %>
-      <%= link_to "Destroy", manage_snippet_path(@snippet), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
-      <%= link_to "Cancel", manage_snippet_path(@snippet), :class => :cancelable%>
-    <% end %>
+  <div class="form-group">
+    <%= f.submit @snippet.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
+    <%= link_to "Cancel", manage_snippets_path, :class => "btn btn-default" %>
+    <%= link_to 'Destroy', manage_snippet_path(@snippet), :method => :delete, :confirm => %{Destroy snippet "#{@snippet.slug}"?}, :class => "btn btn-danger pull-right" unless @snippet.new_record? %>
   </div>
 <% end %>

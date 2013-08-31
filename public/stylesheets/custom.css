@@ -656,21 +656,6 @@ ul.speakers .note li {
   width: 100%;
 }
 
-table#proposal-status-counts {
-  collapse: collapse;
-}
-
-#proposal-status-counts th {
-  background-color: #DEDEDE;
-}
-
-#proposal-status-counts th,
-#proposal-status-counts td {
-  text-align: center;
-  border: 1px solid #DEDEDE;
-  vertical-align: top;
-}
-
 /* @end */
 
 /* @end */
