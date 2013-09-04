@@ -1,5 +1,13 @@
-OpenConferenceWare
-==================
+# OpenConferenceWare
+
+## Recent Developments
+
+We are updating OCW on the master branch, upgrading to a modern version of Rails and working towards [other goals](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
+
+### Current Build Status
+
+* [Master](https://github.com/osbridge/openconferenceware/tree/master): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware)
+* [Stable](https://github.com/osbridge/openconferenceware/tree/stable): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=stable)](https://travis-ci.org/osbridge/openconferenceware) 
 
 
 About
