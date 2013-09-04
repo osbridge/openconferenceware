@@ -71,7 +71,7 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-  config.active_record.observers = [:cache_watcher, :shared_fragment_watcher] unless defined?(Rake::Task) && ARGV.find{|t| /^db:(create|drop)/}
+  config.active_record.observers = [:cache_watcher] unless defined?(Rake::Task) && ARGV.find{|t| /^db:(create|drop)/}
   # TODO Remove the above "unless" after migrating to Rails 2.3 or above. It's needed by older versions to avoid a dependency loop where creating the database requires loading the observers which load the models which have plugins that try to talk to the database.
 
   # Make Active Record use UTC-base instead of local time
