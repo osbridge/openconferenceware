@@ -1,4 +1,4 @@
-<% nav_event = assigned_event.parent_or_self %>
+<% nav_event = assigned_event.try(:parent_or_self) %>
 
   <div class="skip-link">
     <a href="#content" title="Skip to content">Skip to content</a>
@@ -18,7 +18,7 @@
         <ul class="nav navbar-nav">
           <% if assigned_nonchild_events_by_date.count > 1 %>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle year" data-toggle="dropdown"><%= nav_event.slug %><b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle year" data-toggle="dropdown"><%= nav_event.try(:slug) || "Events" %><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <% assigned_nonchild_events_by_date.reverse.each do |event| %>
                   <%= content_tag(:li, link_to(event.slug, event_path(event), :class => 'year'), :class => (nav_event == event) ? 'active' : '') %>
@@ -26,15 +26,17 @@
               </ul>
             </li>
           <% end %>
-          <li><%= link_to nav_title(nav_event), nav_path(nav_event), :class => 'proposals_or_sessions' %></li>
-          <% if nav_event.schedule_published? %>
-          <li><%= link_to 'Schedule', event_schedule_path(nav_event), :class => 'schedule' %></li>
-          <% end -%>
-          <% if nav_event.proposal_status_published? %>
-          <li><%= link_to 'Speakers', speakers_event_path(nav_event), :class => 'speakers' %></li>
-          <% end -%>
-          <% if bof = nav_event.children.first(:conditions => ['slug LIKE ?', '%bof']) %>
-            <li><%= link_to 'BoFs', "/events/#{bof.slug}/#{bof.proposal_status_published? ? 'sessions' : 'proposals' }", :class => 'bofs' %></li>
+          <% if nav_event %>
+            <li><%= link_to nav_title(nav_event), nav_path(nav_event), :class => 'proposals_or_sessions' %></li>
+            <% if nav_event.schedule_published? %>
+            <li><%= link_to 'Schedule', event_schedule_path(nav_event), :class => 'schedule' %></li>
+            <% end -%>
+            <% if nav_event.proposal_status_published? %>
+            <li><%= link_to 'Speakers', speakers_event_path(nav_event), :class => 'speakers' %></li>
+            <% end -%>
+            <% if bof = nav_event.children.first(:conditions => ['slug LIKE ?', '%bof']) %>
+              <li><%= link_to 'BoFs', "/events/#{bof.slug}/#{bof.proposal_status_published? ? 'sessions' : 'proposals' }", :class => 'bofs' %></li>
+            <% end %>
           <% end %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
