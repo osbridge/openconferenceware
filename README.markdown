@@ -37,7 +37,7 @@ Features
 - Anyone can list/show sessions for an event
 - Anyone can list/show proposals for an event
 - Anyone can leave private comments about proposals to organizers
-- Anyone can get be informed of new proposals via ATOM feed
+- Anyone can be informed of new proposals via ATOM feed
 - Anyone can list/show tracks for an event
 - Anyone can list/show session types for an event
 - Anyone can subscribe to a feed of proposals for the event
@@ -68,7 +68,7 @@ Features
 Gotchas
 -------
 
-Although this software works well and has been used in production on multiple sites for years, there are a number of issues you should be aware of. It remains under heavy development, documentation is scant, tests are incomplete, and the sample theme is broken. These issues are slowly being resolved.
+Although this software works well and has been used in production on multiple sites for years, there are issues you should be aware of. The documentation and ease of setup are not as strong as we want it to be. See our issue tracker on GitHub for known issues, or to report your own.
 
 
 Installation
@@ -84,7 +84,7 @@ To install the application and its dependencies:
 
 2. Checkout the OpenConferenceWare source code:
 
-        git clone git://github.com/igal/openconferenceware.git
+        git clone git://github.com/osbridge/openconferenceware.git
 
 3. Install Ruby 1.8.6 or 1.8.7 from <http://www.ruby-lang.org/en/downloads/> or Ruby Enterprise Edition from <http://www.rubyenterpriseedition.com/download.html>
 
@@ -163,11 +163,11 @@ Some features of OCW may not be immediately evident as a new user. We will attem
 
 ### Selection Committee Voting
 
-OCW allows you to designate members of a content selection committee, who can then view feedback from the public and vote on sessions for inclusion in your conference. In order to emable this:
+OCW allows you to designate members of a content selection committee, who can then view feedback from the public and vote on sessions for inclusion in your conference. In order to enable this:
 
 1. An admin needs to edit users to grant them selection committee privileges.
 2. An admin needs to edit the event to accept selector votes.
-3. Selection committee members will then see a voting intereface on proposal pages and a  "selector votes" overview.
+3. Selection committee members will then see a voting interface on proposal pages and a "selector votes" overview.
 
 
 Mailing list
@@ -179,13 +179,13 @@ Please join the mailing list if you're interested in using or developing the sof
 Issue tracker
 -------------
 
-Found a bug? I'd like to fix it. Please report it, along with what you tried to do, what you expected, and what actually happened -- or better yet, provide a patch: <http://github.com/igal/openconferenceware/issues>
+Found a bug? We'd like to fix it. Please report it, along with what you tried to do, what you expected, and what actually happened -- or better yet, provide a patch: <http://github.com/osbridge/openconferenceware/issues>
 
 
 Contributing
 ------------
 
-Please contribute fixes and features. You can find issues to work on in the [Issue tracker](http://github.com/igal/openconferenceware/issues). Please fork the source code, make your changes and submit a Github pull request. By submitting a patch, you agree that your software can be released under the same license as this software.
+Please contribute fixes and features. You can find issues to work on in the [Issue tracker](http://github.com/osbridge/openconferenceware/issues). Please fork the source code, make your changes and submit a Github pull request. By submitting a patch, you agree that your software can be released under the same license as this software.
 
 
 License
@@ -203,4 +203,4 @@ This free, open source software was made possible by a group of volunteers that 
 Copyright
 ---------
 
-Copyright (c) 2007-2013 Igal Koshevoy, Reid Beels, and others.
+Copyright (c) 2007-2013 Igal Koshevoy, Reid Beels, Audrey Eschright, and others.
