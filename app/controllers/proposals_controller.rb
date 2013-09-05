@@ -15,6 +15,14 @@ class ProposalsController < ApplicationController
   MAX_FEED_ITEMS = 50
   SESSION_RELATED_ACTIONS = ['sessions_index', 'session_show', 'schedule']
 
+  def proposals_or_sessions
+    if @event && @event.proposal_status_published?
+      redirect_to event_sessions_path(@event)
+    else
+      redirect_to event_proposals_path(@event)
+    end
+  end
+
   # GET /proposals
   # GET /proposals.xml
   def index
@@ -193,7 +201,7 @@ class ProposalsController < ApplicationController
   def create
     if params[:commit] == "Login" && params[:openid_url]
       store_location(new_proposal_path)
-      return redirect_to(url_for(:controller => "browser_sessions", :action => "create", :openid_url => params[:openid_url]))
+      return redirect_to(open_id_complete_path(:openid_url => params[:openid_url]))
     end
 
     @proposal = Proposal.new(params[:proposal])
@@ -206,14 +214,9 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.save
         format.html {
-          if has_theme_specific_create_success_page?
-            page_title "Thank You!"
-            # Display theme-specific page thanking users for submitting a proposal and telling them what to do next.
-            render
-          else
-            flash[:success] = 'Proposal created. Thank you!'
-            redirect_to(@proposal)
-          end
+          page_title "Thank You!"
+          # Display a page thanking users for submitting a proposal and telling them what to do next.
+          render
         }
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
         format.json { render :json => @proposal, :status => :created, :location => @proposal }
@@ -431,22 +434,19 @@ protected
   end
 
   def manage_speakers_on_submit
-    speakers = params[:speaker_ids].ergo.map(&:first)
-    unless speakers.blank?
-      speakers.each do |speaker|
-        @proposal.add_user(speaker)
+    if params[:speaker_ids].present?
+      speakers = params[:speaker_ids].map(&:first)
+      unless speakers.blank?
+        speakers.each do |speaker|
+          @proposal.add_user(speaker)
+        end
       end
     end
   end
 
   # Return the name of a transition (e.g., "accept") from a Proposal's params.
   def transition_from_params
-    return params[:proposal].ergo[:transition]
-  end
-
-  # Does the current theme have a success page that should be displayed when the user creates a new proposal?
-  def has_theme_specific_create_success_page?
-    File.exist?(theme_file('views/proposals/create.html.erb'))
+    return params[:proposal].present? ? params[:proposal][:transition] : nil
   end
 
   # Return a sanitized Regexp for matching a speaker by name from the +query+ string.
@@ -461,7 +461,7 @@ protected
       return []
     else
       matcher = get_speaker_matcher(query)
-      return(User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users)
+      return(User.complete_profiles.select{|u| u.fullname.try(:match, matcher)} - @proposal.users)
     end
   end
 

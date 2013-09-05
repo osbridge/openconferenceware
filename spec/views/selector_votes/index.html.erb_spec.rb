@@ -25,19 +25,19 @@ describe "/selector_votes/index.html.erb" do
 
   describe "result" do
     it "should include proposal with selector votes" do
-      have_tag ".proposal_#{@proposal1.id}"
+      have_selector ".proposal_#{@proposal1.id}"
     end
 
     it "should include proposal without selector votes" do
-      have_tag ".proposal_#{@proposal2.id}"
+      have_selector ".proposal_#{@proposal2.id}"
     end
 
     it "should include selector vote for a proposal" do
-      have_tag ".proposal_#{@proposal1.id} .selector_vote_#{@selector_vote1}"
+      have_selector ".proposal_#{@proposal1.id} .selector_vote_#{@selector_vote1}"
     end
 
     it "should include comment for a proposal" do
-      have_tag ".proposal_#{@proposal1.id} .comment_#{@comment1}"
+      have_selector ".proposal_#{@proposal1.id} .comment_#{@comment1}"
     end
   end
 end

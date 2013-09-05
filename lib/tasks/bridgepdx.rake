@@ -3,7 +3,7 @@ namespace :bridgepdx do
   task :styles do
     sh "rm -rf tmp/style_clone"
     sh "git clone --depth 1 git://github.com/reidab/osbp_styles.git tmp/style_clone"
-    sh "rsync -uvax --exclude='.git' --exclude='Rakefile' --exclude='README.markdown' tmp/style_clone/ themes/bridgepdx/stylesheets/common_css/"
+    sh "rsync -uvax --exclude='.git' --exclude='Rakefile' --exclude='README.markdown' tmp/style_clone/ public/stylesheets/common_css/"
     sh "rm -rf tmp/style_clone"
   end
 
@@ -123,7 +123,7 @@ ERROR: You must specify a DIR environmental variable with the path to the checko
       exit 1
     end
 
-    target = 'themes/bridgepdx/stylesheets/common_css'
+    target = 'public/stylesheets/common_css'
     backup = "#{target}.bak"
 
     rm(target) if File.symlink?(target)
@@ -190,6 +190,8 @@ For example:
 
     desc "Populates the attendee wiki with pages to hold session notes."
     task :populate => :environment do
+      require 'lib/rwikibot_page_drone'
+
       credentials = get_wiki_credentials
       wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
       event = ENV['EVENT'] ? Event.find_by_slug(ENV['EVENT']) : Event.current

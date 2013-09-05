@@ -21,7 +21,7 @@ class Snippet < ActiveRecord::Base
   # Load the Snippets as defined in the "text/fixtures/snippets.yml" file and
   # load them into the current database, overwriting any existing records.
   def self.reload_from_fixtures!
-    returning([]) do |records|
+    [].tap do |records|
       data = YAML::load(ERB.new(File.read(File.join(RAILS_ROOT, "spec/fixtures/snippets.yml"))).result(binding))
       for attributes in data.values
         record = self.find_by_slug(attributes["slug"].to_s)

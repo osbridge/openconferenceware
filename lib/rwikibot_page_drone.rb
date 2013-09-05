@@ -1,4 +1,5 @@
 require 'hpricot'
+require 'rwikibot'
 
 class RwikibotPageDrone
   attr_accessor :wiki

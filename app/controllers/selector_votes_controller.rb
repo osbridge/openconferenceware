@@ -41,8 +41,8 @@ class SelectorVotesController < ApplicationController
   def create
     @selector_vote = SelectorVote.find_or_initialize_by_user_id_and_proposal_id(current_user.id, params[:proposal_id].to_i)
     @selector_vote.attributes = {
-      :rating  => params[:selector_vote].ergo[:rating].to_i,
-      :comment => params[:selector_vote].ergo[:comment]
+      :rating  => (params[:selector_vote].present? ? params[:selector_vote][:rating].to_i : nil),
+      :comment => (params[:selector_vote].present? ? params[:selector_vote][:comment] : nil)
     }
 
     respond_to do |format|

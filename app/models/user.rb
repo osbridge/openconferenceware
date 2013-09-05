@@ -281,7 +281,8 @@ class User < ActiveRecord::Base
 
   # Return a label for the user.
   def label
-    return self.fullname.with{blank? ? nil : self} || (self.using_openid? ? "User ##{self.id} at #{URI.parse(login).host}" : self.login)
+    name = self.fullname.blank? ? nil : self.fullname
+    return name || (self.using_openid? ? "User ##{self.id} at #{URI.parse(login).host}" : self.login)
   end
 
   # Return a label for the user with their user ID.
@@ -296,8 +297,11 @@ class User < ActiveRecord::Base
 
   # Set the user's first and last name by splitting a single string.
   def fullname=(value)
-    self.first_name = value.ergo{split(" ")[0..-2].join(' ')}
-    self.last_name = value.ergo{split(" ").last}
+    if value.present?
+      parts = value.split(" ")
+      self.first_name = parts[0..-2].join(' ')
+      self.last_name = parts.last
+    end
   end
 
   # Alias for #fullname for providing common profile methods.

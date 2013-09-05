@@ -9,12 +9,12 @@
 <% end -%>
 
 <div class='calendar_download'>
-  <%= link_to "Download all", event_formatted_schedule_path(@event, :format => 'ics') %> /
-  <%= link_to "Subscribe to all", event_formatted_schedule_url(@event, :format => 'ics', :protocol => 'webcal') %>
+  <%= link_to "Download all", event_schedule_path(@event, :format => 'ics') %> /
+  <%= link_to "Subscribe all", event_schedule_url(@event, :format => 'ics', :protocol => 'webcal') %>
   <% if logged_in? %>
     &mdash;
-    <%= link_to "Download favorites", user_formatted_favorites_path(current_user, :format => 'ics') %> /
-    <%= link_to "Subscribe to favorites", user_formatted_favorites_url(current_user, :format => 'ics', :protocol => 'webcal') %>
+    <%= link_to "Download favorites", user_favorites_path(current_user, :format => 'ics') %> /
+    <%= link_to "Subscribe to favorites", user_favorites_url(current_user, :format => 'ics', :protocol => 'webcal') %>
   <% end %>
 </div>
 

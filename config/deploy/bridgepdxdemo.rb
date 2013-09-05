@@ -1,5 +1,3 @@
-set :theme, "bridgepdx"
-
 set :scm, "git"
 set :branch, "master" unless variables[:branch]
 set :repository,  "git://github.com/igal/openconferenceware.git"

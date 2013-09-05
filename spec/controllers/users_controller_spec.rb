@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe UsersController do
   integrate_views
@@ -153,6 +153,7 @@ describe UsersController do
 
   describe "proposals" do
     it "should render proposals for a user" do
+      @controller.stub!(:schedule_visible?).and_return(true)
       user = users(:clio)
       login_as(user)
 

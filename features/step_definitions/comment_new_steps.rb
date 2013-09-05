@@ -36,6 +36,6 @@ end
 
 Then /^the comments form is displayed: "([^\"]*)"$/ do |truth|
   method = boolean_for(truth) ? :should : :should_not
-  response.send(method, have_tag("#comment-form"))
+  response.send(method, have_selector("#comment-form"))
 end
 

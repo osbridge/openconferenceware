@@ -1,5 +1,3 @@
-set :theme, "bridgepdx"
-
 set :scm, "git"
 set :repository,  "#{File.dirname(File.dirname(File.dirname(__FILE__)))}"
 set :deploy_to, "/var/www/bridgepdx_ocw"

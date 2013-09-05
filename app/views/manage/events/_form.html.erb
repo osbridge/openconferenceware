@@ -1,7 +1,5 @@
 <% scroll_to "label[for=event_#{params[:jump_to]}]" if params[:jump_to] %>
 
-<% include_jwysiwyg %>
-
 <% form_for([:manage, @event], :html => {:id => "event-form", :class => "standard-form"}) do |f| %>
   <%= f.error_messages %>
 
@@ -142,7 +140,7 @@
         <%= f.label :open_text %><br />
       </td>
       <td>
-        <%= f.text_area :open_text, :class=>'rich' %>
+        <%= f.text_area :open_text %>
       </td>
     </tr>
     <tr>
@@ -150,7 +148,7 @@
         <%= f.label :closed_text %><br />
       </td>
       <td>
-        <%= f.text_area :closed_text, :class=>'rich' %>
+        <%= f.text_area :closed_text %>
       </td>
     </tr>
     <tr>
@@ -158,7 +156,7 @@
         <%= f.label :session_text %><br />
       </td>
       <td>
-        <%= f.text_area :session_text, :class=>'rich' %>
+        <%= f.text_area :session_text %>
       </td>
     </tr>
     <tr>
@@ -166,7 +164,7 @@
         <%= f.label :tracks_text %><br />
       </td>
       <td>
-        <%= f.text_area :tracks_text, :class=>'rich' %>
+        <%= f.text_area :tracks_text %>
       </td>
     </tr>
     <tr>

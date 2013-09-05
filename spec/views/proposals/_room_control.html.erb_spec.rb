@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require 'spec_helper'
 
 describe "/proposals/_room_control.html.erb" do
   it "should render a selector for choosing a room" do
@@ -10,10 +10,10 @@ describe "/proposals/_room_control.html.erb" do
     proposal = stub_model(Proposal, :room => rooms.first, :room_id => rooms.first.id, :event => event)
     assigns[:proposal] = proposal
     render "/proposals/_room_control.html.erb"
-    response.should have_tag("select[name='proposal[room_id]']") do
-      with_tag "option[value=]", "- None -"
-      with_tag "option[value=1][selected]", "First Room"
-      with_tag "option[value=2]", "Second Room"
+    response.should have_selector("select[name='proposal[room_id]']") do |node|
+      node.should have_selector("option[value='']", :content => "- None -")
+      node.should have_selector("option[value='1'][selected]", :content => "First Room")
+      node.should have_selector("option[value='2']", :content => "Second Room")
     end
   end
 end

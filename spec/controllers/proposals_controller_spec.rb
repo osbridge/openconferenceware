@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe ProposalsController do
   integrate_views
@@ -41,7 +41,7 @@ describe ProposalsController do
 
           get :index, :event_id => @event.slug, :format => "csv"
 
-          @rows = CSV::Reader.parse(response.body).to_a
+          @rows = Array(CSV::Reader.parse(response.body))
           @header = @rows.first
         end
 
@@ -150,7 +150,8 @@ describe ProposalsController do
         get :index, :event_id => @event.slug, :format => "xml"
 
         @proposals = assigns(:proposals)
-        @records = ActiveResource::Formats::XmlFormat.decode(response.body)
+        @struct = Hash.from_xml(response.body)
+        @records = @struct['proposals']
         @record = @records.first
       end
 
@@ -285,8 +286,8 @@ describe ProposalsController do
       stub_current_event!(:event => event)
 
       get :sessions_index, :event => 1234
-      response.should have_tag(".event_text", event.session_text)
-      response.should have_tag(".session_text", event.session_text)
+      response.should have_selector(".event_text", :content => event.session_text)
+      response.should have_selector(".session_text", :content => event.session_text)
     end
 
     it "should display a list of sessions" do
@@ -386,7 +387,7 @@ describe ProposalsController do
         @users = []
         @users.stub!(:by_name).and_return([])
         
-        @proposal = stub_model(Proposal, :id => @key, :event => @event, :users => @users)
+        @proposal = stub_model(Proposal, :id => @key, :event => @event, :track => @event.tracks.empty? ? nil : Track.first, :users => @users)
         @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
         controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
         get opts[:session] ? :session_show : :show, :id => @key
@@ -468,12 +469,12 @@ describe ProposalsController do
       it "should notify owners of acceptance" do
         login_as(users(:quentin))
         get :show, :id => @proposal.id
-        response.should have_tag("h3", /Congratulations/)
+        response.should have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify non-owners of acceptance" do
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify owners of acceptance if proposal confirmation controls are not visible" do
@@ -484,7 +485,7 @@ describe ProposalsController do
         login_as(users(:quentin))
 
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
     end
 
@@ -496,19 +497,19 @@ describe ProposalsController do
 
       it "should not notify proposed proposal owners of acceptance" do
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify rejected proposal owners of acceptance" do
         @proposal.reject!
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
 
       it "should not notify junk proposal owners of acceptance" do
         @proposal.mark_as_junk!
         get :show, :id => @proposal.id
-        response.should_not have_tag("h3", /Congratulations/)
+        response.should_not have_selector("h3", :content => 'Congratulations')
       end
     end
 
@@ -760,7 +761,7 @@ describe ProposalsController do
         SETTINGS.stub!(:have_anonymous_proposals).and_return(true)
         assert_create(nil, :event_id => @event.slug, :commit => 'Login', :openid_url => 'http://foo.bar') do
           response.should be_redirect
-          response.should redirect_to(browser_session_url(:openid_url => 'http://foo.bar'))
+          response.should redirect_to(open_id_complete_url(:openid_url => 'http://foo.bar'))
           assigns(:proposal).should be_blank
         end
       end
@@ -847,7 +848,7 @@ describe ProposalsController do
       end
     end
 
-    describe "theme-specific success page" do
+    describe "success page" do
       before(:each) do
         login_as(:quentin)
         @proposal = stub_model(Proposal, :id => 123)
@@ -856,18 +857,10 @@ describe ProposalsController do
         Proposal.should_receive(:new).and_return(@proposal)
       end
 
-      it "should display theme-specific success page if it exists" do
-        @controller.should_receive(:has_theme_specific_create_success_page?).and_return(true)
+      it "should display success page" do
         @controller.should_receive(:render).and_return("My HTML here")
 
         post :create, :commit => "Create", :proposal => {}
-      end
-
-      it "should redirect back to proposal if it theme-specific success page doesn't exist" do
-        @controller.should_receive(:has_theme_specific_create_success_page?).and_return(false)
-        post :create, :commit => "Create", :proposal => {}
-
-        response.should redirect_to(proposal_path(@proposal))
       end
     end
 
@@ -1028,7 +1021,7 @@ describe ProposalsController do
       get :schedule, :event_id => @event.slug
 
       response.should be_success
-      response.should have_tag(".summary", :text => /#{item.title}/)
+      response.should have_selector(".summary", :content => item.title)
     end
 
     it "should not fail like a whale with iCalendar" do
@@ -1040,9 +1033,13 @@ describe ProposalsController do
       response.should be_success
       calendar = Vpim::Icalendar.decode(response.body).first
       component = calendar.find{|t| t.summary == item.title}
+
+      dtstart = Time.parse(component.dtstart.strftime('%Y-%m-%d %H:%M:%S UTC'))
+      dtend   = Time.parse(component.dtend.strftime('%Y-%m-%d %H:%M:%S UTC'))
+
       component.should_not be_nil
-      component.dtstart.utc.should  == item.start_time.utc
-      component.dtend.utc.should    == item.end_time.utc
+      dtstart.should  == item.start_time
+      dtend.should    == item.end_time
       component.summary.should      == item.title
       component.description.should  == (item.respond_to?(:users) ?
         "#{item.users.map(&:fullname).join(', ')}: #{item.excerpt}" :
@@ -1071,24 +1068,24 @@ describe ProposalsController do
 
     it "should list" do
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}"}
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
-      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should_not have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
     end
 
     it "should add user" do
       User.should_receive(:find).and_return(@sue)
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :add => @sue.id}
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
     end
 
     it "should remove user" do
       User.should_receive(:find).and_return(@billy)
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :remove => @billy.id}
-      response.should have_tag(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should_not have_tag(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.should_not have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
     end
   end
 
@@ -1131,8 +1128,9 @@ describe ProposalsController do
     describe "existing record" do
       before(:each) do
         @proposal.id = 123
+        @proposal.event = Event.current
         @params[:id] = @proposal.id
-        Proposal.should_receive(:find).and_return(@proposal)
+        Proposal.should_receive(:find).twice.and_return(@proposal)
       end
 
       it "should match users that aren't in the proposal" do

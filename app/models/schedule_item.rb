@@ -45,11 +45,11 @@ class ScheduleItem < ActiveRecord::Base
   #---[ Accessors for getting the titles of related objects ]-------------
 
   def room_title
-    return self.room.ergo.name
+    return self.room.try(:name)
   end
 
   def event_title
-    return self.event.ergo.slug
+    return self.event.try(:slug)
   end
   alias_method :event_slug, :event_title
 end

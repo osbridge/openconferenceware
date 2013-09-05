@@ -42,7 +42,7 @@ only_for_event = local_assigns[:only_for_event]
         <% end %>
         <% user_favorites_count = @user_favorites_count_for_user_hash ? (@user_favorites_count_for_user_hash[user.id] || 0) : user.favorites.count %>
         <% unless user_favorites_count == 0 %>
-          <li>Favorites: <%= link_to "View #{user.first_name.ergo.possessiveize} favorites", user_favorites_path(user) %></li>
+          <li>Favorites: <%= link_to "View #{user.first_name.try(:possessiveize)} favorites", user_favorites_path(user) %></li>
         <% end -%>
       </ul>
     </div>
@@ -69,7 +69,7 @@ only_for_event = local_assigns[:only_for_event]
     <% if @event.proposal_status_published? %>
       <%
       # Use prefetched values
-      sessions = @sessions_for_user_hash.ergo[user.id] || user.sessions
+      sessions = @sessions_for_user_hash.try(:fetch, user.id, nil) || user.sessions
       sessions = @event.related_proposals(sessions) if only_for_event
       %>
       <% unless sessions.empty? %>

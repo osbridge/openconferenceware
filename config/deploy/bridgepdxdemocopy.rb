@@ -1,5 +1,3 @@
-set :theme, 'bridgepdx'
-
 set :repository, '.'
 
 set :scm, :git

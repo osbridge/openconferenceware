@@ -31,7 +31,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
       <% for record in records %>
         <%
         # Use prefetched values
-        track = record.respond_to?(:track_id) ? (@tracks_hash.ergo[record.track_id] || record.track) : nil
+        track = record.respond_to?(:track_id) ? (@tracks_hash.try(:fetch, record.track_id, nil) || record.track) : nil
         %>
         <% if schedule_visible? && kind == :sessions && params[:sort]=='start_time' && (record.start_time != previous_start_time) %>
           <tr>
@@ -63,20 +63,20 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
 
         <% if event_tracks? %>
         <td class='track block <%= track_css_class(track) if track %>'>
-          <%= link_to(h(track.ergo.title), event_track_path(@event, track)) || "- N/A -" %>
+          <%= track.present? ? link_to(h(track.title), event_track_path(@event, track)) : "- N/A -" %>
         </td>
         <% end %>
 
         <% if kind == :proposals %>
           <td class='date'>
-            <%= record.submitted_at.ergo{localtime.to_s} %>
+            <%= record.submitted_at.localtime.to_s if record.submitted_at.present? %>
           </td>
         <% end %>
       </tr>
       <tr>
         <td class="speakers" colspan='<%= event_tracks? ? 2 : 1 %>'>
           <% if multiple_presenters? %>
-            <% users = record.respond_to?(:users) ? (@users_for_proposal_hash.ergo[record.id] || record.users) : [] %>
+            <% users = record.respond_to?(:users) ? (@users_for_proposal_hash.try(:fetch, record.id, nil) || record.users) : [] %>
           <% end %>
           <% unless users.empty? %>
             <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
@@ -140,13 +140,13 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
 <% if event_tracks? %>
           <td>
             <p>
-              <%= track.ergo.title || "- N/A -" %>
+              <%= track.try(:title) || "- N/A -" %>
             </p>
           </td>
 <% end %>
           <td width="0" class="unbreakable">
             <p>
-              <% date = record.submitted_at.ergo{localtime.to_s} %>
+              <% date = record.submitted_at.localtime.to_s if record.submitted_at.present? %>
               <% if date_cache[date] %>
                 <!--
                 <span class="date-seen"><%= date %></span>

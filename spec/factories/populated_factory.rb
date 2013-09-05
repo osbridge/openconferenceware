@@ -37,8 +37,8 @@ def populated(kind, opts={})
     event.proposals = proposals
   else
     proposals = [
-      Factory.build(:proposal, :room => event.rooms.first, :track => tracks.first, :session_type => event.session_types.first, :users => [Factory :admin]),
-      Factory.build(:proposal, :room => event.rooms.first, :track => tracks.first, :session_type => event.session_types.first, :users => [Factory :user]),
+      Factory.build(:proposal, :room => event.rooms.first, :track => tracks.first, :session_type => event.session_types.first, :users => [Factory(:admin)]),
+      Factory.build(:proposal, :room => event.rooms.first, :track => tracks.first, :session_type => event.session_types.first, :users => [Factory(:user)]),
       Factory.build(:proposal, :room => event.rooms.first, :track => tracks.first, :session_type => event.session_types.first, :users => [Factory(:user), Factory(:user)])
     ]
     event.proposals = proposals

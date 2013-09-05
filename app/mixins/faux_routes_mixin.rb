@@ -32,9 +32,9 @@ module FauxRoutesMixin
   module Methods
     # Create a single route for the +options+.
     faux_route_for = lambda do |opts|
-      verb = opts[:verb]
-      noun = opts[:noun]
-      item = opts[:item]
+      verb = opts[:verb] # The action prefix for the route, e.g., the "new" in "new_track".
+      noun = opts[:noun] # The singular resource to create a route for, e.g., "track".
+      item = opts[:item] # Does this verb operate on an item and need an id, e.g., "new_track" does not, but "edit_track" does.
       for kind in %w[path url]
         real = "#{verb ? verb+'_' : nil}event_#{noun}_#{kind}"
         faux = "#{verb ? verb+'_' : nil}#{noun}_#{kind}"

@@ -22,71 +22,6 @@ module ApplicationHelper
     html
   end
 
-  def include_jwysiwyg
-    return if defined?(@jwysiwyg_included) && @jwysiwyg_included
-    content_for(:stylesheets, stylesheet_link_tag("jquery.wysiwyg.css"))
-    content_for(:scripts,javascript_include_tag("jquery.wysiwyg.js") + <<-HERE
-    <script type="text/javascript">
-      /*<![CDATA[*/
-      $(function()
-      {
-          $('textarea.rich').wysiwyg({
-            options: {
-              autoSave: true
-            },
-            controls: {
-              bold: { visible: true },
-              italic: { visible: true },
-              strikeThrough: { visible: true },
-              underline: { visible: true },
-              justifyLeft: { visible: false },
-              justifyCenter: { visible: false },
-              justifyRight: { visible: false },
-              justifyFull: { visible: false },
-              separator01: { visible: false },
-              indent: { visible: false },
-              outdent: { visible: false },
-              separator02: { visible: false },
-              subscript: { visible: false },
-              superscript: { visible: false },
-              separator03: { visible: false },
-              undo: { visible: false },
-              redo: { visible: false },
-              separator04: { visible: false },
-              insertOrderedList: { visible: true },
-              insertUnorderedList: { visible: true },
-              insertHorizontalRule: { visible: false },
-              separator05: { visible: true },
-              createLink: { visible: true },
-              insertImage: { visible: true },
-              separator06: { visible: true },
-              h1mozilla: { visible: false },
-              h2mozilla: { visible: false },
-              h3mozilla: { visible: false },
-              h1: { visible: false },
-              h2: { visible: false },
-              h3: { visible: false },
-              separator07: { visible: false },
-              cut: { visible: false },
-              copy: { visible: false },
-              paste: { visible: false },
-              separator08: { visible: false },
-              increaseFontSize: { visible: false },
-              decreaseFontSize: { visible: false },
-              separator09: { visible: false },
-              html: { visible: true },
-              removeFormat: { visible: true },
-              seperator00: { visible: false },
-            }
-          });
-      });
-      /*]]>*/
-    </script>
-    HERE
-    )
-    @jwysiwyg_included = true
-  end
-
   # Add the +html+ to the stylesheets of the layout. Example:
   #   <%= add_stylesheet(stylesheet_link_tag "custom") %>
   def add_stylesheet(html)
@@ -101,9 +36,9 @@ module ApplicationHelper
 
   # Indents a block of code to a specified minimum indent level.
   def indent_block(string, level=0)
-    lines = string.to_a
+    lines = Array(string)
     common_space = lines.map{|line| line.length - line.lstrip.length}.min
-    string.to_a.map{ |line| ('  ' * level) + line[common_space..-1] }.join
+    Array(string).map{ |line| ('  ' * level) + line[common_space..-1] }.join
   end
 
   # Exposes a value as a property of the JavaScript 'app' object.
@@ -113,7 +48,7 @@ module ApplicationHelper
   #
   def expose_to_js(key, value)
     raise(ArgumentError, "key must be a symbol") unless key.is_a?(Symbol)
-    value = "'#{value}'" unless value.is_a?(Integer) || value.bool?
+    value = "'#{value}'" unless value.is_a?(Integer) || true == self || false == self
     content_for :javascript_expose_values, "app.#{key.to_s} = #{value};\n"
   end
 
@@ -194,7 +129,7 @@ module ApplicationHelper
 
   # Should the "submit a proposal" link be shown?
   def display_submit_proposal_link?
-    assigned_event.ergo.accepting_proposals? && !(controller.controller_name == 'proposals' && action_name == 'new')
+    assigned_event.try(:accepting_proposals?) && !(controller.controller_name == 'proposals' && action_name == 'new')
   end
 
   #---[ Assigned events ]-------------------------------------------------
@@ -216,6 +151,6 @@ module ApplicationHelper
 
   # Return array of non-child events assigned to this request sorted by end-date.
   def assigned_nonchild_events_by_date
-    return self.assigned_nonchild_events.sort_by{|event| event.end_date.ergo.to_i || 0}
+    return self.assigned_nonchild_events.sort_by{|event| event.end_date.try(:to_i) || 0}
   end
 end

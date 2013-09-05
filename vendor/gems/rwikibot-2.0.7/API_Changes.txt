@@ -1,4 +1,0 @@
-Moved classes into RWikiBot namespace.
-Renamed RWikiBot class to RwikiBot::Bot.
-
-RWikiBot.new now takes a hash with named arguments.

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe CommentsController do
   integrate_views
@@ -43,8 +43,8 @@ describe CommentsController do
 
           response.should be_success
           comments = assigns(:comments)
-          records = ActiveResource::Formats::XmlFormat.decode(response.body)['entry']
-          records.size.should == comments.size
+          struct = Hash.from_xml(response.body)
+          struct['feed']['entry'].size.should == comments.size
         end
       end
     end

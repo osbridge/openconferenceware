@@ -290,17 +290,6 @@
   <% end %>
 </div>
 
-<% content_for :stylesheets do %>
-  <%= stylesheet_link_tag 'jquery.autocomplete.css' %>
-<% end %>
-
-<% content_for :scripts do %>
-  <%= javascript_include_tag \
-    'jquery.bgiframe.min.js',
-    'jquery.dimensions.min.js',
-    'jquery.autocomplete.min.js' %>
-<% end %>
-
 <% content_for :javascript do %>
   <% path_record = @proposal.new_record? ? "new_record" : @proposal %>
   $(document).ready(function() {

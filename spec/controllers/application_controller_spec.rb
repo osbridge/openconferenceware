@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe ApplicationController do
   fixtures :all
@@ -167,8 +167,7 @@ describe ApplicationController do
           :path => '/proposals',
           :format => 'html',
           :protocol => 'http',
-          :host_with_port => 'foo:80',
-          :relative_url_root => ''))
+          :host_with_port => 'foo:80'))
 
         @controller.instance_variable_set(:@event, event)
         @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")

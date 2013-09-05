@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe Event do
   describe "when accepting proposals" do
@@ -78,7 +78,7 @@ describe Event do
       end_date   = Time.now.utc.to_date + 2.weeks
       event = Event.new(:start_date => start_date, :end_date => end_date)
 
-      event.dates.should == (start_date..end_date).to_a
+      event.dates.should == Array(start_date..end_date)
     end
 
     it "should return empty array if no dates" do

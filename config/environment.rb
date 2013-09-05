@@ -24,7 +24,7 @@ end
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 # NOTE: When upgrading, change Gemfile too because it must match
-RAILS_GEM_VERSION = '~> 2.1.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '~> 2.3.18' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -33,10 +33,6 @@ Rails::Initializer.run do |config|
   # For more gem dependencies see:
   # * Gemfile
   # * config/initializers/libraries.rb
-
-  # Activate gems in vendor/gems
-  config.gem 'comma'
-  config.gem 'rwikibot'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -54,7 +50,7 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  config.load_paths += %W[
+  config.autoload_paths += %W[
     #{RAILS_ROOT}/app/observers
     #{RAILS_ROOT}/app/mixins
   ]
@@ -90,19 +86,10 @@ Rails::Initializer.run do |config|
   require 'secrets_reader'
   SECRETS = SecretsReader.read
 
-  # Read theme
-  require 'theme_reader'
-  THEME_NAME = ThemeReader.read
-  Kernel.class_eval do
-    def theme_file(filename)
-      return "#{RAILS_ROOT}/themes/#{THEME_NAME}/#{filename}"
-    end
-  end
-
   # Read settings
   require 'settings_reader'
   SETTINGS = SettingsReader.read(
-    theme_file('settings.yml'), {
+    File.join(RAILS_ROOT, 'config', 'settings.yml'), {
       'public_url' => 'http://change_your/settings.yml/',
       'mailer_host' => 'change-your-mailer-host.local',
       'organization' => 'Default Organization Name',
@@ -130,7 +117,7 @@ Rails::Initializer.run do |config|
 
   # Set cookie session
   config.action_controller.session = {
-    :session_key => SECRETS.session_name || 'openproposals',
+    :key => SECRETS.session_name || 'openproposals',
     :secret => SECRETS.session_secret,
   }
 

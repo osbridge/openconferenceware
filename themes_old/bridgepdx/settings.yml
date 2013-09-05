@@ -1,0 +1,95 @@
+# Public URL of website:
+public_url: 'http://opensourcebridge.org/'
+
+# URL where OCW is installed
+app_root_url: 'http://opensourcebridge.org/'
+
+# Mailer host
+mailer_host: 'opensourcebridge.org'
+
+# URL of wiki with session notes (optional). This 'printf' format contains
+# positional variables that filled by Proposal#session_notes_url:
+#   * %1 => site's public URL
+#   * %2 => parent OR event slug
+#   * %3 => event slug
+# E.g., '%1$s%2$s/wiki/' may translate to 'http://my_site.com/my_parent_slug/wiki'
+session_notes_wiki_url_format: '%1$swiki/%2$s/'
+
+# Organization running event:
+organization: 'Open Source Bridge'
+
+# Abbreviated name for use in URLs and proposal slugs.
+organization_slug: 'osb'
+
+# Twitter account for the event
+twitter: 'osbridge'
+
+# Top-level tagline or description.
+tagline: 'The conference for open source citizens / June 18-21, 2013 / Portland, OR'
+
+# Aggreement to show on proposal pages.
+agreement:  'I have reviewed and agree to the <a href="http://opensourcebridge.org/about/recording-policy/" target="_blank">recording policy</a> and <a href="http://opensourcebridge.org/about/code-of-conduct/" target="_blank">code of conduct</a>. I understand that Open Source Bridge is not the appropriate place for commercial promotion ("spam") of a product, service or solution and this not welcomed by the audience.'
+
+# Breadcrumbs that are always visible, each breadcrumb is a name and URI:
+breadcrumbs: []
+
+# Timezone for dates in this application:
+timezone: 'Pacific Time (US & Canada)'
+
+# What is the slug for the current event? E.g., if this is '2009' and the user visits the '/proposals' URI, then the system will try to lookup an Event with the '2009' slug and redirect to '/events/2009 proposals' if it's available.
+# TODO: Setting the current event here is a short-term hack and will be replaced shortly with a Site record that tracks the current event in the database and provides a way to set it through an admin web UI.
+current_event_slug: '2013'
+
+# Can people create proposals without logging in?
+have_anonymous_proposals: false
+
+# Do proposals have excerpts?
+have_proposal_excerpts: true
+
+# Do events have tracks?
+have_event_tracks: true
+
+# Do events have session types?
+have_event_session_types: true
+
+# Display events picker so user can pick between multiple events?
+have_events_picker: false
+
+# Are proposals associated with multiple presenters?
+have_multiple_presenters: true
+
+# Can people upload pictures of themselves?
+have_user_pictures: true
+
+# Is profile information, like biography, stored in the User record? Else stored in Proposal.
+have_user_profiles: true
+
+# Do events have rooms?
+have_event_rooms: true
+
+# Should a proposal ask for the submitter's speaking experience?
+have_proposal_speaking_experience: true
+
+# Can proposals have start times?
+have_proposal_start_times: true
+
+# Can proposals have statuses?
+have_proposal_statuses: true
+
+# Can users add comments until a toggle is flipped on the event?
+have_event_proposal_comments_after_deadline: true
+
+# What audience experience levels can a proposal be classified as? The list will be displayed on the form in the order defined below. The "slug" is the unique key defining the particular audience level, while the "label" is the human-readable value displayed.
+proposal_audience_levels:
+  -
+    slug: a
+    label: Beginner
+  -
+    slug: b
+    label: Intermediate
+  -
+    slug: c
+    label: Advanced
+
+# What message is displayed as a hint to explain the audience level?
+proposal_audience_level_hint: "(Tell us the intended audience experience level for this talk)"
