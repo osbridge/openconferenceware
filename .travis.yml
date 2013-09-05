@@ -2,7 +2,6 @@ language: ruby
 rvm:
   - 1.8.7
   - ree
-  - 1.9.3
 env: THEME=bridgepdx
 before_install:
   - rvm rubygems 1.8.25
