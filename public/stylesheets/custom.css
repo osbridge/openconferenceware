@@ -1,15 +1,20 @@
-/* @override
-	http://localhost:3000/themes/bridgepdx/stylesheets/custom.css
-	http://ocw.local/themes/bridgepdx/stylesheets/custom.css
-*/
+div.skip-link a {
+  position: absolute;
+  right: 0px;
+  top: -99px;
+  background: none repeat scroll 0% 0% rgb(17, 109, 182);
+  color: rgb(255, 255, 255);
+  padding: 0.5em;
+  font-size: 0.7em;
+  text-decoration: none;
+}
 
-/* Make VIM use tabs in this file
-vim:tw=0:ft=css:noet:
-*/
+#content {
+  position: relative;
+}
 
-#breadcrumbs {
-  color: #888;
-  margin-bottom: .5em;
+body {
+  padding-top: 1em;
 }
 
 /* @group Common Helper Classes */
@@ -151,7 +156,7 @@ span.admin-only {
   padding-left: 20px;
   background-position: left center;
   background-repeat: no-repeat;
-	background-image: url('/images/new_window.gif');
+  background-image: url('/images/new_window.gif');
 }
 
 /* @end */
@@ -395,7 +400,7 @@ div.rnd_content {
 }
 
 .track.block a {
-	color: #fff
+  color: #fff
 }
 
 /* @end */
@@ -651,21 +656,6 @@ ul.speakers .note li {
   width: 100%;
 }
 
-table#proposal-status-counts {
-  collapse: collapse;
-}
-
-#proposal-status-counts th {
-  background-color: #DEDEDE;
-}
-
-#proposal-status-counts th,
-#proposal-status-counts td {
-  text-align: center;
-  border: 1px solid #DEDEDE;
-  vertical-align: top;
-}
-
 /* @end */
 
 /* @end */
@@ -684,6 +674,7 @@ table#proposal-status-counts {
 }
 
 .schedule h4 {
+  margin-top: 0;
   background: #116db6;
   padding: .3em .4em;
   border-bottom: 1px solid #9cbdd6;
@@ -696,7 +687,7 @@ table#proposal-status-counts {
 }
 
 .schedule a.to_top {
-	float: right;
+  float: right;
 }
 
 .schedule .schedule_block {
@@ -708,6 +699,7 @@ table#proposal-status-counts {
 
 ul.calendar_items {
   margin: 0;
+  padding: 0;
 }
 
 .calendar_items .concise a {
@@ -773,15 +765,6 @@ ul.calendar_items {
   margin-top: 3em;
 }
 
-.calendar_download {
-  background: url(/common/i/calendar.png) no-repeat;
-  padding: 3px 0 0 50px;
-  min-height: 26px;
-  position: absolute;
-  top: 3em;
-  right: 2em;
-}
-
 .schedule_color_key {
   margin: 4em 0 .5em;
 }
@@ -811,7 +794,8 @@ ul.calendar_items {
 /* @group Speaker List */
 
 .user_list {
-	margin: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .user_box .user_head {
@@ -837,11 +821,11 @@ ul.calendar_items {
 }
 
 .user_box .user_body {
-	padding: 1em .5em;
+  padding: 1em .5em;
 }
 
 .user_box .user_head h3 {
-	display: inline;
+  display: inline;
 }
 
 .user_box h4.sessions {
@@ -849,45 +833,45 @@ ul.calendar_items {
 }
 
 .user_box .affiliation {
-	float: right;
-	font-style: italic;
-	font-size: .9em;
+  float: right;
+  font-style: italic;
+  font-size: .9em;
 }
 
 
 .user_box .user-photo {
-	border: 3px solid #222;
-	background: #222;
+  border: 3px solid #222;
+  background: #222;
 }
 
 .user_box .user_head h3 a {
-	text-decoration: none;
-	color: #fff;
+  text-decoration: none;
+  color: #fff;
 }
 
 .user_box .user_head h3 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .user_box .user_links {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .user_box .user_links a {
-	font-weight: normal;
+  font-weight: normal;
 }
 
 .user_box .user_links ul {
-	margin: 0 0 1em 0;
+  margin: 0 0 1em 0;
 }
 
 .user_box .user_links li {
-	list-style: none;
+  list-style: none;
 }
 
 .user_box .user_head h4 {
-	color: #116db6;
-	margin-bottom: .4em;
+  color: #116db6;
+  margin-bottom: .4em;
 }
 
 /* @end */
@@ -993,13 +977,13 @@ body.users.show h2.page_title {
 
 .submit_a_proposal,
 .sidebar .submit_a_proposal {
-	font-weight: bold;
-	background: #08b9a6;
-	color: #fff;
-	padding: .3em .5em;
-	display: block;
-	margin: .3em 0 0 -.5em;
-	border: 3px solid #109A8B;
+  font-weight: bold;
+  background: #08b9a6;
+  color: #fff;
+  padding: .3em .5em;
+  display: block;
+  margin: .3em 0 0 -.5em;
+  border: 3px solid #109A8B;
 }
 
 .selector-vote-form table {
@@ -1019,8 +1003,8 @@ body.users.show h2.page_title {
 }
 
 .selector-vote-form-protip {
-	line-height: 1;
-	font-size: 80%;
+  line-height: 1;
+  font-size: 80%;
   font-style: italic;
 }
 

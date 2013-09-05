@@ -1,38 +1,40 @@
 <% page_title "Events" %>
 
-<table class="scaffolded">
-  <tr>
-    <th>Slug</th>
-    <th>Title</th>
-    <th>Accepting?</th>
-    <th>Deadline</th>
-    <th>Manage</th>
-  </tr>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th>Slug</th>
+      <th>Title</th>
+      <th>Accepting?</th>
+      <th>Deadline</th>
+      <th>Manage</th>
+    </tr>
 
-<% if @events.blank? %>
-  <tr>
-    <td colspan="5" class="empty-text">
-      &mdash; No events &mdash;
-    </td>
-  </tr>
-<% end %>
-<% for event in @events %>
-  <tr class="<%= cycle("even", "odd") %>">
-    <td><%=h event.slug %></td>
-    <td>
-      <%= link_to h(event.title), [:manage, event] %>
-    </td>
-    <td><%=h event.accepting_proposals?.inspect %></td>
-    <td><%=h event.deadline %></td>
-    <td>
-      <%= link_to 'Show', manage_event_path(event), :class => "showable" %>
-      <%= link_to 'Proposals', event_proposals_path(event), :class => "showable" %>
-      <%= link_to 'Edit', edit_manage_event_path(event), :class => "editable" %>
-      <%= link_to 'Destroy', manage_event_path(event), :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
-    </td>
-  </tr>
-<% end %>
-</table>
+  <% if @events.blank? %>
+    <tr>
+      <td colspan="5" class="empty-text">
+        &mdash; No events &mdash;
+      </td>
+    </tr>
+  <% end %>
+  <% for event in @events %>
+    <tr class="<%= cycle("even", "odd") %>">
+      <td><%=h event.slug %></td>
+      <td>
+        <%= link_to h(event.title), [:manage, event] %>
+      </td>
+      <td><%=h event.accepting_proposals?.inspect %></td>
+      <td><%=h event.deadline %></td>
+      <td>
+        <%= link_to 'Show', manage_event_path(event), :class => "showable" %>
+        <%= link_to 'Proposals', event_proposals_path(event), :class => "showable" %>
+        <%= link_to 'Edit', edit_manage_event_path(event), :class => "editable" %>
+        <%= link_to 'Destroy', manage_event_path(event), :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
 
 <br />
 

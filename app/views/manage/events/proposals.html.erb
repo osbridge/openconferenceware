@@ -5,7 +5,7 @@
 <% run_when_dom_is_ready "bind_manage_proposals_checkboxes();" %>
 
 <% if proposal_statuses? %>
-  <table cellspacing="0" id="proposal-status-counts">
+  <table cellspacing="0" class="table table-bordered">
     <tr>
       <th>Proposed</th>
       <th>Accepted</th>
@@ -33,7 +33,7 @@
 <%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
 </p>
 <p>
-  <% form_tag(manage_notify_speakers_path(@event), :method => :post) do %>
+  <% form_tag(manage_notify_speakers_path(@event), :method => :post, :class => "form-inline") do %>
     <%= hidden_field_tag 'proposal_ids', '', :id => 'accepted_email_proposal_ids' %>
     <%= hidden_field_tag 'proposal_status', 'accepted' %>
     <% confirm_text = "Email uses the snippets 'proposals_acceptance_email_text' and 'proposals_acceptance_email_subject'.\n\n"
@@ -41,14 +41,14 @@
          confirm_text << "WARNING: the event's 'Show proposal confirmation controls' should be set to YES but it isn't.\n\n"
        end
     %>
-    <%= submit_tag 'Send acceptance email to checked speakers', :confirm => "#{confirm_text}Send email?" %>
+    <%= submit_tag 'Send acceptance email to checked speakers', :confirm => "#{confirm_text}Send email?", :class => "btn btn-default" %>
   <% end %>
 
   <% form_tag(manage_notify_speakers_path(@event), :method => :post) do %>
     <%= hidden_field_tag 'proposal_ids', '', :id => 'rejected_email_proposal_ids' %>
     <%= hidden_field_tag 'proposal_status', 'rejected' %>
     <% confirm_text = "Email uses the snippets 'proposals_rejected_email_text' and 'proposals_rejected_email_subject'.\n\n" %>
-    <%= submit_tag 'Send rejection email to checked speakers', :confirm => "#{confirm_text}Send email?" %>
+    <%= submit_tag 'Send rejection email to checked speakers', :confirm => "#{confirm_text}Send email?", :class => "btn btn-default" %>
   <% end %>
 </p>
 

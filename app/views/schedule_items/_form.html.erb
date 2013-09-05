@@ -5,32 +5,31 @@
 
   <p>
     <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :class => "form-control" %>
   </p>
   <p>
     <%= f.label :excerpt %> (<%= display_textile_help_link %>)<br />
-    <%= f.text_area :excerpt %>
+    <%= f.text_area :excerpt, :class => "form-control" %>
   </p>
   <p>
     <%= f.label :description %> (<%= display_textile_help_link %>)<br />
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :class => "form-control" %>
   </p>
   <p>
     <%= f.label :start_time %><br />
-    <%= f.datetime_select :start_time %>
+    <%= f.datetime_select :start_time, :class => "form-control" %>
   </p>
   <p>
     <%= f.label :duration, "Duration (minutes)" %><br />
-    <%= f.text_field :duration %>
+    <%= f.text_field :duration, :class => "form-control" %>
   </p>
   <p>
     <%= f.label :room_id, "Room" %><br />
-    <%= f.collection_select :room_id, @event.rooms, :id, :name, {:include_blank => true} %>
+    <%= f.collection_select :room_id, @event.rooms, :id, :name, {:include_blank => true}, :class => "form-control" %>
   </p>
   <p>
-    <%= f.submit @schedule_item.new_record? ? "Create" : "Update" %>
-    <%= link_to 'Cancel', @schedule_item, :class => "showable" %>
-    <%= link_to 'Back', schedule_items_path, :class => "cancelable" %>
-    <%= link_to 'Destroy', schedule_item_path(@schedule_item), :method => :delete, :confirm => %{Destroy schedule item "#{@schedule_item.title}"?}, :class => "deletable" unless @schedule_item.new_record? %>
+    <%= f.submit @schedule_item.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
+    <%= link_to 'Cancel', @schedule_item, :class => "showable", :class => "btn btn-default" %>
+    <%= link_to 'Destroy', schedule_item_path(@schedule_item), :method => :delete, :confirm => %{Destroy schedule item "#{@schedule_item.title}"?}, :class => "btn btn-danger pull-right" unless @schedule_item.new_record? %>
   </p>
 <% end %>

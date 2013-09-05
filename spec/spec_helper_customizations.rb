@@ -6,15 +6,9 @@
 # NOTE: The marshal_load/marshal_dump calls are just to avoid constant redefinition error.
 SETTINGS.marshal_load(SettingsReader.read('spec/settings.yml').marshal_dump)
 
-# Disable the shared fragment rendering
-SharedFragmentHelper.enabled = false
-
 #---[ Libraries ]-------------------------------------------------------
 
 include AuthenticatedTestHelper
-
-# Disable rendering of shared fragments during test
-SharedFragmentHelper.shared_fragment_render = false
 
 # Load factory girl and all her factories in 'spec/factories/':
 require 'factory_girl'
