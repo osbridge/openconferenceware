@@ -434,17 +434,19 @@ protected
   end
 
   def manage_speakers_on_submit
-    speakers = params[:speaker_ids].ergo.map(&:first)
-    unless speakers.blank?
-      speakers.each do |speaker|
-        @proposal.add_user(speaker)
+    if params[:speaker_ids].present?
+      speakers = params[:speaker_ids].map(&:first)
+      unless speakers.blank?
+        speakers.each do |speaker|
+          @proposal.add_user(speaker)
+        end
       end
     end
   end
 
   # Return the name of a transition (e.g., "accept") from a Proposal's params.
   def transition_from_params
-    return params[:proposal].ergo[:transition]
+    return params[:proposal].present? ? params[:proposal][:transition] : nil
   end
 
   # Return a sanitized Regexp for matching a speaker by name from the +query+ string.
@@ -459,7 +461,7 @@ protected
       return []
     else
       matcher = get_speaker_matcher(query)
-      return(User.complete_profiles.select{|u| u.fullname.ergo.match(matcher)} - @proposal.users)
+      return(User.complete_profiles.select{|u| u.fullname.try(:match, matcher)} - @proposal.users)
     end
   end
 

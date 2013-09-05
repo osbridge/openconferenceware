@@ -64,7 +64,7 @@ class Event < ActiveRecord::Base
     if self.start_date.nil? || self.end_date.nil?
       return []
     else
-      return (self.start_date.to_date .. self.end_date.to_date).to_a
+      return Array(self.start_date.to_date .. self.end_date.to_date)
     end
   end
   
@@ -168,12 +168,12 @@ class Event < ActiveRecord::Base
 
   # Return array of Rooms for this event and its parent event.
   def rooms_inherit
-    return [self.parent.ergo.rooms, self.rooms].flatten.compact.sort_by(&:name)
+    return [self.parent.try(:rooms), self.rooms].flatten.compact.sort_by(&:name)
   end
 
   # Return array of Tracks for this event, its parent, and its siblings.
   def tracks_combined
-    return [self.tracks_descend, self.parent.ergo.tracks_descend].flatten.compact.uniq.sort_by(&:title)
+    return [self.tracks_descend, self.parent.try(:tracks_descend)].flatten.compact.uniq.sort_by(&:title)
   end
   
   # Return array of Tracks for this event and its children.

@@ -52,19 +52,19 @@ protected
   # Return the current_user's email address, from either the currently-logged
   # in user or the cookie, else nil.
   def current_email
-    return(current_user_or_nil.ergo.email || session[:email])
+    return(current_user_or_nil.try(:email) || session[:email])
   end
   helper_method :current_email
 
   # Return a cache key for the currently authenticated or anonymous user.
   def current_user_cache_key
-    return current_user_or_nil.ergo.id || -1
+    return current_user_or_nil.try(:id) || -1
   end
   helper_method :current_user_cache_key
 
   # Return a cache key for the current event.
   def current_event_cache_key
-    return @event.ergo.id || -1
+    return @event.try(:id) || -1
   end
   helper_method :current_event_cache_key
 
@@ -156,7 +156,7 @@ protected
       else @event
       end
 
-    return event.ergo.accepting_proposals?
+    return event.try(:accepting_proposals?)
   end
   helper_method :accepting_proposals?
 
@@ -390,14 +390,14 @@ protected
   # OMFG HORRORS!!1!
   def assign_prefetched_hashes
     @users                    = Defer { @event.users }
-    @users_hash               = Defer { @users.all.mash{|t| [t.id, t]} }
+    @users_hash               = Defer { Hash[@users.all.map{|t| [t.id, t]}] }
     @speakers                 = Defer { @event.speakers }
-    @speakers_hash            = Defer { @speakers.all.mash{|t| [t.id, t]} }
-    @tracks_hash              = Defer { @event.tracks.all.mash{|t| [t.id, t]} }
-    @rooms_hash               = Defer { @event.rooms.all.mash{|t| [t.id, t]} }
-    @session_types_hash       = Defer { @event.session_types.all.mash{|t| [t.id, t]} }
-    @proposals_hash           = Defer { @event.proposals.all(:include => [:track, :session_type]).mash{|t| [t.id, t]} }
-    @sessions_hash            = Defer { @event.proposals.confirmed.all(:include => [:track, :session_type]).mash{|t| [t.id, t]} }
+    @speakers_hash            = Defer { Hash[@speakers.all.map{|t| [t.id, t]}] }
+    @tracks_hash              = Defer { Hash[@event.tracks.all.map{|t| [t.id, t]}] }
+    @rooms_hash               = Defer { Hash[@event.rooms.all.map{|t| [t.id, t]}] }
+    @session_types_hash       = Defer { Hash[@event.session_types.all.map{|t| [t.id, t]}] }
+    @proposals_hash           = Defer { Hash[@event.proposals.all(:include => [:track, :session_type]).map{|t| [t.id, t]}] }
+    @sessions_hash            = Defer { Hash[@event.proposals.confirmed.all(:include => [:track, :session_type]).map{|t| [t.id, t]}] }
     @users_and_proposals      = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.event_id = #{@event.id}}) }
     @users_and_sessions       = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.status = "confirmed" and proposals.event_id = #{@event.id}}) }
     @users_for_proposal_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["proposal_id"].to_i] ||= Set.new) << @users_hash[v["user_id"].to_i]; s} }

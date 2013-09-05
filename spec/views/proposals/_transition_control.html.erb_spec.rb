@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require 'spec_helper'
 
 describe "/proposals/_transition_control.html.erb" do
   it "should render a state changing select menu with valid events and destination label" do

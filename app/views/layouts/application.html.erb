@@ -156,7 +156,7 @@
               <li id="login-as">
                 <ul>
                   <li><%= link_to "Login", login_path %></li>
-                  <% if assigned_event.ergo.accepting_proposals? %>
+                  <% if assigned_event.try(:accepting_proposals?) %>
                     <%= content_tag(:li, link_to( "Submit a proposal", new_event_proposal_path(assigned_event), :class => 'submit_a_proposal' )) %>
                   <% end %>
                 </ul>

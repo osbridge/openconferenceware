@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.sessions_terse '/sessions_terse', :controller => 'proposals', :action => 'sessions_index_terse'
 
   map.resources :events, :member => { :speakers => :get } do |event|
-    event.resources :proposals, :controller => 'proposals', :collection => 'stats'
+    event.resources :proposals, :controller => 'proposals', :collection => ['stats']
     event.resources :tracks, :controller => 'tracks'
     event.resources :session_types
     event.resources :rooms

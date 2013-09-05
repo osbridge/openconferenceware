@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 def stub_speaker_mailer_secrets
   SECRETS.stub!(:email => {

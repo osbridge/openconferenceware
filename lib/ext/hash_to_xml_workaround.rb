@@ -4,7 +4,7 @@ class Hash
       result.each_pair do |key, value|
         case result[key]
         when Array
-          result[key] = value.each_with_index.to_a.inject({}){|s,v| s["index_#{v.last}"] = v.first; s}
+          result[key] = Array(value.each_with_index).inject({}){|s,v| s["index_#{v.last}"] = v.first; s}
         end
       end
     end

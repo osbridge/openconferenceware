@@ -199,7 +199,7 @@ class ScheduleBlock
   attr_accessor :items
 
   def initialize(items=[], start_time=nil, end_time=nil)
-    self.items = items.sort_by{|item| [item.start_time, item.end_time, (item.room.ergo.name || ""), item.title]}
+    self.items = items.sort_by{|item| [item.start_time, item.end_time, (item.room.try(:name) || ""), item.title]}
     self.start_time = start_time
     self.end_time = end_time
   end

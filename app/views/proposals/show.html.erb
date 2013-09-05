@@ -185,12 +185,12 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
       <% end %>
     <% end %>
   <% if event_tracks? %>
-      <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.ergo.title.blank? %>'>
-        <%= link_to(h(@proposal.track.ergo.title), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
+      <div class='track block <%= track_css_class(@proposal.track) unless @proposal.track.try(:title).blank? %>'>
+        <%= link_to(h(@proposal.track.try(:title)), event_track_path(@proposal.event, @proposal.track)) || "- N/A -" %>
       </div>
   <% end %>
   <% if event_session_types? && @proposal.session_type && ! @proposal.session_type.title.blank? && @event.session_types.size > 1 %>
-      <%= link_to(h(@proposal.session_type.ergo.title), event_session_type_path(@proposal.event, @proposal.session_type), :class=>'session_type') || "- N/A -" %>
+      <%= link_to(h(@proposal.session_type.try(:title)), event_session_type_path(@proposal.event, @proposal.session_type), :class=>'session_type') || "- N/A -" %>
   <% end %>
     <% unless @proposal.audience_level_label.blank? %>
       <div class='proposal-audience_level'>

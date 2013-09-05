@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe Proposal do
   fixtures :all
@@ -318,7 +318,7 @@ describe Proposal do
       data = Proposal.to_icalendar(items, :title => title, :url_helper => url_helper)
 
       calendar = Vpim::Icalendar.decode(data).first
-      components = calendar.to_a
+      components = Array(calendar)
       components.size.should == 2
       assert_calendar_match(mysql_record, components.find{|t| t.summary == mysql_record.title}, url_helper)
       assert_calendar_match(postgresql_record, components.find{|t| t.summary == postgresql_record.title}, url_helper)
@@ -330,7 +330,7 @@ describe Proposal do
 
       data = Proposal.to_icalendar([item])
       calendar = Vpim::Icalendar.decode(data).first
-      components = calendar.to_a
+      components = Array(calendar)
       components.size.should == 0
     end
 
@@ -340,7 +340,7 @@ describe Proposal do
 
       data = Proposal.to_icalendar([item])
       calendar = Vpim::Icalendar.decode(data).first
-      components = calendar.to_a
+      components = Array(calendar)
       components.size.should == 1
       component = components.first
       assert_calendar_match(item, component)

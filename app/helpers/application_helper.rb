@@ -36,9 +36,9 @@ module ApplicationHelper
 
   # Indents a block of code to a specified minimum indent level.
   def indent_block(string, level=0)
-    lines = string.to_a
+    lines = Array(string)
     common_space = lines.map{|line| line.length - line.lstrip.length}.min
-    string.to_a.map{ |line| ('  ' * level) + line[common_space..-1] }.join
+    Array(string).map{ |line| ('  ' * level) + line[common_space..-1] }.join
   end
 
   # Exposes a value as a property of the JavaScript 'app' object.
@@ -48,7 +48,7 @@ module ApplicationHelper
   #
   def expose_to_js(key, value)
     raise(ArgumentError, "key must be a symbol") unless key.is_a?(Symbol)
-    value = "'#{value}'" unless value.is_a?(Integer) || value.bool?
+    value = "'#{value}'" unless value.is_a?(Integer) || true == self || false == self
     content_for :javascript_expose_values, "app.#{key.to_s} = #{value};\n"
   end
 
@@ -129,7 +129,7 @@ module ApplicationHelper
 
   # Should the "submit a proposal" link be shown?
   def display_submit_proposal_link?
-    assigned_event.ergo.accepting_proposals? && !(controller.controller_name == 'proposals' && action_name == 'new')
+    assigned_event.try(:accepting_proposals?) && !(controller.controller_name == 'proposals' && action_name == 'new')
   end
 
   #---[ Assigned events ]-------------------------------------------------
@@ -151,6 +151,6 @@ module ApplicationHelper
 
   # Return array of non-child events assigned to this request sorted by end-date.
   def assigned_nonchild_events_by_date
-    return self.assigned_nonchild_events.sort_by{|event| event.end_date.ergo.to_i || 0}
+    return self.assigned_nonchild_events.sort_by{|event| event.end_date.try(:to_i) || 0}
   end
 end

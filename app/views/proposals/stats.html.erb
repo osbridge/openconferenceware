@@ -28,15 +28,17 @@ cache "proposals_stats,event_#{@event.slug}" do
     date_cursor = @proposals.first.created_at.to_date
     data = [0]
     previous_date = nil
-    set[:records].ergo.each_with_index do |proposal,i|
-      proposal_date = proposal.created_at.to_date
-      if proposal_date != previous_date || i == set[:records].size-1
-        while date_cursor != proposal_date
-          data << i+1
-          date_cursor += 1
+    if set[:records].present?
+      set[:records].each_with_index do |proposal,i|
+        proposal_date = proposal.created_at.to_date
+        if proposal_date != previous_date || i == set[:records].size-1
+          while date_cursor != proposal_date
+            data << i+1
+            date_cursor += 1
+          end
         end
+        previous_date = proposal_date
       end
-      previous_date = proposal_date
     end
     proposals_over_time.data key, data, set[:color].gsub('#','')
   end
@@ -46,19 +48,19 @@ cache "proposals_stats,event_#{@event.slug}" do
 
   track_distribution = GoogleChart::PieChart.new("650x400","Proposals by Track",false)
   @tracks.each do |track|
-    count = proposals_for_track[track].ergo.size || 0
+    count = proposals_for_track[track].try(:size) || 0
     track_distribution.data "#{track.title} (#{count})", count, track.color.html.gsub('#','')
   end
 
   session_type_distribution = GoogleChart::PieChart.new("650x400","Proposals by Session Type",false)
   @session_types.each do |type|
-    count = proposals_for_session_type[type].ergo.size || 0
+    count = proposals_for_session_type[type].try(:size) || 0
     session_type_distribution.data "#{type.title} (#{count})", count
   end
 
   session_status_distribution = GoogleChart::PieChart.new("650x400","Proposals by Status",false)
   proposals_for_status.keys.each do |status|
-    count = proposals_for_status[status].ergo.size || 0
+    count = proposals_for_status[status].try(:size) || 0
     session_status_distribution.data "#{status.titleize} (#{count})", count
   end
   %>

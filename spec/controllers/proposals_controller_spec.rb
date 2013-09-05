@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe ProposalsController do
   integrate_views
@@ -41,7 +41,7 @@ describe ProposalsController do
 
           get :index, :event_id => @event.slug, :format => "csv"
 
-          @rows = CSV::Reader.parse(response.body).to_a
+          @rows = Array(CSV::Reader.parse(response.body))
           @header = @rows.first
         end
 

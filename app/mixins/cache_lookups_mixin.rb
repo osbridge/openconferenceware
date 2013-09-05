@@ -83,7 +83,8 @@ module CacheLookupsMixin
       end
 
       silo = self.lookup_silo_name
-      ActiveRecord::Base.benchmark("Lookup: #{silo}#{key.ergo{'#'+to_s}}") do
+      key_number = key.try(:[], '#'+to_s) if key.present?
+      ActiveRecord::Base.benchmark("Lookup: #{silo}#{key_number}") do
         dict = self.fetch_object(silo){
           # FIXME Exceptions within this block are silently swallowed by something. This is bad.
           dict = Dictionary.new

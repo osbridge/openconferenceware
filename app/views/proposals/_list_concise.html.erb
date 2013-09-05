@@ -10,8 +10,8 @@ hide_rooms ||= false
 <ul class='calendar_items'>
   <% items.each do |item|
     # Use prefetched values
-    track = item.respond_to?(:track_id) ? (@tracks_hash.ergo[item.track_id] || item.track) : nil
-    room = item.respond_to?(:room_id) ? (@rooms_hash.ergo[item.room_id] || item.room) : nil
+    track = item.respond_to?(:track_id) ? (@tracks_hash.try(:fetch, item.track_id, nil) || item.track) : nil
+    room = item.respond_to?(:room_id) ? (@rooms_hash.try(:fetch, item.room_id, nil) || item.room) : nil
 
     # Establish classs
     item_class = 'vevent'

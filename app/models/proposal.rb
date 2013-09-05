@@ -150,8 +150,8 @@ class Proposal < ActiveRecord::Base
   validates_presence_of :session_type,                    :if => :event_session_types?
   validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
   validates_presence_of :speaking_experience,             :if => :proposal_speaking_experience?
-  validates_presence_of :audience_level,                  :if => lambda { self.audience_levels }
-  validates_inclusion_of :audience_level,                 :if => lambda { self.audience_levels }, :allow_blank => true,
+  validates_presence_of :audience_level,                  :if => Proc.new { self.audience_levels }
+  validates_inclusion_of :audience_level,                 :if => Proc.new { self.audience_levels }, :allow_blank => true,
                                                           :in => SETTINGS.proposal_audience_levels ?
                                                                  SETTINGS.proposal_audience_levels.flatten.map { |level| level['slug'] } :
                                                                  []
@@ -176,7 +176,7 @@ class Proposal < ActiveRecord::Base
 
   # CSV Export
 
-  base_comma_attributes = lambda {
+  base_comma_attributes = Proc.new {
     id
     submitted_at
     track :title => "Track" if SETTINGS.have_event_tracks
@@ -248,12 +248,12 @@ class Proposal < ActiveRecord::Base
 
   # generates a unique slug for the proposal
   def slug
-    return "#{SETTINGS.organization_slug}#{event.ergo.slug}-%04d" % id
+    return "#{SETTINGS.organization_slug}#{event.try(:slug)}-%04d" % id
   end
 
   # returns a proposal's duration based on its session type
   def duration
-    self.session_type.ergo.duration
+    self.session_type.try(:duration)
   end
 
   # Return the time this session ends.
@@ -423,7 +423,7 @@ class Proposal < ActiveRecord::Base
 
   # Return the proposal's title downcased or nil.
   def title_downcased
-    return self.title.ergo.downcase
+    return self.title.try(:downcase)
   end
 
   # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
@@ -527,19 +527,19 @@ class Proposal < ActiveRecord::Base
   #---[ Accessors for getting the titles of related objects ]-------------
 
   def track_title
-    return self.track.ergo.title
+    return self.track.try(:title)
   end
 
   def room_title
-    return self.room.ergo.name
+    return self.room.try(:name)
   end
 
   def session_type_title
-    return self.session_type.ergo.title
+    return self.session_type.try(:title)
   end
 
   def event_title
-    return self.event.ergo.slug
+    return self.event.try(:slug)
   end
   alias_method :event_slug, :event_title
 
