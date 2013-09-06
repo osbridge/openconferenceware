@@ -28,3 +28,4 @@
 /tmp/*
 .ruby-version
 .ruby-gemset
+credentials.yml
