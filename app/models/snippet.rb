@@ -5,7 +5,7 @@
 #
 #  id          :integer(4)      not null, primary key
 #  slug        :string(255)     not null
-#  description :text            not null
+#  description :text            default(""), not null
 #  content     :text            
 #  value       :integer(4)      
 #  public      :boolean(1)      default(TRUE)
