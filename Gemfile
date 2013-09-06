@@ -39,6 +39,14 @@ gem 'prawn',               '= 0.11.1'
 group :development do
   gem 'capistrano',     :require => false
   gem 'capistrano-ext', :require => false
+
+  platform :mri_18 do
+    gem 'ruby-debug'
+  end
+
+  platform :mri_19 do
+    gem 'debugger'
+  end
 end
 
 group :test do
@@ -49,19 +57,12 @@ group :test do
   gem 'rspec',            '~> 1.3.2', :require => false
   gem 'rspec-rails',      '~> 1.3.2', :require => false
   gem 'webrat',           '~> 0.7.0', :require => false
-end
 
-# OPTIONAL LIBRARIES: These libraries upset travis-ci and may cause Ruby or
-# RVM to hang, so only use them when needed.
-if ENV['RUBYDEV']
   platform :mri_18 do
     gem 'rcov', :require => false
-    gem 'ruby-debug'
   end
 
   platform :mri_19 do
     gem 'simplecov', :require => false
-    gem 'debugger-ruby_core_source'
-    gem 'debugger'
   end
 end
