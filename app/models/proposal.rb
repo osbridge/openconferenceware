@@ -582,7 +582,7 @@ class Proposal < ActiveRecord::Base
   def notify_accepted_speakers
     if accepted?
       if !notified_at
-        SpeakerMailer.deliver_speaker_accepted_email(self)
+        SpeakerMailer.speaker_accepted_email(self).deliver
         self.notified_at = Time.now
         self.save
         return [self.mailto_emails, nil]
@@ -597,7 +597,7 @@ class Proposal < ActiveRecord::Base
   def notify_rejected_speakers
     if rejected?
       if !notified_at
-        SpeakerMailer.deliver_speaker_rejected_email(self)
+        SpeakerMailer.speaker_rejected_email(self).deliver
         self.notified_at = Time.now
         self.save
         return [ self.mailto_emails, nil ]
