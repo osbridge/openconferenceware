@@ -150,8 +150,8 @@ class Proposal < ActiveRecord::Base
   validates_presence_of :session_type,                    :if => :event_session_types?
   validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
   validates_presence_of :speaking_experience,             :if => :proposal_speaking_experience?
-  validates_presence_of :audience_level,                  :if => Proc.new { self.audience_levels }
-  validates_inclusion_of :audience_level,                 :if => Proc.new { self.audience_levels }, :allow_blank => true,
+  validates_presence_of :audience_level,                  :if => Proc.new { Proposal.audience_levels }
+  validates_inclusion_of :audience_level,                 :if => Proc.new { Proposal.audience_levels }, :allow_blank => true,
                                                           :in => SETTINGS.proposal_audience_levels ?
                                                                  SETTINGS.proposal_audience_levels.flatten.map { |level| level['slug'] } :
                                                                  []
