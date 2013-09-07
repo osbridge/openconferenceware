@@ -226,7 +226,7 @@ describe Proposal do
     end
   end
 
-  describe "when adding or removing user", :shared => true do
+  shared_examples_for "when adding or removing user" do
     before(:each) do
       @user = stub_model(User)
       @users = mock_model(Array)

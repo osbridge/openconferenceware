@@ -10,7 +10,7 @@ describe CommentsController do
   end
 
   describe "index" do
-    describe "shared forbidden index behaviors", :shared => true do
+    shared_examples_for "shared forbidden index behaviors" do
       describe "HTML" do
         before do
           get :index
@@ -22,7 +22,7 @@ describe CommentsController do
       end
     end
 
-    describe "shared allowed index behaviors", :shared => true do
+    shared_examples_for "shared allowed index behaviors" do
       describe "Atom" do
         it "should get error if not key was specified" do
           get :index, :format => "atom"

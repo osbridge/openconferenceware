@@ -33,7 +33,7 @@ describe ProposalsController do
     end
 
     describe "when returning CSV" do
-      describe "shared CSV behaviors", :shared => true do
+      shared_examples_for "shared CSV behaviors" do
         before do
           SETTINGS.stub!(:have_user_profiles => true)
           SETTINGS.stub!(:have_multiple_presenters => true)
@@ -54,7 +54,7 @@ describe ProposalsController do
         end
       end
 
-      describe "shared non-admin CSV behaviors", :shared => true do
+      shared_examples_for "shared non-admin CSV behaviors" do
         it "should not see private fields" do
           @header.should_not include("Emails")
         end
@@ -118,7 +118,7 @@ describe ProposalsController do
       end
     end
 
-    describe "when exporting", :shared => true do
+    shared_examples_for "when exporting" do
       # Expects following to be set by implementor's #before block:
       # - @proposals
       # - @records
@@ -660,14 +660,14 @@ describe ProposalsController do
   end
 
   describe "edit" do
-    describe "shared edit behaviors", :shared => true do
+    shared_examples_for "shared edit behaviors" do
       before do
         @proposal = proposals(:quentin_widgets)
         get :edit, :id => @proposal.id
       end
     end
 
-    describe "shared allowed edit behaviors", :shared => true do
+    shared_examples_for "shared allowed edit behaviors" do
       it_should_behave_like "shared edit behaviors"
 
       it "should not redirect with failure" do
@@ -676,7 +676,7 @@ describe ProposalsController do
       end
     end
 
-    describe "shared forbidden edit behaviors", :shared => true do
+    shared_examples_for "shared forbidden edit behaviors" do
       it_should_behave_like "shared edit behaviors"
 
       it "should redirect with failure" do
