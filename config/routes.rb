@@ -1,4 +1,6 @@
 OpenConferenceWare::Application.routes.draw do
+  root :to => 'events#index'
+
   resources :comments
   resources :proposals do
     resources :comments
@@ -35,8 +37,6 @@ OpenConferenceWare::Application.routes.draw do
     match '/sessions/:id' => 'proposals#session_show', :as => :session
     resources :selector_votes, :only => :index
   end
-
-  match '/' => 'events#index'
 
   namespace :manage do
     resources :events
