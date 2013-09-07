@@ -47,7 +47,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
     <strong>SELECTION COMMITTEE MEMBER:</strong>
     <%= @proposal.user_favorites.count %> users have favorited this proposal.
 
-    <% form_for(@selector_vote, :url => proposal_selector_vote_path(@proposal), :html => {:method => :post}) do |f| %>
+    <%= form_for(@selector_vote, :url => proposal_selector_vote_path(@proposal), :html => {:method => :post}) do |f| %>
       <table cellspacing="0">
         <tr>
           <td><%= f.label :rating %></td>
@@ -99,7 +99,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 <%= user_favorite_control_for @proposal %>
 <%= render :partial => "/proposals/admin_controls" %>
 
-<% cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)},private_note_#{show_private_note}" do %>
+<%= cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)},private_note_#{show_private_note}" do %>
   <% unless multiple_presenters? %>
     <div class="standard-form">
       <table>
@@ -260,14 +260,14 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 <% end %>
 
 <% if admin? or selector? %>
-  <% cache "proposal_#{@proposal.id},comments_list" do %>
+  <%= cache "proposal_#{@proposal.id},comments_list" do %>
   <h3>Comments</h3>
   <%= render :partial => 'comments/list', :locals => { :comments => @proposal.comments }%>
   <% end %>
 <% end %>
 
 <% if @display_comment_form %>
-  <% form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:id => "comment-form", :class => "standard-form"}) do |f| %>
+  <%= form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:id => "comment-form", :class => "standard-form"}) do |f| %>
     <%= f.hidden_field :proposal_id %>
     <h4>Leave a private comment to organizers about this proposal</h4>
     <table class="standard-form">

@@ -30,7 +30,7 @@
       </div>
   <% end %>
 
-  <% form_for([@event, @proposal]) do |f| %>
+  <%= form_for([@event, @proposal]) do |f| %>
     <%= f.hidden_field :track_id if event_tracks? && @event.tracks.size == 1 %>
     <%= f.hidden_field :session_type_id if event_session_types? && @event.session_types.size == 1 %>
 

@@ -1,6 +1,6 @@
 <%= error_messages_for :snippet %>
 
-<% form_for([:manage, @snippet], :html => {:class => "snippet_form"}) do |f| %>
+<%= form_for([:manage, @snippet], :html => {:class => "snippet_form"}) do |f| %>
   <%= hidden_field_tag :return_to, @return_to %>
 
   <div class="form-group">

@@ -1,6 +1,6 @@
 <% scroll_to "label[for=event_#{params[:jump_to]}]" if params[:jump_to] %>
 
-<% form_for([:manage, @event], :html => {:role => "form", :id => "event-form", :class => "form"}) do |f| %>
+<%= form_for([:manage, @event], :html => {:role => "form", :id => "event-form", :class => "form"}) do |f| %>
   <%= f.error_messages %>
 
   <%= hidden_field_tag :return_to, @return_to %>

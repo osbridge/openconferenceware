@@ -1,6 +1,6 @@
 <% focus :room_name %>
 
-<% form_for(@room, :html => { :multipart => true }) do |f| %>
+<%= form_for(@room, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 
   <p>

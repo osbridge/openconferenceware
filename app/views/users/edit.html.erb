@@ -1,6 +1,6 @@
 <% page_title "Edit user: #{h @user.label}" %>
 
-  <% form_for(@user, :html => {:multipart => true}) do |f| %>
+<%= form_for(@user, :html => {:multipart => true}) do |f| %>
   <%= f.error_messages %>
   <%= hidden_field_tag :require_complete_profile, true if params[:require_complete_profile] %>
 

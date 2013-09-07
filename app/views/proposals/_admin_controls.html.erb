@@ -10,7 +10,7 @@ proposal ||= @proposal
   <% run_when_dom_is_ready "bind_all_proposal_controls();" %>
 
   <div class="admin-only">
-    <% form_for(proposal) do |f| %>
+    <%= form_for(proposal) do |f| %>
       <strong>ADMIN:</strong>
       <% if proposal_statuses? %>
         Status

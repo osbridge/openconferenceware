@@ -14,7 +14,7 @@ display_sub_list ||= false
 only_for_event = local_assigns[:only_for_event]
 %>
 
-<% content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
+<%= content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
   <%= link_to( image_tag( user.photo.url(:profile), :class => 'user-photo photo' ), user ) if user.photo.file? %>
   <div class='user_head'>
     <h3><%= link_to user.label, user, :name => "id_#{user.id}", :id => "id_#{user.id}", :class => 'fn n' %></h3>

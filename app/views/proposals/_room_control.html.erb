@@ -14,7 +14,7 @@ args = [:collection_select, :room_id, proposal.event.rooms_inherit, :id, :name, 
   <% if form %>
     <%= form.send(*args) %>
   <% else %>
-    <% form_for proposal do |f| %>
+    <%= form_for proposal do |f| %>
       <%= f.send(*args) %>
     <% end %>
   <% end %>
