@@ -112,21 +112,22 @@ class User < ActiveRecord::Base
 
   #---[ Scopes ]----------------------------------------------------------
 
-  default_order = { :order => 'lower(last_name), lower(first_name)' }
+  scope :by_name, lambda { order('lower(last_name), lower(first_name)') }
+  scope :default_order, lambda { by_name }
+  scope :complete_profiles, lambda { where(:complete_profile => true).default_order }
 
-  named_scope :by_name, default_order
-  named_scope :complete_profiles, { :conditions => {:complete_profile => true} }.reverse_merge!(default_order)
-
-  named_scope :submitted_to, lambda {|event| {
-    :select => 'DISTINCT users.id, users.*',
-    :joins => :proposals,
-    :conditions => ['proposals.event_id = ?', event.id] }.reverse_merge!(default_order)
+  scope :submitted_to, lambda {|event|
+    select('DISTINCT users.id, users.*').
+      joins(:proposals).
+      where('proposals.event_id = ?', event.id).
+      default_order
   }
 
-  named_scope :speaking_at, lambda {|event| {
-    :select => 'DISTINCT users.id, users.*',
-    :joins => :proposals,
-    :conditions => ['proposals.status = "confirmed" AND proposals.event_id = ?', event.id] }.reverse_merge!(default_order)
+  scope :speaking_at, lambda {|event|
+    select('DISTINCT users.id, users.*').
+      joins(:proposals).
+      where('proposals.status = "confirmed" AND proposals.event_id = ?', event.id).
+      default_order
   }
 
   #---[ CSV export ]------------------------------------------------------

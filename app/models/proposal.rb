@@ -136,11 +136,11 @@ class Proposal < ActiveRecord::Base
   end
 
   # Named scopes
-  named_scope :unconfirmed, :conditions => ["status != ?", "confirmed"]
-  named_scope :populated, :order => :submitted_at, :include => [{:event => [:rooms, :tracks]}, :session_type, :track, :room, :users]
-  named_scope :scheduled, :conditions => "start_time IS NOT NULL"
-  named_scope :located, :conditions => "room_id IS NOT NULL"
-  named_scope :for_event, lambda { |event| { :conditions => { :event_id => event } } }
+  scope :unconfirmed, lambda { where("status != ?", "confirmed") }
+  scope :populated,   lambda { order(:submitted_at).includes( {:event => [:rooms, :tracks]}, :session_type, :track, :room, :users ) }
+  scope :scheduled,   lambda { where("start_time IS NOT NULL") }
+  scope :located,     lambda { where("room_id IS NOT NULL") }
+  scope :for_event,   lambda { |event| { :conditions => { :event_id => event } } }
 
   # Validations
   validates_presence_of :title, :description, :event_id

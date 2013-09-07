@@ -20,5 +20,5 @@ class Comment < ActiveRecord::Base
   # Make sure there's a legitimate proposal attached?!
   validates_presence_of :proposal, :message => "must be present"
 
-  named_scope :listable, :order => "created_at desc", :conditions => "created_at IS NOT NULL"
+  scope :listable, lambda { order("created_at desc").where("created_at IS NOT NULL") }
 end
