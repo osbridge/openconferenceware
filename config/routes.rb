@@ -49,14 +49,14 @@ OpenConferenceWare::Application.routes.draw do
   match '/br3ak' => 'proposals#br3ak', :as => :br3ak
   match '/m1ss' => 'proposals#m1ss', :as => :m1ss
 
-  resources :users do
+  resources :users, :constraints => { :id => /\w+/ } do
     member do
       get :complete_profile
       get :proposals
     end
 
-    match 'favorites.:format' => 'user_favorites#index', :as => :favorites
-    match 'favorites/modify.:format' => 'user_favorites#modify', :as => :modify_favorites, :via => :put
+    match 'favorites' => 'user_favorites#index', :as => :favorites
+    match 'favorites/modify' => 'user_favorites#modify', :as => :modify_favorites, :via => :put
   end
 
   match '/browser_session' => 'browser_sessions#create', :as => :open_id_complete, :constraints => { :method => 'GET' }
