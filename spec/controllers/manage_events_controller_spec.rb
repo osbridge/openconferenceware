@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Manage::EventsController do
-  integrate_views
+  render_views
   fixtures :all
 
   before(:each) do

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CommentsController do
-  integrate_views
+  render_views
   fixtures :all
 
   before do

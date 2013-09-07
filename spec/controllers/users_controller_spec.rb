@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UsersController do
-  integrate_views
+  render_views
   fixtures :all
 
   describe "index" do

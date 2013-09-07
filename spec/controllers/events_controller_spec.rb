@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe EventsController, "when displaying events" do
-  integrate_views
+  render_views
   fixtures :all
 
   describe "index" do

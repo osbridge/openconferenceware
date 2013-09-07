@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ProposalsController do
-  integrate_views
+  render_views
   fixtures :all
 
   # Return an array of Proposal objects extracted from the response body.
@@ -444,7 +444,7 @@ describe ProposalsController do
       end
 
       describe "non-current event" do
-        integrate_views false
+        render_views false
         it "should not redirect a published session of an old event if current event isn't publishing sesions" do
           current_event = stub_model(Event, :slug => 'new', :proposal_status_published => false)
           old_event = stub_model(Event, :slug => 'old', :proposal_status_published => true)
