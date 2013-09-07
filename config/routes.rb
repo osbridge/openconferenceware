@@ -1,91 +1,74 @@
-ActionController::Routing::Routes.draw do |map|
-  # See how all your routes lay out with "rake routes"
-
-  map.resources :comments, :path_prefix => 'proposals'
-
-  map.resources :proposals do |proposals|
-    proposals.resources :comments, :controller => 'comments'
-    proposals.resource :selector_vote, :only => :create
-    proposals.login 'login', { :controller => 'proposals', :action => 'proposal_login_required' }
+OpenConferenceWare::Application.routes.draw do
+  resources :comments
+  resources :proposals do
+    resources :comments
+    resource :selector_vote, :only => :create
+    match 'login' => 'proposals#proposal_login_required', :as => :login
   end
 
-  map.manage_proposal_speakers '/proposals/manage_speakers/:id', :controller => 'proposals', :action => 'manage_speakers', :requirements => { :method => :post }
-  map.search_proposal_speakers '/proposals/search_speakers/:id', :controller => 'proposals', :action => 'search_speakers', :requirements => { :method => :post }
-  map.speaker_confirm '/proposals/speaker_confirm/:id', :controller => 'proposals', :action => 'speaker_confirm', :requirements => { :method => :post }
-  map.speaker_decline '/proposals/speaker_decline/:id', :controller => 'proposals', :action => 'speaker_decline', :requirements => { :method => :post }
+  match '/proposals/manage_speakers/:id' => 'proposals#manage_speakers', :as => :manage_proposal_speakers, :constraints => { :method => :post }
+  match '/proposals/search_speakers/:id' => 'proposals#search_speakers', :as => :search_proposal_speakers, :constraints => { :method => :post }
+  match '/proposals/speaker_confirm/:id' => 'proposals#speaker_confirm', :as => :speaker_confirm, :constraints => { :method => :post }
+  match '/proposals/speaker_decline/:id' => 'proposals#speaker_decline', :as => :speaker_decline, :constraints => { :method => :post }
+  match '/sessions' => 'proposals#sessions_index', :as => :sessions
+  match '/schedule' => 'proposals#schedule', :as => :schedule
+  match '/sessions/:id' => 'proposals#session_show', :as => :session
+  match '/sessions_terse' => 'proposals#sessions_index_terse', :as => :sessions_terse
 
-  map.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
-  map.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
-  map.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
-  map.sessions_terse '/sessions_terse', :controller => 'proposals', :action => 'sessions_index_terse'
+  resources :events do
+    member do
+      get :speakers
+    end
+    resources :proposals do
+      collection do
+       :stats
+      end
+    end
 
-  map.resources :events, :member => { :speakers => :get } do |event|
-    event.resources :proposals, :controller => 'proposals', :collection => ['stats']
-    event.resources :tracks, :controller => 'tracks'
-    event.resources :session_types
-    event.resources :rooms
-    event.resources :schedule_items
-    event.sessions '/sessions', :controller => 'proposals', :action => 'sessions_index'
-    event.sessions_terse '/sessions_terse', :controller => 'proposals', :action => 'sessions_index_terse'
-    event.schedule '/schedule', :controller => 'proposals', :action => 'schedule'
-    event.session '/sessions/:id', :controller => 'proposals', :action => 'session_show'
-    event.resources :selector_votes, :only => :index
+    resources :tracks
+    resources :session_types
+    resources :rooms
+    resources :schedule_items
+    match '/sessions' => 'proposals#sessions_index', :as => :sessions
+    match '/sessions_terse' => 'proposals#sessions_index_terse', :as => :sessions_terse
+    match '/schedule' => 'proposals#schedule', :as => :schedule
+    match '/sessions/:id' => 'proposals#session_show', :as => :session
+    resources :selector_votes, :only => :index
   end
 
-  map.namespace :manage do |manage|
-    manage.root :controller => 'events', :action => 'index'
-    manage.resources :events
-    manage.resources :snippets
-    manage.event_proposals '/events/:id/proposals', :controller => 'events', :action => 'proposals'
-    manage.notify_speakers '/events/:id/notify_speakers', :controller => 'events', :action => 'notify_speakers'
+  match '/' => 'events#index'
+
+  namespace :manage do
+    resources :events
+    resources :snippets
+    match '/events/:id/proposals' => 'events#proposals', :as => :event_proposals
+    match '/events/:id/notify_speakers' => 'events#notify_speakers', :as => :notify_speakers
   end
 
-  map.root :controller => "proposals", :action => "proposals_or_sessions"
+  match '/' => 'proposals#proposals_or_sessions'
+  match '/br3ak' => 'proposals#br3ak', :as => :br3ak
+  match '/m1ss' => 'proposals#m1ss', :as => :m1ss
 
-  # For testing errors
-  map.br3ak '/br3ak', :controller => 'proposals', :action => 'br3ak'
-  map.m1ss  '/m1ss',  :controller => 'proposals', :action => 'm1ss'
+  resources :users do
+    member do
+      get :complete_profile
+      get :proposals
+    end
 
-  # Authentication
-  map.resources :users, :member => { :complete_profile => :get, :proposals => :get }, :requirements => { :id => /\w+/ } do |user|
-    user.favorites 'favorites.:format', { :controller => 'user_favorites', :action => 'index' }
-    user.modify_favorites 'favorites/modify.:format', { :controller => 'user_favorites', :action => 'modify', :conditions => { :method => :put } }
+    match 'favorites.:format' => 'user_favorites#index', :as => :favorites
+    match 'favorites/modify.:format' => 'user_favorites#modify', :as => :modify_favorites, :via => :put
   end
-  map.open_id_complete '/browser_session', :controller => "browser_sessions", :action => "create", :requirements => { :method => :get }
-  map.login            '/login',  :controller => 'browser_sessions', :action => 'new'
-  map.logout           '/logout', :controller => 'browser_sessions', :action => 'destroy'
-  map.admin            '/admin',  :controller => 'browser_sessions', :action => 'admin'
-  map.resource  :browser_session, :collection => ["admin"]
 
-  # Install the default routes as the lowest priority.
-  # TODO Disable default routes, they're dangerous.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  match '/browser_session' => 'browser_sessions#create', :as => :open_id_complete, :constraints => { :method => :get }
+  match '/login' => 'browser_sessions#new', :as => :login
+  match '/logout' => 'browser_sessions#destroy', :as => :logout
+  match '/admin' => 'browser_sessions#admin', :as => :admin
 
-# {{{
-  # The priority is based upon order of creation: first created -> highest priority.
+  resource :browser_session do
+    collection do
+     :admin
+    end
+  end
 
-  # Sample of regular route:
-  #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   map.resources :products
-
-  # Sample resource route with options:
-  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
-
-  # Sample resource route with sub-resources:
-  #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-
-  # Sample resource route within a namespace:
-  #   map.namespace :admin do |admin|
-  #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
-  #     admin.resources :products
-  #   end
-# }}}
+  match '/:controller(/:action(/:id))'
 end
