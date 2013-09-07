@@ -33,8 +33,8 @@ gem 'vpim',                '=  0.695', :require => 'vpim/icalendar'
 gem 'action_mailer_tls',   '~> 1.1.3'
 gem 'comma',               '~> 0.3.2'
 gem 'nokogiri',            '~> 1.5.10'
-
 gem 'prawn',               '= 0.11.1'
+gem 'memcache-client'
 
 group :development do
   gem 'capistrano',     :require => false
