@@ -21,7 +21,7 @@ gem 'rwikibot',     '= 2.0.6',  :require => false,
 
 # Necessary:
 gem 'RedCloth',            '~> 4.2.3'
-gem 'aasm',                '~> 2.1.5'
+gem 'aasm'
 gem 'acts-as-taggable-on'
 gem 'color',               '~> 1.4.1'
 gem 'comma',               '~> 0.3.2'
