@@ -8,7 +8,7 @@ class EventsController < ApplicationController
   before_filter :require_admin, :only => [:selector_votes]
 
   def index
-    @events = Event.find(:all, :order => "deadline asc")
+    @events = Event.order("deadline asc").all
 
     respond_to do |format|
       format.html

@@ -176,12 +176,12 @@ class User < ActiveRecord::Base
 
   # Return first admin user or a nil
   def self.find_first_admin
-    self.find(:first, :conditions => {:admin => true})
+    self.where( :admin => true ).first
   end
 
   # Return first non-admin user or a nil
   def self.find_first_non_admin
-    self.find(:first, :conditions => {:admin => false})
+    self.where( :admin => false ).first
   end
 
   # Returns user if they're authenticated by their login name and unencrypted password, else a nil.
@@ -261,7 +261,7 @@ class User < ActiveRecord::Base
 
   # Return user matching the given OpenID URL.
   def self.find_by_openid(identity_url)
-    self.find(:first, :conditions => {:login => identity_url, :using_openid => true})
+    self.where(:login => identity_url, :using_openid => true).first
   end
 
   # Return a User instance for a value, which can either be a User,

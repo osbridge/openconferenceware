@@ -66,7 +66,7 @@ module CacheLookupsMixin
     end
 
     def query_one(key)
-      return self.find(:first, :conditions => {self.lookup_key => key})
+      return self.where(self.lookup_key => key).first
     end
 
     def query_all

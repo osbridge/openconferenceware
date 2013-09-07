@@ -95,7 +95,7 @@ class Event < ActiveRecord::Base
 
   # Return current event by finding it by deadline.
   def self.current_by_deadline
-    return Event.find(:first, :order => 'deadline desc')
+    return Event.order('deadline desc').first
   end
 
   # Return current event by finding it through SETTINGS global.
@@ -114,11 +114,11 @@ class Event < ActiveRecord::Base
 
   # Return an array of this Event's Proposals with their Tracks for use by proposals#stats.
   def proposals_for_stats
-    return self.proposals.find(
-      :all, 
-      :order => "created_at", 
-      :select => "proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at, proposals.session_type_id, proposals.status",
-      :include => [:track, :session_type])
+    return self.proposals.
+            order("created_at").
+            where("proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at, proposals.session_type_id, proposals.status").
+            includes(:track, :session_type).
+            all
   end
 
   # Return an array of the Event's ScheduleItems and Proposal sessions that
@@ -127,13 +127,13 @@ class Event < ActiveRecord::Base
   def calendar_items(is_admin=false)
     results = []
     if self.schedule_published? || is_admin
-      results += self.proposals.confirmed.scheduled.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
+      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {:track => :event}).all
       if is_admin
-        results += self.proposals.accepted.scheduled.find(:all, :include => [:users, :room, :session_type, {:track => :event}])
+        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {:track => :event}).all
       end
     elsif is_admin
     end
-    results += self.schedule_items.find(:all, :include => [:room])
+    results += self.schedule_items.includes(:room).all
     results += (self.children.map{|child| child.calendar_items(is_admin)}.flatten)
     return results
   end
@@ -163,7 +163,7 @@ class Event < ActiveRecord::Base
 
   # Return other Event objects.
   def other_events
-    return self.class.find(:all, :order => "title asc", :select => "id, title").reject{|event| event == self}
+    return self.class.order("title asc").where("id, title").all.reject{|event| event == self}
   end
 
   # Return array of Rooms for this event and its parent event.

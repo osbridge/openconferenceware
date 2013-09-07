@@ -8,7 +8,7 @@ class Manage::SnippetsController < ApplicationController
   # GET /snippets
   # GET /snippets.xml
   def index
-    @snippets = Snippet.find(:all, :order => :slug, :conditions => {:public => true})
+    @snippets = Snippet.order(:slug).where(:public => true).all
 
     respond_to do |format|
       format.html # index.html.erb
