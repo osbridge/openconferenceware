@@ -7,7 +7,6 @@ describe "/tracks/edit.html.erb" do
     @event = stub_current_event!
 
     assigns[:track] = @track = stub_model(Track,
-      :new_record? => false,
       :title => "value for title",
       :event => @event
     )

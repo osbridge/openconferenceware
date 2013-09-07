@@ -6,8 +6,7 @@ describe "/session_types/edit.html.erb" do
   before(:each) do
     @event = stub_current_event!
     assigns[:session_type] = @session_type = stub_model(SessionType,
-      :event => @event,
-      :new_record? => false
+      :event => @event
     )
   end
 
