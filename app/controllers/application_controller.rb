@@ -70,7 +70,7 @@ protected
 
   # Are we running in a development mode?
   def development_mode?
-    return %w[development preview].include?(RAILS_ENV)
+    return %w[development preview].include?(Rails.env)
   end
   helper_method :development_mode?
 

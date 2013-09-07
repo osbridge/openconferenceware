@@ -46,7 +46,7 @@ module ExceptionHandlingMixin
     if ENV['EXCEPTION_NOTIFIER']
       return ENV['EXCEPTION_NOTIFIER'] == '1'
     else
-      return %w[preview production].include?(RAILS_ENV)
+      return %w[preview production].include?(Rails.env)
     end
   end
 
@@ -55,7 +55,7 @@ module ExceptionHandlingMixin
     if ENV['EXCEPTION_EMAILS']
       return ENV['EXCEPTION_EMAILS'] == '1'
     else
-      return ! %w[test development].include?(RAILS_ENV)
+      return ! %w[test development].include?(Rails.env)
     end
   end
 

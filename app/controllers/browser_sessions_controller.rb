@@ -69,7 +69,7 @@ protected
 
   # Allow logins without specifying a password or nounce? Used only in development and testing.
   def allow_arbitrary_logins?
-    return %w[development preview test].include?(RAILS_ENV)
+    return %w[development preview test].include?(Rails.env)
   end
 
   # The parameter name of "openid_url" is used rather than the Rails convention "open_id_url"

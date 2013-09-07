@@ -25,13 +25,13 @@ class RailsCacheConfigurator
     database_config = YAML.load(ERB.new(File.read(File.join(RAILS_ROOT, 'config', 'database.yml'))).result)
 
     # Try to find memcache settings.
-    memcache_options = database_config[RAILS_ENV]["memcache"]
+    memcache_options = database_config[Rails.env]["memcache"]
     if memcache_options
       # Setup memcache
       rails_config.cache_store = :mem_cache_store, memcache_options
     else
       # Setup filestore
-      path = File.join(RAILS_ROOT, "tmp", "cache", RAILS_ENV)
+      path = File.join(RAILS_ROOT, "tmp", "cache", Rails.env)
       FileUtils.mkdir_p(path)
       rails_config.cache_store = :file_store, path
     end

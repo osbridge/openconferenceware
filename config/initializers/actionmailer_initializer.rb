@@ -11,7 +11,7 @@ if SECRETS.email
       # Certain things are expected to be symbols…
       if key == :delivery_method
         value = value.to_sym
-        next if RAILS_ENV == "test"
+        next if Rails.env == "test"
       elsif key == :smtp_settings
         if value.kind_of?(Hash) && value.has_key?(:authentication)
           value[:authentication] = value[:authentication].to_sym
