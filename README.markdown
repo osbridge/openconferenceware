@@ -152,7 +152,6 @@ Application behavior is affected by these environment variables:
 - `EXCEPTION_NOTIFIER=1` forces the exception notification system to run, it's only used by default in `production` and `preview` environments.
 - `EXCEPTION_EMAILS=1` forces the exception notification system to actually send emails, it's only not used by default in `test` and `development` environments.
 - `QUERYTRACE=1` provides logging that shows where each database query is done, handy for identifying unwanted queries.
-- `VERBOSE_LOAD=1` enables verbose logging of all `require` and `load` statements in the application.
 - `LOCALCSS=1` forces the use of local CSS files when using the `production` or `preview` environments, these default to using the CSS files on the production servers.
 - `WEBANALYTICS=1` forces the inclusion of web analytics tracking in the layout, this is enabled by default in the `production` environment.
 

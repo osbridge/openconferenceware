@@ -1,4 +1,0 @@
-#!/usr/bin/env ruby
-require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
-$LOAD_PATH.unshift "#{RAILTIES_PATH}/builtin/rails_info"
-require 'commands/about'
