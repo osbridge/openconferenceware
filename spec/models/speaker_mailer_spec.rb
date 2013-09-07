@@ -23,7 +23,7 @@ describe SpeakerMailer do
     @proposal = proposals(:quentin_widgets)
   end
 
-  context "when sending email" do
+  describe "when sending email" do
     it "should raise error if speaker_mailer is not configured" do
       SpeakerMailer.stub(:configured?).and_return(false)
       lambda { deliver_email(@proposal) }.should raise_error(ArgumentError)
@@ -43,7 +43,7 @@ describe SpeakerMailer do
     end
   end
 
-  context "when fetching speaker email content" do
+  describe "when fetching speaker email content" do
     it "should contain the template text" do
       deliver_email(@proposal)
       email = ActionMailer::Base.deliveries.last

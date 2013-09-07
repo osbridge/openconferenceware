@@ -1,7 +1,7 @@
 require 'spec_helper'
 include TimeRangeHelper
 
-context "Time formatting" do
+describe "Time formatting" do
   before(:each) do
     @start_time = DateTime.new(2008, 4, 1, 9, 00)
   end

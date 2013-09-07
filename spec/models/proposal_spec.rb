@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Proposal do
   fixtures :all
 
-  context "when checking authorization for altering" do
+  describe "when checking authorization for altering" do
     before(:each) do
       @proposal = proposals(:quentin_widgets)
     end
@@ -25,7 +25,7 @@ describe Proposal do
     end
   end
 
-  context "when setting submitted_at date" do
+  describe "when setting submitted_at date" do
     it "should set value on save" do
       proposal = proposals(:quentin_widgets)
       proposal.submitted_at = nil
@@ -173,7 +173,7 @@ describe Proposal do
     end
   end
 
-  context "when getting comments" do
+  describe "when getting comments" do
     before(:each) do
       @proposal = proposals(:quentin_widgets)
     end
@@ -203,7 +203,7 @@ describe Proposal do
     end
   end
 
-  context "when getting profile" do
+  describe "when getting profile" do
     before(:each) do
       @proposal = proposals(:quentin_widgets)
     end
@@ -490,7 +490,7 @@ describe Proposal do
       @proposal2 = proposal_for_event(@event)
     end
 
-    context "when finding next proposal" do
+    describe "when finding next proposal" do
       it "should return the next proposal when it exists" do
         @proposal1.next_proposal.should == @proposal2
       end
@@ -500,7 +500,7 @@ describe Proposal do
       end
     end
 
-    context "when finding previous proposal" do
+    describe "when finding previous proposal" do
       it "should return the previous proposal when it exists" do
         @proposal2.previous_proposal.should == @proposal1
       end
@@ -511,7 +511,7 @@ describe Proposal do
     end
   end
 
-  context "when notifying accepted speakers" do
+  describe "when notifying accepted speakers" do
     before(:each) do
       @proposal = proposals(:quentin_widgets)
     end
@@ -541,7 +541,7 @@ describe Proposal do
     end
   end
 
-  context "when notifying rejected speakers" do
+  describe "when notifying rejected speakers" do
     before(:each) do
       @proposal = proposals(:quentin_widgets)
     end
