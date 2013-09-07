@@ -22,7 +22,7 @@ module FauxRoutesMixin
     if mixee.ancestors.include?(ActionController::Base)
       mixee.class_eval do
         Methods.instance_methods.each do |name|
-          RAILS_DEFAULT_LOGGER.debug("Faux route, helperized: #{name}") if TRACE
+          Rails.logger.debug("Faux route, helperized: #{name}") if TRACE
           helper_method(name)
         end
       end
@@ -53,7 +53,7 @@ module FauxRoutesMixin
             send(real, event, *args)
           })
         end
-        RAILS_DEFAULT_LOGGER.debug(msg) if TRACE
+        Rails.logger.debug(msg) if TRACE
       end
     end
 

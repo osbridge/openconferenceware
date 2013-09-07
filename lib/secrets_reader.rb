@@ -50,7 +50,7 @@ class SecretsReader
     end
 
     puts message if error
-    RAILS_DEFAULT_LOGGER.info(message) rescue nil
+    Rails.logger.info(message) rescue nil
 
     return object
   end
