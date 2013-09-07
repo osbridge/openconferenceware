@@ -6,10 +6,10 @@ OpenConferenceWare::Application.routes.draw do
     match 'login' => 'proposals#proposal_login_required', :as => :login
   end
 
-  match '/proposals/manage_speakers/:id' => 'proposals#manage_speakers', :as => :manage_proposal_speakers, :constraints => { :method => :post }
-  match '/proposals/search_speakers/:id' => 'proposals#search_speakers', :as => :search_proposal_speakers, :constraints => { :method => :post }
-  match '/proposals/speaker_confirm/:id' => 'proposals#speaker_confirm', :as => :speaker_confirm, :constraints => { :method => :post }
-  match '/proposals/speaker_decline/:id' => 'proposals#speaker_decline', :as => :speaker_decline, :constraints => { :method => :post }
+  match '/proposals/manage_speakers/:id' => 'proposals#manage_speakers', :as => :manage_proposal_speakers, :constraints => { :method => 'POST' }
+  match '/proposals/search_speakers/:id' => 'proposals#search_speakers', :as => :search_proposal_speakers, :constraints => { :method => 'POST' }
+  match '/proposals/speaker_confirm/:id' => 'proposals#speaker_confirm', :as => :speaker_confirm, :constraints => { :method => 'POST' }
+  match '/proposals/speaker_decline/:id' => 'proposals#speaker_decline', :as => :speaker_decline, :constraints => { :method => 'POST' }
   match '/sessions' => 'proposals#sessions_index', :as => :sessions
   match '/schedule' => 'proposals#schedule', :as => :schedule
   match '/sessions/:id' => 'proposals#session_show', :as => :session
@@ -59,7 +59,7 @@ OpenConferenceWare::Application.routes.draw do
     match 'favorites/modify.:format' => 'user_favorites#modify', :as => :modify_favorites, :via => :put
   end
 
-  match '/browser_session' => 'browser_sessions#create', :as => :open_id_complete, :constraints => { :method => :get }
+  match '/browser_session' => 'browser_sessions#create', :as => :open_id_complete, :constraints => { :method => 'GET' }
   match '/login' => 'browser_sessions#new', :as => :login
   match '/logout' => 'browser_sessions#destroy', :as => :logout
   match '/admin' => 'browser_sessions#admin', :as => :admin
