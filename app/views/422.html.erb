@@ -7,5 +7,5 @@
   <li>Our server's security token was just updated: please reload the form and try again.</li>
 </ol>
 <p>
-  If the instructions above didn't help, please <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "422 Unprocessable Entity on #{Socket.gethostname}:#{File.basename(RAILS_ROOT)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
+  If the instructions above didn't help, please <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "422 Unprocessable Entity on #{Socket.gethostname}:#{File.basename(Rails.root)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
 </p>

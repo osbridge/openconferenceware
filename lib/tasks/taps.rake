@@ -4,7 +4,7 @@ namespace :taps do
   # Return a DBI URI string similar to: postgres://dbuser:dbpassword@localhost/dbname 
   def database_yml_to_dbi_uri
     #IK# source = ActiveRecord::Base.configurations[RAILS_ENV]
-    source = YAML.load(ERB.new(File.read(File.join(RAILS_ROOT, 'config', 'database.yml'))).result)[Rails.env]
+    source = YAML.load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result)[Rails.env]
     target = ""
     target << "#{source['adapter'].gsub('sqlite3', 'sqlite')}://"
     unless source['username'].blank?

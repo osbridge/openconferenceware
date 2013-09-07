@@ -22,7 +22,7 @@ require 'yaml'
 class RailsCacheConfigurator
   def self.apply(rails_config)
     # Parse "database.yml". Wish ActiveRecord::Base.configurations was available within environment.rb.
-    database_config = YAML.load(ERB.new(File.read(File.join(RAILS_ROOT, 'config', 'database.yml'))).result)
+    database_config = YAML.load(ERB.new(File.read(Rails.root.join('config', 'database.yml'))).result)
 
     # Try to find memcache settings.
     memcache_options = database_config[Rails.env]["memcache"]
@@ -31,7 +31,7 @@ class RailsCacheConfigurator
       rails_config.cache_store = :mem_cache_store, memcache_options
     else
       # Setup filestore
-      path = File.join(RAILS_ROOT, "tmp", "cache", Rails.env)
+      path = Rails.root.join("tmp", "cache", Rails.env)
       FileUtils.mkdir_p(path)
       rails_config.cache_store = :file_store, path
     end

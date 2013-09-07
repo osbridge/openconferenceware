@@ -7,6 +7,6 @@
 #   QUERYTRACE=1 ./script/server
 if ENV['QUERYTRACE']
   Rails.logger.warn("QueryTrace plugin activated from config/environment.rb")
-  $LOAD_PATH.unshift "#{RAILS_ROOT}/vendor/plugins_optional/query_trace/lib"
-  require "#{RAILS_ROOT}/vendor/plugins_optional/query_trace/init"
+  $LOAD_PATH.unshift "#{Rails.root}/vendor/plugins_optional/query_trace/lib"
+  require "#{Rails.root}/vendor/plugins_optional/query_trace/init"
 end

@@ -7,5 +7,5 @@
 </p>
 
 <p>
-  If you'd like to email additional information or get notified when the problem is resolved, <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "500 Server Error on #{Socket.gethostname}:#{File.basename(RAILS_ROOT)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
+  If you'd like to email additional information or get notified when the problem is resolved, <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "500 Server Error on #{Socket.gethostname}:#{File.basename(Rails.root)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
 </p>

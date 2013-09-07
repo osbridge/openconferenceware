@@ -12,7 +12,7 @@ include AuthenticatedTestHelper
 
 # Load factory girl and all her factories in 'spec/factories/':
 require 'factory_girl'
-Dir["#{RAILS_ROOT}/spec/factories/*.rb"].each{|filename| require filename}
+Dir["#{Rails.root}/spec/factories/*.rb"].each{|filename| require filename}
 
 #---[ Functions ]-------------------------------------------------------
 

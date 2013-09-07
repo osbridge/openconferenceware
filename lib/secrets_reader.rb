@@ -33,7 +33,7 @@ class SecretsReader
 
     normal_file = "config/secrets.yml"
     sample_file = "config/secrets.yml.sample"
-    rails_root = RAILS_ROOT rescue File.dirname(File.dirname(__FILE__))
+    rails_root = Rails.root rescue File.dirname(File.dirname(__FILE__))
 
     message = "** SecretsReader - "
     error = false
