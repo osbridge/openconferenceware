@@ -23,7 +23,7 @@ module NormalizeUrlMixin
         next if value.blank?
         begin
           url = self.normalize_url!(value)
-          self.write_attribute(attribute, url)
+          self.send("#{attribute}=", url)
         rescue URI::InvalidURIError => e
           self.errors.add(attribute, 'is invalid')
           valid = false
