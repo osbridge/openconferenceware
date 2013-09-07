@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/users" do
+describe "users/index.html.erb" do
   fixtures :users, :events
 
   it "should not include admin column by default" do
