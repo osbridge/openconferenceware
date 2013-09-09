@@ -226,48 +226,44 @@ describe Proposal do
     end
   end
 
-  shared_examples_for "when adding or removing user" do
+  describe "when adding or removing user" do
     before(:each) do
       @user = stub_model(User)
-      @users = mock_model(Array)
+      @users = []
       @proposal = stub_model(Proposal)
       @proposal.should_receive(:users).at_least(:once).and_return(@users)
     end
-  end
 
-  describe "when adding user" do
-    it_should_behave_like "when adding or removing user"
+    describe "when adding user" do
+      it "should add a user" do
+        @users.should_receive(:include?).with(@user).and_return(false)
+        @users.should_receive(:<<).with(@user).and_return(@user)
 
-    it "should add a user" do
-      @users.should_receive(:include?).with(@user).and_return(false)
-      @users.should_receive(:<<).with(@user).and_return(@user)
+        @proposal.add_user(@user)
+      end
 
-      @proposal.add_user(@user)
+      it "should not re-add an existing user" do
+        @users.should_receive(:include?).with(@user).and_return(true)
+        @users.should_not_receive(:<<)
+
+        @proposal.add_user(@user)
+      end
     end
 
-    it "should not re-add an existing user" do
-      @users.should_receive(:include?).with(@user).and_return(true)
-      @users.should_not_receive(:<<)
+    describe "when removing user" do
+      it "should remove a user" do
+        @users.should_receive(:include?).with(@user).and_return(true)
+        @users.should_receive(:delete).with(@user).and_return(@user)
 
-      @proposal.add_user(@user)
-    end
-  end
+        @proposal.remove_user(@user)
+      end
 
-  describe "when removing user" do
-    it_should_behave_like "when adding or removing user"
+      it "should not remove a non-existent user" do
+        @users.should_receive(:include?).with(@user).and_return(false)
+        @users.should_not_receive(:delete)
 
-    it "should remove a user" do
-      @users.should_receive(:include?).with(@user).and_return(true)
-      @users.should_receive(:delete).with(@user).and_return(@user)
-
-      @proposal.remove_user(@user)
-    end
-
-    it "should not remove a non-existent user" do
-      @users.should_receive(:include?).with(@user).and_return(false)
-      @users.should_not_receive(:delete)
-
-      @proposal.remove_user(@user)
+        @proposal.remove_user(@user)
+      end
     end
   end
 
