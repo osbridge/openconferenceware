@@ -84,6 +84,7 @@ GEM
     debugger-ruby_core_source (1.2.3)
     deep_merge (1.0.0)
     diff-lcs (1.2.4)
+    dynamic_form (1.1.4)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     facets (2.8.4)
@@ -219,6 +220,7 @@ DEPENDENCIES
   cucumber-rails!
   database_cleaner (~> 0.4.3)
   debugger
+  dynamic_form
   facets (~> 2.8.0)
   factory_girl (~> 1.2.4)
   fastercsv (~> 1.5.3)
