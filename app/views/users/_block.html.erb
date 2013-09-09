@@ -29,16 +29,16 @@ only_for_event = local_assigns[:only_for_event]
           <li>Email (private): <%= display_link_to(user.email, :mailto => true) %></li>
         <% end -%>
         <% unless user.website.blank? %>
-          <li>Website: <%= display_link_to(user.website, :nofollow => true, :popup => true, :class => 'url') %></li>
+          <li>Website: <%= display_link_to(user.website, :nofollow => true, :class => 'url') %></li>
         <% end %>
         <% unless user.blog_url.blank? %>
-          <li>Blog: <%= display_link_to(user.blog_url, :nofollow => true, :popup => true, :class => 'url') %></li>
+          <li>Blog: <%= display_link_to(user.blog_url, :nofollow => true, :class => 'url') %></li>
         <% end %>
         <% unless user.twitter.blank? %>
-          <li>Twitter: <%= display_link_to(user.twitter_url, :title => user.twitter, :nofollow => true, :popup => true, :class => 'url') %></li>
+          <li>Twitter: <%= display_link_to(user.twitter_url, :title => user.twitter, :nofollow => true, :class => 'url') %></li>
         <% end %>
         <% unless user.identica.blank? %>
-          <li>Identi.ca: <%= display_link_to(user.identica_url, :title => user.identica, :nofollow => true, :popup => true, :class => 'url') %></li>
+          <li>Identi.ca: <%= display_link_to(user.identica_url, :title => user.identica, :nofollow => true, :class => 'url') %></li>
         <% end %>
         <% user_favorites_count = @user_favorites_count_for_user_hash ? (@user_favorites_count_for_user_hash[user.id] || 0) : user.favorites.count %>
         <% unless user_favorites_count == 0 %>

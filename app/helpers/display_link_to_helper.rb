@@ -16,7 +16,6 @@ module DisplayLinkToHelper
     })
     link_to_opts = {}
     link_to_opts[:rel] = "nofollow" if opts[:nofollow]
-    link_to_opts[:popup] = true if opts[:popup]
     truncated_url = truncate(url, :length => opts[:maxlength])
     url = "mailto:#{url}" if opts[:mailto];
     return link_to(h(opts[:title] || truncated_url), h(url), link_to_opts)
