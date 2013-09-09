@@ -184,7 +184,7 @@ describe Proposal do
 
     it "should return one comment" do
       comments = [
-        mock(Comment, :email => "bubba@smith.com", :message => "Hi"),
+        double(Comment, :email => "bubba@smith.com", :message => "Hi"),
       ]
       @proposal.should_receive(:comments).and_return(comments)
 
@@ -193,8 +193,8 @@ describe Proposal do
 
     it "should return multiple comments" do
       comments = [
-        mock(Comment, :email => "bubba@smith.com", :message => "Hi"),
-        mock(Comment, :email => "billy.sue@smith.com", :message => "Yo"),
+        double(Comment, :email => "bubba@smith.com", :message => "Hi"),
+        double(Comment, :email => "billy.sue@smith.com", :message => "Yo"),
       ]
       @proposal.should_receive(:comments).and_return(comments)
 

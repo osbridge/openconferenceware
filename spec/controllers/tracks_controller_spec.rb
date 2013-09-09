@@ -29,7 +29,7 @@ describe TracksController do
     describe "with mime type of xml" do
       it "should render all tracks from the current event as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        @event.should_receive(:tracks).and_return(tracks = mock("Array of Tracks"))
+        @event.should_receive(:tracks).and_return(tracks = double("Array of Tracks"))
         tracks.should_receive(:to_xml).and_return("generated XML")
         get :index
         response.body.should == "generated XML"

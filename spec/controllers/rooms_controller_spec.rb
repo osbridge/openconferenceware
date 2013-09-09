@@ -28,7 +28,7 @@ describe RoomsController do
     describe "with mime type of xml" do
       it "should render all rooms from the current event as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        @event.should_receive(:rooms).and_return(rooms = mock("Array of Rooms"))
+        @event.should_receive(:rooms).and_return(rooms = double("Array of Rooms"))
         rooms.should_receive(:to_xml).and_return("generated XML")
         get :index
         response.body.should == "generated XML"

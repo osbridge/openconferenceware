@@ -28,7 +28,7 @@ describe SessionTypesController do
     describe "with mime type of xml" do
       it "should render all session_types from the current event as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        @event.should_receive(:session_types).and_return(session_types = mock("Array of SessionTypes"))
+        @event.should_receive(:session_types).and_return(session_types = double("Array of SessionTypes"))
         session_types.should_receive(:to_xml).and_return("generated XML")
         get :index
         response.body.should == "generated XML"

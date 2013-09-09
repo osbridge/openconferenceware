@@ -234,8 +234,8 @@ describe Schedule do
       @item8 = stub_model(Proposal, :room => @room2, :start_time => @time3, :end_time => @time4, :users => [@user2])
 
       # User associations
-      @user1.stub(:proposals).and_return(mock(Array, :scheduled => mock(Array, :all => [@item5, @item6])))
-      @user2.stub(:proposals).and_return(mock(Array, :scheduled => mock(Array, :all => [@item7, @item8])))
+      @user1.stub(:proposals).and_return(double(Array, :scheduled => double(Array, :all => [@item5, @item6])))
+      @user2.stub(:proposals).and_return(double(Array, :scheduled => double(Array, :all => [@item7, @item8])))
     end
 
     describe "for users" do
@@ -335,7 +335,7 @@ describe ScheduleDay do
   it "should compute lowest-common multiplier for day's section slices" do
     values = [5, 6, 15]
     day = ScheduleDay.new([])
-    day.stub(:sections).and_return(mock(Array, :map => values))
+    day.stub(:sections).and_return(double(Array, :map => values))
     day.lcm_colspan.should == 30
   end
 end
@@ -344,7 +344,7 @@ describe ScheduleSection do
   it "should compute least-common multiplier for section's slice blocks" do
     values = [3, 4, 6]
     section = ScheduleSection.new([])
-    section.stub(:slices).and_return(mock(Array, :map => values))
+    section.stub(:slices).and_return(double(Array, :map => values))
     section.lcm_rowspan.should == 12
   end
 end

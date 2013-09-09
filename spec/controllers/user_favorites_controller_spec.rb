@@ -17,7 +17,7 @@ describe UserFavoritesController do
       @event = stub_current_event!
       @favorite = stub_model(UserFavorite)
       User.should_receive(:find).with('42').and_return(@user = stub_model(User))
-      @user.stub(:favorites => mock(Array, :populated => [@favorite]),
+      @user.stub(:favorites => double(Array, :populated => [@favorite]),
                   :label => 'Sven')
     end
 
@@ -31,7 +31,7 @@ describe UserFavoritesController do
         @event.stub(:schedule_published? => true)
 
         # TODO I'm sure there's a better way to mock this scope onto this fake ActiveRecord recordset
-        DeferProxy.should_receive(:new).and_return(mock( Array, :scheduled => [@favorite]))
+        DeferProxy.should_receive(:new).and_return(double( Array, :scheduled => [@favorite]))
 
         Proposal.should_receive(:to_icalendar).and_return("ICS'D!")
         get :index, :user_id => '42', :format => 'ics'
