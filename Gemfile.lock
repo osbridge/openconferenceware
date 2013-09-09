@@ -87,6 +87,9 @@ GEM
     dynamic_form (1.1.4)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    exception_notification (4.0.0)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     facets (2.8.4)
     factory_girl (1.2.4)
     fastercsv (1.5.5)
@@ -221,6 +224,7 @@ DEPENDENCIES
   database_cleaner (~> 0.4.3)
   debugger
   dynamic_form
+  exception_notification
   facets (~> 2.8.0)
   factory_girl (~> 1.2.4)
   fastercsv (~> 1.5.3)

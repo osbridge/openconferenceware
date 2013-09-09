@@ -37,6 +37,10 @@ gem 'prawn',               '= 0.11.1'
 gem 'memcache-client'
 gem "dynamic_form"
 
+group :production do
+  gem 'exception_notification'
+end
+
 group :development do
   gem 'capistrano',     :require => false
   gem 'capistrano-ext', :require => false

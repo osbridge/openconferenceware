@@ -1048,12 +1048,6 @@ describe ProposalsController do
     end
   end
 
-  describe "br3ak" do
-    it "should fail" do
-      lambda { get :br3ak }.should raise_error
-    end
-  end
-
   describe "manage speakers" do
     before(:each) do
       SETTINGS.stub(:have_user_profiles => true)

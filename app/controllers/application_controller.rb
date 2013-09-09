@@ -21,9 +21,6 @@ class ApplicationController < ActionController::Base
   # Setup authentication (e.g., login)
   include AuthenticatedSystem
 
-  # Setup exception handling (e.g., what to do when exception raised)
-  include ExceptionHandlingMixin
-
   # Setup breadcrumbs
   include BreadcrumbsMixin
   add_breadcrumbs(SETTINGS.breadcrumbs)
