@@ -6,7 +6,7 @@ describe BrowserSessionsController do
   describe "destroy" do
     it "should redirect to an event's sessions if on an event with published statuses" do
       event = stub_current_event!
-      event.stub!(:proposal_status_published? => true)
+      event.stub(:proposal_status_published? => true)
       login_as :quentin
 
       delete :destroy
@@ -16,7 +16,7 @@ describe BrowserSessionsController do
 
     it "should redirect to an event's proposals if on an event without published statues" do
       event = stub_current_event!
-      event.stub!(:proposal_status_published? => false)
+      event.stub(:proposal_status_published? => false)
       login_as :quentin
 
       delete :destroy
@@ -25,7 +25,7 @@ describe BrowserSessionsController do
     end
 
     it "should redirect to default proposals path if not on an event" do
-      Event.stub!(:current => nil)
+      Event.stub(:current => nil)
       login_as :quentin
 
       delete :destroy

@@ -36,7 +36,7 @@ module OCWHelpers
     event = opts[:event] || stub_model(Event, :id => 1, :title => "Current Event", :slug => 'current')
     events = opts[:events] || [event]
     status = opts[:status] || :assigned_to_current
-    controller.stub!(
+    controller.stub(
       :get_current_event_and_assignment_status => [event, status],
       :assigned_event => event,
       :assigned_events => events)
@@ -46,7 +46,7 @@ module OCWHelpers
       assign(:events, events)
     end
 
-    Event.stub!(:lookup).and_return do |*args|
+    Event.stub(:lookup).and_return do |*args|
       key = args.pop
       key ? event : events
     end

@@ -163,7 +163,7 @@ describe ApplicationController do
 
       it "should redirect incomplete requests" do
         event = events(:open)
-        @controller.stub!(:request).and_return(mock(OpenStruct,
+        @controller.stub(:request).and_return(mock(OpenStruct,
           :path => '/proposals',
           :format => 'html',
           :protocol => 'http',
@@ -205,7 +205,7 @@ describe ApplicationController do
       end
 
       it "should be able to view schedule when it's published" do
-        @controller.stub!(:schedule_visible?).and_return(true)
+        @controller.stub(:schedule_visible?).and_return(true)
         @controller.should_not_receive(:redirect_to)
 
         result = @controller.send(:assert_schedule_published)
@@ -213,7 +213,7 @@ describe ApplicationController do
       end
 
       it "should be able to view schedule before it's published" do
-        @controller.stub!(:schedule_visible?).and_return(false)
+        @controller.stub(:schedule_visible?).and_return(false)
         @controller.should_not_receive(:redirect_to)
 
         result = @controller.send(:assert_schedule_published)
@@ -228,7 +228,7 @@ describe ApplicationController do
       end
 
       it "should be able to view schedule when it's published" do
-        @controller.stub!(:schedule_visible?).and_return(true)
+        @controller.stub(:schedule_visible?).and_return(true)
         @controller.should_not_receive(:redirect_to)
 
         result = @controller.send(:assert_schedule_published)
@@ -236,7 +236,7 @@ describe ApplicationController do
       end
 
       it "should not be able to view schedule before it's published" do
-        @controller.stub!(:schedule_visible?).and_return(false)
+        @controller.stub(:schedule_visible?).and_return(false)
         @controller.should_receive(:redirect_to)
 
         @controller.send(:assert_schedule_published)

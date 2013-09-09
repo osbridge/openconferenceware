@@ -35,8 +35,8 @@ describe ProposalsController do
     describe "when returning CSV" do
       shared_examples_for "shared CSV behaviors" do
         before do
-          SETTINGS.stub!(:have_user_profiles => true)
-          SETTINGS.stub!(:have_multiple_presenters => true)
+          SETTINGS.stub(:have_user_profiles => true)
+          SETTINGS.stub(:have_multiple_presenters => true)
           stub_current_event!(:event => @event)
 
           get :index, :event_id => @event.slug, :format => "csv"
@@ -67,7 +67,7 @@ describe ProposalsController do
 
         describe "with visible schedule" do
           before do
-            @controller.stub!(:schedule_visible? => true)
+            @controller.stub(:schedule_visible? => true)
           end
 
           it_should_behave_like "shared CSV behaviors"
@@ -81,7 +81,7 @@ describe ProposalsController do
 
         describe "without visible schedule" do
           before do
-            @controller.stub!(:schedule_visible? => false)
+            @controller.stub(:schedule_visible? => false)
           end
 
           it_should_behave_like "shared CSV behaviors"
@@ -206,7 +206,7 @@ describe ProposalsController do
 
       it "should sort proposals by start time" do
         stub_current_event!(:event => @event)
-        @event.stub!(:proposal_status_published? => true)
+        @event.stub(:proposal_status_published? => true)
 
         get :sessions_index, :sort => "start_time", :event_id => @event.slug
         proposals = extract_proposals
@@ -229,7 +229,7 @@ describe ProposalsController do
         stub_current_event!(:event => event)
 
         # Bypass #fetch_object because it can't cache our singleton mocks.
-        Proposal.stub!(:fetch_object).and_return do |slug, callback|
+        Proposal.stub(:fetch_object).and_return do |slug, callback|
           callback.call
         end
 
@@ -303,7 +303,7 @@ describe ProposalsController do
       stub_current_event!(:event => event)
 
       # Bypass #fetch_object because it can't cache our singleton mocks.
-      Proposal.stub!(:fetch_object).and_return do |slug, callback|
+      Proposal.stub(:fetch_object).and_return do |slug, callback|
         callback.call
       end
 
@@ -364,8 +364,8 @@ describe ProposalsController do
 
     it "should redirect back to proposals list if asked to display a proposal without an event" do
       proposal = proposals(:quentin_widgets)
-      proposal.stub!(:event => nil)
-      Proposal.stub!(:find_by_id => proposal, :find => proposal, :lookup => proposal)
+      proposal.stub(:event => nil)
+      Proposal.stub(:find_by_id => proposal, :find => proposal, :lookup => proposal)
 
       get :show, :id => proposal.id
 
@@ -381,15 +381,15 @@ describe ProposalsController do
       # * :redirect => Redirect to where? (:proposal, :session, nil)
       def assert_show(opts={}, &block)
         @key = 123
-        @event.stub!(:proposal_status_published?).and_return(opts[:published])
+        @event.stub(:proposal_status_published?).and_return(opts[:published])
         stub_current_event!(:event => @event)
         
         @users = []
-        @users.stub!(:by_name).and_return([])
+        @users.stub(:by_name).and_return([])
         
         @proposal = stub_model(Proposal, :id => @key, :event => @event, :track => @event.tracks.empty? ? nil : Track.first, :users => @users)
-        @proposal.stub!(:confirmed?).and_return(opts[:confirmed])
-        controller.stub!(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
+        @proposal.stub(:confirmed?).and_return(opts[:confirmed])
+        controller.stub(:get_proposal_and_assignment_status).and_return([@proposal, :assigned_via_param])
         get opts[:session] ? :session_show : :show, :id => @key
         case opts[:redirect]
         when :proposal
@@ -451,8 +451,8 @@ describe ProposalsController do
           old_session_user = users(:clio)
           old_session = stub_model(Proposal, :status => 'confirmed', :event => old_event, :users => [old_session_user])
 
-          Proposal.stub!(:find => old_session, :find_by_id => old_session, :lookup => old_session)
-          Event.stub!(:current => current_event)
+          Proposal.stub(:find => old_session, :find_by_id => old_session, :lookup => old_session)
+          Event.stub(:current => current_event)
 
           get :session_show, :id => old_session.id
           response.should be_success
@@ -479,8 +479,8 @@ describe ProposalsController do
 
       it "should not notify owners of acceptance if proposal confirmation controls are not visible" do
         event = @proposal.event
-        event.stub!(:show_proposal_confirmation_controls? => false)
-        Proposal.stub!(:lookup => @proposal)
+        event.stub(:show_proposal_confirmation_controls? => false)
+        Proposal.stub(:lookup => @proposal)
 
         login_as(users(:quentin))
 
@@ -519,7 +519,7 @@ describe ProposalsController do
     describe "for open event" do
       describe "with user_profiles?" do
         before(:each) do
-          SETTINGS.stub!(:have_user_profiles => true)
+          SETTINGS.stub(:have_user_profiles => true)
         end
 
         it "should redirect incomplete profiles to user edit form" do
@@ -542,12 +542,12 @@ describe ProposalsController do
 
       describe "without user_profiles?" do
         before(:each) do
-          SETTINGS.stub!(:have_user_profiles => false)
+          SETTINGS.stub(:have_user_profiles => false)
         end
 
         describe "with anonymous_proposals" do
           before(:each) do
-            SETTINGS.stub!(:have_anonymous_proposals => true)
+            SETTINGS.stub(:have_anonymous_proposals => true)
           end
 
           it "should display form for open events" do
@@ -569,7 +569,7 @@ describe ProposalsController do
 
         describe "without anonymous_proposals" do
           before(:each) do
-            SETTINGS.stub!(:have_anonymous_proposals => false)
+            SETTINGS.stub(:have_anonymous_proposals => false)
           end
 
           it "should redirect anonymous user to login" do
@@ -746,9 +746,9 @@ describe ProposalsController do
 
     before do
       # TODO test other settings combinations
-      SETTINGS.stub!(:have_proposal_excerpts => false)
-      SETTINGS.stub!(:have_multiple_presenters => false)
-      SETTINGS.stub!(:have_user_profiles => false)
+      SETTINGS.stub(:have_proposal_excerpts => false)
+      SETTINGS.stub(:have_multiple_presenters => false)
+      SETTINGS.stub(:have_user_profiles => false)
 
       @inputs = proposals(:quentin_widgets).attributes.clone
       @inputs['user_id'] = nil
@@ -758,7 +758,7 @@ describe ProposalsController do
     describe "when anonymous proposals are enabled" do
 
       it "should redirect to OpenID login system if user tried to login" do
-        SETTINGS.stub!(:have_anonymous_proposals).and_return(true)
+        SETTINGS.stub(:have_anonymous_proposals).and_return(true)
         assert_create(nil, :event_id => @event.slug, :commit => 'Login', :openid_url => 'http://foo.bar') do
           response.should be_redirect
           response.should redirect_to(open_id_complete_url(:openid_url => 'http://foo.bar'))
@@ -770,7 +770,7 @@ describe ProposalsController do
 
     describe "with user_profiles?" do
       before(:each) do
-        SETTINGS.stub!(:have_user_profiles => true)
+        SETTINGS.stub(:have_user_profiles => true)
       end
 
       it "should fail to create proposal without a complete user" do
@@ -790,12 +790,12 @@ describe ProposalsController do
 
     describe "without user_profiles?" do
       before(:each) do
-        SETTINGS.stub!(:have_user_profiles => false)
+        SETTINGS.stub(:have_user_profiles => false)
       end
 
       describe "with anonymous proposals" do
         before(:each) do
-          SETTINGS.stub!(:have_anonymous_proposals => true)
+          SETTINGS.stub(:have_anonymous_proposals => true)
         end
 
         it "should create proposal for anonymous user" do
@@ -819,7 +819,7 @@ describe ProposalsController do
 
       describe "without anonymous proposals" do
         before(:each) do
-          SETTINGS.stub!(:have_anonymous_proposals => false)
+          SETTINGS.stub(:have_anonymous_proposals => false)
         end
 
         it "should not create proposal for anonymous user" do
@@ -882,9 +882,9 @@ describe ProposalsController do
     
     it "should prevent editing of title when proposal titles are locked" do
       @event = stub_current_event!
-      @event.stub!(:proposal_titles_locked?).and_return(true)
-      @controller.stub!(:get_proposal_and_assignment_status).and_return(@proposal)
-      @proposal.stub!(:event).and_return(@event)
+      @event.stub(:proposal_titles_locked?).and_return(true)
+      @controller.stub(:get_proposal_and_assignment_status).and_return(@proposal)
+      @proposal.stub(:event).and_return(@event)
       
       assert_update(:quentin, :id => @proposal.id, :title => 'OMG') do
         @proposal.reload
@@ -926,7 +926,7 @@ describe ProposalsController do
 
     describe "with user_profiles?" do
       before(:each) do
-        SETTINGS.stub!(:have_user_profiles => true)
+        SETTINGS.stub(:have_user_profiles => true)
       end
 
       it "should specify update behavior"
@@ -934,7 +934,7 @@ describe ProposalsController do
 
     describe "without user_profiles?" do
       before(:each) do
-        SETTINGS.stub!(:have_user_profiles => false)
+        SETTINGS.stub(:have_user_profiles => false)
       end
 
       it "should display edit form if fields are invalid" do
@@ -972,7 +972,7 @@ describe ProposalsController do
   describe "delete" do
     before do
       @proposal = proposals(:quentin_widgets)
-      Proposal.stub!(:lookup).and_return(@proposal)
+      Proposal.stub(:lookup).and_return(@proposal)
     end
 
     def assert_delete(login=nil, &block)
@@ -1015,7 +1015,7 @@ describe ProposalsController do
 
   describe "schedule" do
     it "should not fail like a whale" do
-      @controller.stub!(:schedule_visible?).and_return(true)
+      @controller.stub(:schedule_visible?).and_return(true)
       item = proposals(:postgresql_session)
 
       get :schedule, :event_id => @event.slug
@@ -1025,7 +1025,7 @@ describe ProposalsController do
     end
 
     it "should not fail like a whale with iCalendar" do
-      @controller.stub!(:schedule_visible?).and_return(true)
+      @controller.stub(:schedule_visible?).and_return(true)
       item = proposals(:postgresql_session)
 
       get :schedule, :event_id => @event.slug, :format => "ics"
@@ -1056,14 +1056,14 @@ describe ProposalsController do
 
   describe "manage speakers" do
     before(:each) do
-      SETTINGS.stub!(:have_user_profiles => true)
+      SETTINGS.stub(:have_user_profiles => true)
       @bubba = stub_model(User, :fullname => "Bubba Smith")
       @billy = stub_model(User, :fullname => "Billy Jack")
       @sue = stub_model(User, :fullname => "Sue Smith")
       @proposal = stub_model(Proposal, :users => [@bubba, @billy])
       @event = stub_current_event!
-      controller.stub!(:assign_get_proposal_for_speaker_manager)
-      controller.stub!(:get_proposal_for_speaker_manager).and_return(@proposal)
+      controller.stub(:assign_get_proposal_for_speaker_manager)
+      controller.stub(:get_proposal_for_speaker_manager).and_return(@proposal)
     end
 
     it "should list" do
@@ -1258,14 +1258,14 @@ describe ProposalsController do
 
   describe "get_proposal_and_assignment_status" do
     it "should return a status of :invalid_proposal when no proposal id is given" do
-      @controller.stub!(:params).and_return({ :id => nil })
+      @controller.stub(:params).and_return({ :id => nil })
       @controller.send(:get_proposal_and_assignment_status).should == [nil, :invalid_proposal]
     end
 
     it "should return a status of :invalid_event when a proposal doesn't have a valid event" do
       proposal = stub_model(Proposal, :state => "confirmed", :event => nil)
-      Proposal.stub!(:lookup).and_return(proposal)
-      @controller.stub!(:params).and_return({ :id => 1000 })
+      Proposal.stub(:lookup).and_return(proposal)
+      @controller.stub(:params).and_return({ :id => 1000 })
       @controller.send(:get_proposal_and_assignment_status).should == [proposal, :invalid_event]
     end
   end

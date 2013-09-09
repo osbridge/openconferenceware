@@ -15,7 +15,7 @@ describe TracksController do
   
   before do
     @event = stub_current_event!(:event => events(:open))
-    @controller.stub!(:assign_events => [])
+    @controller.stub(:assign_events => [])
   end
     
   describe "responding to GET index" do
@@ -104,7 +104,7 @@ describe TracksController do
         end
 
         it "should redirect to the tracks index" do
-          Track.stub!(:new).and_return(mock_track(:save => true))
+          Track.stub(:new).and_return(mock_track(:save => true))
           post :create, :track => {}
           response.should redirect_to(event_tracks_path(events(:open)))
         end
@@ -114,13 +114,13 @@ describe TracksController do
       describe "with invalid params" do
 
         it "should expose a newly created but unsaved track as @track" do
-          Track.stub!(:new).with({'these' => 'params'}).and_return(mock_track(:save => false))
+          Track.stub(:new).with({'these' => 'params'}).and_return(mock_track(:save => false))
           post :create, :track => {:these => 'params'}
           assigns(:track).should equal(mock_track)
         end
 
         it "should re-render the 'new' template" do
-          Track.stub!(:new).and_return(mock_track(:save => false))
+          Track.stub(:new).and_return(mock_track(:save => false))
           post :create, :track => {}
           response.should render_template('new')
         end
@@ -139,13 +139,13 @@ describe TracksController do
         end
 
         it "should expose the requested track as @track" do
-          Track.stub!(:find).and_return(mock_track(:update_attributes => true))
+          Track.stub(:find).and_return(mock_track(:update_attributes => true))
           put :update, :id => "1"
           assigns(:track).should equal(mock_track)
         end
 
         it "should redirect to the track" do
-          Track.stub!(:find).and_return(mock_track(:update_attributes => true))
+          Track.stub(:find).and_return(mock_track(:update_attributes => true))
           put :update, :id => "1"
           response.should redirect_to(track_path(mock_track))
         end
@@ -161,13 +161,13 @@ describe TracksController do
         end
 
         it "should expose the track as @track" do
-          Track.stub!(:find).and_return(mock_track(:update_attributes => false))
+          Track.stub(:find).and_return(mock_track(:update_attributes => false))
           put :update, :id => "1"
           assigns(:track).should equal(mock_track)
         end
 
         it "should re-render the 'edit' template" do
-          Track.stub!(:find).and_return(mock_track(:update_attributes => false))
+          Track.stub(:find).and_return(mock_track(:update_attributes => false))
           put :update, :id => "1"
           response.should render_template('edit')
         end
@@ -185,7 +185,7 @@ describe TracksController do
       end
   
       it "should redirect to the tracks list" do
-        Track.stub!(:find).and_return(mock_track(:destroy => true))
+        Track.stub(:find).and_return(mock_track(:destroy => true))
         delete :destroy, :id => "1"
         response.should redirect_to(event_tracks_path(events(:open)))
       end

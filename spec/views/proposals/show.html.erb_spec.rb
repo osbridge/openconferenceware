@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "proposals/show.html.erb" do
   before do
-    @controller.stub!('can_edit?').and_return(false)
+    @controller.stub('can_edit?').and_return(false)
   end
   
   before :each do
@@ -10,7 +10,7 @@ describe "proposals/show.html.erb" do
     @event = Factory :populated_event, :proposal_status_published => false
     @proposal = proposal_for_event(@event, :users => [@user])
 
-    @controller.stub!(:schedule_visible? => true)
+    @controller.stub(:schedule_visible? => true)
   end
   
   %w[accepted confirmed waitlisted rejected junk].each do |status|

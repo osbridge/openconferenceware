@@ -131,8 +131,8 @@ describe UsersController do
     it "should redirect a completed profile to the user's profile" do
       user = users(:clio)
       login_as(user)
-      user.stub!(:complete_profile => true)
-      controller.stub!(:current_user => user)
+      user.stub(:complete_profile => true)
+      controller.stub(:current_user => user)
 
       get :complete_profile, :id => user.id
 
@@ -142,8 +142,8 @@ describe UsersController do
     it "should redirect an incomplete profile to the edit form" do
       user = users(:clio)
       login_as(user)
-      user.stub!(:complete_profile => false)
-      controller.stub!(:current_user => user)
+      user.stub(:complete_profile => false)
+      controller.stub(:current_user => user)
 
       get :complete_profile, :id => user.id
 
@@ -153,7 +153,7 @@ describe UsersController do
 
   describe "proposals" do
     it "should render proposals for a user" do
-      @controller.stub!(:schedule_visible?).and_return(true)
+      @controller.stub(:schedule_visible?).and_return(true)
       user = users(:clio)
       login_as(user)
 

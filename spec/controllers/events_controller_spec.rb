@@ -56,7 +56,7 @@ describe EventsController, "when displaying events" do
 
     describe "before proposals statuses published" do
       before do
-        @event.stub!(:proposal_status_published? => false)
+        @event.stub(:proposal_status_published? => false)
 
         get :speakers, :event_id => @event.to_param
       end
@@ -73,8 +73,8 @@ describe EventsController, "when displaying events" do
 
     describe "after proposals statuses published" do
       before do
-        @event.stub!(:proposal_status_published? => true)
-        @event.stub!(:schedule_published? => true)
+        @event.stub(:proposal_status_published? => true)
+        @event.stub(:schedule_published? => true)
 
         get :speakers, :event_id => @event.to_param
       end

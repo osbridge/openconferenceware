@@ -21,7 +21,7 @@ describe CacheLookupsMixin do
       end
 
       before do
-        Rails.configuration.action_controller.stub!(:perform_caching => true)
+        Rails.configuration.action_controller.stub(:perform_caching => true)
       end
 
       it_should_behave_like 'overrides'
@@ -34,7 +34,7 @@ describe CacheLookupsMixin do
 
     describe 'and environment defaults to not performing caching' do
       before do
-        Rails.configuration.action_controller.stub!(:perform_caching => false)
+        Rails.configuration.action_controller.stub(:perform_caching => false)
       end
 
       it_should_behave_like 'overrides'
@@ -47,7 +47,7 @@ describe CacheLookupsMixin do
 
   describe 'queries' do
     before :each do
-      Event.stub!(:cache_lookups? => true)
+      Event.stub(:cache_lookups? => true)
       CacheWatcher.expire
 
       @event1 = Factory :event

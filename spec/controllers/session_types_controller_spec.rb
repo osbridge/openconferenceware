@@ -103,7 +103,7 @@ describe SessionTypesController do
         end
 
         it "should redirect to the session types index" do
-          SessionType.stub!(:new).and_return(mock_session_type(:save => true))
+          SessionType.stub(:new).and_return(mock_session_type(:save => true))
           post :create, :session_type => {}
           response.should redirect_to(event_session_types_path(events(:open)))
         end
@@ -113,13 +113,13 @@ describe SessionTypesController do
       describe "with invalid params" do
 
         it "should expose a newly created but unsaved session_type as @session_type" do
-          SessionType.stub!(:new).with({'these' => 'params'}).and_return(mock_session_type(:save => false))
+          SessionType.stub(:new).with({'these' => 'params'}).and_return(mock_session_type(:save => false))
           post :create, :session_type => {:these => 'params'}
           assigns(:session_type).should equal(mock_session_type)
         end
 
         it "should re-render the 'new' template" do
-          SessionType.stub!(:new).and_return(mock_session_type(:save => false))
+          SessionType.stub(:new).and_return(mock_session_type(:save => false))
           post :create, :session_type => {}
           response.should render_template('new')
         end
@@ -139,13 +139,13 @@ describe SessionTypesController do
         end
 
         it "should expose the requested session_type as @session_type" do
-          SessionType.stub!(:find).and_return(mock_session_type(:update_attributes => true))
+          SessionType.stub(:find).and_return(mock_session_type(:update_attributes => true))
           put :update, :id => "1"
           assigns(:session_type).should equal(mock_session_type)
         end
 
         it "should redirect to the session_type" do
-          SessionType.stub!(:find).and_return(mock_session_type(:update_attributes => true))
+          SessionType.stub(:find).and_return(mock_session_type(:update_attributes => true))
           put :update, :id => "1"
           response.should redirect_to(session_type_path(mock_session_type))
         end
@@ -161,13 +161,13 @@ describe SessionTypesController do
         end
 
         it "should expose the session_type as @session_type" do
-          SessionType.stub!(:find).and_return(mock_session_type(:update_attributes => false))
+          SessionType.stub(:find).and_return(mock_session_type(:update_attributes => false))
           put :update, :id => "1"
           assigns(:session_type).should equal(mock_session_type)
         end
 
         it "should re-render the 'edit' template" do
-          SessionType.stub!(:find).and_return(mock_session_type(:update_attributes => false))
+          SessionType.stub(:find).and_return(mock_session_type(:update_attributes => false))
           put :update, :id => "1"
           response.should render_template('edit')
         end
@@ -185,7 +185,7 @@ describe SessionTypesController do
       end
   
       it "should redirect to the session_types list" do
-        SessionType.stub!(:find).and_return(mock_session_type(:destroy => true))
+        SessionType.stub(:find).and_return(mock_session_type(:destroy => true))
         delete :destroy, :id => "1"
         response.should redirect_to(event_session_types_path(events(:open)))
       end

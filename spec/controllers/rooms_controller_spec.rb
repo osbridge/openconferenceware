@@ -103,7 +103,7 @@ describe RoomsController do
         end
 
         it "should redirect to the rooms index" do
-          Room.stub!(:new).and_return(mock_room(:save => true))
+          Room.stub(:new).and_return(mock_room(:save => true))
           post :create, :room => {}
           response.should redirect_to(event_rooms_path(events(:open)))
         end
@@ -113,13 +113,13 @@ describe RoomsController do
       describe "with invalid params" do
 
         it "should expose a newly created but unsaved room as @room" do
-          Room.stub!(:new).with({'these' => 'params'}).and_return(mock_room(:save => false))
+          Room.stub(:new).with({'these' => 'params'}).and_return(mock_room(:save => false))
           post :create, :room => {:these => 'params'}
           assigns(:room).should equal(mock_room)
         end
 
         it "should re-render the 'new' template" do
-          Room.stub!(:new).and_return(mock_room(:save => false))
+          Room.stub(:new).and_return(mock_room(:save => false))
           post :create, :room => {}
           response.should render_template('new')
         end
@@ -139,13 +139,13 @@ describe RoomsController do
         end
 
         it "should expose the requested room as @room" do
-          Room.stub!(:find).and_return(mock_room(:update_attributes => true))
+          Room.stub(:find).and_return(mock_room(:update_attributes => true))
           put :update, :id => "1"
           assigns(:room).should equal(mock_room)
         end
 
         it "should redirect to the room" do
-          Room.stub!(:find).and_return(mock_room(:update_attributes => true))
+          Room.stub(:find).and_return(mock_room(:update_attributes => true))
           put :update, :id => "1"
           response.should redirect_to(room_path(mock_room))
         end
@@ -161,13 +161,13 @@ describe RoomsController do
         end
 
         it "should expose the room as @room" do
-          Room.stub!(:find).and_return(mock_room(:update_attributes => false))
+          Room.stub(:find).and_return(mock_room(:update_attributes => false))
           put :update, :id => "1"
           assigns(:room).should equal(mock_room)
         end
 
         it "should re-render the 'edit' template" do
-          Room.stub!(:find).and_return(mock_room(:update_attributes => false))
+          Room.stub(:find).and_return(mock_room(:update_attributes => false))
           put :update, :id => "1"
           response.should render_template('edit')
         end
@@ -185,7 +185,7 @@ describe RoomsController do
       end
   
       it "should redirect to the rooms list" do
-        Room.stub!(:find).and_return(mock_room(:destroy => true))
+        Room.stub(:find).and_return(mock_room(:destroy => true))
         delete :destroy, :id => "1"
         response.should redirect_to(event_rooms_path(events(:open)))
       end
