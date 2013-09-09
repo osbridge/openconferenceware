@@ -5,16 +5,16 @@ describe "users/index.html.erb" do
 
   it "should not include admin column by default" do
     assign(:users, [users(:aaron), users(:quentin)])
-    render '/users/index'
+    render
 
-    response.should_not have_selector(".admin", :content => "admin")
+    rendered.should_not have_selector(".admin", :content => "admin")
   end
 
   it "should include admin column when admin is logged in" do
     login_as(:aaron)
     assign(:users, [users(:aaron), users(:quentin)])
-    render '/users/index'
+    render
 
-    response.should have_selector(".admin", :content => "admin")
+    rendered.should have_selector(".admin", :content => "admin")
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/proposals/_room_control.html.erb" do
+describe "proposals/_room_control.html.erb" do
   it "should render a selector for choosing a room" do
     rooms = [
       stub_model(Room, :id => 1, :name => "First Room"),
@@ -9,8 +9,8 @@ describe "/proposals/_room_control.html.erb" do
     event = stub_model(Event, :rooms => rooms)
     proposal = stub_model(Proposal, :room => rooms.first, :room_id => rooms.first.id, :event => event)
     assign(:proposal, proposal)
-    render "/proposals/_room_control.html.erb"
-    response.should have_selector("select[name='proposal[room_id]']") do |node|
+    render
+    rendered.should have_selector("select[name='proposal[room_id]']") do |node|
       node.should have_selector("option[value='']", :content => "- None -")
       node.should have_selector("option[value='1'][selected]", :content => "First Room")
       node.should have_selector("option[value='2']", :content => "Second Room")

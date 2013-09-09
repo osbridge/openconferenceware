@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/tracks/show.html.erb" do
+describe "tracks/show.html.erb" do
   include TracksHelper
   before(:each) do
     @event = stub_current_event!(:controller => template)
@@ -15,8 +15,8 @@ describe "/tracks/show.html.erb" do
   end
 
   it "should render attributes in <p>" do
-    render "/tracks/show.html.erb"
-    response.should have_text(/value for description/)
+    render
+    rendered.should have_text(/value for description/)
   end
 end
 

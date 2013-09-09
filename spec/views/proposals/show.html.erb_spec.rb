@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/proposals/show.html.erb" do
+describe "proposals/show.html.erb" do
   before do
     @controller.stub!('can_edit?').and_return(false)
   end
@@ -22,8 +22,8 @@ describe "/proposals/show.html.erb" do
       assign(:proposal, @proposal)
       assign(:kind, :proposal)
     
-      render "/proposals/show.html.erb"
-      response.should_not have_selector(".#{status}")
+      render
+      rendered.should_not have_selector(".#{status}")
     end
   end
   
@@ -35,8 +35,8 @@ describe "/proposals/show.html.erb" do
     assign(:proposal, @proposal)
     assign(:kind, :proposal)
 
-    render "/proposals/show.html.erb"
-    response.should have_selector("div.proposal-status")
+    render
+    rendered.should have_selector("div.proposal-status")
   end
 
   %w[accepted waitlisted rejected junk].each do |status|
@@ -48,8 +48,8 @@ describe "/proposals/show.html.erb" do
       assign(:proposal, @proposal)
       assign(:kind, :proposal)
     
-      render "/proposals/show.html.erb"
-      response.should_not have_selector(".#{status}")
+      render
+      rendered.should_not have_selector(".#{status}")
     end
   end
 
@@ -62,8 +62,8 @@ describe "/proposals/show.html.erb" do
       assign(:proposal, @proposal)
       assign(:kind, :proposal)
 
-      render "/proposals/show.html.erb"
-      response.should have_selector(".#{status}")
+      render
+      rendered.should have_selector(".#{status}")
     end
   end
 
@@ -80,27 +80,27 @@ describe "/proposals/show.html.erb" do
     end
 
     it "should show the proposal status for a confirmed proposal" do
-      render "/proposals/show.html.erb"
-      response.should have_selector(".proposal-status")
-      response.should_not have_selector(".proposal-scheduling")
-      response.should_not have_selector(".proposal-room")
+      render
+      rendered.should have_selector(".proposal-status")
+      rendered.should_not have_selector(".proposal-scheduling")
+      rendered.should_not have_selector(".proposal-room")
     end
 
     it "should show session time if set" do
       @proposal.start_time = Time.now
 
-      render "/proposals/show.html.erb"
-      response.should have_selector(".proposal-scheduling")
-      response.should_not have_selector(".proposal-room")
+      render
+      rendered.should have_selector(".proposal-scheduling")
+      rendered.should_not have_selector(".proposal-room")
     end
 
     it "should show session time and location if both set" do
       @proposal.start_time = Time.now
       @proposal.room = @event.rooms.first
 
-      render "/proposals/show.html.erb"
-      response.should have_selector(".proposal-scheduling")
-      response.should have_selector(".proposal-room")
+      render
+      rendered.should have_selector(".proposal-scheduling")
+      rendered.should have_selector(".proposal-room")
     end
   end
 
@@ -119,12 +119,12 @@ describe "/proposals/show.html.erb" do
     assign(:event, event)
     assign(:proposal, event_proposal)
     assign(:kind, :proposal)
-    render "/proposals/show.html.erb"
+    render
 
-    response.should have_selector(".session_info a", :href => session_path(event_proposal))
-    response.should have_selector(".session_info a", :href => session_path(child_proposal))
-    response.should have_selector(".session_info a", :href => session_path(parent_proposal))
-    response.should_not have_selector(".session_info a", :href => session_path(other_proposal))
+    rendered.should have_selector(".session_info a", :href => session_path(event_proposal))
+    rendered.should have_selector(".session_info a", :href => session_path(child_proposal))
+    rendered.should have_selector(".session_info a", :href => session_path(parent_proposal))
+    rendered.should_not have_selector(".session_info a", :href => session_path(other_proposal))
   end
 end
 

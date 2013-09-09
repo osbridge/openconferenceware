@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/rooms/show.html.erb" do
+describe "rooms/show.html.erb" do
   include RoomsHelper
   before(:each) do
     assign(:room, stub_model(Room))
@@ -8,7 +8,7 @@ describe "/rooms/show.html.erb" do
   end
 
   it "should render attributes in <p>" do
-    render "/rooms/show.html.erb"
+    render
   end
 end
 

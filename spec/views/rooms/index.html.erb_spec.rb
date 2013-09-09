@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/rooms/index.html.erb" do
+describe "rooms/index.html.erb" do
   include RoomsHelper
 
   before(:each) do
@@ -12,7 +12,7 @@ describe "/rooms/index.html.erb" do
   end
 
   it "should render list of rooms" do
-    render "/rooms/index.html.erb"
+    render
   end
 end
 

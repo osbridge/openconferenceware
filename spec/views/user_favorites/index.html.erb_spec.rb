@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/user_favorites/index.html.erb" do
+describe "user_favorites/index.html.erb" do
   include UserFavoritesHelper
   fixtures :all
 
@@ -18,11 +18,11 @@ describe "/user_favorites/index.html.erb" do
   end
 
   it "renders a list of user_favorites" do
-    render "user_favorites/index.html.erb"
+    render
 
-    response.should have_selector(".proposal_row", :count => 2)
-    response.should have_selector("#proposal_row_#{@proposals[0].id}")
-    response.should have_selector("#proposal_row_#{@proposals[1].id}")
+    rendered.should have_selector(".proposal_row", :count => 2)
+    rendered.should have_selector("#proposal_row_#{@proposals[0].id}")
+    rendered.should have_selector("#proposal_row_#{@proposals[1].id}")
   end
 end
 

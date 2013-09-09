@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/session_types/show.html.erb" do
+describe "session_types/show.html.erb" do
   include SessionTypesHelper
   before(:each) do
     assign(:session_type, stub_model(SessionType))
@@ -11,7 +11,7 @@ describe "/session_types/show.html.erb" do
   end
 
   it "should render attributes in <p>" do
-    render "/session_types/show.html.erb"
+    render
   end
 end
 

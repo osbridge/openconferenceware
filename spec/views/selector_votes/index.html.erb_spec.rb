@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/selector_votes/index.html.erb" do
+describe "selector_votes/index.html.erb" do
   include SelectorVotesHelper
 
   before(:each) do

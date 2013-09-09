@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/session_types/index.html.erb" do
+describe "session_types/index.html.erb" do
   include SessionTypesHelper
   
   before(:each) do
@@ -12,7 +12,7 @@ describe "/session_types/index.html.erb" do
   end
 
   it "should render list of session_types" do
-    render "/session_types/index.html.erb"
+    render
   end
 end
 
