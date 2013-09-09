@@ -5,9 +5,9 @@ describe "session_types/show.html.erb" do
   before(:each) do
     assign(:session_type, stub_model(SessionType))
 
-    @event = stub_current_event!(:controller => template)
+    @event = stub_current_event!(:controller => view)
 
-    template.stub(:schedule_visible?).and_return(true)
+    view.stub(:schedule_visible?).and_return(true)
   end
 
   it "should render attributes in <p>" do

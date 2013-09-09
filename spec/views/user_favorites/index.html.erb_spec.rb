@@ -8,10 +8,10 @@ describe "user_favorites/index.html.erb" do
     @proposals = proposals(:couchdb_session, :bigtable_session)
     @user = users(:quentin)
     #@user.stub(:favorites => @proposals)
-    @event = stub_current_event!(:controller => template)
+    @event = stub_current_event!(:controller => view)
     @event.stub(:proposal_status_published? => false)
     @event.stub(:schedule_visible? => false)
-    template.stub(:schedule_visible? => false)
+    view.stub(:schedule_visible? => false)
 
     assign(:user, @user)
     assign(:user_favorites, @proposals)
