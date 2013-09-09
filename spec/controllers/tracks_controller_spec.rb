@@ -23,7 +23,7 @@ describe TracksController do
     it "should expose all tracks from the current event as @tracks" do
       @event.should_receive(:tracks).and_return([mock_track])
       get :index
-      assigns[:tracks].should == [mock_track]
+      assigns(:tracks).should == [mock_track]
     end
 
     describe "with mime type of xml" do
@@ -43,7 +43,7 @@ describe TracksController do
     it "should expose the requested track as @track" do
       Track.should_receive(:find).with("37").and_return(mock_track)
       get :show, :id => "37"
-      assigns[:track].should equal(mock_track)
+      assigns(:track).should equal(mock_track)
     end
     
     describe "with mime type of xml" do
@@ -78,7 +78,7 @@ describe TracksController do
       it "should expose a new track as @track" do
         Track.should_receive(:new).and_return(mock_track)
         get :new, :event => events(:open).slug
-        assigns[:track].should equal(mock_track)
+        assigns(:track).should equal(mock_track)
       end
 
     end
@@ -88,7 +88,7 @@ describe TracksController do
       it "should expose the requested track as @track" do
         Track.should_receive(:find).with("37").and_return(mock_track)
         get :edit, :id => "37"
-        assigns[:track].should equal(mock_track)
+        assigns(:track).should equal(mock_track)
       end
 
     end

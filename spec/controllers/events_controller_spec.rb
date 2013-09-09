@@ -17,7 +17,7 @@ describe EventsController, "when displaying events" do
       get :index
 
       response.should be_success
-      assigns[:events].should_not be_blank
+      assigns(:events).should_not be_blank
     end
   end
 

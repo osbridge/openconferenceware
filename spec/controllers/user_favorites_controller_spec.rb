@@ -23,7 +23,7 @@ describe UserFavoritesController do
 
     it "assigns favorites for the given user as @user_favorites" do
       get :index, :user_id => '42'
-      Undefer(assigns[:user_favorites]).should == [@favorite]
+      Undefer(assigns(:user_favorites)).should == [@favorite]
     end
 
     describe "as an ics file" do

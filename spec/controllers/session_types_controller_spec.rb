@@ -22,7 +22,7 @@ describe SessionTypesController do
     it "should expose all session_types from the current event as @session_types" do
       @event.should_receive(:session_types).and_return([mock_session_type])
       get :index
-      assigns[:session_types].should == [mock_session_type]
+      assigns(:session_types).should == [mock_session_type]
     end
 
     describe "with mime type of xml" do
@@ -42,7 +42,7 @@ describe SessionTypesController do
     it "should expose the requested session_type as @session_type" do
       SessionType.should_receive(:find).with("37").and_return(mock_session_type)
       get :show, :id => "37"
-      assigns[:session_type].should equal(mock_session_type)
+      assigns(:session_type).should equal(mock_session_type)
     end
     
     describe "with mime type of xml" do
@@ -77,7 +77,7 @@ describe SessionTypesController do
       it "should expose a new session_type as @session_type" do
         SessionType.should_receive(:new).and_return(mock_session_type)
         get :new, :event => events(:open).slug
-        assigns[:session_type].should equal(mock_session_type)
+        assigns(:session_type).should equal(mock_session_type)
       end
 
     end
@@ -87,7 +87,7 @@ describe SessionTypesController do
       it "should expose the requested session_type as @session_type" do
         SessionType.should_receive(:find).with("37").and_return(mock_session_type)
         get :edit, :id => "37"
-        assigns[:session_type].should equal(mock_session_type)
+        assigns(:session_type).should equal(mock_session_type)
       end
 
     end

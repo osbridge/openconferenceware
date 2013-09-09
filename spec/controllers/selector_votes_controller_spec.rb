@@ -76,23 +76,23 @@ describe SelectorVotesController do
 
         shared_examples_for "HTML and CSV" do
           it "should have event" do
-            assigns[:event].should == @event
+            assigns(:event).should == @event
           end
 
           it "should have proposals" do
-            assigns[:proposals].size.should == 2
+            assigns(:proposals).size.should == 2
           end
 
           it "should include proposals without selector votes" do
-            assigns[:proposals].should include(@proposal2)
+            assigns(:proposals).should include(@proposal2)
           end
 
           it "should include proposals with selector votes" do
-            assigns[:proposals].should include(@proposal1)
+            assigns(:proposals).should include(@proposal1)
           end
 
           it "should include selector votes for a proposal" do
-            proposal = assigns[:proposals].find { |o| o == @proposal1 }
+            proposal = assigns(:proposals).find { |o| o == @proposal1 }
             selector_vote1 = proposal.selector_votes.should include(@selector_vote1)
             selector_vote2 = proposal.selector_votes.should include(@selector_vote2)
           end
@@ -212,7 +212,7 @@ describe SelectorVotesController do
         end
 
         it "should create the vote" do
-          assigns[:selector_vote].should equal(mock_selector_vote)
+          assigns(:selector_vote).should equal(mock_selector_vote)
         end
 
         it "should redirect to next proposal" do

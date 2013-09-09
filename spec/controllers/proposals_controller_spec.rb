@@ -601,7 +601,7 @@ describe ProposalsController do
             get :new, :event_id => event.slug
 
             flash[:failure].should be_nil
-            assigns[:proposal].track.should == track
+            assigns(:proposal).track.should == track
           end
 
           it "should not assign a track if there's more than one" do
@@ -615,7 +615,7 @@ describe ProposalsController do
             get :new, :event_id => event.slug
 
             flash[:failure].should be_nil
-            assigns[:proposal].track.should be_nil
+            assigns(:proposal).track.should be_nil
           end
         end
 
@@ -629,7 +629,7 @@ describe ProposalsController do
 
             get :new, :event_id => event.slug
 
-            assigns[:proposal].session_type.should == session_type
+            assigns(:proposal).session_type.should == session_type
           end
 
           it "should not assign a session type if there's more than one" do
@@ -642,7 +642,7 @@ describe ProposalsController do
 
             get :new, :event_id => event.slug
 
-            assigns[:proposal].session_type.should be_nil
+            assigns(:proposal).session_type.should be_nil
           end
         end
       end

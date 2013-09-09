@@ -22,7 +22,7 @@ describe RoomsController do
     it "should expose all rooms from the current event as @rooms" do
       @event.should_receive(:rooms).and_return([mock_room])
       get :index
-      assigns[:rooms].should == [mock_room]
+      assigns(:rooms).should == [mock_room]
     end
 
     describe "with mime type of xml" do
@@ -42,7 +42,7 @@ describe RoomsController do
     it "should expose the requested room as @room" do
       Room.should_receive(:find).with("37").and_return(mock_room)
       get :show, :id => "37"
-      assigns[:room].should equal(mock_room)
+      assigns(:room).should equal(mock_room)
     end
     
     describe "with mime type of xml" do
@@ -77,7 +77,7 @@ describe RoomsController do
       it "should expose a new room as @room" do
         Room.should_receive(:new).and_return(mock_room)
         get :new, :event => events(:open).slug
-        assigns[:room].should equal(mock_room)
+        assigns(:room).should equal(mock_room)
       end
 
     end
@@ -87,7 +87,7 @@ describe RoomsController do
       it "should expose the requested room as @room" do
         Room.should_receive(:find).with("37").and_return(mock_room)
         get :edit, :id => "37"
-        assigns[:room].should equal(mock_room)
+        assigns(:room).should equal(mock_room)
       end
 
     end
