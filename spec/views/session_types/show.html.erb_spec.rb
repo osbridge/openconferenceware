@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "/session_types/show.html.erb" do
   include SessionTypesHelper
   before(:each) do
-    assigns[:session_type] = @session_type = stub_model(SessionType)
+    assign(:session_type, stub_model(SessionType))
 
     @event = stub_current_event!(:controller => template)
 

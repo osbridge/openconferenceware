@@ -39,8 +39,12 @@ def stub_current_event!(opts={})
     :get_current_event_and_assignment_status => [event, status],
     :assigned_event => event,
     :assigned_events => events)
-  assigns[:event] = event
-  assigns[:events] = events
+
+  if self.respond_to?(:assign)
+    assign(:event, event)
+    assign(:events, events)
+  end
+
   Event.stub!(:lookup).and_return do |*args|
     key = args.pop
     key ? event : events

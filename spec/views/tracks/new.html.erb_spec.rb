@@ -10,7 +10,7 @@ describe "/tracks/new.html.erb" do
       :title => "value for title",
       :event_id => 1
     ).as_new_record
-    assigns[:track] = @track
+    assign(:track, @track)
   end
 
   it "should render new form" do

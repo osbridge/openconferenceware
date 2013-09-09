@@ -5,10 +5,10 @@ describe "/rooms/index.html.erb" do
 
   before(:each) do
     @event = stub_current_event!
-    assigns[:rooms] = [
+    assign(:rooms, [
       stub_model(Room, :name => "Foo room", :event => @event),
       stub_model(Room, :name => "Bar room", :event => @event),
-    ]
+    ])
   end
 
   it "should render list of rooms" do

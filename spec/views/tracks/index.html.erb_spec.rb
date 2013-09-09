@@ -18,7 +18,7 @@ describe "/tracks/index.html.erb" do
         :event => @event
       )
     ]
-    assigns[:tracks] = @tracks
+    assign(:tracks, @tracks)
   end
 
   describe "anonymous" do

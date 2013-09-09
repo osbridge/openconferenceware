@@ -5,7 +5,7 @@ describe "/session_types/new.html.erb" do
   
   before(:each) do
     @session_type = stub_model(SessionType).as_new_record
-    assigns[:session_type] = @session_type
+    assign(:session_type, @session_type)
 
     @event = stub_current_event!
   end

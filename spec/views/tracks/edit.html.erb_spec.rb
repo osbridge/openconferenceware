@@ -5,11 +5,11 @@ describe "/tracks/edit.html.erb" do
   
   before(:each) do
     @event = stub_current_event!
-
-    assigns[:track] = @track = stub_model(Track,
+    @track = stub_model(Track,
       :title => "value for title",
       :event => @event
     )
+    assign(:track, @track)
   end
 
   it "should render edit form" do

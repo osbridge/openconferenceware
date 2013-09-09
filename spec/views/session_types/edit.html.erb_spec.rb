@@ -5,9 +5,10 @@ describe "/session_types/edit.html.erb" do
   
   before(:each) do
     @event = stub_current_event!
-    assigns[:session_type] = @session_type = stub_model(SessionType,
+    @session_type = stub_model(SessionType,
       :event => @event
     )
+    assign(:session_type, @session_type)
   end
 
   it "should render edit form" do

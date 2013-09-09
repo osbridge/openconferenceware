@@ -18,9 +18,9 @@ describe "/proposals/show.html.erb" do
       @event.proposal_status_published = false
       @proposal.status = status
       
-      assigns[:event]  = @event
-      assigns[:proposal] = @proposal
-      assigns[:kind] = :proposal
+      assign(:event, @event)
+      assign(:proposal, @proposal)
+      assign(:kind, :proposal)
     
       render "/proposals/show.html.erb"
       response.should_not have_selector(".#{status}")
@@ -31,9 +31,9 @@ describe "/proposals/show.html.erb" do
     @event.proposal_status_published = true
     @proposal.status = 'confirmed'
 
-    assigns[:event]  = @event
-    assigns[:proposal] = @proposal
-    assigns[:kind] = :proposal
+    assign(:event, @event)
+    assign(:proposal, @proposal)
+    assign(:kind, :proposal)
 
     render "/proposals/show.html.erb"
     response.should have_selector("div.proposal-status")
@@ -44,9 +44,9 @@ describe "/proposals/show.html.erb" do
       @event.proposal_status_published = true
       @proposal.status = status
       
-      assigns[:event]  = @event
-      assigns[:proposal] = @proposal
-      assigns[:kind] = :proposal
+      assign(:event, @event)
+      assign(:proposal, @proposal)
+      assign(:kind, :proposal)
     
       render "/proposals/show.html.erb"
       response.should_not have_selector(".#{status}")
@@ -58,9 +58,9 @@ describe "/proposals/show.html.erb" do
       @event.proposal_status_published = true
       @proposal.status = status
 
-      assigns[:event]  = @event
-      assigns[:proposal] = @proposal
-      assigns[:kind] = :proposal
+      assign(:event, @event)
+      assign(:proposal, @proposal)
+      assign(:kind, :proposal)
 
       render "/proposals/show.html.erb"
       response.should have_selector(".#{status}")
@@ -74,9 +74,9 @@ describe "/proposals/show.html.erb" do
       @proposal.start_time = nil
       @proposal.room = nil
 
-      assigns[:event]  = @event
-      assigns[:proposal] = @proposal
-      assigns[:kind] = :proposal
+      assign(:event, @event)
+      assign(:proposal, @proposal)
+      assign(:kind, :proposal)
     end
 
     it "should show the proposal status for a confirmed proposal" do
@@ -116,9 +116,9 @@ describe "/proposals/show.html.erb" do
     parent_proposal = session_for_event parent, :users => [user]
     event.reload
 
-    assigns[:event] = event
-    assigns[:proposal] = event_proposal
-    assigns[:kind] = :proposal
+    assign(:event, event)
+    assign(:proposal, event_proposal)
+    assign(:kind, :proposal)
     render "/proposals/show.html.erb"
 
     response.should have_selector(".session_info a", :href => session_path(event_proposal))

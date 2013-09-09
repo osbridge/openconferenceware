@@ -13,8 +13,8 @@ describe "/user_favorites/index.html.erb" do
     @event.stub!(:schedule_visible? => false)
     template.stub!(:schedule_visible? => false)
 
-    assigns[:user] = @user
-    assigns[:user_favorites] = @proposals
+    assign(:user, @user)
+    assign(:user_favorites, @proposals)
   end
 
   it "renders a list of user_favorites" do

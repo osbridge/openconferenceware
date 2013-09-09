@@ -4,11 +4,12 @@ describe "/tracks/show.html.erb" do
   include TracksHelper
   before(:each) do
     @event = stub_current_event!(:controller => template)
-    assigns[:track] = @track = stub_model(Track,
+    @track = stub_model(Track,
       :title => "value for title",
       :event_id => 1,
       :description => "value for description"
     )
+    assign(:track, @track)
 
     template.stub(:schedule_visible?).and_return(true)
   end

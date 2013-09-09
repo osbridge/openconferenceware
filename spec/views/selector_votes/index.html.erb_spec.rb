@@ -17,8 +17,8 @@ describe "/selector_votes/index.html.erb" do
 
     @comment1 = @proposal1.comments.create :email => "foo@.bar.com", :message => "Hi!"
 
-    assigns[:event] = @event
-    assigns[:proposals] = [@proposal1, @proposal2]
+    assign(:event, @event)
+    assign(:proposals, [@proposal1, @proposal2])
 
     render
   end
