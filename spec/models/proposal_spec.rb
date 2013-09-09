@@ -533,7 +533,6 @@ describe Proposal do
 
     it "should notify accepted proposal speakers" do
       @proposal.accept!
-      SpeakerMailer.stub(:deliver_speaker_accepted_email).and_return(true)
       emailed, already = @proposal.notify_accepted_speakers
       emailed.should == @proposal.mailto_emails
       already.should be_nil
@@ -563,7 +562,6 @@ describe Proposal do
 
     it "should notify rejected proposal speakers" do
       @proposal.reject!
-      SpeakerMailer.stub(:deliver_speaker_rejected_email).and_return(true)
       emailed, already = @proposal.notify_rejected_speakers
       emailed.should == @proposal.mailto_emails
       already.should be_nil

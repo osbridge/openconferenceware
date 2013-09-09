@@ -11,7 +11,7 @@ def stub_speaker_mailer_secrets
 end
 
 def deliver_email(proposal)
-  SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', proposal)
+  SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', proposal).deliver
 end
 
 describe SpeakerMailer do
@@ -78,11 +78,11 @@ describe SpeakerMailer do
     end
 
     it "should raise error if email template not found" do
-      lambda { SpeakerMailer.deliver_speaker_email('proposals_acceptance_email_subject', 'error_email', @proposal) }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_email/)
+      lambda { SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'error_email', @proposal).deliver }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_email/)
     end
 
     it "should raise error if subject template not found" do
-      lambda { SpeakerMailer.deliver_speaker_email('error_subject', 'proposals_acceptance_email_text', @proposal) }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_subject/)
+      lambda { SpeakerMailer.speaker_email('error_subject', 'proposals_acceptance_email_text', @proposal).deliver }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_subject/)
     end
   end
 
