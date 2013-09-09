@@ -125,7 +125,8 @@ class Proposal < ActiveRecord::Base
   has_many :users_who_favor, :through => :user_favorites, :source => :user
   has_many :selector_votes
 
-  has_and_belongs_to_many :users do
+  has_many :proposals_user
+  has_many :users, :through => :proposals_user do
     def fullnames
       self.map(&:fullname).join(', ')
     end

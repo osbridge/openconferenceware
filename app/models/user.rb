@@ -55,7 +55,8 @@ class User < ActiveRecord::Base
 
   #---[ Associations ]----------------------------------------------------
 
-  has_and_belongs_to_many :proposals do
+  has_many :proposals_user
+  has_many :proposals, :through => :proposals_user do
     def ids
       self.map(&:id).join(', ')
     end
