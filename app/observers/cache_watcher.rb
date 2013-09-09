@@ -22,7 +22,7 @@ class CacheWatcher < ActiveRecord::Observer
     case Rails.cache
     when ActiveSupport::Cache::MemCacheStore
       Rails.cache.instance_variable_get(:@data).flush_all
-    when ActiveSupport::Cache::FileStore
+    when ActiveSupport::Cache::FileStore, ActiveSupport::Cache::MemoryStore
       Rails.cache.delete_matched(//) rescue nil
     else
       raise NotImplementedError, "Don't know how to expire cache: #{Rails.cache.class.name}"
