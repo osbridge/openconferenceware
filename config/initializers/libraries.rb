@@ -6,7 +6,6 @@ require 'facets/dictionary'
 
 # Local libraries
 require 'defer_proxy'
-require 'ext/active_support_cache_object'
 require 'ext/hash_to_xml_workaround'
 require 'ext/object_logit'
 require 'ext/active_record_quoting_fix'

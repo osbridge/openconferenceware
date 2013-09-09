@@ -104,8 +104,7 @@ module CacheLookupsMixin
 
     def fetch_object(silo, &block)
       self.revive_associations_for(self)
-      method = Rails.cache.respond_to?(:fetch_object) ? :fetch_object : :fetch
-      return Rails.cache.send(method, silo, &block)
+      return Rails.cache.fetch(silo, &block)
     end
 
     def revive_associations_for(object)
