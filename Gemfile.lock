@@ -91,7 +91,7 @@ GEM
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
     facets (2.8.4)
-    factory_girl (1.2.4)
+    factory_girl (1.3.3)
     fastercsv (1.5.5)
     gchartrb (0.8)
     gherkin (2.9.3)
@@ -226,7 +226,7 @@ DEPENDENCIES
   dynamic_form
   exception_notification
   facets (~> 2.8.0)
-  factory_girl (~> 1.2.4)
+  factory_girl (~> 1.3.3)
   fastercsv (~> 1.5.3)
   gchartrb (~> 0.8.0)
   hpricot (~> 0.8.2)

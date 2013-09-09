@@ -58,7 +58,7 @@ group :test do
   gem 'test-unit',        '~> 1.2.3', :require => false
   gem 'cucumber-rails',   :require => false, :git => 'git://github.com/cucumber/cucumber-rails.git', :branch => "rails-2.3.x"
   gem 'database_cleaner', '~> 0.4.3', :require => false
-  gem 'factory_girl',     '~> 1.2.4', :require => false
+  gem 'factory_girl',     '~> 1.3.3', :require => false
   gem 'rspec-rails'
   gem 'webrat',           '~> 0.7.0', :require => false
 
