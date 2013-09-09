@@ -7,19 +7,19 @@ describe CacheLookupsMixin do
   end
 
   describe 'when enabled' do
-    describe 'and environment defaults to performing caching' do
-      shared_examples_for 'overrides' do
-        it 'should cache lookups if forced to' do
-          ENV.should_receive(:[]).with('CACHELOOKUPS').and_return('1')
-          Event.cache_lookups?.should == true
-        end
-
-        it 'should not cache lookups if forced not to' do
-          ENV.should_receive(:[]).with('CACHELOOKUPS').and_return('0')
-          Event.cache_lookups?.should == false
-        end
+    shared_examples_for 'overrides' do
+      it 'should cache lookups if forced to' do
+        ENV.should_receive(:[]).with('CACHELOOKUPS').and_return('1')
+        Event.cache_lookups?.should == true
       end
 
+      it 'should not cache lookups if forced not to' do
+        ENV.should_receive(:[]).with('CACHELOOKUPS').and_return('0')
+        Event.cache_lookups?.should == false
+      end
+    end
+
+    describe 'and environment defaults to performing caching' do
       before do
         Rails.configuration.action_controller.stub(:perform_caching => true)
       end
