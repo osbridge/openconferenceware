@@ -775,7 +775,7 @@ describe ProposalsController do
 
       it "should fail to create proposal without a complete user" do
         user = users(:quentin)
-        user.should_receive(:complete_profile?).any_number_of_times.and_return(false)
+        user.should_receive(:complete_profile?).at_least(:once).and_return(false)
         User.should_receive(:find_by_id).and_return(user)
         proposal = Proposal.new(@inputs)
         proposal.users << user

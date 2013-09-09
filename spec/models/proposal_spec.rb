@@ -231,7 +231,7 @@ describe Proposal do
       @user = stub_model(User)
       @users = mock_model(Array)
       @proposal = stub_model(Proposal)
-      @proposal.should_receive(:users).any_number_of_times.and_return(@users)
+      @proposal.should_receive(:users).at_least(:once).and_return(@users)
     end
   end
 

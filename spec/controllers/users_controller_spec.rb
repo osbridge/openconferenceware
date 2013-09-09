@@ -40,7 +40,7 @@ describe UsersController do
     it "should delete the auth token cookie" do
       cookie_hash = {}
       cookie_hash.should_receive(:delete).with(:auth_token)
-      @controller.should_receive(:cookies).any_number_of_times.and_return(cookie_hash)
+      @controller.should_receive(:cookies).at_least(:once).and_return(cookie_hash)
       post_to_create
     end
   end

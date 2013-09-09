@@ -155,7 +155,7 @@ describe ApplicationController do
   describe "normalize_event_path_or_redirect" do
     describe "with HTML" do
       it "should not redirect canonical requests" do
-        @controller.should_receive(:request).any_number_of_times.and_return(double(OpenStruct,
+        @controller.should_receive(:request).at_least(:once).and_return(double(OpenStruct,
           :path => '/events/123/proposals',
           :format => 'html'))
         @controller.send(:normalize_event_path_or_redirect).should be_false
@@ -178,14 +178,14 @@ describe ApplicationController do
 
     describe "with JSON" do
       it "should not redirect canonical requests" do
-        @controller.should_receive(:request).any_number_of_times.and_return(double(OpenStruct,
+        @controller.should_receive(:request).at_least(:once).and_return(double(OpenStruct,
           :path => '/events/123/proposals',
           :format => 'json'))
         @controller.send(:normalize_event_path_or_redirect).should be_false
       end
 
       it "should redirect incomplete requests" do
-        @controller.should_receive(:request).any_number_of_times.and_return(double(OpenStruct,
+        @controller.should_receive(:request).at_least(:once).and_return(double(OpenStruct,
           :path => '/proposals',
           :format => 'json'))
         @controller.send(:normalize_event_path_or_redirect).should be_false
