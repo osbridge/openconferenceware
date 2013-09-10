@@ -20,7 +20,7 @@ describe BrowserSessionsController do
     end
     
     it "should generate params { :controller => 'browser_sessions', action => 'create' } from GET /browser_session" do
-      {:get => "/browser_session"}.should route_to({:controller => "browser_sessions", :action => "create", :method => :get})
+      {:get => "/browser_session"}.should route_to({:controller => "browser_sessions", :action => "create"})
     end
       
   end
