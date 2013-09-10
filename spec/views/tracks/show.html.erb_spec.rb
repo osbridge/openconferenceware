@@ -17,7 +17,7 @@ describe "tracks/show.html.erb" do
 
   it "should render attributes in <p>" do
     render
-    rendered.should have_text(/value for description/)
+    rendered.should match(/value for description/)
   end
 end
 
