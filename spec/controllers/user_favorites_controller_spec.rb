@@ -15,10 +15,11 @@ describe UserFavoritesController do
   describe "GET index" do
     before do
       @event = stub_current_event!
-      @favorite = stub_model(UserFavorite)
+      @favorite = UserFavorite.new
       User.should_receive(:find).with('42').and_return(@user = stub_model(User))
-      @user.stub(:favorites => double(Array, :populated => [@favorite]),
-                  :label => 'Sven')
+      @favorites = OpenStruct.new(:populated => [@favorite])
+      @user.stub(:favorites => @favorites,
+                 :label => 'Sven')
     end
 
     it "assigns favorites for the given user as @user_favorites" do
@@ -31,7 +32,9 @@ describe UserFavoritesController do
         @event.stub(:schedule_published? => true)
 
         # TODO I'm sure there's a better way to mock this scope onto this fake ActiveRecord recordset
-        DeferProxy.should_receive(:new).and_return(double( Array, :scheduled => [@favorite]))
+        recordset = []
+        recordset.stub(:scheduled).and_return([@favorite])
+        DeferProxy.should_receive(:new).and_return(recordset)
 
         Proposal.should_receive(:to_icalendar).and_return("ICS'D!")
         get :index, :user_id => '42', :format => 'ics'
