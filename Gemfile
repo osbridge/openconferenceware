@@ -36,6 +36,7 @@ gem 'nokogiri',            '~> 1.5.10'
 gem 'prawn',               '= 0.11.1'
 gem 'memcache-client'
 gem "dynamic_form"
+gem 'rinku', :require => 'rails_rinku'
 
 group :production do
   gem 'exception_notification'
