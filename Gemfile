@@ -23,7 +23,7 @@ gem 'rwikibot',     '= 2.0.6',  :require => false,
 gem 'RedCloth',            '~> 4.2.3'
 gem 'aasm'
 gem 'acts-as-taggable-on'
-gem 'color',               '~> 1.4.1'
+gem 'color'
 gem 'comma',               '~> 0.3.2'
 gem 'fastercsv',           '~> 1.5.3'
 gem 'gchartrb',            '~> 0.8.0', :require => 'google_chart'

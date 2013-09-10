@@ -218,7 +218,7 @@ DEPENDENCIES
   acts-as-taggable-on
   capistrano
   capistrano-ext
-  color (~> 1.4.1)
+  color
   comma (~> 0.3.2)
   cucumber-rails!
   database_cleaner (~> 0.4.3)
