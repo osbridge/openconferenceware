@@ -53,11 +53,14 @@ group :development do
 
   platform :mri_18 do
     gem 'ruby-debug'
+    gem 'ruby18_source_location'
   end
 
   platform :mri_19 do
     gem 'debugger'
   end
+
+  gem 'pry'
 end
 
 group :test do
