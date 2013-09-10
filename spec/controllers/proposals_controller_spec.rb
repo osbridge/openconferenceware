@@ -205,10 +205,7 @@ describe ProposalsController do
       end
 
       it "should sort proposals by start time" do
-        stub_current_event!(:event => @event)
-        @event.stub(:proposal_status_published? => true)
-
-        get :sessions_index, :sort => "start_time", :event_id => @event.slug
+        get :sessions_index, :sort => "start_time", :event_id => @event.to_param
         proposals = extract_proposals
 
         proposals.size.should > 0
@@ -219,21 +216,15 @@ describe ProposalsController do
       end
 
       it "should not sort proposals by forbidden field" do
-        proposal = Proposal.new
-        proposal.should_not_receive(:destroy)
+        Proposal.any_instance.should_not_receive(:destroy)
+        get :index, :sort => "destroy", :event_id => @event.to_param
 
-        event = Event.current
-
-        event.proposals.should_receive(:find).and_return([proposal])
-
-        stub_current_event!(:event => event)
-
-        # Bypass #fetch_object because it can't cache our singleton doubles.
-        Proposal.stub(:fetch_object).and_return do |slug, callback|
-          callback.call
-        end
-
-        get :index, :sort => "destroy"
+        # default to sorting by submitted_at
+        proposals = extract_proposals
+        proposals.size.should > 0
+        values = proposals.map(&:submitted_at)
+        expected = values.sort
+        values.should == expected
       end
 
     end
