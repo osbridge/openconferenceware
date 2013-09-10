@@ -4,6 +4,7 @@ describe "session_types/show.html.erb" do
   include SessionTypesHelper
   before(:each) do
     assign(:session_type, stub_model(SessionType))
+    view.stub(:admin?).and_return(false)
 
     @event = stub_current_event!(:controller => view)
 

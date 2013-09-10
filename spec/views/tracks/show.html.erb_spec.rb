@@ -12,6 +12,7 @@ describe "tracks/show.html.erb" do
     assign(:track, @track)
 
     view.stub(:schedule_visible?).and_return(true)
+    view.stub(:admin?).and_return(false)
   end
 
   it "should render attributes in <p>" do

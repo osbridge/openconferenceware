@@ -19,6 +19,7 @@ describe "tracks/index.html.erb" do
       )
     ]
     assign(:tracks, @tracks)
+    view.stub(:admin?).and_return(false)
   end
 
   describe "anonymous" do

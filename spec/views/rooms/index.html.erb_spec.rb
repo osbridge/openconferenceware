@@ -9,6 +9,7 @@ describe "rooms/index.html.erb" do
       stub_model(Room, :name => "Foo room", :event => @event),
       stub_model(Room, :name => "Bar room", :event => @event),
     ])
+    view.stub(:admin?).and_return(false)
   end
 
   it "should render list of rooms" do

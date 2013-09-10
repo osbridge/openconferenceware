@@ -9,6 +9,7 @@ describe "session_types/index.html.erb" do
       stub_model(SessionType, :event => @event),
       stub_model(SessionType, :event => @event)
     ])
+    view.stub(:admin?).and_return(false)
   end
 
   it "should render list of session_types" do
