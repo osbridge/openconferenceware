@@ -171,7 +171,7 @@ describe ProposalsController do
         @proposals = assigns(:proposals)
         @struct = ActiveSupport::JSON.decode(response.body)
         @records = @struct
-        @record = @records.first
+        @record = @records.first["proposal"]
       end
 
       it_should_behave_like "when exporting"
@@ -649,7 +649,7 @@ describe ProposalsController do
       it "should not display form" do
         login_as(users(:quentin))
         event = events(:closed)
-        get :new, :event_id => event.slug
+        get :new, :event_id => event.to_param
 
         response.should redirect_to(event_proposals_path(event))
       end
@@ -660,7 +660,7 @@ describe ProposalsController do
     shared_examples_for "shared edit behaviors" do
       before do
         @proposal = proposals(:quentin_widgets)
-        get :edit, :id => @proposal.id
+        get :edit, :id => @proposal.id, :event_id => @event.to_param
       end
     end
 
