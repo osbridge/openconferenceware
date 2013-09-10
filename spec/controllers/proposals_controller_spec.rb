@@ -33,17 +33,19 @@ describe ProposalsController do
     end
 
     describe "when returning CSV" do
+
+      def get_csv_index
+        SETTINGS.stub(:have_user_profiles => true)
+        SETTINGS.stub(:have_multiple_presenters => true)
+        stub_current_event!(:event => @event)
+
+        get :index, :event_id => @event.to_param, :format => "csv"
+
+        @rows = FasterCSV.parse(response.body)
+        @header = @rows.shift
+      end
+
       shared_examples_for "shared CSV behaviors" do
-        before do
-          SETTINGS.stub(:have_user_profiles => true)
-          SETTINGS.stub(:have_multiple_presenters => true)
-          stub_current_event!(:event => @event)
-
-          get :index, :event_id => @event.slug, :format => "csv"
-
-          @rows = Array(CSV::Reader.parse(response.body))
-          @header = @rows.first
-        end
 
         it "should return CSV" do
           @rows.should be_a_kind_of(Array)
@@ -68,6 +70,7 @@ describe ProposalsController do
         describe "with visible schedule" do
           before do
             @controller.stub(:schedule_visible? => true)
+            get_csv_index
           end
 
           it_should_behave_like "shared CSV behaviors"
@@ -82,6 +85,7 @@ describe ProposalsController do
         describe "without visible schedule" do
           before do
             @controller.stub(:schedule_visible? => false)
+            get_csv_index
           end
 
           it_should_behave_like "shared CSV behaviors"
@@ -98,6 +102,7 @@ describe ProposalsController do
       describe "mortal user" do
         before do
           login_as(:quentin)
+          get_csv_index
         end
 
         it_should_behave_like "shared CSV behaviors"
@@ -107,7 +112,8 @@ describe ProposalsController do
 
       describe "admin user" do
         before do
-          login_as(:aaron)
+          controller.stub(:admin?).and_return(true)
+          get_csv_index
         end
 
         it_should_behave_like "shared CSV behaviors"
