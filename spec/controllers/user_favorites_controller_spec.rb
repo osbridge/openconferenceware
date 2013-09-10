@@ -14,12 +14,15 @@ describe UserFavoritesController do
 
   describe "GET index" do
     before do
-      @event = stub_current_event!
-      @favorite = UserFavorite.new
-      User.should_receive(:find).with('42').and_return(@user = stub_model(User))
-      @favorites = OpenStruct.new(:populated => [@favorite])
-      @user.stub(:favorites => @favorites,
-                 :label => 'Sven')
+      @user      = stub_model(User)
+      @event     = stub_current_event!
+      @favorite  = UserFavorite.new
+      @favorites = []
+
+      @favorites.stub(:populated => [@favorite])
+      @user.stub(:favorites => @favorites, :label => 'Sven')
+
+      User.should_receive(:find).with('42').and_return(@user)
     end
 
     it "assigns favorites for the given user as @user_favorites" do
