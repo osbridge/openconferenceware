@@ -1,21 +1,5 @@
 OpenConferenceWare::Application.routes.draw do
 
-  resources :comments
-  resources :proposals do
-    resources :comments
-    resource :selector_vote, :only => :create
-    match 'login' => 'proposals#proposal_login_required', :as => :login
-  end
-
-  match '/proposals/manage_speakers/:id' => 'proposals#manage_speakers', :as => :manage_proposal_speakers, :constraints => { :method => 'POST' }
-  match '/proposals/search_speakers/:id' => 'proposals#search_speakers', :as => :search_proposal_speakers, :constraints => { :method => 'POST' }
-  match '/proposals/speaker_confirm/:id' => 'proposals#speaker_confirm', :as => :speaker_confirm, :constraints => { :method => 'POST' }
-  match '/proposals/speaker_decline/:id' => 'proposals#speaker_decline', :as => :speaker_decline, :constraints => { :method => 'POST' }
-  match '/sessions' => 'proposals#sessions_index', :as => :sessions
-  match '/schedule' => 'proposals#schedule', :as => :schedule
-  match '/sessions/:id' => 'proposals#session_show', :as => :session
-  match '/sessions_terse' => 'proposals#sessions_index_terse', :as => :sessions_terse
-
   resources :events do
     member do
       get :speakers
@@ -43,6 +27,22 @@ OpenConferenceWare::Application.routes.draw do
     match '/events/:id/proposals' => 'events#proposals', :as => :event_proposals
     match '/events/:id/notify_speakers' => 'events#notify_speakers', :as => :notify_speakers
   end
+
+  resources :comments
+  resources :proposals do
+    resources :comments
+    resource :selector_vote, :only => :create
+    match 'login' => 'proposals#proposal_login_required', :as => :login
+  end
+
+  match '/proposals/manage_speakers/:id' => 'proposals#manage_speakers', :as => :manage_proposal_speakers, :constraints => { :method => 'POST' }
+  match '/proposals/search_speakers/:id' => 'proposals#search_speakers', :as => :search_proposal_speakers, :constraints => { :method => 'POST' }
+  match '/proposals/speaker_confirm/:id' => 'proposals#speaker_confirm', :as => :speaker_confirm, :constraints => { :method => 'POST' }
+  match '/proposals/speaker_decline/:id' => 'proposals#speaker_decline', :as => :speaker_decline, :constraints => { :method => 'POST' }
+  match '/sessions' => 'proposals#sessions_index', :as => :sessions
+  match '/schedule' => 'proposals#schedule', :as => :schedule
+  match '/sessions/:id' => 'proposals#session_show', :as => :session
+  match '/sessions_terse' => 'proposals#sessions_index_terse', :as => :sessions_terse
 
   match '/' => 'proposals#proposals_or_sessions'
   match '/br3ak' => 'proposals#br3ak', :as => :br3ak
