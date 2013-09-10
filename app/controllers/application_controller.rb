@@ -285,7 +285,7 @@ protected
         elsif controller_name == "proposals" && action_name == "schedule"
           path = event_schedule_path(@event)
         else
-          path = "/events/#{@event.to_param}/#{controller_name}#{action_name == 'index' ? '' : '/' + action_name}"
+          path = "/events/#{@event.to_param}/#{controller_name}#{action_name == 'index' ? '' : "/#{action_name}" }"
         end
         flash.keep
         return redirect_to(path)
