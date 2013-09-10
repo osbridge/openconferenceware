@@ -214,9 +214,8 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.save
         format.html {
-          page_title "Thank You!"
           # Display a page thanking users for submitting a proposal and telling them what to do next.
-          render
+          page_title "Thank You!"
         }
         format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
         format.json { render :json => @proposal, :status => :created, :location => @proposal }
