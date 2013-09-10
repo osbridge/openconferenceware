@@ -19,10 +19,13 @@ describe "tracks/index.html.erb" do
       )
     ]
     assign(:tracks, @tracks)
-    view.stub(:admin?).and_return(false)
   end
 
   describe "anonymous" do
+    before do
+      view.stub(:admin?).and_return(false)
+    end
+
     it "should render list" do
       render
       rendered.should have_selector("h3", :content => "value for title".to_s, :count => 2)
@@ -33,7 +36,7 @@ describe "tracks/index.html.erb" do
     fixtures :all
 
     before(:each) do
-      login_as(:aaron)
+      view.stub(:admin?).and_return(true)
       render
     end
 
