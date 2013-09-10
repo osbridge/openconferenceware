@@ -1,5 +1,4 @@
 OpenConferenceWare::Application.routes.draw do
-  root :to => 'events#index'
 
   resources :comments
   resources :proposals do
@@ -69,6 +68,8 @@ OpenConferenceWare::Application.routes.draw do
      :admin
     end
   end
+
+  root :to => 'events#index'
 
   match '/:controller(/:action(/:id))'
 end
