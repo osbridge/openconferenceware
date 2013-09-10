@@ -449,7 +449,8 @@ describe ProposalsController do
           current_event = stub_model(Event, :slug => 'new', :proposal_status_published => false)
           old_event = stub_model(Event, :slug => 'old', :proposal_status_published => true)
           old_session_user = users(:clio)
-          old_session = stub_model(Proposal, :status => 'confirmed', :event => old_event, :users => [old_session_user])
+          old_session = stub_model(Proposal, :status => 'confirmed', :event => old_event)
+          old_session.users << old_session_user
 
           Proposal.stub(:find => old_session, :find_by_id => old_session, :lookup => old_session)
           Event.stub(:current => current_event)
@@ -1054,7 +1055,8 @@ describe ProposalsController do
       @bubba = stub_model(User, :fullname => "Bubba Smith")
       @billy = stub_model(User, :fullname => "Billy Jack")
       @sue = stub_model(User, :fullname => "Sue Smith")
-      @proposal = stub_model(Proposal, :users => [@bubba, @billy])
+      @proposal = stub_model(Proposal)
+      @proposal.users = [@bubba, @billy]
       @event = stub_current_event!
       controller.stub(:assign_get_proposal_for_speaker_manager)
       controller.stub(:get_proposal_for_speaker_manager).and_return(@proposal)
