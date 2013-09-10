@@ -44,5 +44,13 @@ module PublicAttributesMixin
         result
       end
     end
+
+    def serializable_hash(options={})
+      if (options.keys & [:only, :except, :methods, :include]).present?
+        super(options)
+      else
+        public_attributes
+      end
+    end
   end
 end

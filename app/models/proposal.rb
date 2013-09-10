@@ -43,9 +43,6 @@ class Proposal < ActiveRecord::Base
   # Provide ::overlaps?
   include ScheduleOverlapsMixin
 
-  # Provide sanitized ::to_xml and ::to_json
-  include SerializersMixin
-
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags

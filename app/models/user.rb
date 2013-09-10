@@ -33,7 +33,6 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   #---[ Mixins ]----------------------------------------------------------
 
-  include SerializersMixin
   include NormalizeUrlMixin
   include SettingsCheckersMixin
   include PublicAttributesMixin

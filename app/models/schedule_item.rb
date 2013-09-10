@@ -23,9 +23,6 @@ class ScheduleItem < ActiveRecord::Base
   # Provides #overlaps?
   include ScheduleOverlapsMixin
 
-  # Provide sanitized ::to_xml and ::to_json
-  include SerializersMixin
-
   # Public attributes for export
   include PublicAttributesMixin
   set_public_attributes :id, :title, :excerpt, :description, :start_time, :end_time, :duration,

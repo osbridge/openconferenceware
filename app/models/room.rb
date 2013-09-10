@@ -35,6 +35,4 @@ class Room < ActiveRecord::Base
       :medium => "350>",
       :small => "150>"
     }
-
-  include SerializersMixin
 end
