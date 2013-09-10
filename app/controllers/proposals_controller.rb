@@ -263,7 +263,7 @@ class ProposalsController < ApplicationController
           render(
             :json => {
               :proposal_status => @proposal.status, 
-              :_transition_control_html => render_to_string(:partial => '/proposals/transition_control.html.erb')
+              :_transition_control_html => render_to_string(:partial => '/proposals/transition_control')
             }, 
             :status => :ok
           )
@@ -307,7 +307,7 @@ class ProposalsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :partial => "manage_speakers.html.erb", :layout => false }
+      format.html { render :partial => "manage_speakers", :layout => false }
     end
   end
 
@@ -316,7 +316,7 @@ class ProposalsController < ApplicationController
     @matches = get_speaker_matches(params[:search])
 
     respond_to do |format|
-      format.json { render :partial => "search_speakers.html.erb", :layout => false }
+      format.json { render :partial => "search_speakers", :layout => false }
     end
   end
 
