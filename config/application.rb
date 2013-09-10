@@ -82,6 +82,9 @@ module OpenConferenceWare
 
       # Setup default host for use in mailers
       config.action_mailer.default_url_options = { :host => SETTINGS.mailer_host }
+
+      # Set timezone for Rails
+      config.time_zone = SETTINGS.timezone
     end
   end
 end

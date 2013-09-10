@@ -33,6 +33,8 @@ OpenConferenceWare::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # Always run tests in UTC
-  config.time_zone = 'UTC'
+  config.before_initialize do
+    # Always run tests in UTC
+    config.time_zone = 'UTC'
+  end
 end
