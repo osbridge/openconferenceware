@@ -7,7 +7,7 @@ source "https://rubygems.org"
 gem 'rake', '~> 0.8.7'
 
 # Rails version, which must be specified here AND in the environment.rb:
-gem 'rails', '~> 3.1.0'
+gem 'rails', '~> 3.2.0'
 
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
