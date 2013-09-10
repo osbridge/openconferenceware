@@ -195,7 +195,7 @@ protected
       if event = Event.lookup(key)
         return [event, :assigned_to_param]
       else
-        logit "error, couldn't find event from key: #{key}"
+        logger.info "error, couldn't find event from key: #{key}"
         invalid = :invalid_param
       end
     end
@@ -206,7 +206,7 @@ protected
         if proposal.event
           return [proposal.event, :assigned_to_param]
         else
-          logit "error, couldn't find event from Proposal ##{proposal.id}"
+          logger.info "error, couldn't find event from Proposal ##{proposal.id}"
           invalid = :invalid_proposal_event
         end
       end
@@ -214,7 +214,7 @@ protected
 
     # Try finding the current event.
     if event = Event.current
-      logit "assigned to current event"
+      logger.info "assigned to current event"
       if invalid
         return [event, invalid]
       else
@@ -222,7 +222,7 @@ protected
       end
     end
 
-    logit "error, no current event found"
+    logger.info "error, no current event found"
     return [nil, :empty]
   end
 
@@ -237,7 +237,7 @@ protected
 
     # Only assign event if one isn't already assigned.
     if @event
-      logit "already assigned"
+      logger.info "already assigned"
       @event_assignment = :assigned_already
     else
       @event, @event_assignment = get_current_event_and_assignment_status()
