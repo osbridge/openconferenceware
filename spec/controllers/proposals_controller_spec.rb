@@ -173,7 +173,7 @@ describe ProposalsController do
 
     describe "when sorting" do
       it "should sort proposals by title" do
-        get :index, :sort => "title"
+        get :index, :sort => "title", :event_id => @event.to_param
         extracted = extract_proposals
 
         extracted.size.should > 0
@@ -183,7 +183,7 @@ describe ProposalsController do
       end
 
       it "should sort proposals by track" do
-        get :index, :sort => "track"
+        get :index, :sort => "track", :event_id => @event.to_param
         proposals = extract_proposals
 
         proposals.size.should > 0
@@ -194,7 +194,7 @@ describe ProposalsController do
       end
 
       it "should sort proposals by title descending" do
-        get :index, :sort => "title", :dir => "desc"
+        get :index, :sort => "title", :dir => "desc", :event_id => @event.to_param
         proposals = extract_proposals
 
         proposals.size.should > 0
