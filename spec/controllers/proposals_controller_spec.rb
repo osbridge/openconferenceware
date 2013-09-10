@@ -285,9 +285,10 @@ describe ProposalsController do
       )
       stub_current_event!(:event => event)
 
-      get :sessions_index, :event => 1234
-      response.should have_selector(".event_text", :content => event.session_text)
-      response.should have_selector(".session_text", :content => event.session_text)
+      get :sessions_index, :event_id => event.to_param
+      response.should have_selector(".event_text.session_text") do |text|
+        text.should contain("MySessionText")
+      end
     end
 
     it "should display a list of sessions" do
@@ -307,16 +308,14 @@ describe ProposalsController do
         callback.call
       end
 
-      get :sessions_index, :event => 1234
-
-      records = assigns(:proposals)
-      records.should be_a_kind_of(proposals.class)
+      get :sessions_index, :event_id => event.to_param
+      expect(assigns(:proposals)).to be_a_kind_of(proposals.class)
     end
 
     it "should redirect to proposals unless the proposal status is published" do
       event = stub_model(Event, :proposal_status_published? => false, :id => 1234, :slug => 'event_slug')
       stub_current_event!(:event => event)
-      get :sessions_index, :event => 1234
+      get :sessions_index, :event_id => event.to_param
 
       response.should redirect_to(event_proposals_url(event))
     end
