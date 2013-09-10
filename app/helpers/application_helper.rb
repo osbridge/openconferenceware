@@ -77,6 +77,13 @@ module ApplicationHelper
     # TODO Make this logic clearer and the menu system less crazy.
   end
 
+  def nav_event
+    @nav_event ||= unless assigned_event.try(:new_record?)
+                     assigned_event.try(:parent_or_self)
+                   end
+  end
+
+
   # Main navigation to display.
   def nav_kind(event=nil)
     event ||= @event
