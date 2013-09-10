@@ -29,27 +29,29 @@ end
 # contains the user profile information (e.g., presenter's name). However,
 # if false, the proposal has many users that each have their own profile as
 # part of their user record.
-Factory.define :proposal do |f|
-  f.user_id nil
-  f.presenter "Presenter name"
-  f.affiliation "My affiliation"
-  f.email { Factory.next(:email) }
-  f.website { Factory.next(:website) }
-  f.biography "My biography"
-  f.sequence(:title) { |n| "Proposal #{n}" }
-  f.description "My proposal description"
-  f.agreement true
-  f.note_to_organizers "My note to organizers"
-  f.excerpt "My excerpt"
-  f.speaking_experience "My speaking experience is awesome"
-  f.status "proposed"
-  f.start_time nil
-  f.audience_level "a"
+FactoryGirl.define do
+  factory :proposal do
+    user_id nil
+    presenter "Presenter name"
+    affiliation "My affiliation"
+    email { Factory.next(:email) }
+    website { Factory.next(:website) }
+    biography "My biography"
+    sequence(:title) { |n| "Proposal #{n}" }
+    description "My proposal description"
+    agreement true
+    note_to_organizers "My note to organizers"
+    excerpt "My excerpt"
+    speaking_experience "My speaking experience is awesome"
+    status "proposed"
+    start_time nil
+    audience_level "a"
 
-  # :belongs_to associations:
-  # * :event
-  # * :track
-  # * :session_type
-  # * :room
-  # * :users
+    # :belongs_to associations:
+    # * :event
+    # * :track
+    # * :session_type
+    # * :room
+    # * :users
+  end
 end

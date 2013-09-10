@@ -214,24 +214,32 @@ describe Schedule do
       @user2 = stub_model(User)
 
       # Same time and room
-      @item1 = stub_model(Proposal, :room => @room1, :start_time => @time1, :end_time => @time2)
-      @item2 = stub_model(Proposal, :room => @room1, :start_time => @time1, :end_time => @time2)
+      @item1 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time1)
+      @item1.stub(:end_time => @time2)
+      @item2 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time1)
+      @item2.stub(:end_time => @time2)
 
       # Same time, different room
-      @item3 = stub_model(Proposal, :room => @room2, :start_time => @time1, :end_time => @time2)
+      @item3 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time1)
+      @item3.stub(:end_time => @time2)
 
       # Different time, same room
-      @item4 = stub_model(Proposal, :room => @room1, :start_time => @time3, :end_time => @time4)
+      @item4 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time3)
+      @item4.stub(:end_time => @time4)
 
       # Same time and speaker
-      @item5 = stub_model(Proposal, :room => @room1, :start_time => @time1, :end_time => @time2, :users => [@user1])
-      @item6 = stub_model(Proposal, :room => @room2, :start_time => @time1, :end_time => @time2, :users => [@user1])
+      @item5 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time1, :users => [@user1])
+      @item5.stub(:end_time => @time2)
+      @item6 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time1, :users => [@user1])
+      @item6.stub(:end_time => @time2)
 
       # Same time, different speaker
-      @item7 = stub_model(Proposal, :room => @room2, :start_time => @time1, :end_time => @time2, :users => [@user2])
+      @item7 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time1, :users => [@user2])
+      @item7.stub(:end_time => @time2)
 
       # Different time and speaker
-      @item8 = stub_model(Proposal, :room => @room2, :start_time => @time3, :end_time => @time4, :users => [@user2])
+      @item8 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time3, :users => [@user2])
+      @item8.stub(:end_time => @time8)
 
       # User associations
       @user1.stub(:proposals).and_return(double(Array, :scheduled => double(Array, :all => [@item5, @item6])))

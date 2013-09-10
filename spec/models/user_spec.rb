@@ -69,37 +69,35 @@ describe User do
   end
 
   describe "when finding first admin user" do
-    it "should find an admin user" do
-      user = mock_model(User, :admin => true)
-      User.should_receive(:find).and_return(user)
 
+    it "should find an admin user" do
+      mock_model(User, :admin => true)
       result = User.find_first_admin
       result.should be_a_kind_of(User)
       result.admin.should be_true
     end
 
     it "should find nothing if there isn't an admin user" do
-      User.should_receive(:find).and_return(nil)
-
+      User.destroy_all
       User.find_first_admin.should be_nil
     end
+
   end
 
   describe "when finding first non-admin user" do
-    it "should find a non-admin user" do
-      user = mock_model(User, :admin => false)
-      User.should_receive(:find).and_return(user)
 
+    it "should find a non-admin user" do
+      mock_model(User, :admin => false)
       result = User.find_first_non_admin
       result.should be_a_kind_of(User)
       result.admin.should be_false
     end
 
     it "should find nothing if there isn't a non-admin user" do
-      User.should_receive(:find).and_return(nil)
-
+      User.destroy_all
       User.find_first_non_admin.should be_nil
     end
+
   end
 
   describe "remember_token" do

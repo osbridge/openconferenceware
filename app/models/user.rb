@@ -178,12 +178,12 @@ class User < ActiveRecord::Base
 
   # Return first admin user or a nil
   def self.find_first_admin
-    self.where( :admin => true ).first
+    self.where(:admin => true).first
   end
 
   # Return first non-admin user or a nil
   def self.find_first_non_admin
-    self.where( :admin => false ).first
+    self.where(:admin => false).first
   end
 
   # Returns user if they're authenticated by their login name and unencrypted password, else a nil.

@@ -1,9 +1,12 @@
-Factory.define :track do |f|
-  f.sequence(:title) { |n| "Track #{n}" }
-  f.description { |record| "#{record.title} description" }
-  f.color "#000000"
-  f.excerpt "A track"
+FactoryGirl.define do
+  factory :track do
+    sequence(:title) { |n| "Track #{n}" }
+    description { |record| "#{record.title} description" }
+    color "#000000"
+    excerpt "A track"
+    association :event
 
-  # :belongs_to association
-  # * :event
+    # :belongs_to association
+    # * :event
+  end
 end
