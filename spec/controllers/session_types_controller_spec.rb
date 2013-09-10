@@ -19,9 +19,14 @@ describe SessionTypesController do
     
   describe "responding to GET index" do
 
+    it "should redirect to the session types for the current event if none is given" do
+      get :index
+      response.should redirect_to(event_session_types_path(@event))
+    end
+
     it "should expose all session_types from the current event as @session_types" do
       @event.should_receive(:session_types).and_return([mock_session_type])
-      get :index
+      get :index, :event_id => @event.to_param
       assigns(:session_types).should == [mock_session_type]
     end
 
