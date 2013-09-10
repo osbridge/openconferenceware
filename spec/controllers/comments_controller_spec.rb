@@ -153,9 +153,9 @@ describe CommentsController do
     it "should destroy" do
       login_as :aaron
       comment = comments(:clio_chupacabras_fbi)
-      Comment.should_receive(:find).with(comment.id.to_s).and_return(comment)
+      Comment.should_receive(:find).with(comment.to_param).and_return(comment)
       comment.should_receive(:destroy)
-      delete :destroy, :id => comment.id, :format => :html
+      delete :destroy, :id => comment.to_param, :format => :html
 
       flash.should have_key(:success)
       # response.should be_redirect # TODO why not?
