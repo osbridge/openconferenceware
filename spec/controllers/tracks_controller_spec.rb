@@ -20,9 +20,14 @@ describe TracksController do
     
   describe "responding to GET index" do
 
+    it "should redirect to the tracks for the current event if none is given" do
+      get :index
+      response.should redirect_to(event_tracks_path(@event))
+    end
+
     it "should expose all tracks from the current event as @tracks" do
       @event.should_receive(:tracks).and_return([mock_track])
-      get :index
+      get :index, :event_id => @event.to_param
       assigns(:tracks).should == [mock_track]
     end
 
