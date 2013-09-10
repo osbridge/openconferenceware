@@ -19,9 +19,14 @@ describe RoomsController do
     
   describe "responding to GET index" do
 
+    it "should redirect to the rooms for the current event if none is given" do
+      get :index
+      response.should redirect_to(event_rooms_path(@event))
+    end
+
     it "should expose all rooms from the current event as @rooms" do
       @event.should_receive(:rooms).and_return([mock_room])
-      get :index
+      get :index, :event_id => @event.to_param
       assigns(:rooms).should == [mock_room]
     end
 
