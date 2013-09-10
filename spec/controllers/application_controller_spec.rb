@@ -161,16 +161,20 @@ describe ApplicationController do
         @controller.send(:normalize_event_path_or_redirect).should be_false
       end
 
-      it "should redirect incomplete requests" do
+      it "should redirect incomplete requests and keep flash" do
         event = events(:open)
-        @controller.stub(:request).and_return(double(OpenStruct,
+        @flash = double("Flash Container")
+        @controller.stub(:request).and_return(double("Request",
           :path => '/proposals',
           :format => 'html',
           :protocol => 'http',
-          :host_with_port => 'foo:80'))
+          :host_with_port => 'foo:80',
+          :flash => @flash
+        ))
 
         @controller.instance_variable_set(:@event, event)
         @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")
+        @flash.should_receive(:keep)
 
         @controller.send(:normalize_event_path_or_redirect)
       end
