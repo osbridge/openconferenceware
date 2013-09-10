@@ -204,7 +204,7 @@ class Proposal < ActiveRecord::Base
 
   schedule_comma_attributes = lambda {
     room :name => "Room Name"
-    start_time :xmlschema => "Start Time"
+    start_time("Start Time") {|t| t.try(:xmlschema) }
   }
 
   comma do
