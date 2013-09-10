@@ -283,9 +283,17 @@ describe Proposal do
     def assert_calendar_match(item, component, url_helper=nil)
       component.should_not be_nil
 
-      component.dtstart.to_i.should == item.start_time.to_i
+      # This is hacky, but necessary because vPim doesn't actually parse
+      # time zone information out of iCalendar files.
+      #
+      # The files are output with the correct time zone, but seem to be
+      # parsed in the computer's local time, regardless of the Rails
+      # time zone setting.
+      dtstart = Time.parse(component.dtstart.strftime('%Y-%m-%d %H:%M:%S UTC'))
+      dtstart.to_i.should == item.start_time.to_i
       if item.duration
-        component.dtend.to_i.should == item.end_time.to_i
+        dtend = Time.parse(component.dtend.strftime('%Y-%m-%d %H:%M:%S UTC'))
+        dtend.to_i.should == item.end_time.to_i
       else
         component.dtend.should be_nil
       end
