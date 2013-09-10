@@ -657,16 +657,12 @@ describe ProposalsController do
   end
 
   describe "edit" do
-    shared_examples_for "shared edit behaviors" do
-      before do
-        @proposal = proposals(:quentin_widgets)
-        get :edit, :id => @proposal.id, :event_id => @event.to_param
-      end
+    before do
+      @proposal = proposals(:quentin_widgets)
+      get :edit, :id => @proposal.id, :event_id => @event.to_param
     end
 
     shared_examples_for "shared allowed edit behaviors" do
-      it_should_behave_like "shared edit behaviors"
-
       it "should not redirect with failure" do
         flash.should_not have_key(:failure)
         response.should be_success
@@ -674,8 +670,6 @@ describe ProposalsController do
     end
 
     shared_examples_for "shared forbidden edit behaviors" do
-      it_should_behave_like "shared edit behaviors"
-
       it "should redirect with failure" do
         flash.should have_key(:failure)
         response.should redirect_to(proposal_path(@proposal))
@@ -684,7 +678,6 @@ describe ProposalsController do
 
     describe "anonymous user" do
       before(){ logout }
-      it_should_behave_like "shared edit behaviors"
 
       it "should redirect to login" do
         response.should redirect_to(login_url)
