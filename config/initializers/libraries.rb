@@ -6,7 +6,6 @@ require 'facets/dictionary'
 
 # Local libraries
 require 'defer_proxy'
-require 'ext/time_today'
 require 'ext/string_possessiveize'
 require 'ext/vpim_icalendar_extra_properties'
 require 'ext/color_rgb_serializer_fix'
