@@ -524,7 +524,7 @@ describe ProposalsController do
           login_as(user)
           get :new, :event_id => events(:open).slug
 
-          flash.should have_key(:notice)
+          flash.keys.should include(:notice)
           response.should redirect_to(edit_user_path(user, :require_complete_profile => true))
         end
 
@@ -532,7 +532,7 @@ describe ProposalsController do
           login_as(:quentin)
           get :new, :event_id => events(:open).slug
 
-          flash.should_not have_key(:failure)
+          flash.keys.should_not include(:failure)
           response.should be_success
         end
       end
@@ -572,7 +572,7 @@ describe ProposalsController do
           it "should redirect anonymous user to login" do
             get :new, :event_id => events(:open).slug
 
-            flash.should have_key(:notice)
+            flash.keys.should include(:notice)
             response.should redirect_to(login_path)
           end
         end
@@ -664,14 +664,14 @@ describe ProposalsController do
 
     shared_examples_for "shared allowed edit behaviors" do
       it "should not redirect with failure" do
-        flash.should_not have_key(:failure)
+        flash.keys.should_not include(:failure)
         response.should be_success
       end
     end
 
     shared_examples_for "shared forbidden edit behaviors" do
       it "should redirect with failure" do
-        flash.should have_key(:failure)
+        flash.keys.should include(:failure)
         response.should redirect_to(proposal_path(@proposal))
       end
     end
@@ -890,7 +890,7 @@ describe ProposalsController do
 
     it "should reject non-owner mortal user" do
       assert_update(:clio, @inputs) do
-        flash.should have_key(:failure)
+        flash.keys.should include(:failure)
         response.should redirect_to(proposal_url(@proposal))
       end
     end
@@ -938,7 +938,7 @@ describe ProposalsController do
 
       it "should allow owner mortal user" do
         assert_update(:quentin, @inputs) do
-          flash.should have_key(:success)
+          flash.keys.should include(:success)
           response.should redirect_to(proposal_url(@proposal))
         end
       end
@@ -952,7 +952,7 @@ describe ProposalsController do
 
       it "should allow admin user" do
         assert_update(:aaron, @inputs) do
-          flash.should have_key(:success)
+          flash.keys.should include(:success)
           response.should redirect_to(proposal_url(@proposal))
         end
       end
@@ -981,7 +981,7 @@ describe ProposalsController do
     it "should reject non-owner mortal user" do
       @proposal.should_not_receive(:destroy)
       assert_delete(:clio) do
-        flash.should have_key(:failure)
+        flash.keys.should include(:failure)
         response.should redirect_to(proposal_url(@proposal))
       end
     end
@@ -989,7 +989,7 @@ describe ProposalsController do
     it "should allow owner mortal user" do
       @proposal.should_receive(:destroy)
       assert_delete(:quentin) do
-        flash.should have_key(:success)
+        flash.keys.should include(:success)
         response.should redirect_to(event_proposals_url(@proposal.event))
       end
     end
@@ -997,7 +997,7 @@ describe ProposalsController do
     it "should allow admin user" do
       @proposal.should_receive(:destroy)
       assert_delete(:quentin) do
-        flash.should have_key(:success)
+        flash.keys.should include(:success)
         response.should redirect_to(event_proposals_url(@proposal.event))
       end
     end

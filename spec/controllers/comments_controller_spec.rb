@@ -100,14 +100,14 @@ describe CommentsController do
       message = "Yo"
       post :create
 
-      flash.should have_key(:failure)
+      flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid
     end
 
     it "should fail on incomplete comment" do
       post :create, :proposal_id => @proposal.id, :comment => {:email => "bubba@smith.com", :message => "", :proposal_id => @proposal.id,  }
 
-      flash.should have_key(:failure)
+      flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid
     end
 
@@ -116,7 +116,7 @@ describe CommentsController do
       message = "Yo"
       post :create, :comment => {:email => email, :message => message}
 
-      flash.should have_key(:failure)
+      flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid
     end
 
@@ -125,7 +125,7 @@ describe CommentsController do
       message = "Yo"
       post :create, :proposal_id => -1, :comment => {:email => email, :message => message, :proposal_id => -1}
 
-      flash.should have_key(:failure)
+      flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid
     end
 
@@ -134,7 +134,7 @@ describe CommentsController do
       message = "Yo"
       post :create, :proposal_id => @proposal.id, :comment => {:email => email, :message => message, :proposal_id => @proposal.id}
 
-      flash.should_not have_key(:failure)
+      flash.keys.should_not include(:failure)
       assigns(:comment).should be_valid
       response.should redirect_to(proposal_url(@proposal, :commented => true))
     end
@@ -157,7 +157,7 @@ describe CommentsController do
       comment.should_receive(:destroy)
       delete :destroy, :id => comment.to_param, :format => :html
 
-      flash.should have_key(:success)
+      flash.keys.should include(:success)
       # response.should be_redirect # TODO why not?
     end
   end

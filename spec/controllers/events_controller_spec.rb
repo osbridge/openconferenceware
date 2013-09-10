@@ -10,7 +10,7 @@ describe EventsController, "when displaying events" do
       get :index
 
       response.should be_success
-      flash.has_key?(:failure).should be_true
+      flash.keys.should include(:failure)
     end
 
     it "should display a list of events" do
@@ -28,7 +28,7 @@ describe EventsController, "when displaying events" do
       end
 
       it "should display error" do
-        flash.has_key?(:failure).should be_true
+        flash.keys.should include(:failure)
       end
 
       it "should redirect to current event" do
