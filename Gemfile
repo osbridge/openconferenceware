@@ -25,7 +25,6 @@ gem 'aasm'
 gem 'acts-as-taggable-on'
 gem 'color'
 gem 'comma',               '~> 3.0'
-gem 'fastercsv',           '~> 1.5.3'
 gem 'gchartrb',            '~> 0.8.0', :require => 'google_chart'
 gem 'hpricot',             '~> 0.8.2'
 gem 'paperclip',           '~> 2.3.1'
@@ -36,6 +35,10 @@ gem 'prawn',               '= 0.11.1'
 gem 'memcache-client'
 gem "dynamic_form"
 gem 'rinku', :require => 'rails_rinku'
+
+platform :mri_18 do
+  gem 'fastercsv',           '~> 1.5.3'
+end
 
 group :production do
   gem 'exception_notification'
