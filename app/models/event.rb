@@ -163,7 +163,7 @@ class Event < ActiveRecord::Base
 
   # Return other Event objects.
   def other_events
-    return self.class.order("title asc").where("id, title").all.reject{|event| event == self}
+    return self.class.select("id, title").order("title asc").where('id != ?', self.id).all
   end
 
   # Return array of Rooms for this event and its parent event.
