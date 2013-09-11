@@ -131,7 +131,7 @@ describe User do
   describe "when creating a passworded account" do
     before do
       @password = 'mysecretpassword'
-      @user = User.new(:email => 'foo@bar.com', :password => @password, :password_confirmation => @password)
+      @user = Factory.build(:user, :email => 'foo@bar.com', :password => @password, :password_confirmation => @password)
       @user.login = 'foo'
       @user.save!
     end

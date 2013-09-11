@@ -43,6 +43,51 @@ class Proposal < ActiveRecord::Base
   # Provide ::overlaps?
   include ScheduleOverlapsMixin
 
+  # Protected attributes
+  attr_protected :user_id, :event_id, :status, :transition
+
+  default_accessible_attributes = [
+    :presenter,
+    :affiliation,
+    :email,
+    :website,
+    :biography,
+    :title,
+    :description,
+    :excerpt,
+    :agreement,
+    :note_to_organizers,
+    :track_id,
+    :session_type_id,
+    :speaking_experience,
+    :audience_level
+  ]
+
+  admin_accessible_attributes = default_accessible_attributes + [
+    :status,
+    :transition,
+    :room_id,
+    :start_time,
+    :audio_url
+  ]
+
+  attr_accessible *default_accessible_attributes
+  attr_accessible *(admin_accessible_attributes + [:as => :admin])
+
+  # Public attributes for export
+  include PublicAttributesMixin
+  set_public_attributes :id, :user_id,
+    :presenter, :affiliation, :website,
+    :biography, :title, :description,
+    :created_at, :updated_at, :submitted_at,
+    :start_time, :end_time,
+    :event_id, :event_title,
+    :room_id, :room_title,
+    :session_type_id, :session_type_title,
+    :track_id, :track_title,
+    :user_ids, :user_titles
+
+
   cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
 
   # Provide #tags
@@ -155,22 +200,6 @@ class Proposal < ActiveRecord::Base
                                                                  []
   validate :validate_complete_user_profile,               :if => :user_profiles?
   validate :url_validator
-
-  # Protected attributes
-  attr_protected :user_id, :event_id, :status, :transition
-
-  # Public attributes for export
-  include PublicAttributesMixin
-  set_public_attributes :id, :user_id,
-    :presenter, :affiliation, :website,
-    :biography, :title, :description,
-    :created_at, :updated_at, :submitted_at,
-    :start_time, :end_time,
-    :event_id, :event_title,
-    :room_id, :room_title,
-    :session_type_id, :session_type_title,
-    :track_id, :track_title,
-    :user_ids, :user_titles
 
   # Triggers
   before_save :populate_submitted_at

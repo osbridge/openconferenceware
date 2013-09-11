@@ -14,17 +14,17 @@ describe Track do
   end
 
   it "should create a new instance given valid attributes" do
-    Track.create!(@valid_attributes)
+    Factory.create(:track, @valid_attributes)
   end
 
   it "should not be valid without an event" do
-    Track.new(:title => "My title").should_not be_valid
+    Factory.build(:track, :event => nil).should_not be_valid
   end
 
   it "should sort alphabetically by title" do
-    tracks = [ Track.new(:title => 'Blues'),
-               Track.new(:title => 'Punk'),
-               Track.new(:title => 'Folk'),
+    tracks = [ Factory.build(:track, :title => 'Blues'),
+               Factory.build(:track, :title => 'Punk'),
+               Factory.build(:track, :title => 'Folk'),
                nil ]
 
     sorted_tracks = tracks.sort

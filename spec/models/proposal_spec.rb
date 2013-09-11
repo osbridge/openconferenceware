@@ -569,16 +569,12 @@ describe Proposal do
 private
 
   def new_proposal(attr = {})
+    # TODO: The proposal factory should handle these associations
     valid_attr = {
       :event => mock_model(Event),
       :track => mock_model(Track),
-      :session_type => mock_model(SessionType),
-      :title => "New Proposal",
-      :description => "Valid Description",
-      :excerpt => "Valid Excerpt",
-      :speaking_experience => "Valid Speaking Experience",
-      :audience_level => "a"
+      :session_type => mock_model(SessionType)
     }
-    Proposal.new(valid_attr.merge(attr))
+    Factory.build(:proposal, valid_attr.merge(attr))
   end
 end

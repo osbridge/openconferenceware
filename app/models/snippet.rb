@@ -14,6 +14,13 @@
 #
 
 class Snippet < ActiveRecord::Base
+
+  attr_accessible :slug,
+                  :description,
+                  :content,
+                  :value,
+                  :public
+
   # Provide cached Snippet.lookup(slug) method.
   include CacheLookupsMixin
   cache_lookups_for :slug, :order => :slug

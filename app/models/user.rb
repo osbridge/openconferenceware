@@ -74,14 +74,28 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  # Protected fields
-  attr_protected *[
-    :admin,
-    :selector,
-    :id,
-    :login,
-    :complete_profile,
+  default_accessible_attributes = [
+    :email,
+    :password,
+    :affiliation,
+    :biography,
+    :website,
+    :photo,
+    :first_name,
+    :last_name,
+    :fullname,
+    :blog_url,
+    :identica,
+    :twitter
   ]
+
+  admin_accessible_attributes = default_accessible_attributes + [
+    :admin,
+    :selector
+  ]
+
+  attr_accessible *default_accessible_attributes
+  attr_accessible *(admin_accessible_attributes + [:as => :admin])
 
   #---[ Validations ]-----------------------------------------------------
 
@@ -200,6 +214,10 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest("--#{salt}--#{password}--")
   end
 
+  def role
+    admin? ? :admin : :default
+  end
+
   # Encrypts the password with the user's salt
   def encrypt(password)
     raise ArgumentError, "Salt must be specified." if self.salt.blank?
@@ -229,10 +247,9 @@ class User < ActiveRecord::Base
   # Remember user until a given time(e.g. 2.weeks.from_now).
   def remember_me_until(time)
     token = self.encrypt([self.id, self.login, self.remember_token_expires_at, Time.now.to_i, (1..10).map{rand.to_s}].join('|'))
-    self.update_attributes(
-      :remember_token_expires_at => time,
-      :remember_token => token
-    )
+    self.remember_token_expires_at = time
+    self.remember_token = token
+    self.save
   end
 
   # Forget the user's remember token.

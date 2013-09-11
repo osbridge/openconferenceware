@@ -19,6 +19,15 @@
 #
 
 class Room < ActiveRecord::Base
+
+  attr_accessible :name,
+                  :capacity,
+                  :size,
+                  :seating_configuration,
+                  :description,
+                  :image,
+                  :as => :admin
+
   # Associations
   belongs_to :event
   has_many :proposals, :dependent => :nullify

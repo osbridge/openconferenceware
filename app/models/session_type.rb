@@ -13,6 +13,12 @@
 #
 
 class SessionType < ActiveRecord::Base
+
+  attr_accessible :title,
+                  :description,
+                  :duration,
+                  :as => :admin
+
   # Associations
   belongs_to :event
   has_many :proposals, :dependent => :nullify

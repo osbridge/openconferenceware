@@ -14,6 +14,13 @@
 #
 
 class Track < ActiveRecord::Base
+
+  attr_accessible :title,
+                  :description,
+                  :excerpt,
+                  :color,
+                  :as => :admin
+
   # Associations
   belongs_to :event
   has_many :proposals, :dependent => :nullify

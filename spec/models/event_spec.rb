@@ -76,7 +76,7 @@ describe Event do
     it "should return range between start_date and end_date" do
       start_date = Time.now.utc.to_date + 1.week
       end_date   = Time.now.utc.to_date + 2.weeks
-      event = Event.new(:start_date => start_date, :end_date => end_date)
+      event = Factory.build(:event, :start_date => start_date, :end_date => end_date)
 
       event.dates.should == Array(start_date..end_date)
     end
@@ -86,28 +86,24 @@ describe Event do
     end
 
     it "should return empty array if no start_date" do
-      Event.new(:end_date => Date.today).dates.should == []
+      Factory.build(:event, :start_date => nil).dates.should == []
     end
 
     it "should return empty array if no end_date" do
-      Event.new(:start_date => Date.today).dates.should == []
+      Factory.build(:event, :end_date => nil).dates.should == []
     end
   end
 
   describe "#parent_or_self" do
-    def create_event(opts)
-      Event.create!({:deadline => Time.now}.merge(opts))
-    end
-
     it "should find a parent when there is one" do
-      parent = create_event :title => "Mommy!", :slug => "mommy", :open_text => "Open!", :closed_text => "Closed!"
-      child  = create_event :title => "Baby!",  :slug => "baby",  :open_text => "Open!", :closed_text => "Closed!", :parent => parent
+      parent = Factory.create(:event, :title => "Mommy!", :slug => "mommy", :open_text => "Open!", :closed_text => "Closed!")
+      child  = Factory.create(:event, :title => "Baby!",  :slug => "baby",  :open_text => "Open!", :closed_text => "Closed!", :parent => parent)
 
       child.parent_or_self.should == parent
     end
 
     it "should find self when there's no parent" do
-      event = create_event :title => "Event!", :slug => "event", :open_text => "Open!", :closed_text => "Closed!"
+      event = Factory.create(:event, :title => "Event!", :slug => "event", :open_text => "Open!", :closed_text => "Closed!")
 
       event.parent_or_self.should == event
     end

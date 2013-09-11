@@ -4,8 +4,8 @@ describe SessionType do
   fixtures :all
 
   it "should sort alphabetically by title" do
-    things = [ SessionType.new(:title => 'I love cats'), 
-               SessionType.new(:title => 'A really big dog'),
+    things = [ Factory.build(:session_type, :title => 'I love cats'), 
+               Factory.build(:session_type, :title => 'A really big dog'),
                nil ]
     sorted_things = things.sort
     sorted_things[0].should be_nil
