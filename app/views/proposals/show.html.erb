@@ -268,7 +268,6 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 
 <% if @display_comment_form %>
   <%= form_for(@comment, :url => proposal_comments_path(@proposal), :html => {:id => "comment-form", :class => "standard-form"}) do |f| %>
-    <%= f.hidden_field :proposal_id %>
     <h4>Leave a private comment to organizers about this proposal</h4>
     <table class="standard-form">
       <% unless error_messages_for(:comment).blank? %>

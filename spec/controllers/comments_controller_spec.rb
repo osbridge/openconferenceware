@@ -89,7 +89,7 @@ describe CommentsController do
 
   describe "create" do
     it "should reject comments from bots" do
-      post :create, :quagmire => "omg"
+      post :create, :proposal_id => @proposal_id.to_param, :quagmire => "omg"
 
       flash[:failure].should match(/robot/i)
       response.should be_redirect
@@ -98,32 +98,14 @@ describe CommentsController do
     it "should fail on empty comment" do
       email = "bubba@smith.com"
       message = "Yo"
-      post :create
+      post :create, :proposal_id => @proposal.to_param
 
       flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid
     end
 
     it "should fail on incomplete comment" do
-      post :create, :proposal_id => @proposal.id, :comment => {:email => "bubba@smith.com", :message => "", :proposal_id => @proposal.id,  }
-
-      flash.keys.should include(:failure)
-      assigns(:comment).should_not be_valid
-    end
-
-    it "should fail on comment without a proposal" do
-      email = "bubba@smith.com"
-      message = "Yo"
-      post :create, :comment => {:email => email, :message => message}
-
-      flash.keys.should include(:failure)
-      assigns(:comment).should_not be_valid
-    end
-
-    it "should fail on comment with invalid proposal" do
-      email = "bubba@smith.com"
-      message = "Yo"
-      post :create, :proposal_id => -1, :comment => {:email => email, :message => message, :proposal_id => -1}
+      post :create, :proposal_id => @proposal.to_param, :comment => {:email => "bubba@smith.com", :message => ""}
 
       flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid
@@ -132,19 +114,18 @@ describe CommentsController do
     it "should create new comment" do
       email = "bubba@smith.com"
       message = "Yo"
-      post :create, :proposal_id => @proposal.id, :comment => {:email => email, :message => message, :proposal_id => @proposal.id}
+      post :create, :proposal_id => @proposal.to_param, :comment => {:email => email, :message => message}
 
-      flash.keys.should_not include(:failure)
       assigns(:comment).should be_valid
+      flash.keys.should_not include(:failure)
       response.should redirect_to(proposal_url(@proposal, :commented => true))
     end
 
     it "should assign email if logged in" do
       login_as :quentin
-      post :create, :comment => {:proposal_id => @proposal.id}
+      post :create, :proposal_id => @proposal.to_param, :comment => {:message => "Yo"}
 
       comment = assigns(:comment)
-      comment.should_not be_valid
       comment.email.should == users(:quentin).email
     end
   end

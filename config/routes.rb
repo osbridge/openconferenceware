@@ -28,7 +28,7 @@ OpenConferenceWare::Application.routes.draw do
     match '/events/:id/notify_speakers' => 'events#notify_speakers', :as => :notify_speakers
   end
 
-  resources :comments
+  resources :comments, :only => [:index, :destroy]
   resources :proposals do
     resources :comments
     resource :selector_vote, :only => :create

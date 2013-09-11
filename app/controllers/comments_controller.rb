@@ -28,18 +28,14 @@ class CommentsController < ApplicationController
 
   # This is a weird action. The form is part of the proposals#show page, so errors and successes both go back to that page.
   def create
-    unless params[:quagmire].blank?
+    if params[:quagmire].present?
       flash[:failure] = "Comment rejected because you're behaving like a robot, please leave the 'Leave blank' field blank."
       redirect_to(:back) rescue redirect_to proposals_path()
       return
     end
 
-    @comment = Comment.new(params[:comment])
-    unless @comment.proposal_id
-      flash[:failure] = "Can't add comment to non-existant proposal"
-      redirect_to(:back) rescue redirect_to(events_path)
-      return
-    end
+    @proposal = Proposal.find(params[:proposal_id])
+    @comment = @proposal.comments.new(params[:comment])
 
     # Use session to store email address and prefill it as needed
     if @comment.email.blank?
@@ -57,13 +53,8 @@ class CommentsController < ApplicationController
       else
         @display_comment_form = true
         @focus_comment = true
-        if @proposal = @comment.proposal
-          flash[:failure] = "Invalid comment."
-        else
-          flash[:failure] = "Can't add comment to invalid proposal."
-          flash.keep
-          return redirect_to(proposals_path)
-        end
+        flash[:failure] = "Invalid comment."
+
         format.html { render :template => "proposals/show" }
         format.xml  { render :xml  => @comment.errors, :status => :unprocessable_entity }
         format.json { render :json => @comment.errors, :status => :unprocessable_entity }
