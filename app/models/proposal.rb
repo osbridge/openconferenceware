@@ -65,7 +65,6 @@ class Proposal < ActiveRecord::Base
 
   admin_accessible_attributes = default_accessible_attributes + [
     :status,
-    :transition,
     :room_id,
     :start_time,
     :audio_url
