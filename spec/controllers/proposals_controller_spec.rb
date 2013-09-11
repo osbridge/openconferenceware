@@ -659,11 +659,11 @@ describe ProposalsController do
   describe "edit" do
     before do
       @proposal = proposals(:quentin_widgets)
-      get :edit, :id => @proposal.id, :event_id => @event.to_param
     end
 
     shared_examples_for "shared allowed edit behaviors" do
       it "should not redirect with failure" do
+        get :edit, :id => @proposal.id, :event_id => @event.to_param
         flash.keys.should_not include(:failure)
         response.should be_success
       end
@@ -671,6 +671,7 @@ describe ProposalsController do
 
     shared_examples_for "shared forbidden edit behaviors" do
       it "should redirect with failure" do
+        get :edit, :id => @proposal.id, :event_id => @event.to_param
         flash.keys.should include(:failure)
         response.should redirect_to(proposal_path(@proposal))
       end
@@ -680,6 +681,7 @@ describe ProposalsController do
       before(){ logout }
 
       it "should redirect to login" do
+        get :edit, :id => @proposal.id, :event_id => @event.to_param
         response.should redirect_to(login_url)
       end
     end
@@ -695,7 +697,7 @@ describe ProposalsController do
     end
 
     describe "admin user" do
-      before(){ login_as :aaron }
+      before { login_as :aaron }
       it_should_behave_like "shared allowed edit behaviors"
     end
 
