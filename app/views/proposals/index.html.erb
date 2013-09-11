@@ -20,7 +20,7 @@ cache_key << ",dir_#{params[:dir]}" if params[:dir]
     <% if @kind == :proposals %>
       <% if accepting_proposals? %>
         <div class="event_text open_text">
-          <%= simple_format @event.open_text.html_safe %>
+          <%= simple_format @event.open_text.try(:html_safe) %>
           <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :open_text), :class => "editable" if admin? %>
         </div>
         <div class="submit-a-proposal-wrapper">
@@ -28,13 +28,13 @@ cache_key << ",dir_#{params[:dir]}" if params[:dir]
         </div>
       <% else %>
       <div class="event_text closed_text">
-        <%= simple_format @event.closed_text.html_safe %>
+        <%= simple_format @event.closed_text.try(:html_safe) %>
         <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :closed_text), :class => "editable" if admin?%>
       </div>
       <% end %>
     <% elsif @kind == :sessions %>
       <div class="event_text session_text">
-        <%= simple_format @event.session_text.html_safe %>
+        <%= simple_format @event.session_text.try(:html_safe) %>
         <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :session_text), :class => "editable" if admin? %>
       </div>
     <% else %>

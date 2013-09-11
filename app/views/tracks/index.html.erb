@@ -2,7 +2,7 @@
 
 <% cache "tracks,event_#{@event.id},admin_#{admin?}" do %>
 <div class="tracks_text">
-  <%= simple_format @event.tracks_text.html_safe %>
+  <%= simple_format @event.tracks_text.try(:html_safe) %>
   <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :tracks_text), :class => "editable" if admin? %>
 </div>
 
