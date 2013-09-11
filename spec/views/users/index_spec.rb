@@ -3,9 +3,11 @@ require 'spec_helper'
 describe "users/index.html.erb" do
   fixtures :users, :events
 
-  it "should not include admin column by default" do
-    pending "FIXME: Hangs the test suite when run as a whole"
+  before do
+    stub_settings_accessors_on(view)
+  end
 
+  it "should not include admin column by default" do
     assign(:users, [users(:aaron), users(:quentin)])
     render
 
@@ -13,9 +15,7 @@ describe "users/index.html.erb" do
   end
 
   it "should include admin column when admin is logged in" do
-    pending "FIXME: Hangs the test suite when run as a whole"
-
-    login_as(:aaron)
+    view.stub(:admin?).and_return(true)
     assign(:users, [users(:aaron), users(:quentin)])
     render
 

@@ -2,17 +2,7 @@ require 'spec_helper'
 
 describe "proposals/show.html.erb" do
   before do
-    view.stub(:can_edit?).and_return(false)
-    view.stub(:selector?).and_return(false)
-    view.stub(:admin?).and_return(false)
-    view.stub(:current_user_is_proposal_speaker?).and_return(false)
-    view.stub(:proposal_statuses?).and_return(true)
-    view.stub(:multiple_presenters?).and_return(true)
-    view.stub(:event_tracks?).and_return(true)
-    view.stub(:event_session_types?).and_return(true)
-    view.stub(:proposal_excerpts?).and_return(true)
-    view.stub(:event_rooms?).and_return(true)
-    view.stub(:proposal_speaking_experience?).and_return(true)
+    stub_settings_accessors_on(view)
   end
   
   before :each do
