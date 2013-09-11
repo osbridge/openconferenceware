@@ -9,7 +9,7 @@ module ProposalsHelper
     opts[:dir] = 'desc' if ( field == params[:sort] && params[:dir] != 'desc' )
 
     link = link_to(label, self.send("event_#{kind}_path", @event, opts))
-    link += ( params[:dir] == 'desc' ? ' &or;' : ' &and;' ) if field == params[:sort]
+    link += ( params[:dir] == 'desc' ? ' &or;' : ' &and;' ).html_safe if field == params[:sort]
 
     return link
   end

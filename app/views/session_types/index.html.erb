@@ -2,7 +2,7 @@
 
 <% for session_type in @session_types %>
   <h3><%= link_to h(session_type.title), session_type_path(session_type) %></h3>
-  <span class="description"><%= textilize session_type.description %></span>
+  <span class="description"><%= display_textile_for session_type.description %></span>
   
   <% if admin? %>
     <div class='record-controls'>

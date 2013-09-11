@@ -3,7 +3,7 @@
 <ul>
 <% for room in @rooms.sort_by(&:name) %>
   <li><%= link_to h(room.name), room_path(room) %></li>
-  <span class="description"><%= textilize room.description %></span>
+  <span class="description"><%= display_textile_for textilize room.description %></span>
 <% end %>
 </ul>
 

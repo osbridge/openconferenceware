@@ -19,7 +19,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
          sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses? && admin?
       %>
       Sort by:
-      <%= sort_links.join(', ') %>
+      <%= sort_links.join(', ').html_safe %>
     </div>
   <% end %>
 
@@ -79,7 +79,7 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
             <% users = record.respond_to?(:users) ? (@users_for_proposal_hash.try(:fetch, record.id, nil) || record.users) : [] %>
           <% end %>
           <% unless users.empty? %>
-            <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+            <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ').html_safe %>
           <% end %>
         </td>
       </tr>

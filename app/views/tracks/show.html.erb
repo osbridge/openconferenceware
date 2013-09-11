@@ -2,7 +2,7 @@
 
 <% cache "track_#{@track.id},admin_#{admin?}" do %>
   <div id="track-show">
-    <span class="description"><%= textilize @track.description %></span>
+    <span class="description"><%= display_textile_for @track.description %></span>
 
     <% if admin? %>
       <h3>Excerpt</h3>

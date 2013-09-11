@@ -50,7 +50,7 @@ class TimeRange
   end
 
   def to_s
-    return @@to_s_cache[cache_key] ||= self.to_s_raw
+    return @@to_s_cache[cache_key] ||= self.to_s_raw.html_safe
   end
 
   def to_s_raw

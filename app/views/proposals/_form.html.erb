@@ -1,7 +1,7 @@
 <%= render :partial => "/proposals/admin_controls" %>
 
 <p>
-  <%= @event.open_text %>
+  <%= @event.open_text.html_safe %>
   <%= link_to "Edit", edit_manage_event_path(@event), :class => :editable if admin? %>
 </p>
 
@@ -263,7 +263,7 @@
             <td class="label-cell"><%= required_field %><%= f.label :agreement, "Agreement" %></td>
             <td><%= f.check_box :agreement %>
               <% unless SETTINGS.agreement.blank? %>
-                <%= SETTINGS.agreement %>
+                <%= SETTINGS.agreement.html_safe %>
               <% else %>
                 I understand that my talk may be recorded and posted online for the whole world to see. I understand that <%= SETTINGS.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and this not welcomed by the audience.
               <% end %>

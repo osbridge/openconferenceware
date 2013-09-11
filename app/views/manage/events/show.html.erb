@@ -131,7 +131,7 @@
     </td>
     <td>
       <div class="snippet_preview">
-        <%= @event.open_text %>
+        <%= @event.open_text.html_safe %>
       </div>
     </td>
   </tr>
@@ -141,7 +141,7 @@
     </td>
     <td>
       <div class="snippet_preview">
-        <%= @event.closed_text %>
+        <%= @event.closed_text.html_safe %>
       </div>
     </td>
   </tr>
@@ -151,7 +151,7 @@
     </td>
     <td>
       <div class="snippet_preview">
-        <%= @event.session_text %>
+        <%= @event.session_text.html_safe %>
       </div>
     </td>
   </tr>
@@ -161,7 +161,7 @@
     </td>
     <td>
       <div class="snippet_preview">
-        <%= @event.tracks_text %>
+        <%= @event.tracks_text.html_safe %>
       </div>
     </td>
   </tr>

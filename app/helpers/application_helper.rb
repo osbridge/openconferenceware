@@ -9,7 +9,7 @@ module ApplicationHelper
     unless flash.blank?
       flash.keys.map do |key|
         content_tag("div", flash[key], :class => "alert alert-#{FLASH_KEY_TRANSLATION[key.to_s]}")
-      end.join("\n")
+      end.join("\n").html_safe
     end
   end
 

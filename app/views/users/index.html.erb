@@ -11,7 +11,9 @@
     <% @users.each do |user| -%>
     <tr class="<%= cycle('odd', 'even') %>">
       <td>
-        <%= user.admin? ? "(<strong class='admin'>admin</strong>)" : '' if admin? %>
+        <% if admin? && user.admin? %>
+          (<strong class='admin'>admin</strong>)
+        <% end %>
         <%= link_to(user.label, user_path(user)) %><%= (", " + user.affiliation) unless user.affiliation.blank? %> 
       </td>
       <% if admin? %>

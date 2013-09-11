@@ -15,7 +15,7 @@
       <div><strong>Seating Configuration:</strong> <%= @room.seating_configuration %></div>
     <% end %>
 
-    <div class="description"><%= textilize @room.description %></div>
+    <div class="description"><%= display_textile_for @room.description %></div>
 
     <div class='record-controls'>
       <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
