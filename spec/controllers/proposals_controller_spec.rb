@@ -866,7 +866,7 @@ describe ProposalsController do
     before do
       @user = users(:quentin)
       @proposal = proposals(:quentin_widgets)
-      @inputs = @proposal.attributes.slice(*Proposal.accessible_attributes).clone
+      @inputs = @proposal.attributes
     end
     
     it "should prevent editing of title when proposal titles are locked" do

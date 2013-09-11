@@ -278,10 +278,8 @@ class ProposalsController < ApplicationController
           )
         }
       else
-        if params[:preview]
-          @proposal.attributes = params[:proposal]
-          @proposal.valid?
-        end
+        @proposal.valid? if params[:preview]
+
         format.html { render :action => "edit" }
         format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }
         format.json { render :json => @proposal.errors, :status => :unprocessable_entity }
