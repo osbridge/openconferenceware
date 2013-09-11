@@ -206,7 +206,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3-ruby (1.2.5)
+    sqlite3 (1.3.7)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     test-unit (1.2.3)
@@ -266,7 +266,7 @@ DEPENDENCIES
   ruby18_source_location
   rwikibot (= 2.0.6)!
   simplecov
-  sqlite3-ruby (~> 1.2.0)
+  sqlite3
   test-unit (~> 1.2.3)
   vpim (= 0.695)
   webrat (~> 0.7.0)
