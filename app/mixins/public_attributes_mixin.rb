@@ -52,5 +52,9 @@ module PublicAttributesMixin
         public_attributes
       end
     end
+
+    def to_xml(options={})
+      serializable_hash(options).to_xml(options)
+    end
   end
 end
