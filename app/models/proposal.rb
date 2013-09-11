@@ -161,7 +161,10 @@ class Proposal < ActiveRecord::Base
 
   # Public attributes for export
   include PublicAttributesMixin
-  set_public_attributes :id, :user_id, :presenter, :affiliation, :website, :biography, :title, :description, :created_at, :updated_at, :submitted_at, 
+  set_public_attributes :id, :user_id,
+    :presenter, :affiliation, :website,
+    :biography, :title, :description,
+    :created_at, :updated_at, :submitted_at,
     :start_time, :end_time,
     :event_id, :event_title,
     :room_id, :room_title,
