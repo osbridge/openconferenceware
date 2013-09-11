@@ -34,7 +34,9 @@ class UsersController < ApplicationController
     # request forgery protection.
     # uncomment at your own risk
     # reset_session
-    @user = User.new(params[:user])
+    @user = User.new
+    @user.assign_attributes(params[:user].slice(*User.accessible_attributes))
+
     @user.login = params[:user][:login]
 
     @user.save!
@@ -55,18 +57,16 @@ class UsersController < ApplicationController
 
   def update
     if admin? or can_edit?(@user)
-      if admin?
-        @user.login            = params[:user][:login]
-        @user.admin            = params[:user][:admin]
-        @user.selector         = params[:user][:selector]
-        @user.complete_profile = params[:user][:complete_profile]
-      end
-
       if params[:require_complete_profile]
         @user.complete_profile = true
       end
 
-      if @user.update_attributes(params[:user])
+      @user.assign_attributes(
+        params[:user].slice(*User.accessible_attributes(current_user.role)),
+        :as => current_user.role
+      )
+
+      if @user.save
         flash[:success] = "Updated user profile."
         return redirect_back_or_to(user_path(@user))
       else

@@ -43,12 +43,12 @@ describe "Time formatting" do
   
   describe "with objects" do
     it "should format from objects that respond to just start_time" do
-      event = Proposal.new(:start_time => Time.parse('2008-04-01 13:30 UTC'))
+      event = Factory.build(:proposal,:start_time => Time.parse('2008-04-01 13:30 UTC'))
       TimeRange.new(event, :format => :text).to_s.should == "Tuesday, April 1, 2008 at 1:30pm"
     end
     
     it "should format from objects that respond to both start_time and end_time" do
-      event = Proposal.new(:start_time => Time.parse('2008-04-01 13:30 UTC'),
+      event = Factory.build(:proposal, :start_time => Time.parse('2008-04-01 13:30 UTC'),
                         :session_type => stub_model(SessionType,:duration => 45))
       TimeRange.new(event, :format => :text).to_s.should == "Tuesday, April 1, 2008 from 1:30 - 2:15pm"
     end

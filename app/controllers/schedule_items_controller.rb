@@ -49,7 +49,8 @@ class ScheduleItemsController < ApplicationController
   # POST /schedule_items
   # POST /schedule_items.xml
   def create
-    @schedule_item = ScheduleItem.new(params[:schedule_item])
+    @schedule_item = ScheduleItem.new
+    @schedule_item.assign_attributes(params[:schedule_item], :as => current_role)
     @schedule_item.event = @event
 
     respond_to do |format|
@@ -69,8 +70,9 @@ class ScheduleItemsController < ApplicationController
   # PUT /schedule_items/1
   # PUT /schedule_items/1.xml
   def update
+    @schedule_item.assign_attributes(params[:schedule_item], :as => current_role)
     respond_to do |format|
-      if @schedule_item.update_attributes(params[:schedule_item])
+      if @schedule_item.save
         flash[:notice] = 'ScheduleItem was successfully updated.'
         format.html { redirect_to(@schedule_item) }
         format.json  { head :ok }

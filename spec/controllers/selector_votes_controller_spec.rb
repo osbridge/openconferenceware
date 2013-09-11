@@ -204,9 +204,9 @@ describe SelectorVotesController do
       describe "with valid params" do
 
         before do
-          @parameters = {:proposal_id => @proposal1.id, :selector_vote => {:comment => 'Yay!', :rating => 5}}
+          @parameters = {:proposal_id => @proposal1.id, :selector_vote => {"comment" => 'Yay!', "rating" => "5"}}
           @selector_vote = mock_selector_vote(:save => true, :proposal => @proposal1)
-          @selector_vote.should_receive(:attributes=).with(:comment => @parameters[:selector_vote][:comment], :rating => @parameters[:selector_vote][:rating])
+          @selector_vote.should_receive(:assign_attributes).with(@parameters[:selector_vote])
           SelectorVote.should_receive(:find_or_initialize_by_user_id_and_proposal_id).with(@user.id, @proposal1.id).and_return(@selector_vote)
           post :create, @parameters
         end

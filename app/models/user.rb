@@ -249,15 +249,14 @@ class User < ActiveRecord::Base
     token = self.encrypt([self.id, self.login, self.remember_token_expires_at, Time.now.to_i, (1..10).map{rand.to_s}].join('|'))
     self.remember_token_expires_at = time
     self.remember_token = token
-    self.save
+    save
   end
 
   # Forget the user's remember token.
   def forget_me
-    self.update_attributes(
-      :remember_token_expires_at => nil,
-      :remember_token            => nil
-    )
+    self.remember_token_expires_at = nil
+    self.remember_token            = nil
+    save
   end
 
   def change_password!(password)

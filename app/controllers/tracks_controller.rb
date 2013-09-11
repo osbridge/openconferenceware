@@ -48,7 +48,8 @@ class TracksController < ApplicationController
   # POST /tracks
   # POST /tracks.xml
   def create
-    @track = Track.new(params[:track])
+    @track = Track.new
+    @track.assign_attributes(params[:track], :as => current_role)
     @track.event = @event
 
     respond_to do |format|
@@ -66,8 +67,10 @@ class TracksController < ApplicationController
   # PUT /tracks/1
   # PUT /tracks/1.xml
   def update
+    @track.assign_attributes(params[:track], :as => current_role)
+
     respond_to do |format|
-      if @track.update_attributes(params[:track])
+      if @track.save
         flash[:success] = 'Track was successfully updated.'
         format.html { redirect_to(track_path(@track)) }
         format.xml  { head :ok }

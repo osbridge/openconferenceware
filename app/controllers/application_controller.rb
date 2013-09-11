@@ -128,6 +128,11 @@ protected
   end
   helper_method :admin?
 
+  def current_role
+    (logged_in? && current_user.role) || :default
+  end
+  helper_method :current_role
+
   # Ensure user is an admin, or bounce them to the admin prompt.
   def require_admin
     admin? || access_denied(:message => "You must have administrator privileges to access the requested page.")

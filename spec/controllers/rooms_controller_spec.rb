@@ -3,18 +3,10 @@ require 'spec_helper'
 describe RoomsController do
   include RoomsHelper
   fixtures :all
-
-  def mock_room(stubs={})
-    stubs = stubs.merge({
-      :name => 'Room',
-      :event= => true,
-      :event => events(:open)
-    })
-    return @mock_room ||= mock_model(Room, stubs)
-  end
   
   before do
     @event = stub_current_event!(:event => events(:open))
+    @room = Factory.create(:room, :event => @event)
   end
     
   describe "responding to GET index" do
@@ -25,9 +17,9 @@ describe RoomsController do
     end
 
     it "should expose all rooms from the current event as @rooms" do
-      @event.should_receive(:rooms).and_return([mock_room])
+      @event.should_receive(:rooms).and_return([@room])
       get :index, :event_id => @event.to_param
-      assigns(:rooms).should == [mock_room]
+      assigns(:rooms).should == [@room]
     end
 
     describe "with mime type of xml" do
@@ -45,17 +37,17 @@ describe RoomsController do
   describe "responding to GET show" do
 
     it "should expose the requested room as @room" do
-      Room.should_receive(:find).with("37").and_return(mock_room)
+      Room.should_receive(:find).with("37").and_return(@room)
       get :show, :id => "37"
-      assigns(:room).should equal(mock_room)
+      assigns(:room).should equal(@room)
     end
     
     describe "with mime type of xml" do
 
       it "should render the requested room as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        Room.should_receive(:find).with("37").and_return(mock_room)
-        mock_room.should_receive(:to_xml).and_return("generated XML")
+        Room.should_receive(:find).with("37").and_return(@room)
+        @room.should_receive(:to_xml).and_return("generated XML")
         get :show, :id => "37"
         response.body.should == "generated XML"
       end
@@ -78,11 +70,14 @@ describe RoomsController do
     end
 
     describe "responding to GET new" do
+      before do
+        @new_room = Room.new
+      end
     
       it "should expose a new room as @room" do
-        Room.should_receive(:new).and_return(mock_room)
+        Room.should_receive(:new).and_return(@new_room)
         get :new, :event => events(:open).slug
-        assigns(:room).should equal(mock_room)
+        assigns(:room).should equal(@new_room)
       end
 
     end
@@ -90,41 +85,51 @@ describe RoomsController do
     describe "responding to GET edit" do
     
       it "should expose the requested room as @room" do
-        Room.should_receive(:find).with("37").and_return(mock_room)
+        Room.should_receive(:find).with("37").and_return(@room)
         get :edit, :id => "37"
-        assigns(:room).should equal(mock_room)
+        assigns(:room).should equal(@room)
       end
 
     end
 
     describe "responding to POST create" do
+      before do
+        @new_room = Room.new
+      end
 
       describe "with valid params" do
+        before do
+          @valid_params = @room.attributes.slice(*Room.accessible_attributes(:admin)).clone
+          @new_room.stub(:save).and_return(true)
+        end
       
         it "should expose a newly created room as @room" do
-          Room.should_receive(:new).with({'these' => 'params'}).and_return(mock_room(:save => true))
-          post :create, :room => {:these => 'params'}
-          assigns(:room).should equal(mock_room)
+          post :create, :room => @valid_params
+          assigns(:room).attributes.slice(*Room.accessible_attributes(:admin)).should eq(@valid_params)
         end
 
         it "should redirect to the rooms index" do
-          Room.stub(:new).and_return(mock_room(:save => true))
+          Room.stub(:new).and_return(@new_room)
           post :create, :room => {}
-          response.should redirect_to(event_rooms_path(events(:open)))
+          response.should redirect_to(event_rooms_path(@event))
         end
       
       end
     
       describe "with invalid params" do
+        before do
+          @new_room.stub(:save).and_return(false)
+        end
 
         it "should expose a newly created but unsaved room as @room" do
-          Room.stub(:new).with({'these' => 'params'}).and_return(mock_room(:save => false))
-          post :create, :room => {:these => 'params'}
-          assigns(:room).should equal(mock_room)
+          Room.stub(:new).and_return(@new_room)
+          post :create, :room => {:name => 'hello'}
+          assigns(:room).should equal(@new_room)
+          assigns(:room).should be_new_record
         end
 
         it "should re-render the 'new' template" do
-          Room.stub(:new).and_return(mock_room(:save => false))
+          Room.stub(:new).and_return(@new_room)
           post :create, :room => {}
           response.should render_template('new')
         end
@@ -136,43 +141,49 @@ describe RoomsController do
     describe "responding to PUT update" do
 
       describe "with valid params" do
+        before do
+          @valid_params = Hash[@room.attributes.slice(*Room.accessible_attributes(:admin)).map{|k,v| [k,v.to_s]}]
+          @room.stub(:save).and_return(true)
+        end
 
         it "should update the requested room" do
-          Room.should_receive(:find).with("37").and_return(mock_room)
-          mock_room.should_receive(:update_attributes).with({'these' => 'params'})
-          put :update, :id => "37", :room => {:these => 'params'}
+          Room.should_receive(:find).with("37").and_return(@room)
+          @room.should_receive(:assign_attributes).with(@valid_params, :as => :admin)
+          put :update, :id => "37", :room => @valid_params
         end
 
         it "should expose the requested room as @room" do
-          Room.stub(:find).and_return(mock_room(:update_attributes => true))
+          Room.stub(:find).and_return(@room)
           put :update, :id => "1"
-          assigns(:room).should equal(mock_room)
+          assigns(:room).should equal(@room)
         end
 
         it "should redirect to the room" do
-          Room.stub(:find).and_return(mock_room(:update_attributes => true))
+          Room.stub(:find).and_return(@room)
           put :update, :id => "1"
-          response.should redirect_to(room_path(mock_room))
+          response.should redirect_to(room_path(@room))
         end
 
       end
     
       describe "with invalid params" do
+        before do
+          @room.stub(:save).and_return(false)
+        end
 
         it "should update the requested room" do
-          Room.should_receive(:find).with("37").and_return(mock_room)
-          mock_room.should_receive(:update_attributes).with({'these' => 'params'})
-          put :update, :id => "37", :room => {:these => 'params'}
+          Room.should_receive(:find).with("37").and_return(@room)
+          put :update, :id => "37", :room => {:name => 'hello'}
         end
 
         it "should expose the room as @room" do
-          Room.stub(:find).and_return(mock_room(:update_attributes => false))
+          Room.stub(:find).and_return(@room)
           put :update, :id => "1"
-          assigns(:room).should equal(mock_room)
+          assigns(:room).should equal(@room)
         end
 
         it "should re-render the 'edit' template" do
-          Room.stub(:find).and_return(mock_room(:update_attributes => false))
+          Room.stub(:find).and_return(@room)
           put :update, :id => "1"
           response.should render_template('edit')
         end
@@ -182,17 +193,20 @@ describe RoomsController do
     end
 
     describe "responding to DELETE destroy" do
+      before do
+        @room.stub(:destroy).and_return(true)
+      end
 
       it "should destroy the requested room" do
-        Room.should_receive(:find).with("37").and_return(mock_room)
-        mock_room.should_receive(:destroy)
+        Room.should_receive(:find).with("37").and_return(@room)
+        @room.should_receive(:destroy)
         delete :destroy, :id => "37"
       end
   
       it "should redirect to the rooms list" do
-        Room.stub(:find).and_return(mock_room(:destroy => true))
+        Room.stub(:find).and_return(@room)
         delete :destroy, :id => "1"
-        response.should redirect_to(event_rooms_path(events(:open)))
+        response.should redirect_to(event_rooms_path(@event))
       end
 
     end

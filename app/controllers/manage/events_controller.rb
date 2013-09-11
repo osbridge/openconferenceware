@@ -52,7 +52,8 @@ class Manage::EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-    @event = Event.new(params[:event])
+    @event = Event.new
+    @event.assign_attributes(params[:event], :as => current_role)
 
     respond_to do |format|
       if @event.save
@@ -70,9 +71,10 @@ class Manage::EventsController < ApplicationController
   # PUT /events/1.xml
   def update
     @return_to = params[:return_to]
+    @event.assign_attributes(params[:event], :as => current_role)
 
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      if @event.save
         flash[:notice] = 'Event was successfully updated.'
         format.html { redirect_to(@return_to ? @return_to : [:manage, @event]) }
         format.xml  { head :ok }

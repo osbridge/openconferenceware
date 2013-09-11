@@ -740,8 +740,7 @@ describe ProposalsController do
       SETTINGS.stub(:have_multiple_presenters => false)
       SETTINGS.stub(:have_user_profiles => false)
 
-      @inputs = proposals(:quentin_widgets).attributes.clone
-      @inputs['user_id'] = nil
+      @inputs = proposals(:quentin_widgets).attributes.slice(*Proposal.accessible_attributes).clone
       @record = nil
     end
 
@@ -867,7 +866,7 @@ describe ProposalsController do
     before do
       @user = users(:quentin)
       @proposal = proposals(:quentin_widgets)
-      @inputs = @proposal.attributes.clone
+      @inputs = @proposal.attributes.slice(*Proposal.accessible_attributes).clone
     end
     
     it "should prevent editing of title when proposal titles are locked" do

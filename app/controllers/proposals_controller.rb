@@ -204,7 +204,11 @@ class ProposalsController < ApplicationController
       return redirect_to(open_id_complete_path(:openid_url => params[:openid_url]))
     end
 
-    @proposal = Proposal.new(params[:proposal])
+    @proposal = Proposal.new
+    @proposal.assign_attributes(
+      params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
+      :as => current_role
+    )
     @proposal.event = @event
     @proposal.add_user(current_user) if logged_in?
     @proposal.transition = transition_from_params if admin?
@@ -246,13 +250,18 @@ class ProposalsController < ApplicationController
       end
     end
 
+    @proposal.assign_attributes(
+      params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
+      :as => current_role
+    )
+
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
 
     manage_speakers_on_submit
 
     respond_to do |format|
-      if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.update_attributes(params[:proposal])
+      if params[:speaker_submit].blank? && params[:preview].nil? && @proposal.save
         @proposal.transition = transition_from_params if admin?
         format.html {
           flash[:success] = 'Updated proposal.'
@@ -475,7 +484,7 @@ protected
       add_breadcrumb @proposal.title, proposal_path(@proposal)
 
       @profile = @proposal.profile
-      @comment = Comment.new(:proposal => @proposal, :email => current_email)
+      @comment = @proposal.comments.new(:email => current_email)
       @display_comment_form = \
         # Admin can always leave comments
         admin? || (

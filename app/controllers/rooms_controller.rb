@@ -52,7 +52,8 @@ class RoomsController < ApplicationController
   # POST /rooms
   # POST /rooms.xml
   def create
-    @room = Room.new(params[:room])
+    @room = Room.new
+    @room.assign_attributes(params[:room], :as => current_role)
     @room.event = @event
 
     respond_to do |format|
@@ -70,8 +71,9 @@ class RoomsController < ApplicationController
   # PUT /rooms/1
   # PUT /rooms/1.xml
   def update
+    @room.assign_attributes(params[:room], :as => current_role)
     respond_to do |format|
-      if @room.update_attributes(params[:room])
+      if @room.save
         flash[:notice] = 'Room was successfully updated.'
         format.html { redirect_to(@room) }
         format.xml  { head :ok }

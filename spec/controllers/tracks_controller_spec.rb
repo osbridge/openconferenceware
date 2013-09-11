@@ -3,19 +3,11 @@ require 'spec_helper'
 describe TracksController do
   include TracksHelper
   fixtures :all
-
-  def mock_track(stubs={})
-    stubs = stubs.merge({
-      :title => 'Track',
-      :event= => true,
-      :event => events(:open)
-    })
-    return @mock_track ||= mock_model(Track, stubs)
-  end
   
   before do
     @event = stub_current_event!(:event => events(:open))
     @controller.stub(:assign_events => [])
+    @track = Factory.create(:track, :event => @event)
   end
     
   describe "responding to GET index" do
@@ -26,9 +18,9 @@ describe TracksController do
     end
 
     it "should expose all tracks from the current event as @tracks" do
-      @event.should_receive(:tracks).and_return([mock_track])
+      @event.should_receive(:tracks).and_return([@track])
       get :index, :event_id => @event.to_param
-      assigns(:tracks).should == [mock_track]
+      assigns(:tracks).should == [@track]
     end
 
     describe "with mime type of xml" do
@@ -46,17 +38,17 @@ describe TracksController do
   describe "responding to GET show" do
 
     it "should expose the requested track as @track" do
-      Track.should_receive(:find).with("37").and_return(mock_track)
+      Track.should_receive(:find).with("37").and_return(@track)
       get :show, :id => "37"
-      assigns(:track).should equal(mock_track)
+      assigns(:track).should equal(@track)
     end
     
     describe "with mime type of xml" do
 
       it "should render the requested track as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        Track.should_receive(:find).with("37").and_return(mock_track)
-        mock_track.should_receive(:to_xml).and_return("generated XML")
+        Track.should_receive(:find).with("37").and_return(@track)
+        @track.should_receive(:to_xml).and_return("generated XML")
         get :show, :id => "37"
         response.body.should == "generated XML"
       end
@@ -67,7 +59,7 @@ describe TracksController do
       it "should redirect to the tracks index" do
         Track.should_receive(:find).with("invalid").and_raise(ActiveRecord::RecordNotFound)
         get :show, :id => "invalid"
-        response.should redirect_to(event_tracks_path(events(:open)))
+        response.should redirect_to(event_tracks_path(@event))
       end
     end
     
@@ -81,9 +73,9 @@ describe TracksController do
     describe "responding to GET new" do
     
       it "should expose a new track as @track" do
-        Track.should_receive(:new).and_return(mock_track)
-        get :new, :event => events(:open).slug
-        assigns(:track).should equal(mock_track)
+        Track.should_receive(:new).and_return(@track)
+        get :new, :event => @event.to_param
+        assigns(:track).should equal(@track)
       end
 
     end
@@ -91,41 +83,52 @@ describe TracksController do
     describe "responding to GET edit" do
     
       it "should expose the requested track as @track" do
-        Track.should_receive(:find).with("37").and_return(mock_track)
+        Track.should_receive(:find).with("37").and_return(@track)
         get :edit, :id => "37"
-        assigns(:track).should equal(mock_track)
+        assigns(:track).should equal(@track)
       end
 
     end
   
     describe "responding to POST create" do
+      before do
+        @new_track = Track.new
+      end
 
       describe "with valid params" do
+        before do
+          @valid_params = @track.attributes.slice(*Track.accessible_attributes(:admin)).clone
+        end
       
         it "should expose a newly created track as @track" do
-          Track.should_receive(:new).with({'these' => 'params'}).and_return(mock_track(:save => true))
-          post :create, :track => {:these => 'params'}
-          assigns(:track).should equal(mock_track)
+          post :create, :track => @valid_params
+          assigns(:track).attributes.slice(*Track.accessible_attributes(:admin)).should eq(@valid_params)
         end
 
         it "should redirect to the tracks index" do
-          Track.stub(:new).and_return(mock_track(:save => true))
+          Track.stub(:new).and_return(@new_track)
+          @new_track.stub(:save).and_return(true)
+
           post :create, :track => {}
-          response.should redirect_to(event_tracks_path(events(:open)))
+          response.should redirect_to(event_tracks_path(@event))
         end
       
       end
     
       describe "with invalid params" do
+        before do
+          @new_track.stub(:save).and_return(false)
+        end
 
         it "should expose a newly created but unsaved track as @track" do
-          Track.stub(:new).with({'these' => 'params'}).and_return(mock_track(:save => false))
-          post :create, :track => {:these => 'params'}
-          assigns(:track).should equal(mock_track)
+          Track.stub(:new).and_return(@new_track)
+          post :create, :track => {:title => 'hello'}
+          assigns(:track).should equal(@new_track)
+          assigns(:track).should be_new_record
         end
 
         it "should re-render the 'new' template" do
-          Track.stub(:new).and_return(mock_track(:save => false))
+          Track.stub(:new).and_return(@new_track)
           post :create, :track => {}
           response.should render_template('new')
         end
@@ -137,42 +140,49 @@ describe TracksController do
     describe "responding to PUT update" do
 
       describe "with valid params" do
+        before do
+          @valid_params = @track.attributes.slice(*Track.accessible_attributes(:admin)).clone
+          @track.stub(:save).and_return(true)
+        end
+
         it "should update the requested track" do
-          Track.should_receive(:find).with("37").and_return(mock_track)
-          mock_track.should_receive(:update_attributes).with({'these' => 'params'})
-          put :update, :id => "37", :track => {:these => 'params'}
+          Track.should_receive(:find).with("37").and_return(@track)
+          @track.should_receive(:assign_attributes).with(@valid_params, :as => :admin)
+          put :update, :id => "37", :track => @valid_params
         end
 
         it "should expose the requested track as @track" do
-          Track.stub(:find).and_return(mock_track(:update_attributes => true))
+          Track.stub(:find).and_return(@track)
           put :update, :id => "1"
-          assigns(:track).should equal(mock_track)
+          assigns(:track).should equal(@track)
         end
 
         it "should redirect to the track" do
-          Track.stub(:find).and_return(mock_track(:update_attributes => true))
+          Track.stub(:find).and_return(@track)
           put :update, :id => "1"
-          response.should redirect_to(track_path(mock_track))
+          response.should redirect_to(track_path(@track))
         end
 
       end
     
       describe "with invalid params" do
+        before do
+          @track.stub(:save).and_return(false)
+        end
 
         it "should update the requested track" do
-          Track.should_receive(:find).with("37").and_return(mock_track)
-          mock_track.should_receive(:update_attributes).with({'these' => 'params'})
-          put :update, :id => "37", :track => {:these => 'params'}
+          Track.should_receive(:find).with("37").and_return(@track)
+          put :update, :id => "37", :track => {:title => 'hello'}
         end
 
         it "should expose the track as @track" do
-          Track.stub(:find).and_return(mock_track(:update_attributes => false))
+          Track.stub(:find).and_return(@track)
           put :update, :id => "1"
-          assigns(:track).should equal(mock_track)
+          assigns(:track).should equal(@track)
         end
 
         it "should re-render the 'edit' template" do
-          Track.stub(:find).and_return(mock_track(:update_attributes => false))
+          Track.stub(:find).and_return(@track)
           put :update, :id => "1"
           response.should render_template('edit')
         end
@@ -182,17 +192,20 @@ describe TracksController do
     end
 
     describe "responding to DELETE destroy" do
+      before do
+        @track.stub(:destroy).and_return(true)
+      end
 
       it "should destroy the requested track" do
-        Track.should_receive(:find).with("37").and_return(mock_track)
-        mock_track.should_receive(:destroy)
+        Track.should_receive(:find).with("37").and_return(@track)
+        @track.should_receive(:destroy)
         delete :destroy, :id => "37"
       end
   
       it "should redirect to the tracks list" do
-        Track.stub(:find).and_return(mock_track(:destroy => true))
+        Track.stub(:find).and_return(@track)
         delete :destroy, :id => "1"
-        response.should redirect_to(event_tracks_path(events(:open)))
+        response.should redirect_to(event_tracks_path(@event))
       end
 
     end
