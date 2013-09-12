@@ -3,6 +3,7 @@ Feature: Comment new
   As someone
   I want to see the comments form at appropriate times
 
+  @wip
   Scenario Outline: Display comments form
     Given I am interested in a proposal for a "<kind>" event
     And the settings allow comments after the deadline: "<accept_after_deadline>"

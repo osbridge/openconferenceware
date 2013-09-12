@@ -3,6 +3,7 @@ Feature: Comment destroy
   As someone
   I want to destroy it when allowed
 
+  @wip
   Scenario: Destroy a comment as an admin
     Given I am logged in as "aaron"
     When I am on a proposal with comments
@@ -12,6 +13,7 @@ Feature: Comment destroy
     And I am on a proposal with comments
     And I should be able to destroy 1 comments
 
+  @wip
   Scenario: Cannot destroy a comment as non-admin
     Given I am logged in as "quentin"
     When I am on a proposal with comments
