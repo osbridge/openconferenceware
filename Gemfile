@@ -11,7 +11,7 @@ gem 'rails', '~> 3.2.0'
 
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
-gem 'mysql',        '~> 2.8.0', :require => false # For commonly used database driver
+gem 'mysql2',                   :require => false # For commonly used database driver
 gem 'right_aws',    '~> 1.0',   :require => false # For paperclip
 gem 'ruby-openid',  '~> 2.1.0', :require => false # For open_id_authentication
 gem 'rack-openid',  '~> 1.3.1', :require => false # For open_id_authentication
