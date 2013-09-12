@@ -84,15 +84,15 @@ describe EventsController, "when displaying events" do
       end
 
       it "should see speakers" do
-        response.should have_selector(".fn", :content => users(:quentin).fullname)
+        response.body.should have_selector(".fn", :text => /#{users(:quentin).fullname}/)
       end
 
       it "should see sessions" do
-        response.should have_selector(".summary", :content => proposals(:postgresql_session).title)
+        response.body.should have_selector(".summary", :text => proposals(:postgresql_session).title)
       end
 
       it "should not see non-confirmed proposals" do
-        response.should_not have_selector(".summary", :content => proposals(:clio_chupacabras).title)
+        response.body.should_not have_selector(".summary", :text => proposals(:clio_chupacabras).title)
       end
     end
 

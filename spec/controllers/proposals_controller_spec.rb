@@ -283,7 +283,7 @@ describe ProposalsController do
       stub_current_event!(:event => event)
 
       get :sessions_index, :event_id => event.to_param
-      response.should have_selector(".event_text.session_text") do |text|
+      response.body.should have_selector(".event_text.session_text") do |text|
         text.should contain("MySessionText")
       end
     end
@@ -466,12 +466,12 @@ describe ProposalsController do
       it "should notify owners of acceptance" do
         login_as(users(:quentin))
         get :show, :id => @proposal.id
-        response.should have_selector("h3", :content => 'Congratulations')
+        response.body.should have_selector("h3", :text => 'Congratulations')
       end
 
       it "should not notify non-owners of acceptance" do
         get :show, :id => @proposal.id
-        response.should_not have_selector("h3", :content => 'Congratulations')
+        response.body.should_not have_selector("h3", :text => 'Congratulations')
       end
 
       it "should not notify owners of acceptance if proposal confirmation controls are not visible" do
@@ -482,7 +482,7 @@ describe ProposalsController do
         login_as(users(:quentin))
 
         get :show, :id => @proposal.id
-        response.should_not have_selector("h3", :content => 'Congratulations')
+        response.body.should_not have_selector("h3", :text => 'Congratulations')
       end
     end
 
@@ -494,19 +494,19 @@ describe ProposalsController do
 
       it "should not notify proposed proposal owners of acceptance" do
         get :show, :id => @proposal.id
-        response.should_not have_selector("h3", :content => 'Congratulations')
+        response.body.should_not have_selector("h3", :text => 'Congratulations')
       end
 
       it "should not notify rejected proposal owners of acceptance" do
         @proposal.reject!
         get :show, :id => @proposal.id
-        response.should_not have_selector("h3", :content => 'Congratulations')
+        response.body.should_not have_selector("h3", :text => 'Congratulations')
       end
 
       it "should not notify junk proposal owners of acceptance" do
         @proposal.mark_as_junk!
         get :show, :id => @proposal.id
-        response.should_not have_selector("h3", :content => 'Congratulations')
+        response.body.should_not have_selector("h3", :text => 'Congratulations')
       end
     end
 
@@ -1012,7 +1012,7 @@ describe ProposalsController do
       get :schedule, :event_id => @event.slug
 
       response.should be_success
-      response.should have_selector(".summary", :content => item.title)
+      response.body.should have_selector(".summary", :text => item.title)
     end
 
     it "should not fail like a whale with iCalendar" do
@@ -1054,24 +1054,24 @@ describe ProposalsController do
 
     it "should list" do
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}"}
-      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
-      response.should_not have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+      response.body.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.body.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.body.should_not have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
     end
 
     it "should add user" do
       User.should_receive(:find).and_return(@sue)
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :add => @sue.id}
-      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
-      response.should have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
+      response.body.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.body.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.body.should have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
     end
 
     it "should remove user" do
       User.should_receive(:find).and_return(@billy)
       get :manage_speakers, {:speakers => "#{@bubba.id},#{@billy.id}", :remove => @billy.id}
-      response.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
-      response.should_not have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
+      response.body.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
+      response.body.should_not have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
     end
   end
 

@@ -14,9 +14,9 @@ describe "proposals/_room_control.html.erb" do
     assign(:proposal, proposal)
     render
     rendered.should have_selector("select[name='proposal[room_id]']") do |node|
-      node.should have_selector("option[value='']", :content => "- None -")
-      node.should have_selector("option[value='1'][selected]", :content => "First Room")
-      node.should have_selector("option[value='2']", :content => "Second Room")
+      node.should have_selector("option[value='']", :text => "- None -")
+      node.should have_selector("option[value='1'][selected]", :text => "First Room")
+      node.should have_selector("option[value='2']", :text => "Second Room")
     end
   end
 end

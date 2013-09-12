@@ -28,7 +28,7 @@ describe "tracks/index.html.erb" do
 
     it "should render list" do
       render
-      rendered.should have_selector("h3", :content => "value for title".to_s, :count => 2)
+      rendered.should have_selector("h3", :text => "value for title".to_s, :count => 2)
     end
   end
 
@@ -41,7 +41,7 @@ describe "tracks/index.html.erb" do
     end
 
     it "should render list" do
-      rendered.should have_selector("h3", :content => "value for title".to_s, :count => 2)
+      rendered.should have_selector("h3", :text => "value for title".to_s, :count => 2)
     end
 
     it "should render new link" do

@@ -121,10 +121,10 @@ describe "proposals/show.html.erb" do
     assign(:kind, :proposal)
     render
 
-    rendered.should have_selector(".session_info a", :href => session_path(event_proposal))
-    rendered.should have_selector(".session_info a", :href => session_path(child_proposal))
-    rendered.should have_selector(".session_info a", :href => session_path(parent_proposal))
-    rendered.should_not have_selector(".session_info a", :href => session_path(other_proposal))
+    rendered.should have_selector(".session_info     a[href='#{session_path(event_proposal )}']")
+    rendered.should have_selector(".session_info     a[href='#{session_path(child_proposal )}']")
+    rendered.should have_selector(".session_info     a[href='#{session_path(parent_proposal)}']")
+    rendered.should_not have_selector(".session_info a[href='#{session_path(other_proposal )}']")
   end
 end
 

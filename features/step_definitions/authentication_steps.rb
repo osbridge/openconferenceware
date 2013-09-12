@@ -2,9 +2,8 @@ def login_as(login)
   if login.blank?
     logout
   else
-    @user = User.find(Fixtures.identify(login))
+    @user = User.find(ActiveRecord::Fixtures.identify(login))
     post browser_session_path, :login_as => @user.login
-    session[:user].should == @user.id
   end
 end
 

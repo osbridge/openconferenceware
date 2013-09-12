@@ -6,9 +6,9 @@ describe "proposals/_transition_control.html.erb" do
     assign(:proposal, proposal)
     render
     rendered.should have_selector("select[name='proposal[transition]']") do |node|
-      node.should have_selector("option[value='']", :content => "(currently 'Proposed')")
-      node.should have_selector("option[value='accept']", :content => "Accept")
-      node.should have_selector("option[value='reject']", :content => "Reject")
+      node.should have_selector("option[value='']", :text => "(currently 'Proposed')")
+      node.should have_selector("option[value='accept']", :text => "Accept")
+      node.should have_selector("option[value='reject']", :text => "Reject")
     end
   end
 end

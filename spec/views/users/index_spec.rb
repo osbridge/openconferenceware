@@ -11,7 +11,7 @@ describe "users/index.html.erb" do
     assign(:users, [users(:aaron), users(:quentin)])
     render
 
-    rendered.should_not have_selector(".admin", :content => "admin")
+    rendered.should_not have_selector(".admin", :text => "admin")
   end
 
   it "should include admin column when admin is logged in" do
@@ -19,6 +19,6 @@ describe "users/index.html.erb" do
     assign(:users, [users(:aaron), users(:quentin)])
     render
 
-    rendered.should have_selector(".admin", :content => "admin")
+    rendered.should have_selector(".admin", :text => "admin")
   end
 end
