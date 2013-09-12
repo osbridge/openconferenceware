@@ -6,6 +6,12 @@ GIT
       deep_merge (> 0.0.0)
       xml-simple (> 0.0.0)
 
+GIT
+  remote: https://github.com/osbridge/vpim-rails.git
+  revision: b483db4f8f7ead866bfdb3f0e7563fa1f59c548c
+  specs:
+    vpim-rails (0.667)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -233,7 +239,6 @@ GEM
       polyglot (>= 0.3.1)
     ttfunk (1.0.3)
     tzinfo (0.3.37)
-    vpim (0.695)
     websocket (1.0.7)
     xml-simple (1.1.2)
     xpath (1.0.0)
@@ -283,4 +288,4 @@ DEPENDENCIES
   simplecov
   sqlite3
   test-unit (~> 1.2.3)
-  vpim (= 0.695)
+  vpim-rails!
