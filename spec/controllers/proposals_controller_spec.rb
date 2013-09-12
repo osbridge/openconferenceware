@@ -9,8 +9,8 @@ describe ProposalsController do
     return assert_select('.proposal_row').map{|n| Proposal.find(n.attributes['id'].gsub(/^proposal_row_/, ''))}
   end
 
-  before(:all) do
-    @event = Event.current
+  before do
+    @event = events(:open)
   end
 
   describe "index" do
@@ -1114,7 +1114,7 @@ describe ProposalsController do
     describe "existing record" do
       before(:each) do
         @proposal.id = 123
-        @proposal.event = Event.current
+        @proposal.event = events(:open)
         @params[:id] = @proposal.id
         Proposal.stub(:find).and_return(@proposal)
       end
