@@ -91,7 +91,7 @@ class Event < ActiveRecord::Base
   
   # Determines if the event is currently taking place.
   def underway?
-    self.start_date && self.end_date && (self.start_date..self.end_date).include?(Time.zone.now)
+    self.start_date && self.end_date && Time.zone.now.between?(self.start_date, self.end_date)
   end
 
   # Is this the current event?
