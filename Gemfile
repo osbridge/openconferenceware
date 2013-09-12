@@ -4,7 +4,7 @@
 source "https://rubygems.org"
 
 # Rake version
-gem 'rake', '~> 0.8.7'
+gem 'rake'
 
 # Rails version, which must be specified here AND in the environment.rb:
 gem 'rails', '~> 3.2.0'
