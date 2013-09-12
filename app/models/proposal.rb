@@ -230,7 +230,7 @@ class Proposal < ActiveRecord::Base
     end
   }
 
-  schedule_comma_attributes = lambda {
+  schedule_comma_attributes = Proc.new {
     room :name => "Room Name"
     start_time("Start Time") {|t| t.try(:xmlschema) }
   }
