@@ -58,7 +58,7 @@
 class DeferProxy
   # In order to proxy the most methods, remove this object's instance methods
   # so that calls will be sent to #method_missing for forwarding.
-  instance_methods.each { |m| undef_method(m) unless m =~ /^__/ }
+  instance_methods.each { |m| undef_method(m) unless m =~ /^__/ || m == :object_id }
 
   # Create proxy that, when called, will return a value by callling the block.
   def initialize(&block)
