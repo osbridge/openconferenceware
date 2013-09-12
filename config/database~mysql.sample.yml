@@ -27,9 +27,12 @@ preview:
   database: ocw_dev
   << : *common
 
-test:
+test: &test
   database: ocw_test
   << : *common
+
+cucumber:
+  <<: *test
 
 production:
   database: ocw_prod

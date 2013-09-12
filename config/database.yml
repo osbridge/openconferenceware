@@ -8,6 +8,3 @@ custom  = "#{Rails.root}/config/database~custom.yml"
 default = "#{Rails.root}/config/database~sqlite3.sample.yml"
 %>
 <%= ERB.new(File.read(File.exist?(custom) ? custom : default)).result() %>
-
-cucumber:
-  <<: *test
