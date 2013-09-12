@@ -10,5 +10,8 @@ require 'ext/string_possessiveize'
 require 'ext/vpim_icalendar_extra_properties'
 require 'ext/color_rgb_serializer_fix'
 
-# Standard Library on 1.9
-require 'csv'
+if RUBY_VERSION >= "1.9"
+  require 'csv'
+else
+  CSV = FasterCSV
+end

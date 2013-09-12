@@ -10,7 +10,7 @@ namespace :bridgepdx do
   desc "Export session information CSV for schedule monitor cards"
   task :session_card_csv => :environment do
     event = ENV['EVENT'].nil? ? Event.current : Event.find_by_slug(ENV['EVENT'])
-    FasterCSV.open('session_cards.csv','w') do |csv|
+    CSV.open('session_cards.csv','w') do |csv|
       csv << %w(room start_time title speakers)
       event.proposals.confirmed(:order => 'start_time ASC').each do |session|
         row = []
@@ -69,7 +69,7 @@ namespace :bridgepdx do
     end
 
     # event = ENV['EVENT'].nil? ? Event.current : Event.find_by_slug(ENV['EVENT'])
-    # FasterCSV.open('RoomSchedule.csv','w') do |csv|
+    # CSV.open('RoomSchedule.csv','w') do |csv|
     #   csv << ['room', 'day'] + (1..10).map{|n| ["s#{n}_start_time", "s#{n}_end_time", "s#{n}_title", "s#{n}_presenters", "s#{n}_excerpt", "s#{n}_track", "s#{n}_session_type"] }.flatten
     #   event.rooms.each do |room|
     #     room.proposals.confirmed.group_by{|p| p.start_time.to_date}.each do |day, sessions|

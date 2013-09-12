@@ -41,7 +41,7 @@ describe ProposalsController do
 
         get :index, :event_id => @event.to_param, :format => "csv"
 
-        @rows = FasterCSV.parse(response.body)
+        @rows = CSV.parse(response.body)
         @header = @rows.shift
       end
 

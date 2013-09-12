@@ -26,7 +26,7 @@ CSV format:
 
       has_seen_header = false
       puts "* Reading CSV file: #{csv_file}"
-      FasterCSV.foreach(csv_file) do |row|
+      CSV.foreach(csv_file) do |row|
         date, time, proposal_id = row
         if has_seen_header
           proposal = Proposal.find(proposal_id)

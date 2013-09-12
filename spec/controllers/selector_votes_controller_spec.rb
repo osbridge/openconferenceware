@@ -115,7 +115,7 @@ describe SelectorVotesController do
         describe "requesting CSV" do
           before do
             get :index, :event_id => @event.slug, :format => 'csv'
-            @struct = FasterCSV.parse(response.body)
+            @struct = CSV.parse(response.body)
             @row_for_proposal1 = @struct.find{|row| row.first == @proposal1.id.to_s}
             @row_for_proposal2 = @struct.find{|row| row.first == @proposal2.id.to_s}
             @column_with_selector_points = @struct.first.rindex{|column| column == "Selector points"}
