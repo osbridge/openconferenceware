@@ -13,13 +13,13 @@ module OpenConferenceWare
 
     config.autoload_paths += [
       # App
-      Rails.root.join('app','mixins'),
-      Rails.root.join('app','observers'),
-      Rails.root.join('app','renderers'),
+      Rails.root.join('app','mixins').to_s,
+      Rails.root.join('app','observers').to_s,
+      Rails.root.join('app','renderers').to_s,
     ]
 
     config.eager_load_paths += [
-      Rails.root.join('lib')
+      Rails.root.join('lib').to_s
     ]
 
     # Settings in config/environments/* take precedence over those specified here.
