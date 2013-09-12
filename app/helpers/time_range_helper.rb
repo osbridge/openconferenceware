@@ -108,7 +108,7 @@ class TimeRange
       results << format_details_by_list(end_details, end_format_list)
       results << %Q|</abbr>| if @format == :hcal
     end
-    results.to_s
+    results.join
   end
 
 protected
