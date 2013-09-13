@@ -13,7 +13,7 @@ namespace :db do
       when 'sqlite3'
         source = struct.database
         sh "sqlite3 #{shellescape source} .dump > #{shellescape target}"
-      when 'mysql'
+      when 'mysql', 'mysql2'
         sh "mysqldump --add-locks --create-options --disable-keys --extended-insert --quick --set-charset #{mysql_credentials_for struct} > #{shellescape target_tmp}"
         mv target_tmp, target
       when 'postgresql'
@@ -39,7 +39,7 @@ namespace :db do
         target = struct.database
         mv target, "#{target}.old" if File.exist?(target)
         sh "sqlite3 #{shellescape target} < #{shellescape source}"
-      when 'mysql'
+      when 'mysql', 'mysql2'
         sh "mysql #{mysql_credentials_for struct} < #{shellescape source}"
       when 'postgresql'
         sh "psql #{postgresql_credentials_for struct} < #{shellescape source}"
