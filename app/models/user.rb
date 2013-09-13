@@ -126,22 +126,25 @@ class User < ActiveRecord::Base
 
   #---[ Scopes ]----------------------------------------------------------
 
-  scope :by_name, lambda { order('lower(last_name), lower(first_name)') }
+  cols_for_name_sort = 'lower(users.last_name), lower(users.first_name)'
+  scope :by_name, lambda { order(cols_for_name_sort) }
   scope :default_order, lambda { by_name }
   scope :complete_profiles, lambda { where(:complete_profile => true).default_order }
 
   scope :submitted_to, lambda {|event|
-    select('DISTINCT users.id, users.*').
+    select("users.id, users.*, #{cols_for_name_sort}").
       joins(:proposals).
       where('proposals.event_id = ?', event.id).
-      default_order
+      default_order.
+      uniq
   }
 
   scope :speaking_at, lambda {|event|
-    select('DISTINCT users.id, users.*').
+    select("users.id, users.*, #{cols_for_name_sort}").
       joins(:proposals).
-      where('proposals.status = "confirmed" AND proposals.event_id = ?', event.id).
-      default_order
+      where("proposals.status = 'confirmed' AND proposals.event_id = ?", event.id).
+      default_order.
+      uniq
   }
 
   #---[ CSV export ]------------------------------------------------------
