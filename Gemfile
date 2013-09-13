@@ -58,9 +58,7 @@ group :development do
     gem 'ruby18_source_location'
   end
 
-  platform :mri_19 do
-    gem 'debugger'
-  end
+  gem 'debugger', :platforms => [:ruby_19, :ruby_20]
 
   gem 'pry'
 end
@@ -72,12 +70,10 @@ group :test do
   gem 'launchy'
   gem 'capybara', '~> 2.0.0'
 
-  platform :mri_18 do
+  platform :ruby_18 do
     gem 'rcov', :require => false
   end
 
-  platform :mri_19 do
-    gem 'simplecov', :require => false
-    gem 'coveralls', :require => false
-  end
+  gem 'simplecov', :require => false, :platforms => [:ruby_19, :ruby_20]
+  gem 'coveralls', :require => false, :platforms => [:ruby_19, :ruby_20]
 end
