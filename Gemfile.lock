@@ -138,7 +138,6 @@ GEM
     mime-types (1.25)
     multi_json (1.8.0)
     multi_test (0.0.2)
-    mysql2 (0.3.13)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -281,7 +280,6 @@ DEPENDENCIES
   hpricot (~> 0.8.2)
   launchy
   memcache-client
-  mysql2
   nokogiri (~> 1.5.10)
   paperclip (~> 2.3.1)
   prawn (= 0.11.1)

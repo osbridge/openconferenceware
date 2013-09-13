@@ -1,8 +1,14 @@
 # OpenConferenceWare
 
-## Recent Developments
+## Recent Developments - Important!
 
-We are updating OCW on the master branch, upgrading to a modern version of Rails and working towards [other goals](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
+The current master branch is running on Rails 3.2.14, but the authentication system is presently broken. We are working on fixing this and towards [other goals](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
+
+While we undertake this work, the Gemfile loads the `sqlite3` the database adapter
+and has `mysql2` and `pg` commented out. We support all of these databases, and
+are testing them on CI, so if you'd like to use a database other than
+sqlite, you'll want to maintain a branch with a modified gemfile and
+merge changes to master into your branch in order to keep up-to-date.
 
 ### Current Build Status
 

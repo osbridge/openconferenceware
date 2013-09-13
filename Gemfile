@@ -9,13 +9,16 @@ gem 'rake'
 # Rails version, which must be specified here AND in the environment.rb:
 gem 'rails', '~> 3.2.0'
 
+# Database driver
+gem 'sqlite3', :require => false
+# gem 'mysql2',  :require => false
+# gem 'pg',      :require => false
+
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
-gem 'mysql2',                   :require => false # For commonly used database driver
 gem 'right_aws',    '~> 1.0',   :require => false # For paperclip
 gem 'ruby-openid',  '~> 2.1.0', :require => false # For open_id_authentication
 gem 'rack-openid',  '~> 1.3.1', :require => false # For open_id_authentication
-gem 'sqlite3',                  :require => false # For default database driver
 gem 'rwikibot',     '= 2.0.6',  :require => false,
                                 :git => 'git://github.com/reidab/rwikibot.git'
 
