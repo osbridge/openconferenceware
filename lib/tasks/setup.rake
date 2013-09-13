@@ -12,6 +12,8 @@ TO FINISH SETUP
 
   desc %{Create or update the "admin" user and their password. Specify PASSWORD environmental variable to avoid prompt.}
   task :admin => "environment" do
+    User.reset_column_information
+
     password = \
       if ENV["PASSWORD"]
         ENV["PASSWORD"]
@@ -29,12 +31,12 @@ TO FINISH SETUP
     else
       user = User.new(
         :email => "admin",
-        :login => "admin",
         :first_name => "Super",
         :last_name => "User",
         :biography => "I am all-powerful.",
-        :password => password,
-        :password_confirmation => password)
+      )
+      user.password = password
+      user.password_confirmation = password
       user.login = "admin"
       user.admin = true
       user.save!
