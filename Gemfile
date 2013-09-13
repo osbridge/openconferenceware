@@ -78,5 +78,6 @@ group :test do
 
   platform :mri_19 do
     gem 'simplecov', :require => false
+    gem 'coveralls', :require => false
   end
 end
