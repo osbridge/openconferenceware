@@ -13,6 +13,7 @@
 /config/theme.txt
 /coverage.*
 /coverage/*
+.cadre
 /db/*.sqlite*
 /db/data.yml
 /db/schema.rb
