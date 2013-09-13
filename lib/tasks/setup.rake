@@ -33,7 +33,7 @@ TO FINISH SETUP
         :email => "admin",
         :first_name => "Super",
         :last_name => "User",
-        :biography => "I am all-powerful.",
+        :biography => "I am all-powerful."
       )
       user.password = password
       user.password_confirmation = password
