@@ -77,6 +77,7 @@ group :test do
     gem 'rcov', :require => false
   end
 
-  gem 'simplecov', :require => false, :platforms => [:ruby_19, :ruby_20]
-  gem 'coveralls', :require => false, :platforms => [:ruby_19, :ruby_20]
+  gem 'simplecov',     :require => false, :platforms => [:ruby_19, :ruby_20]
+  gem 'cadre',         :require => false, :platforms => [:ruby_19, :ruby_20]
+  gem 'coveralls',     :require => false, :platforms => [:ruby_19, :ruby_20]
 end
