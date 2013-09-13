@@ -1,7 +1,6 @@
 class CreateEvents < ActiveRecord::Migration
   def self.up
-    create_table :events, :id => false, :primary_key => :id do |t|
-      t.integer :id, :null => false
+    create_table :events do |t|
       t.string :title
       t.datetime :deadline
       t.text :open_text
