@@ -1,0 +1,6 @@
+<h3>Choose a provider to sign in:</h3>
+<ul>
+<% OmniAuth.strategies.each do |strategy| %>
+  <li><%= link_to strategy.name.demodulize, "/auth/#{strategy.name.demodulize.underscore}" %></li>
+<% end %>
+</ul>

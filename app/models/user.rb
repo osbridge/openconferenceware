@@ -213,6 +213,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.create_from_authentication(auth)
+    create! do |user|
+      user.email = auth.email
+
+      if auth.has_first_and_last_name?
+        user.first_name = auth.info['first_name']
+        user.last_name  = auth.info['last_name']
+      else
+        user.fullname = auth.name
+      end
+
+      user.biography = auth.info['description']
+      user.website = auth.first_url
+      user.authentications << auth
+      user.save
+    end
+  end
+
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)
     raise ArgumentError, "Password and salt must be specified." if password.blank? || salt.blank?

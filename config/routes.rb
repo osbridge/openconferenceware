@@ -1,4 +1,11 @@
 OpenConferenceWare::Application.routes.draw do
+  match "/sign_in" => "authentications#sign_in", :as => :sign_in
+  match "/sign_out" => "authentications#sign_out", :as => :sign_out
+
+  match '/auth/:provider/callback' => 'authentications#create'
+  match '/auth/failure' => 'authentications#failure'
+
+  resources :authentications, :only => [:index, :destroy]
 
   resources :events do
     member do

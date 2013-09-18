@@ -152,4 +152,16 @@ describe User do
       @user.authenticated?(@password).should be_true
     end
   end
+
+  context "created from an authentication" do
+    let(:authentication) { Factory.create(:authentication) }
+    subject(:user) { User.create_from_authentication(authentication) }
+
+    it { expect(user).to be_valid }
+    it { expect(user).to be_persisted }
+    it { expect(user.fullname).to eq authentication.name }
+    it { expect(user.biography).to eq authentication.info["description"] }
+    it { expect(user.website).to eq authentication.info["urls"]["wikipedia"] }
+    it { expect(user.authentications).to include(authentication) }
+  end
 end
