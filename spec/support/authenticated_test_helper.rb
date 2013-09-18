@@ -16,17 +16,12 @@ module AuthenticatedTestHelper
       else
         raise TypeError, "Can't login as type: #{user.class}"
       end
-    request.session[:user] = identity
-  end
-
-  def authorize_as(user)
-    request.env["HTTP_AUTHORIZATION"] = user ? %{Basic #{Base64.encode64("#{users(user).login}:test")}} : nil
+    request.session[:user_id] = identity
   end
 
   def logout
     if request
-      request.session[:user] = nil
-      request.env["HTTP_AUTHORIZATION"] = nil
+      request.session[:user_id] = nil
     end
   end
 end
