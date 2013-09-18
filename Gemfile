@@ -14,6 +14,9 @@ gem 'sqlite3', :require => false
 # gem 'mysql2',  :require => false
 # gem 'pg',      :require => false
 
+# Authentication
+gem 'omniauth-openid'
+
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
 gem 'right_aws',    '~> 1.0',   :require => false # For paperclip
