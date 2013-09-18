@@ -18,9 +18,6 @@ class ApplicationController < ActionController::Base
   # Provide access to page_title in controllers
   include PageTitleHelper
 
-  # Setup authentication (e.g., login)
-  include AuthenticatedSystem
-
   # Setup breadcrumbs
   include BreadcrumbsMixin
   add_breadcrumbs(SETTINGS.breadcrumbs)
@@ -32,6 +29,56 @@ class ApplicationController < ActionController::Base
   before_filter :assign_current_event_without_redirecting
   before_filter :log_the_current_user
   before_filter :log_the_session
+
+  #---[ Authentication ]--------------------------------------------------
+
+  # Store the given user in the session.
+  def current_user=(new_user)
+    session[:user_id] = (new_user.nil? || new_user.is_a?(Symbol)) ? nil : new_user.id
+    @current_user = new_user
+  end
+
+  # Accesses the current user from the session.
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
+
+  # Returns true or false if the user is logged in.
+  # Preloads @current_user with the user model if they're logged in.
+  def logged_in?
+    !!current_user
+  end
+  helper_method :logged_in?
+
+  # Filter method to enforce a login requirement.
+  def login_required
+    logged_in? || access_denied(:message => "Please login to the requested page.")
+  end
+
+  # Redirect as appropriate when an access request fails.
+  def access_denied(opts={})
+    message = opts[:message] || "Access denied, please login with enough privileges to complete that operation."
+    fallback_url = opts[:fallback_url] || opts[:fallback] || login_path
+
+    store_location
+    redirect_to fallback_url, :alert => message
+  end
+
+  # Store the URI of the current request in the session.
+  #
+  # We can return to this location by calling #redirect_back_or_default.
+  def store_location(path=nil)
+    session[:return_to] = path || request.fullpath
+  end
+
+  # Redirect to the URI stored by the most recent store_location call or
+  # to the passed default.
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
+  alias_method :redirect_back_or_to, :redirect_back_or_default
 
 protected
 
