@@ -321,8 +321,12 @@ class User < ActiveRecord::Base
   def fullname=(value)
     if value.present?
       parts = value.split(" ")
-      self.first_name = parts[0..-2].join(' ')
-      self.last_name = parts.last
+      if parts.length > 1
+        self.first_name = parts[0..-2].join(' ')
+        self.last_name = parts.last
+      else
+        self.first_name = parts.first
+      end
     end
   end
 
