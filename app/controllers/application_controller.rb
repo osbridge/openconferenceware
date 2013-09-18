@@ -41,6 +41,8 @@ class ApplicationController < ActionController::Base
   # Accesses the current user from the session.
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  rescue ActiveRecord::RecordNotFound
+    reset_session
   end
   helper_method :current_user
 
