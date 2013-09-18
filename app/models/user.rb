@@ -54,6 +54,8 @@ class User < ActiveRecord::Base
 
   #---[ Associations ]----------------------------------------------------
 
+  has_many :authentications
+
   has_many :proposals_user
   has_many :proposals, :through => :proposals_user do
     def ids
