@@ -14,6 +14,8 @@ include AuthenticatedTestHelper
 require 'factory_girl'
 Dir["#{Rails.root}/spec/factories/*.rb"].each{|filename| require filename}
 
+OmniAuth.config.add_mock(:open_id, {:uid => 'http://openconferenceware.org'})
+
 #---[ Functions ]-------------------------------------------------------
 
 module OCWHelpers
