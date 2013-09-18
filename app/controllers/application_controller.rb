@@ -76,11 +76,23 @@ class ApplicationController < ActionController::Base
 
   # Redirect to the URI stored by the most recent store_location call or
   # to the passed default.
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
+  def redirect_back_or_default(default=nil)
+    redirect_to(session[:return_to] || default || default_path)
     session[:return_to] = nil
   end
   alias_method :redirect_back_or_to, :redirect_back_or_default
+
+  def default_path
+    if @event
+      if @event.proposal_status_published?
+        event_sessions_path(@event)
+      else
+        event_proposals_path(@event)
+      end
+    else
+      proposals_path
+    end
+  end
 
 protected
 

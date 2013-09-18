@@ -10,20 +10,7 @@ class AuthenticationsController < ApplicationController
     reset_session
     flash[:notice] = "You have been logged out."
 
-    # After logging out, try to return to the most sensible page: current
-    # event's sessions or proposals, or default event's proposals.
-    target_path = \
-      if @event
-        if @event.proposal_status_published?
-          event_sessions_path(@event)
-        else
-          event_proposals_path(@event)
-        end
-      else
-        proposals_path
-      end
-
-    redirect_back_or_default(target_path)
+    redirect_back_or_default
   end
 
   def create
@@ -38,7 +25,7 @@ class AuthenticationsController < ApplicationController
       self.current_user = User.create_from_authentication(@authentication)
     end
 
-    redirect_to root_path
+    redirect_back_or_default
   end
 
   protected
