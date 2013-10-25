@@ -1,4 +1,5 @@
 language: ruby
+before_install: cp Gemfile.lock ci/Gemfile.ci.lock
 gemfile: ci/Gemfile.ci
 bundler_args: --without development
 rvm:
