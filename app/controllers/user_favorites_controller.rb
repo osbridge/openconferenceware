@@ -4,7 +4,7 @@ class UserFavoritesController < ApplicationController
   skip_before_filter :assign_current_event_without_redirecting, :only => :modify
 
   before_filter :assert_user
-  before_filter :login_required, :only => :modify
+  before_filter :authentication_required, :only => :modify
   before_filter :assert_record_ownership, :only => :modify
 
   # GET /favorites

@@ -54,8 +54,8 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   # Filter method to enforce a login requirement.
-  def login_required
-    logged_in? || access_denied(:message => "Please login to the requested page.")
+  def authentication_required
+    logged_in? || access_denied(:message => "Please sign in to access the requested page.")
   end
 
   # Redirect as appropriate when an access request fails.
