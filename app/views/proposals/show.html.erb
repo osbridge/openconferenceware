@@ -26,10 +26,12 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
   <%- if SETTINGS.twitter -%>
   <meta name="twitter:site" content="<%= SETTINGS.twitter %>">
   <%- end -%>
+  <%- if user_profiles? -%>
   <%- if multiple_presenters? && first_user_with_twitter = @proposal.users.detect{|u| !u.twitter.blank?} -%>
   <meta name="twitter:creator" content="<%= first_user_with_twitter.normalized_twitter %>">
   <%- elsif !multiple_presenters? && !@proposal.user.twitter.blank? -%>
   <meta name="twitter:creator" content="<%= @proposal.user.normalized_twitter %>">
+  <% end -%>
   <% end -%>
 <% end -%>
 
