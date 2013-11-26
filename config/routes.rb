@@ -65,17 +65,6 @@ OpenConferenceWare::Application.routes.draw do
     match 'favorites/modify' => 'user_favorites#modify', :as => :modify_favorites, :via => :put
   end
 
-  match '/browser_session' => 'browser_sessions#create', :as => :open_id_complete, :constraints => { :method => 'GET' }
-  match '/login' => 'browser_sessions#new', :as => :login
-  match '/logout' => 'browser_sessions#destroy', :as => :logout
-  match '/admin' => 'browser_sessions#admin', :as => :admin
-
-  resource :browser_session do
-    collection do
-     :admin
-    end
-  end
-
   root :to => 'events#index'
 
   match '/:controller(/:action(/:id))'

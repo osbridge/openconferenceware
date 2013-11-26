@@ -199,11 +199,6 @@ class ProposalsController < ApplicationController
   # POST /proposals
   # POST /proposals.xml
   def create
-    if params[:commit] == "Login" && params[:openid_url]
-      store_location(new_proposal_path)
-      return redirect_to(open_id_complete_path(:openid_url => params[:openid_url]))
-    end
-
     @proposal = Proposal.new
     @proposal.assign_attributes(
       params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
@@ -372,7 +367,7 @@ protected
       else
         flash[:notice] = "Please login so you can create and manage proposals."
         store_location
-        return redirect_to(login_path)
+        return redirect_to(sign_in_path)
       end
     end
   end

@@ -18,7 +18,7 @@ describe SelectorVotesController do
       end
 
       it "should reject request and redirect to login page" do
-        response.should redirect_to(login_path)
+        response.should redirect_to(sign_in_path)
       end
     end
 
@@ -33,7 +33,7 @@ describe SelectorVotesController do
       end
 
       it "should reject request and redirect to login page" do
-        response.should redirect_to(login_path)
+        response.should redirect_to(sign_in_path)
       end
 
     end
@@ -169,7 +169,7 @@ describe SelectorVotesController do
         post :create, :selector_vote => {:these => 'params'}
 
         flash[:failure].should =~ /selection committee/
-        response.should redirect_to(login_path)
+        response.should redirect_to(sign_in_path)
       end
     end
 
@@ -185,7 +185,7 @@ describe SelectorVotesController do
         post :create, :selector_vote => {:these => 'params'}
 
         flash[:failure].should =~ /selection committee/
-        response.should redirect_to(login_path)
+        response.should redirect_to(sign_in_path)
       end
 
     end

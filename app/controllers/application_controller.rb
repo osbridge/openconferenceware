@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
   # Redirect as appropriate when an access request fails.
   def access_denied(opts={})
     message = opts[:message] || "Access denied, please login with enough privileges to complete that operation."
-    fallback_url = opts[:fallback_url] || opts[:fallback] || login_path
+    fallback_url = opts[:fallback_url] || opts[:fallback] || sign_in_path
 
     store_location
     redirect_to fallback_url, :alert => message
