@@ -365,7 +365,7 @@ protected
       if anonymous_proposals?
         return false # Anonymous proposals are allowed
       else
-        flash[:notice] = "Please login so you can create and manage proposals."
+        flash[:notice] = "Please sign in so you can create and manage proposals."
         store_location
         return redirect_to(sign_in_path)
       end

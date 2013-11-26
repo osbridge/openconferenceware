@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
 
   # Redirect as appropriate when an access request fails.
   def access_denied(opts={})
-    message = opts[:message] || "Access denied, please login with enough privileges to complete that operation."
+    message = opts[:message] || "Access denied, please sign in with enough privileges to complete that operation."
     fallback_url = opts[:fallback_url] || opts[:fallback] || sign_in_path
 
     store_location
@@ -405,7 +405,7 @@ protected
       if logged_in?
         @user = current_user
       else
-        return access_denied(:message => "Please login to access your user profile.")
+        return access_denied(:message => "Please sign in to access your user profile.")
       end
     else
       begin
