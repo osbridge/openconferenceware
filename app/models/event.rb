@@ -46,6 +46,7 @@ class Event < ActiveRecord::Base
                   :accept_selector_votes,
                   :show_proposal_confirmation_controls,
                   :parent,
+                  :parent_id,
                   :as => :admin
 
   cache_lookups_for :slug, :order => 'deadline desc', :include => [:tracks, :rooms]
