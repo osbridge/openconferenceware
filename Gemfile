@@ -16,6 +16,7 @@ gem 'sqlite3', :require => false
 
 # Authentication
 gem 'omniauth-openid'
+gem 'omniauth-persona'
 
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb

@@ -116,6 +116,8 @@ GEM
     facets (2.8.4)
     factory_girl (2.6.4)
       activesupport (>= 2.3.9)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     fastercsv (1.5.5)
     ffi (1.9.0)
     gchartrb (0.8)
@@ -143,6 +145,7 @@ GEM
     mime-types (1.25)
     multi_json (1.8.2)
     multi_test (0.0.2)
+    multipart-post (1.2.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -157,6 +160,10 @@ GEM
     omniauth-openid (1.0.1)
       omniauth (~> 1.0)
       rack-openid (~> 1.3.1)
+    omniauth-persona (0.0.1)
+      faraday
+      multi_json
+      omniauth (~> 1.0)
     paperclip (2.3.16)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
@@ -295,6 +302,7 @@ DEPENDENCIES
   memcache-client
   nokogiri (~> 1.5.10)
   omniauth-openid
+  omniauth-persona
   paperclip (~> 2.3.1)
   prawn (= 0.11.1)
   pry

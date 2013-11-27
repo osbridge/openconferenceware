@@ -4,4 +4,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     provider :developer, :fields => [:name, :email, :admin], :uid_field => :name
   end
   provider :openid, :store => OpenID::Store::Filesystem.new(Rails.root.join('tmp'))
+  provider :persona
 end
