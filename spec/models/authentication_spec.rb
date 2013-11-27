@@ -4,14 +4,14 @@ describe Authentication do
   describe "finding or creating from an auth hash" do
     describe "when an an existing Authentication does not exist" do
       before do
-        @auth_hash = {
+        @auth_hash = OmniAuth::AuthHash.new(
           'provider' => 'test_provider',
           'uid' => Time.now.to_i.to_s,
           'info' => {
             'name' => 'Boris',
             'email' => 'boris@example.com'
           }
-        }
+        )
 
         @new_auth = Authentication.find_and_update_or_create_from_auth_hash(@auth_hash)
       end
@@ -38,14 +38,14 @@ describe Authentication do
     describe "when an existing Authentication record exists" do
       before do
         @existing = Factory.create(:authentication)
-        @auth_hash = {
+        @auth_hash = OmniAuth::AuthHash.new(
           'provider' => @existing.provider,
           'uid' => @existing.uid,
           'info' => {
             'name' => 'Beth',
             'email' => 'beth@example.com'
           }
-        }
+        )
         @found = Authentication.find_and_update_or_create_from_auth_hash(@auth_hash)
       end
 
