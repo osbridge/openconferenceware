@@ -168,7 +168,7 @@ describe SelectorVotesController do
 
         post :create, :selector_vote => {:these => 'params'}
 
-        flash[:failure].should =~ /selection committee/
+        flash[:alert].should =~ /selection committee/
         response.should redirect_to(sign_in_path)
       end
     end
@@ -184,7 +184,7 @@ describe SelectorVotesController do
 
         post :create, :selector_vote => {:these => 'params'}
 
-        flash[:failure].should =~ /selection committee/
+        flash[:alert].should =~ /selection committee/
         response.should redirect_to(sign_in_path)
       end
 
