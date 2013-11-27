@@ -10,19 +10,20 @@ class CommentsController < ApplicationController
     @comments = Comment.listable
     add_breadcrumb "Comments", comments_path()
 
-    case request.format.to_sym
-    when :atom, :json, :xml
+    if [:atom, :json, :xml].include?(request.format.to_sym)
       unless params[:secret] == SECRET
         render(:text => "403 Forbidden: You can't see the comments feed unless you supply the secret key", :status => 403) and return
       end
       @comments = @comments[0..MAX_FEED_ITEMS]
     else
-      require_admin() or return
-    end
-
-    respond_to do |format|
-      format.html  # index.html.erb
-      format.atom
+      if admin?
+        respond_to do |format|
+          format.html  # index.html.erb
+          format.atom
+        end
+      else
+        require_admin
+      end
     end
   end
 
