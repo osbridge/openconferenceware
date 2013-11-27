@@ -1,16 +1,15 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: tracks
 #
-#  id          :integer(4)      not null, primary key
-#  title       :string(255)     
-#  description :text            
-#  color       :string(255)     
-#  event_id    :integer(4)      
-#  created_at  :datetime        
-#  updated_at  :datetime        
-#  excerpt     :text            
+#  id          :integer          not null, primary key
+#  title       :string(255)
+#  description :text
+#  color       :string(255)
+#  event_id    :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  excerpt     :text
 #
 
 class Track < ActiveRecord::Base

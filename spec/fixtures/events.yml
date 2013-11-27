@@ -1,15 +1,26 @@
 # == Schema Information
-# Schema version: 20081213032512
 #
 # Table name: events
 #
-#  id          :integer         not null, primary key
-#  title       :string(255)
-#  deadline    :datetime
-#  open_text   :text
-#  closed_text :text
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id                                      :integer          not null, primary key
+#  title                                   :string(255)
+#  deadline                                :datetime
+#  open_text                               :text
+#  closed_text                             :text
+#  created_at                              :datetime
+#  updated_at                              :datetime
+#  proposal_status_published               :boolean          default(FALSE), not null
+#  session_text                            :text
+#  tracks_text                             :text
+#  start_date                              :datetime
+#  end_date                                :datetime
+#  accept_proposal_comments_after_deadline :boolean          default(FALSE)
+#  slug                                    :string(255)
+#  schedule_published                      :boolean          default(FALSE)
+#  parent_id                               :integer
+#  proposal_titles_locked                  :boolean          default(FALSE)
+#  accept_selector_votes                   :boolean          default(FALSE)
+#  show_proposal_confirmation_controls     :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

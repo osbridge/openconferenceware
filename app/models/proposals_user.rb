@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: proposals_users
 #
-#  proposal_id :integer(4)      
-#  user_id     :integer(4)      
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  proposal_id :integer
+#  user_id     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class ProposalsUser < ActiveRecord::Base

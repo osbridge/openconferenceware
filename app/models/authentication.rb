@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: authentications
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  provider   :string(255)
+#  uid        :string(255)
+#  name       :string(255)
+#  email      :string(255)
+#  info       :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Authentication < ActiveRecord::Base
   belongs_to :user
   attr_accessible :email, :info, :name, :provider, :uid

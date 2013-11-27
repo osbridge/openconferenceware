@@ -1,15 +1,14 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: session_types
 #
-#  id          :integer(4)      not null, primary key
-#  title       :string(255)     
-#  description :text            
-#  duration    :integer(4)      
-#  event_id    :integer(4)      
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  id          :integer          not null, primary key
+#  title       :string(255)
+#  description :text
+#  duration    :integer
+#  event_id    :integer
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class SessionType < ActiveRecord::Base

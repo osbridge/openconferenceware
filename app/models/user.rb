@@ -1,32 +1,26 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: users
 #
-#  id                        :integer(4)      not null, primary key
-#  login                     :string(255)
-#  email                     :string(255)
-#  crypted_password          :string(40)
-#  salt                      :string(40)
-#  admin                     :boolean(1)
-#  created_at                :datetime
-#  updated_at                :datetime
-#  remember_token            :string(255)
-#  remember_token_expires_at :datetime
-#  using_openid              :boolean(1)
-#  affiliation               :string(128)
-#  biography                 :text
-#  website                   :string(1024)
-#  complete_profile          :boolean(1)
-#  photo_file_name           :string(255)
-#  photo_content_type        :string(255)
-#  photo_file_size           :integer(4)
-#  first_name                :string(255)
-#  last_name                 :string(255)
-#  blog_url                  :string(255)
-#  identica                  :string(255)
-#  twitter                   :string(255)
-#  selector                  :boolean(1)
+#  id                 :integer          not null, primary key
+#  email              :string(255)
+#  salt               :string(40)
+#  admin              :boolean          default(FALSE)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  affiliation        :string(128)
+#  biography          :text
+#  website            :string(1024)
+#  complete_profile   :boolean
+#  photo_file_name    :string(255)
+#  photo_content_type :string(255)
+#  photo_file_size    :integer
+#  first_name         :string(255)
+#  last_name          :string(255)
+#  blog_url           :string(255)
+#  identica           :string(255)
+#  twitter            :string(255)
+#  selector           :boolean          default(FALSE)
 #
 
 require 'digest/sha1'

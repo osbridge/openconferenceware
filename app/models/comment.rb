@@ -1,15 +1,14 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: comments
 #
-#  id          :integer(4)      not null, primary key
-#  name        :string(255)     
-#  email       :string(255)     
-#  message     :text            
-#  proposal_id :integer(4)      
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  email       :string(255)
+#  message     :text
+#  proposal_id :integer
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class Comment < ActiveRecord::Base

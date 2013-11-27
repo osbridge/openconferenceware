@@ -1,21 +1,20 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: rooms
 #
-#  id                    :integer(4)      not null, primary key
-#  name                  :string(255)     not null
-#  capacity              :integer(4)      
-#  size                  :string(255)     
-#  seating_configuration :string(255)     
-#  description           :text            
-#  event_id              :integer(4)      
-#  created_at            :datetime        
-#  updated_at            :datetime        
-#  image_file_name       :string(255)     
-#  image_content_type    :string(255)     
-#  image_file_size       :integer(4)      
-#  image_updated_at      :datetime        
+#  id                    :integer          not null, primary key
+#  name                  :string(255)      not null
+#  capacity              :integer
+#  size                  :string(255)
+#  seating_configuration :string(255)
+#  description           :text
+#  event_id              :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  image_file_name       :string(255)
+#  image_content_type    :string(255)
+#  image_file_size       :integer
+#  image_updated_at      :datetime
 #
 
 class Room < ActiveRecord::Base

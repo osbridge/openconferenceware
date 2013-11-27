@@ -1,16 +1,15 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: snippets
 #
-#  id          :integer(4)      not null, primary key
-#  slug        :string(255)     not null
-#  description :text            default(""), not null
-#  content     :text            
-#  value       :integer(4)      
-#  public      :boolean(1)      default(TRUE)
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  id          :integer          not null, primary key
+#  slug        :string(255)      not null
+#  description :text             default(""), not null
+#  content     :text
+#  value       :integer
+#  public      :boolean          default(TRUE)
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class Snippet < ActiveRecord::Base
