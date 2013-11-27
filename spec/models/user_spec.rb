@@ -10,11 +10,6 @@ describe User do
       User.get(@user).should == @user
     end
 
-    it "should return a user instance for the given login symbol" do
-      User.should_receive(:find_by_login).with("mykey").and_return(@user)
-      User.get(:mykey).should == @user
-    end
-
     it "should return a user instance for the given id string" do
       User.should_receive(:find).with(42).and_return(@user)
       User.get("42").should == @user
@@ -98,59 +93,6 @@ describe User do
       User.find_first_non_admin.should be_nil
     end
 
-  end
-
-  describe "remember_token" do
-    before do
-      @user1 = User.create_from_openid!('http://foo', {})
-      @user1.remember_me
-
-      @user2 = User.create_from_openid!('http://bar', {})
-      @user2.remember_me
-    end
-
-    it "should have a salt" do
-      @user1.salt.should_not be_blank
-      @user2.salt.should_not be_blank
-    end
-
-    it "should have a unique salt" do
-      @user1.salt.should_not == @user2.salt
-    end
-
-    it "should have a remember token" do
-      @user1.remember_token.should_not be_blank
-      @user2.remember_token.should_not be_blank
-    end
-
-    it "should have a unique remember token" do
-      @user1.remember_token.should_not == @user2.remember_token
-    end
-  end
-
-  describe "when creating a passworded account" do
-    before do
-      @password = 'mysecretpassword'
-      @user = Factory.build(:user, :email => 'foo@bar.com', :password => @password, :password_confirmation => @password)
-      @user.login = 'foo'
-      @user.save!
-    end
-
-    it "should exist" do
-      @user.id.should_not be_blank
-    end
-
-    it "should have an crypted password" do
-      @user.crypted_password.should_not be_blank
-    end
-
-    it "should have a salt" do
-      @user.salt.should_not be_blank
-    end
-
-    it "should authenticate with a password" do
-      @user.authenticated?(@password).should be_true
-    end
   end
 
   context "created from an authentication" do

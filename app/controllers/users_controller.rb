@@ -37,8 +37,6 @@ class UsersController < ApplicationController
     @user = User.new
     @user.assign_attributes(params[:user].slice(*User.accessible_attributes))
 
-    @user.login = params[:user][:login]
-
     @user.save!
     self.current_user = @user
     redirect_back_or_default('/')

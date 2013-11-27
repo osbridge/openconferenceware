@@ -579,7 +579,7 @@ describe ProposalsController do
 
         it "should assign presenter if logged in" do
           user = users(:quentin)
-          login_as(user.login)
+          login_as(user)
           get :new, :event_id => events(:open).slug
 
           response.should be_success

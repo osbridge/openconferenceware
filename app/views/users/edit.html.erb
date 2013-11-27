@@ -14,10 +14,6 @@
     <div class="checkbox">
       <label><%= f.check_box :complete_profile %> Complete profile?</label>
     </div>
-    <div class="form-group">
-      <label>Login</label>
-      <%= f.text_field :login, :class => "form-control" %>
-    </div>
   <% end %>
   <% if admin? || can_edit?(@user) %>
     <div class="form-group">
