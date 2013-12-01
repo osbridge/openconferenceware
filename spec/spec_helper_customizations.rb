@@ -10,9 +10,9 @@ SETTINGS.marshal_load(SettingsReader.read('spec/settings.yml').marshal_dump)
 
 include AuthenticatedTestHelper
 
-# Load factory girl and all her factories in 'spec/factories/':
 require 'factory_girl'
 require 'database_cleaner'
+require 'capybara/rspec'
 
 OmniAuth.config.add_mock(:open_id, {uid: 'http://openconferenceware.org'})
 
