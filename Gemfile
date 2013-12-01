@@ -21,8 +21,6 @@ gem 'omniauth-persona'
 # Selectively-loaded:
 gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
 gem 'right_aws',    '~> 1.0',   :require => false # For paperclip
-gem 'ruby-openid',  '~> 2.1.0', :require => false # For open_id_authentication
-gem 'rack-openid',  '~> 1.3.1', :require => false # For open_id_authentication
 gem 'rwikibot',     '= 2.0.6',  :require => false,
                                 :git => 'git://github.com/reidab/rwikibot.git'
 
