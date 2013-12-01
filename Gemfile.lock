@@ -206,7 +206,6 @@ GEM
       thor (>= 0.14.6, < 2.0)
     rake (10.1.0)
     rbx-require-relative (0.0.9)
-    rcov (1.0.0)
     rdoc (3.12.2)
       json (~> 1.4)
     rest-client (1.6.7)
@@ -300,7 +299,6 @@ DEPENDENCIES
   pry
   rails (~> 3.2.0)
   rake
-  rcov
   rinku
   rspec-rails
   ruby-debug

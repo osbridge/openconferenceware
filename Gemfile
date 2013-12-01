@@ -39,10 +39,6 @@ gem 'memcache-client'
 gem "dynamic_form"
 gem 'rinku', :require => 'rails_rinku'
 
-platform :mri_18 do
-  gem 'fastercsv',           '~> 1.5.3'
-end
-
 group :production do
   gem 'exception_notification'
 end
@@ -56,12 +52,7 @@ group :development do
   gem 'capistrano',     :require => false
   gem 'capistrano-ext', :require => false
 
-  platform :mri_18 do
-    gem 'ruby-debug'
-    gem 'ruby18_source_location'
-  end
-
-  gem 'debugger', :platforms => [:ruby_19, :ruby_20]
+  gem 'debugger'
 
   gem 'pry'
 end
@@ -73,11 +64,7 @@ group :test do
   gem 'launchy'
   gem 'capybara', '~> 2.0.0'
 
-  platform :ruby_18 do
-    gem 'rcov', :require => false
-  end
-
-  gem 'simplecov',     :require => false, :platforms => [:ruby_19, :ruby_20]
-  gem 'cadre',         :require => false, :platforms => [:ruby_19, :ruby_20]
-  gem 'coveralls',     :require => false, :platforms => [:ruby_19, :ruby_20]
+  gem 'simplecov',     :require => false
+  gem 'cadre',         :require => false
+  gem 'coveralls',     :require => false
 end
