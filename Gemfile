@@ -11,8 +11,8 @@ gem 'rails', '~> 3.2.0'
 
 # Database driver
 gem 'sqlite3', :require => false
-# gem 'mysql2',  :require => false
-# gem 'pg',      :require => false
+gem 'mysql2',  :require => false
+gem 'pg',      :require => false
 
 # Authentication
 gem 'omniauth-openid'

@@ -6,11 +6,7 @@ The current master branch is under active development, as part of an ongoing eff
 
 Although this branch is in flux, we recommend it as a starting point for any new OCW deployments. The alternative is to use the [legacy](https://github.com/osbridge/openconferenceware/tree/legacy) branch, which is based on Rails 2.1.2 and is much trickier to work with.
 
-While we undertake this work, the Gemfile loads the `sqlite3` the database adapter
-and has `mysql2` and `pg` commented out. We support all of these databases, and
-are testing them on CI, so if you'd like to use a database other than
-sqlite, you'll want to maintain a branch with a modified gemfile and
-merge changes to master into your branch in order to keep up-to-date.
+While we undertake this work, the Gemfile loads all three of our supported database adapters: `sqlite3`, `mysql2` and `pg`. Feel free to comment out the adapters that you're not using.
 
 ### Current Build Status
 
