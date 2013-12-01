@@ -12,13 +12,28 @@ include AuthenticatedTestHelper
 
 # Load factory girl and all her factories in 'spec/factories/':
 require 'factory_girl'
+require 'database_cleaner'
+
+OmniAuth.config.add_mock(:open_id, {uid: 'http://openconferenceware.org'})
 
 # rspec
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
-end
 
-OmniAuth.config.add_mock(:open_id, {uid: 'http://openconferenceware.org'})
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
+end
 
 #---[ Functions ]-------------------------------------------------------
 
