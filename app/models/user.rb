@@ -160,6 +160,8 @@ class User < ActiveRecord::Base
   #---[ PaperClip avatar images ]-----------------------------------------
 
   has_attached_file :photo,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename",
     :styles => {
       :profile => '200x400>',
       :avatar => '48x48#'

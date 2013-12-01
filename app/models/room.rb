@@ -38,6 +38,8 @@ class Room < ActiveRecord::Base
 
   # Image Attachment
   has_attached_file :image,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename",
     :styles => {
       :large => "650>",
       :medium => "350>",
