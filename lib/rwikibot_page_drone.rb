@@ -1,4 +1,4 @@
-require 'hpricot'
+require 'nokogiri'
 require 'rwikibot'
 
 class RwikibotPageDrone
@@ -42,12 +42,12 @@ class RwikibotPageDrone
   end
 
   def replace_span(identifier, string)
-    doc = Hpricot(self.content)
-    element = doc.search("//##{identifier}")
+    doc = Nokogiri::HTML(self.content)
+    element = doc.css("span##{identifier}")
     if element.size == 0
       self.append(%{<span id="#{identifier}">#{string}</span>})
     else
-      element.html = string
+      element.to_html = string
       self.content = doc.to_s
     end
   end

@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'hpricot'
+require 'nokogiri'
 
 describe DisplayLinkToHelper do
   def elem_for(*args)
-    return Hpricot(helper.display_link_to(*args)).root
+    return Nokogiri::HTML::DocumentFragment.parse(helper.display_link_to(*args)).children.first
   end
 
   describe "when creating link" do
@@ -19,7 +19,7 @@ describe DisplayLinkToHelper do
       url = "<evil>&</evil>"
       elem = elem_for(url)
 
-      elem.to_original_html.should =~ %r{<a href=\"&lt;evil&gt;&amp;&lt;/evil&gt;\"}
+      elem.to_html.should =~ %r{<a href=\"&lt;evil&gt;&amp;&lt;/evil&gt;\"}
       elem.inner_html.should_not == url
       elem.inner_html.should == "&lt;evil&gt;&amp;&lt;/evil&gt;"
     end
