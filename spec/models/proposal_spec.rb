@@ -321,8 +321,8 @@ describe Proposal do
     end
 
     it "should skip items without a start time" do
-      event = Factory :populated_event
-      item = Factory :schedule_item, :start_time => nil, :duration => nil
+      event = create :populated_event
+      item = create :schedule_item, :start_time => nil, :duration => nil
 
       data = Proposal.to_icalendar([item])
       calendar = Vpim::Icalendar.decode(data).first
@@ -331,8 +331,8 @@ describe Proposal do
     end
 
     it "should not raise exceptions if nil duration" do
-      event = Factory :populated_event
-      item = Factory :schedule_item, :duration => nil
+      event = create :populated_event
+      item = create :schedule_item, :duration => nil
 
       data = Proposal.to_icalendar([item])
       calendar = Vpim::Icalendar.decode(data).first
@@ -447,32 +447,32 @@ describe Proposal do
 
   describe "is a proposal related to an event?" do
     it "should be related to its own event" do
-      event = Factory :populated_event
+      event = create :populated_event
       proposal = proposal_for_event(event)
 
       proposal.related_to_event?(proposal.event).should be_true
     end
 
     it "should be related to its own event's parent" do
-      parent = Factory :populated_event
-      event = Factory :populated_event, :parent => parent
+      parent = create :populated_event
+      event = create :populated_event, :parent => parent
       proposal = proposal_for_event(event)
 
       proposal.related_to_event?(event).should be_true
     end
 
     it "should be related to its own event's parent's children" do
-      event = Factory :populated_event
-      child = Factory :populated_event, :parent => event
+      event = create :populated_event
+      child = create :populated_event, :parent => event
       proposal = proposal_for_event(event)
 
       proposal.related_to_event?(event).should be_true
     end
 
     it "should not be related to an unrelated event" do
-      event = Factory :populated_event
+      event = create :populated_event
       proposal = proposal_for_event(event)
-      unrelated = Factory :populated_event
+      unrelated = create :populated_event
 
       proposal.related_to_event?(unrelated).should be_false
     end
@@ -480,7 +480,7 @@ describe Proposal do
 
   describe "traversal" do
     before(:each) do
-      @event = Factory :populated_event
+      @event = create :populated_event
       @event.proposals.destroy_all
       @proposal1 = proposal_for_event(@event)
       @proposal2 = proposal_for_event(@event)
@@ -575,6 +575,6 @@ private
       :track => mock_model(Track),
       :session_type => mock_model(SessionType)
     }
-    Factory.build(:proposal, valid_attr.merge(attr))
+    build(:proposal, valid_attr.merge(attr))
   end
 end

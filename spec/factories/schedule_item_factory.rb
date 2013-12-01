@@ -1,11 +1,13 @@
-Factory.define :schedule_item do |f|
-  f.sequence(:title) { |n| "ScheduleItem #{n}" }
-  f.excerpt "My schedule item description"
-  f.description "My schedule item description"
-  f.start_time { Time.now }
-  f.duration   45
+FactoryGirl.define do
+  factory :schedule_item do
+    sequence(:title) { |n| "ScheduleItem #{n}" }
+    excerpt "My schedule item description"
+    description "My schedule item description"
+    start_time { Time.now }
+    duration   45
 
-  # :belongs_to associations:
-  # * :event
-  # * :room
+    # :belongs_to associations:
+    # * :event
+    # * :room
+  end
 end

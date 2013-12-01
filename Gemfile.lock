@@ -110,11 +110,13 @@ GEM
     exception_notification (4.0.0)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
-    factory_girl (2.6.4)
-      activesupport (>= 2.3.9)
+    factory_girl (4.3.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.3.0)
+      factory_girl (~> 4.3.0)
+      railties (>= 3.0.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
-    fastercsv (1.5.5)
     ffi (1.9.0)
     gchartrb (0.8)
     gherkin (2.12.1)
@@ -123,15 +125,11 @@ GEM
     hashie (2.0.5)
     highline (1.6.19)
     hike (1.2.3)
-    hoe (3.7.1)
-      rake (>= 0.8, < 11.0)
     i18n (0.6.5)
     journey (1.0.4)
     json (1.8.1)
     launchy (2.3.0)
       addressable (~> 2.3)
-    linecache (0.46)
-      rbx-require-relative (> 0.0.4)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -205,7 +203,6 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (10.1.0)
-    rbx-require-relative (0.0.9)
     rdoc (3.12.2)
       json (~> 1.4)
     rest-client (1.6.7)
@@ -222,14 +219,8 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    ruby-debug (0.10.4)
-      columnize (>= 0.1)
-      ruby-debug-base (~> 0.10.4.0)
-    ruby-debug-base (0.10.4)
-      linecache (>= 0.3)
     ruby-openid (2.1.8)
     ruby-rc4 (0.1.5)
-    ruby18_source_location (0.2)
     rubyzip (0.9.9)
     selenium-webdriver (2.35.1)
       childprocess (>= 0.2.5)
@@ -249,8 +240,6 @@ GEM
     sqlite3 (1.3.7)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
-    test-unit (1.2.3)
-      hoe (>= 1.5.1)
     thor (0.18.1)
     tilt (1.4.1)
     tins (0.9.0)
@@ -281,12 +270,11 @@ DEPENDENCIES
   comma (~> 3.0)
   coveralls
   cucumber-rails
-  database_cleaner (~> 0.4.3)
+  database_cleaner
   debugger
   dynamic_form
   exception_notification
-  factory_girl (= 2.6.4)
-  fastercsv (~> 1.5.3)
+  factory_girl_rails
   gchartrb (~> 0.8.0)
   hashery
   launchy
@@ -301,10 +289,7 @@ DEPENDENCIES
   rake
   rinku
   rspec-rails
-  ruby-debug
-  ruby18_source_location
   rwikibot (= 2.0.6)!
   simplecov
   sqlite3
-  test-unit (~> 1.2.3)
   vpim-rails!

@@ -45,7 +45,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'factory_girl', '2.6.4'
+  gem 'factory_girl_rails'
 end
 
 group :development do
@@ -58,9 +58,8 @@ group :development do
 end
 
 group :test do
-  gem 'test-unit',        '~> 1.2.3', :require => false
-  gem 'database_cleaner', '~> 0.4.3', :require => false
-  gem 'cucumber-rails',               :require => false
+  gem 'database_cleaner', :require => false
+  gem 'cucumber-rails',   :require => false
   gem 'launchy'
   gem 'capybara', '~> 2.0.0'
 

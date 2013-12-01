@@ -4,10 +4,10 @@ describe "selector_votes/index.html.erb" do
   include SelectorVotesHelper
 
   before(:each) do
-    @user1 = Factory :selector
-    @user2 = Factory :selector
+    @user1 = create :selector
+    @user2 = create :selector
 
-    @event = Factory :populated_event
+    @event = create :populated_event
 
     @proposal1 = proposal_for_event(@event)
     @proposal2 = proposal_for_event(@event)

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ProposalsHelper do
   describe "traversal" do
     before do
-      @event = Factory :populated_event
+      @event = create :populated_event
       @proposal1 = proposal_for_event(@event)
       @proposal2 = proposal_for_event(@event)
     end

@@ -214,31 +214,31 @@ describe Schedule do
       @user2 = stub_model(User)
 
       # Same time and room
-      @item1 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time1)
+      @item1 = build(:proposal, :room => @room1, :start_time => @time1)
       @item1.stub(:end_time => @time2)
-      @item2 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time1)
+      @item2 = build(:proposal, :room => @room1, :start_time => @time1)
       @item2.stub(:end_time => @time2)
 
       # Same time, different room
-      @item3 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time1)
+      @item3 = build(:proposal, :room => @room2, :start_time => @time1)
       @item3.stub(:end_time => @time2)
 
       # Different time, same room
-      @item4 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time3)
+      @item4 = build(:proposal, :room => @room1, :start_time => @time3)
       @item4.stub(:end_time => @time4)
 
       # Same time and speaker
-      @item5 = FactoryGirl.build(:proposal, :room => @room1, :start_time => @time1, :users => [@user1])
+      @item5 = build(:proposal, :room => @room1, :start_time => @time1, :users => [@user1])
       @item5.stub(:end_time => @time2)
-      @item6 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time1, :users => [@user1])
+      @item6 = build(:proposal, :room => @room2, :start_time => @time1, :users => [@user1])
       @item6.stub(:end_time => @time2)
 
       # Same time, different speaker
-      @item7 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time1, :users => [@user2])
+      @item7 = build(:proposal, :room => @room2, :start_time => @time1, :users => [@user2])
       @item7.stub(:end_time => @time2)
 
       # Different time and speaker
-      @item8 = FactoryGirl.build(:proposal, :room => @room2, :start_time => @time3, :users => [@user2])
+      @item8 = build(:proposal, :room => @room2, :start_time => @time3, :users => [@user2])
       @item8.stub(:end_time => @time8)
 
       # User associations

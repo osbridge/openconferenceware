@@ -1,5 +1,7 @@
-Factory.define :proposal_user do |f|
-  # :belongs_to associations:
-  # * :proposal
-  # * :user
+FactoryGirl.define do
+  factory :proposal_user do
+    # :belongs_to associations:
+    # * :proposal
+    # * :user
+  end
 end

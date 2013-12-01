@@ -20,10 +20,10 @@ describe AuthenticationsController do
 
     context "with an auth hash" do
       context "matching an existing User's Authentication" do
-        let(:existing_user)  { Factory.create(:user) }
-        let(:authentication) { Factory.create(:authentication,
-                                              :provider => 'existing',
-                                              :user => existing_user) }
+        let(:existing_user)  { create(:user) }
+        let(:authentication) { create(:authentication,
+                                      :provider => 'existing',
+                                      :user => existing_user) }
 
         before do
           OmniAuth.config.add_mock(:existing, {:uid => authentication.uid})
@@ -42,7 +42,7 @@ describe AuthenticationsController do
         end
 
         context "when already signed in" do
-          before { login_as(Factory.create(:user)) }
+          before { login_as(create(:user)) }
           before { get :create }
           include_examples "signs the user in"
         end
@@ -50,7 +50,7 @@ describe AuthenticationsController do
 
       describe "containing an unknown UID" do
         describe "when already signed in" do
-          let(:logged_in_user) { Factory.create(:user) }
+          let(:logged_in_user) { create(:user) }
           let(:uid)            { "logged-in:#{Time.now.to_i}" }
 
           before do

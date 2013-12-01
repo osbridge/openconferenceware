@@ -6,7 +6,7 @@ describe RoomsController do
   
   before do
     @event = stub_current_event!(:event => events(:open))
-    @room = Factory.create(:room, :event => @event)
+    @room = create(:room, :event => @event)
   end
     
   describe "responding to GET index" do

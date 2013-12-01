@@ -6,7 +6,7 @@ describe SessionTypesController do
 
   before do
     @event = stub_current_event!(:event => events(:open))
-    @session_type = Factory.create(:session_type, :event => @event)
+    @session_type = create(:session_type, :event => @event)
   end
     
   describe "responding to GET index" do

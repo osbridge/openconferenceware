@@ -24,7 +24,7 @@ describe SelectorVotesController do
 
     describe "when logged in as non-selector" do
       before do
-        @user = Factory :user, :selector => false
+        @user = create( :user, :selector => false )
         login_as @user
 
         SelectorVote.should_not_receive(:find)
@@ -42,7 +42,7 @@ describe SelectorVotesController do
       before do
         Event.destroy_all # Previous tests may have left an event behind
 
-        @user = Factory :selector
+        @user = create :selector
         login_as @user
       end
 
@@ -62,10 +62,10 @@ describe SelectorVotesController do
 
       describe "with an event" do
         before do
-          @user1 = Factory :selector
-          @user2 = Factory :selector
+          @user1 = create :selector
+          @user2 = create :selector
 
-          @event = Factory :populated_event
+          @event = create :populated_event
 
           @proposal1 = proposal_for_event(@event)
           @proposal2 = proposal_for_event(@event)
@@ -175,7 +175,7 @@ describe SelectorVotesController do
 
     describe "when logged in as non-selector" do
       before do
-        @user = Factory :user, :selector => false
+        @user = create :user, :selector => false
         login_as @user
       end
 
@@ -193,10 +193,10 @@ describe SelectorVotesController do
     describe "when logged in as member of selection comittee" do
 
       before do
-        @user = Factory :user, :selector => true
+        @user = create :user, :selector => true
         login_as @user
 
-        @event = Factory :populated_event
+        @event = create :populated_event
         @proposal1 = proposal_for_event(@event)
         @proposal2 = proposal_for_event(@event)
       end

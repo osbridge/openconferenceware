@@ -589,10 +589,10 @@ describe ProposalsController do
 
         describe "when an event can have tracks" do
           it "should assign a track if there's only one" do
-            event = Factory(:event)
-            event.session_types << Factory.build(:session_type)
-            track = Factory(:track, :event => event)
-            user = Factory(:user)
+            event = create(:event)
+            event.session_types << build(:session_type)
+            track = create(:track, :event => event)
+            user = create(:user)
             login_as(user)
 
             get :new, :event_id => event.slug
@@ -602,11 +602,11 @@ describe ProposalsController do
           end
 
           it "should not assign a track if there's more than one" do
-            event = Factory(:event)
-            event.session_types << Factory.build(:session_type)
-            track1 = Factory(:track, :event => event)
-            track2 = Factory(:track, :event => event)
-            user = Factory(:user)
+            event = create(:event)
+            event.session_types << build(:session_type)
+            track1 = create(:track, :event => event)
+            track2 = create(:track, :event => event)
+            user = create(:user)
             login_as(user)
 
             get :new, :event_id => event.slug
@@ -618,10 +618,10 @@ describe ProposalsController do
 
         describe "when event can have session types" do
           it "should assign a session type if there's only one" do
-            event = Factory(:event)
-            event.tracks << Factory.build(:track)
-            session_type = Factory(:session_type, :event => event)
-            user = Factory(:user)
+            event = create(:event)
+            event.tracks << build(:track)
+            session_type = create(:session_type, :event => event)
+            user = create(:user)
             login_as(user)
 
             get :new, :event_id => event.slug
@@ -630,11 +630,11 @@ describe ProposalsController do
           end
 
           it "should not assign a session type if there's more than one" do
-            event = Factory(:event)
-            event.tracks << Factory.build(:track)
-            session_type1 = Factory(:session_type, :event => event)
-            session_type2 = Factory(:session_type, :event => event)
-            user = Factory(:user)
+            event = create(:event)
+            event.tracks << build(:track)
+            session_type1 = create(:session_type, :event => event)
+            session_type2 = create(:session_type, :event => event)
+            user = create(:user)
             login_as(user)
 
             get :new, :event_id => event.slug

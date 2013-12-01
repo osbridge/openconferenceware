@@ -37,7 +37,7 @@ describe Authentication do
 
     describe "when an existing Authentication record exists" do
       before do
-        @existing = Factory.create(:authentication)
+        @existing = create(:authentication)
         @auth_hash = OmniAuth::AuthHash.new(
           'provider' => @existing.provider,
           'uid' => @existing.uid,

@@ -50,8 +50,8 @@ describe CacheLookupsMixin do
       Event.stub(:cache_lookups? => true)
       CacheWatcher.expire
 
-      @event1 = Factory :event
-      @event2 = Factory :event
+      @event1 = create :event
+      @event2 = create :event
 
       @events = [@event1, @event2]
       @event  = @event1
@@ -91,7 +91,7 @@ describe CacheLookupsMixin do
 
     describe 'current event' do
       before do
-        @event = Factory :event
+        @event = create :event
       end
 
       describe 'when caching' do

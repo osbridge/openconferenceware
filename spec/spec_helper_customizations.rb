@@ -12,7 +12,11 @@ include AuthenticatedTestHelper
 
 # Load factory girl and all her factories in 'spec/factories/':
 require 'factory_girl'
-Dir["#{Rails.root}/spec/factories/*.rb"].each{|filename| require filename}
+
+# rspec
+RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+end
 
 OmniAuth.config.add_mock(:open_id, {:uid => 'http://openconferenceware.org'})
 

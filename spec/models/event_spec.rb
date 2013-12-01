@@ -76,7 +76,7 @@ describe Event do
     it "should return range between start_date and end_date" do
       start_date = Time.now.utc.to_date + 1.week
       end_date   = Time.now.utc.to_date + 2.weeks
-      event = Factory.build(:event, :start_date => start_date, :end_date => end_date)
+      event = build(:event, :start_date => start_date, :end_date => end_date)
 
       event.dates.should == Array(start_date..end_date)
     end
@@ -86,24 +86,24 @@ describe Event do
     end
 
     it "should return empty array if no start_date" do
-      Factory.build(:event, :start_date => nil).dates.should == []
+      build(:event, :start_date => nil).dates.should == []
     end
 
     it "should return empty array if no end_date" do
-      Factory.build(:event, :end_date => nil).dates.should == []
+      build(:event, :end_date => nil).dates.should == []
     end
   end
 
   describe "#parent_or_self" do
     it "should find a parent when there is one" do
-      parent = Factory.create(:event, :title => "Mommy!", :slug => "mommy", :open_text => "Open!", :closed_text => "Closed!")
-      child  = Factory.create(:event, :title => "Baby!",  :slug => "baby",  :open_text => "Open!", :closed_text => "Closed!", :parent => parent)
+      parent = create(:event, :title => "Mommy!", :slug => "mommy", :open_text => "Open!", :closed_text => "Closed!")
+      child  = create(:event, :title => "Baby!",  :slug => "baby",  :open_text => "Open!", :closed_text => "Closed!", :parent => parent)
 
       child.parent_or_self.should == parent
     end
 
     it "should find self when there's no parent" do
-      event = Factory.create(:event, :title => "Event!", :slug => "event", :open_text => "Open!", :closed_text => "Closed!")
+      event = create(:event, :title => "Event!", :slug => "event", :open_text => "Open!", :closed_text => "Closed!")
 
       event.parent_or_self.should == event
     end
@@ -113,10 +113,10 @@ describe Event do
     before :each do
       Event.destroy_all
 
-      @parent    = Factory :populated_event
-      @event     = Factory :populated_event, :parent => @parent
-      @child     = Factory :populated_event, :parent => @event
-      @unrelated = Factory :populated_event
+      @parent    = create :populated_event
+      @event     = create :populated_event, :parent => @parent
+      @child     = create :populated_event, :parent => @event
+      @unrelated = create :populated_event
 
       @event_proposal     = proposal_for_event @event
       @parent_proposal    = proposal_for_event @parent
@@ -149,11 +149,11 @@ describe Event do
 
   describe "#descendents" do
     before :each do
-      @parent     = Factory :populated_event
-      @event      = Factory :populated_event, :parent => @parent
-      @child      = Factory :populated_event, :parent => @event
-      @grandchild = Factory :populated_event, :parent => @child
-      @unrelated  = Factory :populated_event
+      @parent     = create :populated_event
+      @event      = create :populated_event, :parent => @parent
+      @child      = create :populated_event, :parent => @event
+      @grandchild = create :populated_event, :parent => @child
+      @unrelated  = create :populated_event
 
       @descendents = @event.descendents
     end
@@ -177,12 +177,12 @@ describe Event do
 
   describe "#family" do
     before :each do
-      @parent     = Factory :populated_event
-      @stepchild  = Factory :populated_event, :parent => @parent
-      @event      = Factory :populated_event, :parent => @parent
-      @child      = Factory :populated_event, :parent => @event
-      @grandchild = Factory :populated_event, :parent => @child
-      @unrelated  = Factory :populated_event
+      @parent     = create :populated_event
+      @stepchild  = create :populated_event, :parent => @parent
+      @event      = create :populated_event, :parent => @parent
+      @child      = create :populated_event, :parent => @event
+      @grandchild = create :populated_event, :parent => @child
+      @unrelated  = create :populated_event
 
       @family = @event.family
     end

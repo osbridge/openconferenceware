@@ -7,7 +7,7 @@ describe TracksController do
   before do
     @event = stub_current_event!(:event => events(:open))
     @controller.stub(:assign_events => [])
-    @track = Factory.create(:track, :event => @event)
+    @track = create(:track, :event => @event)
   end
     
   describe "responding to GET index" do

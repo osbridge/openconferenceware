@@ -2,9 +2,9 @@
 # rooms. Accepts an optional +opts+ which is passed to the :proposal factory.
 #
 # Example:
-#   event = Factory :populated_event
+#   event = create :populated_event
 #   proposal = proposal_for_event(event)
-#   proposal2 = proposal_for_event(event, :user => (Factory :user))
+#   proposal2 = proposal_for_event(event, :user => (create :user))
 def proposal_for_event(event, opts={})
   options = {
     :event => event,
@@ -13,13 +13,13 @@ def proposal_for_event(event, opts={})
     :room => event.rooms.first
   }.merge(opts)
 
-  return Factory :proposal, options
+  return create :proposal, options
 end
 
 def session_for_event(event, opts={})
   proposal = proposal_for_event(event, opts)
   proposal.status = "confirmed"
-  proposal.users << Factory(:user) if opts[:users].nil?
+  proposal.users << create(:user) if opts[:users].nil?
   proposal.save!
   return proposal
 end
@@ -34,8 +34,8 @@ FactoryGirl.define do
     user_id nil
     presenter "Presenter name"
     affiliation "My affiliation"
-    email { Factory.next(:email) }
-    website { Factory.next(:website) }
+    email
+    website
     biography "My biography"
     sequence(:title) { |n| "Proposal #{n}" }
     description "My proposal description"

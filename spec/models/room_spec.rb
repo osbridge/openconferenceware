@@ -9,6 +9,6 @@ describe Room do
   end
 
   it "should create a new instance given valid attributes" do
-    Factory.create(:room, @valid_attributes)
+    create(:room, @valid_attributes)
   end
 end
