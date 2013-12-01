@@ -6,7 +6,7 @@ describe "proposals/show.html.erb" do
   end
   
   before :each do
-    @user = create :user
+    @user = build :user
     @event = create :populated_event, :proposal_status_published => false
     @proposal = proposal_for_event(@event, :users => [@user])
 
@@ -105,7 +105,7 @@ describe "proposals/show.html.erb" do
   end
 
   it "should only show proposals in the speaker's bio that are for this event and its family" do
-    user = create :user
+    user = build :user
     parent = create :populated_event, :proposal_status_published => true
     event  = create :populated_event, :proposal_status_published => true, :parent => parent
     child  = create :populated_event, :proposal_status_published => true, :parent => event

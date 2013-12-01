@@ -8,7 +8,7 @@ describe Room do
     }
   end
 
-  it "should create a new instance given valid attributes" do
-    create(:room, @valid_attributes)
+  it "should build a valid new instance given valid attributes" do
+    build(:room, @valid_attributes).should be_valid
   end
 end

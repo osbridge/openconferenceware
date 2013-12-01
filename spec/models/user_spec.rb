@@ -64,7 +64,7 @@ describe User do
   end
 
   context "created from an authentication" do
-    let(:authentication) { create(:authentication) }
+    let(:authentication) { build(:authentication) }
     subject(:user) { User.create_from_authentication(authentication) }
 
     it { expect(user).to be_valid }

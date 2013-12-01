@@ -4,18 +4,18 @@ describe "selector_votes/index.html.erb" do
   include SelectorVotesHelper
 
   before(:each) do
-    @user1 = create :selector
-    @user2 = create :selector
+    @user1 = build :selector
+    @user2 = build :selector
 
     @event = create :populated_event
 
     @proposal1 = proposal_for_event(@event)
     @proposal2 = proposal_for_event(@event)
 
-    @selector_vote1 = @proposal1.selector_votes.create :user => @user1, :rating => 1, :comment => "Meh."
-    @selector_vote2 = @proposal1.selector_votes.create :user => @user2, :rating => 5, :comment => "Yay!"
+    @selector_vote1 = @proposal1.selector_votes.build :user => @user1, :rating => 1, :comment => "Meh."
+    @selector_vote2 = @proposal1.selector_votes.build :user => @user2, :rating => 5, :comment => "Yay!"
 
-    @comment1 = @proposal1.comments.create :email => "foo@.bar.com", :message => "Hi!"
+    @comment1 = @proposal1.comments.build :email => "foo@.bar.com", :message => "Hi!"
 
     assign(:event, @event)
     assign(:proposals, [@proposal1, @proposal2])

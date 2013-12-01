@@ -13,8 +13,8 @@ describe Track do
     }
   end
 
-  it "should create a new instance given valid attributes" do
-    create(:track, @valid_attributes)
+  it "should build a new instance given valid attributes" do
+    build(:track, @valid_attributes).should be_valid
   end
 
   it "should not be valid without an event" do
