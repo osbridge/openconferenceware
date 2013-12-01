@@ -93,7 +93,7 @@ class Manage::SnippetsController < ApplicationController
     @snippet.destroy
 
     respond_to do |format|
-      format.html { redirect_to(manage_snippets_path) }
+      format.html { redirect_to manage_snippets_path, :flash => {:success => "Snippet was deleted."} }
       format.xml  { head :ok }
     end
   end

@@ -18,7 +18,8 @@ class Snippet < ActiveRecord::Base
                   :description,
                   :content,
                   :value,
-                  :public
+                  :public,
+                  as: :admin
 
   # Provide cached Snippet.lookup(slug) method.
   include CacheLookupsMixin
@@ -39,12 +40,6 @@ class Snippet < ActiveRecord::Base
         records << record
       end
     end
-  end
-
-  # Return a Snippet record for +slug+, but if it doesn't exist, create a new
-  # one with the given +description+ and +content+.
-  def self.make(slug, description, content)
-    return self.find_or_create_by_slug(slug: slug.to_s, description: description, content: content)
   end
 
   # Returns the content for a Snippet match +slug+, else raise an ActiveRecord::RecordNotFound.
