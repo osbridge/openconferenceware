@@ -10,7 +10,7 @@ While we undertake this work, the Gemfile loads all three of our supported datab
 
 ### Current Build Status
 
-* [Master](https://github.com/osbridge/openconferenceware/tree/master) (Rails 3.2.15, Ruby 1.9.3 or 2.0): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware)
+* [Master](https://github.com/osbridge/openconferenceware/tree/master) (Rails 3.2.15, Ruby 1.9.3 or 2.0): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware) [![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master)
 * [Legacy](https://github.com/osbridge/openconferenceware/tree/legacy) (Rails 2.1.2, Ruby 1.8.7): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=legacy)](https://travis-ci.org/osbridge/openconferenceware)
 
 
