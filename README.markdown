@@ -2,7 +2,9 @@
 
 ## Recent Developments - Important!
 
-The current master branch is running on Rails 3.2.14, but the authentication system is presently broken. We are working on fixing this and towards [other goals](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
+The current master branch is under active development, as part of an ongoing effort to modernize and improve OpenConferenceware. It has currently been upgraded to Rails 3.2.15, and the authentication system has been completely reworked. We are working towards towards several other goals, as seen on the [roadmap](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
+
+Although this branch is in flux, we recommend it as a starting point for any new OCW deployments. The alternative is to use the [legacy](https://github.com/osbridge/openconferenceware/tree/legacy) branch, which is based on Rails 2.1.2 and is much trickier to work with.
 
 While we undertake this work, the Gemfile loads the `sqlite3` the database adapter
 and has `mysql2` and `pg` commented out. We support all of these databases, and
@@ -12,8 +14,8 @@ merge changes to master into your branch in order to keep up-to-date.
 
 ### Current Build Status
 
-* [Master](https://github.com/osbridge/openconferenceware/tree/master): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware)
-* [Stable](https://github.com/osbridge/openconferenceware/tree/stable): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=stable)](https://travis-ci.org/osbridge/openconferenceware) 
+* [Master](https://github.com/osbridge/openconferenceware/tree/master) (Rails 3.2.15, Ruby 1.9.3 or 2.0): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware)
+* [Legacy](https://github.com/osbridge/openconferenceware/tree/legacy) (Rails 2.1.2, Ruby 1.8.7): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=legacy)](https://travis-ci.org/osbridge/openconferenceware)
 
 
 About
