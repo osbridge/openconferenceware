@@ -14,8 +14,6 @@ require 'factory_girl'
 require 'database_cleaner'
 require 'capybara/rspec'
 
-OmniAuth.config.add_mock(:open_id, {uid: 'http://openconferenceware.org'})
-
 # rspec
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
