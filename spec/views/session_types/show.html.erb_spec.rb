@@ -6,7 +6,7 @@ describe "session_types/show.html.erb" do
     assign(:session_type, stub_model(SessionType))
     view.stub(:admin?).and_return(false)
 
-    @event = stub_current_event!(:controller => view)
+    @event = stub_current_event!(controller: view)
 
     view.stub(:schedule_visible?).and_return(true)
   end

@@ -6,4 +6,4 @@ set :host, "localhost"
 set :deploy_via, :remote_cache
 role :app, host
 role :web, host
-role :db,  host, :primary => true
+role :db,  host, primary: true

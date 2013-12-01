@@ -9,7 +9,7 @@
 # Setup lookups for Thing:
 #
 #   class Thing < ActiveRecord::Base
-#     cache_lookups_for :id, :order => :created_at
+#     cache_lookups_for :id, order: :created_at
 #     ...
 #   end
 #

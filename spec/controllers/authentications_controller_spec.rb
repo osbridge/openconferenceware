@@ -22,11 +22,11 @@ describe AuthenticationsController do
       context "matching an existing User's Authentication" do
         let(:existing_user)  { create(:user) }
         let(:authentication) { create(:authentication,
-                                      :provider => 'existing',
-                                      :user => existing_user) }
+                                      provider: 'existing',
+                                      user: existing_user) }
 
         before do
-          OmniAuth.config.add_mock(:existing, {:uid => authentication.uid})
+          OmniAuth.config.add_mock(:existing, {uid: authentication.uid})
           request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:existing]
         end
 
@@ -55,7 +55,7 @@ describe AuthenticationsController do
 
           before do
             login_as(logged_in_user)
-            OmniAuth.config.add_mock(:logged_in, {:uid => uid})
+            OmniAuth.config.add_mock(:logged_in, {uid: uid})
             request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:logged_in]
 
             get :create
@@ -69,7 +69,7 @@ describe AuthenticationsController do
         describe "when not signed in" do
           let(:uid) { "new-user:#{Time.now.to_i}" }
           before do
-            OmniAuth.config.add_mock(:new_user, {:uid => uid})
+            OmniAuth.config.add_mock(:new_user, {uid: uid})
             request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:new_user]
 
             get :create

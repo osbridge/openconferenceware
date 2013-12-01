@@ -5,7 +5,7 @@ module ProposalsHelper
   def sort_link_for(label, field, kind=nil)
     kind ||= @kind
 
-    opts = {:sort => field}
+    opts = {sort: field}
     opts[:dir] = 'desc' if ( field == params[:sort] && params[:dir] != 'desc' )
 
     link = link_to(label, self.send("event_#{kind}_path", @event, opts))

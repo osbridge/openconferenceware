@@ -19,14 +19,14 @@ describe UserFavoritesController do
       @favorite  = UserFavorite.new
       @favorites = []
 
-      @favorites.stub(:populated => [@favorite])
-      @user.stub(:favorites => @favorites, :label => 'Sven')
+      @favorites.stub(populated: [@favorite])
+      @user.stub(favorites: @favorites, label: 'Sven')
 
       User.should_receive(:find).with('42').and_return(@user)
     end
 
     it "assigns favorites for the given user as @user_favorites" do
-      get :index, :user_id => '42'
+      get :index, user_id: '42'
       Undefer(assigns(:user_favorites)).should == [@favorite]
     end
 
@@ -40,14 +40,14 @@ describe UserFavoritesController do
         DeferProxy.should_receive(:new).and_return(recordset)
 
         Proposal.should_receive(:to_icalendar).and_return("ICS'D!")
-        get :index, :user_id => '42', :format => 'ics'
+        get :index, user_id: '42', format: 'ics'
         response.body.should == "ICS'D!"
       end
 
       it "should redirect to the sessions path if the schedule has not been published" do
         @event.stub(:proposal_status_published? => true)
         @controller.stub(:schedule_visible? => false)
-        get :index, :user_id => '42', :format => 'ics'
+        get :index, user_id: '42', format: 'ics'
         response.should redirect_to user_favorites_url(@user)
       end
     end
@@ -60,11 +60,11 @@ describe UserFavoritesController do
     end
 
     def add_favorite
-      put :modify, :mode => "add", :user_id => @owner.id, :proposal_id => @proposal.id, :format => "json"
+      put :modify, mode: "add", user_id: @owner.id, proposal_id: @proposal.id, format: "json"
     end
 
     def remove_favorite
-      put :modify, :mode => "remove", :user_id => @owner.id, :proposal_id => @proposal.id, :format => "json"
+      put :modify, mode: "remove", user_id: @owner.id, proposal_id: @proposal.id, format: "json"
     end
 
     describe "add" do
@@ -113,7 +113,7 @@ describe UserFavoritesController do
       it "should not allow user to perform invalid oprations" do
         login_as @owner
 
-        put :modify, :mode => "plaid", :user_id => @owner.id, :proposal_id => @proposal.id, :format => "json"
+        put :modify, mode: "plaid", user_id: @owner.id, proposal_id: @proposal.id, format: "json"
 
         response.should_not be_success
         response.should_not be_redirect

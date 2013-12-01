@@ -18,7 +18,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
 
-OmniAuth.config.add_mock(:open_id, {:uid => 'http://openconferenceware.org'})
+OmniAuth.config.add_mock(:open_id, {uid: 'http://openconferenceware.org'})
 
 #---[ Functions ]-------------------------------------------------------
 
@@ -34,18 +34,18 @@ module OCWHelpers
   # +status+ aren't provided, reasonable defaults will be used.
   #
   # Options:
-  # * :event => Event object to use, else a mock will be generated.
-  # * :events => Array of events to use, else the :event or its mock will be used.
-  # * :status => Assignment status to use, else :assigned_to_current will be used.
+  # * event: Event object to use, else a mock will be generated.
+  # * events: Array of events to use, else the :event or its mock will be used.
+  # * status: Assignment status to use, else :assigned_to_current will be used.
   def stub_current_event!(opts={})
     controller = opts[:controller] || @controller
-    event = opts[:event] || stub_model(Event, :id => 1, :title => "Current Event", :slug => 'current')
+    event = opts[:event] || stub_model(Event, id: 1, title: "Current Event", slug: 'current')
     events = opts[:events] || [event]
     status = opts[:status] || :assigned_to_current
     controller.stub(
-      :get_current_event_and_assignment_status => [event, status],
-      :assigned_event => event,
-      :assigned_events => events)
+      get_current_event_and_assignment_status: [event, status],
+      assigned_event: event,
+      assigned_events: events)
 
     if self.respond_to?(:assign)
       assign(:event, event)

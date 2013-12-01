@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
-  before_filter :require_auth_hash, :only => [:create]
+  before_filter :require_auth_hash, only: [:create]
 
   def sign_in
     page_title "Sign In"

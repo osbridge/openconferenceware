@@ -3,7 +3,7 @@ def login_as(login)
     logout
   else
     @user = User.find(ActiveRecord::Fixtures.identify(login))
-    post browser_session_path, :login_as => @user.login
+    post browser_session_path, login_as: @user.login
   end
 end
 

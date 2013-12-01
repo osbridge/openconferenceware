@@ -7,8 +7,8 @@ describe "tracks/new.html.erb" do
     @event = stub_current_event!
 
     @track = stub_model(Track,
-      :title => "value for title",
-      :event_id => 1
+      title: "value for title",
+      event_id: 1
     ).as_new_record
     assign(:track, @track)
   end

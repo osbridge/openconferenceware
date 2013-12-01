@@ -22,7 +22,7 @@ class ScheduleItem < ActiveRecord::Base
                   :start_time,
                   :duration,
                   :room_id,
-                  :ad => :admin
+                  ad: :admin
 
   # Associations
   belongs_to :event

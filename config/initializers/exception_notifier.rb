@@ -10,8 +10,8 @@ if ENV['NOTIFY_ON_EXCEPTIONS'] || %w[preview production].include?(Rails.env)
   end
 
   OpenConferenceWare::Application.config.middleware.use ExceptionNotifier,
-    :email_prefix => "[ERROR #{SETTINGS.name}] ",
-    :sender_address => "#{SECRETS.administrator_email}",
-    :exception_recipients => [SECRETS.administrator_email]
+    email_prefix: "[ERROR #{SETTINGS.name}] ",
+    sender_address: "#{SECRETS.administrator_email}",
+    exception_recipients: [SECRETS.administrator_email]
 end
 

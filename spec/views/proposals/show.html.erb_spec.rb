@@ -7,8 +7,8 @@ describe "proposals/show.html.erb" do
   
   before :each do
     @user = build :user
-    @event = create :populated_event, :proposal_status_published => false
-    @proposal = proposal_for_event(@event, :users => [@user])
+    @event = create :populated_event, proposal_status_published: false
+    @proposal = proposal_for_event(@event, users: [@user])
 
     view.stub(:schedule_visible? => true)
   end
@@ -106,14 +106,14 @@ describe "proposals/show.html.erb" do
 
   it "should only show proposals in the speaker's bio that are for this event and its family" do
     user = build :user
-    parent = create :populated_event, :proposal_status_published => true
-    event  = create :populated_event, :proposal_status_published => true, :parent => parent
-    child  = create :populated_event, :proposal_status_published => true, :parent => event
-    other  = create :populated_event, :proposal_status_published => true
-    event_proposal  = session_for_event event,  :users => [user]
-    child_proposal  = session_for_event child,  :users => [user]
-    other_proposal  = session_for_event other,  :users => [user]
-    parent_proposal = session_for_event parent, :users => [user]
+    parent = create :populated_event, proposal_status_published: true
+    event  = create :populated_event, proposal_status_published: true, parent: parent
+    child  = create :populated_event, proposal_status_published: true, parent: event
+    other  = create :populated_event, proposal_status_published: true
+    event_proposal  = session_for_event event,  users: [user]
+    child_proposal  = session_for_event child,  users: [user]
+    other_proposal  = session_for_event other,  users: [user]
+    parent_proposal = session_for_event parent, users: [user]
     event.reload
 
     assign(:event, event)

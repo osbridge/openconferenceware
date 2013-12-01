@@ -11,4 +11,4 @@ set :copy_exclude, ['.git', 'log', 'tmp', '*.sql', '*.diff', 'coverage.info', 'c
 
 role :app, host
 role :web, host
-role :db,  host, :primary => true
+role :db,  host, primary: true

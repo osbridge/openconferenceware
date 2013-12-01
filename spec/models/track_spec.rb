@@ -5,11 +5,11 @@ describe Track do
 
   before(:each) do
     @valid_attributes = {
-      :title => "value for title",
-      :description => "value for description",
-      :excerpt => "value for excerpt",
-      :color => "#00CC00",
-      :event_id => 1
+      title: "value for title",
+      description: "value for description",
+      excerpt: "value for excerpt",
+      color: "#00CC00",
+      event_id: 1
     }
   end
 
@@ -18,13 +18,13 @@ describe Track do
   end
 
   it "should not be valid without an event" do
-    build(:track, :event => nil).should_not be_valid
+    build(:track, event: nil).should_not be_valid
   end
 
   it "should sort alphabetically by title" do
-    tracks = [ build(:track, :title => 'Blues'),
-               build(:track, :title => 'Punk'),
-               build(:track, :title => 'Folk'),
+    tracks = [ build(:track, title: 'Blues'),
+               build(:track, title: 'Punk'),
+               build(:track, title: 'Folk'),
                nil ]
 
     sorted_tracks = tracks.sort

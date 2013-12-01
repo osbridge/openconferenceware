@@ -12,7 +12,7 @@ def seed_schedule
 
   schedule_hash = {}
 
-  track_arrays = e.tracks.map { |track| track.proposals.accepted.find(:all, :conditions => "start_time IS NULL").shuffle }
+  track_arrays = e.tracks.map { |track| track.proposals.accepted.find(:all, conditions: "start_time IS NULL").shuffle }
 
   slots.each do |slot|
     schedule_hash[slot] = []

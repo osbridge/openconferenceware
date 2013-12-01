@@ -25,7 +25,7 @@ class SecretsReader
   #   "config/secrets.yml" and "config/secrets.yml.sample".
   #
   # Options:
-  # * :verbose => Print status to screen on error. Defaults to true.
+  # * verbose: Print status to screen on error. Defaults to true.
   def self.read(*args)
     opts = args.extract_options!
     verbose = opts[:verbose] != false

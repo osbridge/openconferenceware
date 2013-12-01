@@ -70,7 +70,7 @@ class Proposal < ActiveRecord::Base
   ]
 
   attr_accessible *default_accessible_attributes
-  attr_accessible *(admin_accessible_attributes + [:as => :admin])
+  attr_accessible *(admin_accessible_attributes + [as: :admin])
 
   # Public attributes for export
   include PublicAttributesMixin
@@ -86,7 +86,7 @@ class Proposal < ActiveRecord::Base
     :user_ids, :user_titles
 
 
-  cache_lookups_for :id, :order => 'submitted_at desc', :include => [:event, :track, :room, :users]
+  cache_lookups_for :id, order: 'submitted_at desc', include: [:event, :track, :room, :users]
 
   # Provide #tags
   acts_as_taggable_on :tags
@@ -108,51 +108,51 @@ class Proposal < ActiveRecord::Base
   aasm_state :cancelled
 
   aasm_event :accept do
-    transitions :from => :proposed, :to => :accepted
-    transitions :from => :rejected, :to => :accepted
-    transitions :from => :waitlisted, :to => :accepted
+    transitions from: :proposed, to: :accepted
+    transitions from: :rejected, to: :accepted
+    transitions from: :waitlisted, to: :accepted
   end
 
   aasm_event :reject do
-    transitions :from => :proposed, :to => :rejected
-    transitions :from => :accepted, :to => :rejected
-    transitions :from => :waitlisted, :to => :rejected
+    transitions from: :proposed, to: :rejected
+    transitions from: :accepted, to: :rejected
+    transitions from: :waitlisted, to: :rejected
   end
 
   aasm_event :waitlist do
-    transitions :from => :proposed, :to => :waitlisted
-    transitions :from => :accepted, :to => :waitlisted
-    transitions :from => :rejected, :to => :waitlisted
+    transitions from: :proposed, to: :waitlisted
+    transitions from: :accepted, to: :waitlisted
+    transitions from: :rejected, to: :waitlisted
   end
 
   aasm_event :confirm do
-    transitions :from => :accepted, :to => :confirmed
+    transitions from: :accepted, to: :confirmed
   end
 
   aasm_event :decline do
-    transitions :from => :accepted, :to => :declined
+    transitions from: :accepted, to: :declined
   end
 
   aasm_event :accept_and_confirm do
-    transitions :from => :proposed, :to => :confirmed
-    transitions :from => :waitlisted, :to => :confirmed
+    transitions from: :proposed, to: :confirmed
+    transitions from: :waitlisted, to: :confirmed
   end
 
   aasm_event :accept_and_decline do
-    transitions :from => :proposed, :to => :declined
-    transitions :from => :waitlisted, :to => :declined
+    transitions from: :proposed, to: :declined
+    transitions from: :waitlisted, to: :declined
   end
 
   aasm_event :mark_as_junk do
-    transitions :from => :proposed, :to => :junk
+    transitions from: :proposed, to: :junk
   end
 
   aasm_event :reset_status do
-    transitions :from => %w(accepted rejected waitlisted confirmed declined junk cancelled), :to => :proposed
+    transitions from: %w(accepted rejected waitlisted confirmed declined junk cancelled), to: :proposed
   end
 
   aasm_event :cancel  do
-    transitions :from => :confirmed, :to => :cancelled
+    transitions from: :confirmed, to: :cancelled
   end
 
   # Associations
@@ -160,13 +160,13 @@ class Proposal < ActiveRecord::Base
   belongs_to :track
   belongs_to :session_type
   belongs_to :room
-  has_many :comments, :dependent => :destroy
-  has_many :user_favorites, :dependent => :destroy
-  has_many :users_who_favor, :through => :user_favorites, :source => :user
+  has_many :comments, dependent: :destroy
+  has_many :user_favorites, dependent: :destroy
+  has_many :users_who_favor, through: :user_favorites, source: :user
   has_many :selector_votes
 
   has_many :proposals_user
-  has_many :users, :through => :proposals_user do
+  has_many :users, through: :proposals_user do
     def fullnames
       self.map(&:fullname).join(', ')
     end
@@ -178,25 +178,25 @@ class Proposal < ActiveRecord::Base
 
   # Named scopes
   scope :unconfirmed, lambda { where("status != ?", "confirmed") }
-  scope :populated,   lambda { order(:submitted_at).includes( {:event => [:rooms, :tracks]}, :session_type, :track, :room, :users ) }
+  scope :populated,   lambda { order(:submitted_at).includes( {event: [:rooms, :tracks]}, :session_type, :track, :room, :users ) }
   scope :scheduled,   lambda { where("start_time IS NOT NULL") }
   scope :located,     lambda { where("room_id IS NOT NULL") }
-  scope :for_event,   lambda { |event| { :conditions => { :event_id => event } } }
+  scope :for_event,   lambda { |event| { conditions: { event_id: event } } }
 
   # Validations
   validates_presence_of :title, :description, :event_id
-  validates_acceptance_of :agreement,                     :accept => true, :message => "must be accepted"
-  validates_presence_of :excerpt,                         :if => :proposal_excerpts?
-  validates_presence_of :track,                           :if => :event_tracks?
-  validates_presence_of :session_type,                    :if => :event_session_types?
-  validates_presence_of :presenter, :email, :biography,   :unless => :user_profiles?
-  validates_presence_of :speaking_experience,             :if => :proposal_speaking_experience?
-  validates_presence_of :audience_level,                  :if => Proc.new { Proposal.audience_levels }
-  validates_inclusion_of :audience_level,                 :if => Proc.new { Proposal.audience_levels }, :allow_blank => true,
-                                                          :in => SETTINGS.proposal_audience_levels ?
+  validates_acceptance_of :agreement,                     accept: true, message: "must be accepted"
+  validates_presence_of :excerpt,                         if: :proposal_excerpts?
+  validates_presence_of :track,                           if: :event_tracks?
+  validates_presence_of :session_type,                    if: :event_session_types?
+  validates_presence_of :presenter, :email, :biography,   unless: :user_profiles?
+  validates_presence_of :speaking_experience,             if: :proposal_speaking_experience?
+  validates_presence_of :audience_level,                  if: Proc.new { Proposal.audience_levels }
+  validates_inclusion_of :audience_level,                 if: Proc.new { Proposal.audience_levels }, allow_blank: true,
+                                                          in: SETTINGS.proposal_audience_levels ?
                                                                  SETTINGS.proposal_audience_levels.flatten.map { |level| level['slug'] } :
                                                                  []
-  validate :validate_complete_user_profile,               :if => :user_profiles?
+  validate :validate_complete_user_profile,               if: :user_profiles?
   validate :url_validator
 
   # Triggers
@@ -207,20 +207,20 @@ class Proposal < ActiveRecord::Base
   base_comma_attributes = Proc.new {
     id
     submitted_at
-    track :title => "Track" if SETTINGS.have_event_tracks
+    track title: "Track" if SETTINGS.have_event_tracks
     title
     excerpt if SETTINGS.have_proposal_excerpts
     description
     audience_level_label "Audience Level"
 
     if SETTINGS.have_event_session_types
-      session_type :title => "Session Type"
-      session_type :duration => "Duration"
+      session_type title: "Session Type"
+      session_type duration: "Duration"
     end
 
     # TODO how to better support multiple speakers!?
     if SETTINGS.have_multiple_presenters
-      users :fullnames => "Speakers"
+      users fullnames: "Speakers"
     else
       presenter
       affiliation
@@ -230,7 +230,7 @@ class Proposal < ActiveRecord::Base
   }
 
   schedule_comma_attributes = Proc.new {
-    room :name => "Room Name"
+    room name: "Room Name"
     start_time("Start Time") {|t| t.try(:xmlschema) }
   }
 
@@ -256,13 +256,13 @@ class Proposal < ActiveRecord::Base
     end
     note_to_organizers
     comments_text
-    user_favorites :size => 'Favorites count'
+    user_favorites size: 'Favorites count'
   end
 
   comma :selector_votes do
     instance_eval &base_comma_attributes
     
-    user_favorites :size => 'Favorites count'
+    user_favorites size: 'Favorites count'
     selector_vote_points 'Selector points'
     selector_votes_for_comma 'Selector votes'
     comments_for_comma 'Comments'
@@ -481,8 +481,8 @@ class Proposal < ActiveRecord::Base
   # Return a string of iCalendar data for the given +items+.
   #
   # Options:
-  # * :title => String to use as the calendar title. Optional.
-  # * :url_helper => Lambda that's called with an item that should return
+  # * title: String to use as the calendar title. Optional.
+  # * url_helper: Lambda that's called with an item that should return
   #   the URL for the item. Optional, defaults to not returning a URL.
   def self.to_icalendar(items, opts={})
     title = opts[:title] || "Schedule"
@@ -520,7 +520,7 @@ class Proposal < ActiveRecord::Base
       # Can't eager fetch users for users for some reason, yet all other combinations work fine.
       args.delete(:users)
     end
-    return container.proposals.all(:include => args)
+    return container.proposals.all(include: args)
   end
 
   # Is this proposal related to the +event+, as in to the event, its parent or children?
@@ -533,12 +533,12 @@ class Proposal < ActiveRecord::Base
 
   # Return next proposal in this event after this one, or nil if none.
   def next_proposal
-    return self.event.proposals.first(:conditions => ["proposals.id > ?", self.id], :order => "created_at ASC")
+    return self.event.proposals.first(conditions: ["proposals.id > ?", self.id], order: "created_at ASC")
   end
 
   # Return previous proposal in this event after this one, or nil if none.
   def previous_proposal
-    return self.event.proposals.first(:conditions => ["proposals.id < ?", self.id], :order => "created_at DESC")
+    return self.event.proposals.first(conditions: ["proposals.id < ?", self.id], order: "created_at DESC")
   end
 
   # Return the integer sum of the selector votes rating for this proposal. Skips

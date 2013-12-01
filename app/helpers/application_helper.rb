@@ -8,13 +8,13 @@ module ApplicationHelper
   def notice
     unless flash.blank?
       flash.keys.map do |key|
-        content_tag("div", flash[key], :class => "alert alert-#{key} alert-#{FLASH_KEY_TRANSLATION[key.to_s]}")
+        content_tag("div", flash[key], class: "alert alert-#{key} alert-#{FLASH_KEY_TRANSLATION[key.to_s]}")
       end.join("\n").html_safe
     end
   end
 
   def preserve_formatting_of(text)
-    content_tag("div", simple_format(escape_once(text)), :class => :compressed)
+    content_tag("div", simple_format(escape_once(text)), class: :compressed)
   end
 
   def inline_button_to(*args)

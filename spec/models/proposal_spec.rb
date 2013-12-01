@@ -184,7 +184,7 @@ describe Proposal do
 
     it "should return one comment" do
       comments = [
-        double(Comment, :email => "bubba@smith.com", :message => "Hi"),
+        double(Comment, email: "bubba@smith.com", message: "Hi"),
       ]
       @proposal.should_receive(:comments).and_return(comments)
 
@@ -193,8 +193,8 @@ describe Proposal do
 
     it "should return multiple comments" do
       comments = [
-        double(Comment, :email => "bubba@smith.com", :message => "Hi"),
-        double(Comment, :email => "billy.sue@smith.com", :message => "Yo"),
+        double(Comment, email: "bubba@smith.com", message: "Hi"),
+        double(Comment, email: "billy.sue@smith.com", message: "Yo"),
       ]
       @proposal.should_receive(:comments).and_return(comments)
 
@@ -311,7 +311,7 @@ describe Proposal do
       title = "MyTitle"
       url_helper = lambda {|item| "http://foo.bar/#{item.id}"}
 
-      data = Proposal.to_icalendar(items, :title => title, :url_helper => url_helper)
+      data = Proposal.to_icalendar(items, title: title, url_helper: url_helper)
 
       calendar = Vpim::Icalendar.decode(data).first
       components = Array(calendar)
@@ -322,7 +322,7 @@ describe Proposal do
 
     it "should skip items without a start time" do
       event = create :populated_event
-      item = create :schedule_item, :start_time => nil, :duration => nil
+      item = create :schedule_item, start_time: nil, duration: nil
 
       data = Proposal.to_icalendar([item])
       calendar = Vpim::Icalendar.decode(data).first
@@ -332,7 +332,7 @@ describe Proposal do
 
     it "should not raise exceptions if nil duration" do
       event = create :populated_event
-      item = create :schedule_item, :duration => nil
+      item = create :schedule_item, duration: nil
 
       data = Proposal.to_icalendar([item])
       calendar = Vpim::Icalendar.decode(data).first
@@ -349,7 +349,7 @@ describe Proposal do
     end
 
     it "should be nil if no session_notes_wiki_url_format is defined" do
-      SETTINGS.stub(:session_notes_wiki_url_format => nil)
+      SETTINGS.stub(session_notes_wiki_url_format: nil)
 
       @proposal.session_notes_url.should be_nil
     end
@@ -357,8 +357,8 @@ describe Proposal do
     describe "with wiki" do
       before :each do
         SETTINGS.stub(
-          :session_notes_wiki_url_format => '%1$s%2$s/wiki/',
-          :public_url => 'http://mysite.com/'
+          session_notes_wiki_url_format: '%1$s%2$s/wiki/',
+          public_url: 'http://mysite.com/'
         )
       end
 
@@ -375,40 +375,40 @@ describe Proposal do
 
   describe "when sorting" do
     before(:each) do
-      @shonen   = stub_model(Track, :title => "Shonen")
-      @bishoujo = stub_model(Track, :title => "Bishoujo")
+      @shonen   = stub_model(Track, title: "Shonen")
+      @bishoujo = stub_model(Track, title: "Bishoujo")
       @tracks = [@shonen, @bishoujo]
 
       @naruto = stub_model(Proposal, 
-        :title => "Naruto", 
-        :track => @shonen, 
-        :status => "proposed",
-        :submitted_at => Time.parse('2009/12/09 01:00'),
-        :start_time => Time.parse('2009/12/10 05:00'))
+        title: "Naruto",
+        track: @shonen,
+        status: "proposed",
+        submitted_at: Time.parse('2009/12/09 01:00'),
+        start_time: Time.parse('2009/12/10 05:00'))
       @bleach = stub_model(Proposal,
-        :title => "Bleach", 
-        :track => @shonen, 
-        :status => "confirmed",
-        :submitted_at => Time.parse('2009/12/09 02:00'),
-        :start_time => Time.parse('2009/12/10 04:00')) 
+        title: "Bleach",
+        track: @shonen,
+        status: "confirmed",
+        submitted_at: Time.parse('2009/12/09 02:00'),
+        start_time: Time.parse('2009/12/10 04:00'))
       @sera_mun = stub_model(Proposal,
-        :title => "Bishoujo Senshi Sera Mun", 
-        :track => @bishoujo, 
-        :status => "confirmed",
-        :submitted_at => Time.parse('2009/12/09 04:00'),
-        :start_time => Time.parse('2009/12/10 01:00')) 
+        title: "Bishoujo Senshi Sera Mun",
+        track: @bishoujo,
+        status: "confirmed",
+        submitted_at: Time.parse('2009/12/09 04:00'),
+        start_time: Time.parse('2009/12/10 01:00'))
       @kadocapta_sakura = stub_model(Proposal,
-        :title => "Kadocapta Sakura", 
-        :track => @bishoujo, 
-        :status => "accepted",
-        :submitted_at => Time.parse('2009/12/09 03:00'),
-        :start_time => Time.parse('2009/12/10 02:00'))
+        title: "Kadocapta Sakura",
+        track: @bishoujo,
+        status: "accepted",
+        submitted_at: Time.parse('2009/12/09 03:00'),
+        start_time: Time.parse('2009/12/10 02:00'))
       @kino = stub_model(Proposal,
-        :title => "Kino no Tabi", 
-        :track => nil, 
-        :status => "accepted",
-        :submitted_at => Time.parse('2009/12/09 06:00'),
-        :start_time => Time.parse('2009/12/10 06:00'))
+        title: "Kino no Tabi",
+        track: nil,
+        status: "accepted",
+        submitted_at: Time.parse('2009/12/09 06:00'),
+        start_time: Time.parse('2009/12/10 06:00'))
       @proposals = [@kadocapta_sakura, @bleach, @kino, @naruto, @sera_mun]
     end
 
@@ -455,7 +455,7 @@ describe Proposal do
 
     it "should be related to its own event's parent" do
       parent = create :populated_event
-      event = create :populated_event, :parent => parent
+      event = create :populated_event, parent: parent
       proposal = proposal_for_event(event)
 
       proposal.related_to_event?(event).should be_true
@@ -463,7 +463,7 @@ describe Proposal do
 
     it "should be related to its own event's parent's children" do
       event = create :populated_event
-      child = create :populated_event, :parent => event
+      child = create :populated_event, parent: event
       proposal = proposal_for_event(event)
 
       proposal.related_to_event?(event).should be_true
@@ -571,9 +571,9 @@ private
   def new_proposal(attr = {})
     # TODO: The proposal factory should handle these associations
     valid_attr = {
-      :event => mock_model(Event),
-      :track => mock_model(Track),
-      :session_type => mock_model(SessionType)
+      event: mock_model(Event),
+      track: mock_model(Track),
+      session_type: mock_model(SessionType)
     }
     build(:proposal, valid_attr.merge(attr))
   end

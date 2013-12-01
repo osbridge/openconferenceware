@@ -8,7 +8,7 @@ class FixSqliteLaxness < ActiveRecord::Migration
 
   def self.down
     # Original columns had the following invalid content:
-    ### change_column :users, :biography, :text, :limit => 2048
-    ### change_column :proposals, :excerpt, :text, :limit => 400
+    ### change_column :users, :biography, :text, limit: 2048
+    ### change_column :proposals, :excerpt, :text, limit: 400
   end
 end

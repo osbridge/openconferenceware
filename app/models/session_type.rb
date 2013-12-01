@@ -16,18 +16,18 @@ class SessionType < ActiveRecord::Base
   attr_accessible :title,
                   :description,
                   :duration,
-                  :as => :admin
+                  as: :admin
 
   # Associations
   belongs_to :event
-  has_many :proposals, :dependent => :nullify
+  has_many :proposals, dependent: :nullify
 
   # Validations
   validates_presence_of \
     :title,
     :description,
     :event_id
-  validates_numericality_of :duration, :if => :duration
+  validates_numericality_of :duration, if: :duration
 
   def <=>(against)
     self.title <=> (against.nil? ? '' : against.title)

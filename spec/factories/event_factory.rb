@@ -17,9 +17,9 @@ FactoryGirl.define do
 
     factory :populated_event do
       after(:create) do |record, evaluator|
-        record.rooms         << create(:room,         :event => record) if record.rooms.empty?
-        record.tracks        << create(:track,        :event => record) if record.tracks.empty?
-        record.session_types << create(:session_type, :event => record) if record.session_types.empty?
+        record.rooms         << create(:room,         event: record) if record.rooms.empty?
+        record.tracks        << create(:track,        event: record) if record.tracks.empty?
+        record.session_types << create(:session_type, event: record) if record.session_types.empty?
       end
     end
   end

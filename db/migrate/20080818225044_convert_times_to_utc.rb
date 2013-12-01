@@ -4,8 +4,8 @@ class ConvertTimesToUtc < ActiveRecord::Migration
 
     Proposal.find(:all).each do |proposal|
       proposal.update_attributes(
-        :created_at => proposal.created_at_before_type_cast,
-        :updated_at => proposal.updated_at_before_type_cast
+        created_at: proposal.created_at_before_type_cast,
+        updated_at: proposal.updated_at_before_type_cast
       )
 
       print "."

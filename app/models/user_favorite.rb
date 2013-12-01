@@ -34,6 +34,6 @@ class UserFavorite < ActiveRecord::Base
 
   # Return the ids of this +user+'s favorite proposals.
   def self.proposal_ids_for(user)
-    return self.find_all_by_user_id(user.id, :select => 'proposal_id').map(&:proposal_id)
+    return self.find_all_by_user_id(user.id, select: 'proposal_id').map(&:proposal_id)
   end
 end

@@ -1,6 +1,6 @@
 class Manage::EventsController < ApplicationController
   before_filter :require_admin
-  before_filter :assert_current_event_or_redirect, :only => [:show, :edit, :update, :destroy]
+  before_filter :assert_current_event_or_redirect, only: [:show, :edit, :update, :destroy]
 
   include BreadcrumbsMixin
   add_breadcrumb "Manage", "/manage"
@@ -13,7 +13,7 @@ class Manage::EventsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @events }
+      format.xml  { render xml: @events }
     end
   end
 
@@ -26,7 +26,7 @@ class Manage::EventsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @event }
+      format.xml  { render xml: @event }
     end
   end
 
@@ -40,7 +40,7 @@ class Manage::EventsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @event }
+      format.xml  { render xml: @event }
     end
   end
 
@@ -53,16 +53,16 @@ class Manage::EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new
-    @event.assign_attributes(params[:event], :as => current_role)
+    @event.assign_attributes(params[:event], as: current_role)
 
     respond_to do |format|
       if @event.save
         flash[:notice] = 'Event was successfully created.'
         format.html { redirect_to(manage_event_path(@event)) }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
+        format.xml  { render xml: @event, status: :created, location: @event }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -71,7 +71,7 @@ class Manage::EventsController < ApplicationController
   # PUT /events/1.xml
   def update
     @return_to = params[:return_to]
-    @event.assign_attributes(params[:event], :as => current_role)
+    @event.assign_attributes(params[:event], as: current_role)
 
     respond_to do |format|
       if @event.save
@@ -79,8 +79,8 @@ class Manage::EventsController < ApplicationController
         format.html { redirect_to(@return_to ? @return_to : [:manage, @event]) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @event.errors, status: :unprocessable_entity }
       end
     end
   end

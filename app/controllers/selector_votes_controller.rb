@@ -11,7 +11,7 @@ class SelectorVotesController < ApplicationController
     # Sort using Ruby because overriding the sorting on a Proposal with includes produces very inefficient SQL.
     @proposals = \
       begin
-        proposals = @event.proposals.all(:include => [:selector_votes, :comments, :users, :user_favorites])
+        proposals = @event.proposals.all(include: [:selector_votes, :comments, :users, :user_favorites])
         case params[:order]
         when 'title'
           proposals.sort_by { |proposal| [ proposal.title.downcase, proposal.id ] }
@@ -33,7 +33,7 @@ class SelectorVotesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { render :csv => @proposals, :style => :selector_votes }
+      format.csv { render csv: @proposals, style: :selector_votes }
     end
   end
 
@@ -52,11 +52,11 @@ class SelectorVotesController < ApplicationController
             redirect_to(@selector_vote.proposal.event)
           end
         }
-        format.xml  { render :xml => @selector_vote, :status => :ok }
+        format.xml  { render xml: @selector_vote, status: :ok }
       else
         flash[:failure] = @selector_vote.errors.full_messages.map {|o| "#{o}."}.join(" ")
         format.html { redirect_to(@selector_vote.proposal) }
-        format.xml  { render :xml => @selector_vote.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @selector_vote.errors, status: :unprocessable_entity }
       end
     end
   end

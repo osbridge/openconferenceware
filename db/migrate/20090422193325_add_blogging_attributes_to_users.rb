@@ -1,8 +1,8 @@
 class AddBloggingAttributesToUsers < ActiveRecord::Migration
   def self.up
-    add_column :users, :blog_url, :string, :length => 128
-    add_column :users, :identica, :string, :length => 20
-    add_column :users, :twitter, :string, :length => 20
+    add_column :users, :blog_url, :string, length: 128
+    add_column :users, :identica, :string, length: 20
+    add_column :users, :twitter, :string, length: 20
   end
 
   def self.down

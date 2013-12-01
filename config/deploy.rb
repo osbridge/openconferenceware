@@ -60,19 +60,19 @@ end
 
 namespace :deploy do
   desc "Restart Passenger application"
-  task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart, roles: :app, except: { no_release: true } do
     run "touch #{current_path}/tmp/restart.txt"
   end
 
   [:start, :stop].each do |t|
     desc "#{t.inspect} task is a no-op with Passenger"
-    task t, :roles => :app do
+    task t, roles: :app do
       # Do nothing
     end
   end
 
   desc "Prepare shared directories"
-  task :prepare_shared, :roles => :app do
+  task :prepare_shared, roles: :app do
     run "mkdir -p #{shared_path}/config"
     run "mkdir -p #{shared_path}/db"
     run "mkdir -p #{shared_path}/system/shared_fragments"
@@ -80,7 +80,7 @@ namespace :deploy do
 
 
   desc "Finish update, called by deploy"
-  task :finish, :roles => :app do
+  task :finish, roles: :app do
     # Gems
     run "cd #{release_path} && (bundle check --path=../../shared/gems || bundle --without=development:test --path=../../shared/gems)"
 
@@ -118,14 +118,14 @@ ERROR!  You must have a file on your server with the database configuration.
   end
 
   desc "Clear the application's cache"
-  task :clear_cache, :roles => :app do
+  task :clear_cache, roles: :app do
     run "(cd #{current_path} && bundle exec rake RAILS_ENV=production clear)"
   end
 end
 
 namespace :data do
   desc "Download files and database from production, and install it locally."
-  task :use, :roles => :db, :only => {:primary => true} do
+  task :use, roles: :db, only: {primary: true} do
     shared.download
     db.use
   end
@@ -133,7 +133,7 @@ end
 
 namespace :shared do
   desc "Download shared content in 'system' directory from production, install locally"
-  task :download, :roles => :db, :only => {:primary => true} do
+  task :download, roles: :db, only: {primary: true} do
     sh "rsync -vaxP --delete-after #{user}@#{host}:#{shared_path}/system public/"
   end
 end
@@ -141,25 +141,25 @@ end
 namespace :db do
   namespace :remote do
     desc "Dump database on remote server"
-    task :dump, :roles => :db, :only => {:primary => true} do
+    task :dump, roles: :db, only: {primary: true} do
       run "(cd #{current_path} && bundle exec rake RAILS_ENV=production db:raw:dump FILE=#{shared_path}/db/database.sql)"
     end
   end
 
   namespace :local do
     desc "Restore downloaded database on local server"
-    task :restore, :roles => :db, :only => {:primary => true} do
+    task :restore, roles: :db, only: {primary: true} do
       sh "bundle exec rake db:raw:dump FILE=database~old.sql && bundle exec rake db:raw:restore FILE=database.sql"
     end
   end
 
   desc "Download database from remote server"
-  task :download, :roles => :db, :only => {:primary => true} do
+  task :download, roles: :db, only: {primary: true} do
     sh "rsync -vaxP #{user}@#{host}:#{shared_path}/db/database.sql ."
   end
 
   desc "Use: dump and download remote database and restore it locally"
-  task :use, :roles => :db, :only => {:primary => true} do
+  task :use, roles: :db, only: {primary: true} do
     db.remote.dump
     db.download
     db.local.restore

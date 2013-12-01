@@ -9,8 +9,8 @@ class CreateProposals < ActiveRecord::Migration
       t.text :bio
       t.string :title
       t.string :description
-      t.boolean :publish, :default => false
-      t.boolean :agreement, :default => true # Needed for #validates_acceptance_of
+      t.boolean :publish, default: false
+      t.boolean :agreement, default: true # Needed for #validates_acceptance_of
 
       t.timestamps
     end

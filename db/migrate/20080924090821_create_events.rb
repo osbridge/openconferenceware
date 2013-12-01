@@ -8,7 +8,7 @@ class CreateEvents < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :events, :id, :unique => true
+    add_index :events, :id, unique: true
 
     add_column :proposals, :event_id, :integer
     add_index  :proposals, :event_id
@@ -18,7 +18,7 @@ class CreateEvents < ActiveRecord::Migration
     remove_index  :proposals, :event_id
     remove_column :proposals, :event_id
 
-    remove_index :events, :id, :unique => true
+    remove_index :events, :id, unique: true
 
     drop_table :events
   end

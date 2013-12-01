@@ -24,7 +24,7 @@ describe SelectorVotesController do
 
     describe "when logged in as non-selector" do
       before do
-        @user = create( :user, :selector => false )
+        @user = create( :user, selector: false )
         login_as @user
 
         SelectorVote.should_not_receive(:find)
@@ -70,8 +70,8 @@ describe SelectorVotesController do
           @proposal1 = proposal_for_event(@event)
           @proposal2 = proposal_for_event(@event)
 
-          @selector_vote1 = @proposal1.selector_votes.create :user => @user1, :rating => 1, :comment => "Meh."
-          @selector_vote2 = @proposal1.selector_votes.create :user => @user2, :rating => 5, :comment => "Yay!"
+          @selector_vote1 = @proposal1.selector_votes.create user: @user1, rating: 1, comment: "Meh."
+          @selector_vote2 = @proposal1.selector_votes.create user: @user2, rating: 5, comment: "Yay!"
         end
 
         shared_examples_for "HTML and CSV" do
@@ -100,7 +100,7 @@ describe SelectorVotesController do
 
         describe "requesting HTML" do
           before do
-            get :index, :event_id => @event.slug
+            get :index, event_id: @event.slug
           end
 
           it_should_behave_like "HTML and CSV"
@@ -114,7 +114,7 @@ describe SelectorVotesController do
 
         describe "requesting CSV" do
           before do
-            get :index, :event_id => @event.slug, :format => 'csv'
+            get :index, event_id: @event.slug, format: 'csv'
             @struct = CSV.parse(response.body)
             @row_for_proposal1 = @struct.find{|row| row.first == @proposal1.id.to_s}
             @row_for_proposal2 = @struct.find{|row| row.first == @proposal2.id.to_s}
@@ -166,7 +166,7 @@ describe SelectorVotesController do
       it "should reject request and redirect to login page" do
         SelectorVote.should_not_receive(:find_or_initialize_by_user_id_and_proposal_id)
 
-        post :create, :selector_vote => {:these => 'params'}
+        post :create, selector_vote: {these: 'params'}
 
         flash[:alert].should =~ /selection committee/
         response.should redirect_to(sign_in_path)
@@ -175,14 +175,14 @@ describe SelectorVotesController do
 
     describe "when logged in as non-selector" do
       before do
-        @user = create :user, :selector => false
+        @user = create :user, selector: false
         login_as @user
       end
 
       it "should reject request and redirect to login page" do
         SelectorVote.should_not_receive(:find_or_initialize_by_user_id_and_proposal_id)
 
-        post :create, :selector_vote => {:these => 'params'}
+        post :create, selector_vote: {these: 'params'}
 
         flash[:alert].should =~ /selection committee/
         response.should redirect_to(sign_in_path)
@@ -193,7 +193,7 @@ describe SelectorVotesController do
     describe "when logged in as member of selection comittee" do
 
       before do
-        @user = create :user, :selector => true
+        @user = create :user, selector: true
         login_as @user
 
         @event = create :populated_event
@@ -204,8 +204,8 @@ describe SelectorVotesController do
       describe "with valid params" do
 
         before do
-          @parameters = {:proposal_id => @proposal1.id, :selector_vote => {"comment" => 'Yay!', "rating" => "5"}}
-          @selector_vote = mock_selector_vote(:save => true, :proposal => @proposal1)
+          @parameters = {proposal_id: @proposal1.id, selector_vote: {"comment" => 'Yay!', "rating" => "5"}}
+          @selector_vote = mock_selector_vote(save: true, proposal: @proposal1)
           @selector_vote.should_receive(:assign_attributes).with(@parameters[:selector_vote])
           SelectorVote.should_receive(:find_or_initialize_by_user_id_and_proposal_id).with(@user.id, @proposal1.id).and_return(@selector_vote)
           post :create, @parameters
@@ -229,10 +229,10 @@ describe SelectorVotesController do
 
         before do
           SelectorVote.destroy_all
-          @selector_vote = SelectorVote.create!(:user => @user, :proposal => @proposal1, :rating => 1, :comment => 'Yay')
+          @selector_vote = SelectorVote.create!(user: @user, proposal: @proposal1, rating: 1, comment: 'Yay')
           SelectorVote.count.should == 1
 
-          post :create, :proposal_id => @proposal1.id, :selector_vote => {:comment => 'Nay', :rating  => 0}
+          post :create, proposal_id: @proposal1.id, selector_vote: {comment: 'Nay', rating: 0}
         end
 
         it "should not create a new vote" do

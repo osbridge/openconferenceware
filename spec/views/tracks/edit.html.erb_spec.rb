@@ -6,8 +6,8 @@ describe "tracks/edit.html.erb" do
   before(:each) do
     @event = stub_current_event!
     @track = stub_model(Track,
-      :title => "value for title",
-      :event => @event
+      title: "value for title",
+      event: @event
     )
     assign(:track, @track)
   end

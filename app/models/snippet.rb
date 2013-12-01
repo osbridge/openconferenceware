@@ -22,7 +22,7 @@ class Snippet < ActiveRecord::Base
 
   # Provide cached Snippet.lookup(slug) method.
   include CacheLookupsMixin
-  cache_lookups_for :slug, :order => :slug
+  cache_lookups_for :slug, order: :slug
 
   # Load the Snippets as defined in the "text/fixtures/snippets.yml" file and
   # load them into the current database, overwriting any existing records.
@@ -44,7 +44,7 @@ class Snippet < ActiveRecord::Base
   # Return a Snippet record for +slug+, but if it doesn't exist, create a new
   # one with the given +description+ and +content+.
   def self.make(slug, description, content)
-    return self.find_or_create_by_slug(:slug => slug.to_s, :description => description, :content => content)
+    return self.find_or_create_by_slug(slug: slug.to_s, description: description, content: content)
   end
 
   # Returns the content for a Snippet match +slug+, else raise an ActiveRecord::RecordNotFound.

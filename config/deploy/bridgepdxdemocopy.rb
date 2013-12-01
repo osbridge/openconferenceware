@@ -12,5 +12,5 @@ set :user, 'bridgepdx'
 
 role :app, host
 role :web, host
-role :db,  host, :primary => true
+role :db,  host, primary: true
 default_run_options[:pty] = true

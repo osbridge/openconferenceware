@@ -10,7 +10,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
     unless admin_auth.user
       admin_user = User.create_from_authentication(admin_auth)
-      admin_user.assign_attributes({:admin => true}, :as => :admin)
+      admin_user.assign_attributes({admin: true}, as: :admin)
       admin_user.save!
     end
 
@@ -21,6 +21,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     User.create_from_authentication(mortal_auth) unless mortal_auth.user
   end
 
-  provider :openid, :store => OpenID::Store::Filesystem.new(Rails.root.join('tmp'))
+  provider :openid, store: OpenID::Store::Filesystem.new(Rails.root.join('tmp'))
   provider :persona
 end

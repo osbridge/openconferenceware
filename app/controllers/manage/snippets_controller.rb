@@ -8,11 +8,11 @@ class Manage::SnippetsController < ApplicationController
   # GET /snippets
   # GET /snippets.xml
   def index
-    @snippets = Snippet.order(:slug).where(:public => true).all
+    @snippets = Snippet.order(:slug).where(public: true).all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @snippets }
+      format.xml  { render xml: @snippets }
     end
   end
 
@@ -24,7 +24,7 @@ class Manage::SnippetsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @snippet }
+      format.xml  { render xml: @snippet }
     end
   end
 
@@ -35,7 +35,7 @@ class Manage::SnippetsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @snippet }
+      format.xml  { render xml: @snippet }
     end
   end
 
@@ -51,16 +51,16 @@ class Manage::SnippetsController < ApplicationController
   # POST /snippets.xml
   def create
     @snippet = Snippet.new
-    @snippet.assign_attributes(params[:snippet], :as => current_role)
+    @snippet.assign_attributes(params[:snippet], as: current_role)
 
     respond_to do |format|
       if @snippet.save
         flash[:notice] = 'Snippet was successfully created.'
         format.html { redirect_to([:manage, @snippet]) }
-        format.xml  { render :xml => @snippet, :status => :created, :location => @snippet }
+        format.xml  { render xml: @snippet, status: :created, location: @snippet }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @snippet.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @snippet.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,7 +69,7 @@ class Manage::SnippetsController < ApplicationController
   # PUT /snippets/1.xml
   def update
     @snippet = Snippet.find(params[:id])
-    @snippet.assign_attributes(params[:snippet], :as => current_role)
+    @snippet.assign_attributes(params[:snippet], as: current_role)
     add_breadcrumb @snippet.slug, manage_snippet_path(@snippet)
 
     @return_to = params[:return_to]
@@ -80,8 +80,8 @@ class Manage::SnippetsController < ApplicationController
         format.html { redirect_to(@return_to ? @return_to : [:manage, @snippet]) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @snippet.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @snippet.errors, status: :unprocessable_entity }
       end
     end
   end

@@ -31,10 +31,10 @@ class SpeakerMailer < ActionMailer::Base
     @body_text  = clean_snippet(body_snippet)
 
     mail(
-      :to => proposal.mailto_emails,
-      :bcc => SECRETS.email['default_bcc_address'],
-      :from => SECRETS.email['default_from_address'],
-      :subject => clean_snippet(subject_snippet)
+      to: proposal.mailto_emails,
+      bcc: SECRETS.email['default_bcc_address'],
+      from: SECRETS.email['default_from_address'],
+      subject: clean_snippet(subject_snippet)
     )
   end
 

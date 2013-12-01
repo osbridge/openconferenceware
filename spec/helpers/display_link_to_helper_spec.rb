@@ -27,7 +27,7 @@ describe DisplayLinkToHelper do
     it "should truncate long URL" do
       url = "http://foo.bar/abcdefghijklmnopqrstuvwxyz"
       maxlength = 16
-      elem = elem_for(url, :maxlength => maxlength)
+      elem = elem_for(url, maxlength: maxlength)
 
       elem['href'].should == url
       elem.inner_html.should_not == url
@@ -44,7 +44,7 @@ describe DisplayLinkToHelper do
 
     it "should not add norelfollow optionally" do
       url = "http://foo.bar/"
-      elem = elem_for(url, :nofollow => false)
+      elem = elem_for(url, nofollow: false)
 
       elem['rel'].should be_blank
     end

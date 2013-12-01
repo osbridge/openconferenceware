@@ -10,29 +10,29 @@ describe Manage::EventsController do
   end
 
   it "should retreive event show page" do
-    get :index, :id => @event.slug
+    get :index, id: @event.slug
 
     response.should be_success
   end
 
   it "should retrieve new event form" do
-    get :new, :id => @event.slug
+    get :new, id: @event.slug
 
     response.should be_success
   end
 
   it "should retrieve edit event form" do
-    get :edit, :id => @event.slug
+    get :edit, id: @event.slug
 
     response.should be_success
   end
 
   it "should update event" do
-    stub_current_event!(:event => @event)
+    stub_current_event!(event: @event)
     attributes = { "title" => "omgwtfbbq" }
-    @event.should_receive(:assign_attributes).with(attributes, :as => :admin)
+    @event.should_receive(:assign_attributes).with(attributes, as: :admin)
 
-    put :update, :id => @event.slug, :event => attributes
+    put :update, id: @event.slug, event: attributes
 
     response.should be_redirect
     flash[:notice].should_not be_blank
@@ -61,12 +61,12 @@ describe Manage::EventsController do
 
   it "should raise an error if trying to notify speakers other than accepted or rejected" do
     setup_proposals { |proposal| proposal.accept! }
-    lambda { post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids }  }.should raise_error(ArgumentError)
+    lambda { post :notify_speakers, { id: @event.slug, proposal_ids: @proposal_ids }  }.should raise_error(ArgumentError)
   end
 
   it "should skip proposals that don't exist" do
     setup_proposals { |proposal| proposal.accept! }
-    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids+',999', :proposal_status => 'accepted' }
+    post :notify_speakers, { id: @event.slug, proposal_ids: @proposal_ids+',999', proposal_status: 'accepted' }
 
     assert_notified
   end
@@ -77,7 +77,7 @@ describe Manage::EventsController do
       proposal.notified_at = Time.now
       proposal.save
     end
-    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids, :proposal_status => 'accepted' }
+    post :notify_speakers, { id: @event.slug, proposal_ids: @proposal_ids, proposal_status: 'accepted' }
 
     assert_notified
     flash[:success].should =~ /none/
@@ -86,7 +86,7 @@ describe Manage::EventsController do
 
   it "should notify accepted speakers" do
     setup_proposals { |proposal| proposal.accept! }
-    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids, :proposal_status => 'accepted' }
+    post :notify_speakers, { id: @event.slug, proposal_ids: @proposal_ids, proposal_status: 'accepted' }
 
     assert_notified
     flash[:success].should_not =~ /already been notified/
@@ -94,7 +94,7 @@ describe Manage::EventsController do
 
   it "should notify rejected speakers" do
     setup_proposals { |proposal| proposal.reject! }
-    post :notify_speakers, { :id => @event.slug, :proposal_ids => @proposal_ids, :proposal_status => 'rejected' }
+    post :notify_speakers, { id: @event.slug, proposal_ids: @proposal_ids, proposal_status: 'rejected' }
 
     assert_notified
     flash[:success].should_not =~ /already been notified/

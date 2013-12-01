@@ -5,9 +5,9 @@ class AddTimestampsToComments < ActiveRecord::Migration
     Comment.reset_column_information
 
     puts "Setting all comments for latest event to current time"
-    if latest_event = Event.find(:first, :order => "deadline desc")
-      Comment.find(:all, :readonly => false, :joins => {:proposal => :event}, :conditions => ['events.id = ?', latest_event.id]).each do |t|
-        t.update_attributes(:updated_at => Time.now, :created_at => Time.now)
+    if latest_event = Event.find(:first, order: "deadline desc")
+      Comment.find(:all, readonly: false, joins: {proposal: :event}, conditions: ['events.id = ?', latest_event.id]).each do |t|
+        t.update_attributes(updated_at: Time.now, created_at: Time.now)
       end
     end
   end

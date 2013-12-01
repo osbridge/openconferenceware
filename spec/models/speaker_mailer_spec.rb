@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 def stub_speaker_mailer_secrets
-  SECRETS.stub(:email => {
+  SECRETS.stub(email: {
     'default_from_address' => 'test@example.com',
     'default_bcc_address' => 'me@example.com',
     'action_mailer' => {
-      :delivery_method => :test
+      delivery_method: :test
     }
   })
 end

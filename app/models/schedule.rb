@@ -39,9 +39,9 @@ class Schedule
         items.each do |item|
           if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
             conflicts << {
-              :room => room,
-              :item => item,
-              :conflicts_with => conflicts_with
+              room: room,
+              item: item,
+              conflicts_with: conflicts_with
             }
           end
         end
@@ -55,10 +55,10 @@ class Schedule
         items.each do |item|
           if (conflicts_with = items.find{ |o| o.overlaps?(item) }) && conflicts_with != item
             conflicts << {
-              :user => user,
-              :room => item.room,
-              :item => item,
-              :conflicts_with => conflicts_with
+              user: user,
+              room: item.room,
+              item: item,
+              conflicts_with: conflicts_with
             }
           end
         end

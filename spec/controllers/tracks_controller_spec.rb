@@ -5,9 +5,9 @@ describe TracksController do
   fixtures :all
   
   before do
-    @event = stub_current_event!(:event => events(:open))
-    @controller.stub(:assign_events => [])
-    @track = create(:track, :event => @event)
+    @event = stub_current_event!(event: events(:open))
+    @controller.stub(assign_events: [])
+    @track = create(:track, event: @event)
   end
     
   describe "responding to GET index" do
@@ -19,7 +19,7 @@ describe TracksController do
 
     it "should expose all tracks from the current event as @tracks" do
       @event.should_receive(:tracks).and_return([@track])
-      get :index, :event_id => @event.to_param
+      get :index, event_id: @event.to_param
       assigns(:tracks).should == [@track]
     end
 
@@ -39,7 +39,7 @@ describe TracksController do
 
     it "should expose the requested track as @track" do
       Track.should_receive(:find).with("37").and_return(@track)
-      get :show, :id => "37"
+      get :show, id: "37"
       assigns(:track).should equal(@track)
     end
     
@@ -49,7 +49,7 @@ describe TracksController do
         request.env["HTTP_ACCEPT"] = "application/xml"
         Track.should_receive(:find).with("37").and_return(@track)
         @track.should_receive(:to_xml).and_return("generated XML")
-        get :show, :id => "37"
+        get :show, id: "37"
         response.body.should == "generated XML"
       end
 
@@ -58,7 +58,7 @@ describe TracksController do
     describe "with an invalid track id" do
       it "should redirect to the tracks index" do
         Track.should_receive(:find).with("invalid").and_raise(ActiveRecord::RecordNotFound)
-        get :show, :id => "invalid"
+        get :show, id: "invalid"
         response.should redirect_to(event_tracks_path(@event))
       end
     end
@@ -74,7 +74,7 @@ describe TracksController do
     
       it "should expose a new track as @track" do
         Track.should_receive(:new).and_return(@track)
-        get :new, :event => @event.to_param
+        get :new, event: @event.to_param
         assigns(:track).should equal(@track)
       end
 
@@ -84,7 +84,7 @@ describe TracksController do
     
       it "should expose the requested track as @track" do
         Track.should_receive(:find).with("37").and_return(@track)
-        get :edit, :id => "37"
+        get :edit, id: "37"
         assigns(:track).should equal(@track)
       end
 
@@ -101,7 +101,7 @@ describe TracksController do
         end
       
         it "should expose a newly created track as @track" do
-          post :create, :track => @valid_params
+          post :create, track: @valid_params
           assigns(:track).attributes.slice(*Track.accessible_attributes(:admin)).should eq(@valid_params)
         end
 
@@ -109,7 +109,7 @@ describe TracksController do
           Track.stub(:new).and_return(@new_track)
           @new_track.stub(:save).and_return(true)
 
-          post :create, :track => {}
+          post :create, track: {}
           response.should redirect_to(event_tracks_path(@event))
         end
       
@@ -122,14 +122,14 @@ describe TracksController do
 
         it "should expose a newly created but unsaved track as @track" do
           Track.stub(:new).and_return(@new_track)
-          post :create, :track => {:title => 'hello'}
+          post :create, track: {title: 'hello'}
           assigns(:track).should equal(@new_track)
           assigns(:track).should be_new_record
         end
 
         it "should re-render the 'new' template" do
           Track.stub(:new).and_return(@new_track)
-          post :create, :track => {}
+          post :create, track: {}
           response.should render_template('new')
         end
       
@@ -147,19 +147,19 @@ describe TracksController do
 
         it "should update the requested track" do
           Track.should_receive(:find).with("37").and_return(@track)
-          @track.should_receive(:assign_attributes).with(@valid_params, :as => :admin)
-          put :update, :id => "37", :track => @valid_params
+          @track.should_receive(:assign_attributes).with(@valid_params, as: :admin)
+          put :update, id: "37", track: @valid_params
         end
 
         it "should expose the requested track as @track" do
           Track.stub(:find).and_return(@track)
-          put :update, :id => "1"
+          put :update, id: "1"
           assigns(:track).should equal(@track)
         end
 
         it "should redirect to the track" do
           Track.stub(:find).and_return(@track)
-          put :update, :id => "1"
+          put :update, id: "1"
           response.should redirect_to(track_path(@track))
         end
 
@@ -172,18 +172,18 @@ describe TracksController do
 
         it "should update the requested track" do
           Track.should_receive(:find).with("37").and_return(@track)
-          put :update, :id => "37", :track => {:title => 'hello'}
+          put :update, id: "37", track: {title: 'hello'}
         end
 
         it "should expose the track as @track" do
           Track.stub(:find).and_return(@track)
-          put :update, :id => "1"
+          put :update, id: "1"
           assigns(:track).should equal(@track)
         end
 
         it "should re-render the 'edit' template" do
           Track.stub(:find).and_return(@track)
-          put :update, :id => "1"
+          put :update, id: "1"
           response.should render_template('edit')
         end
 
@@ -199,12 +199,12 @@ describe TracksController do
       it "should destroy the requested track" do
         Track.should_receive(:find).with("37").and_return(@track)
         @track.should_receive(:destroy)
-        delete :destroy, :id => "37"
+        delete :destroy, id: "37"
       end
   
       it "should redirect to the tracks list" do
         Track.stub(:find).and_return(@track)
-        delete :destroy, :id => "1"
+        delete :destroy, id: "1"
         response.should redirect_to(event_tracks_path(@event))
       end
 

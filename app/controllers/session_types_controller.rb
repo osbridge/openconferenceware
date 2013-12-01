@@ -1,10 +1,10 @@
 class SessionTypesController < ApplicationController
-  before_filter :require_admin, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :require_admin, only: [:new, :create, :edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
-  before_filter :normalize_event_path_or_redirect, :only => [:index]
+  before_filter :normalize_event_path_or_redirect, only: [:index]
   before_filter :add_event_breadcrumb
   before_filter :add_session_types_breadcrumb
-  before_filter :assign_session_type, :only => [:show, :edit, :update, :destroy]
+  before_filter :assign_session_type, only: [:show, :edit, :update, :destroy]
 
   # GET /session_types
   # GET /session_types.xml
@@ -13,8 +13,8 @@ class SessionTypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @session_types }
-      format.xml  { render :xml  => @session_types }
+      format.json { render json: @session_types }
+      format.xml  { render xml: @session_types }
     end
   end
 
@@ -25,8 +25,8 @@ class SessionTypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @session_type }
-      format.xml  { render :xml  => @session_type }
+      format.json { render json: @session_type }
+      format.xml  { render xml: @session_type }
     end
   end
 
@@ -36,8 +36,8 @@ class SessionTypesController < ApplicationController
     @session_type = SessionType.new
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @session_type }
-      format.xml  { render :xml  => @session_type }
+      format.json { render json: @session_type }
+      format.xml  { render xml: @session_type }
     end
   end
 
@@ -49,19 +49,19 @@ class SessionTypesController < ApplicationController
   # POST /session_types.xml
   def create
     @session_type = SessionType.new
-    @session_type.assign_attributes(params[:session_type], :as => current_role)
+    @session_type.assign_attributes(params[:session_type], as: current_role)
     @session_type.event = @event
 
     respond_to do |format|
       if @session_type.save
         flash[:notice] = 'SessionType was successfully created.'
         format.html { redirect_to(session_types_path) }
-        format.json  { render :json => @session_type, :status => :created, :location => @session_type }
-        format.xml  { render :xml => @session_type, :status => :created, :location => @session_type }
+        format.json  { render json: @session_type, status: :created, location: @session_type }
+        format.xml  { render xml: @session_type, status: :created, location: @session_type }
       else
-        format.html { render :action => "new" }
-        format.json  { render :json => @session_type.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml => @session_type.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json  { render json: @session_type.errors, status: :unprocessable_entity }
+        format.xml  { render xml: @session_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,7 +69,7 @@ class SessionTypesController < ApplicationController
   # PUT /session_types/1
   # PUT /session_types/1.xml
   def update
-    @session_type.assign_attributes(params[:session_type], :as => current_role)
+    @session_type.assign_attributes(params[:session_type], as: current_role)
 
     respond_to do |format|
       if @session_type.save
@@ -78,9 +78,9 @@ class SessionTypesController < ApplicationController
         format.json  { head :ok }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.json  { render :json => @session_type.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml => @session_type.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json  { render json: @session_type.errors, status: :unprocessable_entity }
+        format.xml  { render xml: @session_type.errors, status: :unprocessable_entity }
       end
     end
   end

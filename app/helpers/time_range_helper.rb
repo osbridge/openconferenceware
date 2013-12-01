@@ -23,8 +23,8 @@ class TimeRange
     # or an object that responds_to start_time and end_time, and
     # several options
     #
-    # By default (unless :format => :text) include <abbr> tags
-    # for hCalendar, and (unless :relative => false) refer to
+    # By default (unless format: :text) include <abbr> tags
+    # for hCalendar, and (unless relative: false) refer to
     # "today", "yesterday", and "tomorrow" using those labels;
     # if a :context date is provided, omit unnecessary date parts.
     if end_time.is_a? Hash
@@ -114,19 +114,19 @@ class TimeRange
 protected
 
   PREFIXES = {
-    :hour => " ",
+    hour: " ",
     [nil, :hour] => "",
-    :year => ", ",
-    :end_hour => " ",
-    :end_year => ", ",
+    year: ", ",
+    end_hour: " ",
+    end_year: ", ",
   }
   SUFFIXES = {
-    :month => " ",
-    :wday => ", ",
+    month: " ",
+    wday: ", ",
   }
   STRINGS = {
-    :from => " from",
-    :at => " at",
+    from: " from",
+    at: " at",
   }
 
   def format_details_by_list(details, format_list)
@@ -155,16 +155,16 @@ protected
     #   (with no other date fields)
     case @relative && d.to_date - Date.today
       when 1
-        { :wday => "tomorrow" }
+        { wday: "tomorrow" }
       when 0
-        { :wday => "today" }
+        { wday: "today" }
       when -1
-        { :wday => "yesterday" }
+        { wday: "yesterday" }
       else
-        { :wday => Date::DAYNAMES[d.wday],
-          :month => Date::MONTHNAMES[d.month],
-          :day => d.day.to_s,
-          :year => d.year.to_s }
+        { wday: Date::DAYNAMES[d.wday],
+          month: Date::MONTHNAMES[d.month],
+          day: d.day.to_s,
+          year: d.year.to_s }
     end
   end
 
@@ -178,8 +178,8 @@ protected
     #   (with no other time fields)
     details = date_details(t)
     if t.min == 0
-      return details.merge(:hour => "Midnight") if t.hour == 0
-      return details.merge(:hour => "Noon") if t.hour == 12
+      return details.merge(hour: "Midnight") if t.hour == 0
+      return details.merge(hour: "Noon") if t.hour == 12
     end
     if t.hour >= 12
       suffix = "pm"
@@ -189,8 +189,8 @@ protected
       h = t.hour == 0 ? 12 : t.hour
     end
     m = ":%02d" % t.min
-    details.merge(:hour => h.to_s,
-                  :min => m,
-                  :suffix => suffix)
+    details.merge(hour: h.to_s,
+                  min: m,
+                  suffix: suffix)
   end
 end

@@ -6,8 +6,8 @@ describe "session_types/index.html.erb" do
   before(:each) do
     @event = stub_current_event!
     assign(:session_types, [
-      stub_model(SessionType, :event => @event),
-      stub_model(SessionType, :event => @event)
+      stub_model(SessionType, event: @event),
+      stub_model(SessionType, event: @event)
     ])
     view.stub(:admin?).and_return(false)
   end

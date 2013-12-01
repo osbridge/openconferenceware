@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 
   MAX_FEED_ITEMS = 50
 
-  before_filter :require_admin, :except => [:index, :create]
+  before_filter :require_admin, except: [:index, :create]
 
   def index
     @comments = Comment.listable
@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
 
     if [:atom, :json, :xml].include?(request.format.to_sym)
       unless params[:secret] == SECRET
-        render(:text => "403 Forbidden: You can't see the comments feed unless you supply the secret key", :status => 403) and return
+        render(text: "403 Forbidden: You can't see the comments feed unless you supply the secret key", status: 403) and return
       end
       @comments = @comments[0..MAX_FEED_ITEMS]
     else
@@ -48,17 +48,17 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         flash[:success] = "Comment added."
-        format.html { redirect_to(proposal_path(@comment.proposal, :commented => true)) }
-        format.xml  { render :xml  => @comment, :status => :created }
-        format.json { render :json => @comment, :status => :created }
+        format.html { redirect_to(proposal_path(@comment.proposal, commented: true)) }
+        format.xml  { render xml: @comment, status: :created }
+        format.json { render json: @comment, status: :created }
       else
         @display_comment_form = true
         @focus_comment = true
         flash[:failure] = "Invalid comment."
 
-        format.html { render :template => "proposals/show" }
-        format.xml  { render :xml  => @comment.errors, :status => :unprocessable_entity }
-        format.json { render :json => @comment.errors, :status => :unprocessable_entity }
+        format.html { render template: "proposals/show" }
+        format.xml  { render xml: @comment.errors, status: :unprocessable_entity }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
   end

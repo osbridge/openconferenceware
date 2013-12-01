@@ -11,16 +11,16 @@ end
 n2s = names2columns
 for row in rows
   proposal = Proposal.create!(
-    :presenter    => row[n2s[:presenter]],
-    :affiliation  => row[n2s[:affiliation]],
-    :email        => row[n2s[:email]],
-    :url          => row[n2s[:url]],
-    :bio          => row[n2s[:bio]],
-    :title        => row[n2s[:title]],
-    :description  => row[n2s[:description]],
-    :publish      => true,
-    :agreement    => true,
-    :event        => ip2,
-    :submitted_at => row[n2s[:created_at]]
+    presenter: row[n2s[:presenter]],
+    affiliation: row[n2s[:affiliation]],
+    email: row[n2s[:email]],
+    url: row[n2s[:url]],
+    bio: row[n2s[:bio]],
+    title: row[n2s[:title]],
+    description: row[n2s[:description]],
+    publish: true,
+    agreement: true,
+    event: ip2,
+    submitted_at: row[n2s[:created_at]]
   )
 end

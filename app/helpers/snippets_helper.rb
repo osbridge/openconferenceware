@@ -24,9 +24,9 @@ module SnippetsHelper
     string = record.content
     if admin?
       if matcher = string.match(%r{(.+)(</(?:div|p)>)\s*$}s)
-        string = matcher[1] + link_to("Edit", edit_manage_snippet_path(record), :class => :snippet_edit_link) + matcher[2]
+        string = matcher[1] + link_to("Edit", edit_manage_snippet_path(record), class: :snippet_edit_link) + matcher[2]
       else
-        string = string + link_to("Edit", edit_manage_snippet_path(record), :class => :snippet_edit_link)
+        string = string + link_to("Edit", edit_manage_snippet_path(record), class: :snippet_edit_link)
       end
     end
     return use_simple_format ? simple_format(string) : string

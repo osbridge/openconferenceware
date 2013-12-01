@@ -24,7 +24,7 @@ describe EventsController, "when displaying events" do
   describe "show" do
     describe "non-existent event" do
       before do
-        get :show, :id => -1
+        get :show, id: -1
       end
 
       it "should display error" do
@@ -39,7 +39,7 @@ describe EventsController, "when displaying events" do
     describe "extant event" do
       before do
         @event = events(:closed)
-        get :show, :id => @event.slug
+        get :show, id: @event.slug
       end
 
       it "should display event" do
@@ -51,14 +51,14 @@ describe EventsController, "when displaying events" do
   describe "speakers" do
     before do
       @event = events(:open)
-      stub_current_event!(:event => @event)
+      stub_current_event!(event: @event)
     end
 
     describe "before proposals statuses published" do
       before do
         @event.stub(:proposal_status_published? => false)
 
-        get :speakers, :event_id => @event.to_param
+        get :speakers, event_id: @event.to_param
       end
 
       it "should redirect to event's proposals" do
@@ -76,7 +76,7 @@ describe EventsController, "when displaying events" do
         @event.stub(:proposal_status_published? => true)
         @event.stub(:schedule_published? => true)
 
-        get :speakers, :event_id => @event.to_param
+        get :speakers, event_id: @event.to_param
       end
 
       it "should get a speaker's page" do
@@ -84,15 +84,15 @@ describe EventsController, "when displaying events" do
       end
 
       it "should see speakers" do
-        response.body.should have_selector(".fn", :text => /#{users(:quentin).fullname}/)
+        response.body.should have_selector(".fn", text: /#{users(:quentin).fullname}/)
       end
 
       it "should see sessions" do
-        response.body.should have_selector(".summary", :text => proposals(:postgresql_session).title)
+        response.body.should have_selector(".summary", text: proposals(:postgresql_session).title)
       end
 
       it "should not see non-confirmed proposals" do
-        response.body.should_not have_selector(".summary", :text => proposals(:clio_chupacabras).title)
+        response.body.should_not have_selector(".summary", text: proposals(:clio_chupacabras).title)
       end
     end
 

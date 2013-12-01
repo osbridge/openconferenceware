@@ -1,10 +1,10 @@
 class ScheduleItemsController < ApplicationController
-  before_filter :require_admin, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :require_admin, only: [:new, :create, :edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
-  before_filter :normalize_event_path_or_redirect, :only => [:index]
+  before_filter :normalize_event_path_or_redirect, only: [:index]
   before_filter :add_event_breadcrumb
   before_filter :add_schedule_items_breadcrumb
-  before_filter :assign_schedule_item, :only => [:show, :edit, :update, :destroy]
+  before_filter :assign_schedule_item, only: [:show, :edit, :update, :destroy]
 
   # GET /schedule_items
   # GET /schedule_items.xml
@@ -13,8 +13,8 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json  { render :json => @schedule_items }
-      format.xml   { render :xml  => @schedule_items }
+      format.json  { render json: @schedule_items }
+      format.xml   { render xml: @schedule_items }
     end
   end
 
@@ -25,8 +25,8 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @schedule_item }
-      format.xml  { render :xml  => @schedule_item }
+      format.json { render json: @schedule_item }
+      format.xml  { render xml: @schedule_item }
     end
   end
 
@@ -37,8 +37,8 @@ class ScheduleItemsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @schedule_item }
-      format.xml  { render :xml  => @schedule_item }
+      format.json { render json: @schedule_item }
+      format.xml  { render xml: @schedule_item }
     end
   end
 
@@ -50,19 +50,19 @@ class ScheduleItemsController < ApplicationController
   # POST /schedule_items.xml
   def create
     @schedule_item = ScheduleItem.new
-    @schedule_item.assign_attributes(params[:schedule_item], :as => current_role)
+    @schedule_item.assign_attributes(params[:schedule_item], as: current_role)
     @schedule_item.event = @event
 
     respond_to do |format|
       if @schedule_item.save
         flash[:notice] = 'ScheduleItem was successfully created.'
         format.html { redirect_to(@schedule_item) }
-        format.json { render :json => @schedule_item, :status => :created, :location => @schedule_item }
-        format.xml  { render :xml  => @schedule_item, :status => :created, :location => @schedule_item }
+        format.json { render json: @schedule_item, status: :created, location: @schedule_item }
+        format.xml  { render xml: @schedule_item, status: :created, location: @schedule_item }
       else
-        format.html { render :action => "new" }
-        format.json { render :json => @schedule_item.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml  => @schedule_item.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @schedule_item.errors, status: :unprocessable_entity }
+        format.xml  { render xml: @schedule_item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,7 +70,7 @@ class ScheduleItemsController < ApplicationController
   # PUT /schedule_items/1
   # PUT /schedule_items/1.xml
   def update
-    @schedule_item.assign_attributes(params[:schedule_item], :as => current_role)
+    @schedule_item.assign_attributes(params[:schedule_item], as: current_role)
     respond_to do |format|
       if @schedule_item.save
         flash[:notice] = 'ScheduleItem was successfully updated.'
@@ -78,9 +78,9 @@ class ScheduleItemsController < ApplicationController
         format.json  { head :ok }
         format.xml   { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @schedule_item.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml  => @schedule_item.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @schedule_item.errors, status: :unprocessable_entity }
+        format.xml  { render xml: @schedule_item.errors, status: :unprocessable_entity }
       end
     end
   end

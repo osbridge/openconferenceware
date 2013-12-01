@@ -4,13 +4,13 @@
 # Example:
 #   event = create :populated_event
 #   proposal = proposal_for_event(event)
-#   proposal2 = proposal_for_event(event, :user => (create :user))
+#   proposal2 = proposal_for_event(event, user: (create :user))
 def proposal_for_event(event, opts={})
   options = {
-    :event => event,
-    :session_type => event.session_types.first,
-    :track => event.tracks.first,
-    :room => event.rooms.first
+    event: event,
+    session_type: event.session_types.first,
+    track: event.tracks.first,
+    room: event.rooms.first
   }.merge(opts)
 
   return create :proposal, options

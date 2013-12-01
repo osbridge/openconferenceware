@@ -14,13 +14,13 @@ describe UsersController do
 
   describe "show" do
     it "should show user" do
-      get :show, :id => users(:aaron).id
+      get :show, id: users(:aaron).id
 
       assigns(:user).should == users(:aaron)
     end
 
     it "should redirect on invalid user" do
-      get :show, :id => -1
+      get :show, id: -1
 
       assigns(:user).should be_blank
       response.should redirect_to(users_path)
@@ -30,8 +30,8 @@ describe UsersController do
   describe "create" do
     def post_to_create(params = {})
       params.merge!({
-        :user => {
-          :login => 'user'
+        user: {
+          login: 'user'
         }
       })
       post :create, params
@@ -48,7 +48,7 @@ describe UsersController do
   describe "update" do
     describe "anonymous user" do
       it "should not allow" do
-        put :update, :user => {:id => users(:clio).id, :admin => true}
+        put :update, user: {id: users(:clio).id, admin: true}
 
         response.should redirect_to(users_path)
         flash[:failure].should_not be_blank
@@ -63,8 +63,8 @@ describe UsersController do
 
       it "should allow edits of own record" do
         new_fullname = "Bubba Smith"
-        put :update, :id => @user.id, :user => {
-          :fullname => new_fullname
+        put :update, id: @user.id, user: {
+          fullname: new_fullname
         }
 
         user = assigns(:user)
@@ -72,8 +72,8 @@ describe UsersController do
       end
 
       it "should not allow editing of admin-only fields" do
-        put :update, :id => @user.id, :user => {
-          :admin => true
+        put :update, id: @user.id, user: {
+          admin: true
         }
 
         user = assigns(:user)
@@ -82,8 +82,8 @@ describe UsersController do
 
       it "should not allow editing of other records" do
         user = users(:aaron)
-        put :update, :id => user.id, :user => {
-          :fullname => "Jerky McJerkbag"
+        put :update, id: user.id, user: {
+          fullname: "Jerky McJerkbag"
         }
 
         response.should redirect_to(user_path(user))
@@ -98,8 +98,8 @@ describe UsersController do
 
       it "should allow edits of any record's admin-only fields" do
         user = users(:quentin)
-        put :update, :id => user.id, :user => {
-          :admin => true
+        put :update, id: user.id, user: {
+          admin: true
         }
 
         user = assigns(:user)
@@ -112,7 +112,7 @@ describe UsersController do
     it "should not allow mortal user to delete another user" do
       login_as(:quentin)
       user = users(:clio)
-      delete :destroy, :id => user.id
+      delete :destroy, id: user.id
 
       User.exists?(user.id).should be_true
       flash[:failure].should_not be_blank
@@ -121,7 +121,7 @@ describe UsersController do
     it "should allow admin" do
       login_as(:aaron)
       user = users(:clio)
-      delete :destroy, :id => user.id
+      delete :destroy, id: user.id
 
       User.exists?(user.id).should be_false
       flash[:success].should_not be_blank
@@ -132,10 +132,10 @@ describe UsersController do
     it "should redirect a completed profile to the user's profile" do
       user = users(:clio)
       login_as(user)
-      user.stub(:complete_profile => true)
-      controller.stub(:current_user => user)
+      user.stub(complete_profile: true)
+      controller.stub(current_user: user)
 
-      get :complete_profile, :id => user.id
+      get :complete_profile, id: user.id
 
       response.should redirect_to(user_path(user))
     end
@@ -143,12 +143,12 @@ describe UsersController do
     it "should redirect an incomplete profile to the edit form" do
       user = users(:clio)
       login_as(user)
-      user.stub(:complete_profile => false)
-      controller.stub(:current_user => user)
+      user.stub(complete_profile: false)
+      controller.stub(current_user: user)
 
-      get :complete_profile, :id => user.id
+      get :complete_profile, id: user.id
 
-      response.should redirect_to(edit_user_path(user, :require_complete_profile => true))
+      response.should redirect_to(edit_user_path(user, require_complete_profile: true))
     end
   end
 
@@ -158,7 +158,7 @@ describe UsersController do
       user = users(:clio)
       login_as(user)
 
-      get :proposals, :id => user.id
+      get :proposals, id: user.id
 
       response.should be_success
     end

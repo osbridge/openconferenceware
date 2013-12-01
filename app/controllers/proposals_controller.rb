@@ -1,15 +1,15 @@
 class ProposalsController < ApplicationController
 
-  before_filter :authentication_required, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline, :proposal_login_required]
+  before_filter :authentication_required, only: [:edit, :update, :destroy, :speaker_confirm, :speaker_decline, :proposal_login_required]
   before_filter :assert_current_event_or_redirect
-  before_filter :assert_proposal_status_published, :only => [:sessions_index, :sessions_index_terse, :session_show]
-  before_filter :assert_schedule_published, :only => [:schedule]
-  before_filter :normalize_event_path_or_redirect, :only => [:index, :sessions_index, :schedule]
-  before_filter :assert_anonymous_proposals, :only => [:new, :create]
-  before_filter :assert_accepting_proposals, :only => [:new, :create]
-  before_filter :assign_proposal_and_event, :only => [:show, :session_show, :edit, :update, :destroy, :speaker_confirm, :speaker_decline]
-  before_filter :assert_record_ownership, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline]
-  before_filter :assert_user_complete_profile, :only => [:new, :edit, :update]
+  before_filter :assert_proposal_status_published, only: [:sessions_index, :sessions_index_terse, :session_show]
+  before_filter :assert_schedule_published, only: [:schedule]
+  before_filter :normalize_event_path_or_redirect, only: [:index, :sessions_index, :schedule]
+  before_filter :assert_anonymous_proposals, only: [:new, :create]
+  before_filter :assert_accepting_proposals, only: [:new, :create]
+  before_filter :assign_proposal_and_event, only: [:show, :session_show, :edit, :update, :destroy, :speaker_confirm, :speaker_decline]
+  before_filter :assert_record_ownership, only: [:edit, :update, :destroy, :speaker_confirm, :speaker_decline]
+  before_filter :assert_user_complete_profile, only: [:new, :edit, :update]
   before_filter :assign_proposals_breadcrumb
 
   MAX_FEED_ITEMS = 50
@@ -43,30 +43,30 @@ class ProposalsController < ApplicationController
         add_breadcrumb @event.title, event_proposals_path(@event)
       }
       format.xml  {
-        render :xml => @proposals
+        render xml: @proposals
       }
       format.json {
-        render :json => @proposals
+        render json: @proposals
       }
       format.atom {
         # index.atom.builder
         if @event_assignment == :assigned_to_param
           @cache_key = "proposals_atom,event_#{@event.id}"
-          @proposals = Defer { @event.populated_proposals(:proposals).all(:order => "submitted_at desc", :limit => MAX_FEED_ITEMS) }
+          @proposals = Defer { @event.populated_proposals(:proposals).all(order: "submitted_at desc", limit: MAX_FEED_ITEMS) }
         else
           @cache_key = "proposals_atom,all"
-          @proposals = Defer { Proposal.populated.all(:order => "submitted_at desc", :limit => MAX_FEED_ITEMS) }
+          @proposals = Defer { Proposal.populated.all(order: "submitted_at desc", limit: MAX_FEED_ITEMS) }
         end
       }
       format.csv {
-        records = @event.populated_proposals(@kind).all(:include => :comments)
+        records = @event.populated_proposals(@kind).all(include: :comments)
         if admin?
-          render :csv => records, :style => :admin
+          render csv: records, style: :admin
         else
           if schedule_visible?
-            render :csv => records, :style => :schedule
+            render csv: records, style: :schedule
           else
-            render :csv => records
+            render csv: records
           end
         end
       }
@@ -84,13 +84,13 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       format.html {
         add_breadcrumb @event.title, event_proposals_path(@event)
-        render :action => "index"
+        render action: "index"
       }
       format.xml  {
-        render :xml => @proposals
+        render xml: @proposals
       }
       format.json {
-        render :json => @proposals
+        render json: @proposals
       }
     end
   end
@@ -110,21 +110,21 @@ class ProposalsController < ApplicationController
         @view_cache_key = "schedule,event_#{@event.id},admin_#{admin?}"
       }
       format.json {
-        render :json => @schedule
+        render json: @schedule
       }
       format.xml {
-        ### render :xml => @schedule
-        render :xml => {:error => "XML output of schedule not yet supported"}, :status => :unprocessable_entity
+        ### render xml: @schedule
+        render xml: {error: "XML output of schedule not yet supported"}, status: :unprocessable_entity
       }
       format.ics {
         view_cache_key = "schedule,event_#{@event.id}.ics"
         data = Rails.cache.fetch(view_cache_key) {
           Proposal.to_icalendar(
             @schedule.items,
-            :title => "#{@event.title}",
-            :url_helper => lambda {|item| session_url(item)})
+            title: "#{@event.title}",
+            url_helper: lambda {|item| session_url(item)})
         }
-        render :text => data
+        render text: data
       }
     end
   end
@@ -162,7 +162,7 @@ class ProposalsController < ApplicationController
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb "Create a proposal", new_event_proposal_path(@event)
 
-    @proposal = Proposal.new(:agreement => false)
+    @proposal = Proposal.new(agreement: false)
 
     # Set default track if only one was found.
     if event_tracks? && @event.tracks.size == 1
@@ -182,8 +182,8 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @proposal }
-      format.json { render :json => @proposal }
+      format.xml  { render xml: @proposal }
+      format.json { render json: @proposal }
     end
   end
 
@@ -202,7 +202,7 @@ class ProposalsController < ApplicationController
     @proposal = Proposal.new
     @proposal.assign_attributes(
       params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
-      :as => current_role
+      as: current_role
     )
     @proposal.event = @event
     @proposal.add_user(current_user) if logged_in?
@@ -216,13 +216,13 @@ class ProposalsController < ApplicationController
           # Display a page thanking users for submitting a proposal and telling them what to do next.
           page_title "Thank You!"
         }
-        format.xml  { render :xml => @proposal, :status => :created, :location => @proposal }
-        format.json { render :json => @proposal, :status => :created, :location => @proposal }
+        format.xml  { render xml: @proposal, status: :created, location: @proposal }
+        format.json { render json: @proposal, status: :created, location: @proposal }
       else
         @proposal.valid? if params[:preview]
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }
-        format.json { render :json => @proposal.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @proposal.errors, status: :unprocessable_entity }
+        format.json { render json: @proposal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -247,7 +247,7 @@ class ProposalsController < ApplicationController
 
     @proposal.assign_attributes(
       params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
-      :as => current_role
+      as: current_role
     )
 
     add_breadcrumb @event.title, event_proposals_path(@event)
@@ -265,19 +265,19 @@ class ProposalsController < ApplicationController
         format.xml  { head :ok }
         format.json { 
           render(
-            :json => {
-              :proposal_status => @proposal.status, 
-              :_transition_control_html => render_to_string(:partial => '/proposals/transition_control')
+            json: {
+              proposal_status: @proposal.status,
+              _transition_control_html: render_to_string(partial: '/proposals/transition_control')
             }, 
-            :status => :ok
+            status: :ok
           )
         }
       else
         @proposal.valid? if params[:preview]
 
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @proposal.errors, :status => :unprocessable_entity }
-        format.json { render :json => @proposal.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @proposal.errors, status: :unprocessable_entity }
+        format.json { render json: @proposal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -309,7 +309,7 @@ class ProposalsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :partial => "manage_speakers", :layout => false }
+      format.html { render partial: "manage_speakers", layout: false }
     end
   end
 
@@ -318,7 +318,7 @@ class ProposalsController < ApplicationController
     @matches = get_speaker_matches(params[:search])
 
     respond_to do |format|
-      format.json { render :partial => "search_speakers", :layout => false }
+      format.json { render partial: "search_speakers", layout: false }
     end
   end
 
@@ -410,10 +410,10 @@ protected
       return false # Successfully found both @event and @proposal
     when :invalid_proposal
       flash[:failure] = "Sorry, that presentation proposal doesn't exist or has been deleted."
-      return redirect_to(:action => :index)
+      return redirect_to(action: :index)
     when :invalid_event
       flash[:failure] = "Sorry, no event was associated with proposal ##{@proposal.id}"
-      return redirect_to(:action => :index)
+      return redirect_to(action: :index)
     end
   end
 
@@ -425,7 +425,7 @@ protected
       else
         flash[:notice] = "Please complete your profile before creating a proposal."
         store_location
-        return redirect_to(edit_user_path(current_user, :require_complete_profile => true))
+        return redirect_to(edit_user_path(current_user, require_complete_profile: true))
       end
     end
   end
@@ -477,7 +477,7 @@ protected
       add_breadcrumb @proposal.title, proposal_path(@proposal)
 
       @profile = @proposal.profile
-      @comment = @proposal.comments.new(:email => current_email)
+      @comment = @proposal.comments.new(email: current_email)
       @display_comment_form = \
         # Admin can always leave comments
         admin? || (
@@ -494,11 +494,11 @@ protected
         if defined?(@redirector)
           @redirector.call
         else
-          render :template => "/proposals/show" 
+          render template: "/proposals/show"
         end
       }
-      format.xml  { render :xml  => @proposal }
-      format.json { render :json => @proposal }
+      format.xml  { render xml: @proposal }
+      format.json { render json: @proposal }
     end
   end
 

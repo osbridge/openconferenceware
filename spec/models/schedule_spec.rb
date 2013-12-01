@@ -214,36 +214,36 @@ describe Schedule do
       @user2 = stub_model(User)
 
       # Same time and room
-      @item1 = build(:proposal, :room => @room1, :start_time => @time1)
-      @item1.stub(:end_time => @time2)
-      @item2 = build(:proposal, :room => @room1, :start_time => @time1)
-      @item2.stub(:end_time => @time2)
+      @item1 = build(:proposal, room: @room1, start_time: @time1)
+      @item1.stub(end_time: @time2)
+      @item2 = build(:proposal, room: @room1, start_time: @time1)
+      @item2.stub(end_time: @time2)
 
       # Same time, different room
-      @item3 = build(:proposal, :room => @room2, :start_time => @time1)
-      @item3.stub(:end_time => @time2)
+      @item3 = build(:proposal, room: @room2, start_time: @time1)
+      @item3.stub(end_time: @time2)
 
       # Different time, same room
-      @item4 = build(:proposal, :room => @room1, :start_time => @time3)
-      @item4.stub(:end_time => @time4)
+      @item4 = build(:proposal, room: @room1, start_time: @time3)
+      @item4.stub(end_time: @time4)
 
       # Same time and speaker
-      @item5 = build(:proposal, :room => @room1, :start_time => @time1, :users => [@user1])
-      @item5.stub(:end_time => @time2)
-      @item6 = build(:proposal, :room => @room2, :start_time => @time1, :users => [@user1])
-      @item6.stub(:end_time => @time2)
+      @item5 = build(:proposal, room: @room1, start_time: @time1, users: [@user1])
+      @item5.stub(end_time: @time2)
+      @item6 = build(:proposal, room: @room2, start_time: @time1, users: [@user1])
+      @item6.stub(end_time: @time2)
 
       # Same time, different speaker
-      @item7 = build(:proposal, :room => @room2, :start_time => @time1, :users => [@user2])
-      @item7.stub(:end_time => @time2)
+      @item7 = build(:proposal, room: @room2, start_time: @time1, users: [@user2])
+      @item7.stub(end_time: @time2)
 
       # Different time and speaker
-      @item8 = build(:proposal, :room => @room2, :start_time => @time3, :users => [@user2])
-      @item8.stub(:end_time => @time8)
+      @item8 = build(:proposal, room: @room2, start_time: @time3, users: [@user2])
+      @item8.stub(end_time: @time8)
 
       # User associations
-      @user1.stub(:proposals).and_return(double(Array, :scheduled => double(Array, :all => [@item5, @item6])))
-      @user2.stub(:proposals).and_return(double(Array, :scheduled => double(Array, :all => [@item7, @item8])))
+      @user1.stub(:proposals).and_return(double(Array, scheduled: double(Array, all: [@item5, @item6])))
+      @user2.stub(:proposals).and_return(double(Array, scheduled: double(Array, all: [@item7, @item8])))
     end
 
     describe "for users" do
@@ -268,8 +268,8 @@ describe Schedule do
         conflicts = schedule.room_conflicts
         conflicts.size.should == 1
         [
-          {:room => @room1, :item => @item1, :conflicts_with => @item2},
-          {:room => @room1, :item => @item2, :conflicts_with => @item1}
+          {room: @room1, item: @item1, conflicts_with: @item2},
+          {room: @room1, item: @item2, conflicts_with: @item1}
         ].should include(conflicts.first)
       end
 
@@ -343,7 +343,7 @@ describe ScheduleDay do
   it "should compute lowest-common multiplier for day's section slices" do
     values = [5, 6, 15]
     day = ScheduleDay.new([])
-    day.stub(:sections).and_return(double(Array, :map => values))
+    day.stub(:sections).and_return(double(Array, map: values))
     day.lcm_colspan.should == 30
   end
 end
@@ -352,7 +352,7 @@ describe ScheduleSection do
   it "should compute least-common multiplier for section's slice blocks" do
     values = [3, 4, 6]
     section = ScheduleSection.new([])
-    section.stub(:slices).and_return(double(Array, :map => values))
+    section.stub(:slices).and_return(double(Array, map: values))
     section.lcm_rowspan.should == 12
   end
 end

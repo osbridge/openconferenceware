@@ -87,7 +87,7 @@ session_links.each_with_index do |link, index|
 
           coverage_details_form = coverage_details_page.forms.find{|f| f.action.include?('add-link')}
           coverage_details_form.title = "Session Audio"
-          coverage_details_form.radiobuttons_with(:name => 'type').find{|r| r.value == '2'}.check
+          coverage_details_form.radiobuttons_with(name: 'type').find{|r| r.value == '2'}.check
           session_page = coverage_details_form.submit
           coverage_form = session_page.forms.find{|f| f.form_node.attr('id') == 'add-coverage'}
         end
@@ -103,7 +103,7 @@ session_links.each_with_index do |link, index|
           end
 
           coverage_details_form = coverage_details_page.forms.find{|f| f.action.include?('add-link')}
-          coverage_details_form.radiobuttons_with(:name => 'type').find{|r| r.value == '6'}.check
+          coverage_details_form.radiobuttons_with(name: 'type').find{|r| r.value == '6'}.check
           session_page = coverage_details_form.submit
         end
       end
@@ -156,7 +156,7 @@ sessions_and_schedule_items.each do |session|
         user_add_page = agent.get("http://lanyrd.com/#{YEAR}/osbridge/edit/schedule/?action=add_name&name=#{user.fullname}&row_id=#{new_session_id}")
         puts "    …adding as an unlinked user"
 
-        added_unlinked_user = user_add_page.form_with(:action => "http://lanyrd.com/#{YEAR}/osbridge/edit/schedule/") do |f|
+        added_unlinked_user = user_add_page.form_with(action: "http://lanyrd.com/#{YEAR}/osbridge/edit/schedule/") do |f|
           f.name = user.fullname
           f.role = user.affiliation
         end.submit

@@ -46,19 +46,19 @@ class Event < ActiveRecord::Base
                   :show_proposal_confirmation_controls,
                   :parent,
                   :parent_id,
-                  :as => :admin
+                  as: :admin
 
-  cache_lookups_for :slug, :order => 'deadline desc', :include => [:tracks, :rooms]
+  cache_lookups_for :slug, order: 'deadline desc', include: [:tracks, :rooms]
 
   # Associations
-  has_many :proposals, :order => 'submitted_at desc', :dependent => :destroy
-  has_many :tracks, :order => 'title asc', :dependent => :destroy
-  has_many :session_types, :dependent => :destroy
-  has_many :rooms, :dependent => :destroy
-  has_many :schedule_items, :dependent => :destroy, :order => 'start_time asc'
-  has_many :children, :class_name => 'Event', :foreign_key => 'parent_id', :dependent => :destroy
-  belongs_to :parent, :class_name => 'Event', :foreign_key => 'parent_id'
-  has_many :selector_votes, :through => :proposals, :dependent => :destroy
+  has_many :proposals, order: 'submitted_at desc', dependent: :destroy
+  has_many :tracks, order: 'title asc', dependent: :destroy
+  has_many :session_types, dependent: :destroy
+  has_many :rooms, dependent: :destroy
+  has_many :schedule_items, dependent: :destroy, order: 'start_time asc'
+  has_many :children, class_name: 'Event', foreign_key: 'parent_id', dependent: :destroy
+  belongs_to :parent, class_name: 'Event', foreign_key: 'parent_id'
+  has_many :selector_votes, through: :proposals, dependent: :destroy
 
   # Validations
   validates_presence_of \
@@ -143,9 +143,9 @@ class Event < ActiveRecord::Base
   def calendar_items(is_admin=false)
     results = []
     if self.schedule_published? || is_admin
-      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {:track => :event}).all
+      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {track: :event}).all
       if is_admin
-        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {:track => :event}).all
+        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {track: :event}).all
       end
     elsif is_admin
     end

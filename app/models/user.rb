@@ -50,14 +50,14 @@ class User < ActiveRecord::Base
   has_many :authentications
 
   has_many :proposals_user
-  has_many :proposals, :through => :proposals_user do
+  has_many :proposals, through: :proposals_user do
     def ids
       self.map(&:id).join(', ')
     end
   end
 
-  has_many :user_favorites, :dependent => :destroy
-  has_many :favorites, :through => :user_favorites, :source => :proposal do
+  has_many :user_favorites, dependent: :destroy
+  has_many :favorites, through: :user_favorites, source: :proposal do
     def proposals
       self
     end
@@ -86,17 +86,17 @@ class User < ActiveRecord::Base
   ]
 
   attr_accessible *default_accessible_attributes
-  attr_accessible *(admin_accessible_attributes + [:as => :admin])
+  attr_accessible *(admin_accessible_attributes + [as: :admin])
 
   #---[ Validations ]-----------------------------------------------------
 
-  validates_presence_of     :email,                       :if => :email_required?
-  validates_length_of       :email,    :within => 3..100, :if => :email_required?
+  validates_presence_of     :email,                       if: :email_required?
+  validates_length_of       :email,    within: 3..100, if: :email_required?
 
-  validates_presence_of     :first_name,                  :if => :complete_profile?
-  validates_presence_of     :last_name,                   :if => :complete_profile?
-  validates_presence_of     :email,                       :if => :complete_profile?
-  validates_presence_of     :biography,                   :if => :complete_profile?
+  validates_presence_of     :first_name,                  if: :complete_profile?
+  validates_presence_of     :last_name,                   if: :complete_profile?
+  validates_presence_of     :email,                       if: :complete_profile?
+  validates_presence_of     :biography,                   if: :complete_profile?
 
   validate :url_validator
 
@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
   cols_for_name_sort = 'lower(users.last_name), lower(users.first_name)'
   scope :by_name, lambda { order(cols_for_name_sort) }
   scope :default_order, lambda { by_name }
-  scope :complete_profiles, lambda { where(:complete_profile => true).default_order }
+  scope :complete_profiles, lambda { where(complete_profile: true).default_order }
 
   scope :submitted_to, lambda {|event|
     select("users.id, users.*, #{cols_for_name_sort}").
@@ -138,14 +138,14 @@ class User < ActiveRecord::Base
     last_name
     affiliation
     biography
-    photo :url => 'Photo'
+    photo url: 'Photo'
     website
     twitter
     identica
     blog_url
-    created_at :xmlschema => 'Created'
-    updated_at :xmlschema => 'Updated'
-    proposals :ids => 'Session ids'
+    created_at xmlschema: 'Created'
+    updated_at xmlschema: 'Updated'
+    proposals ids: 'Session ids'
   }
 
   comma :full do
@@ -160,11 +160,11 @@ class User < ActiveRecord::Base
   #---[ PaperClip avatar images ]-----------------------------------------
 
   has_attached_file :photo,
-    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-    :url => "/system/:attachment/:id/:style/:filename",
-    :styles => {
-      :profile => '200x400>',
-      :avatar => '48x48#'
+    path: ":rails_root/public/system/:attachment/:id/:style/:filename",
+    url: "/system/:attachment/:id/:style/:filename",
+    styles: {
+      profile: '200x400>',
+      avatar: '48x48#'
     }
 
   #---[ Methods ]---------------------------------------------------------

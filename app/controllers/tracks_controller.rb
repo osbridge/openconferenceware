@@ -1,10 +1,10 @@
 class TracksController < ApplicationController
-  before_filter :require_admin, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :require_admin, only: [:new, :create, :edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
-  before_filter :normalize_event_path_or_redirect, :only => [:index]
+  before_filter :normalize_event_path_or_redirect, only: [:index]
   before_filter :add_event_breadcrumb
   before_filter :add_tracks_breadcrumb
-  before_filter :assign_track, :only => [:show, :edit, :update, :destroy]
+  before_filter :assign_track, only: [:show, :edit, :update, :destroy]
 
   # GET /tracks
   # GET /tracks.xml
@@ -13,8 +13,8 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @tracks }
-      format.xml  { render :xml => @tracks }
+      format.json { render json: @tracks }
+      format.xml  { render xml: @tracks }
     end
   end
 
@@ -25,19 +25,19 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @track }
-      format.xml  { render :xml => @track }
+      format.json { render json: @track }
+      format.xml  { render xml: @track }
     end
   end
 
   # GET /tracks/new
   # GET /tracks/new.xml
   def new
-    @track = Track.new(:color => '#666666')
+    @track = Track.new(color: '#666666')
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @track }
+      format.xml  { render xml: @track }
     end
   end
 
@@ -49,17 +49,17 @@ class TracksController < ApplicationController
   # POST /tracks.xml
   def create
     @track = Track.new
-    @track.assign_attributes(params[:track], :as => current_role)
+    @track.assign_attributes(params[:track], as: current_role)
     @track.event = @event
 
     respond_to do |format|
       if @track.save
         flash[:success] = 'Track was successfully created.'
         format.html { redirect_to(tracks_path) }
-        format.xml  { render :xml => @track, :status => :created, :location => @track }
+        format.xml  { render xml: @track, status: :created, location: @track }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @track.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @track.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,7 +67,7 @@ class TracksController < ApplicationController
   # PUT /tracks/1
   # PUT /tracks/1.xml
   def update
-    @track.assign_attributes(params[:track], :as => current_role)
+    @track.assign_attributes(params[:track], as: current_role)
 
     respond_to do |format|
       if @track.save
@@ -75,8 +75,8 @@ class TracksController < ApplicationController
         format.html { redirect_to(track_path(@track)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @track.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @track.errors, status: :unprocessable_entity }
       end
     end
   end

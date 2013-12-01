@@ -25,24 +25,24 @@ class Room < ActiveRecord::Base
                   :seating_configuration,
                   :description,
                   :image,
-                  :as => :admin
+                  as: :admin
 
   # Associations
   belongs_to :event
-  has_many :proposals, :dependent => :nullify
-  has_many :schedule_items, :dependent => :nullify
+  has_many :proposals, dependent: :nullify
+  has_many :schedule_items, dependent: :nullify
 
   # Validations
   validates_presence_of :name, :event
-  validates_numericality_of :capacity, :unless => lambda{|obj| obj.capacity.blank? }
+  validates_numericality_of :capacity, unless: lambda{|obj| obj.capacity.blank? }
 
   # Image Attachment
   has_attached_file :image,
-    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-    :url => "/system/:attachment/:id/:style/:filename",
-    :styles => {
-      :large => "650>",
-      :medium => "350>",
-      :small => "150>"
+    path: ":rails_root/public/system/:attachment/:id/:style/:filename",
+    url: "/system/:attachment/:id/:style/:filename",
+    styles: {
+      large: "650>",
+      medium: "350>",
+      small: "150>"
     }
 end

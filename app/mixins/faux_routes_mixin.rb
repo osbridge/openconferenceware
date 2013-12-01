@@ -60,11 +60,11 @@ module FauxRoutesMixin
     # Create all common routes for this +resource+.
     faux_routes_for = lambda do |resource|
       resource = resource.to_s.singularize
-      faux_route_for[:noun => resource]
-      faux_route_for[:noun => resource.pluralize]
-      faux_route_for[:noun => resource, :verb => "new"]
-      faux_route_for[:noun => resource, :item => true]
-      faux_route_for[:noun => resource, :verb => "edit", :item => true]
+      faux_route_for[noun: resource]
+      faux_route_for[noun: resource.pluralize]
+      faux_route_for[noun: resource, verb: "new"]
+      faux_route_for[noun: resource, item: true]
+      faux_route_for[noun: resource, verb: "edit", item: true]
     end
 
     # Create faux routes for the following +resources+:

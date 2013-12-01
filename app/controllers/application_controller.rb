@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => '56b4f0ad244d35b7e0d30ba0c5e1ae61'
+  protect_from_forgery # secret: '56b4f0ad244d35b7e0d30ba0c5e1ae61'
 
   # Provide methods for checking SETTINGS succinctly
   include SettingsCheckersMixin
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
 
   # Filter method to enforce a login requirement.
   def authentication_required
-    logged_in? || access_denied(:message => "Please sign in to access the requested page.")
+    logged_in? || access_denied(message: "Please sign in to access the requested page.")
   end
 
   # Redirect as appropriate when an access request fails.
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     fallback_url = opts[:fallback_url] || opts[:fallback] || sign_in_path
 
     store_location
-    redirect_to fallback_url, :alert => message
+    redirect_to fallback_url, alert: message
   end
 
   # Store the URI of the current request in the session.
@@ -196,7 +196,7 @@ protected
 
   # Ensure user is an admin, or bounce them to the admin prompt.
   def require_admin
-    admin? || access_denied(:message => "You must have administrator privileges to access the requested page.")
+    admin? || access_denied(message: "You must have administrator privileges to access the requested page.")
   end
 
   def current_user_is_proposal_speaker?
@@ -226,7 +226,7 @@ protected
   helper_method :selector?
 
   def require_selector
-    selector? || access_denied(:message => "You must be part of the selection committee to access the requested page.")
+    selector? || access_denied(message: "You must be part of the selection committee to access the requested page.")
   end
 
   #---[ Logging ]---------------------------------------------------------
@@ -331,7 +331,7 @@ protected
         return redirect_to(manage_events_path)
       else
         # Display a static error page.
-        render :template => 'events/index'
+        render template: 'events/index'
         return true # Cancel further processing
       end
     else
@@ -405,7 +405,7 @@ protected
       if logged_in?
         @user = current_user
       else
-        return access_denied(:message => "Please sign in to access your user profile.")
+        return access_denied(message: "Please sign in to access your user profile.")
       end
     else
       begin
@@ -455,8 +455,8 @@ protected
     @tracks_hash              = Defer { Hash[@event.tracks.all.map{|t| [t.id, t]}] }
     @rooms_hash               = Defer { Hash[@event.rooms.all.map{|t| [t.id, t]}] }
     @session_types_hash       = Defer { Hash[@event.session_types.all.map{|t| [t.id, t]}] }
-    @proposals_hash           = Defer { Hash[@event.proposals.all(:include => [:track, :session_type]).map{|t| [t.id, t]}] }
-    @sessions_hash            = Defer { Hash[@event.proposals.confirmed.all(:include => [:track, :session_type]).map{|t| [t.id, t]}] }
+    @proposals_hash           = Defer { Hash[@event.proposals.all(include: [:track, :session_type]).map{|t| [t.id, t]}] }
+    @sessions_hash            = Defer { Hash[@event.proposals.confirmed.all(include: [:track, :session_type]).map{|t| [t.id, t]}] }
     @users_and_proposals      = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.event_id = #{@event.id}}) }
     @users_and_sessions       = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.status = 'confirmed' and proposals.event_id = #{@event.id}}) }
     @users_for_proposal_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["proposal_id"].to_i] ||= Set.new) << @users_hash[v["user_id"].to_i]; s} }

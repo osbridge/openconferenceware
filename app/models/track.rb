@@ -18,11 +18,11 @@ class Track < ActiveRecord::Base
                   :description,
                   :excerpt,
                   :color,
-                  :as => :admin
+                  as: :admin
 
   # Associations
   belongs_to :event
-  has_many :proposals, :dependent => :nullify
+  has_many :proposals, dependent: :nullify
 
   # Validations
   validates_presence_of \

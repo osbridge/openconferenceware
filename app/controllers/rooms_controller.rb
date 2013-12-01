@@ -1,10 +1,10 @@
 class RoomsController < ApplicationController
-  before_filter :require_admin, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :require_admin, only: [:new, :create, :edit, :update, :destroy]
   before_filter :assert_current_event_or_redirect
-  before_filter :normalize_event_path_or_redirect, :only => [:index]
+  before_filter :normalize_event_path_or_redirect, only: [:index]
   before_filter :add_event_breadcrumb
   before_filter :add_rooms_breadcrumb
-  before_filter :assign_room, :only => [:show, :edit, :update, :destroy]
+  before_filter :assign_room, only: [:show, :edit, :update, :destroy]
 
   # GET /rooms
   # GET /rooms.xml
@@ -13,8 +13,8 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @rooms }
-      format.xml  { render :xml => @rooms }
+      format.json { render json: @rooms }
+      format.xml  { render xml: @rooms }
     end
   end
 
@@ -29,8 +29,8 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @room }
-      format.xml  { render :xml => @room }
+      format.json { render json: @room }
+      format.xml  { render xml: @room }
     end
   end
 
@@ -41,7 +41,7 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @room }
+      format.xml  { render xml: @room }
     end
   end
 
@@ -53,17 +53,17 @@ class RoomsController < ApplicationController
   # POST /rooms.xml
   def create
     @room = Room.new
-    @room.assign_attributes(params[:room], :as => current_role)
+    @room.assign_attributes(params[:room], as: current_role)
     @room.event = @event
 
     respond_to do |format|
       if @room.save
         flash[:notice] = 'Room was successfully created.'
         format.html { redirect_to(rooms_path) }
-        format.xml  { render :xml => @room, :status => :created, :location => @room }
+        format.xml  { render xml: @room, status: :created, location: @room }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @room.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @room.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -71,15 +71,15 @@ class RoomsController < ApplicationController
   # PUT /rooms/1
   # PUT /rooms/1.xml
   def update
-    @room.assign_attributes(params[:room], :as => current_role)
+    @room.assign_attributes(params[:room], as: current_role)
     respond_to do |format|
       if @room.save
         flash[:notice] = 'Room was successfully updated.'
         format.html { redirect_to(@room) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @room.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @room.errors, status: :unprocessable_entity }
       end
     end
   end
