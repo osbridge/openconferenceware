@@ -167,16 +167,6 @@ class User < ActiveRecord::Base
 
   #---[ Methods ]---------------------------------------------------------
 
-  # Return first admin user or a nil
-  def self.find_first_admin
-    self.where(:admin => true).first
-  end
-
-  # Return first non-admin user or a nil
-  def self.find_first_non_admin
-    self.where(:admin => false).first
-  end
-
   def self.create_from_authentication(auth)
     create! do |user|
       user.email = auth.email
