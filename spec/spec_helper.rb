@@ -1,15 +1,13 @@
-if RUBY_VERSION >= "1.9"
-  require 'simplecov'
-  require 'cadre/simplecov'
-  require 'coveralls'
+require 'simplecov'
+require 'cadre/simplecov'
+require 'coveralls'
 
-  SimpleCov.start 'rails' do
-    formatter SimpleCov::Formatter::MultiFormatter[
-      Coveralls::SimpleCov::Formatter,
-      SimpleCov::Formatter::HTMLFormatter,
-      Cadre::SimpleCov::VimFormatter
-    ]
-  end
+SimpleCov.start 'rails' do
+  formatter SimpleCov::Formatter::MultiFormatter[
+    Coveralls::SimpleCov::Formatter,
+    SimpleCov::Formatter::HTMLFormatter,
+    Cadre::SimpleCov::VimFormatter
+  ]
 end
 
 # Coveralls.wear!('rails')
