@@ -61,7 +61,7 @@ group :test do
   gem 'database_cleaner', :require => false
   gem 'cucumber-rails',   :require => false
   gem 'launchy'
-  gem 'capybara', '~> 2.0.0'
+  gem 'capybara'
 
   gem 'simplecov',     :require => false
   gem 'cadre',         :require => false
