@@ -33,7 +33,7 @@ gem 'paperclip'
 gem 'vpim-rails', :git => "https://github.com/osbridge/vpim-rails.git", :require => 'vpim/icalendar'
 gem 'action_mailer_tls',   '~> 1.1.3'
 gem 'nokogiri'
-gem 'prawn',               '= 0.11.1'
+gem 'prawn'
 gem 'memcache-client'
 gem "dynamic_form"
 gem 'rinku', :require => 'rails_rinku'

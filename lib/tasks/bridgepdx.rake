@@ -23,7 +23,7 @@ namespace :bridgepdx do
     end
   end
 
-  desc "Export per-room schedule CSV for InDesign merge"
+  desc "Export per-room schedule PDF"
   task :room_schedule => :environment do
     event = ENV['EVENT'].nil? ? Event.current : Event.find_by_slug(ENV['EVENT'])
     Prawn::Document.generate('RoomSchedule.pdf', :page_size => 'LETTER', :margin => [18,18,18,18]) do |pdf|
