@@ -191,6 +191,7 @@ class User < ActiveRecord::Base
       user.biography = auth.info['description']
       user.website = auth.first_url
       user.authentications << auth
+
       user.save
     end
   end
@@ -287,7 +288,7 @@ protected
         true
       end
     else
-      not self.using_openid?
+      false
     end
   end
 
