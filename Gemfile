@@ -20,8 +20,7 @@ gem 'omniauth-persona'
 
 # Selectively-loaded:
 gem 'hashery',      :require => false # Dictionary used by CacheLookupsMixin
-gem 'rwikibot',     '= 2.0.6',  :require => false,
-                                :git => 'git://github.com/reidab/rwikibot.git'
+gem 'rwikibot',     :require => false, :git => 'git://github.com/reidab/rwikibot.git'
 
 # Necessary:
 gem 'RedCloth',            '~> 4.2.3'

@@ -280,7 +280,7 @@ DEPENDENCIES
   rake
   rinku
   rspec-rails
-  rwikibot (= 2.0.6)!
+  rwikibot!
   simplecov
   sqlite3
   vpim-rails!
