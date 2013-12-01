@@ -2,7 +2,7 @@
 require 'google_chart'
 
 # Facets
-require 'facets/dictionary'
+require 'hashery/dictionary'
 
 # Local libraries
 require 'defer_proxy'

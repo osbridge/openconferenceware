@@ -110,7 +110,6 @@ GEM
     exception_notification (4.0.0)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
-    facets (2.8.4)
     factory_girl (2.6.4)
       activesupport (>= 2.3.9)
     faraday (0.8.8)
@@ -291,10 +290,10 @@ DEPENDENCIES
   debugger
   dynamic_form
   exception_notification
-  facets (~> 2.8.0)
   factory_girl (= 2.6.4)
   fastercsv (~> 1.5.3)
   gchartrb (~> 0.8.0)
+  hashery
   hpricot (~> 0.8.2)
   launchy
   memcache-client

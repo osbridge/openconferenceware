@@ -87,7 +87,7 @@ module CacheLookupsMixin
       ActiveRecord::Base.benchmark("Lookup: #{silo}#{key_number}") do
         dict = self.fetch_object(silo){
           # FIXME Exceptions within this block are silently swallowed by something. This is bad.
-          dict = Dictionary.new
+          dict = Hashery::Dictionary.new
           for record in self.query_all
             dict[record.send(self.lookup_key)] = record
           end

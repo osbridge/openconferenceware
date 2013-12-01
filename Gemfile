@@ -19,8 +19,8 @@ gem 'omniauth-openid'
 gem 'omniauth-persona'
 
 # Selectively-loaded:
-gem 'facets',       '~> 2.8.0', :require => false # For initializers/dependencies.rb
 gem 'right_aws',    '~> 1.0',   :require => false # For paperclip
+gem 'hashery',      :require => false # Dictionary used by CacheLookupsMixin
 gem 'rwikibot',     '= 2.0.6',  :require => false,
                                 :git => 'git://github.com/reidab/rwikibot.git'
 
