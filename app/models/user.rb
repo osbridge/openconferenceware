@@ -271,15 +271,7 @@ protected
 
   # Does this user require an email to be defined?
   def email_required?
-    if user_profiles?
-      if self.complete_profile?
-        not self.email.blank?
-      else
-        true
-      end
-    else
-      false
-    end
+    user_profiles? && self.complete_profile?
   end
 
   # Ensure URLs are valid, else add validation errors.
