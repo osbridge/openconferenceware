@@ -1,13 +1,12 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: user_favorites
 #
-#  id          :integer(4)      not null, primary key
-#  user_id     :integer(4)      
-#  proposal_id :integer(4)      
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  proposal_id :integer
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class UserFavorite < ActiveRecord::Base

@@ -1,0 +1,11 @@
+<div class="auth-provider openid">
+<h3>OpenID</h3>
+<p><%= snippet_for :login_openid_text %></p>
+<form action="<%= auth_path(:open_id) %>" method='post' noValidate='noValidate' class="form-inline">
+  <div class="form-group">
+    <label for='openid_url' class="sr-only">OpenID Identifier:</label>
+    <input type='url' id='openid_url' name='openid_url' class='form-control' placeholder='OpenID Identifier'/>
+  </div>
+  <button type='submit' class='btn btn-primary'>Sign In</button>
+</form>
+</div>

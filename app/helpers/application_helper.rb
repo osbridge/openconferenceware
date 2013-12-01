@@ -40,7 +40,7 @@ module ApplicationHelper
   def indent_block(string, level=0)
     lines = Array(string)
     common_space = lines.map{|line| line.length - line.lstrip.length}.min
-    Array(string).map{ |line| ('  ' * level) + line[common_space..-1] }.join
+    Array(string).map{ |line| ('  ' * level) + line[common_space..-1] }.join.html_safe
   end
 
   # Exposes a value as a property of the JavaScript 'app' object.
@@ -50,13 +50,13 @@ module ApplicationHelper
   #
   def expose_to_js(key, value)
     raise(ArgumentError, "key must be a symbol") unless key.is_a?(Symbol)
-    value = "'#{value}'" unless value.is_a?(Integer) || true == self || false == self
-    content_for :javascript_expose_values, "app.#{key.to_s} = #{value};\n"
+    value = "'#{value}'" unless value.is_a?(Integer) || true == value || false == value
+    content_for :javascript_expose_values, "app.#{key.to_s} = #{value};\n".html_safe
   end
 
   # Enqueues the given javascript code to run once the DOM is ready.
   def run_when_dom_is_ready(javascript)
-    content_for :javascript_on_ready, javascript + "\n"
+    content_for :javascript_on_ready, (javascript + "\n").html_safe
   end
 
   #---[ Menu navigation ]-------------------------------------------------

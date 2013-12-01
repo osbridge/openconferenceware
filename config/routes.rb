@@ -1,4 +1,11 @@
 OpenConferenceWare::Application.routes.draw do
+  match "/sign_in" => "authentications#sign_in", :as => :sign_in
+  match "/sign_out" => "authentications#sign_out", :as => :sign_out
+
+  match '/auth/:provider/callback' => 'authentications#create'
+  match '/auth/failure' => 'authentications#failure'
+
+  resources :authentications, :only => [:index, :destroy]
 
   resources :events do
     member do
@@ -56,17 +63,6 @@ OpenConferenceWare::Application.routes.draw do
 
     match 'favorites' => 'user_favorites#index', :as => :favorites
     match 'favorites/modify' => 'user_favorites#modify', :as => :modify_favorites, :via => :put
-  end
-
-  match '/browser_session' => 'browser_sessions#create', :as => :open_id_complete, :constraints => { :method => 'GET' }
-  match '/login' => 'browser_sessions#new', :as => :login
-  match '/logout' => 'browser_sessions#destroy', :as => :logout
-  match '/admin' => 'browser_sessions#admin', :as => :admin
-
-  resource :browser_session do
-    collection do
-     :admin
-    end
   end
 
   root :to => 'events#index'

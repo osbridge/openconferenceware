@@ -110,6 +110,7 @@ describe UsersController do
 
   describe "destroy" do
     it "should not allow mortal user to delete another user" do
+      login_as(:quentin)
       user = users(:clio)
       delete :destroy, :id => user.id
 

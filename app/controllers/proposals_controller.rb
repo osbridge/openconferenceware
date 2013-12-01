@@ -1,6 +1,6 @@
 class ProposalsController < ApplicationController
 
-  before_filter :login_required, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline, :proposal_login_required]
+  before_filter :authentication_required, :only => [:edit, :update, :destroy, :speaker_confirm, :speaker_decline, :proposal_login_required]
   before_filter :assert_current_event_or_redirect
   before_filter :assert_proposal_status_published, :only => [:sessions_index, :sessions_index_terse, :session_show]
   before_filter :assert_schedule_published, :only => [:schedule]
@@ -199,11 +199,6 @@ class ProposalsController < ApplicationController
   # POST /proposals
   # POST /proposals.xml
   def create
-    if params[:commit] == "Login" && params[:openid_url]
-      store_location(new_proposal_path)
-      return redirect_to(open_id_complete_path(:openid_url => params[:openid_url]))
-    end
-
     @proposal = Proposal.new
     @proposal.assign_attributes(
       params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
@@ -370,9 +365,9 @@ protected
       if anonymous_proposals?
         return false # Anonymous proposals are allowed
       else
-        flash[:notice] = "Please login so you can create and manage proposals."
+        flash[:notice] = "Please sign in so you can create and manage proposals."
         store_location
-        return redirect_to(login_path)
+        return redirect_to(sign_in_path)
       end
     end
   end

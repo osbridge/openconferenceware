@@ -94,11 +94,11 @@
                 <li><%= link_to( "My favorites", user_favorites_path(current_user) ) %>
                 <li><%= link_to( "My proposals", proposals_user_path(current_user) ) %>
                 <li class="divider"></li>
-                <li><%= link_to "Sign Out", logout_path, :method => :delete %></li>
+                <li><%= link_to "Sign Out", sign_out_path, :method => :delete %></li>
               </ul>
             </li>
           <% else %>
-            <li><%= link_to "Sign In", login_path %></li>
+            <li><%= link_to "Sign In", sign_in_path %></li>
           <% end %>
         </ul>
       </div><!--/.nav-collapse -->

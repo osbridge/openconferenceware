@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_admin unless user_profiles?
   before_filter :assert_user, :only => [:show, :edit, :update, :destroy, :complete_profile, :proposals]
-  before_filter :login_required, :only => [:edit, :update, :destroy]
+  before_filter :authentication_required, :only => [:edit, :update, :destroy]
   before_filter :assert_record_ownership, :only => [:edit, :update, :destroy]
 
   def index
@@ -36,8 +36,6 @@ class UsersController < ApplicationController
     # reset_session
     @user = User.new
     @user.assign_attributes(params[:user].slice(*User.accessible_attributes))
-
-    @user.login = params[:user][:login]
 
     @user.save!
     self.current_user = @user

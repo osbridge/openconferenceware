@@ -573,13 +573,13 @@ describe ProposalsController do
             get :new, :event_id => events(:open).slug
 
             flash.keys.should include(:notice)
-            response.should redirect_to(login_path)
+            response.should redirect_to(sign_in_path)
           end
         end
 
         it "should assign presenter if logged in" do
           user = users(:quentin)
-          login_as(user.login)
+          login_as(user)
           get :new, :event_id => events(:open).slug
 
           response.should be_success
@@ -682,7 +682,7 @@ describe ProposalsController do
 
       it "should redirect to login" do
         get :edit, :id => @proposal.id, :event_id => @event.to_param
-        response.should redirect_to(login_url)
+        response.should redirect_to(sign_in_path)
       end
     end
 
@@ -746,19 +746,6 @@ describe ProposalsController do
       @record = nil
     end
 
-    describe "when anonymous proposals are enabled" do
-
-      it "should redirect to OpenID login system if user tried to login" do
-        SETTINGS.stub(:have_anonymous_proposals).and_return(true)
-        assert_create(nil, :event_id => @event.slug, :commit => 'Login', :openid_url => 'http://foo.bar') do
-          response.should be_redirect
-          response.should redirect_to(open_id_complete_url(:openid_url => 'http://foo.bar'))
-          assigns(:proposal).should be_blank
-        end
-      end
-
-    end
-
     describe "with user_profiles?" do
       before(:each) do
         SETTINGS.stub(:have_user_profiles => true)
@@ -767,7 +754,7 @@ describe ProposalsController do
       it "should fail to create proposal without a complete user" do
         user = users(:quentin)
         user.should_receive(:complete_profile?).at_least(:once).and_return(false)
-        User.should_receive(:find_by_id).and_return(user)
+        User.should_receive(:find).and_return(user)
         proposal = Proposal.new(@inputs)
         proposal.users << user
         Proposal.should_receive(:new).and_return(proposal)
@@ -815,7 +802,7 @@ describe ProposalsController do
 
         it "should not create proposal for anonymous user" do
           assert_create(nil, :event_id => @event.slug, :proposal => @inputs) do
-            response.should redirect_to(login_path)
+            response.should redirect_to(sign_in_path)
           end
         end
       end
@@ -885,7 +872,7 @@ describe ProposalsController do
 
     it "should redirect anonymous user to login" do
       assert_update(nil, @inputs) do
-        response.should redirect_to(login_url)
+        response.should redirect_to(sign_in_path)
       end
     end
 
@@ -975,7 +962,7 @@ describe ProposalsController do
     it "should ask anonymous to login" do
       @proposal.should_not_receive(:destroy)
       assert_delete do
-        response.should redirect_to(login_url)
+        response.should redirect_to(sign_in_path)
       end
     end
 
@@ -1151,7 +1138,7 @@ describe ProposalsController do
       it "should redirect to login if not logged in" do
         proposal = proposals(:quentin_widgets)
         get :proposal_login_required, :proposal_id => proposal.id
-        response.should redirect_to(login_path)
+        response.should redirect_to(sign_in_path)
       end
 
       it "should redirect to proposal if logged in" do

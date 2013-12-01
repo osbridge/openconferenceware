@@ -40,7 +40,7 @@
     <%= javascript_include_tag 'jquery-1.10.2', 'jquery-migrate-1.2.1', 'bootstrap', 'application', :cache => 'cache/all' %>
     <%= yield :scripts -%>
 
-    <% expose_to_js( :current_user, current_user == :false ? false : current_user.id ) -%>
+    <% expose_to_js( :current_user, logged_in? ? current_user.id : false ) -%>
     <% expose_to_js( :authenticity_token, form_authenticity_token ) if protect_against_forgery? -%>
 
     <script type="text/javascript" charset="utf-8">

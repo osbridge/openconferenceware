@@ -1019,3 +1019,15 @@ body.users.show h2.page_title {
     width: 100%; }
   .selector_votes_index .subrow > td {
     padding-left: 4em; }
+
+.auth-provider {
+  border-top: 1px solid #eee;
+  padding: 1em;
+}
+.auth-provider h3 {
+  margin-top: 0
+}
+
+.auth-provider.developer {
+  background: #fff0e3;
+}

@@ -1,27 +1,26 @@
 # == Schema Information
-# Schema version: 20120427185014
 #
 # Table name: events
 #
-#  id                                      :integer(4)      not null, primary key
-#  title                                   :string(255)     
-#  deadline                                :datetime        
-#  open_text                               :text            
-#  closed_text                             :text            
-#  created_at                              :datetime        
-#  updated_at                              :datetime        
-#  proposal_status_published               :boolean(1)      not null
-#  session_text                            :text            
-#  tracks_text                             :text            
-#  start_date                              :datetime        
-#  end_date                                :datetime        
-#  accept_proposal_comments_after_deadline :boolean(1)      
-#  slug                                    :string(255)     
-#  schedule_published                      :boolean(1)      
-#  parent_id                               :integer(4)      
-#  proposal_titles_locked                  :boolean(1)      
-#  accept_selector_votes                   :boolean(1)      
-#  show_proposal_confirmation_controls     :boolean(1)      
+#  id                                      :integer          not null, primary key
+#  title                                   :string(255)
+#  deadline                                :datetime
+#  open_text                               :text
+#  closed_text                             :text
+#  created_at                              :datetime
+#  updated_at                              :datetime
+#  proposal_status_published               :boolean          default(FALSE), not null
+#  session_text                            :text
+#  tracks_text                             :text
+#  start_date                              :datetime
+#  end_date                                :datetime
+#  accept_proposal_comments_after_deadline :boolean          default(FALSE)
+#  slug                                    :string(255)
+#  schedule_published                      :boolean          default(FALSE)
+#  parent_id                               :integer
+#  proposal_titles_locked                  :boolean          default(FALSE)
+#  accept_selector_votes                   :boolean          default(FALSE)
+#  show_proposal_confirmation_controls     :boolean          default(FALSE)
 #
 
 class Event < ActiveRecord::Base

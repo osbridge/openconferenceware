@@ -43,36 +43,6 @@
 
     <table class='clear'>
       <tbody>
-
-        <% if @proposal.new_record? and not logged_in? %>
-          <tr>
-            <td colspan="2">
-              <h3>Login with OpenID</h3>
-              <p><%= snippet_for :proposals_openid_text %></p>
-            </td>
-          </tr>
-          <tr>
-            <td class="label-cell">
-              <%= image_tag "openid-icon.gif" %>
-              OpenID
-            </td>
-            <td>
-              <%= text_field_tag :openid_url, "" %>
-              <%= submit_tag "Login", :id => "openid_login" %>
-              <!-- BEGIN ID SELECTOR -->
-              <script type="text/javascript">
-                <!--
-                    // Tell ID Selector which controls to affect
-                    var idselector_input_id = "openid_url";
-                    var idselector_target_id = "openid_login_wtf";
-                  -->
-              </script>
-              <%= javascript_include_tag "idselector" %>
-              <!-- END ID SELECTOR -->
-            </td>
-          </tr>
-        <% end %>
-
         <% if not user_profiles? and not multiple_presenters? %>
           <tr>
             <td colspan="2">

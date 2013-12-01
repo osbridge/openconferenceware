@@ -102,7 +102,7 @@ protected
 
   def assert_ownership
     unless admin?
-      flash[:failure] = "Access denied, you must login as admin"
+      flash[:failure] = "Access denied, you must sign in as an admin"
       redirect_to root_path
       false
     end

@@ -1,16 +1,15 @@
 # == Schema Information
-# Schema version: 20081213032512
 #
 # Table name: snippets
 #
-#  id          :integer         not null, primary key
-#  slug        :string(255)     not null
-#  description :string(255)     not null
-#  content     :text            
-#  value       :integer         
-#  public      :boolean         default(TRUE)
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  id          :integer          not null, primary key
+#  slug        :string(255)      not null
+#  description :text             default(""), not null
+#  content     :text
+#  value       :integer
+#  public      :boolean          default(TRUE)
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 a:
@@ -28,7 +27,7 @@ d:
 e:
   slug: login_openid_text
   description: "OpenID login: form text"
-  content: "Login with your <%= openid_common_text %>"
+  content: "Sign in with your <%= openid_common_text %>"
 
 f:
   slug: proposals_openid_text

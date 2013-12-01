@@ -1,33 +1,35 @@
 # == Schema Information
-# Schema version: 20081213032512
 #
 # Table name: users
 #
-#  id                        :integer         not null, primary key
-#  login                     :string(255)     
-#  email                     :string(255)     
-#  first_name                :string(255)     
-#  last_name                 :string(255)     
-#  crypted_password          :string(40)      
-#  salt                      :string(40)      
-#  admin                     :boolean         
-#  created_at                :datetime        
-#  updated_at                :datetime        
-#  remember_token            :string(255)     
-#  remember_token_expires_at :datetime        
-#  using_openid              :boolean         
+#  id                 :integer          not null, primary key
+#  email              :string(255)
+#  salt               :string(40)
+#  admin              :boolean          default(FALSE)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  affiliation        :string(128)
+#  biography          :text
+#  website            :string(1024)
+#  complete_profile   :boolean
+#  photo_file_name    :string(255)
+#  photo_content_type :string(255)
+#  photo_file_size    :integer
+#  first_name         :string(255)
+#  last_name          :string(255)
+#  blog_url           :string(255)
+#  identica           :string(255)
+#  twitter            :string(255)
+#  selector           :boolean          default(FALSE)
 #
 
 # A mortal user
 quentin:
-  login: "quentin"
   email: "quentin@example.com"
   first_name: "Quentin"
   last_name: "Tarantino"
   affiliation: "Grindhouse, Inc."
   website: "http://reservoir.dogs/"
-  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
-  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 5.days.ago.to_s :db %>
   complete_profile: true
   biography: |
@@ -37,13 +39,10 @@ quentin:
 
 # Another mortal
 clio:
-  login: "clio"
   email: "clio@example.com"
   first_name: "Vadem"
   last_name: "Clio"
   affiliation: "Vadem Corporation"
-  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
-  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 5.days.ago.to_s :db %>
   complete_profile: true
   biography: |
@@ -55,13 +54,10 @@ clio:
 
 # Yet another mortal
 gustavus:
-  login: "gustavus"
   email: "gustavus@purvis.edu"
   first_name: "Gustavus"
   last_name: "Purvis"
   affiliation: "House of Vasa"
-  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
-  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 5.days.ago.to_s :db %>
   complete_profile: true
   biography: |
@@ -69,13 +65,10 @@ gustavus:
 
 # An admin user
 aaron:
-  login: "aaron"
   email: "aaron@example.com"
   first_name: "Aaron"
   last_name: "Levite"
   affiliation: "House of Israel"
-  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
-  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 1.days.ago.to_s :db %>
   admin: true
   complete_profile: true
@@ -86,8 +79,5 @@ aaron:
 
 # An incomplete user
 incognito:
-  login: "incognito"
-  salt: "7e3041ebc2fc05a40c60028e2c4901a81035d3cd"
-  crypted_password: "00742970dc9e6319f8019fd54864d3ea740f04b1" # test
   created_at: <%= 1.days.ago.to_s :db %>
   complete_profile: false

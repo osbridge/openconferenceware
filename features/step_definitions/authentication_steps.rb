@@ -9,7 +9,7 @@ end
 
 def logout
   @user = nil
-  delete logout_path
+  delete sign_out_path
   session[:user].should == nil
 end
 
