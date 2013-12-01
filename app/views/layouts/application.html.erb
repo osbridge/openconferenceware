@@ -6,6 +6,7 @@
     <meta name="description" content="<%= SETTINGS.tagline %>">
     <meta name="author" content="">
     <meta property="og:title" content="<%= page_title %>"/>
+    <%= csrf_meta_tag %>
     <%= yield :meta %>
 
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
@@ -37,7 +38,7 @@
     <% end %>
 
     <!-- Scripts -->
-    <%= javascript_include_tag 'jquery-1.10.2', 'jquery-migrate-1.2.1', 'bootstrap', 'application', :cache => 'cache/all' %>
+    <%= javascript_include_tag 'jquery-1.10.2', 'jquery-migrate-1.2.1', 'bootstrap', 'rails', 'application', :cache => 'cache/all' %>
     <%= yield :scripts -%>
 
     <% expose_to_js( :current_user, logged_in? ? current_user.id : false ) -%>

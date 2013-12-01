@@ -8,6 +8,12 @@ $(document).ready(function () {
   activate_menu_item();
 });
 
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
 // Highlight the active menu item. Works by adding an 'active' class to a
 // menu item based on the current URL. Status can be reported via 'console.log'
 // if the JavaScript interpreter provides one.
