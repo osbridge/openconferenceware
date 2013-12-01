@@ -23,7 +23,7 @@ gem 'hashery',      :require => false # Dictionary used by CacheLookupsMixin
 gem 'rwikibot',     :require => false, :git => 'git://github.com/reidab/rwikibot.git'
 
 # Necessary:
-gem 'RedCloth',            '~> 4.2.3'
+gem 'RedCloth'
 gem 'aasm'
 gem 'acts-as-taggable-on'
 gem 'color'

@@ -249,7 +249,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth (~> 4.2.3)
+  RedCloth
   aasm
   action_mailer_tls (~> 1.1.3)
   acts-as-taggable-on
