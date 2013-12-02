@@ -325,7 +325,7 @@ div.record-controls {
 	top: 50%;
 	left: 50%;
 	color: black;
-	background: url(/images/spinner-big.gif) no-repeat center #F7F1A3;
+	background: image-url("spinner-big.gif") no-repeat center #F7F1A3;
 	text-align: center;
 	padding: 10px;
 	font: normal 16px Tahoma, Geneva, sans-serif;
@@ -358,50 +358,50 @@ div.admin-only {
 .addable {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/plus.png') left center no-repeat;
+	background: image-url('plus.png') left center no-repeat;
 }
 
 .showable {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/document.png') left center no-repeat;
+	background: image-url('document.png') left center no-repeat;
 }
 
 .editable {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/edit.png') left center no-repeat;
+	background: image-url('edit.png') left center no-repeat;
 }
 
 .cancelable {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/arrow-out.png') left center no-repeat;
+	background: image-url('arrow-out.png') left center no-repeat;
 }
 
 .deletable {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/redx.png') left center no-repeat;
+	background: image-url('redx.png') left center no-repeat;
 }
 
 .feedable {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/feed.png') left center no-repeat;
+	background: image-url('feed.png') left center no-repeat;
 }
 
 .snippet_edit_link {
   font-size: 0.8em;
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/edit.png') left center no-repeat;
+	background: image-url('edit.png') left center no-repeat;
 }
 
 .spinning {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/spinner.gif') left center no-repeat;
+	background: image-url('spinner.gif') left center no-repeat;
 }
 
 .quagmire {
@@ -431,7 +431,7 @@ div.admin-only {
 .popup {
   margin-left: 10px;
   padding-left: 20px;
-	background: url('/images/new_window.gif') left center no-repeat;
+	background: image-url('new_window.gif') left center no-repeat;
 }
 
 /*---[ submit a talk button ]-----------------------------------------*/
@@ -461,7 +461,7 @@ div.admin-only {
     color: green;
     margin: 5px;
     padding: 10px 10px 10px 20px;
-    background: url('/images/plus.png') left center no-repeat;
+    background: image-url('plus.png') left center no-repeat;
   }
 
 /* @group Autocomplete
