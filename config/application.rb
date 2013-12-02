@@ -19,9 +19,6 @@ module OpenConferenceWare
       Rails.root.join('app','mixins').to_s,
       Rails.root.join('app','observers').to_s,
       Rails.root.join('app','renderers').to_s,
-    ]
-
-    config.eager_load_paths += [
       Rails.root.join('lib').to_s
     ]
 
