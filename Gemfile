@@ -38,6 +38,12 @@ gem 'memcache-client'
 gem "dynamic_form"
 gem 'rinku', :require => 'rails_rinku'
 
+# Assets
+gem 'jquery-rails'
+gem 'sass-rails', " ~> 3.2.0"
+gem 'coffee-rails', " ~> 3.2.0"
+gem 'uglifier'
+
 group :production do
   gem 'exception_notification'
 end
