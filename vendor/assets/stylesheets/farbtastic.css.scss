@@ -1,3 +1,7 @@
+// ::OCW::
+// - Changed extension to allow for SCSS processing
+// - Used image-url asset helper to fix image paths
+
 .farbtastic {
   position: relative;
 }
@@ -16,18 +20,19 @@
   height: 101px;
 }
 .farbtastic .wheel {
-  background: url(../images/wheel.png) no-repeat;
+  background: image-url("farbtastic/wheel.png") no-repeat;
   width: 195px;
   height: 195px;
 }
 .farbtastic .overlay {
-  background: url(../images/mask.png) no-repeat;
+  background: image-url("farbtastic/mask.png") no-repeat;
 }
 .farbtastic .marker {
   width: 17px;
   height: 17px;
   margin: -8px 0 0 -8px;
   overflow: hidden; 
-  background: url(../images/marker.png) no-repeat;
+  background: image-url("farbtastic/marker.png") no-repeat;
 }
+
 
