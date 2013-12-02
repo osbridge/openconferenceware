@@ -61,6 +61,7 @@ group :test do
   gem 'cucumber-rails',   :require => false
   gem 'launchy'
   gem 'capybara'
+  gem 'guard-rspec', require: false
 
   gem 'simplecov',     :require => false
   gem 'cadre',         :require => false
