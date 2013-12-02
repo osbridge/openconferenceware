@@ -19,7 +19,11 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
+    if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "sqlite3"
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+    end
     DatabaseCleaner.clean_with(:truncation)
   end
 
