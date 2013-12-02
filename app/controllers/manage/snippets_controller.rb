@@ -97,15 +97,4 @@ class Manage::SnippetsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-
-protected
-
-  def assert_ownership
-    unless admin?
-      flash[:failure] = "Access denied, you must sign in as an admin"
-      redirect_to root_path
-      false
-    end
-  end
-
 end
