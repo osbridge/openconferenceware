@@ -1,8 +1,6 @@
 <% include_user_favorites_javascript %>
 <% run_when_dom_is_ready( 'bind_calendar_items();' ) %>
 
-<% add_javascript javascript_include_tag('jquery.scrollTo-1.4.2-min') %>
-<% add_javascript javascript_include_tag('jquery.localscroll-1.2.7-min' )%>
 <% run_when_dom_is_ready('$.localScroll({hash:true, duration:300});')%>
 <% if @event.underway? -%>
   <% run_when_dom_is_ready("$('#to_day_#{Time.now.strftime('%Y_%m_%d')}').trigger('click');") %>

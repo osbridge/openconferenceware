@@ -36,7 +36,6 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 <% end -%>
 
 <% content_for :scripts do %>
-  <%= javascript_include_tag 'audiojs/audio.min.js' %>
   <script>
     audiojs.events.ready(function() {
       var as = audiojs.createAll();
