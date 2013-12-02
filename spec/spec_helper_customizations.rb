@@ -17,6 +17,7 @@ require 'capybara/rspec'
 # rspec
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.use_transactional_fixtures = false
 
   config.before(:suite) do
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "sqlite3"
