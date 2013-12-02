@@ -25,7 +25,7 @@
 /public/themes/*
 /rerun.txt
 /tags
-/public/stylesheets/common_css/*
+/app/assets/stylesheets/common_css/*
 /tmp/*
 .ruby-version
 .ruby-gemset
