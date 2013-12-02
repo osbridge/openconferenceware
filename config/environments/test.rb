@@ -40,4 +40,11 @@ OpenConferenceWare::Application.configure do
     # Always run tests in UTC
     config.time_zone = 'UTC'
   end
+
+  # Configure static asset server for tests with Cache-Control for performance
+  config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
+
+  # Allow pass debug_assets=true as a query parameter to load pages with unpackaged assets
+  config.assets.allow_debugging = true
 end
