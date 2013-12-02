@@ -31,3 +31,4 @@
 .ruby-gemset
 credentials.yml
 .bundle
+.sass-cache/
