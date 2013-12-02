@@ -2,14 +2,12 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
+# Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+Bundler.require(:default, Rails.env)
 
-if RUBY_VERSION >= "1.9"
-  Encoding.default_external = Encoding::UTF_8
-  Encoding.default_internal = Encoding::UTF_8
-end
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
 
 module OpenConferenceWare
   class Application < Rails::Application
@@ -34,10 +32,6 @@ module OpenConferenceWare
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
 
-    # Only load the plugins named here, in the order given (default is alphabetical).
-    # :all can be used as a placeholder for all plugins not explicitly named.
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
     # Activate observers that should always be running.
     config.active_record.observers = :cache_watcher
 
@@ -45,10 +39,7 @@ module OpenConferenceWare
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # JavaScript files you want as :defaults (application.js is always included).
-    # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-
-    # Configure the default encoding used in templates for Ruby 1.9.
+    # Configure the default encoding used in templates
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
