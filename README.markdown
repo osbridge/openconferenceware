@@ -2,15 +2,15 @@
 
 ## Recent Developments - Important!
 
-The current master branch is under active development, as part of an ongoing effort to modernize and improve OpenConferenceware. It has currently been upgraded to Rails 3.2.15, and the authentication system has been completely reworked. We are working towards towards several other goals, as seen on the [roadmap](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
+The current master branch is under active development, as part of an ongoing effort to modernize and improve OpenConferenceWare. It has been upgraded to the latest Rails version (4.0.1), and the authentication system has been completely reworked. We are working towards towards several other goals, as seen on the [roadmap](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
 
 Although this branch is in flux, we recommend it as a starting point for any new OCW deployments. The alternative is to use the [legacy](https://github.com/osbridge/openconferenceware/tree/legacy) branch, which is based on Rails 2.1.2 and is much trickier to work with.
 
 While we undertake this work, the Gemfile loads all three of our supported database adapters: `sqlite3`, `mysql2` and `pg`. Feel free to comment out the adapters that you're not using.
 
-### Current Build Status
+### Current Status
 
-* [Master](https://github.com/osbridge/openconferenceware/tree/master) (Rails 3.2.15, Ruby 1.9.3 or 2.0): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware) [![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master)
+* [Master](https://github.com/osbridge/openconferenceware/tree/master) (Rails 4.0.1, Ruby 1.9.3 or 2.0): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware) [![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master) [![Dependency Status](https://gemnasium.com/osbridge/openconferenceware.png)](https://gemnasium.com/osbridge/openconferenceware) [![Code Climate](https://codeclimate.com/github/osbridge/openconferenceware.png)](https://codeclimate.com/github/osbridge/openconferenceware)
 * [Legacy](https://github.com/osbridge/openconferenceware/tree/legacy) (Rails 2.1.2, Ruby 1.8.7): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=legacy)](https://travis-ci.org/osbridge/openconferenceware)
 
 
