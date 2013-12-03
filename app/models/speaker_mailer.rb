@@ -34,7 +34,8 @@ class SpeakerMailer < ActionMailer::Base
       to: proposal.mailto_emails,
       bcc: SECRETS.email['default_bcc_address'],
       from: SECRETS.email['default_from_address'],
-      subject: clean_snippet(subject_snippet)
+      subject: clean_snippet(subject_snippet),
+      template_name: 'speaker_email'
     )
   end
 

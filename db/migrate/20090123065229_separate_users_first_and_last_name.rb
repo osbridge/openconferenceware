@@ -3,7 +3,7 @@ class SeparateUsersFirstAndLastName < ActiveRecord::Migration
     add_column :users, :first_name, :string
     add_column :users, :last_name, :string
     
-    User.find(:all).each do |user|
+    User.all.each do |user|
       unless user.read_attribute(:fullname).nil?
         user.first_name = user.read_attribute(:fullname).split(" ")[0..-2].join(' ')
         user.last_name = user.read_attribute(:fullname).split(" ").last
@@ -17,7 +17,7 @@ class SeparateUsersFirstAndLastName < ActiveRecord::Migration
   def self.down
     add_column :users, :fullname, :string
     
-    User.find(:all).each do |user|
+    User.all.each do |user|
       user.write_attribute(:fullname, [user.first_name, user.last_name].compact.join(" ")) if ! user.first_name.blank? || ! user.last_name.blank?
       user.save
     end

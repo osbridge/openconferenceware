@@ -10,8 +10,6 @@
 #
 
 class SelectorVote < ActiveRecord::Base
-  attr_accessible :rating, :comment, :user, :proposal
-
   belongs_to :user
   belongs_to :proposal
 

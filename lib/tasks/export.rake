@@ -31,7 +31,7 @@ namespace :export do
 
   namespace :users do
     def users
-      User.find(:all, :order => 'last_name')
+      User.order('last_name')
     end
 
     desc "Exports basic user information to users.csv"

@@ -12,7 +12,7 @@ namespace :bridgepdx do
     event = ENV['EVENT'].nil? ? Event.current : Event.find_by_slug(ENV['EVENT'])
     CSV.open('session_cards.csv','w') do |csv|
       csv << %w(room start_time title speakers)
-      event.proposals.confirmed(:order => 'start_time ASC').each do |session|
+      event.proposals.confirmed.order('start_time ASC').each do |session|
         row = []
         row << session.room.ergo.name
         row << session.start_time.strftime("%A, %B %d, %I:%M%p")
@@ -207,7 +207,7 @@ For example:
       drone.save(true)
 
       # Tracks
-      event.tracks.all(:include => [:event]).each do |track|
+      event.tracks.includes(:event).each do |track|
         drone = RwikibotPageDrone.new(wiki, track_wiki_title(track))
         drone.append "[[#{event_wiki_title(track.event)}]]"
         drone.append "[[#{tracks_wiki_title(track.event)}]]"
@@ -216,7 +216,7 @@ For example:
       end
       
       # Sessions
-      event.proposals.confirmed.all(:include => [:event, :track, :session_type]).each do |proposal|
+      event.proposals.confirmed.includes(:event, :track, :session_type).each do |proposal|
         drone = RwikibotPageDrone.new(wiki, session_wiki_title(proposal))
         content = "[[#{event_wiki_title(proposal.event)} notes]] [[#{track_wiki_title(proposal.track)} notes]]"
         content << "#{textilize proposal.excerpt} " unless proposal.excerpt.blank?

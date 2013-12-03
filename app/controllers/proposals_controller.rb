@@ -52,14 +52,14 @@ class ProposalsController < ApplicationController
         # index.atom.builder
         if @event_assignment == :assigned_to_param
           @cache_key = "proposals_atom,event_#{@event.id}"
-          @proposals = Defer { @event.populated_proposals(:proposals).all(order: "submitted_at desc", limit: MAX_FEED_ITEMS) }
+          @proposals = Defer { @event.populated_proposals(:proposals).order("submitted_at desc").limit(MAX_FEED_ITEMS) }
         else
           @cache_key = "proposals_atom,all"
-          @proposals = Defer { Proposal.populated.all(order: "submitted_at desc", limit: MAX_FEED_ITEMS) }
+          @proposals = Defer { Proposal.populated.order("submitted_at desc").limit(MAX_FEED_ITEMS) }
         end
       }
       format.csv {
-        records = @event.populated_proposals(@kind).all(include: :comments)
+        records = @event.populated_proposals(@kind).includes(:comments)
         if admin?
           render csv: records, style: :admin
         else
@@ -199,12 +199,7 @@ class ProposalsController < ApplicationController
   # POST /proposals
   # POST /proposals.xml
   def create
-    @proposal = Proposal.new
-    @proposal.assign_attributes(
-      params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
-      as: current_role
-    )
-    @proposal.event = @event
+    @proposal = @event.proposals.new(proposal_params)
     @proposal.add_user(current_user) if logged_in?
     @proposal.transition = transition_from_params if admin?
 
@@ -245,10 +240,7 @@ class ProposalsController < ApplicationController
       end
     end
 
-    @proposal.assign_attributes(
-      params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
-      as: current_role
-    )
+    @proposal.assign_attributes(proposal_params)
 
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
@@ -318,7 +310,7 @@ class ProposalsController < ApplicationController
     @matches = get_speaker_matches(params[:search])
 
     respond_to do |format|
-      format.json { render partial: "search_speakers", layout: false }
+      format.html { render partial: "search_speakers", layout: false }
     end
   end
 
@@ -348,6 +340,28 @@ class ProposalsController < ApplicationController
   end
 
 protected
+
+  def proposal_params
+     permitted = [
+      :presenter,
+      :affiliation,
+      :email,
+      :website,
+      :biography,
+      :title,
+      :description,
+      :excerpt,
+      :agreement,
+      :note_to_organizers,
+      :track_id,
+      :session_type_id,
+      :speaking_experience,
+      :audience_level]
+
+    permitted += [:status, :room_id, :start_time, :audio_url] if admin?
+
+    params.require(:proposal).permit(permitted)
+  end
 
   # Is this event accepting proposals? If not, redirect with a warning.
   def assert_accepting_proposals
@@ -469,7 +483,7 @@ protected
   # Base method used for #show and #session_show
   def base_show
     if selector? && @event.accept_selector_votes?
-      @selector_vote = @proposal.selector_votes.find_or_initialize_by_user_id(current_user.id)
+      @selector_vote = @proposal.selector_votes.find_or_initialize_by(user_id: current_user.id)
     end
 
     unless defined?(@redirector)

@@ -63,7 +63,7 @@
     <%= f.submit("Complete my speaker profile...", :name => :require_complete_profile, :class => "btn btn-default") unless @user.complete_profile? %>
     <%= link_to "Cancel", @user, :class => "btn btn-default" %>
     <% if admin? %>
-      <%= link_to "Delete", @user, :method => :delete, :confirm => "Delete user #{h @user.label}?", :class => "btn btn-danger pull-right" %>
+      <%= link_to "Delete", @user, :method => :delete, :data => { :confirm => "Delete user #{h @user.label}?" }, :class => "btn btn-danger pull-right" %>
     <% end %>
 
     <p style="margin-top: 2em; margin-bottom: 0">

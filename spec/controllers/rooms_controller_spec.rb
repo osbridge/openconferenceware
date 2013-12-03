@@ -93,44 +93,31 @@ describe RoomsController do
     end
 
     describe "responding to POST create" do
-      before do
-        @new_room = Room.new
-      end
-
       describe "with valid params" do
         before do
-          @valid_params = @room.attributes.slice(*Room.accessible_attributes(:admin)).clone
-          @new_room.stub(:save).and_return(true)
+          @valid_params = extract_valid_params(@room)
+          post :create, room: @valid_params
         end
       
         it "should expose a newly created room as @room" do
-          post :create, room: @valid_params
-          assigns(:room).attributes.slice(*Room.accessible_attributes(:admin)).should eq(@valid_params)
+          extract_valid_params(assigns(:room)).should eq(@valid_params)
         end
 
         it "should redirect to the rooms index" do
-          Room.stub(:new).and_return(@new_room)
-          post :create, room: {}
           response.should redirect_to(event_rooms_path(@event))
         end
-      
       end
     
       describe "with invalid params" do
         before do
-          @new_room.stub(:save).and_return(false)
+          post :create, room: {capacity: 3}
         end
 
         it "should expose a newly created but unsaved room as @room" do
-          Room.stub(:new).and_return(@new_room)
-          post :create, room: {name: 'hello'}
-          assigns(:room).should equal(@new_room)
           assigns(:room).should be_new_record
         end
 
         it "should re-render the 'new' template" do
-          Room.stub(:new).and_return(@new_room)
-          post :create, room: {}
           response.should render_template('new')
         end
       
@@ -142,25 +129,18 @@ describe RoomsController do
 
       describe "with valid params" do
         before do
-          @valid_params = Hash[@room.attributes.slice(*Room.accessible_attributes(:admin)).map{|k,v| [k,v.to_s]}]
-          @room.stub(:save).and_return(true)
-        end
-
-        it "should update the requested room" do
+          @valid_params = extract_valid_params(@room)
           Room.should_receive(:find).with("37").and_return(@room)
-          @room.should_receive(:assign_attributes).with(@valid_params, as: :admin)
+          @room.should_receive(:update_attributes).with(@valid_params).and_return(true)
+
           put :update, id: "37", room: @valid_params
         end
 
         it "should expose the requested room as @room" do
-          Room.stub(:find).and_return(@room)
-          put :update, id: "1"
           assigns(:room).should equal(@room)
         end
 
         it "should redirect to the room" do
-          Room.stub(:find).and_return(@room)
-          put :update, id: "1"
           response.should redirect_to(room_path(@room))
         end
 
@@ -168,23 +148,17 @@ describe RoomsController do
     
       describe "with invalid params" do
         before do
-          @room.stub(:save).and_return(false)
-        end
-
-        it "should update the requested room" do
+          @room.should_receive(:update_attributes).and_return(false)
           Room.should_receive(:find).with("37").and_return(@room)
+
           put :update, id: "37", room: {name: 'hello'}
         end
 
         it "should expose the room as @room" do
-          Room.stub(:find).and_return(@room)
-          put :update, id: "1"
           assigns(:room).should equal(@room)
         end
 
         it "should re-render the 'edit' template" do
-          Room.stub(:find).and_return(@room)
-          put :update, id: "1"
           response.should render_template('edit')
         end
 

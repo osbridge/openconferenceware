@@ -54,14 +54,14 @@ describe Event do
     end
 
     it "should get proposals and sessions for :proposals" do
-      records = @event.populated_proposals(:proposals).all
+      records = @event.populated_proposals(:proposals)
 
       records.select(&:confirmed?).should_not be_empty
       records.reject(&:confirmed?).should_not be_empty
     end
 
     it "should get just sessions for :sessions" do
-      records = @event.populated_proposals(:sessions).all
+      records = @event.populated_proposals(:sessions)
 
       records.select(&:confirmed?).should_not be_empty
       records.reject(&:confirmed?).should be_empty

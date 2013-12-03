@@ -111,7 +111,7 @@
           <li><%= link_to 'Speakers', speakers_event_path(event), :class => 'speakers' %></li>
           <% end -%>
 
-          <% if bof = event.children.first(:conditions => ['slug LIKE ?', '%bof']) %>
+          <% if bof = event.children.where('slug LIKE ?', '%bof').first %>
             <li><%= link_to 'BoFs', "/events/#{bof.slug}/#{bof.proposal_status_published? ? 'sessions' : 'proposals' }", :class => 'bofs' %></li>
           <% end %>
 

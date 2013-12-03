@@ -7,7 +7,7 @@
   <% if admin? %>
     <div class='record-controls'>
     <%= link_to 'Edit', edit_session_type_path(session_type), :class => "editable" %>
-    <%= link_to 'Destroy', session_type_path(session_type), :confirm => %{Destroy session_type "#{session_type.title}"?}, :method => :delete, :class => "deletable" %>
+    <%= link_to 'Destroy', session_type_path(session_type), :data => { :confirm => %{Destroy session_type "#{session_type.title}"?} }, :method => :delete, :class => "deletable" %>
     </div>
   <% end %>
 <% end %>

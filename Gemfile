@@ -7,7 +7,10 @@ source "https://rubygems.org"
 gem 'rake'
 
 # Rails version, which must be specified here AND in the environment.rb:
-gem 'rails', '~> 3.2.0'
+gem 'rails', '~> 4.0.0'
+
+# Extracted Rails features
+gem 'rails-observers'
 
 # Database driver
 gem 'sqlite3', :require => false
@@ -34,14 +37,13 @@ gem 'vpim-rails', :git => "https://github.com/osbridge/vpim-rails.git", :require
 gem 'action_mailer_tls',   '~> 1.1.3'
 gem 'nokogiri'
 gem 'prawn'
-gem 'memcache-client'
+gem 'dalli'
 gem "dynamic_form"
 gem 'rinku', :require => 'rails_rinku'
 
 # Assets
 gem 'jquery-rails'
-gem 'sass-rails', " ~> 3.2.0"
-gem 'coffee-rails', " ~> 3.2.0"
+gem 'sass-rails', " ~> 4.0.0"
 gem 'uglifier'
 
 group :production do

@@ -29,33 +29,14 @@ class Event < ActiveRecord::Base
   include CacheLookupsMixin
   include SimpleSlugMixin
 
-  attr_accessible :slug,
-                  :title,
-                  :deadline,
-                  :open_text,
-                  :closed_text,
-                  :session_text,
-                  :tracks_text,
-                  :start_date,
-                  :end_date,
-                  :proposal_status_published,
-                  :accept_proposal_comments_after_deadline,
-                  :schedule_published,
-                  :proposal_titles_locked,
-                  :accept_selector_votes,
-                  :show_proposal_confirmation_controls,
-                  :parent,
-                  :parent_id,
-                  as: :admin
-
   cache_lookups_for :slug, order: 'deadline desc', include: [:tracks, :rooms]
 
   # Associations
-  has_many :proposals, order: 'submitted_at desc', dependent: :destroy
-  has_many :tracks, order: 'title asc', dependent: :destroy
+  has_many :proposals, dependent: :destroy
+  has_many :tracks, dependent: :destroy
   has_many :session_types, dependent: :destroy
   has_many :rooms, dependent: :destroy
-  has_many :schedule_items, dependent: :destroy, order: 'start_time asc'
+  has_many :schedule_items, dependent: :destroy
   has_many :children, class_name: 'Event', foreign_key: 'parent_id', dependent: :destroy
   belongs_to :parent, class_name: 'Event', foreign_key: 'parent_id'
   has_many :selector_votes, through: :proposals, dependent: :destroy
@@ -143,13 +124,13 @@ class Event < ActiveRecord::Base
   def calendar_items(is_admin=false)
     results = []
     if self.schedule_published? || is_admin
-      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {track: :event}).all
+      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {track: :event})
       if is_admin
-        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {track: :event}).all
+        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {track: :event})
       end
     elsif is_admin
     end
-    results += self.schedule_items.includes(:room).all
+    results += self.schedule_items.includes(:room)
     results += (self.children.map{|child| child.calendar_items(is_admin)}.flatten)
     return results
   end
@@ -179,7 +160,7 @@ class Event < ActiveRecord::Base
 
   # Return other Event objects.
   def other_events
-    return self.class.select("id, title").order("title asc").where('id != ?', self.id).all
+    return self.class.select("id, title").order("title asc").where('id != ?', self.id)
   end
 
   # Return array of Rooms for this event and its parent event.

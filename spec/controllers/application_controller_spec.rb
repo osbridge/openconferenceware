@@ -105,7 +105,7 @@ describe ApplicationController do
     end
 
     it "should not allow anonymous to edit anything" do
-      can_edit?(Proposal.find(:first)).should be_false
+      can_edit?(Proposal.first).should be_false
     end
 
     it "should fail on nil" do

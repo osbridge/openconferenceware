@@ -9,7 +9,7 @@ class ScheduleItemsController < ApplicationController
   # GET /schedule_items
   # GET /schedule_items.xml
   def index
-    @schedule_items = @event.schedule_items
+    @schedule_items = @event.schedule_items.order('start_time ASC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -49,9 +49,7 @@ class ScheduleItemsController < ApplicationController
   # POST /schedule_items
   # POST /schedule_items.xml
   def create
-    @schedule_item = ScheduleItem.new
-    @schedule_item.assign_attributes(params[:schedule_item], as: current_role)
-    @schedule_item.event = @event
+    @schedule_item = @event.schedule_items.new(schedule_item_params)
 
     respond_to do |format|
       if @schedule_item.save
@@ -70,9 +68,8 @@ class ScheduleItemsController < ApplicationController
   # PUT /schedule_items/1
   # PUT /schedule_items/1.xml
   def update
-    @schedule_item.assign_attributes(params[:schedule_item], as: current_role)
     respond_to do |format|
-      if @schedule_item.save
+      if @schedule_item.update_attributes(schedule_item_params)
         flash[:notice] = 'ScheduleItem was successfully updated.'
         format.html { redirect_to(@schedule_item) }
         format.json  { head :ok }
@@ -98,6 +95,17 @@ class ScheduleItemsController < ApplicationController
   end
 
   protected
+
+    def schedule_item_params
+      params.require(:schedule_item).permit(
+        :title,
+        :description,
+        :excerpt,
+        :start_time,
+        :duration,
+        :room_id
+      ) if admin?
+    end
 
     def add_event_breadcrumb
       add_breadcrumb @event.title, @event

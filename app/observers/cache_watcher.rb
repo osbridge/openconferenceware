@@ -7,7 +7,6 @@ class CacheWatcher < ActiveRecord::Observer
     Comment,
     Event,
     Proposal,
-    ProposalsUser,
     Room,
     ScheduleItem,
     SessionType,

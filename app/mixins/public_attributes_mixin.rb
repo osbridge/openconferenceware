@@ -17,7 +17,7 @@
 #
 # Export data for a record:
 #
-#   user = User.find(:first)
+#   user = User.first
 #   puts user.public_attributes.inspect
 #   # => {"id" => 123, "first_name" => "Bubba", "last_name" => "Smith"}
 module PublicAttributesMixin

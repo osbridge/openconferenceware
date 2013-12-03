@@ -17,7 +17,7 @@
   <% if admin? %>
     <td class='record-controls'>
     <%= link_to 'Edit', edit_schedule_item_path(schedule_item), :class => "editable" %>
-    <%= link_to 'Destroy', schedule_item_path(schedule_item), :confirm => %{Destroy schedule item "#{schedule_item.title}"?}, :method => :delete, :class => "deletable" %>
+    <%= link_to 'Destroy', schedule_item_path(schedule_item), :data => { :confirm => %{Destroy schedule item "#{schedule_item.title}"?} }, :method => :delete, :class => "deletable" %>
     </td>
   <% end %>
   </tr>

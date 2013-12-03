@@ -8,6 +8,8 @@ describe TracksController do
     @event = stub_current_event!(event: events(:open))
     @controller.stub(assign_events: [])
     @track = create(:track, event: @event)
+    @tracks_double = double("Array of Tracks")
+    @tracks_scope_double = double("Tracks Scope", order: @tracks_double)
   end
     
   describe "responding to GET index" do
@@ -18,16 +20,16 @@ describe TracksController do
     end
 
     it "should expose all tracks from the current event as @tracks" do
-      @event.should_receive(:tracks).and_return([@track])
+      @event.should_receive(:tracks).and_return(@tracks_scope_double)
       get :index, event_id: @event.to_param
-      assigns(:tracks).should == [@track]
+      assigns(:tracks).should == @tracks_double
     end
 
     describe "with mime type of xml" do
       it "should render all tracks from the current event as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        @event.should_receive(:tracks).and_return(tracks = double("Array of Tracks"))
-        tracks.should_receive(:to_xml).and_return("generated XML")
+        @event.should_receive(:tracks).and_return(@tracks_scope_double)
+        @tracks_double.should_receive(:to_xml).and_return("generated XML")
         get :index
         response.body.should == "generated XML"
       end
@@ -91,25 +93,18 @@ describe TracksController do
     end
   
     describe "responding to POST create" do
-      before do
-        @new_track = Track.new
-      end
-
       describe "with valid params" do
         before do
-          @valid_params = @track.attributes.slice(*Track.accessible_attributes(:admin)).clone
+          @valid_params = extract_valid_params(@track)
+          post :create, track: @valid_params
         end
       
         it "should expose a newly created track as @track" do
-          post :create, track: @valid_params
-          assigns(:track).attributes.slice(*Track.accessible_attributes(:admin)).should eq(@valid_params)
+          assigns(:track).should be_valid
+          extract_valid_params(assigns(:track)).should eq(@valid_params)
         end
 
         it "should redirect to the tracks index" do
-          Track.stub(:new).and_return(@new_track)
-          @new_track.stub(:save).and_return(true)
-
-          post :create, track: {}
           response.should redirect_to(event_tracks_path(@event))
         end
       
@@ -117,19 +112,14 @@ describe TracksController do
     
       describe "with invalid params" do
         before do
-          @new_track.stub(:save).and_return(false)
+          post :create, track: {color: 'orange'}
         end
 
         it "should expose a newly created but unsaved track as @track" do
-          Track.stub(:new).and_return(@new_track)
-          post :create, track: {title: 'hello'}
-          assigns(:track).should equal(@new_track)
           assigns(:track).should be_new_record
         end
 
         it "should re-render the 'new' template" do
-          Track.stub(:new).and_return(@new_track)
-          post :create, track: {}
           response.should render_template('new')
         end
       
@@ -141,25 +131,17 @@ describe TracksController do
 
       describe "with valid params" do
         before do
-          @valid_params = @track.attributes.slice(*Track.accessible_attributes(:admin)).clone
-          @track.stub(:save).and_return(true)
-        end
-
-        it "should update the requested track" do
+          @valid_params = extract_valid_params(@track)
           Track.should_receive(:find).with("37").and_return(@track)
-          @track.should_receive(:assign_attributes).with(@valid_params, as: :admin)
+          @track.should_receive(:update_attributes).with(@valid_params).and_return(true)
           put :update, id: "37", track: @valid_params
         end
 
         it "should expose the requested track as @track" do
-          Track.stub(:find).and_return(@track)
-          put :update, id: "1"
           assigns(:track).should equal(@track)
         end
 
         it "should redirect to the track" do
-          Track.stub(:find).and_return(@track)
-          put :update, id: "1"
           response.should redirect_to(track_path(@track))
         end
 
@@ -168,22 +150,15 @@ describe TracksController do
       describe "with invalid params" do
         before do
           @track.stub(:save).and_return(false)
-        end
-
-        it "should update the requested track" do
           Track.should_receive(:find).with("37").and_return(@track)
           put :update, id: "37", track: {title: 'hello'}
         end
 
         it "should expose the track as @track" do
-          Track.stub(:find).and_return(@track)
-          put :update, id: "1"
           assigns(:track).should equal(@track)
         end
 
         it "should re-render the 'edit' template" do
-          Track.stub(:find).and_return(@track)
-          put :update, id: "1"
           response.should render_template('edit')
         end
 

@@ -19,7 +19,7 @@
       <% if admin? %>
         <td nowrap="nowrap">
           <%= link_to "Edit", edit_user_path(user), :class => "editable" %>
-          <%= link_to "Delete...", user, :method => :delete, :confirm => "Delete user #{h user.label}?", :class => "deletable" %>
+          <%= link_to "Delete...", user, :method => :delete, :data => { :confirm => "Delete user #{h user.label}?" }, :class => "deletable" %>
         </td>
       <% end %>
     </tr>

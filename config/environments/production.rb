@@ -5,6 +5,8 @@ OpenConferenceWare::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
+  config.eager_load = true
+
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
@@ -48,7 +50,8 @@ OpenConferenceWare::Application.configure do
   config.active_support.deprecation = :notify
 
   # Compress JavaScript and CSS
-  config.assets.compress = true
+  config.assets.js_compressor  = :uglifier
+  config.assets.css_compressor = :sass
 
   # Don't fallback to assets pipeline
   config.assets.compile = false

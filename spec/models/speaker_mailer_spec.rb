@@ -15,7 +15,7 @@ def deliver_email(proposal)
 end
 
 describe SpeakerMailer do
-  fixtures :proposals, :tracks, :session_types, :users, :proposals_users, :snippets
+  fixtures :proposals, :tracks, :session_types, :users, :snippets
   CHARSET = 'utf-8'
 
   before(:each) do

@@ -30,7 +30,7 @@ describe Manage::EventsController do
   it "should update event" do
     stub_current_event!(event: @event)
     attributes = { "title" => "omgwtfbbq" }
-    @event.should_receive(:assign_attributes).with(attributes, as: :admin)
+    @event.should_receive(:assign_attributes).with(attributes)
 
     put :update, id: @event.slug, event: attributes
 

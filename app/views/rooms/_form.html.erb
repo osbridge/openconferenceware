@@ -31,6 +31,6 @@
   <p>
     <%= f.submit @room.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
     <%= link_to 'Cancel', @room, :class => "btn btn-default" %>
-    <%= link_to 'Destroy', room_path(@room), :method => :delete, :confirm => %{Destroy room "#{@room.name}"?}, :class => "btn btn-danger pull-right" unless @room.new_record? %>
+    <%= link_to 'Destroy', room_path(@room), :method => :delete, :data => { :confirm => %{Destroy room "#{@room.name}"?} }, :class => "btn btn-danger pull-right" unless @room.new_record? %>
   </p>
 <% end %>

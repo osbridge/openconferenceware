@@ -98,7 +98,7 @@ describe CommentsController do
     it "should fail on empty comment" do
       email = "bubba@smith.com"
       message = "Yo"
-      post :create, proposal_id: @proposal.to_param
+      post :create, proposal_id: @proposal.to_param, comment: {email: "bubba@smith.com"}
 
       flash.keys.should include(:failure)
       assigns(:comment).should_not be_valid

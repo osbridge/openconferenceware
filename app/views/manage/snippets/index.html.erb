@@ -22,7 +22,7 @@
     <td nowrap="nowrap">
       <%= link_to 'Show', [:manage, snippet], :class => :showable %>
       <%= link_to 'Edit', edit_manage_snippet_path(snippet), :class => :editable %>
-      <%= link_to 'Destroy', [:manage, snippet], :confirm => 'Are you sure?', :method => :delete, :class => :deletable %>
+      <%= link_to 'Destroy', [:manage, snippet], :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => :deletable %>
     </td>
     <% end %>
   </tr>

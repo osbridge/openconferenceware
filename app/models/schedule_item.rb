@@ -16,14 +16,6 @@
 
 class ScheduleItem < ActiveRecord::Base
 
-  attr_accessible :title,
-                  :description,
-                  :excerpt,
-                  :start_time,
-                  :duration,
-                  :room_id,
-                  as: :admin
-
   # Associations
   belongs_to :event
   belongs_to :room

@@ -36,7 +36,7 @@ class CommentsController < ApplicationController
     end
 
     @proposal = Proposal.find(params[:proposal_id])
-    @comment = @proposal.comments.new(params[:comment])
+    @comment = @proposal.comments.new(comment_params)
 
     # Use session to store email address and prefill it as needed
     if @comment.email.blank?
@@ -74,4 +74,11 @@ class CommentsController < ApplicationController
       }
     end
   end
+
+private
+
+  def comment_params
+    params.require(:comment).permit(:name, :email, :message)
+  end
+
 end

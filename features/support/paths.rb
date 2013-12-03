@@ -12,11 +12,11 @@ module NavigationHelpers
       root_path
 
     when /a proposal with comments/
-      @proposal = Proposal.find(ActiveRecord::Fixtures.identify(:clio_chupacabras))
+      @proposal = Proposal.find(ActiveRecord::FixtureSet.identify(:clio_chupacabras))
       proposal_path(@proposal)
 
     when /a proposal accepting comments/
-      @proposal = Proposal.find(ActiveRecord::Fixtures.identify(:aaron_aardvarks))
+      @proposal = Proposal.find(ActiveRecord::FixtureSet.identify(:aaron_aardvarks))
       proposal_path(@proposal)
 
     # Add more mappings here.
