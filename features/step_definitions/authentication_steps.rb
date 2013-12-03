@@ -2,7 +2,7 @@ def login_as(login)
   if login.blank?
     logout
   else
-    @user = User.find(ActiveRecord::Fixtures.identify(login))
+    @user = User.find(ActiveRecord::FixtureSet.identify(login))
     post browser_session_path, login_as: @user.login
   end
 end
