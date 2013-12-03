@@ -8,6 +8,8 @@ describe TracksController do
     @event = stub_current_event!(event: events(:open))
     @controller.stub(assign_events: [])
     @track = create(:track, event: @event)
+    @tracks_double = double("Array of Tracks")
+    @tracks_scope_double = double("Tracks Scope", order: @tracks_double)
   end
     
   describe "responding to GET index" do
@@ -18,16 +20,16 @@ describe TracksController do
     end
 
     it "should expose all tracks from the current event as @tracks" do
-      @event.should_receive(:tracks).and_return([@track])
+      @event.should_receive(:tracks).and_return(@tracks_scope_double)
       get :index, event_id: @event.to_param
-      assigns(:tracks).should == [@track]
+      assigns(:tracks).should == @tracks_double
     end
 
     describe "with mime type of xml" do
       it "should render all tracks from the current event as xml" do
         request.env["HTTP_ACCEPT"] = "application/xml"
-        @event.should_receive(:tracks).and_return(tracks = double("Array of Tracks"))
-        tracks.should_receive(:to_xml).and_return("generated XML")
+        @event.should_receive(:tracks).and_return(@tracks_scope_double)
+        @tracks_double.should_receive(:to_xml).and_return("generated XML")
         get :index
         response.body.should == "generated XML"
       end
