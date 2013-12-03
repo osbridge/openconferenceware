@@ -5,7 +5,7 @@ OpenConferenceWare::Application.routes.draw do
   get '/auth/:provider/callback' => 'authentications#create'
   get '/auth/failure' => 'authentications#failure'
 
-  resources :authentications, only: [:index, :destroy]
+  resources :authentications, only: [:create]
 
   resources :events do
     member do
@@ -65,7 +65,10 @@ OpenConferenceWare::Application.routes.draw do
     put 'favorites/modify' => 'user_favorites#modify', as: :modify_favorites
   end
 
-  root to: 'events#index'
+  resources :session_types, only: [:index]
+  resources :tracks, only: [:index]
+  resources :rooms, only: [:index]
+  resources :selector_votes, only: [:index]
 
-  get '/:controller(/:action(/:id))'
+  root to: 'events#index'
 end

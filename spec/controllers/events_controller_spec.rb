@@ -58,7 +58,7 @@ describe EventsController, "when displaying events" do
       before do
         @event.stub(:proposal_status_published? => false)
 
-        get :speakers, event_id: @event.to_param
+        get :speakers, id: @event.to_param
       end
 
       it "should redirect to event's proposals" do
@@ -76,7 +76,7 @@ describe EventsController, "when displaying events" do
         @event.stub(:proposal_status_published? => true)
         @event.stub(:schedule_published? => true)
 
-        get :speakers, event_id: @event.to_param
+        get :speakers, id: @event.to_param
       end
 
       it "should get a speaker's page" do

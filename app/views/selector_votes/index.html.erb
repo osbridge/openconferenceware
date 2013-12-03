@@ -15,13 +15,13 @@ HERE
 
 <table>
   <tr>
-    <th><%= link_to('ID', url_for(:order => 'id')) %></th>
-    <th><%= link_to('Title', url_for(:order => 'title')) %></th>
+    <th><%= link_to('ID', event_selector_votes_path(@event, order: 'id')) %></th>
+    <th><%= link_to('Title',event_selector_votes_path(@event, order: 'title')) %></th>
     <th>Speaker(s)</th>
-    <th><%= link_to('Track', url_for(:order => 'track')) %></th>
-    <th><%= link_to('Vote points', url_for(:order => 'vote_points')) %></th>
-    <th><%= link_to('Votes count', url_for(:order => 'votes_count')) %></th>
-    <th><%= link_to('Favorites count', url_for(:order => 'favorites_count')) %></th>
+    <th><%= link_to('Track', event_selector_votes_path(@event, order: 'track')) %></th>
+    <th><%= link_to('Vote points', event_selector_votes_path(@event, order: 'vote_points')) %></th>
+    <th><%= link_to('Votes count', event_selector_votes_path(@event, order: 'votes_count')) %></th>
+    <th><%= link_to('Favorites count', event_selector_votes_path(@event, order: 'favorites_count')) %></th>
   </tr>
   <% for proposal in @proposals %>
     <tr class="proposal_details proposal_<%= proposal.id %> %>">

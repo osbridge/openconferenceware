@@ -20,7 +20,7 @@ describe UsersController do
     end
 
     it "should redirect on invalid user" do
-      get :show, id: -1
+      get :show, id: 'oranges'
 
       assigns(:user).should be_blank
       response.should redirect_to(users_path)
@@ -48,10 +48,8 @@ describe UsersController do
   describe "update" do
     describe "anonymous user" do
       it "should not allow" do
-        put :update, user: {id: users(:clio).id, admin: true}
-
-        response.should redirect_to(users_path)
-        flash[:failure].should_not be_blank
+        put :update, id: users(:clio).id, user: {admin: true}
+        response.should redirect_to(sign_in_path)
       end
     end
 

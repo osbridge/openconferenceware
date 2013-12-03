@@ -30,7 +30,7 @@ describe TracksController do
         request.env["HTTP_ACCEPT"] = "application/xml"
         @event.should_receive(:tracks).and_return(@tracks_scope_double)
         @tracks_double.should_receive(:to_xml).and_return("generated XML")
-        get :index
+        get :index, event_id: @event.to_param
         response.body.should == "generated XML"
       end
     end
@@ -41,7 +41,7 @@ describe TracksController do
 
     it "should expose the requested track as @track" do
       Track.should_receive(:find).with("37").and_return(@track)
-      get :show, id: "37"
+      get :show, event_id: @event.to_param, id: "37"
       assigns(:track).should equal(@track)
     end
     
@@ -51,7 +51,7 @@ describe TracksController do
         request.env["HTTP_ACCEPT"] = "application/xml"
         Track.should_receive(:find).with("37").and_return(@track)
         @track.should_receive(:to_xml).and_return("generated XML")
-        get :show, id: "37"
+        get :show, event_id: @event.to_param, id: "37"
         response.body.should == "generated XML"
       end
 
@@ -60,7 +60,7 @@ describe TracksController do
     describe "with an invalid track id" do
       it "should redirect to the tracks index" do
         Track.should_receive(:find).with("invalid").and_raise(ActiveRecord::RecordNotFound)
-        get :show, id: "invalid"
+        get :show, event_id: @event.to_param, id: "invalid"
         response.should redirect_to(event_tracks_path(@event))
       end
     end
@@ -76,7 +76,7 @@ describe TracksController do
     
       it "should expose a new track as @track" do
         Track.should_receive(:new).and_return(@track)
-        get :new, event: @event.to_param
+        get :new, event_id: @event.to_param
         assigns(:track).should equal(@track)
       end
 
@@ -86,7 +86,7 @@ describe TracksController do
     
       it "should expose the requested track as @track" do
         Track.should_receive(:find).with("37").and_return(@track)
-        get :edit, id: "37"
+        get :edit, id: "37", event_id: @event.to_param
         assigns(:track).should equal(@track)
       end
 
@@ -96,7 +96,7 @@ describe TracksController do
       describe "with valid params" do
         before do
           @valid_params = extract_valid_params(@track)
-          post :create, track: @valid_params
+          post :create, track: @valid_params, event_id: @event.to_param
         end
       
         it "should expose a newly created track as @track" do
@@ -112,7 +112,7 @@ describe TracksController do
     
       describe "with invalid params" do
         before do
-          post :create, track: {color: 'orange'}
+          post :create, track: {color: 'orange'}, event_id: @event.to_param
         end
 
         it "should expose a newly created but unsaved track as @track" do
@@ -134,7 +134,7 @@ describe TracksController do
           @valid_params = extract_valid_params(@track)
           Track.should_receive(:find).with("37").and_return(@track)
           @track.should_receive(:update_attributes).with(@valid_params).and_return(true)
-          put :update, id: "37", track: @valid_params
+          put :update, id: "37", track: @valid_params, event_id: @event.to_param
         end
 
         it "should expose the requested track as @track" do
@@ -151,7 +151,7 @@ describe TracksController do
         before do
           @track.stub(:save).and_return(false)
           Track.should_receive(:find).with("37").and_return(@track)
-          put :update, id: "37", track: {title: 'hello'}
+          put :update, id: "37", track: {title: 'hello'}, event_id: @event.to_param
         end
 
         it "should expose the track as @track" do
@@ -174,12 +174,12 @@ describe TracksController do
       it "should destroy the requested track" do
         Track.should_receive(:find).with("37").and_return(@track)
         @track.should_receive(:destroy)
-        delete :destroy, id: "37"
+        delete :destroy, id: "37", event_id: @event.to_param
       end
   
       it "should redirect to the tracks list" do
         Track.stub(:find).and_return(@track)
-        delete :destroy, id: "1"
+        delete :destroy, id: "1", event_id: @event.to_param
         response.should redirect_to(event_tracks_path(@event))
       end
 

@@ -27,7 +27,7 @@ describe RoomsController do
         request.env["HTTP_ACCEPT"] = "application/xml"
         @event.should_receive(:rooms).and_return(rooms = double("Array of Rooms"))
         rooms.should_receive(:to_xml).and_return("generated XML")
-        get :index
+        get :index, event_id: @event.to_param
         response.body.should == "generated XML"
       end
     end
@@ -38,7 +38,7 @@ describe RoomsController do
 
     it "should expose the requested room as @room" do
       Room.should_receive(:find).with("37").and_return(@room)
-      get :show, id: "37"
+      get :show, id: "37", event_id: @event.to_param
       assigns(:room).should equal(@room)
     end
     
@@ -48,7 +48,7 @@ describe RoomsController do
         request.env["HTTP_ACCEPT"] = "application/xml"
         Room.should_receive(:find).with("37").and_return(@room)
         @room.should_receive(:to_xml).and_return("generated XML")
-        get :show, id: "37"
+        get :show, id: "37", event_id: @event.to_param
         response.body.should == "generated XML"
       end
 
@@ -57,7 +57,7 @@ describe RoomsController do
     describe "with an invalid room id" do
       it "should redirect to the rooms index" do
         Room.should_receive(:find).with("invalid").and_raise(ActiveRecord::RecordNotFound)
-        get :show, id: "invalid"
+        get :show, id: "invalid", event_id: @event.to_param
         response.should redirect_to(event_rooms_path(events(:open)))
       end
     end
@@ -76,7 +76,7 @@ describe RoomsController do
     
       it "should expose a new room as @room" do
         Room.should_receive(:new).and_return(@new_room)
-        get :new, event: events(:open).slug
+        get :new, event_id: @event.to_param
         assigns(:room).should equal(@new_room)
       end
 
@@ -86,7 +86,7 @@ describe RoomsController do
     
       it "should expose the requested room as @room" do
         Room.should_receive(:find).with("37").and_return(@room)
-        get :edit, id: "37"
+        get :edit, id: "37", event_id: @event.to_param
         assigns(:room).should equal(@room)
       end
 
@@ -96,7 +96,7 @@ describe RoomsController do
       describe "with valid params" do
         before do
           @valid_params = extract_valid_params(@room)
-          post :create, room: @valid_params
+          post :create, room: @valid_params, event_id: @event.to_param
         end
       
         it "should expose a newly created room as @room" do
@@ -110,7 +110,7 @@ describe RoomsController do
     
       describe "with invalid params" do
         before do
-          post :create, room: {capacity: 3}
+          post :create, room: {capacity: 3}, event_id: @event.to_param
         end
 
         it "should expose a newly created but unsaved room as @room" do
@@ -133,7 +133,7 @@ describe RoomsController do
           Room.should_receive(:find).with("37").and_return(@room)
           @room.should_receive(:update_attributes).with(@valid_params).and_return(true)
 
-          put :update, id: "37", room: @valid_params
+          put :update, id: "37", room: @valid_params, event_id: @event.to_param
         end
 
         it "should expose the requested room as @room" do
@@ -151,7 +151,7 @@ describe RoomsController do
           @room.should_receive(:update_attributes).and_return(false)
           Room.should_receive(:find).with("37").and_return(@room)
 
-          put :update, id: "37", room: {name: 'hello'}
+          put :update, id: "37", room: {name: 'hello'}, event_id: @event.to_param
         end
 
         it "should expose the room as @room" do
@@ -174,12 +174,12 @@ describe RoomsController do
       it "should destroy the requested room" do
         Room.should_receive(:find).with("37").and_return(@room)
         @room.should_receive(:destroy)
-        delete :destroy, id: "37"
+        delete :destroy, id: "37", event_id: @event.to_param
       end
   
       it "should redirect to the rooms list" do
         Room.stub(:find).and_return(@room)
-        delete :destroy, id: "1"
+        delete :destroy, id: "1", event_id: @event.to_param
         response.should redirect_to(event_rooms_path(@event))
       end
 

@@ -89,7 +89,7 @@ describe CommentsController do
 
   describe "create" do
     it "should reject comments from bots" do
-      post :create, proposal_id: @proposal_id.to_param, quagmire: "omg"
+      post :create, proposal_id: @proposal.to_param, quagmire: "omg"
 
       flash[:failure].should match(/robot/i)
       response.should be_redirect

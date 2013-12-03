@@ -1040,7 +1040,7 @@ describe ProposalsController do
     end
 
     it "should list" do
-      get :manage_speakers, {speakers: "#{@bubba.id},#{@billy.id}"}
+      get :manage_speakers, speakers: "#{@bubba.id},#{@billy.id}", id: @proposal.to_param
       response.body.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
       response.body.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
       response.body.should_not have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
@@ -1048,7 +1048,7 @@ describe ProposalsController do
 
     it "should add user" do
       User.should_receive(:find).and_return(@sue)
-      get :manage_speakers, {speakers: "#{@bubba.id},#{@billy.id}", add: @sue.id}
+      get :manage_speakers, speakers: "#{@bubba.id},#{@billy.id}", add: @sue.id, id: @proposal.to_param
       response.body.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
       response.body.should have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
       response.body.should have_selector(".speaker_id[name='speaker_ids[#{@sue.id}]']")
@@ -1056,7 +1056,7 @@ describe ProposalsController do
 
     it "should remove user" do
       User.should_receive(:find).and_return(@billy)
-      get :manage_speakers, {speakers: "#{@bubba.id},#{@billy.id}", remove: @billy.id}
+      get :manage_speakers, speakers: "#{@bubba.id},#{@billy.id}", remove: @billy.id, id: @proposal.to_param
       response.body.should have_selector(".speaker_id[name='speaker_ids[#{@bubba.id}]']")
       response.body.should_not have_selector(".speaker_id[name='speaker_ids[#{@billy.id}]']")
     end

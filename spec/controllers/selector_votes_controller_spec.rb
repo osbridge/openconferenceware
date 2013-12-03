@@ -166,7 +166,7 @@ describe SelectorVotesController do
       it "should reject request and redirect to login page" do
         SelectorVote.should_not_receive(:find_or_initialize_by)
 
-        post :create, selector_vote: {these: 'params'}
+        post :create, selector_vote: {these: 'params'}, proposal_id: "1"
 
         flash[:alert].should =~ /selection committee/
         response.should redirect_to(sign_in_path)
@@ -182,7 +182,7 @@ describe SelectorVotesController do
       it "should reject request and redirect to login page" do
         SelectorVote.should_not_receive(:find_or_initialize_by)
 
-        post :create, selector_vote: {these: 'params'}
+        post :create, selector_vote: {these: 'params'}, proposal_id: "1"
 
         flash[:alert].should =~ /selection committee/
         response.should redirect_to(sign_in_path)

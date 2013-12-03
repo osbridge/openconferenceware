@@ -375,7 +375,7 @@ protected
     end
     unless display
       flash[:failure] = "Session information has not yet been published for this event."
-      return redirect_to(params[:id] ? proposal_path(params[:id]) : event_proposals_path(@event))
+      return redirect_to((params[:id] && request.path.include?("session")) ? proposal_path(params[:id]) : event_proposals_path(@event))
     end
   end
 
