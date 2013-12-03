@@ -30,6 +30,6 @@
   <p>
     <%= f.submit @schedule_item.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
     <%= link_to 'Cancel', @schedule_item, :class => "showable", :class => "btn btn-default" %>
-    <%= link_to 'Destroy', schedule_item_path(@schedule_item), :method => :delete, :confirm => %{Destroy schedule item "#{@schedule_item.title}"?}, :class => "btn btn-danger pull-right" unless @schedule_item.new_record? %>
+    <%= link_to 'Destroy', schedule_item_path(@schedule_item), :method => :delete, :data => { :confirm => %{Destroy schedule item "#{@schedule_item.title}"?} }, :class => "btn btn-danger pull-right" unless @schedule_item.new_record? %>
   </p>
 <% end %>

@@ -13,7 +13,7 @@
   <% if admin? %>
     <div class='record-controls'>
     <%= link_to 'Edit', edit_track_path(track), :class => "editable" %>
-    <%= link_to 'Destroy', track_path(track), :confirm => %{Destroy track "#{track.title}"?}, :method => :delete, :class => "deletable" %>
+    <%= link_to 'Destroy', track_path(track), :data => { :confirm => %{Destroy track "#{track.title}"?} }, :method => :delete, :class => "deletable" %>
     </div>
   <% end %>
 <% end %>

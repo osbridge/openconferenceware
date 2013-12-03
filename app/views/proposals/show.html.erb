@@ -155,7 +155,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
         <p>Are you are still able and willing to deliver this talk at the conference?</p>
         <div class="record-controls">
           <%= link_to "Yes, I'll be there!", speaker_confirm_path(@proposal), :method => :post, :class => 'confirmable' %>
-          <%= link_to 'No, I decline.', speaker_decline_path(@proposal), :confirm => 'Are you sure?', :method => :post, :class => 'deletable' %>
+          <%= link_to 'No, I decline.', speaker_decline_path(@proposal), :data => { :confirm => 'Are you sure?' }, :method => :post, :class => 'deletable' %>
         </div>
       </div>
     <% end %>
@@ -246,7 +246,7 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
   <div class="record-controls">
     <% if can_edit?(@proposal) %>
       <%= link_to 'Edit proposal', edit_proposal_path(@proposal), :class => "editable" %>
-      <%= link_to 'Destroy proposal', @proposal, :confirm => 'Are you sure?', :method => :delete, :class => "deletable" %>
+      <%= link_to 'Destroy proposal', @proposal, :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => "deletable" %>
     <% end %>
     <%= link_to "Back to list of #{@kind.to_s.pluralize}", records_path, :class => "cancelable" %>
   </div>

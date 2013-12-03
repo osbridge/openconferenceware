@@ -27,6 +27,6 @@
 
 <div class="record-controls">
   <%= link_to 'Edit', edit_manage_snippet_path(@snippet), :class => :editable %>
-  <%= link_to "Destroy", manage_snippet_path(@snippet), :confirm => "Are you sure?", :method => :delete, :class => "deletable" %>
+  <%= link_to "Destroy", manage_snippet_path(@snippet), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "deletable" %>
   <%= link_to 'Back', manage_snippets_path, :class => :cancelable %>
 </div>

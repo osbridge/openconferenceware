@@ -102,6 +102,6 @@
   <div class="form-group">
     <%= f.submit "Save", :class => "btn btn-primary" %>
     <%= link_to "Cancel", manage_events_path, :class => "btn btn-default" %>
-    <%= link_to("Destroy", manage_event_path(@event), :confirm => "Are you sure?", :method => :delete, :class => "btn btn-danger pull-right") unless @event.new_record? %>
+    <%= link_to("Destroy", manage_event_path(@event), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger pull-right") unless @event.new_record? %>
   </div>
 <% end %>

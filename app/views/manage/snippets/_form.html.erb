@@ -25,6 +25,6 @@
   <div class="form-group">
     <%= f.submit @snippet.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
     <%= link_to "Cancel", manage_snippets_path, :class => "btn btn-default" %>
-    <%= link_to 'Destroy', manage_snippet_path(@snippet), :method => :delete, :confirm => %{Destroy snippet "#{@snippet.slug}"?}, :class => "btn btn-danger pull-right" unless @snippet.new_record? %>
+    <%= link_to 'Destroy', manage_snippet_path(@snippet), :method => :delete, :data => { :confirm => %{Destroy snippet "#{@snippet.slug}"?} }, :class => "btn btn-danger pull-right" unless @snippet.new_record? %>
   </div>
 <% end %>
