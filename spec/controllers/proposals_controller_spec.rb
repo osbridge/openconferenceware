@@ -1087,13 +1087,13 @@ describe ProposalsController do
 
       it "should match users that aren't in the proposal" do
         @proposal.should_receive(:users).and_return([])
-        get :search_speakers, @params
+        post :search_speakers, @params
         assigns(:matches).should == [@bubba, @billy]
       end
 
       it "should not match users that are in the proposal" do
         @proposal.should_receive(:users).and_return([@bubba])
-        get :search_speakers, @params
+        post :search_speakers, @params
         assigns(:matches).should == [@billy]
       end
     end
@@ -1108,13 +1108,13 @@ describe ProposalsController do
 
       it "should match users that aren't in the proposal" do
         @proposal.should_receive(:users).and_return([])
-        get :search_speakers, @params
+        post :search_speakers, @params
         assigns(:matches).should == [@bubba, @billy]
       end
 
       it "should not match users that are in the proposal" do
         @proposal.should_receive(:users).and_return([@bubba])
-        get :search_speakers, @params
+        post :search_speakers, @params
         assigns(:matches).should == [@billy]
       end
     end

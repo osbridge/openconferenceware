@@ -318,7 +318,7 @@ class ProposalsController < ApplicationController
     @matches = get_speaker_matches(params[:search])
 
     respond_to do |format|
-      format.json { render partial: "search_speakers", layout: false }
+      format.html { render partial: "search_speakers", layout: false }
     end
   end
 
