@@ -38,7 +38,7 @@ gem 'vpim-rails', :git => "https://github.com/osbridge/vpim-rails.git", :require
 gem 'action_mailer_tls',   '~> 1.1.3'
 gem 'nokogiri'
 gem 'prawn'
-gem 'memcache-client'
+gem 'dalli'
 gem "dynamic_form"
 gem 'rinku', :require => 'rails_rinku'
 
