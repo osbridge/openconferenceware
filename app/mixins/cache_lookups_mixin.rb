@@ -73,7 +73,7 @@ module CacheLookupsMixin
       scope = self
       scope = scope.order(self.lookup_opts[:order]) if self.lookup_opts[:order]
       scope = scope.includes(*self.lookup_opts[:include]) if self.lookup_opts[:include]
-      return scope.all
+      return scope
     end
 
     # Return instance from cache matching +key+. If +key+ is undefined, returns

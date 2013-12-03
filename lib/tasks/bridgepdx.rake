@@ -207,7 +207,7 @@ For example:
       drone.save(true)
 
       # Tracks
-      event.tracks.includes(:event).all.each do |track|
+      event.tracks.includes(:event).each do |track|
         drone = RwikibotPageDrone.new(wiki, track_wiki_title(track))
         drone.append "[[#{event_wiki_title(track.event)}]]"
         drone.append "[[#{tracks_wiki_title(track.event)}]]"
@@ -216,7 +216,7 @@ For example:
       end
       
       # Sessions
-      event.proposals.confirmed.includes(:event, :track, :session_type).all.each do |proposal|
+      event.proposals.confirmed.includes(:event, :track, :session_type).each do |proposal|
         drone = RwikibotPageDrone.new(wiki, session_wiki_title(proposal))
         content = "[[#{event_wiki_title(proposal.event)} notes]] [[#{track_wiki_title(proposal.track)} notes]]"
         content << "#{textilize proposal.excerpt} " unless proposal.excerpt.blank?

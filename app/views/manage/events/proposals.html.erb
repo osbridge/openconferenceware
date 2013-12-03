@@ -17,12 +17,12 @@
       <th>Junk</th>
     </tr>
     <tr>
-      <td><%= @event.proposals.proposed.count %> <br>(<%= @event.proposals.proposed.all.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.accepted.count %> <br>(<%= @event.proposals.accepted.all.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.confirmed.count %> <br>(<%= @event.proposals.confirmed.all.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.accepted.count + @event.proposals.confirmed.count %> <br>(<%= @event.proposals.accepted.all.sum(&:duration) + @event.proposals.confirmed.all.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.declined.count %> <br>(<%= @event.proposals.declined.all.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.waitlisted.count %> <br>(<%= @event.proposals.waitlisted.all.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.proposed.count %> <br>(<%= @event.proposals.proposed.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.accepted.count %> <br>(<%= @event.proposals.accepted.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.confirmed.count %> <br>(<%= @event.proposals.confirmed.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.accepted.count + @event.proposals.confirmed.count %> <br>(<%= @event.proposals.accepted.sum(&:duration) + @event.proposals.confirmed.all.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.declined.count %> <br>(<%= @event.proposals.declined.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.waitlisted.count %> <br>(<%= @event.proposals.waitlisted.sum(&:duration) %> min)</td>
       <td><%= @event.proposals.rejected.count %></td>
       <td><%= @event.proposals.junk.count %></td>
     </tr>

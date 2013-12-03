@@ -143,13 +143,13 @@ class Event < ActiveRecord::Base
   def calendar_items(is_admin=false)
     results = []
     if self.schedule_published? || is_admin
-      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {track: :event}).all
+      results += self.proposals.confirmed.scheduled.includes(:users, :room, :session_type, {track: :event})
       if is_admin
-        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {track: :event}).all
+        results += self.proposals.accepted.scheduled.includes(:users, :room, :session_type, {track: :event})
       end
     elsif is_admin
     end
-    results += self.schedule_items.includes(:room).all
+    results += self.schedule_items.includes(:room)
     results += (self.children.map{|child| child.calendar_items(is_admin)}.flatten)
     return results
   end
@@ -179,7 +179,7 @@ class Event < ActiveRecord::Base
 
   # Return other Event objects.
   def other_events
-    return self.class.select("id, title").order("title asc").where('id != ?', self.id).all
+    return self.class.select("id, title").order("title asc").where('id != ?', self.id)
   end
 
   # Return array of Rooms for this event and its parent event.

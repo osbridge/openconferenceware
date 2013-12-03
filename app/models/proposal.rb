@@ -520,7 +520,7 @@ class Proposal < ActiveRecord::Base
       # Can't eager fetch users for users for some reason, yet all other combinations work fine.
       args.delete(:users)
     end
-    return container.proposals.includes(args).all
+    return container.proposals.includes(args)
   end
 
   # Is this proposal related to the +event+, as in to the event, its parent or children?

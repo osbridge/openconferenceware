@@ -449,14 +449,14 @@ protected
   # OMFG HORRORS!!1!
   def assign_prefetched_hashes
     @users                    = Defer { @event.users }
-    @users_hash               = Defer { Hash[@users.all.map{|t| [t.id, t]}] }
+    @users_hash               = Defer { Hash[@users.map{|t| [t.id, t]}] }
     @speakers                 = Defer { @event.speakers }
-    @speakers_hash            = Defer { Hash[@speakers.all.map{|t| [t.id, t]}] }
-    @tracks_hash              = Defer { Hash[@event.tracks.all.map{|t| [t.id, t]}] }
-    @rooms_hash               = Defer { Hash[@event.rooms.all.map{|t| [t.id, t]}] }
-    @session_types_hash       = Defer { Hash[@event.session_types.all.map{|t| [t.id, t]}] }
-    @proposals_hash           = Defer { Hash[@event.proposals.includes(:track, :session_type).all.map{|t| [t.id, t]}] }
-    @sessions_hash            = Defer { Hash[@event.proposals.confirmed.includes(:track, :session_type).all.map{|t| [t.id, t]}] }
+    @speakers_hash            = Defer { Hash[@speakers.map{|t| [t.id, t]}] }
+    @tracks_hash              = Defer { Hash[@event.tracks.map{|t| [t.id, t]}] }
+    @rooms_hash               = Defer { Hash[@event.rooms.map{|t| [t.id, t]}] }
+    @session_types_hash       = Defer { Hash[@event.session_types.map{|t| [t.id, t]}] }
+    @proposals_hash           = Defer { Hash[@event.proposals.includes(:track, :session_type).map{|t| [t.id, t]}] }
+    @sessions_hash            = Defer { Hash[@event.proposals.confirmed.includes(:track, :session_type).map{|t| [t.id, t]}] }
     @users_and_proposals      = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.event_id = #{@event.id}}) }
     @users_and_sessions       = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.status = 'confirmed' and proposals.event_id = #{@event.id}}) }
     @users_for_proposal_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["proposal_id"].to_i] ||= Set.new) << @users_hash[v["user_id"].to_i]; s} }

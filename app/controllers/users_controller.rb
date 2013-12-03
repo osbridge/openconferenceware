@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   def index
     add_breadcrumb 'Users'
 
-    @users = User.order('last_name asc').all
+    @users = User.order('last_name asc')
 
     respond_to do |format|
       format.html # Display index.html.erb for @users
