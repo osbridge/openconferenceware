@@ -1,13 +1,9 @@
 <% content_for :scripts do %>
-  <%= javascript_include_tag "farbtastic" %>
   <script type="text/javascript">
     $(document).ready(function() {
       $('#colorpicker').farbtastic('#track_color');
     });
   </script>
-<% end %>
-<% content_for :stylesheets do %>
-  <%= stylesheet_link_tag "farbtastic" %>
 <% end %>
 
 <% focus :track_title %>

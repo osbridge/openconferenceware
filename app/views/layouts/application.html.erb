@@ -19,13 +19,12 @@
     <% end %>
 
     <!-- Stylesheets -->
-    <%= stylesheet_link_tag 'bootstrap', 'bootstrap-theme' %>
-    <%= stylesheet_link_tag "custom" %>
+    <%= stylesheet_link_tag 'application' %>
     <%= yield :stylesheets %>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <%= javascript_include_tag 'html5shiv.js', 'respond.min.js' %>
+      <%= javascript_include_tag 'ie' %>
     <![endif]-->
 
     <!-- Dynamic styles -->
@@ -38,7 +37,7 @@
     <% end %>
 
     <!-- Scripts -->
-    <%= javascript_include_tag 'jquery-1.10.2', 'jquery-migrate-1.2.1', 'bootstrap', 'rails', 'application', :cache => 'cache/all' %>
+    <%= javascript_include_tag 'application' %>
     <%= yield :scripts -%>
 
     <% expose_to_js( :current_user, logged_in? ? current_user.id : false ) -%>
@@ -112,11 +111,6 @@
       pageTracker._initData();
       pageTracker._trackPageview();
     </script>
-
-    <%# getclicky is really, really slow and this hurts the loading of pages:
-    <script src="http://static.getclicky.com/79611.js" type="text/javascript"></script>
-    <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/79611-db10.gif" /></p></noscript>
-    %>
 
     <script type="text/javascript">
     var pkBaseURL = (("https:" == document.location.protocol) ? "https://opensourcebridge.org/stats/piwik/" : "http://opensourcebridge.org/stats/piwik/");
