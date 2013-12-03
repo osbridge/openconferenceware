@@ -9,7 +9,7 @@ class ScheduleItemsController < ApplicationController
   # GET /schedule_items
   # GET /schedule_items.xml
   def index
-    @schedule_items = @event.schedule_items
+    @schedule_items = @event.schedule_items.order('start_time ASC')
 
     respond_to do |format|
       format.html # index.html.erb

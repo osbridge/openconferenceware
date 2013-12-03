@@ -9,7 +9,7 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.xml
   def index
-    @tracks = @event.tracks
+    @tracks = @event.tracks.order("title ASC")
 
     respond_to do |format|
       format.html # index.html.erb
