@@ -20,7 +20,7 @@ class UserFavorite < ActiveRecord::Base
 
   # Add a favorite. Creates record if needed, else leaves as-is.
   def self.add(user_id, proposal_id)
-    return self.find_or_create_by_user_id_and_proposal_id(user_id, proposal_id)
+    return self.find_or_create_by(user_id: user_id, proposal_id: proposal_id)
   end
 
   # Remove a favorite. Removes record if needed, else does nothing.
@@ -34,6 +34,6 @@ class UserFavorite < ActiveRecord::Base
 
   # Return the ids of this +user+'s favorite proposals.
   def self.proposal_ids_for(user)
-    return self.find_all_by_user_id(user.id, select: 'proposal_id').map(&:proposal_id)
+    return self.where(user_id: user.id).select('proposal_id').map(&:proposal_id)
   end
 end

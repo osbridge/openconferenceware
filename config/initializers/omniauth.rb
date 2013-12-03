@@ -4,7 +4,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   if %w[development preview].include?(Rails.env) && ActiveRecord::Base.connection.table_exists?('authentications')
     provider :developer
 
-    admin_auth = Authentication.find_or_initialize_by_provider_and_uid(:developer, 'admin@ocw.local')
+    admin_auth = Authentication.find_or_initialize_by(provider: :developer, uid: 'admin@ocw.local')
     admin_auth.name = "Development Admin"
     admin_auth.email = "admin@ocw.local"
 
@@ -14,7 +14,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       admin_user.save!
     end
 
-    mortal_auth = Authentication.find_or_initialize_by_provider_and_uid(:developer, 'mortal@ocw.local')
+    mortal_auth = Authentication.find_or_initialize_by(provider: :developer, uid: 'mortal@ocw.local')
     mortal_auth.name = "Development User"
     mortal_auth.email = "mortal@ocw.local"
 

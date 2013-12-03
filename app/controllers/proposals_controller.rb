@@ -469,7 +469,7 @@ protected
   # Base method used for #show and #session_show
   def base_show
     if selector? && @event.accept_selector_votes?
-      @selector_vote = @proposal.selector_votes.find_or_initialize_by_user_id(current_user.id)
+      @selector_vote = @proposal.selector_votes.find_or_initialize_by(user_id: current_user.id)
     end
 
     unless defined?(@redirector)
