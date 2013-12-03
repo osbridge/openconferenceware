@@ -238,33 +238,33 @@ describe ProposalsController do
     describe "when returning ATOM" do
       def get_entry(proposal_symbol)
         title = proposals(proposal_symbol).title
-        return @struct['entry'].find{|t| t['title'] == title}
+        return @doc.xpath("//entry/title[text()='#{title}']")
       end
 
       describe "for /proposals.atom" do
         before do
           get :index, format: "atom"
-          @struct = ActiveResource::Formats::XmlFormat.decode(response.body)
+          @doc = Nokogiri.parse(response.body)
         end
 
         it "should include proposals from multiple events" do
-          get_entry(:clio_chupacabras).should_not be_nil
-          get_entry(:aaron_aardvarks).should_not be_nil
+          get_entry(:clio_chupacabras).should_not be_empty
+          get_entry(:aaron_aardvarks).should_not be_empty
         end
       end
 
       describe "for /events/:event_id/proposals.atom" do
         before do
           get :index, format: "atom", event_id: @event.slug
-          @struct = ActiveResource::Formats::XmlFormat.decode(response.body)
+          @doc = Nokogiri.parse(response.body)
         end
 
         it "should include proposals from this event" do
-          get_entry(:aaron_aardvarks).should_not be_nil
+          get_entry(:aaron_aardvarks).should_not be_empty
         end
 
         it "should not include proposals from other events" do
-          get_entry(:clio_chupacabras).should be_nil
+          get_entry(:clio_chupacabras).should be_empty
         end
       end
     end
