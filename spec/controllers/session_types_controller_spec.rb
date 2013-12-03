@@ -93,24 +93,18 @@ describe SessionTypesController do
     end
   
     describe "responding to POST create" do
-      before do
-        @new_session_type = SessionType.new
-      end
-
       describe "with valid params" do
         before do
-          @valid_params = @session_type.attributes.slice(*SessionType.accessible_attributes(:admin)).clone
-          @new_session_type.stub(:save).and_return(true)
+          @valid_params = extract_valid_params(@session_type)
+          post :create, session_type: @valid_params
         end
       
         it "should expose a newly created session_type as @session_type" do
-          post :create, session_type: @valid_params
-          assigns(:session_type).attributes.slice(*SessionType.accessible_attributes(:admin)).should eq(@valid_params)
+          assigns(:session_type).should be_valid
+          extract_valid_params(assigns(:session_type)).should eq(@valid_params)
         end
 
         it "should redirect to the session types index" do
-          SessionType.stub(:new).and_return(@new_session_type)
-          post :create, session_type: {}
           response.should redirect_to(event_session_types_path(@event))
         end
       
@@ -118,19 +112,14 @@ describe SessionTypesController do
     
       describe "with invalid params" do
         before do
-          @new_session_type.stub(:save).and_return(false)
+          post :create, session_type: {egads: 'omfg'}
         end
 
         it "should expose a newly created but unsaved session_type as @session_type" do
-          SessionType.stub(:new).and_return(@new_session_type)
-          post :create, session_type: {title: 'hello'}
-          assigns(:session_type).should equal(@new_session_type)
           assigns(:session_type).should be_new_record
         end
 
         it "should re-render the 'new' template" do
-          SessionType.stub(:new).and_return(@new_session_type)
-          post :create, session_type: {}
           response.should render_template('new')
         end
       
@@ -142,25 +131,17 @@ describe SessionTypesController do
 
       describe "with valid params" do
         before do
-          @valid_params = Hash[@session_type.attributes.slice(*SessionType.accessible_attributes(:admin)).map{|k,v| [k,v.to_s]}]
-          @session_type.stub(:save).and_return(true)
-        end
-
-        it "should update the requested session_type" do
+          @valid_params = extract_valid_params(@session_type)
+          @session_type.should_receive(:update_attributes).with(@valid_params).and_return(true)
           SessionType.should_receive(:find).with("37").and_return(@session_type)
-          @session_type.should_receive(:assign_attributes).with(@valid_params, as: :admin)
           put :update, id: "37", session_type: @valid_params
         end
 
         it "should expose the requested session_type as @session_type" do
-          SessionType.stub(:find).and_return(@session_type)
-          put :update, id: "1"
           assigns(:session_type).should equal(@session_type)
         end
 
         it "should redirect to the session_type" do
-          SessionType.stub(:find).and_return(@session_type)
-          put :update, id: "1"
           response.should redirect_to(session_type_path(@session_type))
         end
 
@@ -168,23 +149,16 @@ describe SessionTypesController do
     
       describe "with invalid params" do
         before do
-          @session_type.stub(:save).and_return(false)
-        end
-
-        it "should update the requested session_type" do
+          @session_type.should_receive(:update_attributes).and_return(false)
           SessionType.should_receive(:find).with("37").and_return(@session_type)
           put :update, id: "37", session_type: {title: 'hello'}
         end
 
         it "should expose the session_type as @session_type" do
-          SessionType.stub(:find).and_return(@session_type)
-          put :update, id: "1"
           assigns(:session_type).should equal(@session_type)
         end
 
         it "should re-render the 'edit' template" do
-          SessionType.stub(:find).and_return(@session_type)
-          put :update, id: "1"
           response.should render_template('edit')
         end
 

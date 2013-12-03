@@ -12,8 +12,6 @@
 #
 
 class Comment < ActiveRecord::Base
-  attr_accessible :name, :email, :message
-
   belongs_to :proposal
 
   validates_presence_of :email, :message, :proposal_id

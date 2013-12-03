@@ -48,9 +48,7 @@ class SessionTypesController < ApplicationController
   # POST /session_types
   # POST /session_types.xml
   def create
-    @session_type = SessionType.new
-    @session_type.assign_attributes(params[:session_type], as: current_role)
-    @session_type.event = @event
+    @session_type = @event.session_types.new(session_type_params)
 
     respond_to do |format|
       if @session_type.save
@@ -69,10 +67,8 @@ class SessionTypesController < ApplicationController
   # PUT /session_types/1
   # PUT /session_types/1.xml
   def update
-    @session_type.assign_attributes(params[:session_type], as: current_role)
-
     respond_to do |format|
-      if @session_type.save
+      if @session_type.update_attributes(session_type_params)
         flash[:notice] = 'SessionType was successfully updated.'
         format.html { redirect_to(@session_type) }
         format.json  { head :ok }
@@ -98,6 +94,12 @@ class SessionTypesController < ApplicationController
   end
 
   protected
+
+    def session_type_params
+      params.require(:session_type).permit(
+        :title, :description, :duration
+      ) if admin?
+    end
 
     def add_event_breadcrumb
       add_breadcrumb @event.title, @event

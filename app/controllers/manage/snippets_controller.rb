@@ -50,8 +50,7 @@ class Manage::SnippetsController < ApplicationController
   # POST /snippets
   # POST /snippets.xml
   def create
-    @snippet = Snippet.new
-    @snippet.assign_attributes(params[:snippet], as: current_role)
+    @snippet = Snippet.new(snippet_params)
 
     respond_to do |format|
       if @snippet.save
@@ -69,13 +68,12 @@ class Manage::SnippetsController < ApplicationController
   # PUT /snippets/1.xml
   def update
     @snippet = Snippet.find(params[:id])
-    @snippet.assign_attributes(params[:snippet], as: current_role)
     add_breadcrumb @snippet.slug, manage_snippet_path(@snippet)
 
     @return_to = params[:return_to]
 
     respond_to do |format|
-      if @snippet.save
+      if @snippet.update_attributes(snippet_params)
         flash[:notice] = 'Snippet was successfully updated.'
         format.html { redirect_to(@return_to ? @return_to : [:manage, @snippet]) }
         format.xml  { head :ok }
@@ -97,4 +95,12 @@ class Manage::SnippetsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+    def snippet_params
+      params.require(:snippet).permit(
+        :slug, :description, :content, :value, :public
+      ) if admin?
+    end
 end

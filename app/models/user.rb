@@ -63,30 +63,6 @@ class User < ActiveRecord::Base
   end
   has_many :selector_votes
 
-  #---[ Attributes ]------------------------------------------------------
-
-  default_accessible_attributes = [
-    :email,
-    :affiliation,
-    :biography,
-    :website,
-    :photo,
-    :first_name,
-    :last_name,
-    :fullname,
-    :blog_url,
-    :identica,
-    :twitter
-  ]
-
-  admin_accessible_attributes = default_accessible_attributes + [
-    :admin,
-    :selector
-  ]
-
-  attr_accessible *default_accessible_attributes
-  attr_accessible *(admin_accessible_attributes + [as: :admin])
-
   #---[ Validations ]-----------------------------------------------------
 
   validates_presence_of     :email,                       if: :email_required?

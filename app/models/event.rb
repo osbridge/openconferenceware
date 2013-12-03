@@ -29,25 +29,6 @@ class Event < ActiveRecord::Base
   include CacheLookupsMixin
   include SimpleSlugMixin
 
-  attr_accessible :slug,
-                  :title,
-                  :deadline,
-                  :open_text,
-                  :closed_text,
-                  :session_text,
-                  :tracks_text,
-                  :start_date,
-                  :end_date,
-                  :proposal_status_published,
-                  :accept_proposal_comments_after_deadline,
-                  :schedule_published,
-                  :proposal_titles_locked,
-                  :accept_selector_votes,
-                  :show_proposal_confirmation_controls,
-                  :parent,
-                  :parent_id,
-                  as: :admin
-
   cache_lookups_for :slug, order: 'deadline desc', include: [:tracks, :rooms]
 
   # Associations

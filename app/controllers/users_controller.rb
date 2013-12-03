@@ -34,8 +34,7 @@ class UsersController < ApplicationController
     # request forgery protection.
     # uncomment at your own risk
     # reset_session
-    @user = User.new
-    @user.assign_attributes(params[:user].slice(*User.accessible_attributes))
+    @user = User.new(user_params)
 
     @user.save!
     self.current_user = @user
@@ -59,12 +58,7 @@ class UsersController < ApplicationController
         @user.complete_profile = true
       end
 
-      @user.assign_attributes(
-        params[:user].slice(*User.accessible_attributes(current_user.role)),
-        as: current_user.role
-      )
-
-      if @user.save
+      if @user.update_attributes(user_params)
         flash[:success] = "Updated user profile."
         return redirect_back_or_to(user_path(@user))
       else
@@ -100,4 +94,25 @@ class UsersController < ApplicationController
   def proposals
     @proposals = @user.proposals
   end
+
+  private
+
+    def user_params
+      permitted = [
+        :email,
+        :affiliation,
+        :biography,
+        :website,
+        :photo,
+        :first_name,
+        :last_name,
+        :fullname,
+        :blog_url,
+        :identica,
+        :twitter]
+
+      permitted += [:admin, :selector] if admin?
+
+      params.require(:user).permit(permitted)
+    end
 end

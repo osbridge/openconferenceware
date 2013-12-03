@@ -742,7 +742,7 @@ describe ProposalsController do
       SETTINGS.stub(have_multiple_presenters: false)
       SETTINGS.stub(have_user_profiles: false)
 
-      @inputs = proposals(:quentin_widgets).attributes.slice(*Proposal.accessible_attributes).clone
+      @inputs = proposals(:quentin_widgets).attributes
       @record = nil
     end
 
@@ -838,7 +838,7 @@ describe ProposalsController do
       it "should display success page" do
         @controller.should_receive(:render).and_return("My HTML here")
 
-        post :create, commit: "Create", proposal: {}
+        post :create, commit: "Create", proposal: {foo: 'bar'}
       end
     end
 

@@ -15,7 +15,6 @@
 
 class Authentication < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :email, :info, :name, :provider, :uid
   serialize :info, JSON
 
   after_initialize do |auth|

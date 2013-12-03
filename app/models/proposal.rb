@@ -42,36 +42,6 @@ class Proposal < ActiveRecord::Base
   # Provide ::overlaps?
   include ScheduleOverlapsMixin
 
-  # Protected attributes
-  attr_protected :user_id, :event_id, :status, :transition
-
-  default_accessible_attributes = [
-    :presenter,
-    :affiliation,
-    :email,
-    :website,
-    :biography,
-    :title,
-    :description,
-    :excerpt,
-    :agreement,
-    :note_to_organizers,
-    :track_id,
-    :session_type_id,
-    :speaking_experience,
-    :audience_level
-  ]
-
-  admin_accessible_attributes = default_accessible_attributes + [
-    :status,
-    :room_id,
-    :start_time,
-    :audio_url
-  ]
-
-  attr_accessible *default_accessible_attributes
-  attr_accessible *(admin_accessible_attributes + [as: :admin])
-
   # Public attributes for export
   include PublicAttributesMixin
   set_public_attributes :id, :user_id,

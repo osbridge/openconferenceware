@@ -11,7 +11,6 @@ gem 'rails', '~> 4.0.0'
 
 # Extracted Rails features
 gem 'rails-observers'
-gem 'protected_attributes' # TODO: Migrate to new controller-based protection
 
 # Database driver
 gem 'sqlite3', :require => false

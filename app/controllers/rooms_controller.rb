@@ -52,9 +52,7 @@ class RoomsController < ApplicationController
   # POST /rooms
   # POST /rooms.xml
   def create
-    @room = Room.new
-    @room.assign_attributes(params[:room], as: current_role)
-    @room.event = @event
+    @room = @event.rooms.new(room_params)
 
     respond_to do |format|
       if @room.save
@@ -71,9 +69,8 @@ class RoomsController < ApplicationController
   # PUT /rooms/1
   # PUT /rooms/1.xml
   def update
-    @room.assign_attributes(params[:room], as: current_role)
     respond_to do |format|
-      if @room.save
+      if @room.update_attributes(room_params)
         flash[:notice] = 'Room was successfully updated.'
         format.html { redirect_to(@room) }
         format.xml  { head :ok }
@@ -96,6 +93,21 @@ class RoomsController < ApplicationController
   end
 
   protected
+
+    def room_params
+      params.require(:room).permit(
+        :name,
+        :capacity,
+        :size,
+        :seating_configuration,
+        :description,
+        :image,
+        :image_file_name,
+        :image_content_type,
+        :image_file_size,
+        :image_updated_at
+      ) if admin?
+    end
 
     def add_event_breadcrumb
       add_breadcrumb @event.title, @event

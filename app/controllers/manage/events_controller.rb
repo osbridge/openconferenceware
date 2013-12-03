@@ -52,8 +52,7 @@ class Manage::EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-    @event = Event.new
-    @event.assign_attributes(params[:event], as: current_role)
+    @event = Event.new(event_params)
 
     respond_to do |format|
       if @event.save
@@ -71,10 +70,9 @@ class Manage::EventsController < ApplicationController
   # PUT /events/1.xml
   def update
     @return_to = params[:return_to]
-    @event.assign_attributes(params[:event], as: current_role)
 
     respond_to do |format|
-      if @event.save
+      if @event.update_attributes(event_params)
         flash[:notice] = 'Event was successfully updated.'
         format.html { redirect_to(@return_to ? @return_to : [:manage, @event]) }
         format.xml  { head :ok }
@@ -128,4 +126,28 @@ class Manage::EventsController < ApplicationController
     end
     redirect_to(manage_event_proposals_path(@event))
   end
+
+  private
+
+    def event_params
+      params.require(:event).permit(
+        :slug,
+        :title,
+        :deadline,
+        :open_text,
+        :closed_text,
+        :session_text,
+        :tracks_text,
+        :start_date,
+        :end_date,
+        :proposal_status_published,
+        :accept_proposal_comments_after_deadline,
+        :schedule_published,
+        :proposal_titles_locked,
+        :accept_selector_votes,
+        :show_proposal_confirmation_controls,
+        :parent,
+        :parent_id
+      ) if admin?
+    end
 end

@@ -54,9 +54,6 @@ module OpenConferenceWare
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
-    # Whitelist model attributes
-    config.active_record.whitelist_attributes = true
-
     config.before_initialize do
       # Read secrets
       require 'secrets_reader'

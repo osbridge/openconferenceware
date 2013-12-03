@@ -199,12 +199,7 @@ class ProposalsController < ApplicationController
   # POST /proposals
   # POST /proposals.xml
   def create
-    @proposal = Proposal.new
-    @proposal.assign_attributes(
-      params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
-      as: current_role
-    )
-    @proposal.event = @event
+    @proposal = @event.proposals.new(proposal_params)
     @proposal.add_user(current_user) if logged_in?
     @proposal.transition = transition_from_params if admin?
 
@@ -245,10 +240,7 @@ class ProposalsController < ApplicationController
       end
     end
 
-    @proposal.assign_attributes(
-      params[:proposal].slice(*Proposal.accessible_attributes(current_role)),
-      as: current_role
-    )
+    @proposal.assign_attributes(proposal_params)
 
     add_breadcrumb @event.title, event_proposals_path(@event)
     add_breadcrumb @proposal.title, proposal_path(@proposal)
@@ -348,6 +340,28 @@ class ProposalsController < ApplicationController
   end
 
 protected
+
+  def proposal_params
+     permitted = [
+      :presenter,
+      :affiliation,
+      :email,
+      :website,
+      :biography,
+      :title,
+      :description,
+      :excerpt,
+      :agreement,
+      :note_to_organizers,
+      :track_id,
+      :session_type_id,
+      :speaking_experience,
+      :audience_level]
+
+    permitted += [:status, :room_id, :start_time, :audio_url] if admin?
+
+    params.require(:proposal).permit(permitted)
+  end
 
   # Is this event accepting proposals? If not, redirect with a warning.
   def assert_accepting_proposals

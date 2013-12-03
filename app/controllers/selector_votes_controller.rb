@@ -40,7 +40,7 @@ class SelectorVotesController < ApplicationController
   # ROUTE: /proposals/:proposal_id/selector_vote
   def create
     @selector_vote = SelectorVote.find_or_initialize_by(user_id: current_user.id, proposal_id: params[:proposal_id].to_i)
-    @selector_vote.assign_attributes(params[:selector_vote].slice(:rating, :comment))
+    @selector_vote.assign_attributes(selector_vote_params)
 
     respond_to do |format|
       if @selector_vote.save
@@ -60,4 +60,10 @@ class SelectorVotesController < ApplicationController
       end
     end
   end
+
+  private
+
+    def selector_vote_params
+      params.require(:selector_vote).permit(:rating, :comment) if selector?
+    end
 end
