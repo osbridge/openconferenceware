@@ -50,7 +50,8 @@ OpenConferenceWare::Application.configure do
   config.active_support.deprecation = :notify
 
   # Compress JavaScript and CSS
-  config.assets.compress = true
+  config.assets.js_compressor  = :uglifier
+  config.assets.css_compressor = :sass
 
   # Don't fallback to assets pipeline
   config.assets.compile = false
