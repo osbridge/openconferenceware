@@ -5,7 +5,7 @@ class AddSubmittedAtToProposals < ActiveRecord::Migration
     add_column :proposals, :submitted_at, :datetime
     Proposal.reset_column_information
 
-    proposals = Proposal.find(:all)
+    proposals = Proposal.all
     say_with_time "Populated submitted_at columns in #{proposals.size} records..." do
       for proposal in proposals
         proposal.update_attribute(:submitted_at, proposal.created_at)

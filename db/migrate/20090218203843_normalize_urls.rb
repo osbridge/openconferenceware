@@ -2,7 +2,7 @@ class NormalizeUrls < ActiveRecord::Migration
   def self.up
     # URLs will be normalized upon save.
     failed = false
-    (User.find(:all)+Proposal.find(:all)).each do |record| 
+    (User.all.to_a+Proposal.all.to_a).each do |record| 
       begin
         record.save!
       rescue Exception => e

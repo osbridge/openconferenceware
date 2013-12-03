@@ -7,7 +7,7 @@ class AddProposalsUsers < ActiveRecord::Migration
       t.timestamps
     end
 
-    Proposal.find(:all).each do |proposal|
+    Proposal.all.each do |proposal|
       ProposalsUser.create!(proposal_id: proposal.id, user_id: proposal.user_id)
     end
   end
