@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131126231010) do
+ActiveRecord::Schema.define(version: 20131203053244) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -108,10 +108,8 @@ ActiveRecord::Schema.define(version: 20131126231010) do
   add_index "proposals", ["user_id"], name: "index_proposals_on_user_id", using: :btree
 
   create_table "proposals_users", id: false, force: true do |t|
-    t.integer  "proposal_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "proposal_id"
+    t.integer "user_id"
   end
 
   add_index "proposals_users", ["proposal_id"], name: "index_proposals_users_on_proposal_id", using: :btree

@@ -49,8 +49,7 @@ class User < ActiveRecord::Base
 
   has_many :authentications
 
-  has_many :proposals_user
-  has_many :proposals, through: :proposals_user do
+  has_and_belongs_to_many :proposals do
     def ids
       self.map(&:id).join(', ')
     end

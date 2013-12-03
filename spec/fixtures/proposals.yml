@@ -32,6 +32,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 quentin_widgets:
+  users: quentin
   presenter: Quentin
   affiliation: QuentinCO
   email: quentin@quentinco.co.uk
@@ -57,6 +58,7 @@ quentin_widgets:
     The term appeared in the 1985 Rodney Dangerfield feature film comedy Back to School, in a college economics classroom scene in which the professor uses the term to describe a hypothetical company whose product is irrelevant to the discussion.
 
 aaron_aardvarks:
+  users: aaron
   presenter: Aaron
   affiliation: "Aaron's Aardvarks"
   email: aaron@aardvarks.au
@@ -84,6 +86,7 @@ aaron_aardvarks:
     Genetically speaking, the aardvark is a living fossil, as its chromosomes are highly conserved, reflecting much of the early eutherian arrangement before the divergence of the major modern taxa.
 
 clio_chupacabras:
+  users: clio
   presenter: Clio
   email: clio@i_want_to_believe.com
   biography: "They walk amongst us."
@@ -109,6 +112,7 @@ clio_chupacabras:
     Puerto Rican comedian and entrepreneur Silverio Pérez is credited with coining the term "chupacabras" soon after the first incidents were reported in the press.[5] Shortly after the first reported incidents in Puerto Rico, other animal deaths were reported in other countries, such as the Dominican Republic, Argentina, Bolivia, Chile, Colombia, Honduras, El Salvador, Nicaragua, Panama, Peru, Brazil, the United States, and Mexico.[3]
 
 postgresql_session:
+  users: quentin
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
@@ -123,6 +127,7 @@ postgresql_session:
   room: morrison
 
 drizzle_session:
+  users: aaron
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
@@ -137,6 +142,7 @@ drizzle_session:
   room: burnside
 
 mysql_session:
+  users: gustavus
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>
@@ -151,6 +157,7 @@ mysql_session:
   room: burnside
 
 sqlite_session:
+  users: clio
   event_id: 2009
   track: cooking
   submitted_at: <%= Time.now.to_s(:db) %>

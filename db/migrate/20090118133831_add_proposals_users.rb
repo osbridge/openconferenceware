@@ -8,7 +8,7 @@ class AddProposalsUsers < ActiveRecord::Migration
     end
 
     Proposal.all.each do |proposal|
-      ProposalsUser.create!(proposal_id: proposal.id, user_id: proposal.user_id)
+      proposal.user << User.find(proposal.user_id)
     end
   end
 
