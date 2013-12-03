@@ -52,14 +52,14 @@ class ProposalsController < ApplicationController
         # index.atom.builder
         if @event_assignment == :assigned_to_param
           @cache_key = "proposals_atom,event_#{@event.id}"
-          @proposals = Defer { @event.populated_proposals(:proposals).all(order: "submitted_at desc", limit: MAX_FEED_ITEMS) }
+          @proposals = Defer { @event.populated_proposals(:proposals).order("submitted_at desc").limit(MAX_FEED_ITEMS).all }
         else
           @cache_key = "proposals_atom,all"
-          @proposals = Defer { Proposal.populated.all(order: "submitted_at desc", limit: MAX_FEED_ITEMS) }
+          @proposals = Defer { Proposal.populated.order("submitted_at desc").limit(MAX_FEED_ITEMS).all }
         end
       }
       format.csv {
-        records = @event.populated_proposals(@kind).all(include: :comments)
+        records = @event.populated_proposals(@kind).includes(:comments).all
         if admin?
           render csv: records, style: :admin
         else

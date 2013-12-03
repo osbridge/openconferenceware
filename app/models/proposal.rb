@@ -181,7 +181,7 @@ class Proposal < ActiveRecord::Base
   scope :populated,   lambda { order(:submitted_at).includes( {event: [:rooms, :tracks]}, :session_type, :track, :room, :users ) }
   scope :scheduled,   lambda { where("start_time IS NOT NULL") }
   scope :located,     lambda { where("room_id IS NOT NULL") }
-  scope :for_event,   lambda { |event| { conditions: { event_id: event } } }
+  scope :for_event,   lambda { |event| where(event_id: event) }
 
   # Validations
   validates_presence_of :title, :description, :event_id
@@ -520,7 +520,7 @@ class Proposal < ActiveRecord::Base
       # Can't eager fetch users for users for some reason, yet all other combinations work fine.
       args.delete(:users)
     end
-    return container.proposals.all(include: args)
+    return container.proposals.includes(args).all
   end
 
   # Is this proposal related to the +event+, as in to the event, its parent or children?
@@ -533,12 +533,12 @@ class Proposal < ActiveRecord::Base
 
   # Return next proposal in this event after this one, or nil if none.
   def next_proposal
-    return self.event.proposals.first(conditions: ["proposals.id > ?", self.id], order: "created_at ASC")
+    return self.event.proposals.where("proposals.id > ?", self.id).order("created_at ASC").first
   end
 
   # Return previous proposal in this event after this one, or nil if none.
   def previous_proposal
-    return self.event.proposals.first(conditions: ["proposals.id < ?", self.id], order: "created_at DESC")
+    return self.event.proposals.where("proposals.id < ?", self.id).order("created_at DESC").first
   end
 
   # Return the integer sum of the selector votes rating for this proposal. Skips

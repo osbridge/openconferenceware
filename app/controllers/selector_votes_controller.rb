@@ -11,7 +11,7 @@ class SelectorVotesController < ApplicationController
     # Sort using Ruby because overriding the sorting on a Proposal with includes produces very inefficient SQL.
     @proposals = \
       begin
-        proposals = @event.proposals.all(include: [:selector_votes, :comments, :users, :user_favorites])
+        proposals = @event.proposals.includes(:selector_votes, :comments, :users, :user_favorites).all
         case params[:order]
         when 'title'
           proposals.sort_by { |proposal| [ proposal.title.downcase, proposal.id ] }

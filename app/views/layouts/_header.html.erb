@@ -32,7 +32,7 @@
             <% if nav_event.proposal_status_published? %>
             <li><%= link_to 'Speakers', speakers_event_path(nav_event), :class => 'speakers' %></li>
             <% end -%>
-            <% if bof = nav_event.children.first(:conditions => ['slug LIKE ?', '%bof']) %>
+            <% if bof = nav_event.children.where('slug LIKE ?', '%bof').first %>
               <li><%= link_to 'BoFs', "/events/#{bof.slug}/#{bof.proposal_status_published? ? 'sessions' : 'proposals' }", :class => 'bofs' %></li>
             <% end %>
           <% end %>
