@@ -16,7 +16,6 @@
 .cadre
 /db/*.sqlite*
 /db/data.yml
-/db/schema.rb
 /log/*
 /nbproject/*
 /public/javascripts/cache/*
