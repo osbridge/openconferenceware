@@ -31,6 +31,9 @@ module OpenConferenceWare
     # Precompile IE-only assets
     config.assets.precompile += ['ie.js']
 
+    # Include vendored image, font, and flash assets when precompiling
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif *.eot *.svg *.ttf *.woff *.swf)
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
