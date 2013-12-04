@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe "selector_votes/index.html.erb" do
-  include SelectorVotesHelper
-
   before(:each) do
     @user1 = build :selector
     @user2 = build :selector
