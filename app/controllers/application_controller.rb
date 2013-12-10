@@ -151,8 +151,8 @@ protected
     level = level.to_sym
     raise ArgumentError, "Invalid flash notification level: #{level}" unless NOTIFY_LEVELS.include?(level)
     flash[level] ?
-      flash[level] << " #{message}" :
-      flash[level] = "#{message}"
+      flash[level] << " #{message}".html_safe :
+      flash[level] = "#{message}".html_safe
   end
 
   #---[ Access control ]--------------------------------------------------
