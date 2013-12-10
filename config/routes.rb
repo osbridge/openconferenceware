@@ -2,7 +2,7 @@ OpenConferenceWare::Application.routes.draw do
   get "/sign_in" => "authentications#sign_in", as: :sign_in
   get "/sign_out" => "authentications#sign_out", as: :sign_out
 
-  get '/auth/:provider/callback' => 'authentications#create'
+  match '/auth/:provider/callback' => 'authentications#create', via: :all
   get '/auth/failure' => 'authentications#failure'
 
   resources :authentications, only: [:create]
