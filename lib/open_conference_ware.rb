@@ -10,7 +10,7 @@ module OpenConferenceWare
 
   # Path where the OCW engine is mounted
   mattr_accessor :mount_point
-  self.mount_point ||= "/open_conference_ware"
+  self.mount_point ||= "/"
 
   def self.mounted_path(path)
     "#{self.mount_point}/#{path}".gsub("//","/")
