@@ -24,7 +24,7 @@
 /public/themes/*
 /rerun.txt
 /tags
-/app/assets/stylesheets/common_css/*
+/app/assets/stylesheets/open_conference_ware/common_css/*
 /tmp/*
 .ruby-version
 .ruby-gemset

@@ -1,0 +1,30 @@
+<% can_remove = @proposal.users.size > 1 %>
+<table>
+  <% @proposal.users.each do |user| %>
+    <tr>
+      <td class="remove-speaker-cell">
+        <% if can_remove %>
+          <% message = user == current_user ?
+            "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?" :
+            "#{h user.fullname} will no longer be able to edit this proposal. Are you sure you want to remove them?" %>
+          <%= link_to "", "#", :class => "remove-speaker deletable", :speaker_id => user.id, :speaker_fullname => user.fullname %>
+        <% else %>
+          &nbsp;
+        <% end %>
+      </td>
+      <td width="100%">
+        <%= h user.fullname %>
+        <%= hidden_field_tag "speaker_ids[#{user.id}]", user.id, :class => "speaker_id" %>
+      </td>
+    </tr>
+  <% end %>
+  <% if can_remove %>
+    <tr>
+      <td colspan="2">
+          <p class="instructions">
+            <b>Remove speakers</b> by clicking the red X next to the name of the speaker you want to remove.
+          </p>
+      </td>
+    </tr>
+  <% end %>
+</table>

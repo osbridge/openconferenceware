@@ -1,0 +1,13 @@
+<%
+proposal ||= @proposal
+%>
+
+<div id="proposal_schedule_control_container_<%= proposal.id %>" class="proposal_schedule_control_container proposal_control_container">
+  <%= form_for proposal do |f| -%>
+    <%= select_tag("start_time[date]", options_for_select( proposal.event.dates_for_select, proposal.start_time.try(:strftime, "%Y-%m-%d") ), :id => "start_time_date_#{proposal.id}", :class => 'date' ) %>
+
+    <%= select_hour proposal.start_time, {:prefix => 'start_time', :include_blank => true}, :id => "start_time_hour_#{proposal.id}", :class => 'hour' %>
+    <%= select_minute proposal.start_time, {:field_name => 'start_time', :minute_step => 5, :include_blank => true}, :id => "start_time_minute_#{proposal.id}", :class => 'minute' %>
+
+  <% end -%>
+</div>

@@ -1,0 +1,107 @@
+<% scroll_to "label[for=event_#{params[:jump_to]}]" if params[:jump_to] %>
+
+<%= form_for([:manage, @event], :html => {:role => "form", :id => "event-form", :class => "form"}) do |f| %>
+  <%= f.error_messages %>
+
+  <%= hidden_field_tag :return_to, @return_to %>
+
+  <div class="form-group">
+    <%= f.label :slug %>
+    <%= f.text_field :slug, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, :class => 'form-control' %>
+  </div>
+  <% if @event.parent or @event.children.empty? %>
+    <div class="form-group">
+      <%= f.label :parent_id, "Child of" %>
+      <%= f.collection_select :parent_id, @event.other_events, :id, :title, {:include_blank => "- None -"}, :class => 'form-control' %>
+    </div>
+  <% end %>
+  <% if not @event.new_record? and @event.parent.blank? or not @event.children.empty? %>
+    <div class="form-group">
+      <%= f.label :parent_id, "Children" %>
+      <ul>
+        <% for child in @event.children %>
+          <li>
+            <%= link_to h(child.title), manage_event_path(child), :target => "_blank", :class => "popup" %>
+          </li>
+        <% end %>
+        <li>
+          <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id), :class => "popup" %>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <%= f.label :start_date %><br />
+      <%= f.date_select :start_date, :include_blank => true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :end_date %><br />
+      <%= f.date_select :end_date, :include_blank => true %>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :deadline, "Proposal Deadline" %><br />
+    <%= f.datetime_select :deadline %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :accept_selector_votes, "Accept selector votes?" %>
+    <%= f.select :accept_selector_votes, [['Yes',true],["No",false]], {}, :class => 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :proposal_titles_locked, "Lock editing of proposal title?" %>
+    <%= f.select :proposal_titles_locked, [['Yes',true],["No",false]], {}, :class => 'form-control' %>
+  </div>
+
+  <% if proposal_statuses? %>
+    <div class="form-group">
+      <%= f.label :show_proposal_confirmation_controls, "Show proposal confirmation controls?" %>
+      <%= f.select :show_proposal_confirmation_controls, [['Yes',true],["No",false]], {}, :class => 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :proposal_status_published, "Publish proposal statuses?" %>
+      <%= f.select :proposal_status_published, [['Yes',true],["No",false]], {}, :class => 'form-control' %>
+    </div>
+  <% end %>
+
+  <% if event_schedule? %>
+    <div class="form-group">
+      <%= f.label :schedule_published, "Publish schedule?" %>
+      <%= f.select :schedule_published, [['Yes',true],["No",false]], {}, :class => 'form-control' %>
+    </div>
+  <% end %>
+
+  <% if event_proposal_comments_after_deadline? %>
+    <div class="form-group">
+      <%= f.label :accept_proposal_comments_after_deadline, "Accept proposal comments after deadline?" %>
+      <%= f.select :accept_proposal_comments_after_deadline, [['Yes',true],["No",false]], {}, :class => 'form-control' %>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :open_text %>
+    <%= f.text_area :open_text, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :closed_text %>
+    <%= f.text_area :closed_text, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+      <%= f.label :session_text %>
+      <%= f.text_area :session_text, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+      <%= f.label :tracks_text %>
+      <%= f.text_area :tracks_text, :class => 'form-control' %>
+    </td>
+  </div>
+  <div class="form-group">
+    <%= f.submit "Save", :class => "btn btn-primary" %>
+    <%= link_to "Cancel", manage_events_path, :class => "btn btn-default" %>
+    <%= link_to("Destroy", manage_event_path(@event), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger pull-right") unless @event.new_record? %>
+  </div>
+<% end %>

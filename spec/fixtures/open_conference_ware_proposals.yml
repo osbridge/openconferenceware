@@ -1,0 +1,256 @@
+# == Schema Information
+#
+# Table name: proposals
+#
+#  id                  :integer          not null, primary key
+#  user_id             :integer
+#  presenter           :string(255)
+#  affiliation         :string(255)
+#  email               :string(255)
+#  website             :string(255)
+#  biography           :text
+#  title               :string(255)
+#  description         :text
+#  agreement           :boolean          default(TRUE)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  event_id            :integer
+#  submitted_at        :datetime
+#  note_to_organizers  :text
+#  excerpt             :text
+#  track_id            :integer
+#  session_type_id     :integer
+#  status              :string(255)      default("proposed"), not null
+#  room_id             :integer
+#  start_time          :datetime
+#  audio_url           :string(255)
+#  speaking_experience :text
+#  audience_level      :string(255)
+#  notified_at         :datetime
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+quentin_widgets:
+  users: quentin
+  presenter: Quentin
+  affiliation: QuentinCO
+  email: quentin@quentinco.co.uk
+  website: http://quentinco.co.uk/~quentin/
+  biography: Quentin is.
+  agreement: true
+  #IK# event: open
+  event_id: 2009
+  track: chemistry
+  session_type: long_form
+  status: proposed
+  submitted_at: <%= Time.now.to_s(:db) %>
+  speaking_experience: My speaking experience rules.
+  audience_level: a
+  title: My favorite widgets.
+  excerpt: |
+    A widget is a placeholder name for an object or, more specifically, a mechanical or other manufactured device. It is an abstract unit of production.
+  description: |
+    Widgets rock.
+
+    "Widget" is frequently used in texts and speech, especially in the context of economics, to indicate a hypothetical "any-product." Companies in such texts will frequently be given names such as "ABC Widgets" or "Acme Widget Corp." to indicate that the particular business of the hypothetical company is not relevant to the topic of discussion.
+
+    The term appeared in the 1985 Rodney Dangerfield feature film comedy Back to School, in a college economics classroom scene in which the professor uses the term to describe a hypothetical company whose product is irrelevant to the discussion.
+
+aaron_aardvarks:
+  users: aaron
+  presenter: Aaron
+  affiliation: "Aaron's Aardvarks"
+  email: aaron@aardvarks.au
+  website: http://aardvarks.au/
+  biography: Aaron has Aardvarks.
+  agreement: true
+  #IK# event: open
+  event_id: 2009
+  track: cooking
+  session_type: long_form
+  status: proposed
+  submitted_at: <%= Time.now.to_s(:db) %>
+  speaking_experience: I have vast academic speaking experience on the scholarly topic of aardvarks.
+  audience_level: a
+  title: My favorite Aardvarks.
+  excerpt: |
+    The Aardvark (Orycteropus afer) (afer: from Africa) is a medium-sized, burrowing, nocturnal mammal native to Africa.
+  description: |
+    Aardvarks are awesome.
+
+    It is sometimes called "antbear", "anteater", "Cape anteater" (after the Cape of Good Hope), "earth hog" or "earth pig". The name comes from the Afrikaans/Dutch for "earth pig" (aarde earth, varken pig), because early settlers from Europe thought it resembled a domesticated pig. However, the aardvark is not closely related to the pig; rather, it is the sole recent representative of the obscure mammalian order Tubulidentata, in which it is usually considered to form a single variable species of the genus Orycteropus, coextensive with the family Orycteropodidae. Nor is the aardvark closely related to the South American anteater, despite sharing some characteristics and a superficial resemblance.[3] The closest living relatives of the aardvark are the elephant shrews, along with the sirenians, hyraxes, tenrecs, and elephants.
+
+    One of the most distinctive characteristics of the Tubulidentata is (as the name implies) their teeth. Instead of having a pulp cavity, each tooth has a cluster of thin, upright, parallel tubes of vasodentin (a modified form of dentine), with individual pulp canals, held together by cementum. The teeth have no enamel coating and are worn away and regrow continuously. The aardvark is born with conventional incisors and canines at the front of the jaw, which fall out and are not replaced.
+
+    Genetically speaking, the aardvark is a living fossil, as its chromosomes are highly conserved, reflecting much of the early eutherian arrangement before the divergence of the major modern taxa.
+
+clio_chupacabras:
+  users: clio
+  presenter: Clio
+  email: clio@i_want_to_believe.com
+  biography: "They walk amongst us."
+  agreement: true
+  #IK# event: closed
+  event_id: 1975
+  track: cooking
+  session_type: short_form
+  status: rejected
+  submitted_at: <%= (Time.now - 1.year).to_s(:db) %>
+  speaking_experience: I am a respected cryptozoologist on the world speaking circuit.
+  audience_level: a
+  title: "Chupacabras and you"
+  excerpt: |
+    The Chupacabra, also called el Chupacabras (pronunciation: /tʃupa'kabɾas/, from the Spanish words chupar, meaning "to suck", and cabra, meaning "goat"; literally "goat sucker") is a legendary cryptid rumored to inhabit parts of the Americas.
+  description: |
+    "I see it - coming here - hell-wind - titan blur - black wings - Yog-Sothoth save me - the three-lobed burning eye ..."
+
+    It is associated more recently with sightings of an allegedly unknown animal in Puerto Rico (where these sightings were first reported), Mexico, and the United States, especially in the latter's Latin American communities.[1] The name comes from the animal's reported habit of attacking and drinking the blood of livestock, especially goats. Physical descriptions of the creature vary. Eyewitness sightings have been claimed as early as 1990 in Puerto Rico, and have since been reported as far north as Maine, and as far south as Chile. It is supposedly a heavy creature, the size of a small bear, with a row of spines reaching from the neck to the base of the tail. Biologists and wildlife management officials view the Chupacabra as a contemporary legend.
+
+    The first reported attacks occurred in March 1995 in Puerto Rico.[3] In this attack, eight sheep were discovered dead, each with three puncture wounds in the chest area and completely drained of blood.[3] In 1975, similar killings in the small town of Moca, were attributed to El Vampiro de Moca (The Vampire of Moca).[4] Initially it was suspected that the killings were committed by a Satanic cult; later more killings were reported around the island, and many farms reported loss of animal life. Each of the animals had their bodies bled dry through a series of small circular incisions.
+
+    Puerto Rican comedian and entrepreneur Silverio Pérez is credited with coining the term "chupacabras" soon after the first incidents were reported in the press.[5] Shortly after the first reported incidents in Puerto Rico, other animal deaths were reported in other countries, such as the Dominican Republic, Argentina, Bolivia, Chile, Colombia, Honduras, El Salvador, Nicaragua, Panama, Peru, Brazil, the United States, and Mexico.[3]
+
+postgresql_session:
+  users: quentin
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am UTC').to_s(:db) %>
+  speaking_experience: "I know PostgreSQL stuff."
+  audience_level: a
+  title: "PostgreSQL Session"
+  excerpt: "Let's talk about PostgreSQL"
+  description: "Details about PostgreSQL session"
+  status: confirmed
+  session_type: long_form
+  room: morrison
+
+drizzle_session:
+  users: aaron
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am UTC').to_s(:db) %>
+  speaking_experience: "I know Drizzle stuff."
+  audience_level: a
+  title: "Drizzle Session"
+  excerpt: "Let's talk about Drizzle"
+  description: "Details about Drizzle session"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+mysql_session:
+  users: gustavus
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am UTC').to_s(:db) %>
+  speaking_experience: "I know MySQL stuff."
+  audience_level: a
+  title: "MySQL Session"
+  excerpt: "Let's talk about MySQL"
+  description: "Details about MySQL session"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+sqlite_session:
+  users: clio
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am UTC').to_s(:db) %>
+  audience_level: a
+  title: "SQLite Session"
+  speaking_experience: "I know SQLite stuff."
+  excerpt: "Let's talk about SQLite"
+  description: "Details about SQLite session"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+rakudo_session:
+  event_id: 2009
+  track: cooking
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 12:00pm UTC').to_s(:db) %>
+  speaking_experience: "I AM A PONY!!1!"
+  audience_level: a
+  title: "Rakudo Session"
+  excerpt: "PERL 6 IS COMING SOON!!!1!"
+  description: "ROLES! GIMME A PONY OPERATOR! WORLD DOMINATION! LOL!"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+cloud_session:
+  event_id: 2009
+  track: hacks
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-18 12:00pm UTC').to_s(:db) %>
+  speaking_experience: "I know everything there is about stratocumulus clouds."
+  audience_level: a
+  title: "The Cloud is Falling!"
+  excerpt: "They told me to put all of my data in the cloud, now it's falling on me."
+  description: "None of the other animals believe me."
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+business_session:
+  event_id: 2009
+  track: hacks
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-18 12:00pm UTC').to_s(:db) %>
+  speaking_experience: "I own you."
+  audience_level: a
+  title: "Give us money."
+  excerpt: "$ pls."
+  description: "3. Profit"
+  status: confirmed
+  session_type: short_form
+  room: burnside
+
+sql_server_session:
+  event_id: 2009
+  track: business
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:00am UTC').to_s(:db) %>
+  speaking_experience: "Microsoft owns me."
+  audience_level: a
+  title: "SQL Server Session"
+  excerpt: "A brief talk about SQL server."
+  description: "none"
+  status: confirmed
+  session_type: shorter_form
+  room: burnside
+
+couchdb_session:
+  event_id: 2009
+  track: hacks
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 10:30am UTC').to_s(:db) %>
+  speaking_experience: "I write all my code using curl."
+  audience_level: a
+  title: "CouchDB Session"
+  excerpt: "A brief talk about CouchDB."
+  description: "Hopefully without porn."
+  status: confirmed
+  session_type: shorter_form
+  room: burnside
+
+bigtable_session:
+  event_id: 2009
+  track: hacks
+  submitted_at: <%= Time.now.to_s(:db) %>
+  start_time: <%= Time.parse('2009-06-17 11:00am UTC').to_s(:db) %>
+  speaking_experience: "My table is bigger than yours."
+  audience_level: a
+  title: "BigTable Session"
+  excerpt: "Big table, short talk."
+  description: "This table is bigger than you are."
+  status: confirmed
+  session_type: shorter_form
+  room: burnside

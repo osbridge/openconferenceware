@@ -1,0 +1,108 @@
+<% include_user_favorites_javascript %>
+<% run_when_dom_is_ready( 'bind_calendar_items();' ) %>
+
+<% run_when_dom_is_ready('$.localScroll({hash:true, duration:300});')%>
+<% if @event.underway? -%>
+  <% run_when_dom_is_ready("$('#to_day_#{Time.now.strftime('%Y_%m_%d')}').trigger('click');") %>
+<% end -%>
+
+<div class='calendar_download'>
+  <%= link_to "Download all", event_schedule_path(@event, :format => 'ics') %> /
+  <%= link_to "Subscribe all", event_schedule_url(@event, :format => 'ics', :protocol => 'webcal') %>
+  <% if logged_in? %>
+    &mdash;
+    <%= link_to "Download favorites", user_favorites_path(current_user, :format => 'ics') %> /
+    <%= link_to "Subscribe to favorites", user_favorites_url(current_user, :format => 'ics', :protocol => 'webcal') %>
+  <% end %>
+</div>
+
+<% cache @view_cache_key do %>
+<% if admin? && !@schedule.room_conflicts.empty? %>
+<div class='admin-only'>
+  <h3>( ! ) Room Conflicts Detected</h3>
+  <ul>
+    <% for conflict in @schedule.room_conflicts %>
+      <li>
+        <em><%= conflict[:item].title %></em> vs. <em><%= conflict[:conflicts_with].title %></em>
+        <% if conflict[:room] %>
+          in <%= conflict[:room].name %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<% end -%>
+
+<% if admin? && !@schedule.user_conflicts.empty? %>
+<div class='admin-only'>
+  <h3>( ! ) Speaker Conflicts Detected</h3>
+  <% for conflict in @schedule.user_conflicts %>
+    <li>
+      <strong><%= conflict[:user].fullname %></strong> is trying to speak at: <em><%= conflict[:item].title %></em> -and- <em><%= conflict[:conflicts_with].title %></em>
+      <% if conflict[:room] %>
+        in <%= conflict[:room].name %>
+      <% end %>
+    </li>
+  <% end %>
+</div>
+<% end -%>
+
+<div class="schedule_color_key">
+  <strong>Color key:</strong>
+  <% for track in @event.tracks_combined.sort_by(&:title) %>
+    <span class="definition light <%= track_css_class(track) %>">
+      <%= link_to h(track.title), track_path(track) %>
+    </span>
+  <% end %>
+  <span class="definition light generic_item %>">
+    Other
+  </span>
+</div>
+
+<div class='schedule_jump'>
+  <strong>Jump to day:</strong>
+  <ul>
+  <% @schedule.days.each do |day| %>
+    <li><%= link_to day.date.strftime("%A, %B %e, %Y"), "#day_#{day.date.strftime('%Y_%m_%d')}", :id => "to_day_#{day.date.strftime('%Y_%m_%d')}" %></li>
+  <% end -%>
+  </ul>
+</div>
+
+<% if admin? && !@event.schedule_published? %>
+<div class='admin-only'>
+  Schedule isn't public yet &mdash; only admins can see this!
+</div>
+<% end -%>
+
+<% @schedule.days.each do |day| %>
+  <a name="<%= "day_#{day.date.strftime('%Y_%m_%d')}" %>"></a>
+  <a href="#top" class='to_top'>Return to top</a>
+  <h3><%= day.date.strftime("%A, %B %e, %Y") %></h3>
+
+  <table class='schedule'>
+    <% day.sections.each do |section| %>
+      <%
+        colspan = day.lcm_colspan / section.slices.size
+        rows = section.lcm_rowspan
+      %>
+
+      <% (0..rows-1).each do |row| %>
+          <% row_content = '' %>
+          <tr>
+          <% section.slices.sort_by{|slice| slice.blocks.size}.reverse.each do |slice| %>
+            <%
+              block_height = (rows / slice.blocks.size)
+              relevant_rows = (0..slice.blocks.size-1).map{ |n| n * block_height }
+            %>
+            <% if relevant_rows.include?(row) %>
+              <td class='schedule_block' rowspan='<%= block_height %>' colspan='<%= colspan %>'>
+                <%= render(:partial => 'schedule_block', :locals => { :block => slice.blocks[row / block_height] }) %>
+              </td>
+            <% end -%>
+          <% end -%>
+          </tr>
+      <% end -%>
+    <% end -%>
+  </table>
+<% end -%>
+<% end %>

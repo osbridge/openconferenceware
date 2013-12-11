@@ -1,0 +1,17 @@
+<%
+  add_javascript(javascript_include_tag "https://login.persona.org/include.js")
+  run_when_dom_is_ready <<-JS
+    $('#persona_form .persona-button').click(function() {
+      personaLogin();
+      return false;
+    });
+  JS
+%>
+<div class="auth-provider persona">
+  <h3>Persona</h3>
+  </script>
+  <form id='persona_form' action='<%= auth_callback_path(:persona) %>'>
+    <input type='hidden' name='assertion'/>
+    <a class="persona-button"><span>Sign in with Persona</span></a>
+  </form>
+</div>
