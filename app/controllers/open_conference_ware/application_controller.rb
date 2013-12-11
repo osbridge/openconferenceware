@@ -23,8 +23,6 @@ module OpenConferenceWare
     include BreadcrumbsMixin
     add_breadcrumbs(OpenConferenceWare.breadcrumbs)
 
-    layout "application"
-
     # Filters
     before_filter :assign_events
     before_filter :assign_current_event_without_redirecting
