@@ -11,8 +11,13 @@ def deliver_email(proposal)
   OpenConferenceWare::SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', proposal).deliver
 end
 
-describe SpeakerMailer do
-  fixtures :proposals, :tracks, :session_types, :users, :snippets
+describe OpenConferenceWare::SpeakerMailer do
+  fixtures :open_conference_ware_proposals,
+           :open_conference_ware_tracks,
+           :open_conference_ware_session_types,
+           :open_conference_ware_users,
+           :open_conference_ware_snippets
+
   CHARSET = 'utf-8'
 
   before(:each) do

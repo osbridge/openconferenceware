@@ -35,6 +35,19 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  # List all of the OpenConferenceWare models, so we can make namespaced tests a bit nicer
+  models = %w(Authentication Comment Event Proposal Room Schedule ScheduleItem SelectorVote SessionType Snippet Track User UserFavorite)
+
+  # Fixture file names need to match the database table names.
+  # Set the corresponding OpenConferenceWare model for each of them.
+  config.before(:all) do
+    self.class.set_fixture_class(
+      Hash[models.map do |model|
+        ["open_conference_ware_#{model.underscore.pluralize}", OpenConferenceWare.const_get(model)]
+      end]
+    )
+  end
+
 end
 
 #---[ Functions ]-------------------------------------------------------

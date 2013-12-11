@@ -26,7 +26,7 @@ describe OpenConferenceWare::User do
   end
 
   describe "blog links" do
-    fixtures :users
+    fixtures :open_conference_ware_users
 
     before(:each) do
       @user = users(:quentin)

@@ -26,7 +26,7 @@ describe OpenConferenceWare::NormalizeUrlMixin do
   end
 
   describe "validation" do
-    fixtures :users
+    fixtures :open_conference_ware_users
     # TODO Mock an entire ActiveRecord model to isolate these behaviors, rather than relying on User
     before(:each) do
       @record = users(:aaron)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-  fixtures :users, :events
 describe "open_conference_ware/users/index.html.erb" do
+  fixtures :open_conference_ware_users, :open_conference_ware_events
 
   before do
     stub_settings_accessors_on(view)
