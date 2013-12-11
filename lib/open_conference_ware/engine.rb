@@ -11,7 +11,11 @@ module OpenConferenceWare
     ]
 
     initializer "open_conference_ware.assets.precompile" do |app|
-      app.config.assets.precompile += %w(ie.css)
+      # Precompile IE-only assets
+      app.config.assets.precompile += ['ie.js']
+
+      # Include vendored image, font, and flash assets when precompiling
+      app.config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif *.eot *.svg *.ttf *.woff *.swf)
     end
 
     config.generators do |g|
