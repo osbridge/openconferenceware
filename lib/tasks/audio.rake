@@ -39,7 +39,7 @@ namespace :open_conference_ware do
 
         if matcher = basename.to_s.match(/#{pattern}/)
           session_id = matcher[1]
-          session = Proposal.find(session_id)
+          session = OpenConferenceWare::Proposal.find(session_id)
           session.audio_url = "#{url}/#{URI.escape(path.relative_path_from(Pathname.new(dir)).to_s)}";
           puts "* Linking: #{path} to #{session.audio_url}"
           session.save!
