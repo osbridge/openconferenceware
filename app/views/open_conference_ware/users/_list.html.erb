@@ -12,6 +12,6 @@ only_for_event = local_assigns[:only_for_event]
 
 <ul class='user_list'>
 <% users.each do |user| %>
-  <%= render :partial => 'users/block', :locals => { :user => user, :wrapper_tag => :li, :hide_rooms => hide_rooms, :only_for_event => only_for_event } %>
+  <%= render :partial => 'open_conference_ware/users/block', :locals => { :user => user, :wrapper_tag => :li, :hide_rooms => hide_rooms, :only_for_event => only_for_event } %>
 <% end -%>
 </ul>

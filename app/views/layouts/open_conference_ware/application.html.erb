@@ -19,25 +19,25 @@
     <% end %>
 
     <!-- Stylesheets -->
-    <%= stylesheet_link_tag 'application' %>
+    <%= stylesheet_link_tag 'open_conference_ware/application' %>
     <%= yield :stylesheets %>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <%= javascript_include_tag 'ie' %>
+      <%= javascript_include_tag 'open_conference_ware/ie' %>
     <![endif]-->
 
     <!-- Dynamic styles -->
     <% cache "layout,event_track_styles,event_#{current_event_cache_key}" do %>
       <% if event_tracks? && assigned_events %>
         <style type="text/css" media="screen">
-          <%= render :partial => 'tracks/colors', :formats => [:css], :locals => {:tracks => assigned_events.map(&:tracks_combined).flatten} %>
+          <%= render :partial => 'open_conference_ware/tracks/colors', :formats => [:css], :locals => {:tracks => assigned_events.map(&:tracks_combined).flatten} %>
         </style>
       <% end %>
     <% end %>
 
     <!-- Scripts -->
-    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag 'open_conference_ware/application' %>
     <%= yield :scripts -%>
 
     <% expose_to_js( :current_user, logged_in? ? current_user.id : false ) -%>
@@ -53,7 +53,7 @@
   <body class='<%= "#{controller.controller_name} #{action_name}" %> <%= "#{controller.controller_name}_#{action_name}" %>'>
     <a name='top'></a>
     <div id="wrapper" class="container">
-      <%= render :partial => "layouts/header" %>
+      <%= render :partial => "layouts/open_conference_ware/header" %>
 
       <div id="content">
         <h2 class='page_title'><%= page_title %></h2>

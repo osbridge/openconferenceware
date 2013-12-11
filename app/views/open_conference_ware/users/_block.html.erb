@@ -61,7 +61,7 @@ only_for_event = local_assigns[:only_for_event]
   <% end %>
 
   <% if display_sub_list %>
-    <%= render :partial => 'proposals/sub_list', :locals => { :container => user, :header_tag => :h4 } %>
+    <%= render :partial => 'open_conference_ware/proposals/sub_list', :locals => { :container => user, :header_tag => :h4 } %>
   <% else %>
     <% if @event.proposal_status_published? %>
       <%
@@ -71,7 +71,7 @@ only_for_event = local_assigns[:only_for_event]
       %>
       <% unless sessions.empty? %>
         <h4 class='sessions'>Sessions</h4>
-        <%= render :partial => 'proposals/list_concise', :locals => { :items => sessions, :hide_rooms => hide_rooms } %>
+        <%= render :partial => 'open_conference_ware/proposals/list_concise', :locals => { :items => sessions, :hide_rooms => hide_rooms } %>
       <% end %>
     <% end -%>
   <% end -%>

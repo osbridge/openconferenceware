@@ -14,17 +14,17 @@ proposal ||= @proposal
       <strong>ADMIN:</strong>
       <% if proposal_statuses? %>
         Status
-        <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
+        <%= render :partial => 'open_conference_ware/proposals/transition_control', :locals => {:proposal => proposal} %>
       <% end %>
       <div class="proposal_admin_controls_dependent_on_confirmed_status" style="<%= 'display:none' unless proposal.confirmed? %>">
         <% if event_rooms? %>
           Room
-          <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal, :form => f} %>
+          <%= render :partial => 'open_conference_ware/proposals/room_control', :locals => {:proposal => proposal, :form => f} %>
         <% end %>
         <br />
         <% if proposal_start_times? && proposal.event %>
           Start
-          <%= render :partial => '/proposals/schedule_control', :locals => {:proposal => proposal, :form => f} %>
+          <%= render :partial => 'open_conference_ware/proposals/schedule_control', :locals => {:proposal => proposal, :form => f} %>
         <% end %>
       </div>
       <%= link_to("Email speaker(s)...", proposal.mailto_link) %>

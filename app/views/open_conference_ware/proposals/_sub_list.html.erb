@@ -23,7 +23,7 @@ include_user_favorites_javascript
 
   ## The +displayer+ provides an easier way to render the partials.
   displayer = lambda{|kind, my_records, is_archived|
-    render :partial => "proposals/sub_list_for_kind", :locals => {
+    render :partial => "open_conference_ware/proposals/sub_list_for_kind", :locals => {
       :kind => kind,
       :records => my_records,
       :container => container,

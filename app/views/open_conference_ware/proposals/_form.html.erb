@@ -1,4 +1,4 @@
-<%= render :partial => "/proposals/admin_controls" %>
+<%= render :partial => "open_conference_ware/proposals/admin_controls" %>
 
 <p>
   <%= @event.open_text.try(:html_safe) %>
@@ -20,7 +20,7 @@
           <input type="text" name="search" value="" id="speaker-search-field" />
           <input type="submit" name="speaker_submit" value="Search" id="speaker_submit" />
           <div id='speaker-search-results'>
-            <%= render :partial => 'proposals/search_speakers' %>
+            <%= render :partial => 'open_conference_ware/proposals/search_speakers' %>
           </div>
           <p class='where-is-everyone'>
             Can't find the person you want to add? Ask them to complete a speaker profile. Click the link in the box below to select it, copy it to your clipboard, ask them to visit this link to complete their speaker profile, and then add them:
@@ -36,7 +36,7 @@
 
   <% if user_profiles? and multiple_presenters? %>
     <div id="manage-speakers">
-      <%= render :partial => "proposals/manage_speakers" %>
+      <%= render :partial => "open_conference_ware/proposals/manage_speakers" %>
     </div>
   </div>
   <% end %>

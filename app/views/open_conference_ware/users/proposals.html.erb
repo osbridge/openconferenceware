@@ -6,16 +6,16 @@
       <% if event.proposal_status_published? %>
         <% unless ( sessions = proposals.select{|proposal| proposal.confirmed?} ).empty? %>
           <h2>Sessions accepted for <%= event.title %></h2>
-          <%= render :partial => "proposals/list", :locals => {:kind => :sessions, :records => sessions, :sorter => false} %>
+          <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => :sessions, :records => sessions, :sorter => false} %>
         <% end -%>
 
         <% unless ( unaccepted_proposals = proposals.reject{|proposal| proposal.confirmed? } ).empty? %>
           <h2>Sessions proposed for <%= event.title%></h2>
-          <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => unaccepted_proposals, :sorter => false} %>
+          <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => :proposals, :records => unaccepted_proposals, :sorter => false} %>
         <% end -%>
       <% else -%>
         <h2>Sessions proposed for <%= event.title%></h2>
-        <%= render :partial => "proposals/list", :locals => {:kind => :proposals, :records => proposals, :sorter => false} %>
+        <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => :proposals, :records => proposals, :sorter => false} %>
       <% end -%>
     <% end -%>
   <% else -%>

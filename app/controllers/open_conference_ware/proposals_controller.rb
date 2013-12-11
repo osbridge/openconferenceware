@@ -509,7 +509,7 @@ module OpenConferenceWare
           if defined?(@redirector)
             @redirector.call
           else
-            render template: "/proposals/show"
+            render template: "open_conference_ware/proposals/show"
           end
         }
         format.xml  { render xml: @proposal }

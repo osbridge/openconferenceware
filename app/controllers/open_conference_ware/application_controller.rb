@@ -330,7 +330,7 @@ module OpenConferenceWare
           return redirect_to(manage_events_path)
         else
           # Display a static error page.
-          render template: 'events/index'
+          render template: 'open_conference_ware/events/index'
           return true # Cancel further processing
         end
       else

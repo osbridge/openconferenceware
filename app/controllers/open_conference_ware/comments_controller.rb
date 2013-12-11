@@ -57,7 +57,7 @@ module OpenConferenceWare
           @focus_comment = true
           flash[:failure] = "Invalid comment."
 
-          format.html { render template: "proposals/show" }
+          format.html { render template: "open_conference_ware/proposals/show" }
           format.xml  { render xml: @comment.errors, status: :unprocessable_entity }
           format.json { render json: @comment.errors, status: :unprocessable_entity }
         end

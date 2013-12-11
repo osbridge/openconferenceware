@@ -110,21 +110,21 @@ control_colspan = 0
           <% control_colspan += 1 %>
           <td>
             <%= form_for proposal do |f| %>
-              <%= render :partial => '/proposals/transition_control', :locals => {:proposal => proposal} %>
+              <%= render :partial => 'open_conference_ware/proposals/transition_control', :locals => {:proposal => proposal} %>
             <% end %>
           </td>
         <% end %>
         <% if event_rooms? %>
           <% control_colspan += 1 %>
           <td>
-            <%= render :partial => '/proposals/room_control', :locals => {:proposal => proposal} %>
+            <%= render :partial => 'open_conference_ware/proposals/room_control', :locals => {:proposal => proposal} %>
           </td>
         <% end %>
         </tr>
         <% if proposal_start_times? %>
         <tr>
           <td <%= control_colspan > 0 ? "colspan='#{control_colspan}'" : '' %>>
-            <%= render :partial => '/proposals/schedule_control', :locals => {:proposal => proposal} %>
+            <%= render :partial => 'open_conference_ware/proposals/schedule_control', :locals => {:proposal => proposal} %>
           </td>
         </tr>
         <% end %>
