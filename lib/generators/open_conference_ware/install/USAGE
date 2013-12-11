@@ -1,0 +1,8 @@
+Description:
+    Installs initializers to configure OpenConferenceWare
+
+Example:
+    rails generate open_conference_ware:install
+
+    This will create:
+        config/initializers/open_conference_ware.rb

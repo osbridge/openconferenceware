@@ -1,6 +1,6 @@
 namespace :open_conference_ware do
   namespace :setup do
-    task :default => ['tmp:create', 'db:migrate:reset', :snippets, 'db:test:prepare'] do
+    task :default => ['db:migrate', :snippets] do
       puts <<-HERE
 
   TO FINISH SETUP
@@ -35,6 +35,7 @@ namespace :open_conference_ware do
     task :sample => ['tmp:create', 'db:migrate:reset', 'spec:db:fixtures:load', 'clear']
   end
 
-  desc %{Setup application's database, and snippets}
+  desc %{Setup application's database and snippets}
   task :setup => "setup:default"
 end
+
