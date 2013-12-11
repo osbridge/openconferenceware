@@ -1,3 +1,5 @@
-module SessionTypesHelper
-  include FauxRoutesMixin
+module OpenConferenceWare
+  module SessionTypesHelper
+    include FauxRoutesMixin
+  end
 end
