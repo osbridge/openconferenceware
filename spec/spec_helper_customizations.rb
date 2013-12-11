@@ -48,6 +48,13 @@ RSpec.configure do |config|
     )
   end
 
+  # Stub un-namespaced constants for OpenConferenceWare models, so that we can
+  # refer to things like User, instead of OpenConferenceWare::User in specs.
+  config.before(:each) do
+    models.each do |model|
+      stub_const(model, OpenConferenceWare.const_get(model))
+    end
+  end
 end
 
 #---[ Functions ]-------------------------------------------------------
