@@ -10,4 +10,4 @@ def gem(*args)
 end
 
 # Eval Gemfile
-eval(IO.read(File.join(File.dirname(__FILE__), '..', 'Gemfile')), binding) 
+eval(IO.read(File.join(File.dirname(__FILE__), 'Gemfile')), binding)

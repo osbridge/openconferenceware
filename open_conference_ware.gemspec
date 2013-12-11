@@ -46,9 +46,6 @@ Gem::Specification.new do |s|
 
   # Development
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency 'debugger'
-  s.add_development_dependency 'pry'
-  s.add_development_dependency 'launchy'
 
   # Testing
   s.add_development_dependency 'rspec-rails'

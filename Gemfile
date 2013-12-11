@@ -9,10 +9,12 @@ gemspec
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
-
-# To use debugger
-# gem 'debugger'
-
-group :development, :test do
+group :development do
   gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: '2-14-maintenance'
+end
+
+group :debug do
+  gem 'debugger'
+  gem 'pry'
+  gem 'launchy'
 end
