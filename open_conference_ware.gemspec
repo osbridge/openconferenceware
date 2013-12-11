@@ -20,8 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails-observers", "~> 0.1.2"
 
   # Authentication
-  s.add_dependency "omniauth-openid", "~> 1.0.1"
-  s.add_dependency "omniauth-persona", "~> 0.0.1"
+  s.add_dependency "omniauth", "~> 1.1.4"
 
   s.add_dependency "hashery"
 

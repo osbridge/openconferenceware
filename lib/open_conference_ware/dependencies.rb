@@ -3,8 +3,7 @@
 require "rails"
 require "rails-observers"
 
-require "omniauth-openid"
-require "omniauth-persona"
+require "omniauth"
 
 require "hashery/dictionary"
 
