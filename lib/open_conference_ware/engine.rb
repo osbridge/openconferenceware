@@ -10,6 +10,9 @@ module OpenConferenceWare
       root.join('lib').to_s
     ]
 
+    # Activate observers that should always be running.
+    config.active_record.observers = "OpenConferenceWare::CacheWatcher"
+
     initializer "open_conference_ware.assets.precompile" do |app|
       # Precompile IE-only assets
       app.config.assets.precompile += ['ie.js']
