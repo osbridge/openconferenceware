@@ -1,4 +1,7 @@
 puts "[OCW] Running OpenConferenceWare seeds"
+puts "[OCW] Creating snippets, if they don't exist"
+OpenConferenceWare::Snippet.load_from_fixtures
+
 if %w[development preview].include?(Rails.env)
   if ActiveRecord::Base.connection.table_exists?('open_conference_ware_authentications')
     puts "[OCW] Creating sample users for development"
