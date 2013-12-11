@@ -1,7 +1,7 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   require 'openid/store/filesystem' 
 
-  if %w[development preview].include?(Rails.env) && ActiveRecord::Base.connection.table_exists?('authentications')
+  if %w[development preview].include?(Rails.env) && ActiveRecord::Base.connection.table_exists?('open_conference_ware_authentications')
     provider :developer
 
     admin_auth = Authentication.find_or_initialize_by(provider: :developer, uid: 'admin@ocw.local')

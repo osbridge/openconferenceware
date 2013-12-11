@@ -79,23 +79,23 @@ module OpenConferenceWare
 
     #---[ Scopes ]----------------------------------------------------------
 
-    cols_for_name_sort = 'lower(users.last_name), lower(users.first_name)'
+    cols_for_name_sort = 'lower(open_conference_ware_users.last_name), lower(open_conference_ware_users.first_name)'
     scope :by_name, lambda { order(cols_for_name_sort) }
     scope :default_order, lambda { by_name }
     scope :complete_profiles, lambda { where(complete_profile: true).default_order }
 
     scope :submitted_to, lambda {|event|
-      select("users.id, users.*, #{cols_for_name_sort}").
+      select("open_conference_ware_users.id, open_conference_ware_users.*, #{cols_for_name_sort}").
         joins(:proposals).
-        where('proposals.event_id = ?', event.id).
+        where('open_conference_ware_proposals.event_id = ?', event.id).
         default_order.
         uniq
     }
 
     scope :speaking_at, lambda {|event|
-      select("users.id, users.*, #{cols_for_name_sort}").
+      select("open_conference_ware_users.id, open_conference_ware_users.*, #{cols_for_name_sort}").
         joins(:proposals).
-        where("proposals.status = 'confirmed' AND proposals.event_id = ?", event.id).
+        where("open_conference_ware_proposals.status = 'confirmed' AND open_conference_ware_proposals.event_id = ?", event.id).
         default_order.
         uniq
     }

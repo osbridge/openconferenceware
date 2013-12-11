@@ -504,12 +504,12 @@ module OpenConferenceWare
 
     # Return next proposal in this event after this one, or nil if none.
     def next_proposal
-      return self.event.proposals.where("proposals.id > ?", self.id).order("created_at ASC").first
+      return self.event.proposals.where("id > ?", self.id).order("created_at ASC").first
     end
 
     # Return previous proposal in this event after this one, or nil if none.
     def previous_proposal
-      return self.event.proposals.where("proposals.id < ?", self.id).order("created_at DESC").first
+      return self.event.proposals.where("id < ?", self.id).order("created_at DESC").first
     end
 
     # Return the integer sum of the selector votes rating for this proposal. Skips

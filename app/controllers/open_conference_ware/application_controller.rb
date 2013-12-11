@@ -458,12 +458,12 @@ module OpenConferenceWare
       @session_types_hash       = Defer { Hash[@event.session_types.map{|t| [t.id, t]}] }
       @proposals_hash           = Defer { Hash[@event.proposals.order("submitted_at DESC").includes(:track, :session_type).map{|t| [t.id, t]}] }
       @sessions_hash            = Defer { Hash[@event.proposals.confirmed.order("submitted_at DESC").includes(:track, :session_type).map{|t| [t.id, t]}] }
-      @users_and_proposals      = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.event_id = #{@event.id}}) }
-      @users_and_sessions       = Defer { ActiveRecord::Base.connection.select_all(%{select proposals_users.user_id, proposals_users.proposal_id from proposals_users, proposals where proposals_users.proposal_id = proposals.id and proposals.status = 'confirmed' and proposals.event_id = #{@event.id}}) }
+      @users_and_proposals      = Defer { ActiveRecord::Base.connection.select_all(%{select open_conference_ware_proposals_users.user_id, open_conference_ware_proposals_users.proposal_id from open_conference_ware_proposals_users, open_conference_ware_proposals where open_conference_ware_proposals_users.proposal_id = open_conference_ware_proposals.id and open_conference_ware_proposals.event_id = #{@event.id}}) }
+      @users_and_sessions       = Defer { ActiveRecord::Base.connection.select_all(%{select open_conference_ware_proposals_users.user_id, open_conference_ware_proposals_users.proposal_id from open_conference_ware_proposals_users, open_conference_ware_proposals where open_conference_ware_proposals_users.proposal_id = open_conference_ware_proposals.id and open_conference_ware_proposals.status = 'confirmed' and open_conference_ware_proposals.event_id = #{@event.id}}) }
       @users_for_proposal_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["proposal_id"].to_i] ||= Set.new) << @users_hash[v["user_id"].to_i]; s} }
       @sessions_for_user_hash   = Defer { @users_and_sessions.inject({}){|s,v| (s[v["user_id"].to_i] ||= Set.new) << @sessions_hash[v["proposal_id"].to_i]; s} }
       @proposals_for_user_hash  = Defer { @users_and_proposals.inject({}){|s,v| (s[v["user_id"].to_i] ||= Set.new) << @proposals_hash[v["proposal_id"].to_i]; s} }
-      @user_favorites_count_for_user_hash = Defer { ActiveRecord::Base.connection.select_all("select user_id, count(proposal_id) as favorites from user_favorites group by user_id").inject({}){|s,v| s[v["user_id"].to_i] = v["favorites"].to_i; s} }
+      @user_favorites_count_for_user_hash = Defer { ActiveRecord::Base.connection.select_all("select user_id, count(proposal_id) as favorites from open_conference_ware_user_favorites group by user_id").inject({}){|s,v| s[v["user_id"].to_i] = v["favorites"].to_i; s} }
     end
 
     # Warn admin to create event's session type and track if needed.
