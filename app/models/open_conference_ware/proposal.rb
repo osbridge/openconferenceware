@@ -156,7 +156,7 @@ module OpenConferenceWare
 
     # Validations
     validates_presence_of :title, :description, :event_id
-    validates_acceptance_of :agreement,                     accept: true, message: "must be accepted"
+    validates_acceptance_of :agreement,                     accept: true, message: "must be accepted", if: -> { OpenConferenceWare.agreement.present? }
     validates_presence_of :excerpt,                         if: :proposal_excerpts?
     validates_presence_of :track,                           if: :event_tracks?
     validates_presence_of :session_type,                    if: :event_session_types?

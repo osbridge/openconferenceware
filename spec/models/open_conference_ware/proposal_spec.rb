@@ -565,6 +565,32 @@ describe OpenConferenceWare::Proposal do
     end
   end
 
+  describe "validating acceptance of the policy agreement," do
+    before(:each) do
+      @proposal = proposals(:quentin_widgets)
+    end
+
+    describe "when one exists," do
+      it "should require presenters to accept the agreement" do
+        @proposal.agreement = false
+        @proposal.should_not be_valid
+        @proposal.agreement = true
+        @proposal.should be_valid
+      end
+    end
+
+    describe "when no agreement is set" do
+      before do
+        OpenConferenceWare.stub(agreement: nil)
+      end
+
+      it "should not require presenters to accept the agreement" do
+        @proposal.agreement = false
+        @proposal.should be_valid
+      end
+    end
+  end
+
 
 private
 
