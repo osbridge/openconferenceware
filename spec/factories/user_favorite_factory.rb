@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :user_favorite do
+  factory :user_favorite, class: OpenConferenceWare::UserFavorite do
     # :belongs_to associations:
     # * :user
     # * :proposal

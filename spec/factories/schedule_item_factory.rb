@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :schedule_item do
+  factory :schedule_item, class: OpenConferenceWare::ScheduleItem do
     sequence(:title) { |n| "ScheduleItem #{n}" }
     excerpt "My schedule item description"
     description "My schedule item description"

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :event do
+  factory :event, class: OpenConferenceWare::Event do
     sequence(:title) { |n| "Event #{n}" }
     deadline { Date.today.to_time + 1.day }
     open_text "We're accepting proposals"
