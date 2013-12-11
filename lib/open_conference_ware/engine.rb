@@ -1,3 +1,5 @@
+require 'open_conference_ware/dependencies'
+
 module OpenConferenceWare
   class Engine < ::Rails::Engine
     isolate_namespace OpenConferenceWare
