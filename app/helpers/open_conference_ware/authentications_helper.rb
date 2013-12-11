@@ -1,11 +1,11 @@
 module OpenConferenceWare
   module AuthenticationsHelper
     def auth_path(provider)
-      "/auth/#{provider}"
+      "#{OmniAuth.config.path_prefix}/#{provider}"
     end
 
     def auth_callback_path(provider)
-      "/auth/#{provider}/callback"
+    "#{OmniAuth.config.path_prefix}/#{provider}/callback"
     end
   end
 end
