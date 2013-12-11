@@ -1,44 +1,47 @@
-# == Schema Information
-#
-# Table name: authentications
-#
-#  id         :integer          not null, primary key
-#  user_id    :integer
-#  provider   :string(255)
-#  uid        :string(255)
-#  name       :string(255)
-#  email      :string(255)
-#  info       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
+module OpenConferenceWare
 
-class Authentication < ActiveRecord::Base
-  belongs_to :user
-  serialize :info, JSON
+  # == Schema Information
+  #
+  # Table name: authentications
+  #
+  #  id         :integer          not null, primary key
+  #  user_id    :integer
+  #  provider   :string(255)
+  #  uid        :string(255)
+  #  name       :string(255)
+  #  email      :string(255)
+  #  info       :text
+  #  created_at :datetime         not null
+  #  updated_at :datetime         not null
+  #
 
-  after_initialize do |auth|
-    auth.info ||= {}
-  end
+  class Authentication < ActiveRecord::Base
+    belongs_to :user
+    serialize :info, JSON
 
-  def self.find_and_update_or_create_from_auth_hash(auth_hash)
-    auth = find_or_initialize_by(
-      provider: auth_hash.provider,
-      uid: auth_hash.uid
-    )
+    after_initialize do |auth|
+      auth.info ||= {}
+    end
 
-    auth.name  = auth_hash.info.name
-    auth.email = auth_hash.info.email
-    auth.info  = auth_hash.info
+    def self.find_and_update_or_create_from_auth_hash(auth_hash)
+      auth = find_or_initialize_by(
+        provider: auth_hash.provider,
+        uid: auth_hash.uid
+      )
 
-    auth.save && auth
-  end
+      auth.name  = auth_hash.info.name
+      auth.email = auth_hash.info.email
+      auth.info  = auth_hash.info
 
-  def has_first_and_last_name?
-    !!(info['first_name'] && info['last_name'])
-  end
+      auth.save && auth
+    end
 
-  def first_url
-    info['urls'].values.first if info['urls'].is_a?(Hash)
+    def has_first_and_last_name?
+      !!(info['first_name'] && info['last_name'])
+    end
+
+    def first_url
+      info['urls'].values.first if info['urls'].is_a?(Hash)
+    end
   end
 end

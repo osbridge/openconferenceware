@@ -1,39 +1,42 @@
-# == Schema Information
-#
-# Table name: user_favorites
-#
-#  id          :integer          not null, primary key
-#  user_id     :integer
-#  proposal_id :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#
+module OpenConferenceWare
 
-class UserFavorite < ActiveRecord::Base
-  # Associations
-  belongs_to :user
-  belongs_to :proposal
+  # == Schema Information
+  #
+  # Table name: user_favorites
+  #
+  #  id          :integer          not null, primary key
+  #  user_id     :integer
+  #  proposal_id :integer
+  #  created_at  :datetime
+  #  updated_at  :datetime
+  #
 
-  # Validations
-  validates_presence_of :user_id
-  validates_presence_of :proposal_id
+  class UserFavorite < ActiveRecord::Base
+    # Associations
+    belongs_to :user
+    belongs_to :proposal
 
-  # Add a favorite. Creates record if needed, else leaves as-is.
-  def self.add(user_id, proposal_id)
-    return self.find_or_create_by(user_id: user_id, proposal_id: proposal_id)
-  end
+    # Validations
+    validates_presence_of :user_id
+    validates_presence_of :proposal_id
 
-  # Remove a favorite. Removes record if needed, else does nothing.
-  def self.remove(user_id, proposal_id)
-    if record = self.find_by_user_id_and_proposal_id(user_id, proposal_id)
-      return record.destroy
-    else
-      return false
+    # Add a favorite. Creates record if needed, else leaves as-is.
+    def self.add(user_id, proposal_id)
+      return self.find_or_create_by(user_id: user_id, proposal_id: proposal_id)
     end
-  end
 
-  # Return the ids of this +user+'s favorite proposals.
-  def self.proposal_ids_for(user)
-    return self.where(user_id: user.id).select('proposal_id').map(&:proposal_id)
+    # Remove a favorite. Removes record if needed, else does nothing.
+    def self.remove(user_id, proposal_id)
+      if record = self.find_by_user_id_and_proposal_id(user_id, proposal_id)
+        return record.destroy
+      else
+        return false
+      end
+    end
+
+    # Return the ids of this +user+'s favorite proposals.
+    def self.proposal_ids_for(user)
+      return self.where(user_id: user.id).select('proposal_id').map(&:proposal_id)
+    end
   end
 end
