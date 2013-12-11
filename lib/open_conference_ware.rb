@@ -148,4 +148,9 @@ module OpenConferenceWare
   # What message is displayed as a hint to explain the audience level?
   mattr_accessor :proposal_audience_level_hint
   self.proposal_audience_level_hint ||= "(Tell us the intended audience experience level for this talk)"
+
+  # Loaded authentication providers
+  mattr_accessor :auth_providers
+  self.auth_providers ||= []
 end
+
