@@ -47,7 +47,7 @@
         <label>Start Date</label>
       </td>
       <td>
-        <%=h @event.start_date.to_s(:date_time_long) if @event.start_date %>
+        <%=h @event.start_date.to_s(:ocw_date_time_long) if @event.start_date %>
       </td>
     </tr>
     <tr>
@@ -55,7 +55,7 @@
         <label>End Date</label>
       </td>
       <td>
-        <%=h @event.end_date.to_s(:date_time_long) if @event.end_date %>
+        <%=h @event.end_date.to_s(:ocw_date_time_long) if @event.end_date %>
       </td>
     </tr>
   <% end %>
@@ -64,7 +64,7 @@
       <label>Proposal Deadline</label>
     </td>
     <td>
-      <%=h @event.deadline.to_s(:date_time_long) %>
+      <%=h @event.deadline.to_s(:ocw_date_time_long) %>
     </td>
   </tr>
 
