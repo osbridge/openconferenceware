@@ -1,5 +1,5 @@
 atom_feed() do |feed|
-  feed.title("#{SETTINGS.organization}: Presentation Proposal Comments")
+  feed.title("#{OpenConferenceWare.organization}: Presentation Proposal Comments")
   feed.updated(@comments.blank? ? Time.at(0) : @comments.first.created_at)
   feed.subtitle("Administrator-only feed of comments on Ignite proposals.")
 

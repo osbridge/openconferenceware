@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<%= SETTINGS.tagline %>">
+    <meta name="description" content="<%= OpenConferenceWare.tagline %>">
     <meta name="author" content="">
     <meta property="og:title" content="<%= page_title %>"/>
     <%= csrf_meta_tag %>
     <%= yield :meta %>
 
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
-    <title><%= page_title %> / <%= SETTINGS.organization %>: <%= SETTINGS.tagline %></title>
+    <title><%= page_title %> / <%= OpenConferenceWare.organization %>: <%= OpenConferenceWare.tagline %></title>
 
     <!-- Feeds -->
-    <%= auto_discovery_link_tag(:atom, proposals_path(:format => :atom), :title => "#{SETTINGS.organization}: Proposals feed") %>
+    <%= auto_discovery_link_tag(:atom, proposals_path(:format => :atom), :title => "#{OpenConferenceWare.organization}: Proposals feed") %>
     <% if admin? %>
-      <%= auto_discovery_link_tag(:atom, comments_path(:format => :atom, :secret => CommentsController::SECRET), :title => "#{SETTINGS.organization}: Proposals comments feed") %>
+      <%= auto_discovery_link_tag(:atom, comments_path(:format => :atom, :secret => CommentsController::SECRET), :title => "#{OpenConferenceWare.organization}: Proposals comments feed") %>
     <% end %>
 
     <!-- Stylesheets -->
@@ -89,7 +89,7 @@
             </ul>
           </li>
         </ul>
-        &copy; 2008&ndash;<%= Date.today.year %> <%= SETTINGS.organization %>
+        &copy; 2008&ndash;<%= Date.today.year %> <%= OpenConferenceWare.organization %>
       </div>
   </div><!--wrapper -->
 

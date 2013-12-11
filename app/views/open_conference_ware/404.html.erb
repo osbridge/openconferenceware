@@ -3,5 +3,6 @@
 </p>
 
 <p>
-  If you believe this is an error, <%= mail_to(SECRETS.administrator_email, "contact the developers", :subject => "404 Not Found on #{Socket.gethostname}:#{File.basename(Rails.root)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
+  If you believe this is an error, <%= mail_to(OpenConferenceWare.administrator_email, "contact the developers", :subject => "404 Not Found on #{Socket.gethostname}:#{File.basename(Rails.root)}", :body => "What did you do that caused the error?\n\nWhat did you expect the system to do?\n\n") %>.
 </p>
+

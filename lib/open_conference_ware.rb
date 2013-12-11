@@ -1,6 +1,20 @@
 require "open_conference_ware/engine"
 
 module OpenConferenceWare
+  def self.configure(&block)
+    yield(self)
+  end
+
+  # Engine Configuration
+
+  # Path where the OCW engine is mounted
+  mattr_accessor :mount_point
+  self.mount_point ||= "/open_conference_ware"
+
+  def self.mounted_path(path)
+    "#{self.mount_point}/#{path}".gsub("//","/")
+  end
+
   # Secrets
   mattr_accessor :email
 
@@ -13,6 +27,12 @@ module OpenConferenceWare
   mattr_accessor :comments_secret
   self.comments_secret ||= '1234'
 
+  # Email
+
+  mattr_accessor :default_from_address
+  self.default_from_address ||= 'ocw@ocw.local'
+
+  mattr_accessor :default_bcc_address
 
   # Settings
 

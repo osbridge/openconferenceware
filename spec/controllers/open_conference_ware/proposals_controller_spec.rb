@@ -35,8 +35,8 @@ describe OpenConferenceWare::ProposalsController do
     describe "when returning CSV" do
 
       def get_csv_index
-        SETTINGS.stub(have_user_profiles: true)
-        SETTINGS.stub(have_multiple_presenters: true)
+        OpenConferenceWare.stub(have_user_profiles: true)
+        OpenConferenceWare.stub(have_multiple_presenters: true)
         stub_current_event!(event: @event)
 
         get :index, event_id: @event.to_param, format: "csv"
@@ -516,7 +516,7 @@ describe OpenConferenceWare::ProposalsController do
     describe "for open event" do
       describe "with user_profiles?" do
         before(:each) do
-          SETTINGS.stub(have_user_profiles: true)
+          OpenConferenceWare.stub(have_user_profiles: true)
         end
 
         it "should redirect incomplete profiles to user edit form" do
@@ -539,12 +539,12 @@ describe OpenConferenceWare::ProposalsController do
 
       describe "without user_profiles?" do
         before(:each) do
-          SETTINGS.stub(have_user_profiles: false)
+          OpenConferenceWare.stub(have_user_profiles: false)
         end
 
         describe "with anonymous_proposals" do
           before(:each) do
-            SETTINGS.stub(have_anonymous_proposals: true)
+            OpenConferenceWare.stub(have_anonymous_proposals: true)
           end
 
           it "should display form for open events" do
@@ -566,7 +566,7 @@ describe OpenConferenceWare::ProposalsController do
 
         describe "without anonymous_proposals" do
           before(:each) do
-            SETTINGS.stub(have_anonymous_proposals: false)
+            OpenConferenceWare.stub(have_anonymous_proposals: false)
           end
 
           it "should redirect anonymous user to login" do
@@ -738,9 +738,9 @@ describe OpenConferenceWare::ProposalsController do
 
     before do
       # TODO test other settings combinations
-      SETTINGS.stub(have_proposal_excerpts: false)
-      SETTINGS.stub(have_multiple_presenters: false)
-      SETTINGS.stub(have_user_profiles: false)
+      OpenConferenceWare.stub(have_proposal_excerpts: false)
+      OpenConferenceWare.stub(have_multiple_presenters: false)
+      OpenConferenceWare.stub(have_user_profiles: false)
 
       @inputs = proposals(:quentin_widgets).attributes
       @record = nil
@@ -748,7 +748,7 @@ describe OpenConferenceWare::ProposalsController do
 
     describe "with user_profiles?" do
       before(:each) do
-        SETTINGS.stub(have_user_profiles: true)
+        OpenConferenceWare.stub(have_user_profiles: true)
       end
 
       it "should fail to create proposal without a complete user" do
@@ -768,12 +768,12 @@ describe OpenConferenceWare::ProposalsController do
 
     describe "without user_profiles?" do
       before(:each) do
-        SETTINGS.stub(have_user_profiles: false)
+        OpenConferenceWare.stub(have_user_profiles: false)
       end
 
       describe "with anonymous proposals" do
         before(:each) do
-          SETTINGS.stub(have_anonymous_proposals: true)
+          OpenConferenceWare.stub(have_anonymous_proposals: true)
         end
 
         it "should create proposal for anonymous user" do
@@ -797,7 +797,7 @@ describe OpenConferenceWare::ProposalsController do
 
       describe "without anonymous proposals" do
         before(:each) do
-          SETTINGS.stub(have_anonymous_proposals: false)
+          OpenConferenceWare.stub(have_anonymous_proposals: false)
         end
 
         it "should not create proposal for anonymous user" do
@@ -904,7 +904,7 @@ describe OpenConferenceWare::ProposalsController do
 
     describe "with user_profiles?" do
       before(:each) do
-        SETTINGS.stub(have_user_profiles: true)
+        OpenConferenceWare.stub(have_user_profiles: true)
       end
 
       it "should specify update behavior"
@@ -912,7 +912,7 @@ describe OpenConferenceWare::ProposalsController do
 
     describe "without user_profiles?" do
       before(:each) do
-        SETTINGS.stub(have_user_profiles: false)
+        OpenConferenceWare.stub(have_user_profiles: false)
       end
 
       it "should display edit form if fields are invalid" do
@@ -1028,7 +1028,7 @@ describe OpenConferenceWare::ProposalsController do
 
   describe "manage speakers" do
     before(:each) do
-      SETTINGS.stub(have_user_profiles: true)
+      OpenConferenceWare.stub(have_user_profiles: true)
       @bubba = stub_model(User, fullname: "Bubba Smith")
       @billy = stub_model(User, fullname: "Billy Jack")
       @sue = stub_model(User, fullname: "Sue Smith")

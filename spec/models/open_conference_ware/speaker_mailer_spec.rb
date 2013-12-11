@@ -1,13 +1,10 @@
 require 'spec_helper'
 
 def stub_speaker_mailer_secrets
-  SECRETS.stub(email: {
+  OpenConferenceWare.stub(
     'default_from_address' => 'test@example.com',
-    'default_bcc_address' => 'me@example.com',
-    'action_mailer' => {
-      delivery_method: :test
-    }
-  })
+    'default_bcc_address' => 'me@example.com'
+  )
 end
 
 def deliver_email(proposal)

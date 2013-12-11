@@ -1,6 +1,6 @@
 cache @cache_key do
 atom_feed do |feed|
-  feed.title("#{SETTINGS.organization}: Presentation Proposals")
+  feed.title("#{OpenConferenceWare.organization}: Presentation Proposals")
   feed.updated((@proposals.blank? ? Time.at(0) : @proposals.first.submitted_at))
 
   @proposals.each_with_index do |proposal, i|

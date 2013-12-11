@@ -23,8 +23,8 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
       metadescription << " by #{@proposal.users.fullnames}" if multiple_presenters? && @proposal.users.size > 1
   %>
   <meta name="twitter:description" content="<%= h truncate("#{metadescription} &mdash; #{@proposal.excerpt}", :length => 200) %>">
-  <%- if SETTINGS.twitter -%>
-  <meta name="twitter:site" content="<%= SETTINGS.twitter %>">
+  <%- if OpenConferenceWare.twitter -%>
+  <meta name="twitter:site" content="<%= OpenConferenceWare.twitter %>">
   <%- end -%>
   <%- if user_profiles? -%>
   <%- if multiple_presenters? && first_user_with_twitter = @proposal.users.detect{|u| !u.twitter.blank?} -%>

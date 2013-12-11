@@ -33,8 +33,8 @@ module OpenConferenceWare
 
       mail(
         to: proposal.mailto_emails,
-        bcc: OpenConferenceWare.email['default_bcc_address'],
-        from: OpenConferenceWare.email['default_from_address'],
+        bcc: OpenConferenceWare.default_bcc_address,
+        from: OpenConferenceWare.default_from_address,
         subject: clean_snippet(subject_snippet),
         template_name: 'speaker_email'
       )

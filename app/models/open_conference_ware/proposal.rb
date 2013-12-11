@@ -165,7 +165,7 @@ module OpenConferenceWare
     validates_presence_of :audience_level,                  if: Proc.new { Proposal.audience_levels }
     validates_inclusion_of :audience_level,                 if: Proc.new { Proposal.audience_levels }, allow_blank: true,
                                                             in: OpenConferenceWare.proposal_audience_levels ?
-                                                                  OpenConferenceWare.proposal_audience_levels.flatten.map { |level| level['slug'] } :
+                                                                  OpenConferenceWare.proposal_audience_levels.flatten.map { |level| level.with_indifferent_access['slug'] } :
                                                                   []
     validate :validate_complete_user_profile,               if: :user_profiles?
     validate :url_validator
@@ -560,7 +560,7 @@ module OpenConferenceWare
     #     {"label"=>"Advanced", "slug"=>"c"}
     #   ]
     def self.audience_levels
-      OpenConferenceWare.proposal_audience_levels
+      OpenConferenceWare.proposal_audience_levels.map(&:with_indifferent_access)
     end
 
     # Return the text hint describing the audience level UI control.

@@ -209,19 +209,19 @@ describe OpenConferenceWare::Proposal do
     end
 
     it "should return false if multiple_presenters is enabled" do
-      SETTINGS.stub(:have_multiple_presenters).and_return(true)
+      OpenConferenceWare.stub(:have_multiple_presenters).and_return(true)
       @proposal.profile.should be_false
     end
 
     it "should return the user if user_profiles is enabled" do
-      SETTINGS.stub(:have_multiple_presenters).and_return(false)
-      SETTINGS.stub(:have_user_profiles).and_return(true)
+      OpenConferenceWare.stub(:have_multiple_presenters).and_return(false)
+      OpenConferenceWare.stub(:have_user_profiles).and_return(true)
       @proposal.profile.should == @proposal.user
     end
 
     it "should return itself if multiple_presenters and user_profiles are disabled" do
-      SETTINGS.stub(:have_multiple_presenters).and_return(false)
-      SETTINGS.stub(:have_user_profiles).and_return(false)
+      OpenConferenceWare.stub(:have_multiple_presenters).and_return(false)
+      OpenConferenceWare.stub(:have_user_profiles).and_return(false)
       @proposal.profile.should == @proposal
     end
   end
@@ -349,14 +349,14 @@ describe OpenConferenceWare::Proposal do
     end
 
     it "should be nil if no session_notes_wiki_url_format is defined" do
-      SETTINGS.stub(session_notes_wiki_url_format: nil)
+      OpenConferenceWare.stub(session_notes_wiki_url_format: nil)
 
       @proposal.session_notes_url.should be_nil
     end
 
     describe "with wiki" do
       before :each do
-        SETTINGS.stub(
+        OpenConferenceWare.stub(
           session_notes_wiki_url_format: '%1$s%2$s/wiki/',
           public_url: 'http://mysite.com/'
         )
@@ -441,7 +441,7 @@ describe OpenConferenceWare::Proposal do
     it "should return a slug composed of the organization and event slugs plus the proposal identifier" do
       proposal = proposals(:clio_chupacabras)
 
-      proposal.slug.should == "#{SETTINGS.organization_slug}#{proposal.event.slug}-%04d" % proposal.id
+      proposal.slug.should == "#{OpenConferenceWare.organization_slug}#{proposal.event.slug}-%04d" % proposal.id
     end
   end
 
