@@ -348,8 +348,8 @@ describe OpenConferenceWare::Proposal do
       @proposal = proposals(:clio_chupacabras)
     end
 
-    it "should be nil if no session_notes_wiki_url_format is defined" do
-      OpenConferenceWare.stub(session_notes_wiki_url_format: nil)
+    it "should be nil if no session_notes_url_format is defined" do
+      OpenConferenceWare.stub(session_notes_url_format: nil)
 
       @proposal.session_notes_url.should be_nil
     end
@@ -357,12 +357,12 @@ describe OpenConferenceWare::Proposal do
     describe "with wiki" do
       before :each do
         OpenConferenceWare.stub(
-          session_notes_wiki_url_format: '%1$s%2$s/wiki/',
+          session_notes_url_format: '%1$s%2$s/wiki/',
           public_url: 'http://mysite.com/'
         )
       end
 
-      it "should interpolate content if session_notes_wiki_url_format is defined" do
+      it "should interpolate content if session_notes_url_format is defined" do
         @proposal.session_notes_url.should == "http://mysite.com/closed/wiki/Chupacabras_and_you"
       end
 

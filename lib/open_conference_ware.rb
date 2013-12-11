@@ -55,7 +55,7 @@ module OpenConferenceWare
   #   * %2 => parent OR event slug
   #   * %3 => event slug
   # E.g., '%1$s%2$s/wiki/' may translate to 'http://my_site.com/my_parent_slug/wiki'
-  mattr_accessor :session_notes_wiki_url_format
+  mattr_accessor :session_notes_url_format
 
   # Organization running event:
   mattr_accessor :organization

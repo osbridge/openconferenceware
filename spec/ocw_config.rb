@@ -11,7 +11,7 @@ OpenConferenceWare.configure do |config|
   #   * %2 => parent OR event slug
   #   * %3 => event slug
   # E.g., '%1$s%2$s/wiki/' may translate to 'http://my_site.com/my_parent_slug/wiki'
-  config.session_notes_wiki_url_format = '%1$swiki/%2$s/'
+  config.session_notes_url_format = '%1$swiki/%2$s/'
 
   # Organization running event:
   config.organization = 'Open Source Bridge'

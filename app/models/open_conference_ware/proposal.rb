@@ -392,7 +392,7 @@ module OpenConferenceWare
 
     # Returns URL of session notes for this proposal, if available.
     #
-    # Reads optional OpenConferenceWare.session_notes_wiki_url_format. This 'printf' format
+    # Reads optional OpenConferenceWare.session_notes_url_format. This 'printf' format
     # contains positional variables that filled by Proposal#session_notes_url:
     #   * %1 => site's public URL
     #   * %2 => parent OR event slug
@@ -402,10 +402,10 @@ module OpenConferenceWare
     def session_notes_url
       escape = lambda{|string| self.class._session_notes_url_escape(string)}
 
-      if OpenConferenceWare.public_url && OpenConferenceWare.session_notes_wiki_url_format && ! self.title.blank?
+      if OpenConferenceWare.public_url && OpenConferenceWare.session_notes_url_format && ! self.title.blank?
         return (
           sprintf(
-            OpenConferenceWare.session_notes_wiki_url_format,
+            OpenConferenceWare.session_notes_url_format,
             OpenConferenceWare.public_url,
             escape[self.event.parent_or_self.slug],
             escape[self.event.slug]
