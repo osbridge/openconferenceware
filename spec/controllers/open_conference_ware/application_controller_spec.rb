@@ -157,7 +157,7 @@ describe OpenConferenceWare::ApplicationController do
     describe "with HTML" do
       it "should not redirect canonical requests" do
         @controller.should_receive(:request).at_least(:once).and_return(double(OpenStruct,
-          path: '/events/123/proposals',
+          path: OpenConferenceWare.mounted_path('/events/123/proposals'),
           format: 'html'))
         @controller.send(:normalize_event_path_or_redirect).should be_false
       end
@@ -174,7 +174,7 @@ describe OpenConferenceWare::ApplicationController do
         ))
 
         @controller.instance_variable_set(:@event, event)
-        @controller.should_receive(:redirect_to).with("/events/#{event.to_param}/application/")
+        @controller.should_receive(:redirect_to).with(OpenConferenceWare.mounted_path("/events/#{event.to_param}/application/"))
         @flash.should_receive(:keep)
 
         @controller.send(:normalize_event_path_or_redirect)

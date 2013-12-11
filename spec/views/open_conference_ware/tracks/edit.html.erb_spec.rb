@@ -15,7 +15,7 @@ describe "open_conference_ware/tracks/edit.html.erb" do
   it "should render edit form" do
     render
 
-    rendered.should have_selector("form[action='#{track_path(@track)}'][method='post']") do |node|
+    rendered.should have_selector("form[action='#{OpenConferenceWare.mounted_path(event_track_path(@event, @track))}'][method='post']") do |node|
       node.should have_selector("input#track_title[name='track[title]']")
       node.should have_selector("textarea#track_description[name='track[description]']")
     end

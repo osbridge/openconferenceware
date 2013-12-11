@@ -8,7 +8,7 @@
 
 <% focus :track_title %>
 
-<%= form_for(@track) do |f| %>
+<%= form_for([@event, @track]) do |f| %>
   <%= f.error_messages %>
 
   <p>

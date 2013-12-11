@@ -14,7 +14,7 @@ describe "open_conference_ware/session_types/edit.html.erb" do
   it "should render edit form" do
     render
 
-    rendered.should have_selector("form[action='#{session_type_path(@session_type)}'][method='post']") do |node|
+    rendered.should have_selector("form[action='#{OpenConferenceWare.mounted_path(event_session_type_path(@event, @session_type))}'][method='post']") do |node|
       node.should have_selector("input#session_type_title[name='session_type[title]']")
       node.should have_selector("textarea#session_type_description[name='session_type[description]']")
       node.should have_selector("input#session_type_duration[name='session_type[duration]']")
