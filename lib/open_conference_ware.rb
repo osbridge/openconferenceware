@@ -1,3 +1,4 @@
+require 'open_conference_ware/dependencies'
 require "open_conference_ware/engine"
 
 module OpenConferenceWare
