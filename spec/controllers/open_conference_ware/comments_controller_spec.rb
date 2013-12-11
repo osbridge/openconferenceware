@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CommentsController do
+describe OpenConferenceWare::CommentsController do
   render_views
   fixtures :all
 
@@ -39,7 +39,7 @@ describe CommentsController do
         end
 
         it "should get data if key is right" do
-          get :index, format: "atom", secret: CommentsController::SECRET
+          get :index, format: "atom", secret: OpenConferenceWare::CommentsController::SECRET
 
           response.should be_success
           comments = assigns(:comments)

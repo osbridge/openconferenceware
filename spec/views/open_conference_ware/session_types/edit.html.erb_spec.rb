@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "session_types/edit.html.erb" do
-  include SessionTypesHelper
+describe "open_conference_ware/session_types/edit.html.erb" do
+  include OpenConferenceWare::SessionTypesHelper
 
   before(:each) do
     @event = stub_current_event!

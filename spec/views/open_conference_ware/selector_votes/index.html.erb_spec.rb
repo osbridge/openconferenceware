@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "selector_votes/index.html.erb" do
+describe "open_conference_ware/selector_votes/index.html.erb" do
   before(:each) do
     @user1 = build :selector
     @user2 = build :selector

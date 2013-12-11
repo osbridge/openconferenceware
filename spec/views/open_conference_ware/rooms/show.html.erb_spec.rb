@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "rooms/show.html.erb" do
-  include RoomsHelper
+describe "open_conference_ware/rooms/show.html.erb" do
+  include OpenConferenceWare::RoomsHelper
   before(:each) do
     assign(:room, stub_model(Room))
     @event = stub_current_event!

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Snippet do
+describe OpenConferenceWare::Snippet do
 
   it "should find the content for the slug" do
     snippet = create(:snippet,  slug: 'fireplace',

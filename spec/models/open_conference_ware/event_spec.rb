@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Event do
+describe OpenConferenceWare::Event do
   describe "when accepting proposals" do
     fixtures :all
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationController do
+describe OpenConferenceWare::ApplicationController do
   fixtures :all
 
   def can_edit?(*args)

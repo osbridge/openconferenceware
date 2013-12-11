@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AuthenticationsController do
+describe OpenConferenceWare::AuthenticationsController do
   describe "GET sign_in" do
     before { get :sign_in }
 

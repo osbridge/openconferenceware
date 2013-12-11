@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SelectorVotesController do
+describe OpenConferenceWare::SelectorVotesController do
 
   def mock_selector_vote(stubs={})
     @mock_selector_vote ||= mock_model(SelectorVote, stubs)

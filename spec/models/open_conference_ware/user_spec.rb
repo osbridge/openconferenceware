@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe User do
+describe OpenConferenceWare::User do
   describe "get" do
     before(:each) do
       @user = stub_model(User)

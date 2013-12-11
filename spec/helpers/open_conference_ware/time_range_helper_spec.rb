@@ -1,5 +1,5 @@
 require 'spec_helper'
-include TimeRangeHelper
+include OpenConferenceWare::TimeRangeHelper
 
 describe "Time formatting" do
   before(:each) do
@@ -33,7 +33,7 @@ describe "Time formatting" do
           expected = expected.gsub(%r|\<[^\>]*\>|,'') if format != :hcal
           expected = expected.gsub('&ndash;', '-') if format == :text
           it "should format #{label} in #{format} format as '#{expected}'" do
-            TimeRange.new(@start_time, end_time, format: format,
+            OpenConferenceWare::TimeRange.new(@start_time, end_time, format: format,
               context: context_date).to_s.should == expected
           end
         end
@@ -44,13 +44,13 @@ describe "Time formatting" do
   describe "with objects" do
     it "should format from objects that respond to just start_time" do
       event = build(:proposal,start_time: Time.parse('2008-04-01 13:30 UTC'))
-      TimeRange.new(event, format: :text).to_s.should == "Tuesday, April 1, 2008 at 1:30pm"
+      OpenConferenceWare::TimeRange.new(event, format: :text).to_s.should == "Tuesday, April 1, 2008 at 1:30pm"
     end
 
     it "should format from objects that respond to both start_time and end_time" do
       event = build(:proposal, start_time: Time.parse('2008-04-01 13:30 UTC'),
                         session_type: stub_model(SessionType,duration: 45))
-      TimeRange.new(event, format: :text).to_s.should == "Tuesday, April 1, 2008 from 1:30 - 2:15pm"
+      OpenConferenceWare::TimeRange.new(event, format: :text).to_s.should == "Tuesday, April 1, 2008 from 1:30 - 2:15pm"
     end
   end
 end

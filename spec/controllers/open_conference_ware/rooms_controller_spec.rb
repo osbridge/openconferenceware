@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe RoomsController do
-  include RoomsHelper
+describe OpenConferenceWare::RoomsController do
+  include OpenConferenceWare::RoomsHelper
   fixtures :all
 
   before do

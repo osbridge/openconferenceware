@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController do
+describe OpenConferenceWare::UsersController do
   render_views
   fixtures :all
 

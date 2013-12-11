@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProposalsHelper do
+describe OpenConferenceWare::ProposalsHelper do
   describe "traversal" do
     before do
       @event = create :populated_event

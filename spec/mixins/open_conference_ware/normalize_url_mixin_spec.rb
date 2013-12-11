@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe NormalizeUrlMixin do
+describe OpenConferenceWare::NormalizeUrlMixin do
+  NormalizeUrlMixin = OpenConferenceWare::NormalizeUrlMixin
+
   describe "normalize_url!" do
     it "should preserve valid URLs as-is" do
       NormalizeUrlMixin.normalize_url!('http://foo.bar/').should == 'http://foo.bar/'

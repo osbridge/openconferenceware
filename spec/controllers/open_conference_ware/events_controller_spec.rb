@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EventsController, "when displaying events" do
+describe OpenConferenceWare::EventsController, "when displaying events" do
   render_views
   fixtures :all
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CacheLookupsMixin do
+describe OpenConferenceWare::CacheLookupsMixin do
   before :each do
     Event.destroy_all if Event.count > 0
     User.destroy_all  if User.count  > 0
@@ -48,7 +48,7 @@ describe CacheLookupsMixin do
   describe 'queries' do
     before :each do
       Event.stub(:cache_lookups? => true)
-      CacheWatcher.expire
+      OpenConferenceWare::CacheWatcher.expire
 
       @event1 = create :event
       @event2 = create :event
@@ -56,7 +56,7 @@ describe CacheLookupsMixin do
       @events = [@event1, @event2]
       @event  = @event1
 
-      CacheWatcher.expire
+      OpenConferenceWare::CacheWatcher.expire
     end
 
     describe 'for single records' do
@@ -116,7 +116,7 @@ describe CacheLookupsMixin do
 
   describe 'silo name' do
     it 'should be derived from class name' do
-      Event.lookup_silo_name.should == 'Event_dict'
+      Event.lookup_silo_name.should == 'OpenConferenceWare__Event_dict'
     end
   end
 end

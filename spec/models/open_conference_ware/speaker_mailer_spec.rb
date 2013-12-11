@@ -11,7 +11,7 @@ def stub_speaker_mailer_secrets
 end
 
 def deliver_email(proposal)
-  SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', proposal).deliver
+  OpenConferenceWare::SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'proposals_acceptance_email_text', proposal).deliver
 end
 
 describe SpeakerMailer do
@@ -25,7 +25,7 @@ describe SpeakerMailer do
 
   describe "when sending email" do
     it "should raise error if speaker_mailer is not configured" do
-      SpeakerMailer.stub(:configured?).and_return(false)
+      OpenConferenceWare::SpeakerMailer.stub(:configured?).and_return(false)
       lambda { deliver_email(@proposal) }.should raise_error(ArgumentError)
     end
 
@@ -78,11 +78,11 @@ describe SpeakerMailer do
     end
 
     it "should raise error if email template not found" do
-      lambda { SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'error_email', @proposal).deliver }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_email/)
+      lambda { OpenConferenceWare::SpeakerMailer.speaker_email('proposals_acceptance_email_subject', 'error_email', @proposal).deliver }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_email/)
     end
 
     it "should raise error if subject template not found" do
-      lambda { SpeakerMailer.speaker_email('error_subject', 'proposals_acceptance_email_text', @proposal).deliver }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_subject/)
+      lambda { OpenConferenceWare::SpeakerMailer.speaker_email('error_subject', 'proposals_acceptance_email_text', @proposal).deliver }.should raise_error(ActiveRecord::RecordNotFound, /Can't find snippet: error_subject/)
     end
   end
 

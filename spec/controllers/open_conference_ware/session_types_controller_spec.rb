@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe SessionTypesController do
-  include SessionTypesHelper
+describe OpenConferenceWare::SessionTypesController do
+  include OpenConferenceWare::SessionTypesHelper
   fixtures :all
 
   before do

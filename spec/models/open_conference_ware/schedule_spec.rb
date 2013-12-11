@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Schedule do
+describe OpenConferenceWare::Schedule do
   fixtures :all
 
   before(:each) do
@@ -34,11 +34,11 @@ describe Schedule do
     # Composites
     @entries = (@sessions + @schedule_items).sort { rand }
     @scheduleable_entries = @entries - [@unscheduled_item]
-    @schedule = Schedule.new(@entries)
+    @schedule = OpenConferenceWare::Schedule.new(@entries)
   end
 
   it "should not initialize from unknown types" do
-    lambda { Schedule.new(:omg) }.should raise_error(TypeError)
+    lambda { OpenConferenceWare::Schedule.new(:omg) }.should raise_error(TypeError)
   end
 
   it "should initialize from an Event" do
@@ -64,7 +64,7 @@ describe Schedule do
 
     it "thus, should have days" do
       @days.should_not be_blank
-      @days.first.should be_a_kind_of(ScheduleDay)
+      @days.first.should be_a_kind_of(OpenConferenceWare::ScheduleDay)
     end
 
     describe "days are containers for sections and" do
@@ -74,7 +74,7 @@ describe Schedule do
 
       it "thus, they should have sections" do
         @sections.should_not be_blank
-        @sections.first.should be_a_kind_of(ScheduleSection)
+        @sections.first.should be_a_kind_of(OpenConferenceWare::ScheduleSection)
       end
 
       describe "sections are containers for slices and" do
@@ -84,7 +84,7 @@ describe Schedule do
 
         it "thus, they should have slices" do
           @slices.should_not be_blank
-          @slices.first.should be_a_kind_of(ScheduleSlice)
+          @slices.first.should be_a_kind_of(OpenConferenceWare::ScheduleSlice)
         end
 
         describe "blocks are containers for blocks and" do
@@ -94,7 +94,7 @@ describe Schedule do
 
           it "thus, they should have blocks" do
             @blocks.should_not be_blank
-            @blocks.first.should be_a_kind_of(ScheduleBlock)
+            @blocks.first.should be_a_kind_of(OpenConferenceWare::ScheduleBlock)
           end
 
           describe "blocks are containers for items and" do
@@ -111,11 +111,11 @@ describe Schedule do
       end
 
       it "thus, they should have access to their children's slices" do
-        @days.first.slices.first.should be_a_kind_of(ScheduleSlice)
+        @days.first.slices.first.should be_a_kind_of(OpenConferenceWare::ScheduleSlice)
       end
 
       it "thus, they should have access to their children's blocks" do
-        @days.first.blocks.first.should be_a_kind_of(ScheduleBlock)
+        @days.first.blocks.first.should be_a_kind_of(OpenConferenceWare::ScheduleBlock)
       end
     end
   end
@@ -249,14 +249,14 @@ describe Schedule do
     describe "for users" do
       it "should identify conflicting items" do
         items = [@item5, @item6]
-        schedule = Schedule.new(items)
+        schedule = OpenConferenceWare::Schedule.new(items)
         conflicts = schedule.user_conflicts
         conflicts.size.should == 1
       end
 
       it "should not misidentify nonconflicting items" do
         items = [@item5, @item7]
-        schedule = Schedule.new(items)
+        schedule = OpenConferenceWare::Schedule.new(items)
         conflicts = schedule.user_conflicts
         conflicts.size.should == 0
       end
@@ -264,7 +264,7 @@ describe Schedule do
 
     describe "for rooms" do
       it "should identify items happening at same time and room" do
-        schedule = Schedule.new([@item1, @item2])
+        schedule = OpenConferenceWare::Schedule.new([@item1, @item2])
         conflicts = schedule.room_conflicts
         conflicts.size.should == 1
         [
@@ -274,13 +274,13 @@ describe Schedule do
       end
 
       it "should not identify items happening at same time in separate rooms" do
-        schedule = Schedule.new([@item1, @item3])
+        schedule = OpenConferenceWare::Schedule.new([@item1, @item3])
         conflicts = schedule.room_conflicts
         conflicts.size.should == 0
       end
 
       it "should not identify items happening at different times in same room" do
-        schedule = Schedule.new([@item1, @item4])
+        schedule = OpenConferenceWare::Schedule.new([@item1, @item4])
         conflicts = schedule.room_conflicts
         conflicts.size.should == 0
       end
@@ -289,7 +289,7 @@ describe Schedule do
 end
 
 class SchedulableThingy
-  include Schedulable
+  include OpenConferenceWare::Schedulable
 end
 
 describe SchedulableThingy do
@@ -339,19 +339,19 @@ describe SchedulableThingy do
   end
 end
 
-describe ScheduleDay do
+describe OpenConferenceWare::ScheduleDay do
   it "should compute lowest-common multiplier for day's section slices" do
     values = [5, 6, 15]
-    day = ScheduleDay.new([])
+    day = OpenConferenceWare::ScheduleDay.new([])
     day.stub(:sections).and_return(double(Array, map: values))
     day.lcm_colspan.should == 30
   end
 end
 
-describe ScheduleSection do
+describe OpenConferenceWare::ScheduleSection do
   it "should compute least-common multiplier for section's slice blocks" do
     values = [3, 4, 6]
-    section = ScheduleSection.new([])
+    section = OpenConferenceWare::ScheduleSection.new([])
     section.stub(:slices).and_return(double(Array, map: values))
     section.lcm_rowspan.should == 12
   end

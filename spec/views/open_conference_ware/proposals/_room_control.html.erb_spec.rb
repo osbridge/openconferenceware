@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "proposals/_room_control.html.erb" do
+describe "open_conference_ware/proposals/_room_control.html.erb" do
   it "should render a selector for choosing a room" do
     rooms = [
       stub_model(Room, id: 1, name: "First Room"),

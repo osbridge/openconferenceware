@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "session_types/new.html.erb" do
-  include SessionTypesHelper
+describe "open_conference_ware/session_types/new.html.erb" do
+  include OpenConferenceWare::SessionTypesHelper
 
   before(:each) do
     @session_type = stub_model(SessionType).as_new_record

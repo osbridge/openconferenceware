@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Room do
+describe OpenConferenceWare::Room do
   before(:each) do
     @valid_attributes = {
       name: "The Living Room",

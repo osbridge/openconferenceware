@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Authentication do
+describe OpenConferenceWare::Authentication do
   describe "finding or creating from an auth hash" do
     describe "when an an existing Authentication does not exist" do
       before do
@@ -13,7 +13,7 @@ describe Authentication do
           }
         )
 
-        @new_auth = Authentication.find_and_update_or_create_from_auth_hash(@auth_hash)
+        @new_auth = OpenConferenceWare::Authentication.find_and_update_or_create_from_auth_hash(@auth_hash)
       end
 
       it "should create new Authentications" do
@@ -46,7 +46,7 @@ describe Authentication do
             'email' => 'beth@example.com'
           }
         )
-        @found = Authentication.find_and_update_or_create_from_auth_hash(@auth_hash)
+        @found = OpenConferenceWare::Authentication.find_and_update_or_create_from_auth_hash(@auth_hash)
       end
 
       it "should find the existing record" do

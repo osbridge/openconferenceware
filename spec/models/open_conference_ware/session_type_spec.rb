@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionType do
+describe OpenConferenceWare::SessionType do
   fixtures :all
 
   it "should sort alphabetically by title" do

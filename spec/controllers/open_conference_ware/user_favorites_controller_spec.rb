@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UserFavoritesController do
+describe OpenConferenceWare::UserFavoritesController do
   fixtures :all
 
   def mock_user_favorite(stubs={})

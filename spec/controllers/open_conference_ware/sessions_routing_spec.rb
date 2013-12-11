@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProposalsController do
+describe OpenConferenceWare::ProposalsController do
   describe "route recognition" do
 
     it "should generate params { controller: 'proposals', action => 'sessions_index' } from GET /sessions" do

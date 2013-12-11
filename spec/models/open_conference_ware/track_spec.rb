@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Track do
+describe OpenConferenceWare::Track do
   fixtures :all
 
   before(:each) do

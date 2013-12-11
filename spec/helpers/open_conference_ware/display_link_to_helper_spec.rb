@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'nokogiri'
 
-describe DisplayLinkToHelper do
+describe OpenConferenceWare::DisplayLinkToHelper do
   def elem_for(*args)
     return Nokogiri::HTML::DocumentFragment.parse(helper.display_link_to(*args)).children.first
   end

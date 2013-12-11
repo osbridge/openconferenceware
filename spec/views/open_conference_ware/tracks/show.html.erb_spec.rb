@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "tracks/show.html.erb" do
-  include TracksHelper
+describe "open_conference_ware/tracks/show.html.erb" do
+  include OpenConferenceWare::TracksHelper
   before(:each) do
     @event = stub_current_event!(controller: view)
     @track = stub_model(Track,

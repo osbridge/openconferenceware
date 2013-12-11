@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationHelper do
+describe OpenConferenceWare::ApplicationHelper do
   describe "when using assigned events" do
     def assign_events(events)
       helper.instance_variable_set(:@events, events)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe TracksController do
-  include TracksHelper
+describe OpenConferenceWare::TracksController do
+  include OpenConferenceWare::TracksHelper
   fixtures :all
 
   before do

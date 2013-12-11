@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "user_favorites/index.html.erb" do
-  include UserFavoritesHelper
+describe "open_conference_ware/user_favorites/index.html.erb" do
+  include OpenConferenceWare::UserFavoritesHelper
   fixtures :all
 
   before(:each) do

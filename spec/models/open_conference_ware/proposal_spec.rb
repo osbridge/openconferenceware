@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Proposal do
+describe OpenConferenceWare::Proposal do
   fixtures :all
 
   describe "when checking authorization for altering" do

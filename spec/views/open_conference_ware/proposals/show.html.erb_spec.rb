@@ -1,11 +1,9 @@
 require 'spec_helper'
 
-describe "proposals/show.html.erb" do
-  before do
-    stub_settings_accessors_on(view)
-  end
-
+describe "open_conference_ware/proposals/show.html.erb" do
   before :each do
+    stub_settings_accessors_on(view)
+
     @user = build :user
     @event = create :populated_event, proposal_status_published: false
     @proposal = proposal_for_event(@event, users: [@user])

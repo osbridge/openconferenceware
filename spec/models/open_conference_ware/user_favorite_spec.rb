@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UserFavorite do
+describe OpenConferenceWare::UserFavorite do
   fixtures :all
 
   before(:each) do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProposalsController do
+describe OpenConferenceWare::ProposalsController do
   render_views
   fixtures :all
 

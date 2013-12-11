@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ScheduleItem do
+describe OpenConferenceWare::ScheduleItem do
   before(:each) do
     @valid_attributes = {
     }
