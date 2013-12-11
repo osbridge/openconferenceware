@@ -2,6 +2,24 @@
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+### v0.20131209
+- **[!] This is the final release that will be distributed as a Rails application, future releases will be packaged as a gem, providing a Rails engine**
+- Upgraded to Rails 4.0.2
+- Enabled the Rails asset pipeline
+- Dropped support for Ruby 1.8.7
+
+### v0.20131201
+- **[!] This is the final release to support Ruby 1.8.7**
+- Upgraded to Rails 3.2
+- Look and feel is now based on Bootstrap, not on the Open Source Bridge site
+- Replaced outdated authenticaiton system with OmniAuth
+- Improved database support
+
+### v0.20130830
+- Locked down a few dependencies for compatibility
+- Fixed timezone issues in test
+- Improved documentation
+
 ### v0.20130720
 
 - Added Twitter card metadata to proposal pages.
