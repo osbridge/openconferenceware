@@ -13,9 +13,12 @@ require 'factory_girl'
 require 'database_cleaner'
 require 'capybara/rspec'
 
+OpenConferenceWare::Engine.routes.default_url_options[:host] = 'test.host'
+
 # rspec
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include OpenConferenceWare::Engine.routes.url_helpers
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
@@ -25,6 +28,7 @@ RSpec.configure do |config|
       DatabaseCleaner.strategy = :transaction
     end
     DatabaseCleaner.clean_with(:truncation)
+
   end
 
   config.before(:each) do
