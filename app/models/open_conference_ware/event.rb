@@ -25,7 +25,7 @@ module OpenConferenceWare
   #  show_proposal_confirmation_controls     :boolean          default(FALSE)
   #
 
-  class Event < ActiveRecord::Base
+  class Event < OpenConferenceWare::Base
     # Mixins
     ### Provide cached Snippet.lookup(id) method.
     include CacheLookupsMixin

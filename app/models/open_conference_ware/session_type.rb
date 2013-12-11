@@ -13,7 +13,7 @@ module OpenConferenceWare
   #  updated_at  :datetime
   #
 
-  class SessionType < ActiveRecord::Base
+  class SessionType < OpenConferenceWare::Base
 
     # Associations
     belongs_to :event

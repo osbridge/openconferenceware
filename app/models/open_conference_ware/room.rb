@@ -19,7 +19,7 @@ module OpenConferenceWare
   #  image_updated_at      :datetime
   #
 
-  class Room < ActiveRecord::Base
+  class Room < OpenConferenceWare::Base
     # Associations
     belongs_to :event
     has_many :proposals, dependent: :nullify

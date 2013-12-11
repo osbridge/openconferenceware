@@ -31,7 +31,7 @@ module OpenConferenceWare
   #  notified_at         :datetime
   #
 
-  class Proposal < ActiveRecord::Base
+  class Proposal < OpenConferenceWare::Base
     # Provide ::validate_url_attribute
     include NormalizeUrlMixin
 

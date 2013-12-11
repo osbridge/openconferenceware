@@ -16,7 +16,7 @@ module OpenConferenceWare
   #  updated_at  :datetime
   #
 
-  class ScheduleItem < ActiveRecord::Base
+  class ScheduleItem < OpenConferenceWare::Base
 
     # Associations
     belongs_to :event

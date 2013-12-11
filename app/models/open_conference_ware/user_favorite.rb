@@ -11,7 +11,7 @@ module OpenConferenceWare
   #  updated_at  :datetime
   #
 
-  class UserFavorite < ActiveRecord::Base
+  class UserFavorite < OpenConferenceWare::Base
     # Associations
     belongs_to :user
     belongs_to :proposal

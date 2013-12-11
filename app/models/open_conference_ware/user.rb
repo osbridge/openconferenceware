@@ -26,7 +26,7 @@ module OpenConferenceWare
   #
 
   require 'digest/sha1'
-  class User < ActiveRecord::Base
+  class User < OpenConferenceWare::Base
     #---[ Mixins ]----------------------------------------------------------
 
     include NormalizeUrlMixin

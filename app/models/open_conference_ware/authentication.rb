@@ -15,7 +15,7 @@ module OpenConferenceWare
   #  updated_at :datetime         not null
   #
 
-  class Authentication < ActiveRecord::Base
+  class Authentication < OpenConferenceWare::Base
     belongs_to :user
     serialize :info, JSON
 

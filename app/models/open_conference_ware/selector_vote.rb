@@ -11,7 +11,7 @@ module OpenConferenceWare
   #  comment     :text
   #
 
-  class SelectorVote < ActiveRecord::Base
+  class SelectorVote < OpenConferenceWare::Base
     belongs_to :user
     belongs_to :proposal
 

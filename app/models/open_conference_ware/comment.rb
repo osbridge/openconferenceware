@@ -13,7 +13,7 @@ module OpenConferenceWare
   #  updated_at  :datetime
   #
 
-  class Comment < ActiveRecord::Base
+  class Comment < OpenConferenceWare::Base
     belongs_to :proposal
 
     validates_presence_of :email, :message, :proposal_id

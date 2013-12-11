@@ -14,7 +14,7 @@ module OpenConferenceWare
   #  updated_at  :datetime
   #
 
-  class Snippet < ActiveRecord::Base
+  class Snippet < OpenConferenceWare::Base
 
     # Provide cached Snippet.lookup(slug) method.
     include CacheLookupsMixin

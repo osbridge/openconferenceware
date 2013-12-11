@@ -14,7 +14,7 @@ module OpenConferenceWare
   #  excerpt     :text
   #
 
-  class Track < ActiveRecord::Base
+  class Track < OpenConferenceWare::Base
 
     # Associations
     belongs_to :event
