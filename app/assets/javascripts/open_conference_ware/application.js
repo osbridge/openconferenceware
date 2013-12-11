@@ -6,13 +6,13 @@
 //= require farbtastic
 //= require audiojs/audio.min
 //= require bootstrap
-//= require base
-//= require util
-//= require favorites
-//= require menu
-//= require persona
-//= require proposals
-//= require schedule
-//= require spinner
+//= require open_conference_ware/base
+//= require open_conference_ware/util
+//= require open_conference_ware/favorites
+//= require open_conference_ware/menu
+//= require open_conference_ware/persona
+//= require open_conference_ware/proposals
+//= require open_conference_ware/schedule
+//= require open_conference_ware/spinner
 
 /*===[ fin ]==========================================================*/

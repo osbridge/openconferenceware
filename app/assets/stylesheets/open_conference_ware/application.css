@@ -3,5 +3,6 @@
 *= require bootstrap-theme
 *= require persona-buttons
 *= require farbtastic
-*= require custom
+*= require open_conference_ware/custom
 */
+
