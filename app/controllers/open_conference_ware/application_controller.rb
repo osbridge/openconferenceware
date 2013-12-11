@@ -344,7 +344,7 @@ module OpenConferenceWare
     def normalize_event_path_or_redirect
       # When running under a prefix (e.g., "thin --prefix /omg start"), this value will be set to "/omg", else "".
       if request.format.to_sym == :html
-        if request.path.match(%r{^/events})
+        if request.path.match(%r{^#{OpenConferenceWare.mounted_path("/events")}})
           return false
         else
           if controller_name == "proposals" && action_name == "sessions_index"
@@ -352,7 +352,7 @@ module OpenConferenceWare
           elsif controller_name == "proposals" && action_name == "schedule"
             path = event_schedule_path(@event)
           else
-            path = "/events/#{@event.to_param}/#{controller_name}#{action_name == 'index' ? '' : "/#{action_name}" }"
+            path = OpenConferenceWare.mounted_path("/events/#{@event.to_param}/#{controller_name}#{action_name == 'index' ? '' : "/#{action_name}" }")
           end
           flash.keep
           return redirect_to(path)
