@@ -560,6 +560,7 @@ module OpenConferenceWare
     #     {"label"=>"Advanced", "slug"=>"c"}
     #   ]
     def self.audience_levels
+      OpenConferenceWare.proposal_audience_levels.present? &&
       OpenConferenceWare.proposal_audience_levels.map(&:with_indifferent_access)
     end
 
