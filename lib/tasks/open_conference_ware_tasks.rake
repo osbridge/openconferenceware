@@ -12,3 +12,4 @@ TO FINISH SETUP
   end
 end
 
+Rake::Task["open_conference_ware:install:migrations"].clear
