@@ -1,8 +1,8 @@
 <%
   text = @body_text
-  text = text.gsub(/%PROPOSAL_URL%/i, proposal_login_url(@proposal))
-  text = text.gsub(/%SPEAKER_CONFIRM_URL%/i, speaker_confirm_url(@proposal))
-  text = text.gsub(/%SPEAKER_DECLINE_URL%/i, speaker_decline_url(@proposal))
+  text = text.gsub(/%PROPOSAL_URL%/i, proposal_login_url(@proposal, host: OpenConferenceWare.mailer_host))
+  text = text.gsub(/%SPEAKER_CONFIRM_URL%/i, speaker_confirm_url(@proposal, host: OpenConferenceWare.mailer_host))
+  text = text.gsub(/%SPEAKER_DECLINE_URL%/i, speaker_decline_url(@proposal, host: OpenConferenceWare.mailer_host))
   text = text.gsub(/%SPEAKER_NAMES%/i, @proposal.user_titles.join(', '))
   text = text.gsub(/%PROPOSAL_TITLE%/i, @proposal.title)
   text = text.gsub(/%TRACK%/i, @proposal.track_title)
