@@ -158,7 +158,7 @@ describe OpenConferenceWare::ProposalsController do
 
         @proposals = assigns(:proposals)
         @struct = Hash.from_xml(response.body)
-        @records = @struct['proposals']
+        @records = @struct['open_conference_ware_proposals']
         @record = @records.first
       end
 
