@@ -23,12 +23,13 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "sqlite3"
-      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.strategy = :truncation, {except: ['open_conference_ware_snippets']}
     else
       DatabaseCleaner.strategy = :transaction
     end
     DatabaseCleaner.clean_with(:truncation)
 
+    OpenConferenceWare::Engine.load_seed
   end
 
   config.before(:each) do
