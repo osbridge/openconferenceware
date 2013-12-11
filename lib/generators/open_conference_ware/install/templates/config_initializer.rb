@@ -4,7 +4,7 @@ OpenConferenceWare.configure do |config|
   # The path where the OpenConferenceWare engine is mounted in your Rails app
   # This default should work in most situations, but may need to be overridden
   # in some cases with a string like "/open_conference_ware"
-  config.mount_point = '/'
+  config.mount_point = '<%= mount_point %>'
 
   # Event name, or organization running events:
   config.organization = 'Open Source Bridge'
