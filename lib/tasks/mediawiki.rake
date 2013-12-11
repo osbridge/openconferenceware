@@ -1,5 +1,5 @@
-namespace :bridgepdx do
-  namespace :wiki do
+namespace :open_conference_ware do
+  namespace :mediawiki do
     def get_wiki_credentials
       return @get_wiki_credentials ||= begin
         require 'ostruct'
@@ -19,7 +19,7 @@ MediaWiki credentials must include:
   * URL: The URL for the server's "api.php".
 
 For example:
-    rake --trace bridgepdx:wiki:populate USER=admin PASSWORD=secret URL=http://opensourcebridge.org/2011/w/api.php EVENT=2011
+    rake --trace open_conference_ware:mediawiki:populate USER=admin PASSWORD=secret URL=http://opensourcebridge.org/2011/w/api.php EVENT=2011
           HERE
 
           raise ArgumentError, "No #{missing} defined"
@@ -30,13 +30,13 @@ For example:
     end
 
     def sanitize_string(string)
-      return CGI.unescape(Proposal._session_notes_url_escape(string))
+      return CGI.unescape(OpenConferenceWare::Proposal._session_notes_url_escape(string))
     end
 
     def event_wiki_title(event)
       return "Category:#{sanitize_string(event.title)}"
     end
-    
+
     def tracks_wiki_title(event)
       return "Category:#{sanitize_string(event.title)} tracks"
     end
@@ -57,16 +57,16 @@ For example:
 
       credentials = get_wiki_credentials
       wiki = RWikiBot::Bot.new(credentials.user, credentials.password, credentials.url, '', true)
-      event = ENV['EVENT'] ? Event.find_by_slug(ENV['EVENT']) : Event.current
+      event = ENV['EVENT'] ? OpenConferenceWare::Event.find_by_slug(ENV['EVENT']) : OpenConferenceWare::Event.current
 
       # Event page
       drone = RwikibotPageDrone.new(wiki, event_wiki_title(event))
-      drone.replace_span "description", "For details, see [#{SETTINGS.public_url} #{SETTINGS.organization}]."
+      drone.replace_span "description", "For details, see [#{OpenConferenceWare.public_url} #{OpenConferenceWare.organization}]."
       drone.save(true)
 
       # Tracks page
       drone = RwikibotPageDrone.new(wiki, tracks_wiki_title(event))
-      drone.replace_span "description", "Tracks for [#{SETTINGS.public_url} #{SETTINGS.organization}]."
+      drone.replace_span "description", "Tracks for [#{OpenConferenceWare.public_url} #{OpenConferenceWare.organization}]."
       drone.save(true)
 
       # Tracks
@@ -77,14 +77,14 @@ For example:
         drone.replace_span "description", "#{textilize track.description}"
         drone.save(true)
       end
-      
+
       # Sessions
       event.proposals.confirmed.includes(:event, :track, :session_type).each do |proposal|
         drone = RwikibotPageDrone.new(wiki, session_wiki_title(proposal))
         content = "[[#{event_wiki_title(proposal.event)} notes]] [[#{track_wiki_title(proposal.track)} notes]]"
         content << "#{textilize proposal.excerpt} " unless proposal.excerpt.blank?
-        content << "<p>Speaker#{proposal.users.size > 1 ? 's' : ''}: #{proposal.users.map{|user| sprintf('[%susers/%s %s]', SETTINGS.app_root_url, user.id, user.fullname)}.join(', ')}</p>"
-        content << "<p>Return to [#{sprintf '%ssessions/%s', SETTINGS.app_root_url, proposal.id} this session's details]</p>"
+        content << "<p>Speaker#{proposal.users.size > 1 ? 's' : ''}: #{proposal.users.map{|user| sprintf('[%susers/%s %s]', OpenConferenceWare.app_root_url, user.id, user.fullname)}.join(', ')}</p>"
+        content << "<p>Return to [#{sprintf '%ssessions/%s', OpenConferenceWare.app_root_url, proposal.id} this session's details]</p>"
         content << "\n= Contributed notes =\n"
         drone.replace_span("generated", content)
         drone.append "<!-- DO NOT CHANGE ANYTHING ABOVE THIS LINE -->"
