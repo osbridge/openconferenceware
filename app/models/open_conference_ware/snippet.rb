@@ -24,7 +24,7 @@ module OpenConferenceWare
     # load them into the current database, overwriting any existing records.
     def self.reload_from_fixtures!
       [].tap do |records|
-        data = YAML::load(ERB.new(File.read(Rails.root.join("spec", "fixtures", "snippets.yml"))).result(binding))
+        data = YAML::load(ERB.new(File.read(OpenConferenceWare::Engine.root.join("spec", "fixtures", "open_conference_ware_snippets.yml"))).result(binding))
         for attributes in data.values
           record = self.find_by_slug(attributes["slug"].to_s)
           if record
