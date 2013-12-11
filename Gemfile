@@ -56,11 +56,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'capistrano',     '~> 2.15.0', :require => false
-  gem 'capistrano-ext', :require => false
-
   gem 'debugger'
-
   gem 'pry'
 end
 
