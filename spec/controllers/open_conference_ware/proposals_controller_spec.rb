@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::ProposalsController do
   render_views
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   # Return an array of Proposal objects extracted from the response body.
   def extract_proposals

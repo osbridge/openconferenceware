@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::UsersController do
   render_views
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   describe "index" do
     it "should list users" do

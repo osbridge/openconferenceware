@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::CommentsController do
   render_views
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   before do
     @event = events(:open)

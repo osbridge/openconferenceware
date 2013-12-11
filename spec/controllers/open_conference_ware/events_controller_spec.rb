@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::EventsController, "when displaying events" do
   render_views
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   describe "index" do
     it "should display error if there's no current event" do

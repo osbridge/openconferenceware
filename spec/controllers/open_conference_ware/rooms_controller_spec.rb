@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::RoomsController do
   include OpenConferenceWare::RoomsHelper
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   before do
     @event = stub_current_event!(event: events(:open))

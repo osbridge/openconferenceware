@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe OpenConferenceWare::AuthenticationsController do
+  routes { OpenConferenceWare::Engine.routes }
+
   describe "GET sign_in" do
     before { get :sign_in }
 

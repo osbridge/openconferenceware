@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe OpenConferenceWare::SelectorVotesController do
+  routes { OpenConferenceWare::Engine.routes }
 
   def mock_selector_vote(stubs={})
     @mock_selector_vote ||= mock_model(SelectorVote, stubs)

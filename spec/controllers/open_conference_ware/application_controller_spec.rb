@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe OpenConferenceWare::ApplicationController do
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   def can_edit?(*args)
     return @controller.send(:can_edit?, *args)

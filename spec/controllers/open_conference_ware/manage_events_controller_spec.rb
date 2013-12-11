@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::Manage::EventsController do
   render_views
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   before(:each) do
     @event = events(:open)

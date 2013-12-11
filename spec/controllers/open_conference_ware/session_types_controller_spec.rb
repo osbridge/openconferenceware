@@ -3,6 +3,7 @@ require 'spec_helper'
 describe OpenConferenceWare::SessionTypesController do
   include OpenConferenceWare::SessionTypesHelper
   fixtures :all
+  routes { OpenConferenceWare::Engine.routes }
 
   before do
     @event = stub_current_event!(event: events(:open))
