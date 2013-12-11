@@ -20,21 +20,25 @@ module OpenConferenceWare
     include CacheLookupsMixin
     cache_lookups_for :slug, order: :slug
 
-    # Load the Snippets as defined in the "text/fixtures/snippets.yml" file and
+    # Load the Snippets as defined in the "spec/fixtures/snippets.yml" file and
     # load them into the current database, overwriting any existing records.
-    def self.reload_from_fixtures!
+    def self.load_from_fixtures(overwrite = false)
       [].tap do |records|
         data = YAML::load(ERB.new(File.read(OpenConferenceWare::Engine.root.join("spec", "fixtures", "open_conference_ware_snippets.yml"))).result(binding))
         for attributes in data.values
           record = self.find_by_slug(attributes["slug"].to_s)
           if record
-            record.update_attributes(attributes)
+            record.update_attributes(attributes) if overwrite
           else
             record = self.create!(attributes)
           end
           records << record
         end
       end
+    end
+
+    def self.reload_from_fixtures!
+      load_from_fixtures(true)
     end
 
     # Returns the content for a Snippet match +slug+, else raise an ActiveRecord::RecordNotFound.
