@@ -11,7 +11,10 @@ env:
   - DB=postgresql
   - DB=sqlite
 before_script:
+  - sqlite3 --version
+  - mysql --version
   - mysql -e 'create database ocw_test;'
+  - psql --version
   - psql -c 'create database ocw_test;' -U postgres
   - ruby ci/copy_database_config.rb
   - bundle exec rake db:migrate
