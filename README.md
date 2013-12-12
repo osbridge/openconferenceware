@@ -81,7 +81,19 @@ Many features of OCW can be enabled or disabled to meet your event's needs. Thes
 
 ### Views and Styles
 
-You can override any view in OpenConferenceWare by creating a view with the same name in your host application. For example, replace the view showing a single room, you would create `app/views/open_conference_ware/rooms/show.html.erb` within your host application.
+Since OpenConferenceWare is an engine, all of its views are packaged inside the gem. To customize things, you can easily override any view by creating one with the same name in your application.
+
+To simplify this process, we've included a generator that will copy views out of the gem for you. Invoking the following command will copy all of OpenConferenceWare's views:
+
+    $ bin/rails generate open_conference_ware:views
+
+If you only need to override a particular set of views, you can pass arguments to the generator to narrow things down. This will copy only the layout file and view related to rooms:
+
+    $ bin/rails generate open_conference_ware:views layouts rooms
+
+You can see a full list of available arguments by running:
+
+    $ bin/rails generate open_conference_ware:views --help
 
 Releases
 --------
