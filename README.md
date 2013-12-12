@@ -26,15 +26,15 @@ OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0
 
 1. Install the latest version of Rails:
 
-       $ gem install rails -v 4.0.2
+        $ gem install rails -v 4.0.2
 
 2. Create a new application to host OpenConferenceWare for your event:
 
-       $ rails new sloth_party --skip-bundle
+        $ rails new sloth_party --skip-bundle
 
 3. Add 'open_conference_ware' to the newly-created app's Gemfile
 
-       gem "open_conference_ware"
+        gem "open_conference_ware"
 
 4. Run `bundle install`
 
@@ -42,17 +42,17 @@ OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0
 
 6. Install OpenConferenceWare's configuration files and seed data:
 
-       $ bin/rails generate open_conference_ware:install
+        $ bin/rails generate open_conference_ware:install
 
    If you want OCW to be mounted somewhere other than the root of the application, you can pass a mount point to the generator, like so:
 
-       $ bin/rails generate open_conference_ware:install /ocw
+        $ bin/rails generate open_conference_ware:install /ocw
 
 7. Edit `config/initializers/01_open_conference_ware.rb` to configure OCW's settings. You'll find comments there explaining the available options.
 
 8. At this point, you should be able to fire up a server and see OpenConferenceWare at [http://localhost:3000](http://localhost:3000)
 
-       $ bin/rails server
+        $ bin/rails server
 
 ### Authentication
 
