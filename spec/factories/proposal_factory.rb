@@ -30,7 +30,7 @@ end
 # if false, the proposal has many users that each have their own profile as
 # part of their user record.
 FactoryGirl.define do
-  factory :proposal do
+  factory :proposal, class: OpenConferenceWare::Proposal do
     user_id nil
     presenter "Presenter name"
     affiliation "My affiliation"

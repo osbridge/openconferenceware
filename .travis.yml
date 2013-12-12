@@ -1,7 +1,8 @@
 language: ruby
-before_install: cp Gemfile.lock ci/Gemfile.ci.lock
-gemfile: ci/Gemfile.ci
-bundler_args: --without development
+before_install:
+  - cp ci/Gemfile.ci Gemfile.ci
+  - export BUNDLE_GEMFILE=$PWD/Gemfile.ci
+bundler_args: --without debug
 rvm:
   - 1.9.3
   - 2.0.0

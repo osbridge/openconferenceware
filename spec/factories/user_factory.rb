@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :user do
+  factory :user, class: OpenConferenceWare::User do
     sequence(:first_name) {|n| "user_first_name-#{n}" }
     sequence(:last_name)  {|n| "user_last_name-#{n}" }
     affiliation "My affiliation"

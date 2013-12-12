@@ -1,0 +1,27 @@
+<% page_title "#{@room.name}" %>
+
+<% cache "room_#{@room.id},admin_#{admin?}" do %>
+  <%= image_tag( @room.image.url(:large), :class => 'room-image' )  if @room.image.file? %>
+  <div id="room-show">
+    <% if @room.capacity %>
+      <div><strong>Capacity:</strong> <%= @room.capacity %></div>
+    <% end %>
+
+    <% unless @room.size.blank? %>
+      <div><strong>Size:</strong> <%= @room.size %></div>
+    <% end %>
+
+    <% unless @room.seating_configuration.blank? %>
+      <div><strong>Seating Configuration:</strong> <%= @room.seating_configuration %></div>
+    <% end %>
+
+    <div class="description"><%= display_textile_for @room.description %></div>
+
+    <div class='record-controls'>
+      <%= link_to 'Edit', edit_room_path(@room), :class => "editable" if admin? %>
+      <%= link_to 'Rooms for this event', rooms_path, :class => "cancelable" %>
+    </div>
+
+    <%= render :partial => "open_conference_ware/proposals/sub_list", :locals => {:container => @room} %>
+  </div>
+<% end %>

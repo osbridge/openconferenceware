@@ -14,7 +14,7 @@ module OmniAuthSpecHelper
   def mock_sign_in(factory)
     create_mock_user(factory)
     OmniAuth.config.mock_auth[:open_id] = send("#{factory}_auth_hash")
-    visit "/auth/open_id"
+    visit OpenConferenceWare.mounted_path("/auth/open_id")
   end
 
   def create_mock_user(factory)

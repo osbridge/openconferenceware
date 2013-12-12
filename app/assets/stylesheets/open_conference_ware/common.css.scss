@@ -1,0 +1,491 @@
+/* @override
+	http://localhost:3000/stylesheets/common.css?1232745414
+	http://localhost:3000/stylesheets/common.css?1232776873
+*/
+
+/*===[ Generic ]======================================================*/
+
+/*---[ flash notices ]------------------------------------------------*/
+
+.flash {}
+  .flash p {
+    font-style: italic;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.25em; }
+  .flash .notice {
+    color: #555555;
+    background: #ECF1FF;
+    border: 1px solid #6776FF; }
+  .flash .success {
+    color: #555555;
+    background: #E4FFDA;
+    border: 1px solid #aFFF70; }
+  .flash .failure {
+    color: #555555;
+    background: #FFE9E9;
+    border: 1px solid #FF2605; }
+
+/*---[ errors ]-------------------------------------------------------*/
+
+#errorExplanation {
+  border: 2px solid #c60000;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #; }
+  #errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c60000;
+    color: #fff; }
+  #errorExplanation p {
+    color: #333;
+    margin-top: 0.5em;
+    margin-bottom: 0;
+    padding: 5px; }
+
+#errorExplanation ul {
+	margin: 0;
+}
+  #errorExplanation li {
+    margin-left: 1em;
+    font-size: 12px;
+    list-style: square; }
+
+.fieldWithErrors {
+  margin: 0;
+  display: inline;
+  background-color: inherit; }
+  .fieldWithErrors label {
+    color: red; }
+  .fieldWithErrors textarea,
+  .fieldWithErrors input[type=text],
+  .fieldWithErrors input[type=checkbox] {
+    border: 2px solid red; }
+  .fieldWithErrors > input[type=checkbox] {
+    border: 3px dotted red;
+    color: green;
+    background-color: blue;
+    padding: 1em;
+    margin: 1em; }
+
+/*---[ hoverable elements ]-------------------------------------------*/
+
+.hoverable {}
+  .hoverable a {
+    display: block;
+    border-bottom: 1px dotted #ccc;
+    line-height: 1.3em;
+    padding: 0.3em; }
+  .hoverable a:hover {
+    background: #F9F39C;
+    text-decoration: none !important; }
+  .hoverable img {
+    vertical-align: middle; }
+
+/*---[ standard-form pages ]------------------------------------------*/
+
+.standard-form {}
+  .standard-form h4,
+  .standard-form label {
+    color: #777777; }
+  .standard-form h4 {
+    padding: 0.5em 0 0.25em 0; }
+  .standard-form td h4 {
+    padding: 0.25em 0 0.1em 0; }
+  .standard-form label {
+    font-style: italic; }
+  .standard-form table {
+    width: 100%; }
+  .standard-form td {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top; }
+  .standard-form .label-cell {
+    padding-left: 2em;
+    text-align: right;
+    white-space: nowrap;
+    width: 0; }
+  .standard-form .data-cell {
+    width: 98%; }
+  .standard-form input[type=checkbox] {
+    padding: 0;
+    margin: 0 0.5em 0 0; }
+  .standard-form input[type=text],
+  .standard-form input[type=password],
+  .standard-form textarea {
+    width: 97%; }
+  .standard-form td div.record-controls {
+    margin: 0em; }
+  .standard-form input[type=submit] {
+    font-size: 100%;
+  }
+
+/*---[ left-table pages ]------------------------------------------*/
+
+.left-table {}
+  .left-table table {
+    width: 100%; }
+  .left-table h4,
+  .left-table label {
+    color: #777777; }
+  .left-table h4 {
+    padding: 0.5em 0 0.25em 0; }
+  .left-table td h4 {
+    padding: 0.25em 0 0.1em 0; }
+  .left-table td,
+  .left-table th {
+    padding: 0.25em;
+    text-align: left;
+    vertical-align: top; }
+  .left-table td {
+    width: 98%; }
+  .left-table th {
+    padding-left: 2em;
+    text-align: right;
+    white-space: nowrap;
+    width: 0%; }
+  .left-table label {
+    font-style: italic; }
+  .left-table input[type=checkbox] {
+    padding: 0;
+    margin: 0 0.5em 0 0; }
+  .left-table input[type=text],
+  .left-table input[type=password],
+  .left-table textarea {
+    width: 97%; }
+  .left-table td div.record-controls {
+    margin: 0em; }
+  .left-table input[type=submit] {
+    font-size: 100%;
+  }
+
+/*#---[ top-table ]-------------------------------------------------------*/
+
+.top-table {}
+  .top-table h4,
+  .top-table label,
+  .top-table th {
+    color: #777777; }
+  .top-table h4 {
+    padding: 0.5em 0 0.25em 0; }
+  .top-table td h4 {
+    padding: 0.25em 0 0.1em 0; }
+  .top-table label,
+  .top-table th {
+    font-style: italic; }
+  .top-table table {
+    width: 100%; }
+  .top-table td, .top-table th {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top; }
+  .top-table th {
+    white-space: nowrap; }
+  .top-table td { }
+  .top-table td div.record-controls {
+    margin: 0em; }
+  .top-table input[type=submit] {
+    font-size: 100%;
+  }
+
+/*---[ scaffolded list and show pages ]-------------------------------*/
+
+.scaffolded {}
+  .scaffolded dt {
+    font-weight: bold; }
+  .scaffolded td {
+    padding: 0.2em; }
+  .scaffolded th {
+    padding: 0.25em;
+    font-style: italic; }
+
+/*---[ proposals ]----------------------------------------------------*/
+
+#proposal-listing {}
+  #proposal-listing th,
+  #proposal-listing td {
+    padding: 0.25em; }
+  #proposal-listing th {
+    font-style: italic; }
+  #proposal-listing a {
+    display: block;
+    line-height: 1.3em;
+    padding: 0.3em; }
+  #proposal-listing a:hover {
+    background: #F9F39C;
+    text-decoration: none !important; }
+  #proposal-listing .date-unseen { }
+  #proposal-listing .date-seen {
+    color: #999999; }
+
+/* Makes sure there's always space below the list of proposals, an issue when the display is empty and it looks bad because there's no content. */
+div#proposals-for {
+  margin-bottom: 2em; }
+
+#proposal-comments { }
+  #proposal-comments dl {
+    margin-left: 2em; }
+    #proposal-comments dl dt {
+      font-weight: bold;
+      border-top: 1px dotted #ccc; }
+    #proposal-comments dl dt:first-child {
+      border-top: none; }
+    #proposal-comments dl dd {
+      margin-left: 1em; }
+
+/* new-style proposal comments list */
+
+ul.proposal-comments {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.proposal-comments li {
+	border-bottom: 1px solid #ccc;
+	padding: 1em 0;
+}
+
+ul.proposal-comments div.proposal-title {
+	margin-top: .5em;
+}
+
+/*---[ snippets ]-----------------------------------------------------*/
+
+.snippet_preview {
+  margin: 0;
+  padding: 0.5em;
+  border: 2px solid blue; }
+
+.snippet_form {}
+  .snippet_form input[type=text] {
+    width: 100%; }
+  .snippet_form textarea {
+    height: 12em;
+    width: 100%; }
+
+/*---[ session form ]-------------------------------------------------*/
+
+#session_form {}
+  #session_form td {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top; }
+  #session_form label {
+    font-style: italic; }
+  #session_form input[type=text], #session_form input[type=password] {
+    width: 24em; }
+  #session_form input {
+    clear: both; }
+  #session_form .rightish {
+    width: 12em;
+    text-align: right;
+    display: block;
+    float: left;
+    text-align: right;
+    padding-right: 1em; }
+
+/*---[ event form ]---------------------------------------------------*/
+
+#event-form {}
+  #event-form textarea#event_open_text,
+  #event-form textarea#event_closed_text {
+    height: 10em; }
+
+/*---[ descriptors ]--------------------------------------------------*/
+
+div.record-controls {
+  margin-top: 1em; }
+  .record-controls .div {
+    display: inline; }
+
+.required-field {
+  padding: 0 0.25em;
+  color: red; }
+
+.private-field {
+  padding: 0 0.25em;
+  color: green; }
+
+.empty-text {
+    text-align: center;
+    font-style: italic;
+    white-space: nowrap; }
+
+/* Loading box of width=height=100px with a spinner placed at the center */
+#page_spinner {
+	display: none;
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	color: black;
+	background: image-url("spinner-big.gif") no-repeat center #F7F1A3;
+	text-align: center;
+	padding: 10px;
+	font: normal 16px Tahoma, Geneva, sans-serif;
+	border: 1px solid #666;
+	margin-left: -50px;
+	margin-top: -50px;
+	z-index: 2;
+	overflow: auto;
+}
+
+div.admin-only {
+    padding: 0.5em;
+}
+
+.admin-only {
+    background: #EFC5C5;
+}
+
+.admin-only input[type=submit],
+.admin-only form,
+.admin-only form div {
+  display: inline;
+}
+
+.inlined {
+  display: inline; }
+  .inlined div {
+    display: inline; }
+
+.addable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('plus.png') left center no-repeat;
+}
+
+.showable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('document.png') left center no-repeat;
+}
+
+.editable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('edit.png') left center no-repeat;
+}
+
+.cancelable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('arrow-out.png') left center no-repeat;
+}
+
+.deletable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('redx.png') left center no-repeat;
+}
+
+.feedable {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('feed.png') left center no-repeat;
+}
+
+.snippet_edit_link {
+  font-size: 0.8em;
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('edit.png') left center no-repeat;
+}
+
+.spinning {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('spinner.gif') left center no-repeat;
+}
+
+.quagmire {
+  display: none;
+}
+
+.wide {
+  width: 100%;
+}
+
+.narrow {
+  width: 0%;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  visible: visible;
+}
+
+.popup {
+  margin-left: 10px;
+  padding-left: 20px;
+	background: image-url('new_window.gif') left center no-repeat;
+}
+
+/*---[ submit a talk button ]-----------------------------------------*/
+
+/* FIXME how to automatically size width of the box? */
+#submit-a-talk {background: #FFFFFF; margin:1px; width: 13em; font-size: 1.1em; }
+  .rnd_top, .rnd_bottom {display:block; background:#FFFFFF; font-size:1px;}
+  .rnd_b1, .rnd_b2, .rnd_b3, .rnd_b4 {display:block; overflow:hidden;}
+  .rnd_b1, .rnd_b2, .rnd_b3 {height:1px;}
+  .rnd_b2, .rnd_b3, .rnd_b4 {background:#DAF4D4; border-left:1px solid #CCCCCC; border-right:1px solid #CCCCCC;}
+  .rnd_b1 {margin:0 5px; background:#CCCCCC;}
+  .rnd_b2 {margin:0 3px; border-width:0 2px;}
+  .rnd_b3 {margin:0 2px;}
+  .rnd_b4 {height:2px; margin:0 1px;}
+  .rnd_content {
+    display:block;
+    border:0 solid #CCCCCC;
+    border-width:0 1px;
+    padding: 4px;
+    background:#DAF4D4;
+    color:#000000; }
+  div.rnd_content { margin: 0; }
+
+  #submit-a-talk a,
+  #submit-a-talk a:visited,
+  #submit-a-talk a:hover {
+    color: green;
+    margin: 5px;
+    padding: 10px 10px 10px 20px;
+    background: image-url('plus.png') left center no-repeat;
+  }
+
+/* @group Autocomplete
+-------------------------------------------------------------- */
+ul.jq-ui-autocomplete {
+    position: absolute;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    margin: 0px;
+    padding: 0;
+    list-style: none;
+    color: #333;
+}
+ul.jq-ui-autocomplete li {
+  display: block;
+  padding: .3em .5em .3em .3em;
+  overflow: hidden;
+  width: 100%;
+}
+
+ul.jq-ui-autocomplete li.active {
+  background-color: <%= @colors[:light_green] %>;
+  color: <%= @colors[:dark_grey] %>;;
+}
+
+/* @end */

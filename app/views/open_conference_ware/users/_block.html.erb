@@ -1,0 +1,80 @@
+<%
+# Display a user and their proposals/sessions with conditional formatting.
+#
+# Locals:
+# * user => The User to display. REQUIRED.
+# * wrapper_tag => Tag to wrap the display in. Defaults to :div.
+# * display_sub_list => Should a sub_list, a detailed list of proposals/sessions for the user, be displayed? Defaults to false.
+# * hide_rooms => Should the rooms be hidden in the list of sessions displayed for each user? Defaults to false.
+# * only_for_event => Only display entries associated with this event record or its children. Optional.
+
+hide_rooms ||= false
+wrapper_tag ||= :div
+display_sub_list ||= false
+only_for_event = local_assigns[:only_for_event]
+%>
+
+<%= content_tag wrapper_tag, :class => "user_box vcard #{admin? && user.admin? ? ' admin' : ''}" do %>
+  <%= link_to( image_tag( user.photo.url(:profile), :class => 'user-photo photo' ), user ) if user.photo.file? %>
+  <div class='user_head'>
+    <h3><%= link_to user.label, user, :name => "id_#{user.id}", :id => "id_#{user.id}", :class => 'fn n' %></h3>
+    <% unless user.affiliation.blank? -%>
+    <span class='affiliation org'><%= user.affiliation %></span>
+    <% end -%>
+  </div>
+  <div class='user_body'>
+    <div class='user_links'>
+      <ul>
+        <% if admin? || can_edit?(user) %>
+          <li>Email (private): <%= display_link_to(user.email, :mailto => true) %></li>
+        <% end -%>
+        <% unless user.website.blank? %>
+          <li>Website: <%= display_link_to(user.website, :nofollow => true, :class => 'url') %></li>
+        <% end %>
+        <% unless user.blog_url.blank? %>
+          <li>Blog: <%= display_link_to(user.blog_url, :nofollow => true, :class => 'url') %></li>
+        <% end %>
+        <% unless user.twitter.blank? %>
+          <li>Twitter: <%= display_link_to(user.twitter_url, :title => user.twitter, :nofollow => true, :class => 'url') %></li>
+        <% end %>
+        <% unless user.identica.blank? %>
+          <li>Identi.ca: <%= display_link_to(user.identica_url, :title => user.identica, :nofollow => true, :class => 'url') %></li>
+        <% end %>
+        <% user_favorites_count = @user_favorites_count_for_user_hash ? (@user_favorites_count_for_user_hash[user.id] || 0) : user.favorites.count %>
+        <% unless user_favorites_count == 0 %>
+          <li>Favorites: <%= link_to "View #{user.first_name.try(:possessiveize)} favorites", user_favorites_path(user) %></li>
+        <% end -%>
+      </ul>
+    </div>
+
+  <% unless user.biography.blank? %>
+    <h4>Biography</h4>
+    <div class='note'>
+      <%= display_textile_for user.biography %>
+    </div>
+  <% end %>
+
+  <% if can_edit?(user) %>
+    <div class='record-controls'>
+      <%= link_to "Edit user", edit_user_path(user), :class => "editable" %>
+    </div>
+  <% end %>
+
+  <% if display_sub_list %>
+    <%= render :partial => 'open_conference_ware/proposals/sub_list', :locals => { :container => user, :header_tag => :h4 } %>
+  <% else %>
+    <% if @event.proposal_status_published? %>
+      <%
+      # Use prefetched values
+      sessions = @sessions_for_user_hash.try(:fetch, user.id, nil) || user.sessions
+      sessions = @event.related_proposals(sessions) if only_for_event
+      %>
+      <% unless sessions.empty? %>
+        <h4 class='sessions'>Sessions</h4>
+        <%= render :partial => 'open_conference_ware/proposals/list_concise', :locals => { :items => sessions, :hide_rooms => hide_rooms } %>
+      <% end %>
+    <% end -%>
+  <% end -%>
+
+  </div>
+<% end -%>

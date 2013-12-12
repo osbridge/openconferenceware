@@ -1,0 +1,12 @@
+<% page_title "#{@user.label.possessiveize} favorites" %>
+
+<% if schedule_visible? %>
+<div class='calendar_download'>
+  <%= link_to "Download favorites", user_favorites_path(@user, :format => 'ics') %> /
+  <%= link_to "Subscribe to favorites", user_favorites_url(@user, :format => 'ics', :protocol => 'webcal') %>
+</div>
+<% end -%>
+
+<div id='list_user_favorites'>
+<%= render :partial => "open_conference_ware/proposals/sub_list", :locals => {:container => @user, :records => @user_favorites, :header_prefix => "Favorite", :header_tag => "h4"} %>
+</div>

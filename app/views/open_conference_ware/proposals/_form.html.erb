@@ -1,0 +1,381 @@
+<%= render :partial => "open_conference_ware/proposals/admin_controls" %>
+
+<p>
+  <%= @event.open_text.try(:html_safe) %>
+  <%= link_to "Edit", edit_manage_event_path(@event), :class => :editable if admin? %>
+</p>
+
+<div id="proposal-form" class="standard-form">
+  <%= error_messages_for :proposal unless error_messages_for(:proposal).blank? %>
+
+  <% if user_profiles? and multiple_presenters? %>
+    <div id='speaker-selector'>
+      <h3>Speakers for this presentation</h3>
+      <div id='add-speakers'>
+        <p id='add-speakers-tip' class="hidden">
+          <a href="#">Add another speaker to your proposal...</a>
+        </p>
+        <form id='add-speakers-form' action='#' method='get'>
+          <label for='speaker-search-field'>Search for a speaker to add:</label>
+          <input type="text" name="search" value="" id="speaker-search-field" />
+          <input type="submit" name="speaker_submit" value="Search" id="speaker_submit" />
+          <div id='speaker-search-results'>
+            <%= render :partial => 'open_conference_ware/proposals/search_speakers' %>
+          </div>
+          <p class='where-is-everyone'>
+            Can't find the person you want to add? Ask them to complete a speaker profile. Click the link in the box below to select it, copy it to your clipboard, ask them to visit this link to complete their speaker profile, and then add them:
+            <%= text_field_tag(:complete_profile_user_url, complete_profile_user_url("me"), :readonly => true) %>
+          </p>
+        </form>
+      </div>
+  <% end %>
+
+  <%= form_for([@event, @proposal]) do |f| %>
+    <%= f.hidden_field :track_id if event_tracks? && @event.tracks.size == 1 %>
+    <%= f.hidden_field :session_type_id if event_session_types? && @event.session_types.size == 1 %>
+
+  <% if user_profiles? and multiple_presenters? %>
+    <div id="manage-speakers">
+      <%= render :partial => "open_conference_ware/proposals/manage_speakers" %>
+    </div>
+  </div>
+  <% end %>
+
+    <table class='clear'>
+      <tbody>
+        <% if not user_profiles? and not multiple_presenters? %>
+          <tr>
+            <td colspan="2">
+              <h3>About you</h3>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell"><%= required_field %><%= f.label :presenter, "Name" %></td>
+            <td><%= f.text_field :presenter %></td>
+          </tr>
+          <tr>
+            <td class="label-cell"><%= required_field %><%= f.label :email, "Email (kept private)" %></td>
+            <td><%= f.text_field :email %></td>
+          </tr>
+          <tr>
+            <td class="label-cell"><%= f.label :affiliation, "Affiliation" %></td>
+            <td><%= f.text_field :affiliation %></td>
+          </tr>
+          <tr>
+            <td class="label-cell"><%= f.label :website, "Website" %></td>
+            <td><%= f.text_field :website %></td>
+          </tr>
+          <tr>
+            <td class="label-cell"><%= required_field %><%= f.label :biography, "Biography" %></td>
+            <td><%= f.text_area :biography, :rows => 5 %></td>
+          </tr>
+        <% end %>
+
+        <% if params[:preview] and @proposal.valid? %>
+        <tr>
+          <td colspan="2">
+            <div class="preview">
+              <h3>Preview of Proposal: <em><%= @proposal.title %></em></h3>
+               <% if proposal_excerpts? %>
+                <h4>Excerpt</h4>
+                <div class="inner">
+                  <%= preserve_formatting_of @proposal.excerpt %>
+                </div>
+              <% end %>
+                <h4>Description</h4>
+                <div class="inner">
+                  <%= display_textile_for @proposal.description %>
+                </div>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+
+        <tr>
+          <td colspan="2">
+            <h3>
+              <% if multiple_presenters? %>
+                About this presentation
+              <% else %>
+                About your presentation
+              <% end %>
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= required_field %><%= f.label :title, "Title" %></td>
+          <td>
+            <% if @event.proposal_titles_locked? && ! (admin? || @proposal.new_record?) -%>
+              <%= @proposal.title %>
+            <% else -%>
+              <%= f.text_field :title %>
+            <% end -%>
+
+            <% if @event.proposal_titles_locked? && ! @proposal.new_record? %>
+              <p class='locked'>
+                Editing of <%= @proposal.kind_label %> titles has been locked.
+
+                <% if admin? %>
+                  <br /><span class='admin-only'><strong>WARNING:</strong> Titles are locked because other systems are currently depending on them. (MediaWiki, printed programs, etc.)</span>
+                <% else -%>
+                  If you need to change this information, please <%= mail_to SECRETS.administrator_email, 'contact the administrator' %>.
+                <% end -%>
+              </p>
+            <% end -%>
+          </td>
+        </tr>
+          <% if event_tracks? and @event.tracks.size > 1 %>
+            <tr>
+              <td class="label-cell">
+                <%= required_field %><%= f.label :track_id, "Track" %>
+              </td>
+              <td>
+                <ul class='radio-set'>
+                <% for track in @event.tracks %>
+                  <li>
+                    <%= f.radio_button :track_id, track.id, :class => :radio %>
+                    <label for="proposal_track_id_<%= track.id %>">
+                      <strong class="<%= track_css_class(track) %>"><%= track.title %></strong>
+                      <% unless track.excerpt.blank? %>
+                      <p class='excerpt'><%= track.excerpt %> <%= link_to "more&hellip;", track_path(track), :target => "_blank" %></p>
+                      <% end %>
+                    </label>
+                  </li>
+                <% end %>
+                </ul>
+              </td>
+            </tr>
+          <% end %>
+          <% if event_session_types? and @event.session_types.size > 1 %>
+            <tr>
+              <td class="label-cell">
+                <%= required_field %><%= f.label :session_type_id, "Session Type" %>
+              </td>
+              <td>
+                <ul class='radio-set'>
+                <% for session_type in @event.session_types.sort_by{|e| e.duration} %>
+                  <li>
+                    <%= f.radio_button :session_type_id, session_type.id, :class => :radio %>
+                    <label for="proposal_session_type_id_<%= session_type.id %>">
+                      <strong><%= session_type.title %></strong>
+                      <% unless session_type.description.blank? %>
+                      <p class='excerpt'><%= session_type.description %></p>
+                      <% end %>
+                    </label>
+                  </li>
+                <% end %>
+                </ul>
+              </td>
+            </tr>
+          <% end %>
+          <% if Proposal.audience_levels %>
+            <tr>
+              <td class="label-cell">
+                <%= required_field %><%= f.label :session_type_id, "Audience level" %>
+              </td>
+              <td>
+                <ul class='radio-set'>
+                <% for audience_level in Proposal.audience_levels %>
+                  <li>
+                    <%= f.radio_button :audience_level, audience_level['slug'], :class => :radio %>
+                      <label for="proposal_audience_level_<%= audience_level['slug'] %>">
+                      <strong><%= audience_level['label'] %></strong>
+                    </label>
+                  </li>
+                <% end %>
+                </ul>
+                <p class='help'><%= Proposal.audience_level_hint %></p>
+              </td>
+            </tr>
+
+          <% end %>
+          <% if proposal_excerpts? %>
+            <tr>
+              <td class="label-cell"><%= required_field %><%= f.label :excerpt, "Excerpt" %></td>
+              <td><%= f.text_area :excerpt, :rows => 2 %></td>
+            </tr>
+          <% end %>
+        <tr>
+          <td class="label-cell"><%= required_field %><%= f.label :description, "Description" %><br />(<%= display_textile_help_link %>)</td>
+          <td><%= f.text_area :description, :rows => 9 %></td>
+        </tr>
+        <tr>
+          <td class="label-cell"><%= f.label :tag_list, "Tags" %></td>
+          <td>
+            <%= f.text_field :tag_list %>
+            <p class='help'>(comma-separated)</p>
+          </td>
+        </tr>
+        <% if proposal_speaking_experience? %>
+          <tr>
+            <td class="label-cell"><%= required_field %><%= f.label :speaking_experience, "Speaking experience" %></td>
+            <td>
+              <%= f.text_area :speaking_experience, :rows => 3 %>
+              <p class='help'>(Tell us about your past speaking experience at other conferences and events, with links to related slides, videos, and/or audio. Also let us know if you've given this talk before.)</p>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td class="label-cell"><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional, kept private)" %></td>
+          <td>
+            <%= f.text_area :note_to_organizers, :rows => 3 %>
+            <p class='help'>(Is there anything else we should know about the room requirements or plans for your talk? E.g. you will be tapdancing, throwing broccoli into the audience, and need to rehearse beforehand.)</p>
+          </td>
+        </tr>
+        <% if ! @proposal.new_record? && admin? %>
+          <tr class='admin-only'>
+            <td class='label-cell'><%= f.label :audio_url %></td>
+            <td><%= f.text_field :audio_url %></td>
+          </tr>
+        <% end -%>
+        <% if @proposal.new_record? %>
+          <tr>
+            <td class="label-cell"><%= required_field %><%= f.label :agreement, "Agreement" %></td>
+            <td><%= f.check_box :agreement %>
+              <% unless OpenConferenceWare.agreement.blank? %>
+                <%= OpenConferenceWare.agreement.try(:html_safe) %>
+              <% else %>
+                I understand that my talk may be recorded and posted online for the whole world to see. I understand that <%= OpenConferenceWare.organization %> is not the appropriate place for commercial promotion ("spam") of a product, service or solution and this not welcomed by the audience.
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <div class="record-controls">
+              <%= f.submit(@proposal.new_record? ? "Create" : "Update") %>
+              <%= submit_tag 'Preview', :name => 'preview' %>
+
+              <%= yield :form_controls %>
+              <%= link_to("Cancel", (@proposal.new_record? ? event_proposals_path(@event) : proposal_path(@proposal)), :class => "cancelable") %>
+            </div>
+            <p style="margin-top: 2em; margin-bottom: 0">
+              <%= required_field %> Fields marked with a red asterisk are required and must be filled.
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<% content_for :javascript do %>
+  <% path_record = @proposal.new_record? ? "new_record" : @proposal %>
+  $(document).ready(function() {
+    /*---[ Styling ]------------------------------------------------------*/
+
+    // Hide the speaker form and display a short tip instead.
+    $('#add-speakers-tip').removeClass('hidden').click(function (event) {
+      $(this).addClass('hidden');
+      $('#add-speakers-form').removeClass('hidden');
+      return false;
+    });
+    $('#add-speakers-form').addClass('hidden');
+
+    // Make URL clickable
+    $('#complete_profile_user_url').click(function (event) {
+      $(this).select();
+      return false;
+    });
+
+    /*---[ Form-level ]---------------------------------------------------*/
+
+    // Speaker extractor
+    function extract_speaker_ids() {
+      speaker_ids = [];
+      $('.speaker_id').each(function (i, node) {
+        speaker_ids.push(node['value'])
+      });
+      return speaker_ids;
+    }
+    function extract_speaker_frags() {
+      return extract_speaker_ids().join(",")
+    }
+
+    /*---[ Search results ]-----------------------------------------------*/
+
+    $('#add-speakers-form').submit(function (event) {
+      event.preventDefault();
+      query = $('#speaker-search-field').val();
+      $.post(
+        '<%= search_proposal_speakers_path(path_record) %>', {
+          'authenticity_token': app.authenticity_token,
+          'speakers': extract_speaker_frags(),
+          'search': query
+        }, function(response) {
+          $('#speaker-search-results').html(response);
+          bind_add_speakers();
+          $("#speaker-search-field").focus();
+        }, "html"
+      );
+    });
+
+    /*---[ Add speaker ]--------------------------------------------------*/
+
+    function bind_add_speakers() {
+      $('a.add-speaker').click(
+        function(event) {
+          $e = $(event); // Export global for debugging.
+          event.preventDefault();
+          target = $(event.target);
+          target.removeClass('addable');
+          target.addClass('spinning');
+          speaker_id = target.attr('speaker_id');
+          $.post(
+            '<%= manage_proposal_speakers_path(path_record) %>', {
+              'authenticity_token': app.authenticity_token,
+              'speakers': extract_speaker_frags(),
+              'add': speaker_id
+            }, function(response) {
+              $('#manage-speakers').html(response);
+              bind_remove_speakers();
+              $("#add_speaker_selector").focus();
+              target.removeClass('spinning');
+              target.addClass('addable');
+            }
+          );
+        }
+      );
+    }
+
+    /*---[ Remove speaker ]-----------------------------------------------*/
+
+    function bind_remove_speakers() {
+      $('#manage-speakers a.remove-speaker').click(function (event) {
+        event.preventDefault();
+        target = $(event.target);
+        speaker_id = target.attr('speaker_id');
+        current_user_id = $('#current_user_id').attr('value');
+
+        message = null;
+        if (current_user_id == speaker_id) {
+          message = "You will no longer be able to edit this proposal. Are you sure you want to remove yourself?";
+        } else {
+          message = target.attr('speaker_fullname') + " will no longer be able to edit this proposal. Are you sure you want to remove them?";
+        }
+
+        if (! confirm(message)) {
+          return false;
+        }
+
+        target.removeClass('deletable');
+        target.addClass('spinning');
+        $.post(
+          '<%= manage_proposal_speakers_path(path_record) %>', {
+            'authenticity_token': app.authenticity_token,
+            'speakers': extract_speaker_frags(),
+            'remove': speaker_id
+          }, function(response) {
+            $('#manage-speakers').html(response);
+            bind_remove_speakers();
+            $("#add_speaker_selector").focus();
+          }
+        );
+      });
+    }
+
+    bind_remove_speakers();
+
+  });
+<% end %>

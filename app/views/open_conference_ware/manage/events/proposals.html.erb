@@ -1,0 +1,133 @@
+<% page_title "Bulk edit proposals for #{@event.title}" %>
+
+<% expose_to_js :proposals_path, proposals_path %>
+<% run_when_dom_is_ready "bind_all_proposal_controls();" %>
+<% run_when_dom_is_ready "bind_manage_proposals_checkboxes();" %>
+
+<% if proposal_statuses? %>
+  <table cellspacing="0" class="table table-bordered">
+    <tr>
+      <th>Proposed</th>
+      <th>Accepted</th>
+      <th>Confirmed</th>
+      <th>Accepted or Confirmed</th>
+      <th>Declined</th>
+      <th>Waitlisted</th>
+      <th>Rejected</th>
+      <th>Junk</th>
+    </tr>
+    <tr>
+      <td><%= @event.proposals.proposed.count %> <br>(<%= @event.proposals.proposed.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.accepted.count %> <br>(<%= @event.proposals.accepted.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.confirmed.count %> <br>(<%= @event.proposals.confirmed.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.accepted.count + @event.proposals.confirmed.count %> <br>(<%= @event.proposals.accepted.sum(&:duration) + @event.proposals.confirmed.all.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.declined.count %> <br>(<%= @event.proposals.declined.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.waitlisted.count %> <br>(<%= @event.proposals.waitlisted.sum(&:duration) %> min)</td>
+      <td><%= @event.proposals.rejected.count %></td>
+      <td><%= @event.proposals.junk.count %></td>
+    </tr>
+  </table>
+<% end %>
+
+<p>
+<%= link_to "Send email to selected speakers...", "mailto:", :class => "send-email-link editable" %>
+</p>
+<p>
+  <%= form_tag(manage_notify_speakers_path(@event), :method => :post, :class => "form-inline") do %>
+    <%= hidden_field_tag 'proposal_ids', '', :id => 'accepted_email_proposal_ids' %>
+    <%= hidden_field_tag 'proposal_status', 'accepted' %>
+    <% confirm_text = "Email uses the snippets 'proposals_acceptance_email_text' and 'proposals_acceptance_email_subject'.\n\n"
+       unless @event.show_proposal_confirmation_controls
+         confirm_text << "WARNING: the event's 'Show proposal confirmation controls' should be set to YES but it isn't.\n\n"
+       end
+    %>
+    <%= submit_tag 'Send acceptance email to checked speakers', :data => { :confirm => "#{confirm_text}Send email?" }, :class => "btn btn-default" %>
+  <% end %>
+
+  <%= form_tag(manage_notify_speakers_path(@event), :method => :post) do %>
+    <%= hidden_field_tag 'proposal_ids', '', :id => 'rejected_email_proposal_ids' %>
+    <%= hidden_field_tag 'proposal_status', 'rejected' %>
+    <% confirm_text = "Email uses the snippets 'proposals_rejected_email_text' and 'proposals_rejected_email_subject'.\n\n" %>
+    <%= submit_tag 'Send rejection email to checked speakers', :data => { :confirm => "#{confirm_text}Send email?" }, :class => "btn btn-default" %>
+  <% end %>
+</p>
+
+<%
+control_rowspan = proposal_start_times? ? 'rowspan="2"' : ''
+control_colspan = 0
+%>
+
+<table cellspacing="0" class="manage_events_proposals standard-form">
+  <thead>
+    <tr>
+      <th>
+        Email?
+      </th>
+      <th>
+        Proposal title and speakers, notified date
+      </th>
+      <% if proposal_statuses? %>
+        <th>
+          Status
+        </th>
+      <% end %>
+      <% if event_rooms? %>
+        <th>
+          Room
+        </th>
+      <% end %>
+      <% if false && proposal_start_times? %>
+        <th>
+          <%# TODO Add schedule widget %>
+          Schedule
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% for proposal in @proposals %>
+      <tr class="<%= cycle('odd', 'even') %> row-for-proposal" x_proposal_id="<%= proposal.id %>">
+        <td <%= control_rowspan %>>
+          <input type="checkbox" class="send-email-checkbox" />
+        </td>
+        <td <%= control_rowspan %>>
+          <%= link_to("", edit_proposal_path(proposal)) %>
+          <%= link_to(proposal.title, proposal_path(proposal)) %>
+          <% if user_profiles? %>
+            <br />
+            by
+            <% proposal.users.each_with_index do |user, i| %>
+              <%= "&amp;" unless i == 0 %>
+              <%= link_to user.fullname, user_path(user) %>
+              <input type="hidden" class="user-email" value="<%= user.email %>">
+            <% end %>
+            <span class="notified_at"><%= proposal.notified_at.try(:strftime, "%Y-%m-%d") %></span>
+          <% else %>
+            <%= proposal.presenter %>
+          <% end %>
+        </td>
+        <% if proposal_statuses? %>
+          <% control_colspan += 1 %>
+          <td>
+            <%= form_for proposal do |f| %>
+              <%= render :partial => 'open_conference_ware/proposals/transition_control', :locals => {:proposal => proposal} %>
+            <% end %>
+          </td>
+        <% end %>
+        <% if event_rooms? %>
+          <% control_colspan += 1 %>
+          <td>
+            <%= render :partial => 'open_conference_ware/proposals/room_control', :locals => {:proposal => proposal} %>
+          </td>
+        <% end %>
+        </tr>
+        <% if proposal_start_times? %>
+        <tr>
+          <td <%= control_colspan > 0 ? "colspan='#{control_colspan}'" : '' %>>
+            <%= render :partial => 'open_conference_ware/proposals/schedule_control', :locals => {:proposal => proposal} %>
+          </td>
+        </tr>
+        <% end %>
+    <% end %>
+  </tbody>
+</table>

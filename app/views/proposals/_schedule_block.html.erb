@@ -1,8 +1,0 @@
-<%
-# Display a schedule block's time and the calendar items within it.
-#
-# Locals:
-# * block => A ScheduleBlock to display Proposal and ScheduleItems for.
-%>
-<h4><%= normalize_time(block, :context => block.start_time.to_date) %></h4>
-<%= render :partial => 'proposals/list_concise', :locals => { :items => block.items }%>

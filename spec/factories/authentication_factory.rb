@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :authentication do
+  factory :authentication, class: OpenConferenceWare::Authentication do
     provider "test_provider"
     sequence(:uid) { |n| "penguin#{n}" }
     name "Nils Olav"

@@ -1,5 +1,0 @@
-<% page_title @user.label %>
-
-<% cache "user_#{@user.id},edit_#{can_edit?(@user)}" do %>
-  <%= render :partial => 'users/block', :locals => { :user => @user, :display_sub_list => true } %>
-<% end %>

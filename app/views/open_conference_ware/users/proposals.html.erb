@@ -1,0 +1,24 @@
+<% is_for_current_user = (current_user == @user) %>
+<% cache "my_proposals,user_#{@user.id},is_me_#{is_for_current_user}" do %>
+  <% page_title "#{@user.label.possessiveize} Proposals"%>
+  <% unless @proposals.blank? %>
+    <% @proposals.group_by(&:event).sort_by{|group| group[0].start_date || 0}.reverse.each do |event, proposals| %>
+      <% if event.proposal_status_published? %>
+        <% unless ( sessions = proposals.select{|proposal| proposal.confirmed?} ).empty? %>
+          <h2>Sessions accepted for <%= event.title %></h2>
+          <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => :sessions, :records => sessions, :sorter => false} %>
+        <% end -%>
+
+        <% unless ( unaccepted_proposals = proposals.reject{|proposal| proposal.confirmed? } ).empty? %>
+          <h2>Sessions proposed for <%= event.title%></h2>
+          <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => :proposals, :records => unaccepted_proposals, :sorter => false} %>
+        <% end -%>
+      <% else -%>
+        <h2>Sessions proposed for <%= event.title%></h2>
+        <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => :proposals, :records => proposals, :sorter => false} %>
+      <% end -%>
+    <% end -%>
+  <% else -%>
+    <h2><%= is_for_current_user ? 'You have' : "#{@user.label} has" %> not submitted any proposals</h2>
+  <% end -%>
+<% end -%>

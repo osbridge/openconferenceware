@@ -1,4 +1,4 @@
-OpenConferenceWare::Application.routes.draw do
+OpenConferenceWare::Engine.routes.draw do
   get "/sign_in" => "authentications#sign_in", as: :sign_in
   get "/sign_out" => "authentications#sign_out", as: :sign_out
 
@@ -70,5 +70,5 @@ OpenConferenceWare::Application.routes.draw do
   resources :rooms, only: [:index]
   resources :selector_votes, only: [:index]
 
-  root to: 'events#index'
+  root to: 'open_conference_ware/events#index'
 end

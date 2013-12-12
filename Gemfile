@@ -1,77 +1,23 @@
-# Additional libraries are loaded in "config/initializers/libraries.rb".
-
-# Repository:
 source "https://rubygems.org"
 
-# Rake version
-gem 'rake'
+# Declare your gem's dependencies in open_conference_ware.gemspec.
+# Bundler will treat runtime dependencies like base dependencies, and
+# development dependencies will be added by default to the :development group.
+gemspec
 
-# Rails version, which must be specified here AND in the environment.rb:
-gem 'rails', '~> 4.0.0'
-
-# Extracted Rails features
-gem 'rails-observers'
-
-# Database driver
-gem 'sqlite3', :require => false
-gem 'mysql2',  :require => false
-gem 'pg',      :require => false
-
-# Authentication
-gem 'omniauth-openid'
-gem 'omniauth-persona'
-
-# Selectively-loaded:
-gem 'hashery',      :require => false # Dictionary used by CacheLookupsMixin
-gem 'rwikibot',     :require => false, :git => 'git://github.com/reidab/rwikibot.git'
-
-# Necessary:
-gem 'RedCloth'
-gem 'aasm'
-gem 'acts-as-taggable-on'
-gem 'color'
-gem 'comma',               '~> 3.0'
-gem 'gchartrb',            '~> 0.8.0', :require => 'google_chart'
-gem 'paperclip'
-gem 'vpim-rails', :git => "https://github.com/osbridge/vpim-rails.git", :require => 'vpim/icalendar'
-gem 'action_mailer_tls',   '~> 1.1.3'
-gem 'nokogiri'
-gem 'prawn'
-gem 'dalli'
-gem "dynamic_form"
-gem 'rinku', :require => 'rails_rinku'
-
-# Assets
-gem 'jquery-rails'
-gem 'sass-rails', " ~> 4.0.0"
-gem 'uglifier'
-
-group :production do
-  gem 'exception_notification'
-end
-
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-end
-
+# Declare any dependencies that are still in development here instead of in
+# your gemspec. These might include edge Rails or gems from your path or
+# Git. Remember to move these dependencies to your gemspec before releasing
+# your gem to rubygems.org.
 group :development do
-  gem 'capistrano',     '~> 2.15.0', :require => false
-  gem 'capistrano-ext', :require => false
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: 'master'
+end
 
+group :debug do
   gem 'debugger'
-
   gem 'pry'
-end
-
-group :test do
-  gem 'database_cleaner', :require => false
-  gem 'cucumber-rails',   :require => false
   gem 'launchy'
-  gem 'capybara'
-  gem 'guard-rspec', require: false
-
-  gem 'simplecov',     :require => false
-  gem 'cadre',         :require => false
-  gem 'coveralls',     :require => false
+  gem 'guard-rspec'
+  gem 'cadre'
 end
+

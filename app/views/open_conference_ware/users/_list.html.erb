@@ -1,0 +1,17 @@
+<%
+# Display a list of users and their sessions.
+#
+# Locals:
+# * users => Array of users to display. REQUIRED.
+# * hide_rooms => Should the rooms be hidden in the list of sessions displayed for each user? Defaults to false.
+# * only_for_event => Only display entries associated with this event record or its children. Optional.
+
+hide_rooms ||= false
+only_for_event = local_assigns[:only_for_event]
+%>
+
+<ul class='user_list'>
+<% users.each do |user| %>
+  <%= render :partial => 'open_conference_ware/users/block', :locals => { :user => user, :wrapper_tag => :li, :hide_rooms => hide_rooms, :only_for_event => only_for_event } %>
+<% end -%>
+</ul>

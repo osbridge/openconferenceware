@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :room do
+  factory :room, class: OpenConferenceWare::Room do
     sequence(:name) { |n| "Room #{n}" }
     capacity 40
     size "12 x 20 feet"

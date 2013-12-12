@@ -1,0 +1,181 @@
+<table class="standard-form">
+  <tr>
+    <td class="label-text">
+      <label>Slug</label>
+    </td>
+    <td>
+      <%=h @event.slug%>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Title</label>
+    </td>
+    <td>
+      <%=h @event.title %>
+    </td>
+  </tr>
+  <% if @event.parent %>
+    <tr>
+      <td class="label-text">
+        <label>Child of</label>
+      </td>
+      <td>
+        <%= link_to(h(@event.parent.title), manage_event_path(@event.parent)) %>
+      </td>
+    </tr>
+  <% else %>
+    <tr>
+      <td class="label-text">
+        <label>Children</label>
+      </td>
+      <td>
+        <ul>
+          <% for child in @event.children %>
+            <li>
+              <%= link_to(h(child.title), manage_event_path(child)) %>
+            </li>
+          <% end %>
+          <li>
+            <%= link_to "Add new child event...", new_manage_event_path(:parent_id => @event.id) %>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-text">
+        <label>Start Date</label>
+      </td>
+      <td>
+        <%=h @event.start_date.to_s(:ocw_date_time_long) if @event.start_date %>
+      </td>
+    </tr>
+    <tr>
+      <td class="label-text">
+        <label>End Date</label>
+      </td>
+      <td>
+        <%=h @event.end_date.to_s(:ocw_date_time_long) if @event.end_date %>
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td class="label-text">
+      <label>Proposal Deadline</label>
+    </td>
+    <td>
+      <%=h @event.deadline.to_s(:ocw_date_time_long) %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="label-text">
+      <label>Accept selector votes?</label>
+    </td>
+    <td>
+      <%= @event.accept_selector_votes ? "Yes" : "No" %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="label-text">
+      <label>Lock editing of proposal title?</label>
+    </td>
+    <td>
+      <%= @event.proposal_titles_locked ? "Yes" : "No" %>
+    </td>
+  </tr>
+
+  <% if proposal_statuses? %>
+    <tr>
+      <td class="label-text">
+        <label>Show proposal confirmation controls?</label>
+      </td>
+      <td>
+        <%= @event.show_proposal_confirmation_controls ? "Yes" : "No" %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="label-text">
+        <label>Publish proposal status?</label>
+      </td>
+      <td>
+        <%= @event.proposal_status_published ? "Yes" : "No" %>
+      </td>
+    </tr>
+  <% end %>
+  <% if event_schedule? %>
+    <tr>
+      <td class="label-text">
+        <label>Publish schedule?</label>
+      </td>
+      <td>
+        <%= @event.schedule_published ? "Yes" : "No" %>
+      </td>
+    </tr>
+  <% end %>
+  <% if event_proposal_comments_after_deadline? %>
+    <tr>
+      <td class="label-text">
+        <label>Accept proposal comments after deadline?</label>
+      </td>
+      <td>
+        <%= @event.accept_proposal_comments_after_deadline? ? "Yes" : "No" %>
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td class="label-text">
+      <label>Open text</label>
+    </td>
+    <td>
+      <div class="snippet_preview">
+        <%= @event.open_text.try(:html_safe) %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Closed text</label>
+    </td>
+    <td>
+      <div class="snippet_preview">
+        <%= @event.closed_text.try(:html_safe) %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Session text</label>
+    </td>
+    <td>
+      <div class="snippet_preview">
+        <%= @event.session_text.try(:html_safe) %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-text">
+      <label>Tracks text</label>
+    </td>
+    <td>
+      <div class="snippet_preview">
+        <%= @event.tracks_text.try(:html_safe) %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      <div class="record-controls">
+        <%= link_to 'Show proposals', event_proposals_path(@event), :class => "showable" %>
+        <%= link_to 'Edit', edit_manage_event_path(@event), :class => :editable %>
+        <%= link_to 'Destroy', manage_event_path(@event), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "deletable" %>
+        <%= link_to 'Back to events', manage_events_path, :class => :cancelable %>
+      </div>
+    </td>
+  </tr>
+</table>

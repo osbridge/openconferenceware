@@ -1,0 +1,12 @@
+<% auth_providers_with_partials.each do |provider| %>
+  <%= render provider.to_s %>
+<% end %>
+
+<% if auth_providers_without_partials.present? %>
+  <h3>Other Providers</h3>
+  <ul>
+    <% auth_providers_without_partials.each do |provider| %>
+      <li><%= link_to provider.to_s.titleize, auth_path(provider) %></li>
+    <% end %>
+  </ul>
+<% end %>

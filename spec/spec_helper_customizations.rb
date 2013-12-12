@@ -3,8 +3,7 @@
 #---[ Settings ]--------------------------------------------------------
 
 # Use spec-specific settings
-# NOTE: The marshal_load/marshal_dump calls are just to avoid constant redefinition error.
-SETTINGS.marshal_load(SettingsReader.read('spec/settings.yml').marshal_dump)
+require 'ocw_config'
 
 #---[ Libraries ]-------------------------------------------------------
 
@@ -14,18 +13,23 @@ require 'factory_girl'
 require 'database_cleaner'
 require 'capybara/rspec'
 
+OpenConferenceWare::Engine.routes.default_url_options[:host] = 'test.host'
+
 # rspec
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include OpenConferenceWare::Engine.routes.url_helpers
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
     if ActiveRecord::Base.configurations[Rails.env]['adapter'] == "sqlite3"
-      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.strategy = :truncation, {except: ['open_conference_ware_snippets']}
     else
       DatabaseCleaner.strategy = :transaction
     end
     DatabaseCleaner.clean_with(:truncation)
+
+    OpenConferenceWare::Engine.load_seed
   end
 
   config.before(:each) do
@@ -36,6 +40,26 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  # List all of the OpenConferenceWare models, so we can make namespaced tests a bit nicer
+  models = %w(Authentication Comment Event Proposal Room Schedule ScheduleItem SelectorVote SessionType Snippet Track User UserFavorite)
+
+  # Fixture file names need to match the database table names.
+  # Set the corresponding OpenConferenceWare model for each of them.
+  config.before(:all) do
+    self.class.set_fixture_class(
+      Hash[models.map do |model|
+        ["open_conference_ware_#{model.underscore.pluralize}", OpenConferenceWare.const_get(model)]
+      end]
+    )
+  end
+
+  # Stub un-namespaced constants for OpenConferenceWare models, so that we can
+  # refer to things like User, instead of OpenConferenceWare::User in specs.
+  config.before(:each) do
+    models.each do |model|
+      stub_const(model, OpenConferenceWare.const_get(model))
+    end
+  end
 end
 
 #---[ Functions ]-------------------------------------------------------

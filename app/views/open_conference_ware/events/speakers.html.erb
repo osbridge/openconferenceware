@@ -1,0 +1,7 @@
+<% include_user_favorites_javascript %>
+<% run_when_dom_is_ready('bind_calendar_items();' )%>
+<% page_title 'Speakers' %>
+
+<% cache "speakers,event_#{@event.id},admin_#{admin?}" do %>
+  <%= render :partial => 'open_conference_ware/users/list', :locals => { :users => @speakers, :hide_rooms => true, :only_for_event => @event } %>
+<% end %>

@@ -1,0 +1,18 @@
+<% page_title "Session Types" %>
+
+<% for session_type in @session_types %>
+  <h3><%= link_to h(session_type.title), session_type_path(session_type) %></h3>
+  <span class="description"><%= display_textile_for session_type.description %></span>
+
+  <% if admin? %>
+    <div class='record-controls'>
+    <%= link_to 'Edit', edit_session_type_path(session_type), :class => "editable" %>
+    <%= link_to 'Destroy', session_type_path(session_type), :data => { :confirm => %{Destroy session_type "#{session_type.title}"?} }, :method => :delete, :class => "deletable" %>
+    </div>
+  <% end %>
+<% end %>
+
+<div>
+<%= link_to 'New session type', new_session_type_path, :class => "addable" if admin? %>
+<%= link_to 'Back to proposals', event_proposals_path(@event), :class => "cancelable" %>
+</div>

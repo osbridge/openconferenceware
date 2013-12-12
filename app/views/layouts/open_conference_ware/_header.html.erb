@@ -1,0 +1,106 @@
+  <div class="skip-link">
+    <a href="#content" title="Skip to content">Skip to content</a>
+  </div>
+
+  <div id="header">
+    <div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to OpenConferenceWare.organization, root_path, :class => 'navbar-brand' %>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <% if assigned_nonchild_events_by_date.count > 1 %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle year" data-toggle="dropdown"><%= nav_event.try(:slug) || "Events" %><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <% assigned_nonchild_events_by_date.reverse.each do |event| %>
+                  <%= content_tag(:li, link_to(event.slug, event_path(event), :class => 'year'), :class => (nav_event == event) ? 'active' : '') %>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+          <% if nav_event %>
+            <li><%= link_to nav_title(nav_event), nav_path(nav_event), :class => 'proposals_or_sessions' %></li>
+            <% if nav_event.schedule_published? %>
+            <li><%= link_to 'Schedule', event_schedule_path(nav_event), :class => 'schedule' %></li>
+            <% end -%>
+            <% if nav_event.proposal_status_published? %>
+            <li><%= link_to 'Speakers', speakers_event_path(nav_event), :class => 'speakers' %></li>
+            <% end -%>
+            <% if bof = nav_event.children.where('slug LIKE ?', '%bof').first %>
+              <li><%= link_to 'BoFs', "/events/#{bof.slug}/#{bof.proposal_status_published? ? 'sessions' : 'proposals' }", :class => 'bofs' %></li>
+            <% end %>
+          <% end %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <% if logged_in? %>
+            <% if admin? %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "Events", manage_events_path %></li>
+                  <% if nav_event && ! nav_event.new_record? %>
+                    <li class="divider"></li>
+                    <li class="dropdown-header"><%= nav_event.title %></li>
+                    <li><%= link_to "Edit this event", edit_manage_event_path(nav_event) %></li>
+                    <% if proposal_statuses? %>
+                      <li><%= link_to "Sessions", event_sessions_path(nav_event) %></li>
+                    <% end %>
+                    <li><%= link_to "Proposals", event_proposals_path(nav_event) %>
+                    <li><%= link_to "- Bulk edit", manage_event_proposals_path(nav_event) %></li>
+                    <% unless nav_event.accepting_proposals? %>
+                      <li><%= link_to "- Add new", new_event_proposal_path(nav_event) %></li>
+                    <% end %>
+                    <li><%= link_to "- Export CSV", event_proposals_path(nav_event,:format => :csv) %></li>
+                    </li>
+                    <% if event_tracks? %>
+                      <li><%= link_to "Tracks", tracks_path %></li>
+                    <% end %>
+                    <% if event_session_types? %>
+                      <li><%= link_to "Session types", session_types_path %></li>
+                    <% end %>
+                    <% if event_rooms? %>
+                      <li><%= link_to "Rooms", rooms_path %></li>
+                    <% end %>
+                    <li><%= link_to "Schedule items", event_schedule_items_path(nav_event) %></li>
+                    <% if user_profiles? %>
+                      <li><%= link_to "Speakers", speakers_event_path(nav_event) %>
+                      <li><%= link_to "- Export CSV", speakers_event_path(nav_event,:format => :csv) %></li>
+                      </li>
+                    <% end %>
+                    <% if selector? %>
+                      <li><%= link_to "Selector votes", event_selector_votes_path(nav_event) %></li>
+                    <% end %>
+                    <% if user_profiles? %>
+                      <li><%= link_to "Users", users_path %></li>
+                    <% end %>
+                    <li><%= link_to "Snippets", manage_snippets_path %></li>
+                    <li><%= link_to "Comments", comments_path %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.label %><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <% if user_profiles? %>
+                  <li><%= link_to "Edit profile", edit_user_path(current_user) %></li>
+                <% end -%>
+                <li><%= link_to( "My favorites", user_favorites_path(current_user) ) %>
+                <li><%= link_to( "My proposals", proposals_user_path(current_user) ) %>
+                <li class="divider"></li>
+                <li><%= link_to "Sign Out", sign_out_path %></li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Sign In", sign_in_path %></li>
+          <% end %>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>

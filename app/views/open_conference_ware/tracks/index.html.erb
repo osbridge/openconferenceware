@@ -1,0 +1,25 @@
+<% page_title "Tracks" %>
+
+<% cache "tracks,event_#{@event.id},admin_#{admin?}" do %>
+<div class="tracks_text">
+  <%= simple_format @event.tracks_text.try(:html_safe) %>
+  <%= link_to "Edit", edit_manage_event_path(@event, :jump_to => :tracks_text), :class => "editable" if admin? %>
+</div>
+
+<% for track in @tracks %>
+  <h3 class='track block <%= track_css_class(track) %>'><%= link_to h(track.title), track_path(track) %></h3>
+  <span class="description"><%= display_textile_for track.description %></span>
+
+  <% if admin? %>
+    <div class='record-controls'>
+    <%= link_to 'Edit', edit_track_path(track), :class => "editable" %>
+    <%= link_to 'Destroy', track_path(track), :data => { :confirm => %{Destroy track "#{track.title}"?} }, :method => :delete, :class => "deletable" %>
+    </div>
+  <% end %>
+<% end %>
+
+<div>
+<%= link_to 'New track', new_track_path, :class => "addable" if admin? %>
+<%= link_to 'Back to proposals', event_proposals_path(@event), :class => "cancelable" %>
+</div>
+<% end %>

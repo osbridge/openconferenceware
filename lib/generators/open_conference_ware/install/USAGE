@@ -1,0 +1,12 @@
+Description:
+    Installs initializers to configure OpenConferenceWare
+
+Example:
+    rails generate open_conference_ware:install /ocw
+
+    This will:
+      - create config/initializers/01_open_conference_ware.rb
+      - create config/initializers/02_omniauth.rb
+      - mount OpenConferenceWare at the given mount point (/ocw)
+      - set up OpenConferenceWare's seed data
+

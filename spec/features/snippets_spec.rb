@@ -6,7 +6,7 @@ feature "managing snippets", type: :feature do
   end
 
   scenario "Adding a new snippet" do
-    visit "/manage/snippets"
+    visit OpenConferenceWare.mounted_path("/manage/snippets")
     click_link "New snippet"
     fill_in "Slug", with: "testing_snippet"
     fill_in "Description", with: "This is a snippet to test snippet editing"
@@ -19,7 +19,7 @@ feature "managing snippets", type: :feature do
   scenario "Editing a snippet" do
     snippet = create(:snippet)
     new_content = "!!snippet content!!"
-    visit "/manage/snippets"
+    visit OpenConferenceWare.mounted_path("/manage/snippets")
     click_link snippet.slug
     click_link "Edit"
     fill_in "Content", with: new_content

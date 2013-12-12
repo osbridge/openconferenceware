@@ -1,0 +1,19 @@
+<% page_title "#{@track.title} track" %>
+
+<% cache "track_#{@track.id},admin_#{admin?}" do %>
+  <div id="track-show">
+    <span class="description"><%= display_textile_for @track.description %></span>
+
+    <% if admin? %>
+      <h3>Excerpt</h3>
+      <p class="excerpt"><%= @track.excerpt %></p>
+    <% end %>
+
+    <div class='record-controls'>
+      <%= link_to 'Edit this track', edit_track_path(@track), :class => "editable" if admin? %>
+      <%= link_to 'All tracks for this event', tracks_path, :class => "cancelable" %>
+    </div>
+
+    <%= render :partial => "open_conference_ware/proposals/sub_list", :locals => {:container => @track} %>
+  </div>
+<% end %>

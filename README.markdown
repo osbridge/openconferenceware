@@ -1,37 +1,92 @@
 # OpenConferenceWare
 
-## Recent Developments - Important!
-
-The current master branch is under active development, as part of an ongoing effort to modernize and improve OpenConferenceWare. It has been upgraded to the latest Rails version (4.0.2), and the authentication system has been completely reworked. We are working towards towards several other goals, as seen on the [roadmap](https://github.com/osbridge/openconferenceware/wiki/Roadmap).
-
-Although this branch is in flux, we recommend it as a starting point for any new OCW deployments. The alternative is to use the [legacy](https://github.com/osbridge/openconferenceware/tree/legacy) branch, which is based on Rails 2.1.2 and is much trickier to work with.
-
-While we undertake this work, the Gemfile loads all three of our supported database adapters: `sqlite3`, `mysql2` and `pg`. Feel free to comment out the adapters that you're not using.
-
-### Current Status
-
-* [Master](https://github.com/osbridge/openconferenceware/tree/master) (Rails 4.0.2, Ruby 1.9.3 or 2.0): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware) [![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master) [![Dependency Status](https://gemnasium.com/osbridge/openconferenceware.png)](https://gemnasium.com/osbridge/openconferenceware) [![Code Climate](https://codeclimate.com/github/osbridge/openconferenceware.png)](https://codeclimate.com/github/osbridge/openconferenceware)
-* [Legacy](https://github.com/osbridge/openconferenceware/tree/legacy) (Rails 2.1.2, Ruby 1.8.7): [![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=legacy)](https://travis-ci.org/osbridge/openconferenceware)
-
+[![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware) [![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master) [![Dependency Status](https://gemnasium.com/osbridge/openconferenceware.png)](https://gemnasium.com/osbridge/openconferenceware) [![Code Climate](https://codeclimate.com/github/osbridge/openconferenceware.png)](https://codeclimate.com/github/osbridge/openconferenceware)
 
 About
 -----
 
 *OpenConferenceWare* is an open source web application for supporting conference-like events. This customizable, general-purpose platform provides proposals, sessions, schedules, tracks, user profiles and more.
 
-If you only need a simpler system for accepting proposals for Ignite-like events, please consider the stable and well-tested software this code was forked from: OpenProposals, <http://OpenProposals.org/>
-
-
-Why
----
-
 By releasing this code under a liberal MIT open source license, we hope to empower other people so they can better organize and participate in more events that support free sharing of information, open society, and involved citizenry.
 
+Installation
+------------
+
+OpenConferenceWare is distributed as a [Rails engine](http://guides.rubyonrails.org/engines.html), which means it sits inside a Rails application and adds functionality. While this host application can be built to provide additional parts of your event's website, it will often just serve as a place to configure and customize OpenConferenceWare.
+
+### Requirements
+
+OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0.2 or newer.
+
+### Starting from scratch
+
+1. Install the latest version of Rails:
+
+       $ gem install rails -v 4.0.2
+
+2. Create a new application to host OpenConferenceWare for your event:
+
+       $ rails new sloth_party --skip-bundle
+
+3. Add 'open_conference_ware' to the newly-created app's Gemfile
+
+       gem "open_conference_ware"
+
+4. Run `bundle install`
+
+5. Optionally, configure your app's [database settings](http://guides.rubyonrails.org/configuring.html#configuring-a-database). It's fine to run with the default sqlite configuration, but if you prefer another database, set it up now. OCW is tested with SQLite3, MySQL, and PostgreSQL.
+
+6. Install OpenConferenceWare's configuration files and seed data:
+
+       $ bin/rails generate open_conference_ware:install
+
+   If you want OCW to be mounted somewhere other than the root of the application, you can pass a mount point to the generator, like so:
+
+       $ bin/rails generate open_conference_ware:install /ocw
+
+7. Edit `config/initializers/01_open_conference_ware.rb` to configure OCW's settings. You'll find comments there explaining the available options.
+
+8. At this point, you should be able to fire up a server and see OpenConferenceWare at [http://localhost:3000](http://localhost:3000)
+
+       $ bin/rails server
+
+### Authentication
+
+OpenConferenceWare uses [OmniAuth](https://github.com/intridea/omniauth/) to allow users to sign in using [a variety of external services](https://github.com/intridea/omniauth/wiki/List-of-Strategies). No authentication method is enabled by default, so you'll need to configure one before deploying OCW.
+
+To do this, just add the gem for the desired provider to your Gemfile, run `bundle install`, and configure it in `config/initializers/02_omniauth.rb`.
+
+For example, to enable sign-in with [Persona](https://login.persona.org/), you would add the [omniauth-persona](https://github.com/pklingem/omniauth-persona) gem to your Gemfile
+
+    gem 'omniauth-persona'
+
+and add the provider to `02_omniauth.rb`
+
+    provider :persona
+
+#### Sign In Forms
+
+Friendly sign-in forms are provided for [OpenID](http://openid.net/) and [Persona](https://login.persona.org/), but it's easy to add your own. After enabling an OmniAuth provider, create a partial view at `app/views/open_conference_ware/authentications/_provider_name.html.erb`, where `provider_name` is the name passed to the provider method in the initializer.
+
+Customization
+-------------
+
+### Feature Flags
+
+Many features of OCW can be enabled or disabled to meet your event's needs. These can be toggled by editing flags in `config/initializers/01_open_conference_ware.rb`.
+
+### Views and Styles
+
+You can override any view in OpenConferenceWare by creating a view with the same name in your host application. For example, replace the view showing a single room, you would create `app/views/open_conference_ware/rooms/show.html.erb` within your host application.
 
 Releases
 --------
 
-The stable releases this software are tagged with version numbers, such as `v0.20090416`, which represent the date they were made. There is also a `stable` branch that points to the current stable release. The `CHANGES.txt` file describes a summary of significant changes made between releases. If you are running a fork of this software, please carefully read these changes to avoid surprises when you pull the updates into your fork.
+Both GitHub's [releases page](https://github.com/osbridge/openconferenceware/releases) and `CHANGES.md` provide a summary of significant changes made between releases. If you are running a fork of this software, please carefully read these changes to avoid surprises when you pull the updates into your fork.
+
+### Old Versions
+
+Prior to version 1.0, OpenConferenceWare was distributed as a standalone Rails application. Those releases are  tagged with version numbers, such as `v0.20090416`, which represent the date they were made. The final release to be distributed this was was `v0.20131209`, which is based on Rails 3.2.
 
 
 Features
@@ -67,97 +122,6 @@ Features
 - Administrators can subscribe to a feed of private comments for proposals
 - Developers can customize the site's appearance and behavior
 - ...and many more features are planned for the future!
-
-
-Gotchas
--------
-
-Although this software works well and has been used in production on multiple sites for years, there are issues you should be aware of. The documentation and ease of setup are not as strong as we want it to be. See our issue tracker on GitHub for known issues, or to report your own.
-
-
-Installation
-------------
-
-Installing this application requires familiarity with *UNIX* system administration and *Ruby on Rails* applications.
-
-This application will run best on a UNIX-based dedicated server or virtual machine, and may not run at all on cheap shared hosting because these often restrict the CPU cycles and memory you're allowed to use below what this application requires.
-
-To install the application and its dependencies:
-
-1. Install Git: <http://git-scm.com/>
-
-2. Checkout the OpenConferenceWare source code:
-
-        git clone git://github.com/osbridge/openconferenceware.git
-
-3. Install Ruby 1.8.6 or 1.8.7 from <http://www.ruby-lang.org/en/downloads/> or Ruby Enterprise Edition from <http://www.rubyenterpriseedition.com/download.html>
-
-4. Install RubyGems 1.3.6 or newer 1.3.x version from <http://rubyforge.org/projects/rubygems>
-
-5. Install Bundler by running the following, likely as `root` or using `sudo`:
-
-        gem install bundler
-
-6. Go into the checkout directory created by `git clone` above:
-
-        cd openconferenceware
-
-7. Install the application's libraries:
-
-        bundle install
-
-8. Optionally configure a custom database, see `config/database.yml` for details.
-
-9. Copy `config/settings.yml.sample` to `config/settings.yml` and `config/secrets.yml.sample` to `config/secrets.yml`. Open these new files up, read through them, and edit as desired to configure OCW.
-
-10. Create your databases using its native tools or by running:
-
-        bundle exec rake db:create:all
-
-11. Run the application's interactive setup and follow its instructions -- WARNING, this will destroy your database's contents:
-
-        bundle exec rake setup
-
-12. Or run the application's interactive setup which pre-populates your database with sample data -- WARNING, this will destroy your database's contents:
-
-        bundle exec rake setup:sample
-
-13. If you intend to setup a production server, you should consider using Phusion Passenger from <http://www.modrails.com/> or Thin <http://code.macournoyer.com/thin/>
-
-14. If you intend to deploy releases to a production server, consider using Capistrano and read the `config/deploy.rb` file.
-
-
-Security
---------
-
-This application runs with insecure settings by default to make it easy to get started, and will warn you about this each time you start it. These default settings include publicly-known cryptography keys that will let anyone get administrator privileges on your application. To secure your application, create a `config/secrets.yml` file with your secret settings based on the instructions in the `config/secrets.yml.sample` file.
-
-
-Customization
--------------
-
-Many features of OCW can be enabled or disabled to meet your event's needs. These can be toggled by editing flags in `config/settings.yml`.
-
-*WARNING:* If you are running a fork of this software, you should be able to customize everything by modifying the config files. If you find yourself modifying anything else, you may be doing it wrong and should [get in touch](http://github.com/osbridge/) to discuss if we can figure out a way to make the platform more generic to support your needs.
-
-*WARNING:* The methods and instance variables used within the application layout are in a state of flux as the software evolves. These will be stabilized for the eventual 1.0 release.
-
-
-Environment variables
------------------------
-
-You can alter the application's behavior by setting environment variables. For example, to enable query tracing, you can run:
-
-    QUERYTRACE=1 ./script/server
-
-Application behavior is affected by these environment variables:
-
-- `NO_MIGRATION_CHECK=1` disables the check that ensures the database has had all the migrations applied.
-- `EXCEPTION_NOTIFIER=1` forces the exception notification system to run, it's only used by default in `production` and `preview` environments.
-- `EXCEPTION_EMAILS=1` forces the exception notification system to actually send emails, it's only not used by default in `test` and `development` environments.
-- `QUERYTRACE=1` provides logging that shows where each database query is done, handy for identifying unwanted queries.
-- `LOCALCSS=1` forces the use of local CSS files when using the `production` or `preview` environments, these default to using the CSS files on the production servers.
-- `WEBANALYTICS=1` forces the inclusion of web analytics tracking in the layout, this is enabled by default in the `production` environment.
 
 Usage
 -----

@@ -1,0 +1,14 @@
+<% page_title "#{@session_type.title}" %>
+
+<% cache "session_type_#{@session_type.id},admin_#{admin?}" do %>
+  <div id="session_type-show">
+    <span class="description"><%= display_textile_for @session_type.description %></span>
+
+    <div class='record-controls'>
+      <%= link_to 'Edit', edit_session_type_path(@session_type), :class => "editable" if admin? %>
+      <%= link_to 'Session types for this event', session_types_path, :class => "cancelable" %>
+    </div>
+
+    <%= render :partial => "open_conference_ware/proposals/sub_list", :locals => {:container => @session_type} %>
+  </div>
+<% end %>

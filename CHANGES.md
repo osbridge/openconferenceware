@@ -2,6 +2,15 @@
 
 OpenConferenceWare stable releases and changes included, with latest at top:
 
+### master
+- Improved gem packaging
+
+### v1.0.0.pre1
+- Converted to a Rails engine
+- Packaged as a gem: open_conference_ware
+- Added a generator to set up config files and seed data
+- Updated documentation to reflect new packaging
+
 ### v0.20131209
 - **[!] This is the final release that will be distributed as a Rails application, future releases will be packaged as a gem, providing a Rails engine**
 - Upgraded to Rails 4.0.2

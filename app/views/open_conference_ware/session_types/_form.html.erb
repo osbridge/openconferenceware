@@ -1,0 +1,23 @@
+<% focus :session_type_title %>
+
+<%= form_for([@event, @session_type]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title, :class => "form-control" %>
+  </p>
+  <p>
+    <%= f.label :description %> (<%= display_textile_help_link %>)<br />
+    <%= f.text_area :description, :class => "form-control" %>
+  </p>
+  <p>
+    <%= f.label :duration, "Duration (minutes)" %><br />
+    <%= f.text_field :duration, :class => "form-control" %>
+  </p>
+  <p>
+    <%= f.submit @session_type.new_record? ? "Create" : "Update", :class => "btn btn-primary" %>
+    <%= link_to 'Cancel', @session_type, :class => "btn btn-default" %>
+    <%= link_to 'Destroy', session_type_path(@session_type), :method => :delete, :data => { :confirm => %{Destroy session type "#{@session_type.title}"?} }, :class => "btn btn-danger pull-right" unless @session_type.new_record? %>
+  </p>
+<% end %>
