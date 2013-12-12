@@ -1,6 +1,10 @@
 # OpenConferenceWare
 
-[![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware) [![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master) [![Dependency Status](https://gemnasium.com/osbridge/openconferenceware.png)](https://gemnasium.com/osbridge/openconferenceware) [![Code Climate](https://codeclimate.com/github/osbridge/openconferenceware.png)](https://codeclimate.com/github/osbridge/openconferenceware)
+[![Gem Version](https://badge.fury.io/rb/open_conference_ware.png)](http://badge.fury.io/rb/open_conference_ware)
+[![Build Status](https://travis-ci.org/osbridge/openconferenceware.png?branch=master)](https://travis-ci.org/osbridge/openconferenceware)
+[![Dependency Status](https://gemnasium.com/osbridge/openconferenceware.png)](https://gemnasium.com/osbridge/openconferenceware)
+[![Coverage Status](https://coveralls.io/repos/osbridge/openconferenceware/badge.png?branch=master)](https://coveralls.io/r/osbridge/openconferenceware?branch=master)
+[![Code Climate](https://codeclimate.com/github/osbridge/openconferenceware.png)](https://codeclimate.com/github/osbridge/openconferenceware)
 
 About
 -----
