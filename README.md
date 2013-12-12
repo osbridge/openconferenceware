@@ -34,7 +34,7 @@ OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0
 
 3. Add 'open_conference_ware' to the newly-created app's Gemfile
 
-        gem "open_conference_ware"
+        gem "open_conference_ware", "~> 1.0.0.pre"
 
 4. Run `bundle install`
 
