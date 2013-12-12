@@ -10,7 +10,7 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 group :development do
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: 'master'
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: '2-14-maintenance'
 end
 
 group :debug do
