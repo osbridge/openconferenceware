@@ -1,13 +1,21 @@
 require 'simplecov'
-require 'cadre/simplecov'
 require 'coveralls'
 
-SimpleCov.start 'rails' do
-  formatter SimpleCov::Formatter::MultiFormatter[
+formatters = [
     Coveralls::SimpleCov::Formatter,
-    SimpleCov::Formatter::HTMLFormatter,
-    Cadre::SimpleCov::VimFormatter
-  ]
+    SimpleCov::Formatter::HTMLFormatter
+]
+
+
+begin
+  require 'cadre/simplecov'
+  formatters << Cadre::SimpleCov::VimFormatter
+rescue LoadError
+  # Cadre not found, skipping
+end
+
+SimpleCov.start 'rails' do
+  formatter SimpleCov::Formatter::MultiFormatter[*formatters]
 end
 
 # Coveralls.wear!('rails')
