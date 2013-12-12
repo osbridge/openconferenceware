@@ -1,6 +1,5 @@
 language: ruby
 before_install:
-  - cp Gemfile.lock Gemfile.ci.lock
   - cp ci/Gemfile.ci Gemfile.ci
   - export BUNDLE_GEMFILE=$PWD/Gemfile.ci
 bundler_args: --without debug
