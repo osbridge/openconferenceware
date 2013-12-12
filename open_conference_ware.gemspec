@@ -16,6 +16,12 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
+  cert = File.expand_path("~/.ssh/gem-private_key_ocw.pem")
+  if File.exist?(cert)
+    s.signing_key = cert
+    s.cert_chain = ["gem-public_cert.pem"]
+  end
+
   s.add_dependency "rails", "~> 4.0.2"
   s.add_dependency "rails-observers", "~> 0.1.2"
 
