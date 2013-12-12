@@ -38,7 +38,7 @@ OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0
 
 4. Run `bundle install`
 
-5. Optionally, configure your app's [database settings](http://guides.rubyonrails.org/configuring.html#configuring-a-database). It's fine to run with the default sqlite configuration, but if you prefer another database, set it up now. OCW is tested with SQLite3, MySQL, and PostgreSQL.
+5. Optionally, configure your app's [database settings](http://guides.rubyonrails.org/configuring.html#configuring-a-database). It's fine to run with the default sqlite configuration, but if you prefer another database, set it up now. OCW is tested with SQLite3, MySQL 5.5, and PostgreSQL 9.3.
 
 6. Install OpenConferenceWare's configuration files and seed data:
 
