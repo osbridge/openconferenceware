@@ -13,8 +13,9 @@ Gem::Specification.new do |s|
   s.summary     = "An open source web application for events and conferences. "
   s.description = "OpenConferenceWare is an open source web application for events and conferences. This customizable, general-purpose platform provides proposals, sessions, schedules, tracks and more."
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["spec/**/*"]
+  s.require_paths = ["lib"]
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- spec/*`.split("\n")
 
   cert = File.expand_path("~/.ssh/gem-private_key_ocw.pem")
   if File.exist?(cert)
