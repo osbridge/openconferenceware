@@ -13,7 +13,7 @@ module OpenConferenceWare
   self.mount_point ||= "/"
 
   def self.mounted_path(path)
-    "#{self.mount_point}/#{path}".gsub("//","/")
+    "#{self.mount_point}/#{path}".gsub(/\/\/+/,"/")
   end
 
   # Secrets
