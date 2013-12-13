@@ -29,6 +29,11 @@ module OpenConferenceWare
       redirect_back_or_default
     end
 
+    def failure
+      flash[:error] = params[:message]
+      redirect sign_in_path
+    end
+
     protected
 
     def auth_hash

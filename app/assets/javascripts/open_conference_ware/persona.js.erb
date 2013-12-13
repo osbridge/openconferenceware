@@ -4,7 +4,7 @@ function personaLogin() {
       $('#persona_form input[name=assertion]').val(assertion);
       $('#persona_form').submit();
     } else {
-      window.location = "#{failure_path}"
+      window.location = "<%= OpenConferenceWare::Engine.routes.url_helpers.auth_failure_path %>"
     }
   });
 }
