@@ -16,11 +16,11 @@ hide_rooms ||= false
     # Establish classs
     item_class = 'vevent'
     item_class << ' light ' << track_css_class(track) if track
-    item_class << ' generic_item' if item.is_a?(ScheduleItem)
+    item_class << ' generic_item' if item.is_a?(OpenConferenceWare::ScheduleItem)
     %>
     <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
       <div class='concise'>
-        <% if item.is_a?(ScheduleItem) %>
+        <% if item.is_a?(OpenConferenceWare::ScheduleItem) %>
           <span class='summary'><%= h item.title %></span>
         <% else %>
           <%= user_favorite_control_for item %>
@@ -33,7 +33,7 @@ hide_rooms ||= false
       <ul class='session_info'>
         <li>
           <strong>Title:</strong>
-          <% if item.is_a?(ScheduleItem) %>
+          <% if item.is_a?(OpenConferenceWare::ScheduleItem) %>
             <%= h item.title %>
           <% else %>
             <%= link_to h(item.title), session_path(item) %>

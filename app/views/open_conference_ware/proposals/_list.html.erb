@@ -6,7 +6,7 @@
 # * kind => Treat these records as :sessions or :proposals. REQUIRED.
 # * sorter => Display the sort toolbar? Defaults to false.
 
-records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
+records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
 %>
 
 <% if proposal_excerpts? %>

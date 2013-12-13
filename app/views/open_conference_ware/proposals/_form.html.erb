@@ -118,7 +118,7 @@
                 <% if admin? %>
                   <br /><span class='admin-only'><strong>WARNING:</strong> Titles are locked because other systems are currently depending on them. (MediaWiki, printed programs, etc.)</span>
                 <% else -%>
-                  If you need to change this information, please <%= mail_to SECRETS.administrator_email, 'contact the administrator' %>.
+                  If you need to change this information, please <%= mail_to OpenConferenceWare.administrator_email, 'contact the administrator' %>.
                 <% end -%>
               </p>
             <% end -%>
@@ -168,14 +168,14 @@
               </td>
             </tr>
           <% end %>
-          <% if Proposal.audience_levels %>
+          <% if OpenConferenceWare::Proposal.audience_levels %>
             <tr>
               <td class="label-cell">
                 <%= required_field %><%= f.label :session_type_id, "Audience level" %>
               </td>
               <td>
                 <ul class='radio-set'>
-                <% for audience_level in Proposal.audience_levels %>
+                <% for audience_level in OpenConferenceWare::Proposal.audience_levels %>
                   <li>
                     <%= f.radio_button :audience_level, audience_level['slug'], :class => :radio %>
                       <label for="proposal_audience_level_<%= audience_level['slug'] %>">
@@ -184,7 +184,7 @@
                   </li>
                 <% end %>
                 </ul>
-                <p class='help'><%= Proposal.audience_level_hint %></p>
+                <p class='help'><%= OpenConferenceWare::Proposal.audience_level_hint %></p>
               </td>
             </tr>
 

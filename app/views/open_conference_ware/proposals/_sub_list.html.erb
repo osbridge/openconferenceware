@@ -36,7 +36,7 @@ include_user_favorites_javascript
   }
 
   ## Get records from variable or through an association.
-  records = local_assigns[:records] || Proposal.populated_proposals_for(container)
+  records = local_assigns[:records] || OpenConferenceWare::Proposal.populated_proposals_for(container)
 
   ## Get events to organize records.
   events_to_records = records.select(&:event).group_by(&:event)
@@ -53,7 +53,7 @@ include_user_favorites_javascript
       <% if event.proposal_status_published? %>
         <% event_records_by_confirmation = event_records.group_by(&:confirmed?) %>
         <%= displayer.call(:sessions, event_records_by_confirmation[true], false) %>
-        <% unless container.kind_of?(Room) %>
+        <% unless container.kind_of?(OpenConferenceWare::Room) %>
           <%= displayer.call(:proposals, event_records_by_confirmation[false], true) %>
         <% end %>
         <% run_when_dom_is_ready "archive_proposals_sub_list(#{event.id})" %>
