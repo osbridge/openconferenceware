@@ -83,7 +83,7 @@ span.admin-only {
   top: 50%;
   left: 50%;
   color: black;
-  background: image-url('spinner-big.gif') no-repeat center #F7F1A3;
+  background: image-url('open_conference_ware/spinner-big.gif') no-repeat center #F7F1A3;
   text-align: center;
   padding: 10px;
   font: normal 16px Tahoma, Geneva, sans-serif;
@@ -115,40 +115,40 @@ span.admin-only {
 }
 
 .addable {
-  background-image: image-url('plus.png');
+  background-image: image-url('open_conference_ware/plus.png');
 }
 
 .showable {
-  background-image: image-url('document.png');
+  background-image: image-url('open_conference_ware/document.png');
 }
 
 .editable,
 .snippet_edit_link {
-  background-image: image-url('edit.png');
+  background-image: image-url('open_conference_ware/edit.png');
 }
 
 .cancelable {
-  background-image: image-url('arrow-out.png');
+  background-image: image-url('open_conference_ware/arrow-out.png');
 }
 
 .deletable {
-  background-image: image-url('delete.png');
+  background-image: image-url('open_conference_ware/delete.png');
 }
 
 .confirmable {
-  background-image: image-url('accept.png');
+  background-image: image-url('open_conference_ware/accept.png');
 }
 
 .feedable {
-  background-image: image-url('feed.png');
+  background-image: image-url('open_conference_ware/feed.png');
 }
 
 .spinning {
-  background-image: image-url('spinner.gif');
+  background-image: image-url('open_conference_ware/spinner.gif');
 }
 
 .to_top {
-  background-image: image-url('arrow-up.png');
+  background-image: image-url('open_conference_ware/arrow-up.png');
 }
 
 .popup {
@@ -156,7 +156,7 @@ span.admin-only {
   padding-left: 20px;
   background-position: left center;
   background-repeat: no-repeat;
-  background-image: image-url('new_window.gif');
+  background-image: image-url('open_conference_ware/new_window.gif');
 }
 
 /* @end */
@@ -904,7 +904,7 @@ ul.calendar_items {
 }
 
 .favorite {
-  background-image: image-url('favorite.png');
+  background-image: image-url('open_conference_ware/favorite.png');
   background-position: left -36px;
   background-repeat: no-repeat;
   width: 18px;
@@ -956,7 +956,7 @@ body.proposals.show #content h2.page_title {
 }
 
 a.to_favorites {
-  background: image-url('star.png') no-repeat left center;
+  background: image-url('open_conference_ware/star.png') no-repeat left center;
   padding: 0 0 0 22px;
 }
 /* @end */
@@ -966,7 +966,7 @@ body.users.show h2.page_title {
 }
 
 .locked {
-  background: image-url('lock.png') no-repeat 0 2px;
+  background: image-url('open_conference_ware/lock.png') no-repeat 0 2px;
   padding-left: 23px;
   margin: 1em 0;
 }
