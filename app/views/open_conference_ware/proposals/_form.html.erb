@@ -216,7 +216,7 @@
           </tr>
         <% end %>
         <tr>
-          <td class="label-cell"><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional, kept private)" %></td>
+          <td class="label-cell"><%= f.label :note_to_organizers, "Note to organizers<br/ >(Optional, kept private)".html_safe %></td>
           <td>
             <%= f.text_area :note_to_organizers, :rows => 3 %>
             <p class='help'>(Is there anything else we should know about the room requirements or plans for your talk? E.g. you will be tapdancing, throwing broccoli into the audience, and need to rehearse beforehand.)</p>

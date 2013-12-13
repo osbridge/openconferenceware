@@ -121,9 +121,9 @@ records = Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc
             <p class="proposal">
               <% styling = proposal_excerpts? ? 'display: inline-block' : 'inline' %>
               <% if multiple_presenters? %>
-                <%= link_to(h(record.title), record, :class => "title", :style => styling) %>
+                <%= link_to(record.title, record, :class => "title", :style => styling) %>
               <% else %>
-                <%= link_to(h(record.presenter)+" &mdash; "+h(record.title), record, :class => "title", :style => styling) %>
+                <%= link_to("#{record.presenter} &mdash; #{record.title}".html_safe, record, :class => "title", :style => styling) %>
               <% end %>
 
               <span class="excerpt">
