@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "open_conference_ware/tracks/show.html.erb" do
   include OpenConferenceWare::TracksHelper
   before(:each) do
+    stub_settings_accessors_on(view)
     @event = stub_current_event!(controller: view)
     @track = stub_model(Track,
       title: "value for title",

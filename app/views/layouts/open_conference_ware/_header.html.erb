@@ -91,7 +91,9 @@
                 <% if user_profiles? %>
                   <li><%= link_to "Edit profile", edit_user_path(current_user) %></li>
                 <% end -%>
-                <li><%= link_to( "My favorites", user_favorites_path(current_user) ) %>
+                <% if user_favorites? %>
+                  <li><%= link_to( "My favorites", user_favorites_path(current_user) ) %>
+                <% end -%>
                 <li><%= link_to( "My proposals", proposals_user_path(current_user) ) %>
                 <li class="divider"></li>
                 <li><%= link_to "Sign Out", sign_out_path %></li>

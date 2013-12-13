@@ -135,7 +135,12 @@ module OpenConferenceWare
 
   # Can users add comments until a toggle is flipped on the event?
   mattr_accessor :have_event_proposal_comments_after_deadline
-  self.have_event_proposal_comments_after_deadline |= true
+  self.have_event_proposal_comments_after_deadline ||= true
+
+  # Can users note their favorite sessions?
+  mattr_accessor :have_user_favorites
+  self.have_user_favorites ||= true
+
 
   # What audience experience levels can a proposal be classified as? The list will be displayed on the form in the order defined below. The "slug" is the unique key defining the particular audience level, while the "label" is the human-readable value displayed.
   mattr_accessor :proposal_audience_levels

@@ -36,6 +36,7 @@ module OpenConferenceWare
         proposal_statuses
         user_pictures
         user_profiles
+        user_favorites
       ].each do |name|
         define_method("#{name}?") do
           return OpenConferenceWare.send("have_#{name}")

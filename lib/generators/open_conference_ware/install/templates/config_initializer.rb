@@ -64,6 +64,9 @@ OpenConferenceWare.configure do |config|
   # Can users add comments until a toggle is flipped on the event?
   config.have_event_proposal_comments_after_deadline = true
 
+  # Can users note their favorite sessions?
+  config.have_user_favorites = true
+
   # What audience experience levels can a proposal be classified as?
   # The list will be displayed on the form in the order defined below.
   # The "slug" is the unique key defining the particular audience level, while

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "open_conference_ware/session_types/show.html.erb" do
   include OpenConferenceWare::SessionTypesHelper
   before(:each) do
+    stub_settings_accessors_on(view)
     assign(:session_type, stub_model(SessionType))
     view.stub(:admin?).and_return(false)
 

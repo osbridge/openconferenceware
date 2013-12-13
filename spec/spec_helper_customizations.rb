@@ -115,6 +115,7 @@ module OCWHelpers
     view.stub(:event_rooms?).and_return(true)
     view.stub(:proposal_speaking_experience?).and_return(true)
     view.stub(:schedule_visible?).and_return(true)
+    view.stub(:user_favorites?).and_return(true)
   end
 end
 
