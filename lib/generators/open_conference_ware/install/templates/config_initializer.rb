@@ -70,7 +70,7 @@ OpenConferenceWare.configure do |config|
   # the "label" is the human-readable value displayed.
   #
   # Set this to a blank array to disable audience levels
-  config.proposal_audience_levels ||= [
+  config.proposal_audience_levels = [
     {slug: 'a', label: 'Beginner'},
     {slug: 'b', label: 'Intermediate'},
     {slug: 'c', label: 'Advanced'}
