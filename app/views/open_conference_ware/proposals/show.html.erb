@@ -101,51 +101,6 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 <%= render :partial => "open_conference_ware/proposals/admin_controls" %>
 
 <%= cache "#{@kind}_#{@proposal.id},edit_#{can_edit?(@proposal)},private_note_#{show_private_note}" do %>
-  <% unless multiple_presenters? %>
-    <div class="standard-form">
-      <table>
-        <tr>
-          <td colspan="2">
-            <h4>Speaker</h4>
-          </td>
-        </tr>
-        <tr>
-          <td class="label-cell"><label>Speaker</label ></td>
-            <td class="data-cell"><p>
-              <% if user_profiles? %>
-                <%= link_to(h(@proposal.user.fullname), user_path(@proposal.user)) %>
-              <% else %>
-                <%=h @proposal.presenter %>
-              <% end %>
-            </p></td>
-        </tr>
-        <% unless @profile.affiliation.blank? %>
-          <tr>
-            <td class="label-cell"><label>Affiliation</label ></td>
-            <td class="data-cell"><p><%=h @profile.affiliation %></p></td>
-          </tr>
-        <% end %>
-        <% if can_edit?(@proposal) %>
-          <tr>
-            <td class="label-cell"><label>Email (private)</label ></td>
-            <% email = @profile.email %>
-            <td class="data-cell"><p><%=link_to h(email), "mailto:"+h(email) %></p></td>
-          </tr>
-        <% end %>
-        <% unless @profile.website.blank? %>
-          <tr>
-            <td class="label-cell"><label>URL</label ></td>
-            <td class="data-cell"><p><%= display_link_to @profile.website %></p></td>
-          </tr>
-        <% end %>
-        <tr>
-          <td class="label-cell"><label>Biography</label ></td>
-          <td class="data-cell"><%= preserve_formatting_of @profile.biography %></td>
-        </tr>
-      </table>
-    </div>
-  <% end %>
-
   <div class='show-proposal'>
 
   <% if current_user_is_proposal_speaker? %>
@@ -198,9 +153,6 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
         <%= @proposal.audience_level_label %>
       </div>
     <% end %>
-    <div class='proposal-slug'>
-      <%= @proposal.slug %>
-    </div>
     <% if schedule_visible? && @proposal.start_time %>
       <div class='proposal-scheduling'>
         <b>Scheduled:</b>
@@ -243,6 +195,39 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
     <%= preserve_formatting_of @proposal.note_to_organizers %>
   <% end %>
 
+  <% if user_profiles? %>
+    <h3><%= @proposal.users.size <= 1 ? "Speaker" : "Speakers" %></h3>
+    <%= render :partial => 'open_conference_ware/users/list', :locals => { :users => @proposal.users.by_name, :hide_rooms => true, :only_for_event => @event } %>
+  <% else %>
+      <h3><%= @proposal.presenter %></h3>
+      <table>
+        <% if @proposal.affiliation.present? -%>
+        <tr>
+          <th>Affiliation</th>
+          <td><%= @proposal.affiliation %></td>
+        </tr>
+        <% end -%>
+        <% if @proposal.website.present? -%>
+        <tr>
+          <th>Website</th>
+          <td><%= display_link_to(@proposal.website, :nofollow => true, :class => 'url') %></td>
+        </tr>
+        <% end -%>
+        <% if admin? || can_edit?(@proposal) %>
+        <tr>
+          <th>Email (private)</th>
+          <td><%= display_link_to(@proposal.email, :mailto => true) %></td>
+        </tr>
+        <% end -%>
+        <% if @proposal.biography.present? %>
+        <tr>
+          <th>Biography</th>
+          <td><%= display_textile_for @proposal.biography %></td>
+        </tr>
+      </table>
+      <% end %>
+    <% end %>
+
   <div class="record-controls">
     <% if can_edit?(@proposal) %>
       <%= link_to 'Edit proposal', edit_proposal_path(@proposal), :class => "editable" %>
@@ -251,12 +236,6 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
     <%= link_to "Back to list of #{@kind.to_s.pluralize}", records_path, :class => "cancelable" %>
   </div>
 
-  <% if multiple_presenters? %>
-    <h3><%= @proposal.users.size == 1 ? "Speaker" : "Speakers" %></h3>
-
-    <%= render :partial => 'open_conference_ware/users/list', :locals => { :users => @proposal.users.by_name, :hide_rooms => true, :only_for_event => @event } %>
-
-  <% end %>
 
 <% end %>
 
