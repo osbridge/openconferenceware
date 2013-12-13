@@ -6,6 +6,11 @@ OpenConferenceWare.configure do |config|
   # in some cases with a string like "/open_conference_ware"
   config.mount_point = '<%= mount_point %>'
 
+  # Mailer host
+  # The hostname to use when generating links in emails.
+  # This shoud be the domain where OCW is hosted.
+  config.mailer_host = 'ocw.local'
+
   # Event name, or organization running events:
   config.organization = 'Open Source Bridge'
 
