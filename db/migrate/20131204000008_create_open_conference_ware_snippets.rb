@@ -10,6 +10,6 @@ class CreateOpenConferenceWareSnippets < ActiveRecord::Migration
       t.datetime "updated_at"
     end
 
-    add_index "open_conference_ware_snippets", ["slug"]
+    add_index "open_conference_ware_snippets", ["slug"], unique: true
   end
 end
