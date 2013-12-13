@@ -9,6 +9,6 @@ class CreateOpenConferenceWareComments < ActiveRecord::Migration
       t.datetime "updated_at"
     end
 
-    add_index "open_conference_ware_comments", ["proposal_id"], name: "index_comments_on_proposal_id", using: :btree
+    add_index "open_conference_ware_comments", ["proposal_id"]
   end
 end

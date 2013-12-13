@@ -27,10 +27,10 @@ class CreateOpenConferenceWareProposals < ActiveRecord::Migration
       t.datetime "notified_at"
     end
 
-    add_index "open_conference_ware_proposals", ["event_id"], name: "index_proposals_on_event_id", using: :btree
-    add_index "open_conference_ware_proposals", ["room_id"], name: "index_proposals_on_room_id", using: :btree
-    add_index "open_conference_ware_proposals", ["submitted_at"], name: "index_proposals_on_submitted_at", using: :btree
-    add_index "open_conference_ware_proposals", ["track_id"], name: "index_proposals_on_track_id", using: :btree
-    add_index "open_conference_ware_proposals", ["user_id"], name: "index_proposals_on_user_id", using: :btree
+    add_index "open_conference_ware_proposals", ["event_id"]
+    add_index "open_conference_ware_proposals", ["room_id"]
+    add_index "open_conference_ware_proposals", ["submitted_at"]
+    add_index "open_conference_ware_proposals", ["track_id"]
+    add_index "open_conference_ware_proposals", ["user_id"]
   end
 end

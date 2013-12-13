@@ -10,6 +10,6 @@ class CreateOpenConferenceWareTracks < ActiveRecord::Migration
       t.text     "excerpt"
     end
 
-    add_index "open_conference_ware_tracks", ["event_id"], name: "index_tracks_on_event_id", using: :btree
+    add_index "open_conference_ware_tracks", ["event_id"]
   end
 end

@@ -10,7 +10,7 @@ class CreateOpenConferenceWareTaggings < ActiveRecord::Migration
       t.datetime "created_at"
     end
 
-    add_index "open_conference_ware_taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
-    add_index "open_conference_ware_taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+    add_index "open_conference_ware_taggings", ["tag_id"]
+    add_index "open_conference_ware_taggings", ["taggable_id", "taggable_type", "context"], name: "index_ocw_taggings_on_id_type_and_context"
   end
 end

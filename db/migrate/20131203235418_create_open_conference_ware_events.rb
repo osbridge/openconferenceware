@@ -21,7 +21,6 @@ class CreateOpenConferenceWareEvents < ActiveRecord::Migration
       t.boolean  "show_proposal_confirmation_controls",     default: false
     end
 
-    add_index "open_conference_ware_events", ["id"], name: "index_events_on_id", unique: true, using: :btree
-    add_index "open_conference_ware_events", ["slug"], name: "index_events_on_slug", using: :btree
+    add_index "open_conference_ware_events", ["slug"]
   end
 end

@@ -15,6 +15,6 @@ class CreateOpenConferenceWareRooms < ActiveRecord::Migration
       t.datetime "image_updated_at"
     end
 
-    add_index "open_conference_ware_rooms", ["event_id"], name: "index_rooms_on_event_id", using: :btree
+    add_index "open_conference_ware_rooms", ["event_id"]
   end
 end

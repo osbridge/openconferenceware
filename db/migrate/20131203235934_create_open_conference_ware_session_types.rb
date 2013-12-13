@@ -9,6 +9,6 @@ class CreateOpenConferenceWareSessionTypes < ActiveRecord::Migration
       t.datetime "updated_at"
     end
 
-    add_index "open_conference_ware_session_types", ["event_id"], name: "index_session_types_on_event_id", using: :btree
+    add_index "open_conference_ware_session_types", ["event_id"]
   end
 end

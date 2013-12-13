@@ -12,7 +12,7 @@ class CreateOpenConferenceWareScheduleItems < ActiveRecord::Migration
       t.datetime "updated_at"
     end
 
-    add_index "open_conference_ware_schedule_items", ["event_id"], name: "index_schedule_items_on_event_id", using: :btree
-    add_index "open_conference_ware_schedule_items", ["room_id"], name: "index_schedule_items_on_room_id", using: :btree
+    add_index "open_conference_ware_schedule_items", ["event_id"]
+    add_index "open_conference_ware_schedule_items", ["room_id"]
   end
 end
