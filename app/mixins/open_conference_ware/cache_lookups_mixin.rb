@@ -117,7 +117,7 @@ module OpenConferenceWare
           object.reflect_on_all_associations.each do |association|
             name = association.class_name
             unless object.constants.include?(name)
-              name.constantize # This line forces Rails to load this class
+              OpenConferenceWare.const_get(name) # This line forces Rails to load this class
             end
           end
         end
