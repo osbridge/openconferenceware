@@ -41,7 +41,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'vpim',                '~> 13.11.11'
   s.add_dependency 'nokogiri',            '~> 1.6.0'
   s.add_dependency 'prawn',               '~> 0.12.0'
-  s.add_dependency 'dalli',               '~> 2.6.4'
   s.add_dependency "dynamic_form",        '~> 1.1.4'
   s.add_dependency 'rinku',               '~> 1.7.3'
 
