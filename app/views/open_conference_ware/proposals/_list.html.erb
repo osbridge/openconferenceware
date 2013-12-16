@@ -146,7 +146,7 @@ records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", p
 <% end %>
           <td width="0" class="unbreakable">
             <p>
-              <% date = record.submitted_at.localtime.to_s(:ocw_default) if record.submitted_at.present? %>
+              <% date = record.submitted_at.localtime.strftime("%m/%d/%Y") if record.submitted_at.present? %>
               <% if date_cache[date] %>
                 <!--
                 <span class="date-seen"><%= date %></span>
