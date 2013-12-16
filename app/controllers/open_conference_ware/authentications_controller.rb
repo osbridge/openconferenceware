@@ -2,6 +2,9 @@ module OpenConferenceWare
   class AuthenticationsController < ApplicationController
     before_filter :require_auth_hash, only: [:create]
 
+    # We need to accept a raw POST from an OmniAuth provider with no authenticity token.
+    skip_before_filter :verify_authenticity_token, :only => :create
+
     def sign_in
       page_title "Sign In"
     end
