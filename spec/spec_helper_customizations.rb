@@ -94,7 +94,7 @@ module OCWHelpers
       assign(:events, events)
     end
 
-    Event.stub(:lookup).and_return do |*args|
+    Event.stub(:current).and_return do |*args|
       key = args.pop
       key ? event : events
     end

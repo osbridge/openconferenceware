@@ -11,7 +11,7 @@ module OpenConferenceWare
       # GET /events
       # GET /events.xml
       def index
-        @events = Event.lookup
+        @events = Event.all
 
         respond_to do |format|
           format.html # index.html.erb
@@ -108,7 +108,7 @@ module OpenConferenceWare
         already_emailed = []
         proposals = params[:proposal_ids].split(',')
         proposals.each do |proposal_id|
-          proposal = Proposal.lookup(proposal_id)
+          proposal = Proposal.find(proposal_id) rescue nil
           next unless proposal
           case params[:proposal_status]
           when 'accepted'

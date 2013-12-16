@@ -4,7 +4,7 @@ module OpenConferenceWare
     # Return the Snippet record matching the +slug+, else raise a
     # ActiveRecord::RecordNotFound.
     def snippet_record_for(slug)
-      if record = Snippet.lookup(slug.to_s)
+      if record = Snippet.find_by_slug(slug.to_s)
         return record
       else
         raise ActiveRecord::RecordNotFound, "Can't find snippet: #{slug}"

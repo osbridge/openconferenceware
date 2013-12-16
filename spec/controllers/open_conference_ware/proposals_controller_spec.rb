@@ -362,7 +362,7 @@ describe OpenConferenceWare::ProposalsController do
     it "should redirect back to proposals list if asked to display a proposal without an event" do
       proposal = proposals(:quentin_widgets)
       proposal.stub(event: nil)
-      Proposal.stub(find_by_id: proposal, find: proposal, lookup: proposal)
+      Proposal.stub(find_by_id: proposal, find: proposal)
 
       get :show, id: proposal.id
 
@@ -449,7 +449,7 @@ describe OpenConferenceWare::ProposalsController do
           old_session = stub_model(Proposal, status: 'confirmed', event: old_event)
           old_session.users << old_session_user
 
-          Proposal.stub(find: old_session, find_by_id: old_session, lookup: old_session)
+          Proposal.stub(find: old_session, find_by_id: old_session)
           Event.stub(current: current_event)
 
           get :session_show, id: old_session.id
@@ -478,7 +478,7 @@ describe OpenConferenceWare::ProposalsController do
       it "should not notify owners of acceptance if proposal confirmation controls are not visible" do
         event = @proposal.event
         event.stub(:show_proposal_confirmation_controls? => false)
-        Proposal.stub(lookup: @proposal)
+        Proposal.stub(find: @proposal)
 
         login_as(users(:quentin))
 
@@ -951,7 +951,7 @@ describe OpenConferenceWare::ProposalsController do
   describe "delete" do
     before do
       @proposal = proposals(:quentin_widgets)
-      Proposal.stub(:lookup).and_return(@proposal)
+      Proposal.stub(:find).and_return(@proposal)
     end
 
     def assert_delete(login=nil, &block)
@@ -1238,7 +1238,7 @@ describe OpenConferenceWare::ProposalsController do
 
     it "should return a status of :invalid_event when a proposal doesn't have a valid event" do
       proposal = stub_model(Proposal, state: "confirmed", event: nil)
-      Proposal.stub(:lookup).and_return(proposal)
+      Proposal.stub(:find).and_return(proposal)
       @controller.stub(:params).and_return({ id: 1000 })
       @controller.send(:get_proposal_and_assignment_status).should == [proposal, :invalid_event]
     end

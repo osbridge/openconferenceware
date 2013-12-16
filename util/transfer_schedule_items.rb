@@ -2,7 +2,7 @@
 
 def transfer_schedule_items
   current = Event.current
-  past = Event.lookup('2012')
+  past = Event.find_by_slug('2012')
 
   Event.current.dates.each_with_index do |day, i|
     past_date = past.dates[i]

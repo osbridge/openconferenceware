@@ -1,5 +1,5 @@
 # Prepare
-event = Event.lookup '2011'
+event = Event.find_by_slug '2011'
 proposals = event.proposals.confirmed
 
 # Setup data structures

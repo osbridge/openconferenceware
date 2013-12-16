@@ -15,11 +15,6 @@ module OpenConferenceWare
   #
 
   class Snippet < OpenConferenceWare::Base
-
-    # Provide cached Snippet.lookup(slug) method.
-    include CacheLookupsMixin
-    cache_lookups_for :slug, order: :slug
-
     # Load the Snippets as defined in the "spec/fixtures/snippets.yml" file and
     # load them into the current database, overwriting any existing records.
     def self.load_from_fixtures(overwrite = false)
@@ -43,7 +38,7 @@ module OpenConferenceWare
 
     # Returns the content for a Snippet match +slug+, else raise an ActiveRecord::RecordNotFound.
     def self.content_for(slug)
-      if record = self.lookup(slug.to_s)
+      if record = self.find_by_slug(slug.to_s)
         return record.content
       else
         raise ActiveRecord::RecordNotFound, "Couldn't find snippet: #{slug}"

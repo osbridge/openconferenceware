@@ -393,7 +393,7 @@ module OpenConferenceWare
     # * :invalid_proposal
     # * :invalid_event
     def get_proposal_and_assignment_status
-      if proposal = Proposal.lookup(params[:id].to_i) rescue nil
+      if proposal = Proposal.find(params[:id].to_i) rescue nil
         if proposal.event
           return [proposal, :assigned_via_param]
         else
