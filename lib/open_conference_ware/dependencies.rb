@@ -17,7 +17,6 @@ require 'paperclip'
 require 'vpim/icalendar'
 require 'nokogiri'
 require 'prawn'
-require 'dalli'
 require "dynamic_form"
 require 'rails_rinku'
 

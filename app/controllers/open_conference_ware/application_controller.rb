@@ -242,7 +242,7 @@ module OpenConferenceWare
 
     # Assign an @events variable for use by the layout when displaying available events.
     def assign_events
-      @events = Event.lookup
+      @events = Event.all
     end
 
     # Return the event and a status which describes how the event was assigned. The status can be one of the following:
@@ -257,7 +257,7 @@ module OpenConferenceWare
       # Try finding event using params:
       event_id_key = controller_name == "events" ? :id : :event_id
       if key = params[event_id_key]
-        if event = Event.lookup(key)
+        if event = Event.find(key)
           return [event, :assigned_to_param]
         else
           logger.info "error, couldn't find event from key: #{key}"

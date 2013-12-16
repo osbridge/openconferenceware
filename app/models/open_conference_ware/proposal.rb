@@ -38,9 +38,6 @@ module OpenConferenceWare
     # Provide ::event_tracks? and other methods for accessing SETTING
     include SettingsCheckersMixin
 
-    # Provide ::lookup
-    include CacheLookupsMixin
-
     # Provide ::overlaps?
     include ScheduleOverlapsMixin
 
@@ -56,9 +53,6 @@ module OpenConferenceWare
       :session_type_id, :session_type_title,
       :track_id, :track_title,
       :user_ids, :user_titles
-
-
-    cache_lookups_for :id, order: 'submitted_at desc', include: [:event, :track, :room, :users]
 
     # Provide #tags
     acts_as_taggable_on :tags
