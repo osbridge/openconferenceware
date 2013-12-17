@@ -3,7 +3,20 @@
 OpenConferenceWare stable releases and changes included, with latest at top:
 
 ### master
+
+### v1.0.0.pre3
+- Added missing database indexes and improved index naming
+- Fixed image paths in CSS
+- Fixed some issues with the Ignite-style proposal list
+- Added a feature flag to enable/disable user favorites
+- Improved handling of OmniAuth OpenID and failure cases
+- Removed CacheLookupsMixin
+- Extracted sensitive configuration values to config/secrets.yml
+
+### v1.0.0.pre2
 - Improved gem packaging
+- Added a generator to copy views from the engine into the host app
+- Cleaned up file naming and unnecessary files
 
 ### v1.0.0.pre1
 - Converted to a Rails engine
