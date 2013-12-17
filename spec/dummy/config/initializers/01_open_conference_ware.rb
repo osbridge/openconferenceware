@@ -6,6 +6,11 @@ OpenConferenceWare.configure do |config|
   # in some cases with a string like "/open_conference_ware"
   config.mount_point = '/open_conference_ware'
 
+  # Mailer host
+  # The hostname to use when generating links in emails.
+  # This shoud be the domain where OCW is hosted.
+  config.mailer_host = 'ocw.local'
+
   # Event name, or organization running events:
   config.organization = 'Open Source Bridge'
 
@@ -21,6 +26,21 @@ OpenConferenceWare.configure do |config|
   #
   # TODO: Setting the current event here is a short-term hack and will be replaced shortly with a Site record that tracks the current event in the database and provides a way to set it through an admin web UI.
   # config.current_event_slug = '2012'
+
+  ##[ Secrets ]##
+  # Some are sensitive and should not be checked in to version control.
+  # These are loaded from config/secrets.yml, which should be privately copied to your
+  # server and linked by your deployment process.
+
+  secrets_file = Rails.root.join('config', 'secrets.yml')
+  if File.exists?(secrets_file)
+    secrets = YAML.load_file(secrets_file)
+    config.administrator_email = secrets["administrator_email"]
+    config.comments_secret = secrets["comments_secret"]
+    config.secret_key_base = secrets["secret_key_base"]
+  else
+    raise "Oops, config/secrets.yml could not be found."
+  end
 
   ##[ OCW Features ]##
   # Many features of OpenConferenceWare can be toggled via these settings
@@ -64,13 +84,16 @@ OpenConferenceWare.configure do |config|
   # Can users add comments until a toggle is flipped on the event?
   config.have_event_proposal_comments_after_deadline = true
 
+  # Can users note their favorite sessions?
+  config.have_user_favorites = true
+
   # What audience experience levels can a proposal be classified as?
   # The list will be displayed on the form in the order defined below.
   # The "slug" is the unique key defining the particular audience level, while
   # the "label" is the human-readable value displayed.
   #
   # Set this to a blank array to disable audience levels
-  config.proposal_audience_levels ||= [
+  config.proposal_audience_levels = [
     {slug: 'a', label: 'Beginner'},
     {slug: 'b', label: 'Intermediate'},
     {slug: 'c', label: 'Advanced'}
@@ -106,5 +129,4 @@ OpenConferenceWare.configure do |config|
   # NOTE: The current default theme never displays any breadcrumbs, but infrastructure exists to support them.
   #
   # config.breadcrumbs = [['Home', 'http://openconferenceware.org']]
-
 end

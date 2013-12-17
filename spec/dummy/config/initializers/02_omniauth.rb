@@ -1,4 +1,4 @@
-OmniAuth.config.path_prefix = OpenConferenceWare.mounted_path("/auth")
+OmniAuth.config.path_prefix = OpenConferenceWare.mounted_path("auth")
 
 Rails.application.config.middleware.use OpenConferenceWare::OmniAuthBuilder do
   provider :developer if %w[development preview].include?(Rails.env)

@@ -27,6 +27,21 @@ OpenConferenceWare.configure do |config|
   # TODO: Setting the current event here is a short-term hack and will be replaced shortly with a Site record that tracks the current event in the database and provides a way to set it through an admin web UI.
   # config.current_event_slug = '2012'
 
+  ##[ Secrets ]##
+  # Some are sensitive and should not be checked in to version control.
+  # These are loaded from config/secrets.yml, which should be privately copied to your
+  # server and linked by your deployment process.
+
+  secrets_file = Rails.root.join('config', 'secrets.yml')
+  if File.exists?(secrets_file)
+    secrets = YAML.load_file(secrets_file)
+    config.administrator_email = secrets["administrator_email"]
+    config.comments_secret = secrets["comments_secret"]
+    config.secret_key_base = secrets["secret_key_base"]
+  else
+    raise "Oops, config/secrets.yml could not be found."
+  end
+
   ##[ OCW Features ]##
   # Many features of OpenConferenceWare can be toggled via these settings
 
@@ -114,5 +129,4 @@ OpenConferenceWare.configure do |config|
   # NOTE: The current default theme never displays any breadcrumbs, but infrastructure exists to support them.
   #
   # config.breadcrumbs = [['Home', 'http://openconferenceware.org']]
-
 end

@@ -22,11 +22,12 @@ module OpenConferenceWare
   # Email address of administrator that will get exception notifications
   # and requests for assistance from users:
   mattr_accessor :administrator_email
-  self.administrator_email ||= 'your@email.addr'
 
   # Secret key for getting an ATOM feed of private comments:
   mattr_accessor :comments_secret
-  self.comments_secret ||= '1234'
+
+  # The secret_key_base, which we'll pass on to Rails
+  mattr_accessor :secret_key_base
 
   # Email
 

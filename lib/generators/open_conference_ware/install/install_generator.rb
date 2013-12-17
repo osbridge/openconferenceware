@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class OpenConferenceWare::InstallGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
@@ -15,8 +17,16 @@ class OpenConferenceWare::InstallGenerator < Rails::Generators::Base
     copy_file "omniauth_initializer.rb", "config/initializers/02_omniauth.rb"
   end
 
+  def generate_secrets_yml
+    template "secrets.yml.erb", "config/secrets.yml"
+  end
+
   def mount_engine
     route %Q{mount OpenConferenceWare::Engine => "#{mount_point}"}
+  end
+
+  def replace_secret_token_initializer
+    template "secret_token.rb.erb", "config/initializers/secret_token.rb"
   end
 
   def include_engine_seeds
