@@ -4,8 +4,9 @@ namespace :open_conference_ware do
     puts <<-HERE
 
 TO FINISH SETUP
-1. See README.markdown for information about security and customization
-2. Start the server, e.g.: bin/rails server
+1. See README.md for information about configuration and customization
+2. Edit config/initializers/01_open_conference_ware.rb and config/secrets.yml
+2. Start the server: bin/rails server
 3. Sign in as an admin in development mode
 4. Use the web-based admin interface to create and configure an event
     HERE

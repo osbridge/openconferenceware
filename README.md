@@ -48,9 +48,11 @@ OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0
 
         $ bin/rails generate open_conference_ware:install /ocw
 
-7. Edit `config/initializers/01_open_conference_ware.rb` to configure OCW's settings. You'll find comments there explaining the available options.
+7. Edit `config/initializers/01_open_conference_ware.rb` and `config/secrets.yml` to configure OCW's settings. You'll find comments in these files explaining the available options.
 
-8. At this point, you should be able to fire up a server and see OpenConferenceWare at [http://localhost:3000](http://localhost:3000)
+8. All of these newly-generated files, _except config/secrets.yml_, should be added to your version control system. If you're using git, you may want to add `config/secrets.yml` to your `.gitignore`, to ensure it doesn't get shared accidentally.
+
+9. At this point, you should be able to fire up a server and see OpenConferenceWare at [http://localhost:3000](http://localhost:3000)
 
         $ bin/rails server
 
