@@ -60,65 +60,64 @@ module OpenConferenceWare
     # Acts As State Machine
     include AASM
 
-    aasm_column :status
+    aasm(column: :status) do
 
-    aasm_initial_state :proposed
+      state :proposed, initial: true
+      state :accepted
+      state :waitlisted
+      state :rejected
+      state :confirmed
+      state :declined
+      state :junk
+      state :cancelled
 
-    aasm_state :proposed
-    aasm_state :accepted
-    aasm_state :waitlisted
-    aasm_state :rejected
-    aasm_state :confirmed
-    aasm_state :declined
-    aasm_state :junk
-    aasm_state :cancelled
+      event :accept do
+        transitions from: :proposed, to: :accepted
+        transitions from: :rejected, to: :accepted
+        transitions from: :waitlisted, to: :accepted
+      end
 
-    aasm_event :accept do
-      transitions from: :proposed, to: :accepted
-      transitions from: :rejected, to: :accepted
-      transitions from: :waitlisted, to: :accepted
-    end
+      event :reject do
+        transitions from: :proposed, to: :rejected
+        transitions from: :accepted, to: :rejected
+        transitions from: :waitlisted, to: :rejected
+      end
 
-    aasm_event :reject do
-      transitions from: :proposed, to: :rejected
-      transitions from: :accepted, to: :rejected
-      transitions from: :waitlisted, to: :rejected
-    end
+      event :waitlist do
+        transitions from: :proposed, to: :waitlisted
+        transitions from: :accepted, to: :waitlisted
+        transitions from: :rejected, to: :waitlisted
+      end
 
-    aasm_event :waitlist do
-      transitions from: :proposed, to: :waitlisted
-      transitions from: :accepted, to: :waitlisted
-      transitions from: :rejected, to: :waitlisted
-    end
+      event :confirm do
+        transitions from: :accepted, to: :confirmed
+      end
 
-    aasm_event :confirm do
-      transitions from: :accepted, to: :confirmed
-    end
+      event :decline do
+        transitions from: :accepted, to: :declined
+      end
 
-    aasm_event :decline do
-      transitions from: :accepted, to: :declined
-    end
+      event :accept_and_confirm do
+        transitions from: :proposed, to: :confirmed
+        transitions from: :waitlisted, to: :confirmed
+      end
 
-    aasm_event :accept_and_confirm do
-      transitions from: :proposed, to: :confirmed
-      transitions from: :waitlisted, to: :confirmed
-    end
+      event :accept_and_decline do
+        transitions from: :proposed, to: :declined
+        transitions from: :waitlisted, to: :declined
+      end
 
-    aasm_event :accept_and_decline do
-      transitions from: :proposed, to: :declined
-      transitions from: :waitlisted, to: :declined
-    end
+      event :mark_as_junk do
+        transitions from: :proposed, to: :junk
+      end
 
-    aasm_event :mark_as_junk do
-      transitions from: :proposed, to: :junk
-    end
+      event :reset_status do
+        transitions from: %w(accepted rejected waitlisted confirmed declined junk cancelled), to: :proposed
+      end
 
-    aasm_event :reset_status do
-      transitions from: %w(accepted rejected waitlisted confirmed declined junk cancelled), to: :proposed
-    end
-
-    aasm_event :cancel  do
-      transitions from: :confirmed, to: :cancelled
+      event :cancel  do
+        transitions from: :confirmed, to: :cancelled
+      end
     end
 
     # Associations
@@ -262,15 +261,15 @@ module OpenConferenceWare
     # representing optional states. Of each pair, the first element is the title,
     # the second is the status.
     def titles_and_statuses
-      result = [["(currently '#{self.aasm_current_state.to_s.titleize}')", nil]]
-      result += self.aasm_events_for_current_state.map{|s|[s.to_s.titleize, s.to_s]}.sort_by{|title, state| title}
+      result = [["(currently '#{self.aasm.current_state.to_s.titleize}')", nil]]
+      result += self.aasm.events(aasm.current_state).map{|s|[s.to_s.titleize, s.to_s]}.sort_by{|title, state| title}
       return result
     end
 
     # allows an interface to state machine through update_attributes transition key
     attr_accessor :transition
     def transition=(event)
-      send("#{event}!") if !event.blank? && aasm_events_for_current_state.include?(event.to_sym)
+      send("#{event}!") if !event.blank? && aasm.events(aasm.current_state).include?(event.to_sym)
     end
 
     # Is this +user+ allowed to alter this proposal?
