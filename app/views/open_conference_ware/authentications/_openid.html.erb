@@ -1,11 +1,25 @@
-<div class="auth-provider openid">
-<h3>OpenID</h3>
-<p><%= snippet_for :login_openid_text %></p>
-<form action="<%= auth_path(:open_id) %>" method='post' noValidate='noValidate' class="form-inline">
-  <div class="form-group">
-    <label for='openid_url' class="sr-only">OpenID Identifier:</label>
-    <input type='url' id='openid_url' name='openid_url' class='form-control' placeholder='OpenID Identifier'/>
-  </div>
-  <button type='submit' class='btn btn-primary'>Sign In</button>
-</form>
+<div class="auth-provider">
+  <h3>OpenID</h3>
+
+  <%= form_tag(auth_path(:open_id), :id => "openid_form" ) do %>
+    <fieldset>
+      <div id="openid_choice">
+        <p>Please click your account provider:</p>
+        <div id="openid_btns"></div>
+      </div>
+      <div id="openid_input_area" class="form-group">
+        <%= text_field_tag "openid_url", "http://", id: "openid_url", class: 'form-control' %>
+        <%= submit_tag 'Log in', class: 'btn btn-default' %>
+      </div>
+      <noscript>
+        <p><%= snippet_for :login_openid_text %></p>
+      </noscript>
+    </fieldset>
+  <% end %>
 </div>
+
+<% run_when_dom_is_ready <<-JS
+  openid.img_path = '/assets/openid-selector/';
+  openid.init('openid_url');
+JS
+%>

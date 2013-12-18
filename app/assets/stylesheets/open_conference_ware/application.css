@@ -3,6 +3,7 @@
 *= require bootstrap-theme
 *= require persona-buttons
 *= require farbtastic
+*= require openid-selector/openid
 *= require open_conference_ware/custom
 */
 

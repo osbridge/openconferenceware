@@ -5,6 +5,8 @@
 //= require jquery.localScroll
 //= require farbtastic
 //= require audiojs/audio.min
+//= require openid-selector/openid-jquery
+//= require openid-selector/openid-en
 //= require bootstrap
 //= require open_conference_ware/base
 //= require open_conference_ware/util
