@@ -5,6 +5,6 @@
     <% if user_profiles? %>
       <%= link_to "Edit profile", edit_user_path(current_user) %> |
     <% end -%>
-    <%= link_to "Logout", sign_out_path, :method => :delete %>
+    <%= link_to "Sign out", sign_out_path %>
   </div>
 </div>
