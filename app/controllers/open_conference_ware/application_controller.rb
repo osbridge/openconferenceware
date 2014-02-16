@@ -469,7 +469,7 @@ module OpenConferenceWare
       if @event
         if event_tracks? && @event.tracks.size == 0
           if admin?
-            notify :notice, "This event needs a track, you should #{view_context.link_to 'create one', new_event_track_path(@event)}."
+            notify :notice, "This event needs a track, you should #{view_context.link_to 'create one', new_event_track_path(@event)}.".html_safe
           else
             notify :failure, "This event has no tracks, an admin must create at least one."
           end
@@ -477,7 +477,7 @@ module OpenConferenceWare
 
         if event_session_types? && @event.session_types.size == 0
           if admin?
-            notify :notice, "This event needs a session type, you should #{view_context.link_to 'create one', new_event_session_type_path(@event)}."
+            notify :notice, "This event needs a session type, you should #{view_context.link_to 'create one', new_event_session_type_path(@event)}.".html_safe
           else
             notify :failure, "This event has no session types, an admin must create at least one."
           end
