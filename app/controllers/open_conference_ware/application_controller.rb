@@ -257,7 +257,7 @@ module OpenConferenceWare
       # Try finding event using params:
       event_id_key = controller_name == "events" ? :id : :event_id
       if key = params[event_id_key]
-        if event = Event.find(key)
+        if event = Event.find_by_slug(key)
           return [event, :assigned_to_param]
         else
           logger.info "error, couldn't find event from key: #{key}"
