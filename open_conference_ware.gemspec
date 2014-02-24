@@ -27,17 +27,17 @@ Gem::Specification.new do |s|
   s.add_dependency "rails-observers", "~> 0.1.2"
 
   # Authentication
-  s.add_dependency "omniauth",            '~> 1.1.4'
+  s.add_dependency "omniauth",            '~> 1.2.0'
 
   s.add_dependency "hashery",             '~> 2.1.0'
 
   s.add_dependency 'RedCloth',            '~> 4.2.0'
-  s.add_dependency 'aasm',                '~> 3.0.0'
-  s.add_dependency 'acts-as-taggable-on', '~> 2.4.1'
-  s.add_dependency 'color',               '~> 1.4.2'
+  s.add_dependency 'aasm',                '~> 3.1.0'
+  s.add_dependency 'acts-as-taggable-on', '~> 3.0.0'
+  s.add_dependency 'color',               '~> 1.5.1'
   s.add_dependency 'comma',               '~> 3.0'
   s.add_dependency 'gchartrb',            '~> 0.8.0'
-  s.add_dependency 'paperclip',           '~> 3.5.2'
+  s.add_dependency 'paperclip',           '~> 4.1.0'
   s.add_dependency 'vpim',                '~> 13.11.11'
   s.add_dependency 'nokogiri',            '~> 1.6.0'
   s.add_dependency 'prawn',               '~> 0.12.0'
@@ -45,9 +45,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'rinku',               '~> 1.7.3'
 
   # Assets
-  s.add_dependency 'jquery-rails',        '~> 3.0.0'
+  s.add_dependency 'jquery-rails',        '~> 3.1.0'
   s.add_dependency 'sass-rails',          '~> 4.0.0'
-  s.add_dependency 'uglifier',            '~> 2.3.0'
+  s.add_dependency 'uglifier',            '~> 2.4.0'
 
   # Development
   s.add_development_dependency "sqlite3", '~> 1.3.0'

@@ -46,6 +46,9 @@ module OpenConferenceWare
         raise TypeError
       end
       write_attribute(:color,new_color.html)
+    rescue ArgumentError
+      write_attribute(:color, nil)
+      errors.add(:color, "is not a recognized HTML color")
     end
   end
 end

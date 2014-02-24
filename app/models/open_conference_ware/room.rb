@@ -38,5 +38,9 @@ module OpenConferenceWare
         medium: "350>",
         small: "150>"
       }
+
+    validates_attachment_content_type :image,
+      :content_type => /\Aimage\/.*\Z/,
+      :unless => Proc.new{|r| r.image_content_type.blank? }
   end
 end

@@ -144,6 +144,10 @@ module OpenConferenceWare
         avatar: '48x48#'
       }
 
+    validates_attachment_content_type :photo,
+      :content_type => /\Aimage\/.*\Z/,
+      :unless => Proc.new{|r| r.photo_content_type.blank? }
+
     #---[ Methods ]---------------------------------------------------------
 
     def self.create_from_authentication(auth)
