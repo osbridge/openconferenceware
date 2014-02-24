@@ -53,7 +53,7 @@ module OpenConferenceWare
 
       respond_to do |format|
         if @session_type.save
-          flash[:notice] = 'SessionType was successfully created.'
+          flash[:notice] = 'Session type was successfully created.'
           format.html { redirect_to(session_types_path) }
           format.json  { render json: @session_type, status: :created, location: @session_type }
           format.xml  { render xml: @session_type, status: :created, location: @session_type }
@@ -70,7 +70,7 @@ module OpenConferenceWare
     def update
       respond_to do |format|
         if @session_type.update_attributes(session_type_params)
-          flash[:notice] = 'SessionType was successfully updated.'
+          flash[:notice] = 'Session type was successfully updated.'
           format.html { redirect_to(@session_type) }
           format.json  { head :ok }
           format.xml  { head :ok }
