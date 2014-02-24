@@ -149,9 +149,7 @@ module OpenConferenceWare
     def notify(level, message)
       level = level.to_sym
       raise ArgumentError, "Invalid flash notification level: #{level}" unless NOTIFY_LEVELS.include?(level)
-      flash[level] ?
-        flash[level] << " #{message}".html_safe :
-        flash[level] = "#{message}".html_safe
+      flash[level] = "#{flash[level]} #{message}".strip.html_safe
     end
 
     #---[ Access control ]--------------------------------------------------
