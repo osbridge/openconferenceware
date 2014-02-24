@@ -101,26 +101,5 @@
     <%= yield :javascript %>
   </script>
 
-  <% if Rails.env == "production" %>
-    <script type="text/javascript">
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-      var pageTracker = _gat._getTracker("UA-168427-8");
-      pageTracker._initData();
-      pageTracker._trackPageview();
-    </script>
-
-    <script type="text/javascript">
-    var pkBaseURL = (("https:" == document.location.protocol) ? "https://opensourcebridge.org/stats/piwik/" : "http://opensourcebridge.org/stats/piwik/");
-    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-    </script><script type="text/javascript">
-    piwik_action_name = '';
-    piwik_idsite = 1;
-    piwik_url = pkBaseURL + "piwik.php";
-    piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-    </script>
-  <% end %>
 </body>
 </html>
