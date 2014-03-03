@@ -137,7 +137,7 @@
                     <label for="proposal_track_id_<%= track.id %>">
                       <strong class="<%= track_css_class(track) %>"><%= track.title %></strong>
                       <% unless track.excerpt.blank? %>
-                      <p class='excerpt'><%= track.excerpt %> <%= link_to "more&hellip;", track_path(track), :target => "_blank" %></p>
+                      <p class='excerpt'><%= track.excerpt %> <%= link_to "more&hellip;".html_safe, track_path(track), :target => "_blank" %></p>
                       <% end %>
                     </label>
                   </li>
