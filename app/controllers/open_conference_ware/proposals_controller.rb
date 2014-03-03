@@ -53,10 +53,10 @@ module OpenConferenceWare
           # index.atom.builder
           if @event_assignment == :assigned_to_param
             @cache_key = "proposals_atom,event_#{@event.id}"
-            @proposals = Defer { @event.populated_proposals(:proposals).order("submitted_at desc").limit(MAX_FEED_ITEMS) }
+            @proposals = Defer { @event.populated_proposals(:proposals).reorder("submitted_at desc").limit(MAX_FEED_ITEMS) }
           else
             @cache_key = "proposals_atom,all"
-            @proposals = Defer { Proposal.populated.order("submitted_at desc").limit(MAX_FEED_ITEMS) }
+            @proposals = Defer { Proposal.populated.reorder("submitted_at desc").limit(MAX_FEED_ITEMS) }
           end
         }
         format.csv {
