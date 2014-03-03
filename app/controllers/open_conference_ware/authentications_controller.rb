@@ -34,7 +34,7 @@ module OpenConferenceWare
 
     def failure
       flash[:error] = params[:message]
-      redirect sign_in_path
+      redirect_to sign_in_path
     end
 
     protected
