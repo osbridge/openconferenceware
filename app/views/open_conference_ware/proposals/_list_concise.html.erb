@@ -18,7 +18,7 @@ hide_rooms ||= false
     item_class << ' light ' << track_css_class(track) if track
     item_class << ' generic_item' if item.is_a?(OpenConferenceWare::ScheduleItem)
     %>
-    <li class='<%= item_class %>' id='<%= item.class.name.underscore %>-<%= item.id %>'>
+    <li class='<%= item_class %>' id='<%= item.class.name.demodulize.underscore %>-<%= item.id %>'>
       <div class='concise'>
         <% if item.is_a?(OpenConferenceWare::ScheduleItem) %>
           <span class='summary'><%= h item.title %></span>

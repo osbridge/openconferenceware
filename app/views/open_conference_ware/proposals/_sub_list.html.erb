@@ -13,7 +13,7 @@ header_tag    ||= :h3
 header_prefix = local_assigns[:header_prefix]
 show_sorter   = local_assigns[:show_sorter]
 
-cache_key = "proposals,sub_list,container_#{container.class.name}_#{container.id},title_#{title}_#{header_prefix},admin_#{admin?},order_#{params[:sort]},dir_#{params[:dir]}"
+cache_key = "proposals,sub_list,container_#{container.class.name.demodulize}_#{container.id},title_#{title}_#{header_prefix},admin_#{admin?},order_#{params[:sort]},dir_#{params[:dir]}"
 
 include_user_favorites_javascript
 %>

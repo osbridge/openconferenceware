@@ -24,7 +24,7 @@ show_sorter   = local_assigns[:show_sorter]
       <%= link_to "Display #{kind}...", "#" %>
     </div>
     <div class="proposals_sub_list_for_kind_content">
-      <%= content_tag header_tag, "#{header_prefix} #{kind} for this #{title || container.class.name.singularize}".strip.humanize %>
+      <%= content_tag header_tag, "#{header_prefix} #{kind} for this #{title || container.class.name.demodulize.singularize}".strip.humanize %>
       <%= render :partial => "open_conference_ware/proposals/list", :locals => {:kind => kind, :records => records, :sorter => show_sorter} %>
     </div>
   </div>
