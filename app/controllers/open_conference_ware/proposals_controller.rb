@@ -357,7 +357,8 @@ module OpenConferenceWare
         :track_id,
         :session_type_id,
         :speaking_experience,
-        :audience_level]
+        :audience_level,
+        :tag_list]
 
       permitted += [:status, :room_id, :start_time, :audio_url] if admin?
 
