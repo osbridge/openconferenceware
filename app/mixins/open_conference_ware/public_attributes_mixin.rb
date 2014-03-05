@@ -47,7 +47,7 @@ module OpenConferenceWare
       end
 
       def serializable_hash(options={})
-        if (options.keys & [:only, :except, :methods, :include]).present?
+        if options && (options.keys & [:only, :except, :methods, :include]).present?
           super(options)
         else
           public_attributes
