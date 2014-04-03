@@ -108,9 +108,8 @@ module OpenConferenceWare
     def proposals_for_stats
       return self.proposals.
               order("created_at").
-              where("proposals.id, proposals.track_id, proposals.created_at, proposals.submitted_at, proposals.session_type_id, proposals.status").
-              includes(:track, :session_type).
-              all
+              select("open_conference_ware_proposals.id, open_conference_ware_proposals.track_id, open_conference_ware_proposals.created_at, open_conference_ware_proposals.submitted_at, open_conference_ware_proposals.session_type_id, open_conference_ware_proposals.status").
+              includes(:track, :session_type)
     end
 
     # Return an array of the Event's ScheduleItems and Proposal sessions that

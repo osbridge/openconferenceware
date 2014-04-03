@@ -13,7 +13,7 @@ OpenConferenceWare::Engine.routes.draw do
     end
     resources :proposals do
       collection do
-       :stats
+        get :stats
       end
     end
 
