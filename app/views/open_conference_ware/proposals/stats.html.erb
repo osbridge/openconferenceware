@@ -64,7 +64,7 @@ cache "proposals_stats,event_#{@event.slug}" do
     session_status_distribution.data "#{status.titleize} (#{count})", count
   end
   %>
-
+  <p><strong>Total proposals: <%= @proposals.count %></strong></p>
   <p><img src="<%= proposals_over_time.to_url %>" /></p>
   <p><img src="<%= track_distribution.to_url %>" /></p>
   <p><img src="<%= session_type_distribution.to_url %>" /></p>
