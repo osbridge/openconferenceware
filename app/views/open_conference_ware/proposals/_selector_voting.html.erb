@@ -1,0 +1,52 @@
+  <div class="admin-only selector-vote-form">
+    <strong>SELECTION COMMITTEE MEMBER:</strong>
+    <%= @proposal.user_favorites.count %> users have favorited this proposal.
+
+    <%= form_for(@selector_vote, :url => proposal_selector_vote_path(@proposal), :html => {:method => :post}) do |f| %>
+      <table cellspacing="0">
+        <tr>
+          <td><%= f.label :rating %></td>
+          <td><%= f.label :comment %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <%= f.select :rating, [ ["Choose one:", ""],
+                                    ["0 - Horrible", 0],
+                                    ["1 - Poor" , 1],
+                                    ["2 - Fair", 2],
+                                    ["3 - Average", 3],
+                                    ["4 - Good", 4],
+                                    ["5 - Awesome", 5],
+                                    ["x - I don't know", -1]] %>
+            <% focus(:selector_vote_rating) %>
+          </td>
+          <td class="selector-vote-form-comment-cell">
+            <%= f.text_area :comment, :rows => 2 %>
+          </td>
+          <td>
+            <%= f.submit "Vote and next!" %>
+            <br />
+
+            <span class="nowrap">
+              <% if previous_proposal_path = previous_proposal_path_from(@proposal) %>
+                <%= link_to("&larr; Previous", previous_proposal_path) %>
+              <% else %>
+                First proposal!
+              <% end %>
+              |
+              <% if next_proposal_path = next_proposal_path_from(@proposal) %>
+                <%= link_to("Next &rarr;", next_proposal_path) %>
+              <% else %>
+                Last proposal!
+              <% end %>
+            </span>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+    <div class="selector-vote-form-protip">
+      <strong>Protip:</strong> You can vote quickly by just pressing the number of rating to choose it because it's focused on page load, then <code>Tab</code> to the comment field and fill it, then <code>Tab</code> to the "Vote" button and <code>Enter</code> to submit!
+    </div>
+  </div>
+
