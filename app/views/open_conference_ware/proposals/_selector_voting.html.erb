@@ -30,13 +30,13 @@
 
             <span class="nowrap">
               <% if previous_proposal_path = previous_proposal_path_from(@proposal) %>
-                <%= link_to("&larr; Previous", previous_proposal_path) %>
+                <%= link_to("&larr; Previous".html_safe, previous_proposal_path) %>
               <% else %>
                 First proposal!
               <% end %>
               |
               <% if next_proposal_path = next_proposal_path_from(@proposal) %>
-                <%= link_to("Next &rarr;", next_proposal_path) %>
+                <%= link_to("Next &rarr;".html_safe, next_proposal_path) %>
               <% else %>
                 Last proposal!
               <% end %>
