@@ -51,7 +51,7 @@ HERE
             <% for selector_vote in proposal.selector_votes.sort_by { |t| 0 - t.rating.to_i } %>
               <tr class="selector_vote_<%= selector_vote.id %>">
                 <td class="nowrap"><%= selector_vote.rating == -1 ? "Abstain" : selector_vote.rating %></td>
-                <td><%= selector_vote.comment.blank? ? "&mdash; N/A &mdash;" : h(selector_vote.comment) %></td>
+                <td><%= selector_vote.comment.blank? ? "&mdash; N/A &mdash;".html_safe : h(selector_vote.comment) %></td>
               </tr>
             <% end %>
           </table>
