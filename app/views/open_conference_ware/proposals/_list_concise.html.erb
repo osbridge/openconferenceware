@@ -84,7 +84,7 @@ hide_rooms ||= false
         <% unless users.empty? %>
           <li>
             <strong>Speakers:</strong>
-            <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ') %>
+            <%= users.map{|user| link_to(h(user.fullname), user_path(user))}.join(', ').html_safe %>
           </li>
         <% end %>
       </ul>
