@@ -109,29 +109,35 @@ module OpenConferenceWare
       email
     end
 
-    base_comma_attributes = lambda {
+    comma :full do
+      email
       id
       first_name
       last_name
       affiliation
       biography
-      photo url: 'Photo'
       website
       twitter
       identica
       blog_url
-      created_at xmlschema: 'Created'
-      updated_at xmlschema: 'Updated'
+      created_at 'Created'
+      updated_at 'Updated'
       proposals ids: 'Session ids'
-    }
-
-    comma :full do
-      email
-      instance_eval &base_comma_attributes
     end
 
     comma :public do
-      instance_eval &base_comma_attributes
+      id
+      first_name
+      last_name
+      affiliation
+      biography
+      website
+      twitter
+      identica
+      blog_url
+      created_at 'Created'
+      updated_at 'Updated'
+      proposals ids: 'Session ids'
     end
 
     #---[ PaperClip avatar images ]-----------------------------------------
