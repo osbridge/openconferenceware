@@ -60,7 +60,7 @@ namespace :open_conference_ware do
         csv << %w(room start_time title speakers)
         event.proposals.confirmed.order('start_time ASC').each do |session|
           row = []
-          row << session.room ? session.room.name : ''
+          row << (session.room ? session.room.name : '')
           row << session.start_time.strftime("%A, %B %d, %I:%M%p")
           row << session.title
           row << session.users.map{|u| u.fullname}.join(', ')
