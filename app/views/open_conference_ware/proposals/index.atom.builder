@@ -6,7 +6,6 @@ atom_feed do |feed|
   @proposals.each_with_index do |proposal, i|
     feed.entry(proposal, :url => proposal_url(proposal)) do |entry|
       entry.title proposal.title
-      entry.updated proposal.submitted_at.utc.xmlschema
 
       xm = ::Builder::XmlMarkup.new
       xm.div {
