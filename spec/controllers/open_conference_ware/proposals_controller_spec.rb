@@ -245,6 +245,7 @@ describe OpenConferenceWare::ProposalsController do
       describe "for /proposals.atom" do
         before do
           get :index, format: "atom"
+          puts response.body
           @doc = Nokogiri.parse(response.body)
         end
 
