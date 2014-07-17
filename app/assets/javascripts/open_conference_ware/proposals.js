@@ -54,14 +54,6 @@ function bind_proposal_generic_control(kind, elements) {
           if (matcher) {
             target.html(matcher[1]);
           }
-
-          // Hide or unhide the room and schedule controls based on the proposal's state
-          var dependent = target.parent().parent().find('.proposal_admin_controls_dependent_on_confirmed_status');
-          if (response['proposal_status'] == 'confirmed') {
-            dependent.show();
-          } else {
-            dependent.hide();
-          }
         }
       }
     });

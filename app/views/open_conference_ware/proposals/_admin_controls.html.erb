@@ -16,7 +16,7 @@ proposal ||= @proposal
         Status
         <%= render :partial => 'open_conference_ware/proposals/transition_control', :locals => {:proposal => proposal} %>
       <% end %>
-      <div class="proposal_admin_controls_dependent_on_confirmed_status" style="<%= 'display:none' unless proposal.confirmed? %>">
+      <div>
         <% if event_rooms? %>
           Room
           <%= render :partial => 'open_conference_ware/proposals/room_control', :locals => {:proposal => proposal, :form => f} %>
