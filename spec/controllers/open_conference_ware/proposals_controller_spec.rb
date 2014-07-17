@@ -239,7 +239,7 @@ describe OpenConferenceWare::ProposalsController do
     describe "when returning ATOM" do
       def get_entry(proposal_symbol)
         title = proposals(proposal_symbol).title
-        return @doc.xpath("//entry/title[text()='#{title}']")
+        return @doc.xpath("//atom:entry/atom:title[text()='#{title}']", atom:"http://www.w3.org/2005/Atom")
       end
 
       describe "for /proposals.atom" do
