@@ -154,7 +154,11 @@ module OpenConferenceWare
 
     # Return other Event objects.
     def other_events
-      return self.class.select("id, title").order("title asc").where('id != ?', self.id)
+      if new_record?
+        self.class.all
+      else
+        self.class.select("id, title").order("title asc").where('id != ?', self.id)
+      end
     end
 
     # Return array of Rooms for this event and its parent event.
