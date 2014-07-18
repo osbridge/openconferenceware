@@ -1,6 +1,6 @@
 # Prepare
-event = Event.find_by_slug '2011'
-proposals = event.proposals.confirmed
+event = OpenConferenceWare::Event.find_by_slug '2014'
+proposals = event.proposals.accepted
 
 # Setup data structures
 proposal_id_pairs_with_shared_favorites = proposals.inject([]) {|s,a| proposals.each {|b| s << [a.id, b.id, (a.user_favorites.map(&:user_id) & b.user_favorites.map(&:user_id)).length] }; s}
