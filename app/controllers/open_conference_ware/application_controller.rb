@@ -29,6 +29,10 @@ module OpenConferenceWare
     before_filter :log_the_current_user
     before_filter :log_the_session
 
+    rescue_from ActionController::UnknownFormat do |e|
+      render(text: 'Not Found', status: 404)
+    end
+
     #---[ Authentication ]--------------------------------------------------
 
     # Store the given user in the session.
