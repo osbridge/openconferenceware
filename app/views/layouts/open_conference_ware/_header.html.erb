@@ -51,6 +51,9 @@
                     <% if proposal_statuses? %>
                       <li><%= link_to "Sessions", event_sessions_path(nav_event) %></li>
                     <% end %>
+                    <% if proposal_start_times? %>
+                      <li><%= link_to "Schedule", event_schedule_path(nav_event) %></li>
+                    <% end %>
                     <li><%= link_to "Proposals", event_proposals_path(nav_event) %>
                     <li><%= link_to "- Bulk edit", manage_event_proposals_path(nav_event) %></li>
                     <% unless nav_event.accepting_proposals? %>
