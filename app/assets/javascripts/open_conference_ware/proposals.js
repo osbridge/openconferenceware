@@ -76,10 +76,14 @@ function bind_proposal_schedule_controls() {
     if(target.parent().find('option:selected[value]').get().length == 3) {
 
       data = {
-        'authenticity_token': app.authenticity_token,
-        'start_time[date]': target.parent().find('select.date').attr('value'),
-        'start_time[hour]': target.parent().find('select.hour').attr('value'),
-        'start_time[minute]': target.parent().find('select.minute').attr('value')
+        proposal: {
+          authenticity_token: app.authenticity_token,
+          start_time: {
+            date: target.parent().find('select.date').attr('value'),
+            hour: target.parent().find('select.hour').attr('value'),
+            minute: target.parent().find('select.minute').attr('value')
+          }
+        }
       };
       proposal_id = target.parent().attr('id').split('_').pop();
       format = 'json';
