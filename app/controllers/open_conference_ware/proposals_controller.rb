@@ -233,11 +233,11 @@ module OpenConferenceWare
         params[:proposal].delete(:title)
       end
 
-      if params[:start_time] && admin?
-        if params[:start_time][:date].blank? || params[:start_time][:hour].blank? || params[:start_time][:minute].blank?
+      if params[:proposal][:start_time] && admin?
+        if params[:proposal][:start_time][:date].blank? || params[:proposal][:start_time][:hour].blank? || params[:proposal][:start_time][:minute].blank?
           @proposal.start_time = nil
         else
-          @proposal.start_time = "#{params[:start_time][:date]} #{params[:start_time][:hour]}:#{params[:start_time][:minute]}"
+          @proposal.start_time = "#{params[:proposal][:start_time][:date]} #{params[:proposal][:start_time][:hour]}:#{params[:proposal][:start_time][:minute]}"
         end
       end
 
