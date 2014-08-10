@@ -260,7 +260,7 @@ module OpenConferenceWare
             render(
               json: {
                 proposal_status: @proposal.status,
-                _transition_control_html: render_to_string(partial: '/proposals/transition_control')
+                _transition_control_html: render_to_string(partial: '/open_conference_ware/proposals/transition_control', formats: [:html])
               },
               status: :ok
             )
