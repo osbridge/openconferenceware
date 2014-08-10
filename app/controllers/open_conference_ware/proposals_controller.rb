@@ -434,7 +434,7 @@ module OpenConferenceWare
     end
 
     def assert_user_complete_profile
-      if user_profiles? and logged_in? and not current_user.complete_profile?
+      if user_profiles? && logged_in? && !current_user.admin? && !current_user.complete_profile?
         current_user.complete_profile = true
         if current_user.valid?
           current_user.save
