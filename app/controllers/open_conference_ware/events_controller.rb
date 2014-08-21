@@ -14,6 +14,7 @@ module OpenConferenceWare
       respond_to do |format|
         format.html
         format.json { render json: @events }
+        format.xml  { render xml:  @events }
       end
     end
 
@@ -21,6 +22,7 @@ module OpenConferenceWare
       respond_to do |format|
         format.html { redirect_to event_proposals_path(@event) }
         format.json { render json: @event }
+        format.xml  { render xml:  @event }
       end
     end
 
@@ -29,7 +31,9 @@ module OpenConferenceWare
 
       respond_to do |format|
         format.html
-        format.csv { render csv: @speakers, style: admin? ? :full : :public }
+        format.json { render json: @speakers }
+        format.xml  { render xml:  @speakers }
+        format.csv  { render csv:  @speakers, style: admin? ? :full : :public }
       end
     end
   end
