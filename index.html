@@ -32,7 +32,7 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="openconferenceware" class="anchor" href="#openconferenceware"><span class="octicon octicon-link"></span></a>OpenConferenceWare</h1>
+<a id="openconferenceware" class="anchor" href="#openconferenceware" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenConferenceWare</h1>
 
 <p><a href="http://badge.fury.io/rb/open_conference_ware"><img src="https://badge.fury.io/rb/open_conference_ware.png" alt="Gem Version"></a>
 <a href="https://travis-ci.org/osbridge/openconferenceware"><img src="https://travis-ci.org/osbridge/openconferenceware.png?branch=master" alt="Build Status"></a>
@@ -41,24 +41,24 @@
 <a href="https://codeclimate.com/github/osbridge/openconferenceware"><img src="https://codeclimate.com/github/osbridge/openconferenceware.png" alt="Code Climate"></a></p>
 
 <h2>
-<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>About</h2>
 
 <p><em>OpenConferenceWare</em> is an open source web application for supporting conference-like events. This customizable, general-purpose platform provides proposals, sessions, schedules, tracks, user profiles and more.</p>
 
 <p>By releasing this code under a liberal MIT open source license, we hope to empower other people so they can better organize and participate in more events that support free sharing of information, open society, and involved citizenry.</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>OpenConferenceWare is distributed as a <a href="http://guides.rubyonrails.org/engines.html">Rails engine</a>, which means it sits inside a Rails application and adds functionality. While this host application can be built to provide additional parts of your event's website, it will often just serve as a place to configure and customize OpenConferenceWare.</p>
 
 <h3>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h3>
 
 <p>OpenConferenceWare requires Ruby 1.9.3 and a host application built on Rails 4.0.2 or newer.</p>
 
 <h3>
-<a name="starting-from-scratch" class="anchor" href="#starting-from-scratch"><span class="octicon octicon-link"></span></a>Starting from scratch</h3>
+<a id="starting-from-scratch" class="anchor" href="#starting-from-scratch" aria-hidden="true"><span class="octicon octicon-link"></span></a>Starting from scratch</h3>
 
 <ol>
 <li>
@@ -100,8 +100,10 @@
 <pre><code>$ bin/rails server
 </code></pre>
 </li>
-</ol><h3>
-<a name="authentication" class="anchor" href="#authentication"><span class="octicon octicon-link"></span></a>Authentication</h3>
+</ol>
+
+<h3>
+<a id="authentication" class="anchor" href="#authentication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authentication</h3>
 
 <p>OpenConferenceWare uses <a href="https://github.com/intridea/omniauth/">OmniAuth</a> to allow users to sign in using <a href="https://github.com/intridea/omniauth/wiki/List-of-Strategies">a variety of external services</a>. No authentication method is enabled by default, so you'll need to configure one before deploying OCW.</p>
 
@@ -118,20 +120,20 @@
 </code></pre>
 
 <h4>
-<a name="sign-in-forms" class="anchor" href="#sign-in-forms"><span class="octicon octicon-link"></span></a>Sign In Forms</h4>
+<a id="sign-in-forms" class="anchor" href="#sign-in-forms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sign In Forms</h4>
 
 <p>Friendly sign-in forms are provided for <a href="http://openid.net/">OpenID</a> and <a href="https://login.persona.org/">Persona</a>, but it's easy to add your own. After enabling an OmniAuth provider, create a partial view at <code>app/views/open_conference_ware/authentications/_provider_name.html.erb</code>, where <code>provider_name</code> is the name passed to the provider method in the initializer.</p>
 
 <h2>
-<a name="customization" class="anchor" href="#customization"><span class="octicon octicon-link"></span></a>Customization</h2>
+<a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization</h2>
 
 <h3>
-<a name="feature-flags" class="anchor" href="#feature-flags"><span class="octicon octicon-link"></span></a>Feature Flags</h3>
+<a id="feature-flags" class="anchor" href="#feature-flags" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Flags</h3>
 
 <p>Many features of OCW can be enabled or disabled to meet your event's needs. These can be toggled by editing flags in <code>config/initializers/01_open_conference_ware.rb</code>.</p>
 
 <h3>
-<a name="views-and-styles" class="anchor" href="#views-and-styles"><span class="octicon octicon-link"></span></a>Views and Styles</h3>
+<a id="views-and-styles" class="anchor" href="#views-and-styles" aria-hidden="true"><span class="octicon octicon-link"></span></a>Views and Styles</h3>
 
 <p>Since OpenConferenceWare is an engine, all of its views are packaged inside the gem. To customize things, you can easily override any view by creating one with the same name in your application.</p>
 
@@ -151,17 +153,17 @@
 </code></pre>
 
 <h2>
-<a name="releases" class="anchor" href="#releases"><span class="octicon octicon-link"></span></a>Releases</h2>
+<a id="releases" class="anchor" href="#releases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Releases</h2>
 
 <p>Both GitHub's <a href="https://github.com/osbridge/openconferenceware/releases">releases page</a> and <code>CHANGES.md</code> provide a summary of significant changes made between releases. If you are running a fork of this software, please carefully read these changes to avoid surprises when you pull the updates into your fork.</p>
 
 <h3>
-<a name="old-versions" class="anchor" href="#old-versions"><span class="octicon octicon-link"></span></a>Old Versions</h3>
+<a id="old-versions" class="anchor" href="#old-versions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Old Versions</h3>
 
 <p>Prior to version 1.0, OpenConferenceWare was distributed as a standalone Rails application. Those releases are  tagged with version numbers, such as <code>v0.20090416</code>, which represent the date they were made. The final release to be distributed this was was <code>v0.20131209</code>, which is based on Rails 3.2.</p>
 
 <h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
 <li>Anyone can list events</li>
@@ -194,13 +196,15 @@
 <li>Administrators can subscribe to a feed of private comments for proposals</li>
 <li>Developers can customize the site's appearance and behavior</li>
 <li>...and many more features are planned for the future!</li>
-</ul><h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Some features of OCW may not be immediately evident as a new user. We will attempt to shed light on them here.</p>
 
 <h3>
-<a name="selection-committee-voting" class="anchor" href="#selection-committee-voting"><span class="octicon octicon-link"></span></a>Selection Committee Voting</h3>
+<a id="selection-committee-voting" class="anchor" href="#selection-committee-voting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Selection Committee Voting</h3>
 
 <p>OCW allows you to designate members of a content selection committee, who can then view feedback from the public and vote on sessions for inclusion in your conference. In order to enable this:</p>
 
@@ -208,33 +212,35 @@
 <li>An admin needs to edit users to grant them selection committee privileges.</li>
 <li>An admin needs to edit the event to accept selector votes.</li>
 <li>Selection committee members will then see a voting interface on proposal pages and a "selector votes" overview.</li>
-</ol><h2>
-<a name="mailing-list" class="anchor" href="#mailing-list"><span class="octicon octicon-link"></span></a>Mailing list</h2>
+</ol>
+
+<h2>
+<a id="mailing-list" class="anchor" href="#mailing-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mailing list</h2>
 
 <p>Please join the mailing list if you're interested in using or developing the software: <a href="http://groups.google.com/group/openconferenceware">http://groups.google.com/group/openconferenceware</a></p>
 
 <h2>
-<a name="issue-tracker" class="anchor" href="#issue-tracker"><span class="octicon octicon-link"></span></a>Issue tracker</h2>
+<a id="issue-tracker" class="anchor" href="#issue-tracker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Issue tracker</h2>
 
 <p>Found a bug? We'd like to fix it. Please report it, along with what you tried to do, what you expected, and what actually happened -- or better yet, provide a patch: <a href="http://github.com/osbridge/openconferenceware/issues">http://github.com/osbridge/openconferenceware/issues</a></p>
 
 <h2>
-<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <p>Please contribute fixes and features. You can find issues to work on in the <a href="http://github.com/osbridge/openconferenceware/issues">Issue tracker</a>. Please fork the source code, make your changes and submit a Github pull request. By submitting a patch, you agree that your software can be released under the same license as this software.</p>
 
 <h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>This software is provided under an MIT open source license, read the <code>LICENSE.txt</code> file for details.</p>
 
 <h2>
-<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
+<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
 <p>This free, open source software was made possible by a group of volunteers that put many hours of hard work into it. See the <code>CONTRIBUTORS.markdown</code> file for details.</p>
 
 <h2>
-<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h2>
+<a id="copyright" class="anchor" href="#copyright" aria-hidden="true"><span class="octicon octicon-link"></span></a>Copyright</h2>
 
 <p>Copyright (c) 2007-2013 Igal Koshevoy, Reid Beels, Audrey Eschright, and others.</p>
       </section>
