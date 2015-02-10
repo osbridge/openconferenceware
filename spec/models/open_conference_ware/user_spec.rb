@@ -63,6 +63,62 @@ describe OpenConferenceWare::User do
     end
   end
 
+  describe "move all associations from one user account to another" do
+    fixtures :open_conference_ware_proposals
+    fixtures :open_conference_ware_users
+
+    before(:each) do
+      @orig = users(:quentin)
+      @dup = users(:quentin2)
+
+      @dup.authentications << build(:authentication)
+      UserFavorite.add(@dup.id, proposals(:postgresql_session).id)
+      setup_selector_votes
+    end
+
+    def setup_selector_votes
+      vote = proposals(:aaron_aardvarks).selector_votes.new(rating: 5, comment: "top choice")
+      vote.user = @dup
+      vote.save
+    end
+
+    def take_associations
+      @orig.take_associations_from(@dup)
+    end
+
+    it "expects duplicate user to start with some associations" do
+      expect(@dup.authentications.count).to eq 1
+      expect(@dup.proposals.count).to eq 2
+      expect(@dup.user_favorites.count).to eq 1
+      expect(@dup.selector_votes.count).to eq 1
+    end
+
+    it "moves all authentications into original user" do
+      expect { take_associations }.to change(@orig.authentications, :count).by(1)
+    end
+
+    it "moves all proposals into original user" do
+      expect { take_associations }.to change(@orig.proposals, :count).by(2)
+    end
+
+    it "moves all user_favorites into original user" do
+      expect { take_associations }.to change(@orig.user_favorites, :count).by(1)
+    end
+
+    it "moves all selector_votes into original user" do
+      expect { take_associations }.to change(@orig.selector_votes, :count).by(1)
+    end
+
+    it "removes all associations from duplicate user" do
+      take_associations
+      @dup.reload
+      expect(@dup.authentications.count).to eq 0
+      expect(@dup.proposals.count).to eq 0
+      expect(@dup.user_favorites.count).to eq 0
+      expect(@dup.selector_votes.count).to eq 0
+    end
+  end
+
   context "created from an authentication" do
     let(:authentication) { build(:authentication) }
     subject(:user) { User.create_from_authentication(authentication) }

@@ -256,6 +256,14 @@ module OpenConferenceWare
       return self.proposals.confirmed
     end
 
+    # For use in merging duplicate user records
+    def take_associations_from(dup)
+      self.authentications += dup.authentications
+      self.user_favorites += dup.user_favorites
+      self.selector_votes += dup.selector_votes
+      dup.proposals.each { |p| p.add_user(self); p.remove_user(dup) }
+    end
+
   protected
 
     # Does this user require an email to be defined?
