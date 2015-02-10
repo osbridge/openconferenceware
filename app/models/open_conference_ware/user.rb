@@ -258,10 +258,10 @@ module OpenConferenceWare
 
     # For use in merging duplicate user records
     def take_associations_from(dup)
-      dup.authentications.each { |a| self.authentications << a }
+      self.authentications += dup.authentications
+      self.user_favorites += dup.user_favorites
+      self.selector_votes += dup.selector_votes
       dup.proposals.each { |p| p.add_user(self); p.remove_user(dup) }
-      dup.user_favorites.each { |f| self.user_favorites << f }
-      dup.selector_votes.each { |v| self.selector_votes << v }
     end
 
   protected
