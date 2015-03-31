@@ -6,6 +6,7 @@ describe "open_conference_ware/user_favorites/index.html.erb" do
 
   before(:each) do
     stub_settings_accessors_on(view)
+    allow(view).to receive(:current_user).and_return(nil)
 
     @proposals = proposals(:couchdb_session, :bigtable_session)
     @user = users(:quentin)
