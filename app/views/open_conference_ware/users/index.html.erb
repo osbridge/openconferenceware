@@ -12,7 +12,12 @@
     <tr class="<%= cycle('odd', 'even') %>">
       <td>
         <% if admin? && user.admin? %>
-          (<strong class='admin'>admin</strong>)
+          <% if user.admin? %>
+            (<strong class='admin'>admin</strong>)
+          <% end %>
+          <% if user.selector? %>
+            (<strong class='selector'>selector</strong>)
+          <% end %>
         <% end %>
         <%= link_to(user.label, user_path(user)) %><%= (", " + user.affiliation) unless user.affiliation.blank? %>
       </td>
