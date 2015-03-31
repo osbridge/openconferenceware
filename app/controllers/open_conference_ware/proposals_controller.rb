@@ -35,8 +35,12 @@ module OpenConferenceWare
       @proposals = Defer { @proposals_hash.values }
 
       unless params[:sort]
-        params[:sort] = "submitted_at"
-        params[:dir] = "desc"
+        if selector? 
+          params[:sort] = "random"
+        else
+          params[:sort] = "submitted_at"
+          params[:dir] = "desc"
+        end
       end
 
       respond_to do |format|

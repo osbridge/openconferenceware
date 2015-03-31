@@ -419,7 +419,7 @@ module OpenConferenceWare
     end
 
     # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
-    def self.sort(proposals, field="title", is_ascending=true)
+    def self.sort(proposals, field="title", is_ascending=true, random_seed = nil)
       proposals = \
         case field.to_sym
         when :track
@@ -435,6 +435,9 @@ module OpenConferenceWare
           proposals.sort_by{|proposal| proposal.title_downcased}
         when :status
           proposals.sort_by{|proposal| [proposal.status, proposal.title_downcased]}
+        when :random
+          randomized_ids = proposals.first.randomized_ids(random_seed)
+          proposals.sort_by{|proposal| randomized_ids.index(proposal.id) }
         else
           proposals.sort_by(&:submitted_at)
         end
@@ -503,6 +506,23 @@ module OpenConferenceWare
     # Return previous proposal in this event after this one, or nil if none.
     def previous_proposal
       return self.event.proposals.where("id < ?", self.id).order("created_at DESC").first
+    end
+
+    def next_random_proposal(seed = nil)
+      ids = randomized_ids(seed)
+      next_id = ids[ids.index(self.id) + 1]
+      next_id && Proposal.find( next_id )
+    end
+
+    def previous_random_proposal(seed = nil)
+      ids = randomized_ids(seed)
+      prev_index = ids.index(self.id) - 1
+      prev_id = ids[prev_index]
+      prev_index >= 0 && prev_id && Proposal.find( prev_id )
+    end
+
+    def randomized_ids(seed = nil)
+      event.proposals.order_by_rand(seed: seed).pluck(:id)
     end
 
     # Return the integer sum of the selector votes rating for this proposal. Skips

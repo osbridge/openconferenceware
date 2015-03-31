@@ -35,20 +35,24 @@ module OpenConferenceWare
 
     # Return a path to the next proposal after +proposal+. Or none if none.
     def next_proposal_path_from(proposal)
-      if next_proposal = proposal.next_proposal
-        return proposal_path(next_proposal)
+      if selector?
+        next_proposal = proposal.next_random_proposal(current_user.id)
       else
-        return nil
+        next_proposal = proposal.next_proposal
       end
+
+      next_proposal ? proposal_path(next_proposal) : nil
     end
 
     # Return a path to the previous proposal after +proposal+. Or none if none.
     def previous_proposal_path_from(proposal)
-      if previous_proposal = proposal.previous_proposal
-        return proposal_path(previous_proposal)
+      if selector?
+        previous_proposal = proposal.previous_random_proposal(current_user.id)
       else
-        return nil
+        previous_proposal = proposal.previous_proposal
       end
+
+      previous_proposal ? proposal_path(previous_proposal) : nil
     end
   end
 end

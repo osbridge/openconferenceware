@@ -19,6 +19,7 @@ require 'nokogiri'
 require 'prawn'
 require "dynamic_form"
 require 'rails_rinku'
+require 'randumb'
 
 require 'jquery-rails'
 require 'sass-rails'

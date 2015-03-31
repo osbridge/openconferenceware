@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'prawn',               '~> 0.12.0'
   s.add_dependency "dynamic_form",        '~> 1.1.4'
   s.add_dependency 'rinku',               '~> 1.7.3'
+  s.add_dependency 'randumb',             '~> 0.5.0'
 
   # Assets
   s.add_dependency 'jquery-rails',        '~> 3.1.0'

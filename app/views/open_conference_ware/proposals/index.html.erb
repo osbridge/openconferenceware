@@ -13,6 +13,7 @@
 cache_key = "#{@kind}_index,event_#{@event.id},admin_#{admin?},accepting_#{@event.accepting_proposals?}"
 cache_key << ",sort_#{params[:sort]}" if params[:sort]
 cache_key << ",dir_#{params[:dir]}" if params[:dir]
+cache_key << ",selector_#{current_user.id}" if selector?
 %>
 
 <% cache cache_key do %>

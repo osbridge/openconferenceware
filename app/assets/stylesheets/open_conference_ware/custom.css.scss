@@ -439,12 +439,14 @@ table.proposals h3 {
   margin: .3em 0 .5em;
 }
 
-table.proposals h3 span.proposal-status {
+table.proposals h3 span.proposal-status,
+table.proposals h3 span.vote-status {
   font-size: .7em;
 }
 
 table.proposals h3 span.proposal-status.proposed {
   color: #222;
+  display: none;
 }
 
 table.proposals h3 span.proposal-status.confirmed {

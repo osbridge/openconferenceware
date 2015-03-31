@@ -46,7 +46,7 @@ module OpenConferenceWare
       respond_to do |format|
         if @selector_vote.save
           format.html {
-            if next_proposal = @selector_vote.proposal.next_proposal
+            if next_proposal = @selector_vote.proposal.next_random_proposal(current_user.id)
               redirect_to(next_proposal)
             else
               flash[:success] = "You've voted on the last proposal!"

@@ -6,7 +6,7 @@
 # * kind => Treat these records as :sessions or :proposals. REQUIRED.
 # * sorter => Display the sort toolbar? Defaults to false.
 
-records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc")
+records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", params[:dir] != "desc", current_user && current_user.id)
 %>
 
 <% if proposal_excerpts? %>
@@ -17,6 +17,7 @@ records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", p
          sort_links << sort_link_for("Submission date", 'submitted_at', kind) if kind == :proposals
          sort_links << sort_link_for("Scheduled time", 'start_time', kind) if schedule_visible? && kind == :sessions
          sort_links << sort_link_for("Status", 'status', kind) if proposal_statuses? && admin?
+         sort_links << sort_link_for("Random for content selection", 'random', kind) if selector?
       %>
       Sort by:
       <%= sort_links.join(', ').html_safe %>
@@ -41,8 +42,8 @@ records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", p
           </tr>
         <% end %>
         <% previous_start_time = record.start_time %>
-
-      <tr class='proposal_row' id='proposal_row_<%= record.id %>'>
+        <% voted = selector? && @event.accept_selector_votes? && record.selector_votes.where(user_id: current_user.id).count > 0 %>
+      <tr class='proposal_row<%= " voted" if voted %>' id='proposal_row_<%= record.id %>'>
         <td rowspan='2' class='description'>
           <h3>
             <%= user_favorite_control_for record %>
@@ -50,6 +51,9 @@ records = OpenConferenceWare::Proposal.sort(records, params[:sort] || "title", p
               <%= link_to(h(record.title), record_path(record, kind), :class => "title") %>
             <% else %>
               <%= link_to(h(record.presenter)+" &mdash; "+h(record.title), record_path(record, kind), :class => "title") %>
+            <% end %>
+            <% if kind == :proposals && voted %>
+              <span class='vote-status'>(Voted)</span>
             <% end %>
             <% if kind == :proposals && proposal_statuses? && (admin? || (@event.proposal_status_published? && record.confirmed?)) %>
               <span class='proposal-status <%= record.status %>'>(<%= record.status.titleize %>)</span>
