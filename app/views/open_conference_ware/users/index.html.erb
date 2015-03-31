@@ -11,7 +11,7 @@
     <% @users.each do |user| -%>
     <tr class="<%= cycle('odd', 'even') %>">
       <td>
-        <% if admin? && user.admin? %>
+        <% if admin? %>
           <% if user.admin? %>
             (<strong class='admin'>admin</strong>)
           <% end %>
