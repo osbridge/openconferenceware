@@ -15,7 +15,8 @@ module OpenConferenceWare
       Snippet,
       Track,
       User,
-      UserFavorite
+      UserFavorite,
+      SelectorVote
 
     # Expire the cache
     def self.expire(*args)

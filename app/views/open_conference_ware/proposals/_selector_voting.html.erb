@@ -1,6 +1,7 @@
   <div class="admin-only selector-vote-form">
     <strong>SELECTION COMMITTEE MEMBER:</strong>
-    <%= @proposal.user_favorites.count %> users have favorited this proposal.
+    You've voted on <strong><%= user_votes_count(current_user, @event) %></strong> of <strong><%= @event.proposals.count %></strong> proposals. —
+    <strong><%= @proposal.user_favorites.count %></strong> users have favorited this proposal.
 
     <%= form_for(@selector_vote, :url => proposal_selector_vote_path(@proposal), :html => {:method => :post}) do |f| %>
       <table cellspacing="0">

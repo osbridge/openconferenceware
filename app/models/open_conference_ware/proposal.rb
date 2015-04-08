@@ -420,6 +420,8 @@ module OpenConferenceWare
 
     # Return array of +proposals+ sorted by +field+ (e.g., "title") in +ascending+ order.
     def self.sort(proposals, field="title", is_ascending=true, random_seed = nil)
+      return proposals if proposals.empty?
+
       proposals = \
         case field.to_sym
         when :track
@@ -442,6 +444,7 @@ module OpenConferenceWare
           proposals.sort_by(&:submitted_at)
         end
       proposals = proposals.reverse unless is_ascending
+
       return proposals
     end
 
