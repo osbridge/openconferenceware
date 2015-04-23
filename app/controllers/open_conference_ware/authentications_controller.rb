@@ -18,6 +18,7 @@ module OpenConferenceWare
     end
 
     def create
+      Rails.logger.debug(auth_hash.to_hash.inspect)
       @authentication = Authentication.find_and_update_or_create_from_auth_hash(auth_hash)
 
       if @authentication.user
