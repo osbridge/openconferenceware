@@ -29,6 +29,16 @@ module OpenConferenceWare
         uid: auth_hash.uid
       )
 
+      # Upgrade Google OpenID users
+      if auth.user.nil? && auth.provider == 'google_oauth2' && auth_hash.extra.id_info.present?
+        old_openid_auth = Authentication.find_by(
+          provider: 'open_id',
+          uid: auth_hash.extra.id_info
+        )
+
+        auth.user = old_openid_auth.user
+      end
+
       auth.name  = auth_hash.info.name
       auth.email = auth_hash.info.email
       auth.info  = auth_hash.info
