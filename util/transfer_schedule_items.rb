@@ -1,10 +1,10 @@
 # Transfer schedule_items from previous year
 
 def transfer_schedule_items
-  current = Event.current
-  past = Event.find_by_slug('2012')
+  current = OpenConferenceWare::Event.current
+  past = OpenConferenceWare::Event.find_by_slug('2014')
 
-  Event.current.dates.each_with_index do |day, i|
+  OpenConferenceWare::Event.current.dates.each_with_index do |day, i|
     past_date = past.dates[i]
     offset = (day - past_date).days
 

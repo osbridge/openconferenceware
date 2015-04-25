@@ -2,7 +2,7 @@
 # (I pre-scheduled all of the long form talks, and excluded their time slots from the available slots here)
 
 def seed_schedule
-  e = OpenConferenceWare::Event.find_by_slug("2014")
+  e = OpenConferenceWare::Event.current
 
   slots = []
   slots << [10.hours, 11.hours, 13.hours + 30.minutes, 14.hours + 30.minutes, 15.hours + 45.minutes, 16.hours + 45.minutes].map{|offset| e.dates[0] + offset}
