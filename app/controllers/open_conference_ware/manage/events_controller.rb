@@ -100,6 +100,10 @@ module OpenConferenceWare
       def proposals
         # NOTE: This is the bulk editor for the admin.
         @proposals = @event.proposals.populated
+
+        if params[:filter] && OpenConferenceWare::Proposal.aasm.states.include?(params[:filter].to_sym)
+          @proposals = @proposals.where(status: params[:filter])
+        end
       end
 
       # POST /events/1/notify_speakers

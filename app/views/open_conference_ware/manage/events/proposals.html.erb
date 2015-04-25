@@ -17,14 +17,14 @@
       <th>Junk</th>
     </tr>
     <tr>
-      <td><%= @event.proposals.proposed.count %> <br>(<%= @event.proposals.proposed.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.accepted.count %> <br>(<%= @event.proposals.accepted.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.confirmed.count %> <br>(<%= @event.proposals.confirmed.sum(&:duration) %> min)</td>
+      <td><%= link_to @event.proposals.proposed.count, manage_event_proposals_path(filter: :proposed) %> <br>(<%= @event.proposals.proposed.sum(&:duration) %> min)</td>
+      <td><%= link_to @event.proposals.accepted.count, manage_event_proposals_path(filter: :accepted) %> <br>(<%= @event.proposals.accepted.sum(&:duration) %> min)</td>
+      <td><%= link_to @event.proposals.confirmed.count, manage_event_proposals_path(filter: :confirmed) %> <br>(<%= @event.proposals.confirmed.sum(&:duration) %> min)</td>
       <td><%= @event.proposals.accepted.count + @event.proposals.confirmed.count %> <br>(<%= @event.proposals.accepted.sum(&:duration) + @event.proposals.confirmed.all.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.declined.count %> <br>(<%= @event.proposals.declined.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.waitlisted.count %> <br>(<%= @event.proposals.waitlisted.sum(&:duration) %> min)</td>
-      <td><%= @event.proposals.rejected.count %></td>
-      <td><%= @event.proposals.junk.count %></td>
+      <td><%= link_to @event.proposals.declined.count, manage_event_proposals_path(filter: :declined) %> <br>(<%= @event.proposals.declined.sum(&:duration) %> min)</td>
+      <td><%= link_to @event.proposals.waitlisted.count, manage_event_proposals_path(filter: :waitlisted) %> <br>(<%= @event.proposals.waitlisted.sum(&:duration) %> min)</td>
+      <td><%= link_to @event.proposals.rejected.count, manage_event_proposals_path(filter: :rejected) %></td>
+      <td><%= link_to @event.proposals.junk.count, manage_event_proposals_path(filter: :junk) %></td>
     </tr>
   </table>
 <% end %>
