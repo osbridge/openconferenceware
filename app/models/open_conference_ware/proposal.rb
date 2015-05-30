@@ -469,7 +469,10 @@ module OpenConferenceWare
           e.summary     item.title
           e.created     item.created_at if item.created_at
           e.lastmod     item.updated_at if item.updated_at
-          e.description((item.respond_to?(:users) ? "#{item.users.map(&:fullname).join(', ')}: " : '') + item.excerpt)
+          e.description(
+            (item.respond_to?(:users) ? "#{item.users.map(&:fullname).join(', ')}: " : '') \
+            + item.excerpt.gsub(/\s+/," ")
+          )
           if item.room
             e.set_text  'LOCATION', item.room.name
           end
