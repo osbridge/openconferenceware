@@ -38,7 +38,10 @@ show_private_note = (can_edit?(@proposal) || selector?) && ! @proposal.note_to_o
 <% content_for :scripts do %>
   <script>
     audiojs.events.ready(function() {
-      var as = audiojs.createAll();
+        var as = audiojs.createAll({
+          imageLocation: '<%= asset_path("audiojs/player-graphics.gif") %>',
+          swfLocation: '<%= asset_path("audiojs/audiojs.swf") %>'
+        });
     });
   </script>
 <% end %>
