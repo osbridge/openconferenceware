@@ -20,7 +20,7 @@ OpenConferenceWare.configure do |config|
   # Top-level tagline or description.
   config.tagline = 'The conference for open source citizens'
 
-  # What is the slug for the current event? E.g., if this is '2014' and the user
+  # What is the slug for the current event? E.g., if this is '2012' and the user
   # visits the '/proposals' URI, then the system will try to lookup an Event with
   # the '2012' slug and redirect to '/events/2012/proposals' if it's available.
   #
