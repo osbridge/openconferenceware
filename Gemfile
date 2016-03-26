@@ -13,6 +13,10 @@ group :development do
   gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: '2-14-maintenance'
 end
 
+gem 'mysql2'
+gem 'pg'
+gem 'sqlite3'
+
 group :debug do
   gem 'byebug'
   gem 'pry'

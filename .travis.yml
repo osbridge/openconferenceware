@@ -1,7 +1,4 @@
 language: ruby
-before_install:
-  - cp ci/Gemfile.ci Gemfile.ci
-  - export BUNDLE_GEMFILE=$PWD/Gemfile.ci
 bundler_args: --without debug
 rvm:
   - 2.1.8
