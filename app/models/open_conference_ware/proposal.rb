@@ -530,7 +530,7 @@ module OpenConferenceWare
     def randomized_ids(seed = nil, user_id = nil)
       proposals = event.proposals.order_by_rand(seed: seed).find(:all)
       if user_id
-        new_proposals = proposals.filter { |p| p.has_voted?(user_id) }
+        new_proposals = proposals.select { |p| p.has_voted?(user_id) }
         # if all proposals have been voted on, then return a random one
         if new_proposals
           proposal = new_proposals
@@ -541,7 +541,7 @@ module OpenConferenceWare
 
     # return true if the user has voted for this proposal
     def has_voted?(user_id)
-      return self.selector_votes.filter { |v| v.user_id == user_id }.size > 0
+      return self.selector_votes.select { |v| v.user_id == user_id }.size > 0
     end
 
     # Return the integer sum of the selector votes rating for this proposal. Skips
