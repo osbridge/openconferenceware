@@ -4,10 +4,9 @@ before_install:
   - export BUNDLE_GEMFILE=$PWD/Gemfile.ci
 bundler_args: --without debug
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.5
-  - 2.2.0
+  - 2.1.8
+  - 2.2.4
+  - 2.3.0
 matrix:
   allow_failures:
     - rvm: 2.2.0

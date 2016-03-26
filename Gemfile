@@ -14,10 +14,10 @@ group :development do
 end
 
 group :debug do
-  gem 'debugger'
+  gem 'byebug'
   gem 'pry'
+  gem 'pry-byebug'
   gem 'launchy'
   gem 'guard-rspec'
-  gem 'cadre'
 end
 
