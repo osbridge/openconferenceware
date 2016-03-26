@@ -528,7 +528,7 @@ module OpenConferenceWare
     end
 
     def randomized_ids(seed = nil, user_id = nil)
-      proposals = event.proposals.order_by_rand(seed: seed)
+      proposals = event.proposals.order_by_rand(seed: seed).find(:all)
       if user_id
         new_proposals = proposals.filter { |p| p.has_voted?(user_id) }
         # if all proposals have been voted on, then return a random one
@@ -536,7 +536,7 @@ module OpenConferenceWare
           proposal = new_proposals
         end
       end
-      proposals.pluck(:id)
+      proposals.map { |p| p.id }
     end
 
     # return true if the user has voted for this proposal
