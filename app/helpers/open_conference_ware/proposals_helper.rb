@@ -36,7 +36,7 @@ module OpenConferenceWare
     # Return a path to the next proposal after +proposal+. Or none if none.
     def next_proposal_path_from(proposal)
       if selector?
-        next_proposal = proposal.next_random_proposal(current_user.id)
+        next_proposal = proposal.next_random_proposal(current_user.id, current_user.id)
       else
         next_proposal = proposal.next_proposal
       end
