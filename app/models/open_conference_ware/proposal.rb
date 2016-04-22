@@ -229,6 +229,8 @@ module OpenConferenceWare
       user_favorites size: 'Favorites count'
       selector_vote_points 'Selector points'
       selector_votes_for_comma 'Selector votes'
+      selector_votes_count 'Selector votes count'
+      selector_votes_average 'Selector votes average'
       comments_for_comma 'Comments'
     end
 
@@ -540,6 +542,11 @@ module OpenConferenceWare
     # Return the integer number of votes submitted that aren't abstensions.
     def selector_votes_count
       return self.selector_votes.map(&:rating).reject{|o| o == -1}.size
+    end
+
+    # Return the average vote (not including abstensions)
+    def selector_votes_average
+      return (self.selector_vote_points.to_f / self.selector_votes_count.to_f).round(2)
     end
 
     #---[ Accessors for getting the titles of related objects ]-------------

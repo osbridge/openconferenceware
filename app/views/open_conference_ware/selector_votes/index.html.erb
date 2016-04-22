@@ -21,7 +21,7 @@ HERE
     <th><%= link_to('Track', event_selector_votes_path(@event, order: 'track')) %></th>
     <th><%= link_to('Vote points', event_selector_votes_path(@event, order: 'vote_points')) %></th>
     <th><%= link_to('Votes count', event_selector_votes_path(@event, order: 'votes_count')) %></th>
-    <th>Average Vote</th>
+    <th><%= link_to('Average vote', event_selector_votes_path(@event, order: 'average_vote')) %></th>
     <th><%= link_to('Favorites count', event_selector_votes_path(@event, order: 'favorites_count')) %></th>
   </tr>
   <% for proposal in @proposals %>
@@ -40,7 +40,7 @@ HERE
       <td><%= proposal.track_title %></td>
       <td><%= proposal.selector_vote_points %></td>
       <td><%= proposal.selector_votes_count %></td>
-      <td><%= proposal.selector_vote_points.to_f / proposal.selector_votes_count.to_f %></td>
+      <td><%= proposal.selector_votes_average %></td>
       <td><%= proposal.user_favorites.size %></td>
     </tr>
     <% if proposal.selector_votes.size > 0 %>
