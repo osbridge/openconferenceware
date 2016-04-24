@@ -514,21 +514,34 @@ module OpenConferenceWare
       return self.event.proposals.where("id < ?", self.id).order("created_at DESC").first
     end
 
-    def next_random_proposal(seed = nil)
-      ids = randomized_ids(seed)
+    def next_random_proposal(seed = nil, user_id = nil)
+      ids = randomized_ids(seed, user_id)
       next_id = ids[ids.index(self.id) + 1]
       next_id && Proposal.find( next_id )
     end
 
-    def previous_random_proposal(seed = nil)
-      ids = randomized_ids(seed)
+    def previous_random_proposal(seed = nil, user_id = nil)
+      ids = randomized_ids(seed, user_id)
       prev_index = ids.index(self.id) - 1
       prev_id = ids[prev_index]
       prev_index >= 0 && prev_id && Proposal.find( prev_id )
     end
 
-    def randomized_ids(seed = nil)
-      event.proposals.order_by_rand(seed: seed).pluck(:id)
+    def randomized_ids(seed = nil, user_id = nil)
+      proposals = event.proposals.order_by_rand(seed: seed).find(:all)
+      if user_id
+        new_proposals = proposals.select { |p| p.has_voted?(user_id) }
+        # if all proposals have been voted on, then return a random one
+        if new_proposals
+          proposal = new_proposals
+        end
+      end
+      proposals.map { |p| p.id }
+    end
+
+    # return true if the user has voted for this proposal
+    def has_voted?(user_id)
+      return self.selector_votes.select { |v| v.user_id == user_id }.size > 0
     end
 
     # Return the integer sum of the selector votes rating for this proposal. Skips
