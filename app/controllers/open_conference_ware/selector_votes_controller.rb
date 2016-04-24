@@ -20,6 +20,8 @@ module OpenConferenceWare
             proposals.sort_by { |proposal| [ 0 - proposal.selector_vote_points, 0 - proposal.user_favorites.size,  proposal.id ] }
           when 'votes_count'
             proposals.sort_by { |proposal| [ 0 - proposal.selector_votes.size,  0 - proposal.user_favorites.size,  proposal.id ] }
+          when 'average_vote'
+            proposals.sort_by { |proposal| [ 0 - proposal.selector_votes_average,  0 - proposal.user_favorites.size,  proposal.id ] }
           when 'favorites_count'
             proposals.sort_by { |proposal| [ 0 - proposal.user_favorites.size,  0 - proposal.selector_vote_points, proposal.id ] }
           when 'track'
